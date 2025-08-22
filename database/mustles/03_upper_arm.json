@@ -1,0 +1,226 @@
+[
+  {
+    "id": "m075",
+    "name": "Biceps Brachii - Long Head",
+    "latin_name": "Musculus biceps brachii - caput longum",
+    "muscle_group": "Upper Arm - Anterior",
+    "origin": ["Supraglenoid tubercle of scapula"],
+    "insertion": ["Radial tuberosity", "Bicipital aponeurosis to deep fascia of forearm"],
+    "innervation": {
+      "nerve": "Musculocutaneous nerve",
+      "nerve_roots": ["C5", "C6"]
+    },
+    "blood_supply": ["Brachial artery", "Anterior circumflex humeral artery"],
+    "actions": {
+      "primary": ["Elbow flexion", "Forearm supination"],
+      "secondary": ["Shoulder flexion", "Shoulder stabilization"]
+    },
+    "synergists": ["Short head of biceps", "Brachialis", "Brachioradialis", "Supinator"],
+    "antagonists": ["Triceps brachii", "Anconeus", "Pronator teres", "Pronator quadratus"],
+    "functional_movements": ["Lifting objects", "Turning doorknobs", "Using screwdriver"],
+    "clinical_relevance": "Tendon runs through bicipital groove, prone to tendinitis",
+    "common_conditions": ["Biceps tendinitis", "SLAP tears", "Biceps rupture", "Popeye deformity"],
+    "palpation": "Anterior arm, lateral portion of biceps",
+    "assessment_methods": ["Speed's test", "Yergason's test", "Biceps load test"],
+    "manual_therapy_techniques": ["Soft tissue mobilization", "Cross-fiber friction", "Stretching"],
+    "common_trigger_points": ["Mid-belly", "Near shoulder attachment"],
+    "referred_pain_patterns": ["Anterior shoulder", "Anterior arm", "Cubital fossa"],
+    "stretching_positions": ["Shoulder extension with elbow extension", "Wall stretch"],
+    "strengthening_exercises": ["Bicep curls", "Hammer curls", "Preacher curls"],
+    "exercise_ids": ["e126", "e127", "e128"],
+    "image_urls": ["https://yourcdn.com/images/muscles/biceps_long_head.png"],
+    "notes": "Crosses both shoulder and elbow joints"
+  },
+  {
+    "id": "m076",
+    "name": "Biceps Brachii - Short Head",
+    "latin_name": "Musculus biceps brachii - caput breve",
+    "muscle_group": "Upper Arm - Anterior",
+    "origin": ["Coracoid process of scapula"],
+    "insertion": ["Radial tuberosity", "Bicipital aponeurosis to deep fascia of forearm"],
+    "innervation": {
+      "nerve": "Musculocutaneous nerve",
+      "nerve_roots": ["C5", "C6"]
+    },
+    "blood_supply": ["Brachial artery", "Anterior circumflex humeral artery"],
+    "actions": {
+      "primary": ["Elbow flexion", "Forearm supination"],
+      "secondary": ["Shoulder flexion", "Shoulder adduction", "Horizontal adduction"]
+    },
+    "synergists": ["Long head of biceps", "Coracobrachialis", "Brachialis", "Anterior deltoid"],
+    "antagonists": ["Triceps brachii", "Posterior deltoid", "Pronators"],
+    "functional_movements": ["Curling movements", "Carrying objects", "Pull-ups"],
+    "clinical_relevance": "Less commonly injured than long head",
+    "common_conditions": ["Biceps strain", "Coracoid impingement", "Musculocutaneous nerve compression"],
+    "palpation": "Anterior arm, medial portion of biceps",
+    "assessment_methods": ["Resisted elbow flexion", "Resisted supination", "Palpation"],
+    "manual_therapy_techniques": ["Myofascial release", "Trigger point therapy", "Stretching"],
+    "common_trigger_points": ["Mid-belly", "Distal third"],
+    "referred_pain_patterns": ["Anterior shoulder", "Anterior arm", "Anterior elbow"],
+    "stretching_positions": ["Shoulder extension with external rotation", "Behind back stretch"],
+    "strengthening_exercises": ["Close-grip curls", "Cable curls", "Concentration curls"],
+    "exercise_ids": ["e129", "e130", "e131"],
+    "image_urls": ["https://yourcdn.com/images/muscles/biceps_short_head.png"],
+    "notes": "Shares common tendon with coracobrachialis at origin"
+  },
+  {
+    "id": "m077",
+    "name": "Brachialis",
+    "latin_name": "Musculus brachialis",
+    "muscle_group": "Upper Arm - Anterior",
+    "origin": ["Distal half of anterior humerus"],
+    "insertion": ["Coronoid process and tuberosity of ulna"],
+    "innervation": {
+      "nerve": "Musculocutaneous nerve (primary), Radial nerve (lateral part)",
+      "nerve_roots": ["C5", "C6", "C7"]
+    },
+    "blood_supply": ["Brachial artery", "Radial recurrent artery"],
+    "actions": {
+      "primary": ["Elbow flexion"],
+      "secondary": ["None (pure elbow flexor)"]
+    },
+    "synergists": ["Biceps brachii", "Brachioradialis"],
+    "antagonists": ["Triceps brachii", "Anconeus"],
+    "functional_movements": ["Lifting", "Carrying", "All elbow flexion activities"],
+    "clinical_relevance": "Strongest elbow flexor, workhorse of elbow flexion",
+    "common_conditions": ["Brachialis strain", "Myositis ossificans", "Climber's elbow"],
+    "palpation": "Lateral to biceps tendon at elbow",
+    "assessment_methods": ["Resisted elbow flexion with forearm pronated", "Palpation"],
+    "manual_therapy_techniques": ["Deep tissue massage", "Cross-fiber friction", "MET"],
+    "common_trigger_points": ["Distal third", "Lateral aspect"],
+    "referred_pain_patterns": ["Anterior elbow", "Base of thumb", "Anterior arm"],
+    "stretching_positions": ["Elbow extension with shoulder extension", "Wall stretch"],
+    "strengthening_exercises": ["Hammer curls", "Reverse curls", "Cable hammer curls"],
+    "exercise_ids": ["e132", "e133", "e134"],
+    "image_urls": ["https://yourcdn.com/images/muscles/brachialis.png"],
+    "notes": "Works in all forearm positions unlike biceps"
+  },
+  {
+    "id": "m078",
+    "name": "Triceps Brachii - Long Head",
+    "latin_name": "Musculus triceps brachii - caput longum",
+    "muscle_group": "Upper Arm - Posterior",
+    "origin": ["Infraglenoid tubercle of scapula"],
+    "insertion": ["Olecranon process of ulna"],
+    "innervation": {
+      "nerve": "Radial nerve",
+      "nerve_roots": ["C6", "C7", "C8"]
+    },
+    "blood_supply": ["Deep brachial artery", "Posterior circumflex humeral artery"],
+    "actions": {
+      "primary": ["Elbow extension"],
+      "secondary": ["Shoulder extension", "Shoulder adduction"]
+    },
+    "synergists": ["Lateral head of triceps", "Medial head of triceps", "Anconeus", "Posterior deltoid"],
+    "antagonists": ["Biceps brachii", "Brachialis", "Brachioradialis"],
+    "functional_movements": ["Pushing movements", "Overhead activities", "Push-ups"],
+    "clinical_relevance": "Only head that crosses shoulder joint",
+    "common_conditions": ["Triceps tendinitis", "Snapping triceps syndrome", "Triceps strain"],
+    "palpation": "Medial aspect of posterior arm",
+    "assessment_methods": ["Resisted elbow extension", "Overhead extension test"],
+    "manual_therapy_techniques": ["Myofascial release", "Stretching", "Trigger point therapy"],
+    "common_trigger_points": ["Mid-belly", "Near shoulder attachment"],
+    "referred_pain_patterns": ["Posterior shoulder", "Posterior arm", "Lateral epicondyle", "4th and 5th fingers"],
+    "stretching_positions": ["Overhead triceps stretch", "Cross-body stretch"],
+    "strengthening_exercises": ["Overhead extensions", "French press", "Cable overhead extensions"],
+    "exercise_ids": ["e135", "e136", "e137"],
+    "image_urls": ["https://yourcdn.com/images/muscles/triceps_long_head.png"],
+    "notes": "Forms medial border of triangular space"
+  },
+  {
+    "id": "m079",
+    "name": "Triceps Brachii - Lateral Head",
+    "latin_name": "Musculus triceps brachii - caput laterale",
+    "muscle_group": "Upper Arm - Posterior",
+    "origin": ["Posterior humerus above radial groove"],
+    "insertion": ["Olecranon process of ulna"],
+    "innervation": {
+      "nerve": "Radial nerve",
+      "nerve_roots": ["C6", "C7", "C8"]
+    },
+    "blood_supply": ["Deep brachial artery", "Posterior circumflex humeral artery"],
+    "actions": {
+      "primary": ["Elbow extension"],
+      "secondary": ["Stabilization of elbow joint"]
+    },
+    "synergists": ["Long head of triceps", "Medial head of triceps", "Anconeus"],
+    "antagonists": ["Biceps brachii", "Brachialis", "Brachioradialis"],
+    "functional_movements": ["Push-ups", "Dips", "Pressing movements"],
+    "clinical_relevance": "Most visible head, forms lateral contour of arm",
+    "common_conditions": ["Lateral head strain", "Triceps tendinopathy"],
+    "palpation": "Lateral posterior arm",
+    "assessment_methods": ["Resisted elbow extension", "Palpation during contraction"],
+    "manual_therapy_techniques": ["Cross-fiber massage", "Compression techniques"],
+    "common_trigger_points": ["Mid-belly", "Proximal attachment"],
+    "referred_pain_patterns": ["Lateral arm", "Posterior arm", "Lateral epicondyle region"],
+    "stretching_positions": ["Behind head stretch", "Cross-arm stretch"],
+    "strengthening_exercises": ["Close-grip bench press", "Tricep pushdowns", "Diamond push-ups"],
+    "exercise_ids": ["e138", "e139", "e140"],
+    "image_urls": ["https://yourcdn.com/images/muscles/triceps_lateral_head.png"],
+    "notes": "Forms lateral border of triangular interval"
+  },
+  {
+    "id": "m080",
+    "name": "Triceps Brachii - Medial Head",
+    "latin_name": "Musculus triceps brachii - caput mediale",
+    "muscle_group": "Upper Arm - Posterior",
+    "origin": ["Posterior humerus below radial groove"],
+    "insertion": ["Olecranon process of ulna"],
+    "innervation": {
+      "nerve": "Radial nerve",
+      "nerve_roots": ["C6", "C7", "C8"]
+    },
+    "blood_supply": ["Deep brachial artery", "Superior ulnar collateral artery"],
+    "actions": {
+      "primary": ["Elbow extension"],
+      "secondary": ["Fine control of elbow extension"]
+    },
+    "synergists": ["Long head of triceps", "Lateral head of triceps", "Anconeus"],
+    "antagonists": ["Biceps brachii", "Brachialis", "Brachioradialis"],
+    "functional_movements": ["All elbow extension activities", "Stabilization"],
+    "clinical_relevance": "Deep head, active at all angles of elbow extension",
+    "common_conditions": ["Rarely injured in isolation", "Triceps weakness"],
+    "palpation": "Deep to other heads, difficult to isolate",
+    "assessment_methods": ["Resisted elbow extension", "EMG for specific assessment"],
+    "manual_therapy_techniques": ["Deep tissue work", "Indirect techniques"],
+    "common_trigger_points": ["Near musculotendinous junction"],
+    "referred_pain_patterns": ["Medial epicondyle", "Posterior forearm"],
+    "stretching_positions": ["Combined with other triceps heads"],
+    "strengthening_exercises": ["Cable kickbacks", "Reverse grip pushdowns", "Close-grip press"],
+    "exercise_ids": ["e141", "e142", "e143"],
+    "image_urls": ["https://yourcdn.com/images/muscles/triceps_medial_head.png"],
+    "notes": "Most active head during low-force activities"
+  },
+  {
+    "id": "m081",
+    "name": "Anconeus",
+    "latin_name": "Musculus anconeus",
+    "muscle_group": "Upper Arm - Posterior",
+    "origin": ["Lateral epicondyle of humerus"],
+    "insertion": ["Lateral surface of olecranon and proximal ulna"],
+    "innervation": {
+      "nerve": "Radial nerve",
+      "nerve_roots": ["C7", "C8"]
+    },
+    "blood_supply": ["Interosseous recurrent artery", "Middle collateral artery"],
+    "actions": {
+      "primary": ["Elbow extension", "Stabilization of elbow joint"],
+      "secondary": ["Abduction of ulna during pronation"]
+    },
+    "synergists": ["Triceps brachii"],
+    "antagonists": ["Biceps brachii", "Brachialis", "Brachioradialis"],
+    "functional_movements": ["Stabilizing elbow during pronation/supination", "Fine elbow control"],
+    "clinical_relevance": "Can be involved in lateral epicondylitis",
+    "common_conditions": ["Tennis elbow involvement", "Anconeus syndrome"],
+    "palpation": "Lateral elbow, between olecranon and lateral epicondyle",
+    "assessment_methods": ["Resisted elbow extension", "Palpation"],
+    "manual_therapy_techniques": ["Cross-fiber friction", "Trigger point release"],
+    "common_trigger_points": ["Muscle belly"],
+    "referred_pain_patterns": ["Lateral elbow", "Proximal forearm"],
+    "stretching_positions": ["Elbow flexion with pronation"],
+    "strengthening_exercises": ["Tricep exercises", "Elbow extension"],
+    "exercise_ids": ["e144", "e145"],
+    "image_urls": ["https://yourcdn.com/images/muscles/anconeus.png"],
+    "notes": "Small triangular muscle, continuation of triceps"
+  }
+]
