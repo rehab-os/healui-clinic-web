@@ -26,7 +26,7 @@ export default function Login() {
   const dispatch = useAppDispatch();
   const { otpSent, otpVerifying, loading, isAuthenticated } = useAppSelector((state) => state.auth);
   
-  const [phone, setPhone] = useState('');
+  const [phone, setPhone] = useState('+91');
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [error, setError] = useState('');
   const [confirmationResult, setConfirmationResult] = useState<ConfirmationResult | null>(null);
@@ -49,16 +49,24 @@ export default function Login() {
   }, []);
 
   const formatPhoneNumber = (value: string) => {
-    // Remove all non-digits
-    const digits = value.replace(/\D/g, '');
+    // If trying to delete the +91 prefix, keep it
+    if (value.length < 3) {
+      return '+91';
+    }
     
-    // Add +91 if not present and format
-    if (digits.startsWith('91') && digits.length > 2) {
-      return '+' + digits;
-    } else if (!digits.startsWith('91') && digits.length > 0) {
+    // Remove all non-digits except the + at the beginning
+    const cleaned = value.replace(/[^\d+]/g, '');
+    
+    // Ensure it starts with +91
+    if (!cleaned.startsWith('+91')) {
+      const digits = cleaned.replace(/\D/g, '');
+      if (digits.startsWith('91')) {
+        return '+' + digits;
+      }
       return '+91' + digits;
     }
-    return digits ? '+91' + digits : '';
+    
+    return cleaned;
   };
 
   const validatePhone = (phone: string) => {
@@ -204,34 +212,49 @@ export default function Login() {
       {/* Invisible reCAPTCHA container */}
       <div id="recaptcha-container"></div>
       
-      {/* Background decoration */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Background decoration - hidden on mobile for performance */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none hidden sm:block">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-healui-physio rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-blob"></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-healui-primary rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-blob animation-delay-2000"></div>
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-healui-accent rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-blob animation-delay-4000"></div>
       </div>
 
-      <div className="relative min-h-screen flex items-center justify-center p-4">
-        <div className="w-full max-w-md">
-          <div className="glass rounded-2xl shadow-xl border border-border-color p-8">
+      <div className="relative min-h-screen flex flex-col">
+        {/* Top Banner */}
+        <div className="bg-gradient-to-r from-healui-physio to-healui-primary text-white text-center py-2 px-4">
+          <p className="text-xs sm:text-sm font-medium">
+            To use Healui.ai for your clinic, contact{' '}
+            <a href="mailto:founders@healui.com" className="underline font-semibold">
+              founders@healui.com
+            </a>
+          </p>
+        </div>
+
+        {/* Main Content */}
+        <div className="flex-1 flex items-center justify-center px-6 sm:px-8 py-8">
+          <div className="w-full sm:max-w-md">
             {/* Logo and Title */}
-            <div className="text-center mb-8">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-physio rounded-full mb-4 shadow-physio">
-                <span className="text-2xl">🏃</span>
+            <div className="text-center mb-8 sm:mb-10">
+              <div className="relative inline-block">
+                {/* Logo */}
+                <h1 className="text-5xl sm:text-6xl font-mono font-light tracking-tighter text-gray-900">
+                  <span className="font-thin">healui</span>
+                  <span className="text-healui-primary">.ai</span>
+                </h1>
+                
+                {/* Minimal tech accent */}
+                <div className="absolute -bottom-2 left-0 right-0 h-0.5 bg-healui-primary opacity-20"></div>
               </div>
-              <h1 className="text-3xl font-display font-bold gradient-text">
-                Healui.ai
-              </h1>
-              <p className="text-text-gray mt-2 font-medium">Transforming physiotherapy care through AI</p>
+              
+              <p className="text-text-gray mt-6 font-light text-sm sm:text-base tracking-wide">
+                Transforming physiotherapy care through AI
+              </p>
             </div>
 
             {/* Phone Number Form */}
             {!otpSent ? (
-              <form onSubmit={handleSendOTP} className="space-y-6">
+              <form onSubmit={handleSendOTP} className="space-y-5 sm:space-y-6 w-full">
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-text-dark mb-2">
-                    Phone Number
-                  </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                       <Phone className="h-5 w-5 text-text-light" />
@@ -241,10 +264,12 @@ export default function Login() {
                       id="phone"
                       value={phone}
                       onChange={(e) => setPhone(formatPhoneNumber(e.target.value))}
-                      className="w-full pl-10 pr-3 py-3 border border-border-color rounded-lg focus:outline-none focus:ring-2 focus:ring-healui-physio/20 focus:border-healui-physio transition-all duration-200 text-lg bg-white"
+                      className="w-full pl-10 pr-3 py-3.5 sm:py-3 border border-border-color rounded-lg focus:outline-none focus:ring-2 focus:ring-healui-physio/20 focus:border-healui-physio transition-all duration-200 text-base sm:text-lg bg-white"
                       placeholder="+91 98765 43210"
                       disabled={loading}
                       maxLength={13}
+                      autoComplete="tel"
+                      inputMode="tel"
                     />
                   </div>
                   {error && (
@@ -258,7 +283,7 @@ export default function Login() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="btn-primary w-full py-3 px-4 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="btn-primary w-full py-3.5 sm:py-3 px-4 text-base sm:text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading ? (
                     <span className="flex items-center justify-center">
@@ -270,7 +295,7 @@ export default function Login() {
                   )}
                 </button>
 
-                <p className="text-center text-sm text-text-light">
+                <p className="text-center text-xs sm:text-sm text-text-light">
                   By continuing, you agree to our{' '}
                   <a href="#" className="text-healui-physio hover:text-healui-primary font-medium">Terms of Service</a>
                   {' '}and{' '}
@@ -279,25 +304,25 @@ export default function Login() {
               </form>
             ) : (
               /* OTP Verification */
-              <div className="space-y-6">
+              <div className="space-y-5 sm:space-y-6">
                 <button
                   onClick={handleResendOTP}
-                  className="flex items-center space-x-2 text-text-gray hover:text-text-dark transition-colors"
+                  className="flex items-center space-x-2 text-text-gray hover:text-text-dark transition-colors -mb-2 sm:-mb-0"
                 >
                   <ChevronLeft className="h-4 w-4" />
                   <span className="text-sm font-medium">Change phone number</span>
                 </button>
 
-                <div className="bg-gradient-to-br from-healui-physio/10 to-healui-primary/10 rounded-lg p-6 text-center border border-healui-physio/20">
-                  <ShieldCheck className="h-12 w-12 text-healui-physio mx-auto mb-4" />
-                  <h2 className="text-lg font-display font-semibold text-text-dark mb-2">Enter verification code</h2>
-                  <p className="text-sm text-text-gray">
-                    We've sent a 6-digit code to {phone}
+                <div className="bg-gradient-to-br from-healui-physio/10 to-healui-primary/10 rounded-lg p-4 sm:p-6 text-center border border-healui-physio/20">
+                  <ShieldCheck className="h-10 sm:h-12 w-10 sm:w-12 text-healui-physio mx-auto mb-3 sm:mb-4" />
+                  <h2 className="text-base sm:text-lg font-display font-semibold text-text-dark mb-1 sm:mb-2">Enter verification code</h2>
+                  <p className="text-xs sm:text-sm text-text-gray">
+                    We've sent a 6-digit code to<br className="sm:hidden" /> {phone}
                   </p>
                 </div>
 
                 <div>
-                  <div className="flex justify-center space-x-2">
+                  <div className="flex justify-center space-x-1.5 sm:space-x-2">
                     {otp.map((digit, index) => (
                       <input
                         key={index}
@@ -307,8 +332,11 @@ export default function Login() {
                         value={digit}
                         onChange={(e) => handleOtpChange(index, e.target.value)}
                         onKeyDown={(e) => handleOtpKeyDown(index, e)}
-                        className="w-12 h-14 text-center text-xl font-semibold border-2 border-border-color rounded-lg focus:outline-none focus:ring-2 focus:ring-healui-physio/20 focus:border-healui-physio transition-all duration-200 bg-white"
+                        className="w-11 h-12 sm:w-12 sm:h-14 text-center text-lg sm:text-xl font-semibold border-2 border-border-color rounded-lg focus:outline-none focus:ring-2 focus:ring-healui-physio/20 focus:border-healui-physio transition-all duration-200 bg-white"
                         disabled={otpVerifying}
+                        inputMode="numeric"
+                        pattern="[0-9]*"
+                        autoComplete="one-time-code"
                       />
                     ))}
                   </div>
@@ -323,7 +351,7 @@ export default function Login() {
                 <button
                   onClick={() => handleVerifyOTP()}
                   disabled={otpVerifying || otp.some(digit => !digit)}
-                  className="btn-primary w-full py-3 px-4 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="btn-primary w-full py-3.5 sm:py-3 px-4 text-base sm:text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {otpVerifying ? (
                     <span className="flex items-center justify-center">
@@ -336,7 +364,7 @@ export default function Login() {
                 </button>
 
                 <div className="text-center">
-                  <p className="text-sm text-text-gray">
+                  <p className="text-xs sm:text-sm text-text-gray">
                     Didn't receive the code?{' '}
                     <button
                       onClick={handleSendOTP}
@@ -376,6 +404,37 @@ export default function Login() {
         }
         .animation-delay-4000 {
           animation-delay: 4s;
+        }
+        
+        @keyframes glitch {
+          0% {
+            text-shadow: 0.05em 0 0 rgba(16, 185, 129, 0.75), -0.05em -0.025em 0 rgba(8, 145, 178, 0.75),
+              0.025em 0.05em 0 rgba(14, 165, 233, 0.75);
+          }
+          14% {
+            text-shadow: 0.05em 0 0 rgba(16, 185, 129, 0.75), -0.05em -0.025em 0 rgba(8, 145, 178, 0.75),
+              0.025em 0.05em 0 rgba(14, 165, 233, 0.75);
+          }
+          15% {
+            text-shadow: -0.05em -0.025em 0 rgba(16, 185, 129, 0.75), 0.025em 0.025em 0 rgba(8, 145, 178, 0.75),
+              -0.05em -0.05em 0 rgba(14, 165, 233, 0.75);
+          }
+          49% {
+            text-shadow: -0.05em -0.025em 0 rgba(16, 185, 129, 0.75), 0.025em 0.025em 0 rgba(8, 145, 178, 0.75),
+              -0.05em -0.05em 0 rgba(14, 165, 233, 0.75);
+          }
+          50% {
+            text-shadow: 0.025em 0.05em 0 rgba(16, 185, 129, 0.75), 0.05em 0 0 rgba(8, 145, 178, 0.75),
+              0 -0.05em 0 rgba(14, 165, 233, 0.75);
+          }
+          99% {
+            text-shadow: 0.025em 0.05em 0 rgba(16, 185, 129, 0.75), 0.05em 0 0 rgba(8, 145, 178, 0.75),
+              0 -0.05em 0 rgba(14, 165, 233, 0.75);
+          }
+          100% {
+            text-shadow: -0.025em 0 0 rgba(16, 185, 129, 0.75), -0.025em -0.025em 0 rgba(8, 145, 178, 0.75),
+              -0.025em -0.05em 0 rgba(14, 165, 233, 0.75);
+          }
         }
       `}</style>
     </div>

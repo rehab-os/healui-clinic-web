@@ -28,7 +28,7 @@ import type {
     SignNoteDto,
 } from '../lib/types'
 
-const BASE_URL = 'http://localhost:3002/api/v1/'
+const BASE_URL = 'https://healui-backend-core.onrender.com/api/v1/'
 
 class ApiManager {
     // Auth
