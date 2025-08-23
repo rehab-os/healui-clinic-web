@@ -28,7 +28,7 @@ import type {
     SignNoteDto,
 } from '../lib/types'
 
-const BASE_URL = 'https://healui-backend-core.onrender.com/api/v1/'
+const BASE_URL = 'http://localhost:3002/api/v1/'
 
 class ApiManager {
     // Auth
@@ -392,6 +392,54 @@ class ApiManager {
     // Public API for patient portal (no auth required)
     static getPublicVisitInfo = (visitId: string) => {
         const url = BASE_URL + `public/visits/${visitId}/info`
+        return ApiMethods.get(url)
+    }
+
+    // Analytics - Clinic Admin
+    static getClinicPatientAnalytics = (clinicId: string) => {
+        const url = BASE_URL + ENDPOINTS.GET_CLINIC_PATIENT_ANALYTICS(clinicId)
+        return ApiMethods.get(url)
+    }
+
+    static getClinicAppointmentAnalytics = (clinicId: string) => {
+        const url = BASE_URL + ENDPOINTS.GET_CLINIC_APPOINTMENT_ANALYTICS(clinicId)
+        return ApiMethods.get(url)
+    }
+
+    static getClinicPatientCategories = (clinicId: string) => {
+        const url = BASE_URL + ENDPOINTS.GET_CLINIC_PATIENT_CATEGORIES(clinicId)
+        return ApiMethods.get(url)
+    }
+
+    static getClinicCaseTypes = (clinicId: string) => {
+        const url = BASE_URL + ENDPOINTS.GET_CLINIC_CASE_TYPES(clinicId)
+        return ApiMethods.get(url)
+    }
+
+    static getClinicUtilization = (clinicId: string) => {
+        const url = BASE_URL + ENDPOINTS.GET_CLINIC_UTILIZATION(clinicId)
+        return ApiMethods.get(url)
+    }
+
+    // Analytics - Organization Admin
+    static getOrganizationOverview = (organizationId: string) => {
+        const url = BASE_URL + ENDPOINTS.GET_ORGANIZATION_OVERVIEW(organizationId)
+        return ApiMethods.get(url)
+    }
+
+    static getOrganizationClinicsSummary = (organizationId: string) => {
+        const url = BASE_URL + ENDPOINTS.GET_ORGANIZATION_CLINICS_SUMMARY(organizationId)
+        return ApiMethods.get(url)
+    }
+
+    // Analytics - Common
+    static getRecentActivities = (clinicId?: string) => {
+        const url = BASE_URL + ENDPOINTS.GET_RECENT_ACTIVITIES(clinicId)
+        return ApiMethods.get(url)
+    }
+
+    static getQuickStats = (clinicId?: string) => {
+        const url = BASE_URL + ENDPOINTS.GET_QUICK_STATS(clinicId)
         return ApiMethods.get(url)
     }
 }

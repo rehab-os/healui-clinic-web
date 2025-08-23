@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { authSlice, organizationSlice, clinicSlice, userSlice } from './slices'
+import { authSlice, organizationSlice, clinicSlice, userSlice, analyticsSlice } from './slices'
 
 export const store = configureStore({
     reducer: {
@@ -7,6 +7,7 @@ export const store = configureStore({
         organization: organizationSlice.reducer,
         clinic: clinicSlice.reducer,
         user: userSlice.reducer,
+        analytics: analyticsSlice.reducer,
     },
 })
 

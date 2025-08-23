@@ -114,4 +114,19 @@ export const ENDPOINTS = {
 
     // Nutrition
     GENERATE_NUTRITION_PLAN: () => 'nutrition/generate',
+
+    // Analytics - Clinic Admin
+    GET_CLINIC_PATIENT_ANALYTICS: (clinicId: string) => `analytics/clinic/${clinicId}/patients`,
+    GET_CLINIC_APPOINTMENT_ANALYTICS: (clinicId: string) => `analytics/clinic/${clinicId}/appointments`,
+    GET_CLINIC_PATIENT_CATEGORIES: (clinicId: string) => `analytics/clinic/${clinicId}/patient-categories`,
+    GET_CLINIC_CASE_TYPES: (clinicId: string) => `analytics/clinic/${clinicId}/case-types`,
+    GET_CLINIC_UTILIZATION: (clinicId: string) => `analytics/clinic/${clinicId}/utilization`,
+
+    // Analytics - Organization Admin
+    GET_ORGANIZATION_OVERVIEW: (organizationId: string) => `analytics/organization/${organizationId}/overview`,
+    GET_ORGANIZATION_CLINICS_SUMMARY: (organizationId: string) => `analytics/organization/${organizationId}/clinics-summary`,
+
+    // Analytics - Common
+    GET_RECENT_ACTIVITIES: (clinicId?: string) => clinicId ? `analytics/recent-activities?clinicId=${clinicId}` : 'analytics/recent-activities',
+    GET_QUICK_STATS: (clinicId?: string) => clinicId ? `analytics/quick-stats?clinicId=${clinicId}` : 'analytics/quick-stats',
 }

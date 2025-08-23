@@ -472,3 +472,6 @@ export interface GenerateNoteResponseDto {
     noteType: string
     note: SOAPNoteData | BAPNoteData | ProgressNoteData
 }
+
+// Re-export analytics types
+export * from './analytics.types'
