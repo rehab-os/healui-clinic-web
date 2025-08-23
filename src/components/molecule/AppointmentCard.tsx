@@ -100,154 +100,129 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
   };
 
   return (
-    <div className={`card-base hover:shadow-physio transition-all duration-200 ${
+    <div className={`bg-white sm:rounded-lg border-b sm:border border-gray-200 hover:shadow-md transition-all duration-200 ${
       isOnlineVisit 
-        ? 'border-l-4 border-l-blue-500 bg-gradient-to-r from-blue-50/50 to-transparent' 
+        ? 'border-l-4 border-l-blue-500' 
         : ''
     }`}>
-      {/* Header */}
-      <div className="flex items-start justify-between mb-3">
-        <div 
-          className="flex items-center space-x-3 cursor-pointer hover:bg-healui-physio/5 rounded-lg p-2 -m-2 transition-all duration-200 flex-1"
-          onClick={(e) => {
-            e.stopPropagation();
-            onViewPatient(visit.patient);
-          }}
-          title="Click to view patient details"
-        >
-          <div className="h-10 w-10 rounded-full bg-gradient-physio flex items-center justify-center text-white font-medium text-sm shadow-physio">
-            {visit.patient?.full_name?.split(' ').map(n => n[0]).join('') || 'P'}
+      {/* Ultra-Compact Mobile Design */}
+      <div className="px-3 py-2 sm:p-3">
+        {/* Main Row - Patient, Time, Status */}
+        <div className="flex items-center justify-between mb-1.5 sm:mb-2">
+          {/* Patient Info - Clickable */}
+          <div 
+            className="flex-1 min-w-0 cursor-pointer hover:text-healui-primary transition-colors"
+            onClick={(e) => {
+              e.stopPropagation();
+              onViewPatient(visit.patient);
+            }}
+            title="Click to view patient details"
+          >
+            <div className="flex items-center space-x-1.5 sm:space-x-2">
+              <h3 className="text-xs sm:text-sm font-semibold text-gray-900 truncate">
+                {visit.patient?.full_name || 'Unknown Patient'}
+              </h3>
+              {visit.visit_mode === 'ONLINE' && (
+                <Video className="h-3 w-3 sm:h-4 sm:w-4 text-blue-500 flex-shrink-0" />
+              )}
+            </div>
+            <div className="flex items-center space-x-2 sm:space-x-3 text-xs text-gray-600 mt-0.5">
+              <span className="flex items-center">
+                <Clock className="h-3 w-3 mr-0.5" />
+                {visit.scheduled_time} • {format(parseISO(visit.scheduled_date), 'MMM dd')}
+              </span>
+              {visit.patient?.phone && (
+                <span className="hidden sm:inline text-xs">{visit.patient.phone}</span>
+              )}
+            </div>
           </div>
-          <div className="flex-1 min-w-0">
-            <h3 className="text-sm font-medium text-healui-primary hover:text-healui-physio truncate">
-              {visit.patient?.full_name || 'Unknown Patient'}
-            </h3>
-            <p className="text-xs text-text-light">{visit.patient?.patient_code}</p>
-          </div>
-        </div>
-        <div className="flex flex-col items-end space-y-1">
-          <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border ${getStatusColor(visit.status)}`}>
-            {visit.status.replace('_', ' ')}
-          </span>
-          {visit.visit_mode === 'ONLINE' && (
-            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-blue-500 to-blue-600 text-white border border-blue-600 shadow-sm">
-              <Video className="h-3 w-3 mr-1" />
-              Online Video
+          
+          {/* Status & Quick Action */}
+          <div className="flex items-center space-x-1.5 sm:space-x-2 flex-shrink-0">
+            <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(visit.status)}`}>
+              {visit.status.replace('_', ' ')}
             </span>
-          )}
-          {visit.note && (
-            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-healui-primary/20 text-healui-primary border border-healui-primary/30">
-              <FileText className="h-3 w-3 mr-1" />
-              Note
+          </div>
+        </div>
+
+        {/* Secondary Row - Visit Type, Doctor, Actions */}
+        <div className="flex items-center justify-between mt-1">
+          {/* Visit Type & Doctor */}
+          <div className="flex items-center space-x-1.5 sm:space-x-2 text-xs text-gray-600 flex-1 min-w-0">
+            <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${getVisitTypeColor(visit.visit_type)}`}>
+              {formatVisitType(visit.visit_type)}
             </span>
-          )}
-        </div>
-      </div>
-
-      {/* Time and Type */}
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center text-sm text-text-gray">
-          <Clock className="h-4 w-4 mr-1" />
-          <span className="font-medium">{visit.scheduled_time}</span>
-          <span className="mx-2">•</span>
-          <span>{format(parseISO(visit.scheduled_date), 'MMM dd')}</span>
-        </div>
-        <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${getVisitTypeColor(visit.visit_type)}`}>
-          {formatVisitType(visit.visit_type)}
-        </span>
-      </div>
-
-      {/* Doctor (for admin view) */}
-      {isAdmin && visit.physiotherapist && (
-        <div className="flex items-center text-sm text-text-gray mb-3">
-          <Stethoscope className="h-4 w-4 mr-1" />
-          <span>Dr. {visit.physiotherapist.full_name}</span>
-        </div>
-      )}
-
-      {/* Chief Complaint */}
-      {visit.chief_complaint && (
-        <div className="mb-3">
-          <p className="text-sm text-text-gray line-clamp-2">{visit.chief_complaint}</p>
-        </div>
-      )}
-
-      {/* Contact Info */}
-      <div className="flex items-center space-x-4 text-xs text-text-light mb-3">
-        {visit.patient?.phone && (
-          <div className="flex items-center">
-            <Phone className="h-3 w-3 mr-1" />
-            <span>{visit.patient.phone}</span>
+            {isAdmin && visit.physiotherapist && (
+              <span className="hidden sm:inline truncate">
+                Dr. {visit.physiotherapist.full_name}
+              </span>
+            )}
+            {visit.note && (
+              <FileText className="h-3 w-3 text-healui-primary" title="Has note" />
+            )}
           </div>
-        )}
-        {visit.patient?.email && (
-          <div className="flex items-center">
-            <Mail className="h-3 w-3 mr-1" />
-            <span className="truncate">{visit.patient.email}</span>
-          </div>
-        )}
-      </div>
+          
+          {/* Quick Actions */}
+          <div className="flex items-center space-x-0.5 sm:space-x-1 flex-shrink-0">
+            {visit.status === 'SCHEDULED' && visit.visit_mode === 'ONLINE' && onJoinVideoCall && (
+              <button
+                onClick={() => onJoinVideoCall(visit.id)}
+                className="flex items-center px-2 py-1 bg-blue-500 text-white rounded text-xs font-medium hover:bg-blue-600 transition-colors"
+                title="Join Video Call"
+              >
+                <Video className="h-3 w-3 sm:mr-1" />
+                <span className="hidden sm:inline">Join</span>
+              </button>
+            )}
 
-      {/* Actions */}
-      <div className="flex items-center justify-between pt-3 border-t border-border-color">
-        <div className="text-xs text-text-light">
-          Click patient name to view details
+            {visit.status === 'SCHEDULED' && onStartVisit && (
+              <button
+                onClick={() => onStartVisit(visit.id)}
+                className="p-1 text-green-600 hover:bg-green-50 rounded transition-colors"
+                title="Start Visit"
+              >
+                <Activity className="h-4 w-4" />
+              </button>
+            )}
+            
+            {visit.status === 'SCHEDULED' && onReschedule && (
+              <button
+                onClick={() => onReschedule(visit.id)}
+                className="p-1 text-orange-600 hover:bg-orange-50 rounded transition-colors"
+                title="Reschedule"
+              >
+                <Calendar className="h-4 w-4" />
+              </button>
+            )}
+
+            {visit.status === 'SCHEDULED' && onCancel && (
+              <button
+                onClick={() => onCancel(visit.id)}
+                className="p-1 text-red-500 hover:bg-red-50 rounded transition-colors"
+                title="Cancel"
+              >
+                <XCircle className="h-4 w-4" />
+              </button>
+            )}
+            
+            {visit.status === 'COMPLETED' && !visit.note && onAddNote && (
+              <button
+                onClick={() => onAddNote(visit.id)}
+                className="p-1 text-healui-primary hover:bg-healui-primary/10 rounded transition-colors"
+                title="Add Note"
+              >
+                <FileText className="h-4 w-4" />
+              </button>
+            )}
+          </div>
         </div>
         
-        <div className="flex items-center space-x-2">
-          {visit.status === 'SCHEDULED' && visit.visit_mode === 'ONLINE' && onJoinVideoCall && (
-            <button
-              onClick={() => onJoinVideoCall(visit.id)}
-              className="flex items-center space-x-1 px-3 py-1.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-sm font-medium text-xs"
-              title="Join Video Call"
-            >
-              <Video className="h-4 w-4" />
-              <span>Join Call</span>
-            </button>
-          )}
-
-          {visit.status === 'SCHEDULED' && onStartVisit && (
-            <button
-              onClick={() => onStartVisit(visit.id)}
-              className="p-1.5 text-healui-physio hover:text-healui-primary hover:bg-healui-physio/10 rounded-lg transition-all duration-200"
-              title="Start Visit"
-            >
-              <Activity className="h-4 w-4" />
-            </button>
-          )}
-          
-          {visit.status === 'COMPLETED' && !visit.note && onAddNote && (
-            <button
-              onClick={() => onAddNote(visit.id)}
-              className="p-1.5 text-healui-primary hover:text-healui-physio hover:bg-healui-primary/10 rounded-lg transition-all duration-200"
-              title="Add Note"
-            >
-              <FileText className="h-4 w-4" />
-            </button>
-          )}
-          
-          {visit.status === 'SCHEDULED' && onReschedule && (
-            <button
-              onClick={() => onReschedule(visit.id)}
-              className="p-1.5 text-healui-accent hover:text-healui-primary hover:bg-healui-accent/10 rounded-lg transition-all duration-200"
-              title="Reschedule"
-            >
-              <Calendar className="h-4 w-4" />
-            </button>
-          )}
-
-          {visit.status === 'SCHEDULED' && onCancel && (
-            <button
-              onClick={() => onCancel(visit.id)}
-              className="p-1.5 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition-all duration-200"
-              title="Cancel"
-            >
-              <XCircle className="h-4 w-4" />
-            </button>
-          )}
-          
-          <ChevronRight className="h-4 w-4 text-text-light" />
-        </div>
+        {/* Chief Complaint - Only on larger screens */}
+        {visit.chief_complaint && (
+          <div className="mt-1.5 sm:mt-2 pt-1.5 sm:pt-2 border-t border-gray-100">
+            <p className="text-xs text-gray-600 line-clamp-1">{visit.chief_complaint}</p>
+          </div>
+        )}
       </div>
     </div>
   );

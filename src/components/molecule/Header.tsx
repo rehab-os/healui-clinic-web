@@ -5,8 +5,7 @@ import ContextSwitcher from './ContextSwitcher';
 import {
   ChevronDown,
   Menu,
-  X,
-  Heart
+  X
 } from 'lucide-react';
 
 interface HeaderProps {
@@ -36,21 +35,17 @@ const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen = false }) => 
               )}
             </button>
 
-            {/* Healui.ai Brand - Mobile First Design */}
-            <div className="flex items-center space-x-1.5 sm:space-x-2">
-              {/* Icon Logo */}
-              <div className="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 bg-gradient-physio rounded-lg shadow-sm">
-                <Heart className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
-              </div>
-              
-              {/* Text Logo - Responsive */}
+            {/* Healui.ai Brand - Clean & Simple */}
+            <div className="flex items-center">
+              {/* Text Logo - Matching Login Style */}
               <div className="flex flex-col">
-                <h1 className="text-lg sm:text-xl lg:text-2xl font-display font-bold bg-gradient-physio bg-clip-text text-transparent tracking-tight leading-none">
-                  Healui.ai
+                <h1 className="text-lg sm:text-xl lg:text-2xl font-mono font-light tracking-tight leading-none">
+                  <span className="text-gray-800">healui</span>
+                  <span className="text-healui-primary font-medium">.ai</span>
                 </h1>
-                {/* Optional tagline for larger screens */}
-                <span className="hidden lg:block text-xs text-text-light font-medium">
-                  Physiotherapy Management
+                {/* Emotionally connecting tagline for larger screens */}
+                <span className="hidden lg:block text-xs text-text-light font-medium leading-none">
+                  Where healing meets intelligence
                 </span>
               </div>
             </div>

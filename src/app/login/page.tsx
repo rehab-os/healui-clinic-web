@@ -237,17 +237,17 @@ export default function Login() {
             <div className="text-center mb-8 sm:mb-10">
               <div className="relative inline-block">
                 {/* Logo */}
-                <h1 className="text-5xl sm:text-6xl font-mono font-light tracking-tighter text-gray-900">
-                  <span className="font-thin">healui</span>
-                  <span className="text-healui-primary">.ai</span>
+                <h1 className="text-5xl sm:text-6xl font-mono font-light tracking-tighter mb-2">
+                  <span className="text-gray-800">healui</span>
+                  <span className="text-healui-primary font-medium">.ai</span>
                 </h1>
                 
                 {/* Minimal tech accent */}
-                <div className="absolute -bottom-2 left-0 right-0 h-0.5 bg-healui-primary opacity-20"></div>
+                <div className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r from-healui-physio to-healui-primary opacity-30"></div>
               </div>
               
               <p className="text-text-gray mt-6 font-light text-sm sm:text-base tracking-wide">
-                Transforming physiotherapy care through AI
+                Empowering every healing touch with intelligent care
               </p>
             </div>
 

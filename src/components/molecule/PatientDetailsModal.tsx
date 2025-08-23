@@ -107,118 +107,128 @@ const PatientDetailsModal: React.FC<PatientDetailsModalProps> = ({ patient, onCl
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50">
-      <div className="glass rounded-xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col shadow-xl border border-border-color">
-        {/* Header */}
-        <div className="px-6 py-4 border-b border-border-color flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="h-12 w-12 rounded-full bg-gradient-physio flex items-center justify-center text-white font-semibold shadow-physio">
-              {patient.full_name.split(' ').map(n => n[0]).join('')}
+    <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4">
+      <div className="glass rounded-lg sm:rounded-xl w-full max-w-4xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden flex flex-col shadow-xl border border-border-color">
+        {/* Mobile-Optimized Header */}
+        <div className="px-3 sm:px-6 py-3 sm:py-4 border-b border-border-color">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2 sm:space-x-4 flex-1 min-w-0">
+              <div className="h-8 w-8 sm:h-12 sm:w-12 rounded-full bg-gradient-physio flex items-center justify-center text-white font-semibold shadow-physio">
+                <span className="text-xs sm:text-base">
+                  {patient.full_name.split(' ').map(n => n[0]).join('').slice(0, 2)}
+                </span>
+              </div>
+              <div className="flex-1 min-w-0">
+                <h2 className="text-base sm:text-xl font-display font-bold text-text-dark truncate">{patient.full_name}</h2>
+                <div className="flex items-center space-x-2">
+                  <p className="text-xs sm:text-sm text-text-light font-medium">{patient.patient_code}</p>
+                  <span className={`inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(patient.status)}`}>
+                    {patient.status}
+                  </span>
+                </div>
+              </div>
             </div>
-            <div>
-              <h2 className="text-xl font-display font-bold text-text-dark">{patient.full_name}</h2>
-              <p className="text-sm text-text-light font-medium">{patient.patient_code}</p>
+            
+            <div className="flex items-center space-x-1 sm:space-x-2">
+              <button
+                onClick={onScheduleVisit}
+                className="btn-primary inline-flex items-center px-2 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm"
+              >
+                <CalendarPlus className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-2" />
+                <span className="hidden sm:inline">Schedule Visit</span>
+              </button>
+              <button
+                onClick={onClose}
+                className="p-1 sm:p-2 hover:bg-healui-physio/10 rounded-lg transition-all duration-200"
+              >
+                <X className="h-4 w-4 sm:h-5 sm:w-5 text-text-light" />
+              </button>
             </div>
-            <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${getStatusColor(patient.status)}`}>
-              {patient.status}
-            </span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <button
-              onClick={onScheduleVisit}
-              className="btn-primary inline-flex items-center px-4 py-2.5"
-            >
-              <CalendarPlus className="h-4 w-4 mr-2" />
-              Schedule Visit
-            </button>
-            <button
-              onClick={onClose}
-              className="p-2 hover:bg-healui-physio/10 rounded-lg transition-all duration-200"
-            >
-              <X className="h-5 w-5 text-text-light" />
-            </button>
           </div>
         </div>
 
-        {/* Tabs */}
+        {/* Mobile-Responsive Tabs */}
         <div className="border-b border-border-color">
-          <nav className="flex space-x-8 px-6">
+          <nav className="flex space-x-4 sm:space-x-8 px-3 sm:px-6 overflow-x-auto">
             <button
               onClick={() => setActiveTab('details')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm transition-all duration-200 ${
+              className={`py-3 sm:py-4 px-1 border-b-2 font-medium text-xs sm:text-sm transition-all duration-200 whitespace-nowrap ${
                 activeTab === 'details'
                   ? 'border-healui-physio text-healui-physio'
                   : 'border-transparent text-text-light hover:text-text-dark'
               }`}
             >
-              Patient Details
+              <span className="hidden sm:inline">Patient Details</span>
+              <span className="sm:hidden">Details</span>
             </button>
             <button
               onClick={() => setActiveTab('visits')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm transition-all duration-200 ${
+              className={`py-3 sm:py-4 px-1 border-b-2 font-medium text-xs sm:text-sm transition-all duration-200 whitespace-nowrap ${
                 activeTab === 'visits'
                   ? 'border-healui-physio text-healui-physio'
                   : 'border-transparent text-text-light hover:text-text-dark'
               }`}
             >
-              Visits ({visits.length})
+              <span className="hidden sm:inline">Visits ({visits.length})</span>
+              <span className="sm:hidden">Visits ({visits.length})</span>
             </button>
             <button
               onClick={() => setActiveTab('notes')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm transition-all duration-200 ${
+              className={`py-3 sm:py-4 px-1 border-b-2 font-medium text-xs sm:text-sm transition-all duration-200 whitespace-nowrap ${
                 activeTab === 'notes'
                   ? 'border-healui-physio text-healui-physio'
                   : 'border-transparent text-text-light hover:text-text-dark'
               }`}
             >
-              Clinical Notes
+              <span className="hidden sm:inline">Clinical Notes</span>
+              <span className="sm:hidden">Notes</span>
             </button>
           </nav>
         </div>
 
-        {/* Content */}
-        <div className="flex-1 overflow-y-auto p-6">
+        {/* Mobile-Responsive Content */}
+        <div className="flex-1 overflow-y-auto p-3 sm:p-6">
           {activeTab === 'details' && (
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               {/* Personal Information */}
               <div>
-                <h3 className="text-lg font-display font-semibold text-text-dark mb-4 flex items-center">
-                  <User className="h-5 w-5 mr-2 text-healui-physio" />
+                <h3 className="text-base sm:text-lg font-display font-semibold text-text-dark mb-3 sm:mb-4 flex items-center">
+                  <User className="h-4 w-4 sm:h-5 sm:w-5 mr-2 text-healui-physio" />
                   Personal Information
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-text-dark">Full Name</label>
-                    <p className="mt-1 text-sm text-text-gray font-medium">{patient.full_name}</p>
+                    <label className="block text-xs sm:text-sm font-medium text-text-dark">Full Name</label>
+                    <p className="mt-1 text-xs sm:text-sm text-text-gray font-medium">{patient.full_name}</p>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-text-dark">Patient Code</label>
-                    <p className="mt-1 text-sm text-text-gray font-medium">{patient.patient_code}</p>
+                    <label className="block text-xs sm:text-sm font-medium text-text-dark">Patient Code</label>
+                    <p className="mt-1 text-xs sm:text-sm text-text-gray font-medium">{patient.patient_code}</p>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-text-dark">Phone</label>
-                    <p className="mt-1 text-sm text-text-gray font-medium">{patient.phone}</p>
+                    <label className="block text-xs sm:text-sm font-medium text-text-dark">Phone</label>
+                    <p className="mt-1 text-xs sm:text-sm text-text-gray font-medium">{patient.phone}</p>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-text-dark">Email</label>
-                    <p className="mt-1 text-sm text-text-gray font-medium">{patient.email || 'Not provided'}</p>
+                    <label className="block text-xs sm:text-sm font-medium text-text-dark">Email</label>
+                    <p className="mt-1 text-xs sm:text-sm text-text-gray font-medium">{patient.email || 'Not provided'}</p>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-text-dark">Age & Gender</label>
-                    <p className="mt-1 text-sm text-text-gray font-medium">
+                    <label className="block text-xs sm:text-sm font-medium text-text-dark">Age & Gender</label>
+                    <p className="mt-1 text-xs sm:text-sm text-text-gray font-medium">
                       {calculateAge(patient.date_of_birth)} years, {patient.gender === 'M' ? 'Male' : patient.gender === 'F' ? 'Female' : 'Other'}
                     </p>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-text-dark">Date of Birth</label>
-                    <p className="mt-1 text-sm text-text-gray font-medium">
+                    <label className="block text-xs sm:text-sm font-medium text-text-dark">Date of Birth</label>
+                    <p className="mt-1 text-xs sm:text-sm text-text-gray font-medium">
                       {new Date(patient.date_of_birth).toLocaleDateString()}
                     </p>
                   </div>
                   {patient.address && (
-                    <div className="md:col-span-2">
-                      <label className="block text-sm font-medium text-text-dark">Address</label>
-                      <p className="mt-1 text-sm text-text-gray font-medium">{patient.address}</p>
+                    <div className="sm:col-span-2">
+                      <label className="block text-xs sm:text-sm font-medium text-text-dark">Address</label>
+                      <p className="mt-1 text-xs sm:text-sm text-text-gray font-medium">{patient.address}</p>
                     </div>
                   )}
                 </div>
@@ -227,18 +237,18 @@ const PatientDetailsModal: React.FC<PatientDetailsModalProps> = ({ patient, onCl
               {/* Emergency Contact */}
               {(patient.emergency_contact_name || patient.emergency_contact_phone) && (
                 <div>
-                  <h3 className="text-lg font-display font-semibold text-text-dark mb-4 flex items-center">
-                    <Phone className="h-5 w-5 mr-2 text-healui-physio" />
+                  <h3 className="text-base sm:text-lg font-display font-semibold text-text-dark mb-3 sm:mb-4 flex items-center">
+                    <Phone className="h-4 w-4 sm:h-5 sm:w-5 mr-2 text-healui-physio" />
                     Emergency Contact
                   </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-text-dark">Contact Name</label>
-                      <p className="mt-1 text-sm text-text-gray font-medium">{patient.emergency_contact_name || 'Not provided'}</p>
+                      <label className="block text-xs sm:text-sm font-medium text-text-dark">Contact Name</label>
+                      <p className="mt-1 text-xs sm:text-sm text-text-gray font-medium">{patient.emergency_contact_name || 'Not provided'}</p>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-text-dark">Contact Phone</label>
-                      <p className="mt-1 text-sm text-text-gray font-medium">{patient.emergency_contact_phone || 'Not provided'}</p>
+                      <label className="block text-xs sm:text-sm font-medium text-text-dark">Contact Phone</label>
+                      <p className="mt-1 text-xs sm:text-sm text-text-gray font-medium">{patient.emergency_contact_phone || 'Not provided'}</p>
                     </div>
                   </div>
                 </div>
@@ -246,21 +256,21 @@ const PatientDetailsModal: React.FC<PatientDetailsModalProps> = ({ patient, onCl
 
               {/* Medical Information */}
               <div>
-                <h3 className="text-lg font-display font-semibold text-text-dark mb-4 flex items-center">
-                  <Heart className="h-5 w-5 mr-2 text-healui-physio" />
+                <h3 className="text-base sm:text-lg font-display font-semibold text-text-dark mb-3 sm:mb-4 flex items-center">
+                  <Heart className="h-4 w-4 sm:h-5 sm:w-5 mr-2 text-healui-physio" />
                   Medical Information
                 </h3>
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
                   {patient.medical_history && (
                     <div>
-                      <label className="block text-sm font-medium text-text-dark">Medical History</label>
-                      <p className="mt-1 text-sm text-text-gray font-medium whitespace-pre-wrap">{patient.medical_history}</p>
+                      <label className="block text-xs sm:text-sm font-medium text-text-dark">Medical History</label>
+                      <p className="mt-1 text-xs sm:text-sm text-text-gray font-medium whitespace-pre-wrap">{patient.medical_history}</p>
                     </div>
                   )}
                   {patient.allergies && patient.allergies.length > 0 && (
                     <div>
-                      <label className="block text-sm font-medium text-text-dark">Allergies</label>
-                      <div className="mt-1 flex flex-wrap gap-2">
+                      <label className="block text-xs sm:text-sm font-medium text-text-dark">Allergies</label>
+                      <div className="mt-1 flex flex-wrap gap-1 sm:gap-2">
                         {patient.allergies.map((allergy, index) => (
                           <span key={index} className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
                             {allergy}
@@ -271,8 +281,8 @@ const PatientDetailsModal: React.FC<PatientDetailsModalProps> = ({ patient, onCl
                   )}
                   {patient.current_medications && patient.current_medications.length > 0 && (
                     <div>
-                      <label className="block text-sm font-medium text-text-dark">Current Medications</label>
-                      <div className="mt-1 flex flex-wrap gap-2">
+                      <label className="block text-xs sm:text-sm font-medium text-text-dark">Current Medications</label>
+                      <div className="mt-1 flex flex-wrap gap-1 sm:gap-2">
                         {patient.current_medications.map((medication, index) => (
                           <span key={index} className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-healui-primary/20 text-healui-primary border border-healui-primary/30">
                             {medication}
@@ -287,18 +297,18 @@ const PatientDetailsModal: React.FC<PatientDetailsModalProps> = ({ patient, onCl
               {/* Insurance Information */}
               {(patient.insurance_provider || patient.insurance_policy_number) && (
                 <div>
-                  <h3 className="text-lg font-display font-semibold text-text-dark mb-4 flex items-center">
-                    <Shield className="h-5 w-5 mr-2 text-healui-physio" />
+                  <h3 className="text-base sm:text-lg font-display font-semibold text-text-dark mb-3 sm:mb-4 flex items-center">
+                    <Shield className="h-4 w-4 sm:h-5 sm:w-5 mr-2 text-healui-physio" />
                     Insurance Information
                   </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-text-dark">Insurance Provider</label>
-                      <p className="mt-1 text-sm text-text-gray font-medium">{patient.insurance_provider || 'Not provided'}</p>
+                      <label className="block text-xs sm:text-sm font-medium text-text-dark">Insurance Provider</label>
+                      <p className="mt-1 text-xs sm:text-sm text-text-gray font-medium">{patient.insurance_provider || 'Not provided'}</p>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-text-dark">Policy Number</label>
-                      <p className="mt-1 text-sm text-text-gray font-medium">{patient.insurance_policy_number || 'Not provided'}</p>
+                      <label className="block text-xs sm:text-sm font-medium text-text-dark">Policy Number</label>
+                      <p className="mt-1 text-xs sm:text-sm text-text-gray font-medium">{patient.insurance_policy_number || 'Not provided'}</p>
                     </div>
                   </div>
                 </div>
@@ -307,45 +317,45 @@ const PatientDetailsModal: React.FC<PatientDetailsModalProps> = ({ patient, onCl
           )}
 
           {activeTab === 'visits' && (
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {loading ? (
-                <div className="flex items-center justify-center py-8">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-healui-physio"></div>
+                <div className="flex items-center justify-center py-6 sm:py-8">
+                  <div className="animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-b-2 border-healui-physio"></div>
                 </div>
               ) : visits.length === 0 ? (
-                <div className="text-center py-8">
-                  <Calendar className="h-16 w-16 text-healui-physio/50 mx-auto mb-4" />
-                  <h3 className="text-lg font-display font-semibold text-text-dark mb-2">No visits yet</h3>
-                  <p className="text-text-gray mb-4">Schedule the first visit for this patient</p>
+                <div className="text-center py-6 sm:py-8">
+                  <Calendar className="h-12 w-12 sm:h-16 sm:w-16 text-healui-physio/50 mx-auto mb-3 sm:mb-4" />
+                  <h3 className="text-base sm:text-lg font-display font-semibold text-text-dark mb-2">No visits yet</h3>
+                  <p className="text-xs sm:text-sm text-text-gray mb-3 sm:mb-4">Schedule the first visit for this patient</p>
                   <button
                     onClick={onScheduleVisit}
-                    className="btn-primary inline-flex items-center px-6 py-3"
+                    className="btn-primary inline-flex items-center px-4 py-2 sm:px-6 sm:py-3 text-sm"
                   >
-                    <CalendarPlus className="h-4 w-4 mr-2" />
+                    <CalendarPlus className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                     Schedule Visit
                   </button>
                 </div>
               ) : (
-                <div className="space-y-3">
+                <div className="space-y-2 sm:space-y-3">
                   {visits.map((visit) => (
-                    <div key={visit.id} className="card-base">
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center space-x-2">
-                          <h4 className="font-display font-semibold text-text-dark">{visit.visit_type.replace('_', ' ')}</h4>
+                    <div key={visit.id} className="card-base p-3 sm:p-4">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
+                        <div className="flex items-center space-x-2 mb-1 sm:mb-0">
+                          <h4 className="font-display font-semibold text-text-dark text-sm sm:text-base">{visit.visit_type.replace('_', ' ')}</h4>
                           <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${getVisitStatusColor(visit.status)}`}>
                             {visit.status}
                           </span>
                         </div>
-                        <div className="flex items-center text-sm text-text-light">
-                          <Clock className="h-4 w-4 mr-1" />
+                        <div className="flex items-center text-xs sm:text-sm text-text-light">
+                          <Clock className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
                           {new Date(visit.scheduled_date).toLocaleDateString()} at {visit.scheduled_time}
                         </div>
                       </div>
-                      <div className="flex items-center justify-between text-sm text-text-gray">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between text-xs sm:text-sm text-text-gray space-y-1 sm:space-y-0">
                         <span className="font-medium">Physiotherapist: {visit.physiotherapist.full_name}</span>
                         {visit.note && (
                           <span className="flex items-center">
-                            <FileText className="h-4 w-4 mr-1" />
+                            <FileText className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
                             {visit.note.note_type} Note {visit.note.is_signed ? '(Signed)' : '(Unsigned)'}
                           </span>
                         )}
@@ -358,11 +368,11 @@ const PatientDetailsModal: React.FC<PatientDetailsModalProps> = ({ patient, onCl
           )}
 
           {activeTab === 'notes' && (
-            <div className="space-y-4">
-              <div className="text-center py-8">
-                <FileText className="h-16 w-16 text-healui-physio/50 mx-auto mb-4" />
-                <h3 className="text-lg font-display font-semibold text-text-dark mb-2">Clinical Notes</h3>
-                <p className="text-text-gray">Notes will appear here after visits are completed</p>
+            <div className="space-y-3 sm:space-y-4">
+              <div className="text-center py-6 sm:py-8">
+                <FileText className="h-12 w-12 sm:h-16 sm:w-16 text-healui-physio/50 mx-auto mb-3 sm:mb-4" />
+                <h3 className="text-base sm:text-lg font-display font-semibold text-text-dark mb-2">Clinical Notes</h3>
+                <p className="text-xs sm:text-sm text-text-gray">Notes will appear here after visits are completed</p>
               </div>
             </div>
           )}

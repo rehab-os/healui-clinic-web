@@ -8,10 +8,7 @@ import AppointmentCard from '../../../components/molecule/AppointmentCard';
 import AppointmentCalendar from '../../../components/molecule/AppointmentCalendar';
 import RescheduleVisitModal from '../../../components/molecule/RescheduleVisitModal';
 import CancelVisitModal from '../../../components/molecule/CancelVisitModal';
-import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
-import { Button } from '../../../components/ui/button';
-import { Input } from '../../../components/ui/input';
-import { Badge } from '../../../components/ui/badge';
+// Removed UI component imports - using standard JSX elements instead
 import { 
   Calendar,
   Clock,
@@ -86,7 +83,7 @@ export default function AppointmentsPage() {
   const [customDate, setCustomDate] = useState(format(new Date(), 'yyyy-MM-dd'));
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [statusFilter, setStatusFilter] = useState<string>('all');
-  const [viewMode, setViewMode] = useState<'table' | 'grid' | 'calendar'>('table');
+  const [viewMode, setViewMode] = useState<'table' | 'grid' | 'calendar'>('grid'); // Default to grid for mobile-first
   const [page, setPage] = useState(1);
   const limit = 20;
 
@@ -246,16 +243,14 @@ export default function AppointmentsPage() {
 
   if (!currentClinic) {
     return (
-      <div className="container mx-auto px-4 py-8 max-w-6xl">
-        <Card>
-          <CardContent className="flex flex-col items-center justify-center py-12">
-            <AlertCircle className="h-16 w-16 text-gray-400 mb-4" />
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">No Clinic Selected</h2>
-            <p className="text-gray-600 text-center">
-              Please select a clinic from the header to view appointments.
-            </p>
-          </CardContent>
-        </Card>
+      <div className="max-w-2xl mx-auto py-12">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 text-center p-6 sm:p-8">
+          <AlertCircle className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+          <h2 className="text-xl font-semibold text-gray-900 mb-2">No Clinic Selected</h2>
+          <p className="text-gray-600">
+            Please select a clinic from the header to view appointments.
+          </p>
+        </div>
       </div>
     );
   }
@@ -267,235 +262,195 @@ export default function AppointmentsPage() {
   const noShowCount = visitsData.visits.filter(v => v.status === 'NO_SHOW').length;
 
   return (
-    <div className="container mx-auto px-4 py-6 max-w-7xl">
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Appointments</h1>
-          <p className="text-gray-600 mt-1">
-            {isAdmin ? 'Manage all clinic appointments' : 'View your appointments'}
-          </p>
-        </div>
-        <Button className="flex items-center gap-2">
-          <CalendarCheck className="h-4 w-4" />
-          Schedule Appointment
-        </Button>
-      </div>
-
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Total</p>
-                <p className="text-2xl font-bold text-gray-900">{visitsData.total}</p>
+    <div className="min-h-screen bg-white sm:bg-gray-50">
+      <div className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
+          <div className="flex items-center justify-between py-2 sm:py-4">
+            <div className="flex-1 min-w-0">
+              <div className="inline-flex items-center px-2 py-1 sm:px-3 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium bg-healui-physio/10 text-healui-physio">
+                {currentClinic?.name || 'All Clinics'}
               </div>
-              <div className="p-3 bg-gray-100 rounded-lg">
-                <Calendar className="h-6 w-6 text-gray-600" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Scheduled</p>
-                <p className="text-2xl font-bold text-blue-600">{scheduledCount}</p>
-              </div>
-              <div className="p-3 bg-blue-100 rounded-lg">
-                <Clock className="h-6 w-6 text-blue-600" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Completed</p>
-                <p className="text-2xl font-bold text-green-600">{completedCount}</p>
-              </div>
-              <div className="p-3 bg-green-100 rounded-lg">
-                <CheckCircle className="h-6 w-6 text-green-600" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Cancelled</p>
-                <p className="text-2xl font-bold text-red-600">{cancelledCount}</p>
-              </div>
-              <div className="p-3 bg-red-100 rounded-lg">
-                <XCircle className="h-6 w-6 text-red-600" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">No Show</p>
-                <p className="text-2xl font-bold text-gray-600">{noShowCount}</p>
-              </div>
-              <div className="p-3 bg-gray-100 rounded-lg">
-                <CalendarX className="h-6 w-6 text-gray-600" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Filters */}
-      <Card className="mb-6">
-        <CardContent className="p-4">
-          <div className="flex flex-col lg:flex-row gap-4">
-            {/* Date Filter */}
-            <div className="flex flex-wrap items-center gap-2">
-              <div className="flex bg-gray-100 rounded-lg p-1">
-                {(['today', 'week', 'month', 'all', 'custom'] as FilterType[]).map((filter) => (
-                  <button
-                    key={filter}
-                    onClick={() => setFilterType(filter)}
-                    className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                      filterType === filter
-                        ? 'bg-white text-healui-physio shadow-sm'
-                        : 'text-gray-600 hover:text-gray-900'
-                    }`}
-                  >
-                    {filter.charAt(0).toUpperCase() + filter.slice(1)}
-                  </button>
-                ))}
-              </div>
-
-              {/* Custom Date Picker */}
-              {filterType === 'custom' && (
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => handleDateNavigation('prev')}
-                    className="p-1.5 text-gray-600 hover:text-gray-900 transition-colors"
-                  >
-                    <ChevronLeft className="h-4 w-4" />
-                  </button>
-                  <input
-                    type="date"
-                    value={customDate}
-                    onChange={(e) => {
-                      setCustomDate(e.target.value);
-                      setSelectedDate(parseISO(e.target.value));
-                    }}
-                    className="px-3 py-1.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-healui-physio focus:border-transparent"
-                  />
-                  <button
-                    onClick={() => handleDateNavigation('next')}
-                    className="p-1.5 text-gray-600 hover:text-gray-900 transition-colors"
-                  >
-                    <ChevronRight className="h-4 w-4" />
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* Status Filter */}
-            <select
-              value={statusFilter}
-              onChange={(e) => {
-                setStatusFilter(e.target.value);
-                setPage(1);
-              }}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-healui-physio focus:border-transparent"
-            >
-              <option value="all">All Status</option>
-              <option value="SCHEDULED">Scheduled</option>
-              <option value="IN_PROGRESS">In Progress</option>
-              <option value="COMPLETED">Completed</option>
-              <option value="CANCELLED">Cancelled</option>
-              <option value="NO_SHOW">No Show</option>
-            </select>
-
-            {/* Search */}
-            <div className="flex-1 flex gap-2">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <Input
-                  type="text"
-                  placeholder="Search patient name or phone..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                  className="pl-10"
-                />
-              </div>
-              <Button onClick={handleSearch}>
-                Search
-              </Button>
-            </div>
-
-            {/* View Toggle */}
-            <div className="flex items-center space-x-2 border border-gray-300 rounded-lg p-1">
-              <button
-                onClick={() => setViewMode('table')}
-                className={`p-2 rounded-md transition-colors ${
-                  viewMode === 'table' 
-                    ? 'bg-healui-physio/10 text-healui-physio' 
-                    : 'text-gray-400 hover:text-gray-600'
-                }`}
-                title="Table View"
-              >
-                <List className="h-4 w-4" />
-              </button>
-              <button
-                onClick={() => setViewMode('grid')}
-                className={`p-2 rounded-md transition-colors ${
-                  viewMode === 'grid' 
-                    ? 'bg-healui-physio/10 text-healui-physio' 
-                    : 'text-gray-400 hover:text-gray-600'
-                }`}
-                title="Grid View"
-              >
-                <Grid className="h-4 w-4" />
-              </button>
-              <button
-                onClick={() => setViewMode('calendar')}
-                className={`p-2 rounded-md transition-colors ${
-                  viewMode === 'calendar' 
-                    ? 'bg-healui-physio/10 text-healui-physio' 
-                    : 'text-gray-400 hover:text-gray-600'
-                }`}
-                title="Calendar View"
-              >
-                <Calendar className="h-4 w-4" />
-              </button>
             </div>
           </div>
-        </CardContent>
-      </Card>
-
-      {/* Appointments List */}
-      {loading ? (
-        <div className="flex items-center justify-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-healui-physio"></div>
         </div>
-      ) : visitsData.visits.length === 0 ? (
-        <Card>
-          <CardContent className="flex flex-col items-center justify-center py-12">
-            <Calendar className="h-16 w-16 text-gray-400 mb-4" />
+      </div>
+      
+      <div className="max-w-7xl mx-auto px-0 sm:px-3 lg:px-6 py-0 sm:py-3 space-y-0 sm:space-y-3">
+        {/* Concise Stats */}
+        <div className="bg-white sm:rounded-lg sm:shadow-sm border-b sm:border border-gray-200">
+          <div className="px-3 py-2 sm:p-3">
+            <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-xs sm:text-sm">
+              <div className="flex items-center space-x-1">
+                <span className="font-medium text-gray-600">Total:</span>
+                <span className="font-bold text-gray-900">{visitsData.total}</span>
+              </div>
+              <div className="flex items-center space-x-1">
+                <span className="font-medium text-gray-600">Scheduled:</span>
+                <span className="font-bold text-blue-600">{scheduledCount}</span>
+              </div>
+              <div className="flex items-center space-x-1">
+                <span className="font-medium text-gray-600">Completed:</span>
+                <span className="font-bold text-green-600">{completedCount}</span>
+              </div>
+              <div className="flex items-center space-x-1">
+                <span className="font-medium text-gray-600">Cancelled:</span>
+                <span className="font-bold text-red-600">{cancelledCount}</span>
+              </div>
+              <div className="flex items-center space-x-1">
+                <span className="font-medium text-gray-600">No Show:</span>
+                <span className="font-bold text-gray-600">{noShowCount}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile-Optimized Filters & Search */}
+        <div className="bg-white sm:rounded-lg sm:shadow-sm border-b sm:border border-gray-200">
+          <div className="px-3 py-2 sm:p-3">
+            <div className="space-y-2 sm:space-y-0 sm:flex sm:flex-wrap sm:gap-2">
+              {/* Date Filter */}
+              <div className="flex flex-wrap items-center gap-1 sm:gap-2">
+                <div className="flex bg-gray-100 rounded-lg p-0.5 sm:p-1">
+                  {(['today', 'week', 'month', 'all', 'custom'] as FilterType[]).map((filter) => (
+                    <button
+                      key={filter}
+                      onClick={() => setFilterType(filter)}
+                      className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded-md text-xs sm:text-sm font-medium transition-colors ${
+                        filterType === filter
+                          ? 'bg-white text-healui-physio shadow-sm'
+                          : 'text-gray-600 hover:text-gray-900'
+                      }`}
+                    >
+                      {filter.charAt(0).toUpperCase() + filter.slice(1)}
+                    </button>
+                  ))}
+                </div>
+                {/* Custom Date Picker */}
+                {filterType === 'custom' && (
+                  <div className="flex items-center gap-1 sm:gap-2 ml-2">
+                    <button
+                      onClick={() => handleDateNavigation('prev')}
+                      className="p-1 sm:p-1.5 text-gray-600 hover:text-gray-900 transition-colors"
+                    >
+                      <ChevronLeft className="h-3 w-3 sm:h-4 sm:w-4" />
+                    </button>
+                    <input
+                      type="date"
+                      value={customDate}
+                      onChange={(e) => {
+                        setCustomDate(e.target.value);
+                        setSelectedDate(parseISO(e.target.value));
+                      }}
+                      className="px-2 sm:px-3 py-1 sm:py-1.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-healui-physio focus:border-transparent text-xs sm:text-sm"
+                    />
+                    <button
+                      onClick={() => handleDateNavigation('next')}
+                      className="p-1 sm:p-1.5 text-gray-600 hover:text-gray-900 transition-colors"
+                    >
+                      <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4" />
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Status Filter */}
+              <select
+                value={statusFilter}
+                onChange={(e) => {
+                  setStatusFilter(e.target.value);
+                  setPage(1);
+                }}
+                className="px-2 sm:px-4 py-1.5 sm:py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-healui-physio focus:border-transparent text-xs sm:text-sm"
+              >
+                <option value="all">All Status</option>
+                <option value="SCHEDULED">Scheduled</option>
+                <option value="IN_PROGRESS">In Progress</option>
+                <option value="COMPLETED">Completed</option>
+                <option value="CANCELLED">Cancelled</option>
+                <option value="NO_SHOW">No Show</option>
+              </select>
+
+              {/* Search */}
+              <div className="flex-1 flex gap-1 sm:gap-2">
+                <div className="relative flex-1">
+                  <Search className="absolute left-2 sm:left-3 top-1/2 transform -translate-y-1/2 h-3 w-3 sm:h-4 sm:w-4 text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder="Search patient name or phone..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                    className="w-full pl-7 sm:pl-10 pr-3 py-1.5 sm:py-2 text-xs sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-healui-physio/20 focus:border-healui-physio transition-all"
+                  />
+                </div>
+                <button
+                  onClick={handleSearch}
+                  className="bg-healui-physio text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium hover:bg-healui-primary transition-colors"
+                >
+                  <span className="hidden sm:inline">Search</span>
+                  <span className="sm:hidden">Go</span>
+                </button>
+              </div>
+
+              {/* Mobile-Optimized View Toggle - Larger icons, only List & Calendar on mobile */}
+              <div className="flex items-center bg-gray-100 rounded-lg p-1">
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className={`p-2 sm:p-1.5 rounded transition-all ${
+                    viewMode === 'grid' 
+                      ? 'bg-white shadow-sm text-healui-physio' 
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                  title="List View"
+                >
+                  <List className="h-5 w-5 sm:h-4 sm:w-4" />
+                </button>
+                <button
+                  onClick={() => setViewMode('calendar')}
+                  className={`p-2 sm:p-1.5 rounded transition-all ${
+                    viewMode === 'calendar' 
+                      ? 'bg-white shadow-sm text-healui-physio' 
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                  title="Calendar View"
+                >
+                  <Calendar className="h-5 w-5 sm:h-4 sm:w-4" />
+                </button>
+                {/* Table view only shown on desktop */}
+                <button
+                  onClick={() => setViewMode('table')}
+                  className={`hidden sm:flex p-1.5 rounded transition-all ${
+                    viewMode === 'table' 
+                      ? 'bg-white shadow-sm text-healui-physio' 
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                  title="Table View"
+                >
+                  <Grid className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile-Responsive Appointments List */}
+        {loading ? (
+          <div className="bg-white sm:rounded-lg sm:shadow-sm sm:border sm:border-gray-200 p-6 sm:p-8">
+            <div className="flex items-center justify-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-healui-physio mr-3"></div>
+              <span className="text-gray-600">Loading appointments...</span>
+            </div>
+          </div>
+        ) : visitsData.visits.length === 0 ? (
+          <div className="bg-white sm:rounded-lg sm:shadow-sm sm:border sm:border-gray-200 p-6 sm:p-8 text-center">
+            <Calendar className="h-12 w-12 sm:h-16 sm:w-16 text-gray-400 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">No appointments found</h3>
-            <p className="text-gray-600 text-center">
+            <p className="text-gray-600 text-center text-sm sm:text-base">
               {filterType === 'all' ? 'No appointments scheduled yet.' : `No appointments for ${filterType === 'custom' ? 'selected date' : filterType}.`}
             </p>
-          </CardContent>
-        </Card>
-      ) : viewMode === 'grid' ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          </div>
+        ) : viewMode === 'grid' ? (
+          <div className="space-y-0 sm:space-y-2"> {/* Enterprise mobile: single column list for optimal scanning */}
           {visitsData.visits.map((visit) => (
             <AppointmentCard
               key={visit.id}
@@ -519,76 +474,76 @@ export default function AppointmentsPage() {
               onJoinVideoCall={handleJoinVideoCall}
             />
           ))}
-        </div>
-      ) : viewMode === 'calendar' ? (
-        <AppointmentCalendar
-          visits={visitsData.visits}
-          onSelectEvent={(visit) => console.log('Selected visit:', visit)}
-          onReschedule={handleReschedule}
-          onCancel={handleCancel}
-          onViewPatient={handleViewPatient}
-        />
-      ) : viewMode === 'table' ? (
-        <Card>
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Time
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Patient (Click to view details)
-                  </th>
-                  {isAdmin && (
+          </div>
+        ) : viewMode === 'calendar' ? (
+          <div className="bg-white sm:rounded-lg sm:shadow-sm sm:border sm:border-gray-200 overflow-hidden">
+            <div className="p-0 sm:p-4">
+              <AppointmentCalendar
+                visits={visitsData.visits}
+                onSelectEvent={(visit) => console.log('Selected visit:', visit)}
+                onReschedule={handleReschedule}
+                onCancel={handleCancel}
+                onViewPatient={handleViewPatient}
+              />
+            </div>
+          </div>
+        ) : viewMode === 'table' ? (
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Doctor
+                      Time
                     </th>
-                  )}
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Type
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Chief Complaint
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {visitsData.visits.map((visit) => (
-                  <tr key={visit.id} className={`hover:bg-gray-50 ${
-                    visit.visit_mode === 'ONLINE' 
-                      ? 'border-l-4 border-l-blue-500 bg-blue-50/30' 
-                      : ''
-                  }`}>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div>
-                        <div className="text-sm font-medium text-gray-900">
-                          {visit.scheduled_time}
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Patient (Click to view details)
+                    </th>
+                    {isAdmin && (
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Doctor
+                      </th>
+                    )}
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Type
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Chief Complaint
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Status
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {visitsData.visits.map((visit) => (
+                    <tr key={visit.id} className={`hover:bg-gray-50 ${
+                      visit.visit_mode === 'ONLINE' 
+                        ? 'border-l-4 border-l-blue-500 bg-blue-50/30' 
+                        : ''
+                    }`}>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div>
+                          <div className="text-sm font-medium text-gray-900">
+                            {visit.scheduled_time}
+                          </div>
+                          <div className="text-sm text-gray-500">
+                            {format(parseISO(visit.scheduled_date), 'MMM dd, yyyy')}
+                          </div>
                         </div>
-                        <div className="text-sm text-gray-500">
-                          {format(parseISO(visit.scheduled_date), 'MMM dd, yyyy')}
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div 
-                        className="flex items-center cursor-pointer hover:bg-blue-50 rounded-lg p-2 -m-2 transition-colors"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleViewPatient(visit.patient);
-                        }}
-                        title="Click to view patient details"
-                      >
-                        <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center text-white font-medium">
-                          {visit.patient?.full_name?.split(' ').map(n => n[0]).join('') || 'P'}
-                        </div>
-                        <div className="ml-3">
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div 
+                          className="cursor-pointer hover:bg-blue-50 rounded-lg p-2 -m-2 transition-colors"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleViewPatient(visit.patient);
+                          }}
+                          title="Click to view patient details"
+                        >
                           <div className="text-sm font-medium text-healui-physio hover:text-healui-primary">
                             {visit.patient?.full_name || 'Unknown Patient'}
                           </div>
@@ -596,150 +551,157 @@ export default function AppointmentsPage() {
                             {visit.patient?.phone || 'No phone'}
                           </div>
                         </div>
-                      </div>
-                    </td>
-                    {isAdmin && (
+                      </td>
+                      {isAdmin && (
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">
+                            {visit.physiotherapist?.full_name || 'Not assigned'}
+                          </div>
+                        </td>
+                      )}
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">
-                          {visit.physiotherapist?.full_name || 'Not assigned'}
+                        <div className="flex flex-col space-y-1">
+                          <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border ${getVisitTypeColor(visit.visit_type)}`}>
+                            {formatVisitType(visit.visit_type)}
+                          </span>
+                          {visit.visit_mode === 'ONLINE' && (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-500 text-white border-blue-500">
+                              <Video className="h-3 w-3 mr-1" />
+                              Online
+                            </span>
+                          )}
                         </div>
                       </td>
-                    )}
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex flex-col space-y-1">
-                        <Badge variant="outline" className={`text-xs ${getVisitTypeColor(visit.visit_type)}`}>
-                          {formatVisitType(visit.visit_type)}
-                        </Badge>
-                        {visit.visit_mode === 'ONLINE' && (
-                          <Badge variant="outline" className="text-xs bg-blue-500 text-white border-blue-500">
-                            <Video className="h-3 w-3 mr-1" />
-                            Online
-                          </Badge>
-                        )}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="text-sm text-gray-900 max-w-xs truncate">
-                        {visit.chief_complaint || '-'}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <Badge variant="outline" className={`text-xs ${getStatusColor(visit.status)}`}>
-                        {visit.status.replace('_', ' ')}
-                      </Badge>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      <div className="flex items-center space-x-2">
-                        {visit.status === 'SCHEDULED' && visit.visit_mode === 'ONLINE' && (
-                          <button
-                            onClick={() => handleJoinVideoCall(visit.id)}
-                            className="text-blue-600 hover:text-blue-900 p-1.5 hover:bg-blue-50 rounded-lg transition-colors"
-                            title="Join Video Call"
-                          >
-                            <Video className="h-4 w-4" />
-                          </button>
-                        )}
-                        {visit.status === 'SCHEDULED' && (
-                          <>
+                      <td className="px-6 py-4">
+                        <div className="text-sm text-gray-900 max-w-xs truncate">
+                          {visit.chief_complaint || '-'}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border ${getStatusColor(visit.status)}`}>
+                          {visit.status.replace('_', ' ')}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <div className="flex items-center space-x-2">
+                          {visit.status === 'SCHEDULED' && visit.visit_mode === 'ONLINE' && (
                             <button
-                              className="text-green-600 hover:text-green-900 p-1.5 hover:bg-green-50 rounded-lg transition-colors"
-                              title="Start Visit"
+                              onClick={() => handleJoinVideoCall(visit.id)}
+                              className="text-blue-600 hover:text-blue-900 p-1.5 hover:bg-blue-50 rounded-lg transition-colors"
+                              title="Join Video Call"
                             >
-                              <Activity className="h-4 w-4" />
+                              <Video className="h-4 w-4" />
                             </button>
+                          )}
+                          {visit.status === 'SCHEDULED' && (
+                            <>
+                              <button
+                                className="text-green-600 hover:text-green-900 p-1.5 hover:bg-green-50 rounded-lg transition-colors"
+                                title="Start Visit"
+                              >
+                                <Activity className="h-4 w-4" />
+                              </button>
+                              <button
+                                onClick={() => handleReschedule(visit)}
+                                className="text-orange-600 hover:text-orange-900 p-1.5 hover:bg-orange-50 rounded-lg transition-colors"
+                                title="Reschedule"
+                              >
+                                <Calendar className="h-4 w-4" />
+                              </button>
+                              <button
+                                onClick={() => handleCancel(visit)}
+                                className="text-red-600 hover:text-red-900 p-1.5 hover:bg-red-50 rounded-lg transition-colors"
+                                title="Cancel"
+                              >
+                                <XCircle className="h-4 w-4" />
+                              </button>
+                            </>
+                          )}
+                          {visit.status === 'COMPLETED' && !visit.note && (
                             <button
-                              onClick={() => handleReschedule(visit)}
-                              className="text-orange-600 hover:text-orange-900 p-1.5 hover:bg-orange-50 rounded-lg transition-colors"
-                              title="Reschedule"
+                              className="text-purple-600 hover:text-purple-900 p-1.5 hover:bg-purple-50 rounded-lg transition-colors"
+                              title="Add Note"
                             >
-                              <Calendar className="h-4 w-4" />
+                              <FileText className="h-4 w-4" />
                             </button>
+                          )}
+                          {visit.status === 'IN_PROGRESS' && (
                             <button
-                              onClick={() => handleCancel(visit)}
-                              className="text-red-600 hover:text-red-900 p-1.5 hover:bg-red-50 rounded-lg transition-colors"
-                              title="Cancel"
+                              className="text-purple-600 hover:text-purple-900 p-1.5 hover:bg-purple-50 rounded-lg transition-colors"
+                              title="Add Note"
                             >
-                              <XCircle className="h-4 w-4" />
+                              <FileText className="h-4 w-4" />
                             </button>
-                          </>
-                        )}
-                        {visit.status === 'COMPLETED' && !visit.note && (
-                          <button
-                            className="text-purple-600 hover:text-purple-900 p-1.5 hover:bg-purple-50 rounded-lg transition-colors"
-                            title="Add Note"
-                          >
-                            <FileText className="h-4 w-4" />
-                          </button>
-                        )}
-                        {visit.status === 'IN_PROGRESS' && (
-                          <button
-                            className="text-purple-600 hover:text-purple-900 p-1.5 hover:bg-purple-50 rounded-lg transition-colors"
-                            title="Add Note"
-                          >
-                            <FileText className="h-4 w-4" />
-                          </button>
-                        )}
-                        {visit.note && (
-                          <Badge variant="secondary" className="text-xs bg-green-50 text-green-700">
-                            <FileText className="h-3 w-3 mr-1" />
-                            Note Added
-                          </Badge>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                          )}
+                          {visit.note && (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-50 text-green-700">
+                              <FileText className="h-3 w-3 mr-1" />
+                              Note Added
+                            </span>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </Card>
-      ) : null}
+        ) : null}
 
-      {/* Pagination */}
-      {visitsData.total > limit && (
-        <div className="flex items-center justify-center space-x-2 mt-6">
-          <button
-            onClick={() => setPage(p => Math.max(1, p - 1))}
-            disabled={page === 1}
-            className="px-3 py-1 border border-gray-300 rounded-lg disabled:opacity-50"
-          >
-            Previous
-          </button>
-          <span className="text-sm text-gray-600">
-            Page {page} of {Math.ceil(visitsData.total / limit)}
-          </span>
-          <button
-            onClick={() => setPage(p => p + 1)}
-            disabled={page >= Math.ceil(visitsData.total / limit)}
-            className="px-3 py-1 border border-gray-300 rounded-lg disabled:opacity-50"
-          >
-            Next
-          </button>
-        </div>
-      )}
+        {/* Smart Pagination */}
+        {visitsData.total > limit && (
+          <div className="bg-white sm:rounded-lg sm:shadow-sm border-t sm:border border-gray-200 p-3 sm:p-3">
+            <div className="flex items-center justify-between">
+              <div className="text-sm text-gray-600">
+                {visitsData.total} appointment{visitsData.total !== 1 ? 's' : ''} • Page {page} of {Math.ceil(visitsData.total / limit)}
+              </div>
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => setPage(p => Math.max(1, p - 1))}
+                  disabled={page === 1}
+                  className="px-3 py-1.5 text-sm border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+                >
+                  ← Prev
+                </button>
+                <span className="px-3 py-1.5 text-sm font-medium text-healui-physio bg-healui-physio/10 rounded-lg">
+                  {page}
+                </span>
+                <button
+                  onClick={() => setPage(p => p + 1)}
+                  disabled={page >= Math.ceil(visitsData.total / limit)}
+                  className="px-3 py-1.5 text-sm border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+                >
+                  Next →
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        
+        {/* Modals */}
+        {showRescheduleModal && selectedVisit && (
+          <RescheduleVisitModal
+            visit={selectedVisit}
+            onClose={() => {
+              setShowRescheduleModal(false);
+              setSelectedVisit(null);
+            }}
+            onSuccess={handleModalSuccess}
+          />
+        )}
 
-      {/* Modals */}
-      {showRescheduleModal && selectedVisit && (
-        <RescheduleVisitModal
-          visit={selectedVisit}
-          onClose={() => {
-            setShowRescheduleModal(false);
-            setSelectedVisit(null);
-          }}
-          onSuccess={handleModalSuccess}
-        />
-      )}
-
-      {showCancelModal && selectedVisit && (
-        <CancelVisitModal
-          visit={selectedVisit}
-          onClose={() => {
-            setShowCancelModal(false);
-            setSelectedVisit(null);
-          }}
-          onSuccess={handleModalSuccess}
-        />
-      )}
+        {showCancelModal && selectedVisit && (
+          <CancelVisitModal
+            visit={selectedVisit}
+            onClose={() => {
+              setShowCancelModal(false);
+              setSelectedVisit(null);
+            }}
+            onSuccess={handleModalSuccess}
+          />
+        )}
+      </div>
     </div>
   );
 }
