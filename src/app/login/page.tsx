@@ -12,6 +12,7 @@ import {
 import ApiManager from '../../services/api';
 import firebaseAuthService from '../../services/firebase-auth';
 import { ConfirmationResult } from 'firebase/auth';
+import { getDeviceInfo } from '../../utils/firebase-helper';
 import { 
   Phone, 
   ShieldCheck, 
@@ -191,7 +192,24 @@ export default function Login() {
       }
     } catch (error: any) {
       dispatch(loginFailure());
-      setError(error.message || 'Invalid OTP. Please try again.');
+      
+      // Better error handling for mobile
+      let errorMessage = 'Invalid OTP. Please try again.';
+      
+      if (error.message?.includes('fetch')) {
+        // Network error - common on mobile when accessing localhost
+        const { isMobile } = getDeviceInfo();
+        if (isMobile) {
+          errorMessage = 'Cannot connect to server. Please ensure you\'re using the correct network URL.';
+        } else {
+          errorMessage = 'Network error. Please check your connection and try again.';
+        }
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
+      console.error('Login error:', error);
+      setError(errorMessage);
       // Clear OTP inputs on error
       setOtp(['', '', '', '', '', '']);
       otpRefs.current[0]?.focus();
