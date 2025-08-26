@@ -39,10 +39,8 @@ export default function Login() {
     }
   }, [isAuthenticated, router]);
 
-  // Initialize Firebase reCAPTCHA
+  // Cleanup on unmount
   useEffect(() => {
-    firebaseAuthService.initializeRecaptcha();
-    
     return () => {
       firebaseAuthService.cleanup();
     };
@@ -90,6 +88,12 @@ export default function Login() {
     
     try {
       dispatch(loginStart());
+      
+      // Initialize reCAPTCHA only when actually sending OTP
+      firebaseAuthService.initializeRecaptcha();
+      
+      // Small delay to ensure reCAPTCHA is ready
+      await new Promise(resolve => setTimeout(resolve, 100));
       
       // Send OTP via Firebase
       const confirmationResult = await firebaseAuthService.sendOTP(phone);
@@ -306,9 +310,6 @@ export default function Login() {
                   {' '}and{' '}
                   <a href="#" className="text-healui-physio hover:text-healui-primary font-medium">Privacy Policy</a>
                 </p>
-
-                {/* reCAPTCHA container - visible on mobile */}
-                <div id="recaptcha-container" className="flex justify-center mt-4"></div>
               </form>
             ) : (
               /* OTP Verification */
@@ -388,6 +389,9 @@ export default function Login() {
           </div>
         </div>
       </div>
+
+      {/* Invisible reCAPTCHA container */}
+      <div id="recaptcha-container" style={{ position: 'absolute', top: '-9999px' }}></div>
 
       <style jsx>{`
         @keyframes blob {

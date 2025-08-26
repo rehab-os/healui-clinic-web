@@ -13,35 +13,27 @@ class FirebaseAuthService {
       this.recaptchaVerifier.clear();
     }
 
-    // Detect if mobile device
-    const { isMobile } = getDeviceInfo();
-    
+    // Always use invisible reCAPTCHA
     this.recaptchaVerifier = new RecaptchaVerifier(auth, containerId, {
-      size: isMobile ? 'normal' : 'invisible',
+      size: 'invisible',
       callback: (response: any) => {
-        console.log('reCAPTCHA verified');
+        console.log('reCAPTCHA verified successfully');
       },
       'expired-callback': () => {
-        console.log('reCAPTCHA expired');
-        // Re-initialize on expiry
-        this.initializeRecaptcha(containerId);
+        console.log('reCAPTCHA expired, reinitializing...');
+        // Clear and reinitialize
+        if (this.recaptchaVerifier) {
+          this.recaptchaVerifier.clear();
+          this.recaptchaVerifier = null;
+        }
       }
     });
-
-    // Render immediately on mobile to ensure proper initialization
-    if (isMobile) {
-      this.recaptchaVerifier.render().then((widgetId) => {
-        console.log('reCAPTCHA widget rendered with ID:', widgetId);
-      }).catch((error) => {
-        console.error('Error rendering reCAPTCHA:', error);
-      });
-    }
   }
 
   /**
    * Send OTP to phone number
    */
-  async sendOTP(phoneNumber: string): Promise<ConfirmationResult> {
+  async sendOTP(phoneNumber: string, retryCount: number = 0): Promise<ConfirmationResult> {
     try {
       if (!this.recaptchaVerifier) {
         this.initializeRecaptcha();
@@ -55,6 +47,26 @@ class FirebaseAuthService {
       return confirmationResult;
     } catch (error: any) {
       console.error('Error sending OTP:', error);
+      
+      // Handle too-many-requests with retry logic for mobile
+      if (error.code === 'auth/too-many-requests' && retryCount < 1) {
+        const { isMobile } = getDeviceInfo();
+        
+        if (isMobile) {
+          // For mobile, clear everything and retry with a delay
+          clearFirebaseAuthCache();
+          this.cleanup();
+          
+          // Wait before retry
+          await new Promise(resolve => setTimeout(resolve, 2000));
+          
+          // Reinitialize and retry once
+          this.initializeRecaptcha();
+          await new Promise(resolve => setTimeout(resolve, 500));
+          
+          return this.sendOTP(phoneNumber, retryCount + 1);
+        }
+      }
       
       // Clear cache on too-many-requests error
       if (error.code === 'auth/too-many-requests') {
