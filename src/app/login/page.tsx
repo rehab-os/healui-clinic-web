@@ -102,6 +102,11 @@ export default function Login() {
     } catch (error: any) {
       dispatch(loginFailure());
       setError(error.message || 'Failed to send OTP. Please try again.');
+      
+      // Reset reCAPTCHA on certain errors
+      if (error.message?.includes('too many attempts') || error.message?.includes('reCAPTCHA')) {
+        firebaseAuthService.resetRecaptcha();
+      }
     }
   };
 
@@ -301,6 +306,9 @@ export default function Login() {
                   {' '}and{' '}
                   <a href="#" className="text-healui-physio hover:text-healui-primary font-medium">Privacy Policy</a>
                 </p>
+
+                {/* reCAPTCHA container - visible on mobile */}
+                <div id="recaptcha-container" className="flex justify-center mt-4"></div>
               </form>
             ) : (
               /* OTP Verification */

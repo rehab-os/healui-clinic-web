@@ -1,5 +1,6 @@
 import { auth, RecaptchaVerifier, signInWithPhoneNumber, PhoneAuthProvider, signInWithCredential } from '../../credentials';
 import { ConfirmationResult } from 'firebase/auth';
+import { getDeviceInfo, formatErrorMessage, clearFirebaseAuthCache } from '../utils/firebase-helper';
 
 class FirebaseAuthService {
   private recaptchaVerifier: RecaptchaVerifier | null = null;
@@ -12,15 +13,29 @@ class FirebaseAuthService {
       this.recaptchaVerifier.clear();
     }
 
+    // Detect if mobile device
+    const { isMobile } = getDeviceInfo();
+    
     this.recaptchaVerifier = new RecaptchaVerifier(auth, containerId, {
-      size: 'invisible',
+      size: isMobile ? 'normal' : 'invisible',
       callback: (response: any) => {
         console.log('reCAPTCHA verified');
       },
       'expired-callback': () => {
         console.log('reCAPTCHA expired');
+        // Re-initialize on expiry
+        this.initializeRecaptcha(containerId);
       }
     });
+
+    // Render immediately on mobile to ensure proper initialization
+    if (isMobile) {
+      this.recaptchaVerifier.render().then((widgetId) => {
+        console.log('reCAPTCHA widget rendered with ID:', widgetId);
+      }).catch((error) => {
+        console.error('Error rendering reCAPTCHA:', error);
+      });
+    }
   }
 
   /**
@@ -40,7 +55,13 @@ class FirebaseAuthService {
       return confirmationResult;
     } catch (error: any) {
       console.error('Error sending OTP:', error);
-      throw new Error(error.message || 'Failed to send OTP');
+      
+      // Clear cache on too-many-requests error
+      if (error.code === 'auth/too-many-requests') {
+        clearFirebaseAuthCache();
+      }
+      
+      throw new Error(formatErrorMessage(error));
     }
   }
 
@@ -93,6 +114,20 @@ class FirebaseAuthService {
       console.error('Error getting ID token:', error);
       return null;
     }
+  }
+
+  /**
+   * Reset reCAPTCHA (useful for retry scenarios)
+   */
+  resetRecaptcha(): void {
+    if (this.recaptchaVerifier) {
+      this.recaptchaVerifier.clear();
+      this.recaptchaVerifier = null;
+    }
+    // Re-initialize after a short delay
+    setTimeout(() => {
+      this.initializeRecaptcha();
+    }, 100);
   }
 
   /**
