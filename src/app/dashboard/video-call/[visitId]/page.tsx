@@ -145,6 +145,12 @@ function VideoCallContent() {
     if (!visit?.id) return;
 
     try {
+      // Check if already connected or connecting
+      if (agoraClient.connectionState === 'CONNECTED' || agoraClient.connectionState === 'CONNECTING') {
+        console.log('Client already connected/connecting, leaving first...');
+        await agoraClient.leave();
+      }
+
       setVideoState(prev => ({ ...prev, isConnecting: true }));
       
       // First, ensure video session exists (create if needed)

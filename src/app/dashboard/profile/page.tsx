@@ -32,7 +32,7 @@ import {
 } from 'lucide-react';
 
 // Import database data
-import machinesData from '../../../../../../../database/machines/machines.json';
+import machinesData from '../../../../database/machines/machines.json';
 
 // Constants for dropdowns
 const SPECIALIZATIONS = [

@@ -129,6 +129,12 @@ export default function PatientVideoCallPage() {
     if (!visitInfo || !videoState.agoraClient) return;
     
     try {
+      // Check if already connected or connecting
+      if (videoState.agoraClient.connectionState === 'CONNECTED' || videoState.agoraClient.connectionState === 'CONNECTING') {
+        console.log('Client already connected/connecting, leaving first...');
+        await videoState.agoraClient.leave();
+      }
+
       setVideoState(prev => ({ ...prev, isConnecting: true }));
       
       // First, get the video session details from the PUBLIC backend API (for patients)
