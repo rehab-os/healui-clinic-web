@@ -31,11 +31,10 @@ interface VideoCallState {
   isConnected: boolean;
 }
 
-// Create Agora client
-const agoraClient = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
-
 // Main video call component using base Agora SDK
 function VideoCallContent() {
+  // Create Agora client inside component to avoid shared instances
+  const [agoraClient] = useState(() => AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' }));
   const params = useParams();
   const router = useRouter();
   const { userData } = useAppSelector(state => state.user);
@@ -76,6 +75,11 @@ function VideoCallContent() {
           }
           return [...prev, user];
         });
+      }
+      
+      if (mediaType === 'audio') {
+        // Play the remote audio track automatically
+        user.audioTrack?.play();
       }
     });
 
@@ -405,7 +409,7 @@ function VideoCallContent() {
                         id="local-video"
                         className="w-full h-full"
                         ref={(ref) => {
-                          if (ref && localVideoTrack) {
+                          if (ref && localVideoTrack && videoState.isVideoEnabled) {
                             localVideoTrack.play(ref);
                           }
                         }}
