@@ -14,7 +14,11 @@ When testing on mobile devices, you're getting "failed to fetch" error after OTP
 
 2. **Update your `.env.local` file:**
    ```env
+   # For local development with mobile access
    NEXT_PUBLIC_API_URL=http://192.168.1.100:3002/api/v1/
+   
+   # Or use the deployed backend (recommended)
+   NEXT_PUBLIC_API_URL=https://healui-backend-core.onrender.com/api/v1/
    ```
 
 3. **Ensure your backend is accessible:**
@@ -60,13 +64,49 @@ When testing on mobile devices, you're getting "failed to fetch" error after OTP
 
 ### Option 3: Deploy to Staging (Production-like Testing)
 
-1. Deploy your backend to a cloud service (Heroku, Railway, etc.)
-2. Update `.env.local`:
+1. **Deploy your backend to a cloud service:**
+   - **Railway** (Recommended): `railway.app`
+   - **Render**: `render.com` 
+   - **Heroku**: `heroku.com`
+   - **Vercel**: (for Node.js APIs)
+
+2. **Update production environment variables:**
+   - Create `.env.production` or configure in deployment platform
    ```env
-   NEXT_PUBLIC_API_URL=https://your-backend.herokuapp.com/api/v1/
+   NEXT_PUBLIC_API_URL=https://your-backend.railway.app/api/v1/
    ```
-3. Deploy frontend to Vercel/Netlify
-4. Access from anywhere
+
+3. **Deploy frontend:**
+   - **Vercel**: Connect GitHub repo, auto-deploys
+   - **Netlify**: Connect GitHub repo, auto-deploys
+   - Set environment variables in platform dashboard
+
+4. **Access from anywhere:**
+   - Use the deployed frontend URL
+   - Works on all devices without network restrictions
+
+## Deployment Environment Variables
+
+### For Vercel Deployment:
+1. Go to Vercel Dashboard → Your Project → Settings → Environment Variables
+2. Add these variables:
+   ```
+   NEXT_PUBLIC_API_URL = https://healui-backend-core.onrender.com/api/v1/
+   NEXT_PUBLIC_FIREBASE_API_KEY = your_firebase_api_key
+   NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN = your_firebase_auth_domain
+   NEXT_PUBLIC_FIREBASE_PROJECT_ID = your_firebase_project_id
+   NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET = your_firebase_storage_bucket
+   NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID = your_firebase_messaging_sender_id
+   NEXT_PUBLIC_FIREBASE_APP_ID = your_firebase_app_id
+   NEXT_PUBLIC_AGORA_APP_ID = your_agora_app_id
+   ```
+3. Redeploy the application
+
+### Common Deployment Issue:
+**"Cannot connect to server" error on deployed app = API URL is still pointing to localhost**
+- Check your deployment platform's environment variables
+- Ensure `NEXT_PUBLIC_API_URL` points to your deployed backend
+- Redeploy after changing environment variables
 
 ## CORS Configuration
 
