@@ -43,6 +43,7 @@ interface AppointmentCardProps {
   visit: Visit;
   isAdmin: boolean;
   onViewPatient: (patient: any) => void;
+  onViewAppointment?: (patientId: string, appointmentId: string) => void;
   onStartVisit?: (visitId: string) => void;
   onAddNote?: (visitId: string) => void;
   onReschedule?: (visitId: string) => void;
@@ -54,6 +55,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
   visit,
   isAdmin,
   onViewPatient,
+  onViewAppointment,
   onStartVisit,
   onAddNote,
   onReschedule,
@@ -100,24 +102,24 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
   };
 
   return (
-    <div className={`bg-white sm:rounded-lg border-b sm:border border-gray-200 hover:shadow-md transition-all duration-200 ${
-      isOnlineVisit 
-        ? 'border-l-4 border-l-blue-500' 
-        : ''
-    }`}>
+    <div 
+      className={`bg-white sm:rounded-lg border-b sm:border border-gray-200 hover:shadow-md transition-all duration-200 cursor-pointer ${
+        isOnlineVisit 
+          ? 'border-l-4 border-l-blue-500' 
+          : ''
+      }`}
+      onClick={() => {
+        if (onViewAppointment && visit.patient_id) {
+          onViewAppointment(visit.patient_id, visit.id);
+        }
+      }}
+    >
       {/* Ultra-Compact Mobile Design */}
       <div className="px-3 py-2 sm:p-3">
         {/* Main Row - Patient, Time, Status */}
         <div className="flex items-center justify-between mb-1.5 sm:mb-2">
-          {/* Patient Info - Clickable */}
-          <div 
-            className="flex-1 min-w-0 cursor-pointer hover:text-healui-primary transition-colors"
-            onClick={(e) => {
-              e.stopPropagation();
-              onViewPatient(visit.patient);
-            }}
-            title="Click to view patient details"
-          >
+          {/* Patient Info - Non-clickable */}
+          <div className="flex-1 min-w-0">
             <div className="flex items-center space-x-1.5 sm:space-x-2">
               <h3 className="text-xs sm:text-sm font-semibold text-gray-900 truncate">
                 {visit.patient?.full_name || 'Unknown Patient'}
@@ -125,6 +127,16 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
               {visit.visit_mode === 'ONLINE' && (
                 <Video className="h-3 w-3 sm:h-4 sm:w-4 text-blue-500 flex-shrink-0" />
               )}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onViewPatient(visit.patient);
+                }}
+                className="text-healui-primary hover:text-healui-physio text-xs px-1 py-0.5 rounded hover:bg-healui-primary/10 transition-colors"
+                title="View patient details"
+              >
+                <User className="h-3 w-3" />
+              </button>
             </div>
             <div className="flex items-center space-x-2 sm:space-x-3 text-xs text-gray-600 mt-0.5">
               <span className="flex items-center">
@@ -166,7 +178,10 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
           <div className="flex items-center space-x-0.5 sm:space-x-1 flex-shrink-0">
             {visit.status === 'SCHEDULED' && visit.visit_mode === 'ONLINE' && onJoinVideoCall && (
               <button
-                onClick={() => onJoinVideoCall(visit.id)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onJoinVideoCall(visit.id);
+                }}
                 className="flex items-center px-2 py-1 bg-blue-500 text-white rounded text-xs font-medium hover:bg-blue-600 transition-colors"
                 title="Join Video Call"
               >
@@ -177,7 +192,10 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
 
             {visit.status === 'SCHEDULED' && onStartVisit && (
               <button
-                onClick={() => onStartVisit(visit.id)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onStartVisit(visit.id);
+                }}
                 className="p-1 text-green-600 hover:bg-green-50 rounded transition-colors"
                 title="Start Visit"
               >
@@ -187,7 +205,10 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
             
             {visit.status === 'SCHEDULED' && onReschedule && (
               <button
-                onClick={() => onReschedule(visit.id)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onReschedule(visit.id);
+                }}
                 className="p-1 text-orange-600 hover:bg-orange-50 rounded transition-colors"
                 title="Reschedule"
               >
@@ -197,7 +218,10 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
 
             {visit.status === 'SCHEDULED' && onCancel && (
               <button
-                onClick={() => onCancel(visit.id)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onCancel(visit.id);
+                }}
                 className="p-1 text-red-500 hover:bg-red-50 rounded transition-colors"
                 title="Cancel"
               >
@@ -207,7 +231,10 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
             
             {visit.status === 'COMPLETED' && !visit.note && onAddNote && (
               <button
-                onClick={() => onAddNote(visit.id)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onAddNote(visit.id);
+                }}
                 className="p-1 text-healui-primary hover:bg-healui-primary/10 rounded transition-colors"
                 title="Add Note"
               >

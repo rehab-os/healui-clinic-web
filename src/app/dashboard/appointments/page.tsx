@@ -174,6 +174,10 @@ export default function AppointmentsPage() {
     }
   };
 
+  const handleViewAppointment = (patientId: string, appointmentId: string) => {
+    router.push(`/dashboard/appointments/${patientId}/${appointmentId}`);
+  };
+
   const handleReschedule = (visit: Visit) => {
     setSelectedVisit(visit);
     setShowRescheduleModal(true);
@@ -457,6 +461,7 @@ export default function AppointmentsPage() {
               visit={visit}
               isAdmin={isAdmin}
               onViewPatient={handleViewPatient}
+              onViewAppointment={handleViewAppointment}
               onStartVisit={(visitId) => {
                 console.log('Start visit:', visitId);
               }}

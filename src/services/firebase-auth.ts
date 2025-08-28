@@ -35,7 +35,24 @@ class FirebaseAuthService {
    */
   async sendOTP(phoneNumber: string, retryCount: number = 0): Promise<ConfirmationResult> {
     try {
+      console.log('🔥 Starting OTP send process...');
+      console.log('Phone number:', phoneNumber);
+      console.log('Retry count:', retryCount);
+      console.log('Current user:', auth.currentUser);
+      console.log('Auth domain:', auth.config.authDomain);
+      console.log('🌍 Environment check:');
+      console.log('- NODE_ENV:', process.env.NODE_ENV);
+      console.log('- API Key from env:', process.env.NEXT_PUBLIC_FIREBASE_API_KEY?.substring(0, 10) + '...');
+      console.log('- Actual API key used:', auth.config.apiKey?.substring(0, 10) + '...');
+      
+      // For fresh attempts, clear any existing auth state that might interfere
+      if (retryCount === 0 && auth.currentUser) {
+        console.log('Clearing existing auth state...');
+        await auth.signOut();
+      }
+      
       if (!this.recaptchaVerifier) {
+        console.log('Initializing reCAPTCHA...');
         this.initializeRecaptcha();
       }
 
@@ -43,10 +60,32 @@ class FirebaseAuthService {
         throw new Error('reCAPTCHA verifier not initialized');
       }
 
+      console.log('Sending OTP via Firebase...');
+      console.log('🔧 API Configuration Check:');
+      console.log('- Firebase config:', {
+        apiKey: auth.config.apiKey?.substring(0, 10) + '...',
+        authDomain: auth.config.authDomain,
+        projectId: auth.config.projectId
+      });
+      
       const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, this.recaptchaVerifier);
+      console.log('✅ OTP sent successfully');
       return confirmationResult;
     } catch (error: any) {
-      console.error('Error sending OTP:', error);
+      console.error('❌ Error sending OTP:', error);
+      console.error('Error code:', error.code);
+      console.error('Error message:', error.message);
+      console.error('Full error:', JSON.stringify(error, null, 2));
+      
+      // Additional debugging for invalid-app-credential
+      if (error.code === 'auth/invalid-app-credential') {
+        console.error('🔍 Debug Info:');
+        console.error('- API Key:', auth.config.apiKey?.substring(0, 10) + '...');
+        console.error('- Auth Domain:', auth.config.authDomain);
+        console.error('- Project ID:', auth.config.projectId);
+        console.error('- Current URL:', window.location.href);
+        console.error('- User Agent:', navigator.userAgent.substring(0, 50) + '...');
+      }
       
       // Handle too-many-requests with retry logic for mobile
       if (error.code === 'auth/too-many-requests' && retryCount < 1) {
@@ -143,12 +182,31 @@ class FirebaseAuthService {
   }
 
   /**
-   * Clean up resources
+   * Clean up resources and clear auth state
    */
   cleanup(): void {
     if (this.recaptchaVerifier) {
       this.recaptchaVerifier.clear();
       this.recaptchaVerifier = null;
+    }
+    
+    // Clear any stale auth state that might cause conflicts
+    if (typeof window !== 'undefined') {
+      // Sign out current user if any
+      if (auth.currentUser) {
+        console.log('Signing out current user to clear state...');
+        auth.signOut().catch(error => {
+          console.warn('Failed to sign out:', error);
+        });
+      }
+      
+      // Clear localStorage and sessionStorage
+      try {
+        localStorage.removeItem(`firebase:authUser:${auth.config.apiKey}:[DEFAULT]`);
+        sessionStorage.removeItem(`firebase:authUser:${auth.config.apiKey}:[DEFAULT]`);
+      } catch (error) {
+        console.warn('Failed to clear auth storage:', error);
+      }
     }
   }
 }
