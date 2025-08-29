@@ -2,9 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { 
-  Apple, Coffee, Fish, Salad, Beef, Milk, 
   AlertCircle, Info, RefreshCw, Loader2,
-  ChevronDown, ChevronUp, Check, X
+  FileText, Pill, Sparkles
 } from 'lucide-react';
 import ApiManager from '../../services/api';
 
@@ -16,11 +15,17 @@ interface NutritionSuggestionsProps {
     currentMedications?: string[];
     medicalHistory?: string;
     chiefComplaints?: string[];
-    recentNotes?: string;
+    recentNotes?: string | string[];
+    visitHistory?: any[];
   };
+  className?: string;
 }
 
 interface NutritionData {
+  bloodTests?: {
+    test: string;
+    reason: string;
+  }[];
   recommendedFoods: {
     category: string;
     items: string[];
@@ -45,26 +50,10 @@ interface NutritionData {
   generalGuidelines: string[];
 }
 
-const foodIcons: Record<string, React.ReactNode> = {
-  'Proteins': <Beef className="h-5 w-5" />,
-  'Dairy': <Milk className="h-5 w-5" />,
-  'Fruits': <Apple className="h-5 w-5" />,
-  'Vegetables': <Salad className="h-5 w-5" />,
-  'Fish & Seafood': <Fish className="h-5 w-5" />,
-  'Beverages': <Coffee className="h-5 w-5" />
-};
-
-export default function NutritionSuggestions({ patientData }: NutritionSuggestionsProps) {
+export default function NutritionSuggestions({ patientData, className }: NutritionSuggestionsProps) {
   const [nutritionData, setNutritionData] = useState<NutritionData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
-    recommended: true,
-    avoid: false,
-    mealPlan: false,
-    supplements: false,
-    guidelines: false
-  });
 
   useEffect(() => {
     fetchNutritionSuggestions();
@@ -75,56 +64,54 @@ export default function NutritionSuggestions({ patientData }: NutritionSuggestio
     setError(null);
     
     try {
-      // Prepare the prompt for OpenAI
-      const prompt = `Based on the following patient information, provide detailed nutrition recommendations for optimal recovery and health:
+      // Prepare recent notes and visit history information
+      const recentNotesStr = Array.isArray(patientData.recentNotes) 
+        ? patientData.recentNotes.join('\n') 
+        : patientData.recentNotes || '';
+      
+      const visitHistorySummary = patientData.visitHistory?.map((visit, index) => 
+        `Visit ${index + 1}: ${visit.visit_type || 'General'} - ${visit.chief_complaint || 'No complaint'} - ${visit.scheduled_date || 'No date'}`
+      ).join('\n') || 'No visit history';
 
-Patient Information:
+      // Prepare the prompt for OpenAI
+      const prompt = `As a specialized physiotherapy nutritionist, analyze this patient's condition and provide targeted nutrition recommendations for FAST RECOVERY.
+
+Patient Profile:
 - Age: ${patientData.age} years
 - Gender: ${patientData.gender}
 - Allergies: ${patientData.allergies?.join(', ') || 'None reported'}
 - Current Medications: ${patientData.currentMedications?.join(', ') || 'None'}
 - Medical History: ${patientData.medicalHistory || 'Not provided'}
-- Recent Chief Complaints: ${patientData.chiefComplaints?.join(', ') || 'None'}
+- Chief Complaints: ${patientData.chiefComplaints?.join(', ') || 'None'}
 
-Please provide:
-1. Recommended foods by category with reasons
-2. Foods to avoid with specific reasons
-3. Sample meal plan (breakfast, lunch, dinner, snacks)
-4. Hydration recommendations
-5. Supplement suggestions if needed
-6. General dietary guidelines
+Recent Clinical Notes:
+${recentNotesStr || 'No recent clinical notes available'}
 
-Format the response as JSON with the following structure:
+Recent Visit History:
+${visitHistorySummary}
+
+IMPORTANT INSTRUCTIONS:
+1. Focus ONLY on nutrition that accelerates healing and recovery for their specific condition
+2. For EACH recommendation, explain HOW it specifically helps their condition and speeds recovery
+3. Prioritize anti-inflammatory foods, tissue repair nutrients, and pain-reducing foods
+4. Consider their musculoskeletal issues, pain points, and mobility challenges
+5. Recommend supplements only if they directly aid recovery (with specific mechanisms)
+6. Recommend blood tests that can identify deficiencies affecting their recovery
+7. Avoid generic advice - be specific to their physiotherapy needs
+
+INCLUDE bloodTests array with format:
 {
-  "recommendedFoods": [
-    {
-      "category": "Category Name",
-      "items": ["item1", "item2"],
-      "reason": "Why these are beneficial"
-    }
-  ],
-  "avoidFoods": [
-    {
-      "item": "Food item",
-      "reason": "Why to avoid"
-    }
-  ],
-  "mealPlan": {
-    "breakfast": ["item1", "item2"],
-    "lunch": ["item1", "item2"],
-    "dinner": ["item1", "item2"],
-    "snacks": ["item1", "item2"]
-  },
-  "hydration": "Specific hydration advice",
-  "supplements": [
-    {
-      "name": "Supplement name",
-      "dosage": "Recommended dosage",
-      "reason": "Why it's recommended"
-    }
-  ],
-  "generalGuidelines": ["guideline1", "guideline2"]
-}`;
+  "test": "Test Name",
+  "reason": "How this test helps monitor/improve their specific condition and recovery"
+}
+
+For recommendedFoods categories, use: "Anti-inflammatory Foods", "Tissue Repair Foods", "Pain Management Foods", "Bone & Joint Health", "Muscle Recovery Foods"
+
+For each food item, format the reason as: "Contains [nutrient] which [specific benefit for their condition]"
+
+For supplements, explain the exact mechanism: "[Supplement] - helps [specific recovery process] by [mechanism]"
+
+For blood tests, explain: "Identifies [deficiency/marker] which affects [specific aspect of their condition/recovery]"`;
 
       const response = await ApiManager.generateNutritionPlan({ prompt });
       
@@ -141,19 +128,13 @@ Format the response as JSON with the following structure:
     }
   };
 
-  const toggleSection = (section: string) => {
-    setExpandedSections(prev => ({
-      ...prev,
-      [section]: !prev[section]
-    }));
-  };
 
   if (loading) {
     return (
-      <div className="bg-white rounded-lg p-6">
-        <div className="flex flex-col items-center justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin text-healui-physio mb-4" />
-          <p className="text-sm text-gray-600">Generating personalized nutrition recommendations...</p>
+      <div className={`space-y-3 ${className || ''}`}>
+        <div className="flex items-center justify-center py-8">
+          <Loader2 className="h-6 w-6 animate-spin text-healui-physio mr-2" />
+          <p className="text-xs text-gray-600">AI Agent analyzing nutrition needs...</p>
         </div>
       </div>
     );
@@ -161,17 +142,17 @@ Format the response as JSON with the following structure:
 
   if (error) {
     return (
-      <div className="bg-white rounded-lg p-6">
-        <div className="flex items-center space-x-2 text-red-600 mb-4">
-          <AlertCircle className="h-5 w-5" />
-          <p className="text-sm font-medium">{error}</p>
+      <div className={`space-y-3 ${className || ''}`}>
+        <div className="flex items-center space-x-2 text-red-600">
+          <AlertCircle className="h-4 w-4" />
+          <p className="text-xs font-medium">{error}</p>
         </div>
         <button
           onClick={fetchNutritionSuggestions}
-          className="flex items-center space-x-2 text-sm text-healui-physio hover:text-healui-primary"
+          className="flex items-center space-x-1 text-xs text-healui-physio hover:text-healui-primary"
         >
-          <RefreshCw className="h-4 w-4" />
-          <span>Try Again</span>
+          <RefreshCw className="h-3 w-3" />
+          <span>Retry</span>
         </button>
       </div>
     );
@@ -182,184 +163,147 @@ Format the response as JSON with the following structure:
   }
 
   return (
-    <div className="bg-white rounded-lg p-6 space-y-6">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-display font-semibold text-text-dark flex items-center">
-          <Apple className="h-5 w-5 mr-2 text-healui-physio" />
-          Nutrition & Diet Recommendations
-        </h3>
+    <div className={`space-y-3 ${className || ''}`}>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center text-xs text-gray-600">
+          <Sparkles className="h-3.5 w-3.5 mr-1 text-healui-physio" />
+          <span className="font-medium">Nutrition AI Agent Recommendations</span>
+        </div>
         <button
           onClick={fetchNutritionSuggestions}
-          className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded-lg transition-all"
+          className="p-1 text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded transition-all"
         >
-          <RefreshCw className="h-4 w-4" />
+          <RefreshCw className="h-3 w-3" />
         </button>
       </div>
 
-      {/* Recommended Foods */}
-      <div className="border border-gray-200 rounded-lg">
-        <button
-          onClick={() => toggleSection('recommended')}
-          className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors"
-        >
-          <h4 className="font-medium text-gray-900 flex items-center">
-            <Check className="h-4 w-4 mr-2 text-green-600" />
-            Recommended Foods
+      {/* Blood Tests Recommendations */}
+      {nutritionData.bloodTests && nutritionData.bloodTests.length > 0 && (
+        <div className="bg-yellow-50 rounded-lg p-3 border border-yellow-200">
+          <h4 className="text-xs font-semibold text-yellow-900 mb-2 flex items-center">
+            <FileText className="h-3.5 w-3.5 mr-1.5" />
+            Recommended Blood Tests
           </h4>
-          {expandedSections.recommended ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-        </button>
-        
-        {expandedSections.recommended && (
-          <div className="px-4 py-3 border-t border-gray-200 space-y-4">
-            {nutritionData.recommendedFoods.map((category, index) => (
-              <div key={index} className="space-y-2">
-                <div className="flex items-center space-x-2">
-                  {foodIcons[category.category] || <Apple className="h-5 w-5" />}
-                  <h5 className="font-medium text-gray-800">{category.category}</h5>
-                </div>
-                <div className="ml-7">
-                  <div className="flex flex-wrap gap-2 mb-2">
-                    {category.items.map((item, idx) => (
-                      <span key={idx} className="px-3 py-1 bg-green-50 text-green-700 rounded-full text-sm">
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                  <p className="text-sm text-gray-600 italic">{category.reason}</p>
+          <div className="space-y-2">
+            {nutritionData.bloodTests.map((test, index) => (
+              <div key={index} className="text-xs border-b border-yellow-100 last:border-0 pb-2 last:pb-0">
+                <div className="text-yellow-900 font-medium">• {test.test}</div>
+                <div className="text-yellow-800 ml-3 mt-0.5">
+                  <span className="font-medium">Why for your condition: </span>
+                  {test.reason}
                 </div>
               </div>
             ))}
           </div>
-        )}
-      </div>
-
-      {/* Foods to Avoid */}
-      <div className="border border-gray-200 rounded-lg">
-        <button
-          onClick={() => toggleSection('avoid')}
-          className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors"
-        >
-          <h4 className="font-medium text-gray-900 flex items-center">
-            <X className="h-4 w-4 mr-2 text-red-600" />
-            Foods to Avoid
-          </h4>
-          {expandedSections.avoid ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-        </button>
-        
-        {expandedSections.avoid && (
-          <div className="px-4 py-3 border-t border-gray-200 space-y-3">
-            {nutritionData.avoidFoods.map((item, index) => (
-              <div key={index} className="flex items-start space-x-3">
-                <span className="px-3 py-1 bg-red-50 text-red-700 rounded-full text-sm font-medium">
-                  {item.item}
-                </span>
-                <p className="text-sm text-gray-600 flex-1">{item.reason}</p>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Meal Plan */}
-      <div className="border border-gray-200 rounded-lg">
-        <button
-          onClick={() => toggleSection('mealPlan')}
-          className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors"
-        >
-          <h4 className="font-medium text-gray-900">Sample Meal Plan</h4>
-          {expandedSections.mealPlan ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-        </button>
-        
-        {expandedSections.mealPlan && (
-          <div className="px-4 py-3 border-t border-gray-200 space-y-4">
-            {Object.entries(nutritionData.mealPlan).map(([meal, items]) => (
-              <div key={meal}>
-                <h5 className="font-medium text-gray-800 capitalize mb-2">{meal}</h5>
-                <div className="flex flex-wrap gap-2">
-                  {items.map((item, idx) => (
-                    <span key={idx} className="px-3 py-1 bg-healui-physio/10 text-healui-physio rounded-full text-sm">
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Hydration */}
-      <div className="bg-blue-50 rounded-lg p-4">
-        <h4 className="font-medium text-blue-900 mb-2">Hydration Guidelines</h4>
-        <p className="text-sm text-blue-800">{nutritionData.hydration}</p>
-      </div>
-
-      {/* Supplements */}
-      {nutritionData.supplements.length > 0 && (
-        <div className="border border-gray-200 rounded-lg">
-          <button
-            onClick={() => toggleSection('supplements')}
-            className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors"
-          >
-            <h4 className="font-medium text-gray-900">Recommended Supplements</h4>
-            {expandedSections.supplements ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-          </button>
-          
-          {expandedSections.supplements && (
-            <div className="px-4 py-3 border-t border-gray-200 space-y-3">
-              {nutritionData.supplements.map((supplement, index) => (
-                <div key={index} className="bg-purple-50 rounded-lg p-3">
-                  <div className="flex items-center justify-between mb-1">
-                    <h5 className="font-medium text-purple-900">{supplement.name}</h5>
-                    <span className="text-sm text-purple-700">{supplement.dosage}</span>
-                  </div>
-                  <p className="text-sm text-purple-800">{supplement.reason}</p>
-                </div>
-              ))}
-            </div>
-          )}
         </div>
       )}
 
-      {/* General Guidelines */}
-      <div className="border border-gray-200 rounded-lg">
-        <button
-          onClick={() => toggleSection('guidelines')}
-          className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors"
-        >
-          <h4 className="font-medium text-gray-900 flex items-center">
-            <Info className="h-4 w-4 mr-2" />
-            General Dietary Guidelines
-          </h4>
-          {expandedSections.guidelines ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-        </button>
-        
-        {expandedSections.guidelines && (
-          <div className="px-4 py-3 border-t border-gray-200">
-            <ul className="space-y-2">
-              {nutritionData.generalGuidelines.map((guideline, index) => (
-                <li key={index} className="flex items-start">
-                  <span className="block w-1.5 h-1.5 rounded-full bg-healui-physio mt-1.5 mr-3 flex-shrink-0" />
-                  <span className="text-sm text-gray-700">{guideline}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
+      {/* Recommended Foods for Recovery */}
+      {nutritionData.recommendedFoods && nutritionData.recommendedFoods.length > 0 && (
+        <div className="space-y-2">
+          {nutritionData.recommendedFoods.map((category, index) => (
+            <div key={index} className="bg-green-50 rounded-lg p-3 border border-green-200">
+              <h4 className="text-xs font-semibold text-green-900 mb-1.5">
+                {category.category}
+              </h4>
+              <div className="space-y-1">
+                {category.items.map((item, idx) => (
+                  <div key={idx} className="text-xs text-green-800">• {item}</div>
+                ))}
+              </div>
+              {category.reason && (
+                <div className="mt-2 pt-2 border-t border-green-200">
+                  <p className="text-xs text-green-700">
+                    <span className="font-medium">Why: </span>
+                    {category.reason}
+                  </p>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
 
-      {/* Disclaimer */}
-      <div className="bg-amber-50 rounded-lg p-4">
-        <div className="flex items-start space-x-3">
-          <AlertCircle className="h-5 w-5 text-amber-600 flex-shrink-0 mt-0.5" />
-          <div>
-            <p className="text-sm text-amber-800 font-medium">Important Note</p>
-            <p className="text-xs text-amber-700 mt-1">
-              These recommendations are AI-generated based on the patient's profile. 
-              Always consult with a qualified nutritionist or healthcare provider before making significant dietary changes.
-            </p>
+      {/* Foods to Avoid */}
+      {nutritionData.avoidFoods && nutritionData.avoidFoods.length > 0 && (
+        <div className="bg-red-50 rounded-lg p-3 border border-red-200">
+          <h4 className="text-xs font-semibold text-red-900 mb-2 flex items-center">
+            <AlertCircle className="h-3.5 w-3.5 mr-1.5" />
+            Foods to Avoid for Faster Recovery
+          </h4>
+          <div className="space-y-2">
+            {nutritionData.avoidFoods.map((food, index) => (
+              <div key={index} className="text-xs">
+                <div className="text-red-800 font-medium">• {food.item}</div>
+                {food.reason && (
+                  <div className="text-red-700 ml-3 mt-0.5 italic">
+                    Impact: {food.reason}
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
         </div>
+      )}
+
+      {/* Supplements */}
+      {nutritionData.supplements && nutritionData.supplements.length > 0 && (
+        <div className="bg-purple-50 rounded-lg p-3 border border-purple-200">
+          <h4 className="text-xs font-semibold text-purple-900 mb-2 flex items-center">
+            <Pill className="h-3.5 w-3.5 mr-1.5" />
+            Recovery-Enhancing Supplements
+          </h4>
+          <div className="space-y-2">
+            {nutritionData.supplements.map((supplement, index) => (
+              <div key={index} className="text-xs border-b border-purple-100 last:border-0 pb-2 last:pb-0">
+                <div className="text-purple-800 font-medium">
+                  • {supplement.name}
+                  {supplement.dosage && (
+                    <span className="text-purple-700 font-normal"> - {supplement.dosage}</span>
+                  )}
+                </div>
+                {supplement.reason && (
+                  <div className="text-purple-700 ml-3 mt-0.5">
+                    <span className="font-medium">Recovery benefit: </span>
+                    {supplement.reason}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Hydration Guidelines */}
+      {nutritionData.hydration && (
+        <div className="bg-blue-50 rounded-lg p-3 border border-blue-200">
+          <h4 className="text-xs font-semibold text-blue-900 mb-1 flex items-center">
+            <Info className="h-3.5 w-3.5 mr-1.5" />
+            Hydration for Tissue Recovery
+          </h4>
+          <p className="text-xs text-blue-800">{nutritionData.hydration}</p>
+        </div>
+      )}
+
+      {/* General Dietary Guidelines */}
+      {nutritionData.generalGuidelines && nutritionData.generalGuidelines.length > 0 && (
+        <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+          <h4 className="text-xs font-semibold text-gray-900 mb-2">
+            Key Recovery Guidelines
+          </h4>
+          <div className="space-y-1">
+            {nutritionData.generalGuidelines.map((guideline, index) => (
+              <div key={index} className="text-xs text-gray-700">• {guideline}</div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Disclaimer */}
+      <div className="mt-3 pt-3 border-t border-gray-100">
+        <p className="text-xs text-gray-500 italic">
+          Recovery-focused recommendations by AI. Consult your physiotherapist before making dietary changes.
+        </p>
       </div>
     </div>
   );

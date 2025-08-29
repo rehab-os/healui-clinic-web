@@ -70,6 +70,9 @@ export default function PatientVideoCallPage() {
   // Use refs to avoid stale closures in cleanup
   const videoStateRef = useRef(videoState);
   videoStateRef.current = videoState;
+  
+  // Ref for local video element
+  const localVideoRef = useRef<HTMLDivElement>(null);
 
   // Initialize Agora
   useEffect(() => {
@@ -94,7 +97,7 @@ export default function PatientVideoCallPage() {
           
           if (mediaType === 'audio') {
             // Audio will play automatically when subscribed
-            user.audioTrack?.play();
+            // No need to explicitly play it
           }
         });
 
@@ -124,6 +127,17 @@ export default function PatientVideoCallPage() {
 
     initializeAgora();
   }, []);
+
+  // Handle local video playback
+  useEffect(() => {
+    if (localVideoRef.current && videoState.localVideoTrack) {
+      if (videoState.isVideoEnabled) {
+        videoState.localVideoTrack.play(localVideoRef.current);
+      } else {
+        videoState.localVideoTrack.stop();
+      }
+    }
+  }, [videoState.localVideoTrack, videoState.isVideoEnabled]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -478,13 +492,9 @@ export default function PatientVideoCallPage() {
               {/* Local Video (Patient - Picture-in-Picture) */}
               <div className="absolute bottom-4 right-4 w-32 h-24 bg-gray-700 rounded-lg overflow-hidden border-2 border-white">
                 <div 
+                  ref={localVideoRef}
                   id="patient-local-video" 
                   className="w-full h-full relative"
-                  ref={(ref) => {
-                    if (ref && videoState.localVideoTrack && videoState.isVideoEnabled) {
-                      videoState.localVideoTrack.play(ref);
-                    }
-                  }}
                 >
                   {!videoState.localVideoTrack && (
                     <div className="absolute inset-0 flex items-center justify-center">
@@ -499,7 +509,7 @@ export default function PatientVideoCallPage() {
                       <VideoOff className="h-6 w-6 text-gray-400" />
                     </div>
                   )}
-                  {!videoState.isAudioEnabled && videoState.localAudioTrack && (
+                  {!videoState.isAudioEnabled && (
                     <div className="absolute top-1 left-1 bg-red-500 rounded-full p-1">
                       <MicOff className="h-3 w-3 text-white" />
                     </div>

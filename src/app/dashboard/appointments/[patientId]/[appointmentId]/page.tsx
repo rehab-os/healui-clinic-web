@@ -617,7 +617,11 @@ export default function AppointmentDetailsPage() {
                   currentMedications: patient.current_medications,
                   medicalHistory: patient.medical_history,
                   chiefComplaints: appointment.chief_complaint ? [appointment.chief_complaint] : [],
-                  recentNotes: appointment.note ? [JSON.stringify(appointment.note.note_data)] : []
+                  recentNotes: patientVisits
+                    .filter(visit => visit.note)
+                    .slice(0, 5)
+                    .map(visit => JSON.stringify(visit.note?.note_data)),
+                  visitHistory: patientVisits.slice(0, 10)
                 }}
                 className="nutrition-professional"
               />
@@ -662,6 +666,28 @@ export default function AppointmentDetailsPage() {
               </div>
             </div>
 
+            {/* Mobile Nutrition Recommendations */}
+            <div className="lg:hidden bg-white border border-gray-200 rounded p-3 mb-2">
+              <h3 className="text-xs font-semibold text-gray-900 mb-2 pb-1 border-b border-gray-100">
+                Nutrition Recommendations
+              </h3>
+              <NutritionSuggestions 
+                patientData={{
+                  age: calculateAge(patient.date_of_birth),
+                  gender: patient.gender === 'M' ? 'Male' : patient.gender === 'F' ? 'Female' : 'Other',
+                  allergies: patient.allergies,
+                  currentMedications: patient.current_medications,
+                  medicalHistory: patient.medical_history,
+                  chiefComplaints: appointment.chief_complaint ? [appointment.chief_complaint] : [],
+                  recentNotes: patientVisits
+                    .filter(visit => visit.note)
+                    .slice(0, 5)
+                    .map(visit => JSON.stringify(visit.note?.note_data)),
+                  visitHistory: patientVisits.slice(0, 10)
+                }}
+                className="nutrition-mobile"
+              />
+            </div>
 
             {/* Patient Visit Timeline */}
             <div className="bg-white rounded-lg p-3 sm:p-4">
