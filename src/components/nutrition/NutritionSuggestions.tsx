@@ -19,6 +19,7 @@ interface NutritionSuggestionsProps {
     visitHistory?: any[];
   };
   className?: string;
+  onDataChange?: (data: NutritionData | null) => void;
 }
 
 interface NutritionData {
@@ -48,9 +49,17 @@ interface NutritionData {
     reason: string;
   }[];
   generalGuidelines: string[];
+  generalAdvice?: {
+    advice: string;
+    reason: string;
+  }[];
+  precautions?: {
+    precaution: string;
+    reason: string;
+  }[];
 }
 
-export default function NutritionSuggestions({ patientData, className }: NutritionSuggestionsProps) {
+export default function NutritionSuggestions({ patientData, className, onDataChange }: NutritionSuggestionsProps) {
   const [nutritionData, setNutritionData] = useState<NutritionData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -99,10 +108,24 @@ IMPORTANT INSTRUCTIONS:
 6. Recommend blood tests that can identify deficiencies affecting their recovery
 7. Avoid generic advice - be specific to their physiotherapy needs
 
-INCLUDE bloodTests array with format:
+INCLUDE these sections with the exact format:
+
+bloodTests array:
 {
   "test": "Test Name",
   "reason": "How this test helps monitor/improve their specific condition and recovery"
+}
+
+generalAdvice array:
+{
+  "advice": "Specific lifestyle advice",
+  "reason": "Why this advice helps their recovery and condition"
+}
+
+precautions array:
+{
+  "precaution": "Specific thing to avoid or be careful about",
+  "reason": "Why this precaution is important for their condition"
 }
 
 For recommendedFoods categories, use: "Anti-inflammatory Foods", "Tissue Repair Foods", "Pain Management Foods", "Bone & Joint Health", "Muscle Recovery Foods"
@@ -111,12 +134,16 @@ For each food item, format the reason as: "Contains [nutrient] which [specific b
 
 For supplements, explain the exact mechanism: "[Supplement] - helps [specific recovery process] by [mechanism]"
 
-For blood tests, explain: "Identifies [deficiency/marker] which affects [specific aspect of their condition/recovery]"`;
+For blood tests, explain: "Identifies [deficiency/marker] which affects [specific aspect of their condition/recovery]"
+
+For general advice, focus on: posture tips, exercise modifications, sleep recommendations, stress management
+For precautions, focus on: activities to avoid, foods that worsen inflammation, lifestyle factors that slow recovery`;
 
       const response = await ApiManager.generateNutritionPlan({ prompt });
       
       if (response.success && response.data) {
         setNutritionData(response.data);
+        onDataChange?.(response.data);
       } else {
         setError('Failed to generate nutrition suggestions');
       }
@@ -294,6 +321,48 @@ For blood tests, explain: "Identifies [deficiency/marker] which affects [specifi
           <div className="space-y-1">
             {nutritionData.generalGuidelines.map((guideline, index) => (
               <div key={index} className="text-xs text-gray-700">• {guideline}</div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* General Recovery Advice */}
+      {nutritionData.generalAdvice && nutritionData.generalAdvice.length > 0 && (
+        <div className="bg-emerald-50 rounded-lg p-3 border border-emerald-200">
+          <h4 className="text-xs font-semibold text-emerald-900 mb-2 flex items-center">
+            <Info className="h-3.5 w-3.5 mr-1.5" />
+            General Recovery Advice
+          </h4>
+          <div className="space-y-2">
+            {nutritionData.generalAdvice.map((item, index) => (
+              <div key={index} className="text-xs border-b border-emerald-100 last:border-0 pb-2 last:pb-0">
+                <div className="text-emerald-800 font-medium">• {item.advice}</div>
+                <div className="text-emerald-700 ml-3 mt-0.5">
+                  <span className="font-medium">Why: </span>
+                  {item.reason}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Precautions & Things to Avoid */}
+      {nutritionData.precautions && nutritionData.precautions.length > 0 && (
+        <div className="bg-orange-50 rounded-lg p-3 border border-orange-200">
+          <h4 className="text-xs font-semibold text-orange-900 mb-2 flex items-center">
+            <AlertCircle className="h-3.5 w-3.5 mr-1.5" />
+            Important Precautions
+          </h4>
+          <div className="space-y-2">
+            {nutritionData.precautions.map((item, index) => (
+              <div key={index} className="text-xs border-b border-orange-100 last:border-0 pb-2 last:pb-0">
+                <div className="text-orange-800 font-medium">• {item.precaution}</div>
+                <div className="text-orange-700 ml-3 mt-0.5">
+                  <span className="font-medium">Why important: </span>
+                  {item.reason}
+                </div>
+              </div>
             ))}
           </div>
         </div>

@@ -110,6 +110,7 @@ export default function AppointmentDetailsPage() {
     progress: { progress: '', interventions: '', response: '', plan: '' }
   });
   const [additionalNotes, setAdditionalNotes] = useState('');
+  const [nutritionData, setNutritionData] = useState<any>(null);
 
   useEffect(() => {
     if (params.patientId && params.appointmentId && currentClinic?.id) {
@@ -624,6 +625,7 @@ export default function AppointmentDetailsPage() {
                   visitHistory: patientVisits.slice(0, 10)
                 }}
                 className="nutrition-professional"
+                onDataChange={setNutritionData}
               />
             </div>
           </div>
@@ -686,6 +688,7 @@ export default function AppointmentDetailsPage() {
                   visitHistory: patientVisits.slice(0, 10)
                 }}
                 className="nutrition-mobile"
+                onDataChange={setNutritionData}
               />
             </div>
 
@@ -1232,6 +1235,9 @@ export default function AppointmentDetailsPage() {
               isOpen={showTreatmentProtocol}
               onClose={() => setShowTreatmentProtocol(false)}
               patient={patient}
+              visitHistory={patientVisits}
+              currentComplaint={appointment?.chief_complaint || ''}
+              nutritionData={nutritionData}
             />
             
             {/* Contact Details Popup - Centered and Mobile Responsive */}

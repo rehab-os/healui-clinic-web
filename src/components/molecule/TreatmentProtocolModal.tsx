@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { X, Plus, Minus, Target, Activity, Utensils, FileText, Download, Save, Printer, User, Phone, Mail, Stethoscope } from 'lucide-react';
+import { X, Plus, Minus, Target, Activity, Utensils, FileText, Download, Save, Printer, User, Phone, Mail, Stethoscope, AlertCircle, Info, Pill, Loader2 } from 'lucide-react';
 import { useAppSelector } from '../../store/hooks';
 import { downloadTreatmentProtocolPDF, printTreatmentProtocol } from '../../utils/pdfGenerator';
 import { format, parseISO } from 'date-fns';
@@ -38,6 +38,38 @@ interface TreatmentProtocolModalProps {
     gender: string;
     address?: string;
   } | null;
+  visitHistory?: any[];
+  currentComplaint?: string;
+  nutritionData?: {
+    bloodTests?: {
+      test: string;
+      reason: string;
+    }[];
+    recommendedFoods: {
+      category: string;
+      items: string[];
+      reason: string;
+    }[];
+    avoidFoods: {
+      item: string;
+      reason: string;
+    }[];
+    supplements: {
+      name: string;
+      dosage: string;
+      reason: string;
+    }[];
+    generalAdvice?: {
+      advice: string;
+      reason: string;
+    }[];
+    precautions?: {
+      precaution: string;
+      reason: string;
+    }[];
+    hydration: string;
+    generalGuidelines: string[];
+  };
 }
 
 interface Exercise {
@@ -62,6 +94,9 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
   isOpen,
   onClose,
   patient,
+  visitHistory = [],
+  currentComplaint = '',
+  nutritionData = null,
 }) => {
   const { currentClinic } = useAppSelector(state => state.user);
   
@@ -73,6 +108,16 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
   const [nutritionRecommendations, setNutritionRecommendations] = useState<string>('');
   const [protocolTitle, setProtocolTitle] = useState('');
   const [generalNotes, setGeneralNotes] = useState('');
+  const [showExplanations, setShowExplanations] = useState(true);
+  const [isDownloading, setIsDownloading] = useState(false);
+  
+  // Editable nutrition data states
+  const [editableBloodTests, setEditableBloodTests] = useState<string[]>([]);
+  const [editableRecommendedFoods, setEditableRecommendedFoods] = useState<string[]>([]);
+  const [editableFoodsToAvoid, setEditableFoodsToAvoid] = useState<string[]>([]);
+  const [editableSupplements, setEditableSupplements] = useState<string[]>([]);
+  const [editableGeneralAdvice, setEditableGeneralAdvice] = useState<string[]>([]);
+  const [editablePrecautions, setEditablePrecautions] = useState<string[]>([]);
 
   // Initialize available areas from database
   useEffect(() => {
@@ -121,6 +166,51 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
     setAvailableAreas(areas);
   }, []);
 
+  // Initialize editable nutrition data when nutritionData changes
+  useEffect(() => {
+    if (nutritionData) {
+      // Blood tests
+      const bloodTests = nutritionData.bloodTests?.map(test => 
+        showExplanations ? `${test.test} (${test.reason})` : test.test
+      ) || [];
+      setEditableBloodTests(bloodTests);
+
+      // Recommended foods - flatten all categories
+      const recommendedFoods = nutritionData.recommendedFoods?.flatMap(category =>
+        category.items.map(item => 
+          showExplanations ? `${item} (${category.reason})` : item
+        )
+      ) || [];
+      setEditableRecommendedFoods(recommendedFoods);
+
+      // Foods to avoid
+      const foodsToAvoid = nutritionData.avoidFoods?.map(food =>
+        showExplanations ? `${food.item} (${food.reason})` : food.item
+      ) || [];
+      setEditableFoodsToAvoid(foodsToAvoid);
+
+      // Supplements
+      const supplements = nutritionData.supplements?.map(supplement =>
+        showExplanations 
+          ? `${supplement.name} - ${supplement.dosage} (${supplement.reason})`
+          : `${supplement.name} - ${supplement.dosage}`
+      ) || [];
+      setEditableSupplements(supplements);
+
+      // General advice
+      const generalAdvice = nutritionData.generalAdvice?.map(advice =>
+        showExplanations ? `${advice.advice} (${advice.reason})` : advice.advice
+      ) || [];
+      setEditableGeneralAdvice(generalAdvice);
+
+      // Precautions
+      const precautions = nutritionData.precautions?.map(precaution =>
+        showExplanations ? `${precaution.precaution} (${precaution.reason})` : precaution.precaution
+      ) || [];
+      setEditablePrecautions(precautions);
+    }
+  }, [nutritionData, showExplanations]);
+
   // Handle area selection
   const toggleAreaSelection = (areaId: string, category: string) => {
     const updatedAreas = availableAreas.map(area => {
@@ -142,6 +232,21 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
     });
     
     setAvailableAreas(updatedAreas);
+  };
+
+  // Helper functions for managing editable lists
+  const addItem = (list: string[], setList: React.Dispatch<React.SetStateAction<string[]>>, item: string = '') => {
+    setList([...list, item]);
+  };
+
+  const removeItem = (list: string[], setList: React.Dispatch<React.SetStateAction<string[]>>, index: number) => {
+    setList(list.filter((_, i) => i !== index));
+  };
+
+  const updateItem = (list: string[], setList: React.Dispatch<React.SetStateAction<string[]>>, index: number, value: string) => {
+    const updatedList = [...list];
+    updatedList[index] = value;
+    setList(updatedList);
   };
 
   // Handle exercise selection
@@ -174,21 +279,43 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
   };
 
   // Generate and download protocol
-  const downloadProtocol = () => {
-    if (!patient) return;
+  const downloadProtocol = async () => {
+    if (!patient || isDownloading) return;
     
-    const protocol = {
-      patient: patient,
-      clinic: currentClinic || {},
-      protocolTitle: protocolTitle || 'Treatment Protocol',
-      selectedAreas,
-      selectedExercises,
-      nutritionRecommendations,
-      generalNotes,
-      createdDate: new Date().toLocaleDateString(),
-    };
+    setIsDownloading(true);
+    
+    try {
+      const protocol = {
+        patient: patient,
+        clinic: currentClinic || {},
+        protocolTitle: protocolTitle || 'Treatment Protocol',
+        selectedAreas,
+        selectedExercises,
+        nutritionRecommendations,
+        generalNotes,
+        // Use edited data instead of original nutritionData
+        editedNutritionData: {
+          bloodTests: editableBloodTests.filter(test => test.trim()),
+          recommendedFoods: editableRecommendedFoods.filter(food => food.trim()),
+          foodsToAvoid: editableFoodsToAvoid.filter(food => food.trim()),
+          supplements: editableSupplements.filter(supplement => supplement.trim()),
+          generalAdvice: editableGeneralAdvice.filter(advice => advice.trim()),
+          precautions: editablePrecautions.filter(precaution => precaution.trim()),
+          hydration: nutritionData?.hydration || '',
+          generalGuidelines: nutritionData?.generalGuidelines || [],
+        },
+        showExplanations,
+        visitHistory,
+        currentComplaint,
+        createdDate: new Date().toLocaleDateString(),
+      };
 
-    downloadTreatmentProtocolPDF(protocol);
+      await downloadTreatmentProtocolPDF(protocol);
+    } catch (error) {
+      console.error('Error downloading protocol:', error);
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   // Print protocol
@@ -203,6 +330,20 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
       selectedExercises,
       nutritionRecommendations,
       generalNotes,
+      // Use edited data instead of original nutritionData
+      editedNutritionData: {
+        bloodTests: editableBloodTests.filter(test => test.trim()),
+        recommendedFoods: editableRecommendedFoods.filter(food => food.trim()),
+        foodsToAvoid: editableFoodsToAvoid.filter(food => food.trim()),
+        supplements: editableSupplements.filter(supplement => supplement.trim()),
+        generalAdvice: editableGeneralAdvice.filter(advice => advice.trim()),
+        precautions: editablePrecautions.filter(precaution => precaution.trim()),
+        hydration: nutritionData?.hydration || '',
+        generalGuidelines: nutritionData?.generalGuidelines || [],
+      },
+      showExplanations,
+      visitHistory,
+      currentComplaint,
       createdDate: new Date().toLocaleDateString(),
     };
 
@@ -543,47 +684,265 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
             <div className="h-full p-3 sm:p-6 overflow-y-auto">
               <div className="mb-4 sm:mb-6">
                 <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">
-                  Step 3: Nutrition Recommendations
+                  Step 3: Edit Treatment Recommendations
                 </h3>
                 <p className="text-xs sm:text-sm text-gray-600">
-                  Add nutritional guidance to support the treatment protocol.
+                  Review and modify nutrition, blood tests, advice and precautions. Add/remove points as needed.
                 </p>
               </div>
 
-              <div className="max-w-4xl mx-auto">
-                <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
-                  <div className="flex items-center space-x-2 sm:space-x-3">
-                    <Utensils className="h-4 w-4 sm:h-5 sm:w-5 text-healui-physio" />
-                    <span className="font-medium text-gray-900 text-sm sm:text-base">Nutrition Recommendations</span>
+              <div className="max-w-6xl mx-auto space-y-6">
+                {/* Toggle for explanations */}
+                <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <FileText className="h-4 w-4 text-healui-physio" />
+                      <span className="text-sm font-medium text-gray-900">Prescription Format</span>
+                    </div>
+                    <label className="flex items-center space-x-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={showExplanations}
+                        onChange={(e) => setShowExplanations(e.target.checked)}
+                        className="w-4 h-4 text-healui-physio border-gray-300 rounded focus:ring-healui-physio"
+                      />
+                      <span className="text-sm text-gray-700">Include explanations in prescription</span>
+                    </label>
                   </div>
-                  <button
-                    onClick={generateNutritionRecommendations}
-                    className="px-3 sm:px-4 py-2 bg-healui-physio text-white rounded-lg hover:bg-healui-physio/90 transition-colors text-xs sm:text-sm w-full sm:w-auto"
-                  >
-                    Generate Recommendations
-                  </button>
                 </div>
 
-                <div className="mb-4 sm:mb-6">
+                {/* Blood Tests Section */}
+                <div className="bg-yellow-50 rounded-lg p-4 border border-yellow-200">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="text-sm font-semibold text-yellow-900 flex items-center">
+                      <FileText className="h-4 w-4 mr-2" />
+                      Recommended Blood Tests
+                    </h4>
+                    <button
+                      onClick={() => addItem(editableBloodTests, setEditableBloodTests)}
+                      className="flex items-center px-2 py-1 text-xs bg-yellow-200 text-yellow-800 rounded hover:bg-yellow-300 transition-colors"
+                    >
+                      <Plus className="h-3 w-3 mr-1" />
+                      Add
+                    </button>
+                  </div>
+                  <div className="space-y-2">
+                    {editableBloodTests.map((test, index) => (
+                      <div key={index} className="flex items-center gap-2">
+                        <span className="text-yellow-900">•</span>
+                        <input
+                          type="text"
+                          value={test}
+                          onChange={(e) => updateItem(editableBloodTests, setEditableBloodTests, index, e.target.value)}
+                          placeholder="Blood test recommendation..."
+                          className="flex-1 px-2 py-1 text-sm border border-yellow-300 rounded focus:ring-yellow-500 focus:border-yellow-500 bg-white"
+                        />
+                        <button
+                          onClick={() => removeItem(editableBloodTests, setEditableBloodTests, index)}
+                          className="text-red-500 hover:text-red-700"
+                        >
+                          <Minus className="h-3 w-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Recommended Foods Section */}
+                <div className="bg-green-50 rounded-lg p-4 border border-green-200">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="text-sm font-semibold text-green-900 flex items-center">
+                      <Utensils className="h-4 w-4 mr-2" />
+                      Recommended Foods for Recovery
+                    </h4>
+                    <button
+                      onClick={() => addItem(editableRecommendedFoods, setEditableRecommendedFoods)}
+                      className="flex items-center px-2 py-1 text-xs bg-green-200 text-green-800 rounded hover:bg-green-300 transition-colors"
+                    >
+                      <Plus className="h-3 w-3 mr-1" />
+                      Add
+                    </button>
+                  </div>
+                  <div className="space-y-2">
+                    {editableRecommendedFoods.map((food, index) => (
+                      <div key={index} className="flex items-center gap-2">
+                        <span className="text-green-900">•</span>
+                        <input
+                          type="text"
+                          value={food}
+                          onChange={(e) => updateItem(editableRecommendedFoods, setEditableRecommendedFoods, index, e.target.value)}
+                          placeholder="Recommended food..."
+                          className="flex-1 px-2 py-1 text-sm border border-green-300 rounded focus:ring-green-500 focus:border-green-500 bg-white"
+                        />
+                        <button
+                          onClick={() => removeItem(editableRecommendedFoods, setEditableRecommendedFoods, index)}
+                          className="text-red-500 hover:text-red-700"
+                        >
+                          <Minus className="h-3 w-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Foods to Avoid Section */}
+                <div className="bg-red-50 rounded-lg p-4 border border-red-200">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="text-sm font-semibold text-red-900 flex items-center">
+                      <AlertCircle className="h-4 w-4 mr-2" />
+                      Foods to Avoid
+                    </h4>
+                    <button
+                      onClick={() => addItem(editableFoodsToAvoid, setEditableFoodsToAvoid)}
+                      className="flex items-center px-2 py-1 text-xs bg-red-200 text-red-800 rounded hover:bg-red-300 transition-colors"
+                    >
+                      <Plus className="h-3 w-3 mr-1" />
+                      Add
+                    </button>
+                  </div>
+                  <div className="space-y-2">
+                    {editableFoodsToAvoid.map((food, index) => (
+                      <div key={index} className="flex items-center gap-2">
+                        <span className="text-red-900">•</span>
+                        <input
+                          type="text"
+                          value={food}
+                          onChange={(e) => updateItem(editableFoodsToAvoid, setEditableFoodsToAvoid, index, e.target.value)}
+                          placeholder="Food to avoid..."
+                          className="flex-1 px-2 py-1 text-sm border border-red-300 rounded focus:ring-red-500 focus:border-red-500 bg-white"
+                        />
+                        <button
+                          onClick={() => removeItem(editableFoodsToAvoid, setEditableFoodsToAvoid, index)}
+                          className="text-red-500 hover:text-red-700"
+                        >
+                          <Minus className="h-3 w-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Supplements Section */}
+                <div className="bg-purple-50 rounded-lg p-4 border border-purple-200">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="text-sm font-semibold text-purple-900 flex items-center">
+                      <Pill className="h-4 w-4 mr-2" />
+                      Recommended Supplements
+                    </h4>
+                    <button
+                      onClick={() => addItem(editableSupplements, setEditableSupplements)}
+                      className="flex items-center px-2 py-1 text-xs bg-purple-200 text-purple-800 rounded hover:bg-purple-300 transition-colors"
+                    >
+                      <Plus className="h-3 w-3 mr-1" />
+                      Add
+                    </button>
+                  </div>
+                  <div className="space-y-2">
+                    {editableSupplements.map((supplement, index) => (
+                      <div key={index} className="flex items-center gap-2">
+                        <span className="text-purple-900">•</span>
+                        <input
+                          type="text"
+                          value={supplement}
+                          onChange={(e) => updateItem(editableSupplements, setEditableSupplements, index, e.target.value)}
+                          placeholder="Supplement with dosage..."
+                          className="flex-1 px-2 py-1 text-sm border border-purple-300 rounded focus:ring-purple-500 focus:border-purple-500 bg-white"
+                        />
+                        <button
+                          onClick={() => removeItem(editableSupplements, setEditableSupplements, index)}
+                          className="text-red-500 hover:text-red-700"
+                        >
+                          <Minus className="h-3 w-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* General Advice Section */}
+                <div className="bg-emerald-50 rounded-lg p-4 border border-emerald-200">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="text-sm font-semibold text-emerald-900 flex items-center">
+                      <Info className="h-4 w-4 mr-2" />
+                      General Recovery Advice
+                    </h4>
+                    <button
+                      onClick={() => addItem(editableGeneralAdvice, setEditableGeneralAdvice)}
+                      className="flex items-center px-2 py-1 text-xs bg-emerald-200 text-emerald-800 rounded hover:bg-emerald-300 transition-colors"
+                    >
+                      <Plus className="h-3 w-3 mr-1" />
+                      Add
+                    </button>
+                  </div>
+                  <div className="space-y-2">
+                    {editableGeneralAdvice.map((advice, index) => (
+                      <div key={index} className="flex items-center gap-2">
+                        <span className="text-emerald-900">•</span>
+                        <input
+                          type="text"
+                          value={advice}
+                          onChange={(e) => updateItem(editableGeneralAdvice, setEditableGeneralAdvice, index, e.target.value)}
+                          placeholder="General advice..."
+                          className="flex-1 px-2 py-1 text-sm border border-emerald-300 rounded focus:ring-emerald-500 focus:border-emerald-500 bg-white"
+                        />
+                        <button
+                          onClick={() => removeItem(editableGeneralAdvice, setEditableGeneralAdvice, index)}
+                          className="text-red-500 hover:text-red-700"
+                        >
+                          <Minus className="h-3 w-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Precautions Section */}
+                <div className="bg-orange-50 rounded-lg p-4 border border-orange-200">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="text-sm font-semibold text-orange-900 flex items-center">
+                      <AlertCircle className="h-4 w-4 mr-2" />
+                      Important Precautions
+                    </h4>
+                    <button
+                      onClick={() => addItem(editablePrecautions, setEditablePrecautions)}
+                      className="flex items-center px-2 py-1 text-xs bg-orange-200 text-orange-800 rounded hover:bg-orange-300 transition-colors"
+                    >
+                      <Plus className="h-3 w-3 mr-1" />
+                      Add
+                    </button>
+                  </div>
+                  <div className="space-y-2">
+                    {editablePrecautions.map((precaution, index) => (
+                      <div key={index} className="flex items-center gap-2">
+                        <span className="text-orange-900">•</span>
+                        <input
+                          type="text"
+                          value={precaution}
+                          onChange={(e) => updateItem(editablePrecautions, setEditablePrecautions, index, e.target.value)}
+                          placeholder="Important precaution..."
+                          className="flex-1 px-2 py-1 text-sm border border-orange-300 rounded focus:ring-orange-500 focus:border-orange-500 bg-white"
+                        />
+                        <button
+                          onClick={() => removeItem(editablePrecautions, setEditablePrecautions, index)}
+                          className="text-red-500 hover:text-red-700"
+                        >
+                          <Minus className="h-3 w-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Manual Additional Notes */}
+                <div className="bg-white border border-gray-200 rounded-lg p-4">
+                  <h4 className="text-sm font-semibold text-gray-900 mb-3">Additional Manual Notes</h4>
                   <textarea
                     value={nutritionRecommendations}
                     onChange={(e) => setNutritionRecommendations(e.target.value)}
-                    placeholder="Enter nutrition recommendations based on the selected areas and exercises..."
-                    rows={8}
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm border border-gray-300 rounded-lg focus:ring-healui-physio focus:border-healui-physio resize-none"
+                    placeholder="Add any additional notes or custom recommendations..."
+                    rows={4}
+                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-healui-physio focus:border-healui-physio resize-none"
                   />
-                </div>
-
-                {/* Nutrition Tips */}
-                <div className="bg-blue-50 rounded-lg p-3 sm:p-4">
-                  <h4 className="font-semibold text-blue-800 mb-2 sm:mb-3 text-sm sm:text-base">General Nutrition Tips</h4>
-                  <ul className="text-xs sm:text-sm text-blue-700 space-y-1 sm:space-y-2">
-                    <li>• Focus on anti-inflammatory foods for injury recovery</li>
-                    <li>• Ensure adequate protein for tissue repair (1.2-1.6g per kg body weight)</li>
-                    <li>• Include foods rich in vitamins C and E for tissue healing</li>
-                    <li>• Stay hydrated to support metabolic processes</li>
-                    <li>• Consider timing of meals around exercise sessions</li>
-                  </ul>
                 </div>
               </div>
             </div>
@@ -698,10 +1057,89 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
                   </div>
                 )}
 
-                {/* Nutrition */}
+                {/* Edited Treatment Recommendations Summary */}
+                <div className="bg-white border border-gray-200 rounded-lg p-3 sm:p-4">
+                  <h4 className="font-semibold text-gray-900 mb-3 text-sm sm:text-base">Treatment Recommendations Summary</h4>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Blood Tests */}
+                    {editableBloodTests.filter(test => test.trim()).length > 0 && (
+                      <div className="bg-yellow-50 rounded-lg p-3">
+                        <h5 className="font-medium text-yellow-800 mb-2 text-sm">Blood Tests ({editableBloodTests.filter(test => test.trim()).length})</h5>
+                        <div className="space-y-1">
+                          {editableBloodTests.filter(test => test.trim()).map((test, idx) => (
+                            <div key={idx} className="text-xs text-gray-700">• {test}</div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Recommended Foods */}
+                    {editableRecommendedFoods.filter(food => food.trim()).length > 0 && (
+                      <div className="bg-green-50 rounded-lg p-3">
+                        <h5 className="font-medium text-green-800 mb-2 text-sm">Recommended Foods ({editableRecommendedFoods.filter(food => food.trim()).length})</h5>
+                        <div className="space-y-1">
+                          {editableRecommendedFoods.filter(food => food.trim()).map((food, idx) => (
+                            <div key={idx} className="text-xs text-gray-700">• {food}</div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Foods to Avoid */}
+                    {editableFoodsToAvoid.filter(food => food.trim()).length > 0 && (
+                      <div className="bg-red-50 rounded-lg p-3">
+                        <h5 className="font-medium text-red-800 mb-2 text-sm">Foods to Avoid ({editableFoodsToAvoid.filter(food => food.trim()).length})</h5>
+                        <div className="space-y-1">
+                          {editableFoodsToAvoid.filter(food => food.trim()).map((food, idx) => (
+                            <div key={idx} className="text-xs text-gray-700">• {food}</div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Supplements */}
+                    {editableSupplements.filter(supplement => supplement.trim()).length > 0 && (
+                      <div className="bg-purple-50 rounded-lg p-3">
+                        <h5 className="font-medium text-purple-800 mb-2 text-sm">Supplements ({editableSupplements.filter(supplement => supplement.trim()).length})</h5>
+                        <div className="space-y-1">
+                          {editableSupplements.filter(supplement => supplement.trim()).map((supplement, idx) => (
+                            <div key={idx} className="text-xs text-gray-700">• {supplement}</div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* General Advice */}
+                    {editableGeneralAdvice.filter(advice => advice.trim()).length > 0 && (
+                      <div className="bg-emerald-50 rounded-lg p-3">
+                        <h5 className="font-medium text-emerald-800 mb-2 text-sm">General Advice ({editableGeneralAdvice.filter(advice => advice.trim()).length})</h5>
+                        <div className="space-y-1">
+                          {editableGeneralAdvice.filter(advice => advice.trim()).map((advice, idx) => (
+                            <div key={idx} className="text-xs text-gray-700">• {advice}</div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Precautions */}
+                    {editablePrecautions.filter(precaution => precaution.trim()).length > 0 && (
+                      <div className="bg-orange-50 rounded-lg p-3">
+                        <h5 className="font-medium text-orange-800 mb-2 text-sm">Precautions ({editablePrecautions.filter(precaution => precaution.trim()).length})</h5>
+                        <div className="space-y-1">
+                          {editablePrecautions.filter(precaution => precaution.trim()).map((precaution, idx) => (
+                            <div key={idx} className="text-xs text-gray-700">• {precaution}</div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Additional Manual Notes */}
                 {nutritionRecommendations && (
                   <div className="bg-white border border-gray-200 rounded-lg p-3 sm:p-4">
-                    <h4 className="font-semibold text-gray-900 mb-3 text-sm sm:text-base">Nutrition Recommendations</h4>
+                    <h4 className="font-semibold text-gray-900 mb-3 text-sm sm:text-base">Additional Manual Notes</h4>
                     <div className="text-xs sm:text-sm text-gray-600 whitespace-pre-line">
                       {nutritionRecommendations}
                     </div>
@@ -747,10 +1185,15 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
                 </button>
                 <button
                   onClick={downloadProtocol}
-                  className="inline-flex items-center justify-center px-3 sm:px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-xs sm:text-sm"
+                  disabled={isDownloading}
+                  className="inline-flex items-center justify-center px-3 sm:px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-green-400 disabled:cursor-not-allowed transition-colors text-xs sm:text-sm"
                 >
-                  <Download className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-                  Download
+                  {isDownloading ? (
+                    <Loader2 className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 animate-spin" />
+                  ) : (
+                    <Download className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                  )}
+                  {isDownloading ? 'Generating...' : 'Download PDF'}
                 </button>
               </div>
             )}
