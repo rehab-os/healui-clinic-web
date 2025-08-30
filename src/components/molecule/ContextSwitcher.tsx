@@ -45,15 +45,15 @@ const ContextSwitcher: React.FC = () => {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center space-x-3 px-4 py-2 bg-white border border-border-color rounded-lg hover:bg-healui-physio/5 transition-all duration-200"
+        className="flex items-center space-x-1 sm:space-x-3 px-2 sm:px-4 py-1.5 sm:py-2 bg-white border border-border-color rounded-lg hover:bg-healui-physio/5 transition-all duration-200"
       >
-        <div className="flex items-center space-x-2">
-          <Building2 className="h-4 w-4 text-text-gray" />
+        <div className="flex items-center space-x-1 sm:space-x-2">
+          <Building2 className="h-3 w-3 sm:h-4 sm:w-4 text-text-gray" />
           <div className="text-left">
-            <p className="text-sm font-medium text-text-dark">
+            <p className="text-xs sm:text-sm font-medium text-text-dark truncate max-w-20 sm:max-w-none">
               {currentClinic?.name || userData.organization.name}
             </p>
-            <p className="text-xs text-text-light">
+            <p className="text-xs text-text-light hidden sm:block">
               {userData.organization.is_owner ? (
                 <span className="flex items-center space-x-1">
                   <Shield className="h-3 w-3" />
@@ -71,14 +71,14 @@ const ContextSwitcher: React.FC = () => {
           </div>
         </div>
         <ChevronDown 
-          className={`h-4 w-4 text-text-light transition-transform ${
+          className={`h-3 w-3 sm:h-4 sm:w-4 text-text-light transition-transform ${
             isOpen ? 'rotate-180' : ''
           }`} 
         />
       </button>
 
       {isOpen && (
-        <div className="absolute top-full left-0 mt-2 w-72 bg-white rounded-lg shadow-physio border border-border-color z-50">
+        <div className="absolute top-full right-0 sm:left-0 mt-2 w-64 sm:w-72 bg-white rounded-lg shadow-physio border border-border-color z-50">
           <div className="p-2">
             {userData.organization.is_owner && (
               <>

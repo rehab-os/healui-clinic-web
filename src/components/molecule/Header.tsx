@@ -1,9 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import ContextSwitcher from './ContextSwitcher';
 import {
-  ChevronDown,
   Menu,
   X
 } from 'lucide-react';
@@ -14,7 +13,6 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen = false }) => {
-  const [showContextMenu, setShowContextMenu] = useState(false);
 
   return (
     <header className="glass border-b border-border-color sticky top-0 z-40 shadow-sm">
@@ -53,28 +51,9 @@ const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen = false }) => 
 
           {/* Right Section */}
           <div className="flex items-center">
-            {/* Context Switcher - Always visible on desktop, mobile dropdown on mobile */}
-            <div className="hidden sm:block">
+            {/* Context Switcher - Always visible, compact on mobile */}
+            <div className="context-switcher-mobile">
               <ContextSwitcher />
-            </div>
-            
-            {/* Mobile Context Switcher Toggle */}
-            <div className="sm:hidden">
-              <button
-                onClick={() => setShowContextMenu(!showContextMenu)}
-                className="p-2 rounded-lg hover:bg-healui-physio/10 transition-all duration-200"
-              >
-                <ChevronDown className="h-4 w-4 text-text-light" />
-              </button>
-              
-              {/* Mobile Context Switcher Dropdown */}
-              {showContextMenu && (
-                <div className="absolute right-0 top-full mt-2 w-72 glass rounded-xl shadow-2xl border border-border-color z-50">
-                  <div className="p-3">
-                    <ContextSwitcher />
-                  </div>
-                </div>
-              )}
             </div>
           </div>
         </div>
