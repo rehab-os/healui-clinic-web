@@ -204,17 +204,7 @@ export default function SmartNoteInput({
   };
 
   return (
-    <div className="card-base">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-display font-semibold text-text-dark">Create Smart Note</h3>
-        <button
-          onClick={onCancel}
-          className="text-text-light hover:text-text-gray transition-all duration-200"
-        >
-          <X className="h-5 w-5" />
-        </button>
-      </div>
-
+    <div className="space-y-6">
       {error && (
         <div className="mb-4 flex items-center space-x-2 text-red-600 bg-red-50 p-3 rounded-lg">
           <AlertCircle className="h-5 w-5" />

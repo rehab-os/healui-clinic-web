@@ -937,25 +937,24 @@ export default function AppointmentDetailsPage() {
                 resetNoteForm();
               }
             }}>
-              <SlidePopupContent className="max-h-[90vh]">
-                <SlidePopupHeader>
-                  <SlidePopupTitle>Create Smart Note</SlidePopupTitle>
-                  <SlidePopupDescription>
-                    {selectedVisit 
-                      ? `Create AI-generated clinical notes for ${formatVisitType(selectedVisit.visit_type)} visit`
-                      : 'Let AI help you create comprehensive clinical notes for this appointment'
-                    }
-                  </SlidePopupDescription>
-                </SlidePopupHeader>
+              <SlidePopupContent 
+                mobileTitle="Create Smart Note"
+                mobileDescription="Choose your input method and let AI create structured clinical notes"
+              >
                 <SlidePopupBody>
                   {selectedVisit && (
-                    <div className="bg-blue-50 rounded-lg p-4 mb-6">
-                      <p className="font-medium text-blue-900 text-sm">
-                        Selected Visit: {formatVisitType(selectedVisit.visit_type)}
-                      </p>
-                      <p className="text-blue-700 text-xs">
-                        {format(parseISO(selectedVisit.scheduled_date), 'MMM dd, yyyy')} at {selectedVisit.scheduled_time}
-                      </p>
+                    <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 mb-6">
+                      <div className="flex items-start gap-3">
+                        <div className="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                          <Sparkles className="h-4 w-4 text-blue-600" />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-blue-900 mb-1">Selected Visit</h4>
+                          <p className="text-sm text-blue-700 leading-relaxed">
+                            {formatVisitType(selectedVisit.visit_type)} on {format(parseISO(selectedVisit.scheduled_date), 'MMM dd, yyyy')} at {selectedVisit.scheduled_time}
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   )}
                   <SmartNoteInput
@@ -984,51 +983,47 @@ export default function AppointmentDetailsPage() {
                 resetNoteForm();
               }
             }}>
-              <SlidePopupContent className="max-h-[90vh]">
-                <SlidePopupHeader>
-                  <SlidePopupTitle>Create Manual Note</SlidePopupTitle>
-                  <SlidePopupDescription>
-                    {selectedVisit 
-                      ? `Create structured clinical notes for ${formatVisitType(selectedVisit.visit_type)} visit`
-                      : 'Create a clinical note with structured format for this appointment'
-                    }
-                  </SlidePopupDescription>
-                </SlidePopupHeader>
+              <SlidePopupContent mobileTitle="Create Manual Note">
                 <SlidePopupBody>
                   {selectedVisit && (
-                    <div className="bg-blue-50 rounded-lg p-4 mb-6">
-                      <p className="font-medium text-blue-900 text-sm">
-                        Selected Visit: {formatVisitType(selectedVisit.visit_type)}
-                      </p>
-                      <p className="text-blue-700 text-xs">
-                        {format(parseISO(selectedVisit.scheduled_date), 'MMM dd, yyyy')} at {selectedVisit.scheduled_time}
-                      </p>
+                    <div className="bg-gradient-to-r from-emerald-50 to-green-50 border border-emerald-200 rounded-lg p-3 mb-4">
+                      <div className="flex items-center gap-3">
+                        <div className="flex-shrink-0 w-7 h-7 bg-emerald-100 rounded-lg flex items-center justify-center">
+                          <PenTool className="h-3.5 w-3.5 text-emerald-600" />
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-emerald-900 text-sm">Selected Visit</h4>
+                          <p className="text-xs text-emerald-700">
+                            {formatVisitType(selectedVisit.visit_type)} • {format(parseISO(selectedVisit.scheduled_date), 'MMM dd, yyyy')} • {selectedVisit.scheduled_time}
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   )}
                   {/* Note Type Selection */}
-                  <div className="mb-4">
+                  <div className="mb-3">
                     <label className="block text-sm font-medium text-gray-700 mb-2">Note Type</label>
                     <div className="grid grid-cols-3 gap-2">
                       {(['SOAP', 'DAP', 'PROGRESS'] as const).map((type) => (
                         <button
                           key={type}
                           onClick={() => setNoteType(type)}
-                          className={`p-2 border rounded-lg text-xs transition-colors ${
+                          className={`p-2 border rounded-lg text-xs font-medium transition-colors ${
                             noteType === type
-                              ? 'border-blue-500 bg-blue-50 text-blue-700'
-                              : 'border-gray-200 hover:border-gray-300'
+                              ? 'border-healui-physio bg-healui-physio/10 text-healui-physio'
+                              : 'border-gray-200 hover:border-gray-300 text-gray-700'
                           }`}
                         >
-                          <div className="font-medium">{type}</div>
+                          {type}
                         </button>
                       ))}
                     </div>
                   </div>
 
                   {/* Note Content */}
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     {noteType === 'SOAP' && (
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-1">Subjective</label>
                           <textarea
@@ -1037,7 +1032,7 @@ export default function AppointmentDetailsPage() {
                               ...noteData,
                               soap: { ...noteData.soap, subjective: e.target.value }
                             })}
-                            rows={3}
+                            rows={2}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                             placeholder="Patient's symptoms, pain levels..."
                           />
@@ -1050,7 +1045,7 @@ export default function AppointmentDetailsPage() {
                               ...noteData,
                               soap: { ...noteData.soap, objective: e.target.value }
                             })}
-                            rows={3}
+                            rows={2}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                             placeholder="Clinical findings, measurements..."
                           />
@@ -1063,7 +1058,7 @@ export default function AppointmentDetailsPage() {
                               ...noteData,
                               soap: { ...noteData.soap, assessment: e.target.value }
                             })}
-                            rows={3}
+                            rows={2}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                             placeholder="Clinical judgment, diagnosis..."
                           />
@@ -1076,7 +1071,7 @@ export default function AppointmentDetailsPage() {
                               ...noteData,
                               soap: { ...noteData.soap, plan: e.target.value }
                             })}
-                            rows={3}
+                            rows={2}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                             placeholder="Treatment plan, next steps..."
                           />
@@ -1094,7 +1089,7 @@ export default function AppointmentDetailsPage() {
                               ...noteData,
                               dap: { ...noteData.dap, data: e.target.value }
                             })}
-                            rows={4}
+                            rows={2}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                             placeholder="Objective data, measurements..."
                           />
@@ -1107,7 +1102,7 @@ export default function AppointmentDetailsPage() {
                               ...noteData,
                               dap: { ...noteData.dap, assessment: e.target.value }
                             })}
-                            rows={4}
+                            rows={2}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                             placeholder="Clinical assessment..."
                           />
@@ -1120,7 +1115,7 @@ export default function AppointmentDetailsPage() {
                               ...noteData,
                               dap: { ...noteData.dap, plan: e.target.value }
                             })}
-                            rows={4}
+                            rows={2}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                             placeholder="Treatment plan..."
                           />
@@ -1138,7 +1133,7 @@ export default function AppointmentDetailsPage() {
                               ...noteData,
                               progress: { ...noteData.progress, progress: e.target.value }
                             })}
-                            rows={3}
+                            rows={2}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                             placeholder="Patient's progress..."
                           />
@@ -1151,7 +1146,7 @@ export default function AppointmentDetailsPage() {
                               ...noteData,
                               progress: { ...noteData.progress, interventions: e.target.value }
                             })}
-                            rows={3}
+                            rows={2}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                             placeholder="Treatments provided..."
                           />
@@ -1164,7 +1159,7 @@ export default function AppointmentDetailsPage() {
                               ...noteData,
                               progress: { ...noteData.progress, response: e.target.value }
                             })}
-                            rows={3}
+                            rows={2}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                             placeholder="Patient's response..."
                           />
@@ -1177,7 +1172,7 @@ export default function AppointmentDetailsPage() {
                               ...noteData,
                               progress: { ...noteData.progress, plan: e.target.value }
                             })}
-                            rows={3}
+                            rows={2}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                             placeholder="Future treatment plan..."
                           />
@@ -1186,12 +1181,12 @@ export default function AppointmentDetailsPage() {
                     )}
 
                     {/* Additional Notes */}
-                    <div className="border-t border-gray-200 pt-4">
+                    <div className="border-t border-gray-200 pt-3">
                       <label className="block text-sm font-medium text-gray-700 mb-2">Additional Notes</label>
                       <textarea
                         value={additionalNotes}
                         onChange={(e) => setAdditionalNotes(e.target.value)}
-                        rows={3}
+                        rows={2}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                         placeholder="Any additional observations, recommendations, or notes..."
                       />
@@ -1205,14 +1200,14 @@ export default function AppointmentDetailsPage() {
                       setSelectedVisit(null);
                       resetNoteForm();
                     }}
-                    className="px-4 py-2 text-gray-700 hover:text-gray-900 transition-colors"
+                    className="px-4 py-2 text-gray-700 hover:text-gray-900 transition-colors rounded-lg hover:bg-gray-100"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={handleCreateNote}
                     disabled={isCreatingNote}
-                    className="inline-flex items-center px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="inline-flex items-center px-6 py-2 bg-healui-physio text-white rounded-lg hover:bg-healui-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-healui-physio transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
                   >
                     {isCreatingNote ? (
                       <>
@@ -1242,13 +1237,7 @@ export default function AppointmentDetailsPage() {
             
             {/* Contact Details Popup - Centered and Mobile Responsive */}
             <SlidePopup open={showContactDetails} onOpenChange={setShowContactDetails}>
-              <SlidePopupContent className="max-w-sm sm:max-w-md mx-auto">
-                <SlidePopupHeader>
-                  <SlidePopupTitle className="text-sm">Contact Information</SlidePopupTitle>
-                  <SlidePopupDescription className="text-xs">
-                    Patient contact and emergency details
-                  </SlidePopupDescription>
-                </SlidePopupHeader>
+              <SlidePopupContent className="max-w-sm sm:max-w-md mx-auto" mobileTitle="Contact Information">
                 <SlidePopupBody className="p-4">
                   <div className="space-y-3">
                     {/* Primary Contact */}

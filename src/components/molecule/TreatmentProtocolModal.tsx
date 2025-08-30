@@ -378,8 +378,8 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
   if (!isOpen || !patient) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-sm sm:max-w-6xl h-[95vh] sm:h-[90vh] flex flex-col overflow-hidden">
+    <div className="fixed inset-0 bg-black bg-opacity-50 lg:flex lg:items-center lg:justify-center z-50 lg:p-4">
+      <div className="bg-white lg:rounded-lg shadow-xl w-full lg:max-w-6xl h-full lg:h-[90vh] flex flex-col overflow-hidden safe-top safe-bottom">
         {/* Header */}
         <div className="bg-gradient-to-r from-healui-physio to-healui-primary text-white">
           <div className="px-4 sm:px-6 py-4">
@@ -426,9 +426,9 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
                 {/* Close Button */}
                 <button
                   onClick={onClose}
-                  className="p-2 text-white/80 hover:text-white hover:bg-white/20 rounded-lg transition-colors"
+                  className="p-2 lg:p-2 -mr-2 lg:mr-0 text-white/80 hover:text-white hover:bg-white/20 rounded-lg transition-colors"
                 >
-                  <X className="h-5 w-5 sm:h-6 sm:w-6" />
+                  <X className="h-6 w-6 lg:h-5 lg:w-5" />
                 </button>
               </div>
             </div>
@@ -438,7 +438,7 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
         {/* Content */}
         <div className="flex-1 overflow-hidden">
           {currentStep === 1 && (
-            <div className="h-full p-3 sm:p-6 overflow-y-auto">
+            <div className="h-full p-4 lg:p-6 overflow-y-auto">
               <div className="mb-4 sm:mb-6">
                 <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">
                   Step 1: Select Affected Areas
@@ -550,7 +550,7 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
           )}
 
           {currentStep === 2 && (
-            <div className="h-full p-3 sm:p-6 overflow-y-auto">
+            <div className="h-full p-4 lg:p-6 overflow-y-auto">
               <div className="mb-4 sm:mb-6">
                 <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">
                   Step 2: Select Neck Exercises
@@ -681,7 +681,7 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
           )}
 
           {currentStep === 3 && (
-            <div className="h-full p-3 sm:p-6 overflow-y-auto">
+            <div className="h-full p-4 lg:p-6 overflow-y-auto">
               <div className="mb-4 sm:mb-6">
                 <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">
                   Step 3: Edit Treatment Recommendations
@@ -949,7 +949,7 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
           )}
 
           {currentStep === 4 && (
-            <div className="h-full p-3 sm:p-6 overflow-y-auto">
+            <div className="h-full p-4 lg:p-6 overflow-y-auto">
               <div className="mb-4 sm:mb-6">
                 <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">
                   Step 4: Review & Export
@@ -1151,7 +1151,7 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between p-3 sm:p-6 border-t border-gray-200 bg-gray-50">
+        <div className="flex items-center justify-between p-4 lg:p-6 border-t border-gray-200 bg-gray-50">
           <div className="flex items-center space-x-2 text-xs sm:text-sm text-gray-500">
             <span>Step {currentStep} of 4</span>
           </div>

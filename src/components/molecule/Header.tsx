@@ -15,7 +15,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen = false }) => {
 
   return (
-    <header className="glass border-b border-border-color sticky top-0 z-40 shadow-sm">
+    <header className={`glass border-b border-border-color sticky top-0 z-40 shadow-sm transition-all duration-300 ${isMenuOpen ? 'lg:backdrop-blur-none backdrop-blur-sm brightness-95' : ''}`}>
       <div className="px-3 sm:px-6 py-2 sm:py-3">
         <div className="flex items-center justify-between">
           {/* Left Section - Brand */}

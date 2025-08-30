@@ -655,7 +655,7 @@ export default function PatientDetailsPage() {
                 resetNoteForm();
               }
             }}>
-              <SlidePopupContent className="max-h-[90vh]">
+              <SlidePopupContent>
                 <SlidePopupHeader>
                   <SlidePopupTitle>Create Smart Note</SlidePopupTitle>
                   <SlidePopupDescription>
@@ -727,7 +727,7 @@ export default function PatientDetailsPage() {
                 resetNoteForm();
               }
             }}>
-              <SlidePopupContent className="max-h-[90vh]">
+              <SlidePopupContent>
                 <SlidePopupHeader>
                   <SlidePopupTitle>Create Manual Note</SlidePopupTitle>
                   <SlidePopupDescription>
@@ -987,7 +987,7 @@ export default function PatientDetailsPage() {
                         }
                       }}
                       disabled={!selectedVisit || isCreatingNote}
-                      className="inline-flex items-center px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="inline-flex items-center px-6 py-2 bg-healui-physio text-white rounded-lg hover:bg-healui-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-healui-physio transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
                     >
                       {isCreatingNote ? (
                         <>

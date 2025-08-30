@@ -148,7 +148,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       <div className="flex h-[calc(100vh-60px)] relative">
         {/* Sidebar */}
         <aside className={`
-          fixed inset-y-0 left-0 z-30 bg-white border-r border-border-color transform transition-all duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 shadow-sm
+          fixed lg:static top-0 lg:top-0 bottom-0 left-0 z-50 bg-white border-r border-border-color transform transition-all duration-300 ease-in-out lg:translate-x-0 shadow-lg lg:shadow-sm h-screen lg:h-full
           ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
           ${isCollapsed ? 'w-16' : 'w-64'}
         `}>
@@ -168,9 +168,38 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
             )}
           </button>
           
-          <div className="h-full flex flex-col pt-4 pb-4 overflow-hidden">
+          <div className="h-full flex flex-col overflow-hidden">
+            {/* Healui.ai Branding */}
+            <div className={`border-b border-border-color transition-all duration-300 ${isCollapsed ? 'py-4 px-2' : 'py-5 px-4'}`}>
+              <div className="flex items-center justify-between">
+                <div className={`flex items-center ${isCollapsed ? 'justify-center w-full' : ''}`}>
+                  {isCollapsed ? (
+                    <h1 className="text-xl font-mono font-light tracking-tight">
+                      <span className="text-healui-primary font-medium">h</span>
+                    </h1>
+                  ) : (
+                    <h1 className="text-2xl font-mono font-light tracking-tight">
+                      <span className="text-gray-800">healui</span>
+                      <span className="text-healui-primary font-medium">.ai</span>
+                    </h1>
+                  )}
+                </div>
+                {/* Mobile collapse/expand button - only show on mobile */}
+                <button
+                  onClick={() => setIsCollapsed(!isCollapsed)}
+                  className="lg:hidden p-1.5 rounded-lg hover:bg-healui-physio/10 transition-all duration-200"
+                  aria-label={isCollapsed ? "Expand menu" : "Collapse menu"}
+                >
+                  {isCollapsed ? (
+                    <ChevronRight className="h-4 w-4 text-text-gray" />
+                  ) : (
+                    <ChevronLeft className="h-4 w-4 text-text-gray" />
+                  )}
+                </button>
+              </div>
+            </div>
 
-            <nav className={`flex-1 space-y-1 transition-all duration-300 ${isCollapsed ? 'px-2' : 'px-4'}`}>
+            <nav className={`flex-1 space-y-1 transition-all duration-300 pt-4 ${isCollapsed ? 'px-2' : 'px-4'}`}>
               {filteredNavItems.map((item) => {
                 const isActive = pathname === item.href;
                 return (
@@ -302,7 +331,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
         {/* Mobile sidebar backdrop */}
         {isSidebarOpen && (
           <div 
-            className="fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden backdrop-blur-sm"
+            className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden backdrop-blur-sm"
             onClick={() => setIsSidebarOpen(false)}
           />
         )}
