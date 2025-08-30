@@ -169,8 +169,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
           </button>
           
           <div className="h-full flex flex-col overflow-hidden">
-            {/* Healui.ai Branding */}
-            <div className={`border-b border-border-color transition-all duration-300 ${isCollapsed ? 'py-4 px-2' : 'py-5 px-4'}`}>
+            {/* Healui.ai Branding - Only show on tablet and mobile, not desktop */}
+            <div className={`lg:hidden border-b border-border-color transition-all duration-300 ${isCollapsed ? 'py-4 px-2' : 'py-5 px-4'}`}>
               <div className="flex items-center justify-between">
                 <div className={`flex items-center ${isCollapsed ? 'justify-center w-full' : ''}`}>
                   {isCollapsed ? (
