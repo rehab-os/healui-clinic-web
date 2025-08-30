@@ -17,17 +17,17 @@ import {
 } from 'lucide-react';
 import ApiManager from '../../../services/api';
 
-// Agora imports
-import AgoraRTC, { IAgoraRTCClient, ICameraVideoTrack, IMicrophoneAudioTrack } from 'agora-rtc-sdk-ng';
+// Agora imports - dynamically imported to avoid SSR issues
+// import AgoraRTC, { IAgoraRTCClient, ICameraVideoTrack, IMicrophoneAudioTrack } from 'agora-rtc-sdk-ng';
 
 interface PatientVideoCallState {
   isJoined: boolean;
   isVideoEnabled: boolean;
   isAudioEnabled: boolean;
   isConnecting: boolean;
-  localVideoTrack: ICameraVideoTrack | null;
-  localAudioTrack: IMicrophoneAudioTrack | null;
-  agoraClient: IAgoraRTCClient | null;
+  localVideoTrack: any | null;
+  localAudioTrack: any | null;
+  agoraClient: any | null;
   remoteUsers: any[];
 }
 
@@ -78,6 +78,9 @@ export default function PatientVideoCallPage() {
   useEffect(() => {
     const initializeAgora = async () => {
       try {
+        // Dynamically import Agora SDK to avoid SSR issues
+        const AgoraRTC = (await import('agora-rtc-sdk-ng')).default;
+        
         const client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
         
         // Setup event handlers
@@ -96,8 +99,11 @@ export default function PatientVideoCallPage() {
           }
           
           if (mediaType === 'audio') {
-            // Audio will play automatically when subscribed
-            // No need to explicitly play it
+            // Remote audio will play automatically when subscribed
+            // Don't play local audio to avoid echo
+            if (user.audioTrack) {
+              user.audioTrack.play();
+            }
           }
         });
 
@@ -122,22 +128,24 @@ export default function PatientVideoCallPage() {
         setVideoState(prev => ({ ...prev, agoraClient: client }));
       } catch (error) {
         console.error('Failed to initialize Agora:', error);
+        setError('Failed to initialize video calling. Please refresh the page.');
       }
     };
 
-    initializeAgora();
+    // Only initialize on client side
+    if (typeof window !== 'undefined') {
+      initializeAgora();
+    }
   }, []);
 
   // Handle local video playback
   useEffect(() => {
     if (localVideoRef.current && videoState.localVideoTrack) {
-      if (videoState.isVideoEnabled) {
-        videoState.localVideoTrack.play(localVideoRef.current);
-      } else {
-        videoState.localVideoTrack.stop();
-      }
+      // Always play the video track locally for self-view
+      // The visibility will be controlled by CSS/conditional rendering
+      videoState.localVideoTrack.play(localVideoRef.current);
     }
-  }, [videoState.localVideoTrack, videoState.isVideoEnabled]);
+  }, [videoState.localVideoTrack]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -190,6 +198,10 @@ export default function PatientVideoCallPage() {
     if (!visitInfo || !videoState.agoraClient) return;
     
     try {
+      console.log('🚀 Starting join call process...');
+      console.log('Visit info:', visitInfo);
+      console.log('Client state:', videoState.agoraClient.connectionState);
+      
       // Check if already connected or connecting
       if (videoState.agoraClient.connectionState === 'CONNECTED' || videoState.agoraClient.connectionState === 'CONNECTING') {
         console.log('Client already connected/connecting, leaving first...');
@@ -199,36 +211,76 @@ export default function PatientVideoCallPage() {
       setVideoState(prev => ({ ...prev, isConnecting: true }));
       
       // First, get the video session details from the PUBLIC backend API (for patients)
+      console.log('📡 Fetching video session from API...');
       const sessionResponse = await ApiManager.getPublicVideoSession(visitInfo.visitId);
+      console.log('📡 Session response:', sessionResponse);
       
       if (!sessionResponse.success || !sessionResponse.data) {
-        throw new Error('Failed to get video session details');
+        console.error('❌ Failed to get session:', sessionResponse.message || 'No data');
+        throw new Error(`Failed to get video session: ${sessionResponse.message || 'Invalid response'}`);
       }
       
       const session = sessionResponse.data;
       setVideoSession(session);
+      console.log('✅ Got session data:', {
+        appId: session.appId ? `${session.appId.substring(0, 8)}...` : 'null',
+        channel: session.channel,
+        token: session.token ? `${session.token.substring(0, 20)}...` : 'null'
+      });
       
       let localVideoTrack = null;
       let localAudioTrack = null;
       
       try {
+        console.log('🎥 Requesting camera and microphone permissions...');
+        
+        // First check if permissions are already granted
+        try {
+          const permissions = await navigator.permissions.query({ name: 'camera' as any });
+          console.log('📹 Camera permission state:', permissions.state);
+          
+          const micPermissions = await navigator.permissions.query({ name: 'microphone' as any });
+          console.log('🎤 Microphone permission state:', micPermissions.state);
+        } catch (permErr) {
+          console.log('⚠️ Could not check permissions:', permErr);
+        }
+        
         // Create local tracks - THIS WILL REQUEST CAMERA/MIC PERMISSIONS
-        [localVideoTrack, localAudioTrack] = await AgoraRTC.createMicrophoneAndCameraTracks();
+        console.log('🎬 Creating media tracks...');
+        const AgoraRTC = (await import('agora-rtc-sdk-ng')).default;
+        [localVideoTrack, localAudioTrack] = await AgoraRTC.createMicrophoneAndCameraTracks({
+          // Audio track configuration to prevent echo
+          AEC: true, // Acoustic Echo Cancellation
+          AGC: true, // Automatic Gain Control
+          ANS: true, // Audio Noise Suppression
+        });
+        console.log('✅ Media tracks created successfully');
+        
+        // CRITICAL: Disable local audio playback to prevent echo
+        // Only the remote participants should hear your audio
+        localAudioTrack.setVolume(0); // Mute local playback
+        console.log('🔇 Set local audio volume to 0 to prevent echo');
         
         // Use the session details from the API
         const channel = session.channel;
         const uid = null; // Let Agora assign UID automatically for consistency
         
+        console.log('🌐 Joining Agora channel...');
+        console.log('Channel details:', { appId: session.appId, channel, uid });
+        
         // Join channel using the proper appId and token from the API
-        await videoState.agoraClient.join(
+        const assignedUid = await videoState.agoraClient.join(
           session.appId, // Use the proper Agora App ID from the API
           channel,
           session.token, // Use the token from the API
           uid
         );
+        console.log('✅ Joined channel with UID:', assignedUid);
         
         // Publish local tracks
+        console.log('📤 Publishing local tracks...');
         await videoState.agoraClient.publish([localVideoTrack, localAudioTrack]);
+        console.log('✅ Published tracks successfully');
         
         setVideoState(prev => ({ 
           ...prev, 
@@ -238,14 +290,24 @@ export default function PatientVideoCallPage() {
           localAudioTrack
         }));
         
-        console.log('Patient successfully joined video call!');
-      } catch (innerErr) {
+        console.log('🎉 Patient successfully joined video call!');
+      } catch (innerErr: any) {
+        console.error('❌ Inner error during track creation/joining:', innerErr);
+        console.error('Error details:', {
+          name: innerErr.name,
+          message: innerErr.message,
+          code: innerErr.code,
+          stack: innerErr.stack
+        });
+        
         // If anything fails, cleanup the tracks we might have created
         if (localVideoTrack) {
+          console.log('🧹 Cleaning up video track');
           localVideoTrack.stop();
           localVideoTrack.close();
         }
         if (localAudioTrack) {
+          console.log('🧹 Cleaning up audio track');
           localAudioTrack.stop();
           localAudioTrack.close();
         }
@@ -253,18 +315,33 @@ export default function PatientVideoCallPage() {
       }
       
     } catch (err: any) {
-      console.error('Failed to join call:', err);
+      console.error('❌ Failed to join call:', err);
+      console.error('Full error details:', {
+        name: err.name,
+        message: err.message,
+        code: err.code,
+        stack: err.stack
+      });
       
-      // Provide specific error messages
+      // Provide specific error messages based on the actual error
       let errorMessage = 'Failed to join video call. ';
-      if (err.code === 'PERMISSION_DENIED') {
-        errorMessage += 'Please allow camera and microphone access.';
+      
+      if (err.name === 'NotAllowedError' || err.code === 'PERMISSION_DENIED') {
+        errorMessage += 'Please allow camera and microphone access when prompted.';
+      } else if (err.name === 'NotFoundError') {
+        errorMessage += 'No camera or microphone found. Please check your devices.';
+      } else if (err.name === 'NotReadableError') {
+        errorMessage += 'Camera or microphone is already in use by another application.';
       } else if (err.code === 'INVALID_OPERATION') {
         errorMessage += 'Connection issue. Please try again.';
-      } else if (err.message?.includes('network')) {
+      } else if (err.message?.includes('network') || err.message?.includes('Network')) {
         errorMessage += 'Network connection problem. Please check your internet.';
+      } else if (err.message?.includes('session') || err.message?.includes('Session')) {
+        errorMessage += 'Video session issue. Please refresh and try again.';
+      } else if (err.message?.includes('token') || err.message?.includes('Token')) {
+        errorMessage += 'Authentication issue. Please refresh and try again.';
       } else {
-        errorMessage += 'Please check your camera and microphone permissions.';
+        errorMessage += `Error: ${err.message || 'Unknown error occurred.'}`;
       }
       
       setError(errorMessage);
@@ -311,7 +388,8 @@ export default function PatientVideoCallPage() {
     const newVideoState = !videoState.isVideoEnabled;
     setVideoState(prev => ({ ...prev, isVideoEnabled: newVideoState }));
     
-    // Enable/disable the video track
+    // Enable/disable the video track for remote viewers
+    // This only affects what others see, not local preview
     await videoState.localVideoTrack.setEnabled(newVideoState);
   };
 
@@ -321,8 +399,12 @@ export default function PatientVideoCallPage() {
     const newAudioState = !videoState.isAudioEnabled;
     setVideoState(prev => ({ ...prev, isAudioEnabled: newAudioState }));
     
-    // Enable/disable the audio track
+    // Enable/disable the audio track for remote listeners
+    // This only affects what others hear, not local audio
     await videoState.localAudioTrack.setEnabled(newAudioState);
+    
+    // Keep local volume at 0 to prevent echo regardless of state
+    videoState.localAudioTrack.setVolume(0);
   };
 
   if (loading) {
@@ -491,30 +573,33 @@ export default function PatientVideoCallPage() {
 
               {/* Local Video (Patient - Picture-in-Picture) */}
               <div className="absolute bottom-4 right-4 w-32 h-24 bg-gray-700 rounded-lg overflow-hidden border-2 border-white">
-                <div 
-                  ref={localVideoRef}
-                  id="patient-local-video" 
-                  className="w-full h-full relative"
-                >
-                  {!videoState.localVideoTrack && (
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="text-white text-center">
-                        <User className="h-6 w-6 mx-auto mb-1" />
-                        <p className="text-xs">You</p>
+                {videoState.localVideoTrack ? (
+                  <div className="w-full h-full relative">
+                    <div 
+                      ref={localVideoRef}
+                      id="patient-local-video" 
+                      className="w-full h-full"
+                      style={{ transform: 'scaleX(-1)' }} // Mirror effect for natural self-view
+                    />
+                    {!videoState.isVideoEnabled && (
+                      <div className="absolute inset-0 bg-gray-800 flex items-center justify-center">
+                        <VideoOff className="h-6 w-6 text-gray-400" />
                       </div>
+                    )}
+                    {!videoState.isAudioEnabled && (
+                      <div className="absolute top-1 left-1 bg-red-500 rounded-full p-1">
+                        <MicOff className="h-3 w-3 text-white" />
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <div className="text-white text-center">
+                      <User className="h-6 w-6 mx-auto mb-1" />
+                      <p className="text-xs">You</p>
                     </div>
-                  )}
-                  {!videoState.isVideoEnabled && videoState.localVideoTrack && (
-                    <div className="absolute inset-0 bg-gray-800 flex items-center justify-center">
-                      <VideoOff className="h-6 w-6 text-gray-400" />
-                    </div>
-                  )}
-                  {!videoState.isAudioEnabled && (
-                    <div className="absolute top-1 left-1 bg-red-500 rounded-full p-1">
-                      <MicOff className="h-3 w-3 text-white" />
-                    </div>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
             </div>
 
