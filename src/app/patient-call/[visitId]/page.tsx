@@ -70,9 +70,6 @@ export default function PatientVideoCallPage() {
   // Use refs to avoid stale closures in cleanup
   const videoStateRef = useRef(videoState);
   videoStateRef.current = videoState;
-  
-  // Ref for local video element
-  const localVideoRef = useRef<HTMLDivElement>(null);
 
   // Initialize Agora
   useEffect(() => {
@@ -81,7 +78,7 @@ export default function PatientVideoCallPage() {
         // Dynamically import Agora SDK to avoid SSR issues
         const AgoraRTC = (await import('agora-rtc-sdk-ng')).default;
         
-        const client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
+        const client = AgoraRTC.createClient({ mode: 'rtc', codec: 'h264' });
         
         // Setup event handlers
         client.on('user-published', async (user, mediaType) => {
@@ -98,12 +95,9 @@ export default function PatientVideoCallPage() {
             });
           }
           
-          if (mediaType === 'audio') {
-            // Remote audio will play automatically when subscribed
-            // Don't play local audio to avoid echo
-            if (user.audioTrack) {
-              user.audioTrack.play();
-            }
+          if (mediaType === 'audio' && user.audioTrack) {
+            // Play remote audio - this is the doctor's audio
+            user.audioTrack.play();
           }
         });
 
@@ -137,15 +131,6 @@ export default function PatientVideoCallPage() {
       initializeAgora();
     }
   }, []);
-
-  // Handle local video playback
-  useEffect(() => {
-    if (localVideoRef.current && videoState.localVideoTrack) {
-      // Always play the video track locally for self-view
-      // The visibility will be controlled by CSS/conditional rendering
-      videoState.localVideoTrack.play(localVideoRef.current);
-    }
-  }, [videoState.localVideoTrack]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -248,18 +233,14 @@ export default function PatientVideoCallPage() {
         // Create local tracks - THIS WILL REQUEST CAMERA/MIC PERMISSIONS
         console.log('🎬 Creating media tracks...');
         const AgoraRTC = (await import('agora-rtc-sdk-ng')).default;
-        [localVideoTrack, localAudioTrack] = await AgoraRTC.createMicrophoneAndCameraTracks({
-          // Audio track configuration to prevent echo
-          AEC: true, // Acoustic Echo Cancellation
-          AGC: true, // Automatic Gain Control
-          ANS: true, // Audio Noise Suppression
-        });
-        console.log('✅ Media tracks created successfully');
         
-        // CRITICAL: Disable local audio playback to prevent echo
-        // Only the remote participants should hear your audio
-        localAudioTrack.setVolume(0); // Mute local playback
-        console.log('🔇 Set local audio volume to 0 to prevent echo');
+        // Create local tracks - simple configuration like doctor page
+        const videoTrack = await AgoraRTC.createCameraVideoTrack();
+        const audioTrack = await AgoraRTC.createMicrophoneAudioTrack();
+        
+        localVideoTrack = videoTrack;
+        localAudioTrack = audioTrack;
+        console.log('✅ Media tracks created successfully');
         
         // Use the session details from the API
         const channel = session.channel;
@@ -386,25 +367,16 @@ export default function PatientVideoCallPage() {
     if (!videoState.localVideoTrack) return;
     
     const newVideoState = !videoState.isVideoEnabled;
-    setVideoState(prev => ({ ...prev, isVideoEnabled: newVideoState }));
-    
-    // Enable/disable the video track for remote viewers
-    // This only affects what others see, not local preview
     await videoState.localVideoTrack.setEnabled(newVideoState);
+    setVideoState(prev => ({ ...prev, isVideoEnabled: newVideoState }));
   };
 
   const toggleAudio = async () => {
     if (!videoState.localAudioTrack) return;
     
     const newAudioState = !videoState.isAudioEnabled;
-    setVideoState(prev => ({ ...prev, isAudioEnabled: newAudioState }));
-    
-    // Enable/disable the audio track for remote listeners
-    // This only affects what others hear, not local audio
     await videoState.localAudioTrack.setEnabled(newAudioState);
-    
-    // Keep local volume at 0 to prevent echo regardless of state
-    videoState.localAudioTrack.setVolume(0);
+    setVideoState(prev => ({ ...prev, isAudioEnabled: newAudioState }));
   };
 
   if (loading) {
@@ -576,10 +548,14 @@ export default function PatientVideoCallPage() {
                 {videoState.localVideoTrack ? (
                   <div className="w-full h-full relative">
                     <div 
-                      ref={localVideoRef}
                       id="patient-local-video" 
                       className="w-full h-full"
                       style={{ transform: 'scaleX(-1)' }} // Mirror effect for natural self-view
+                      ref={(ref) => {
+                        if (ref && videoState.localVideoTrack && videoState.isVideoEnabled) {
+                          videoState.localVideoTrack.play(ref);
+                        }
+                      }}
                     />
                     {!videoState.isVideoEnabled && (
                       <div className="absolute inset-0 bg-gray-800 flex items-center justify-center">
