@@ -18,7 +18,14 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Healui.ai Brand Colors
+        // New Brand Colors
+        'brand-black': '#000000',         // Pure black
+        'brand-teal': '#1e607a',          // Dark teal
+        'brand-light-teal': '#c8eaeb',    // Light teal
+        'brand-light-blue': '#eff8ff',    // Very light blue
+        'brand-white': '#ffffff',         // Pure white
+        
+        // Healui.ai Brand Colors (legacy)
         'healui-primary': '#0891b2',      // Cyan 600
         'healui-primary-dark': '#0e7490',  // Cyan 700
         'healui-physio': '#10b981',        // Emerald 500

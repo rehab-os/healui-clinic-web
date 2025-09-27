@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
   setOtpSent,
@@ -246,164 +247,195 @@ export default function Login() {
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-healui-accent rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-blob animation-delay-4000"></div>
       </div>
 
-      <div className="relative min-h-screen flex flex-col">
-        {/* Top Banner */}
-        <div className="bg-gradient-to-r from-healui-physio to-healui-primary text-white text-center py-2 px-4">
-          <p className="text-xs sm:text-sm font-medium">
-            To use Healui.ai for your clinic, contact{' '}
-            <a href="mailto:founders@healui.com" className="underline font-semibold">
-              founders@healui.com
-            </a>
-          </p>
+      <div className="min-h-screen relative">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          {/* Desktop Background */}
+          <div 
+            className="hidden sm:block absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{
+              backgroundImage: `url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')`
+            }}
+          >
+          </div>
+          {/* Mobile Background */}
+          <div 
+            className="sm:hidden absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{
+              backgroundImage: `url('https://images.unsplash.com/photo-1559939238-8ba10e4d9549?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80')`
+            }}
+          >
+          </div>
         </div>
+        
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-brand-black/70 via-brand-black/50 to-brand-teal/80"></div>
+        
+        {/* Content */}
+        <div className="relative z-10 min-h-screen flex flex-col">
+          {/* Top Banner */}
+          <div className="bg-black backdrop-blur-sm text-brand-white text-center py-2 sm:py-3 px-3 sm:px-4">
+            <p className="text-xs sm:text-sm">
+              Contact{' '}
+              <a href="mailto:founders@healui.com" className="underline font-semibold">
+                founders@healui.com
+              </a>
+              {' '}for your clinic
+            </p>
+          </div>
 
-        {/* Main Content */}
-        <div className="flex-1 flex items-center justify-center px-6 sm:px-8 py-8">
-          <div className="w-full sm:max-w-md">
-            {/* Logo and Title */}
-            <div className="text-center mb-8 sm:mb-10">
-              <div className="relative inline-block">
-                {/* Logo */}
-                <h1 className="text-5xl sm:text-6xl font-mono font-light tracking-tighter mb-2">
-                  <span className="text-gray-800">healui</span>
-                  <span className="text-healui-primary font-medium">.ai</span>
-                </h1>
-                
-                {/* Minimal tech accent */}
-                <div className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r from-healui-physio to-healui-primary opacity-30"></div>
-              </div>
-              
-              <p className="text-text-gray mt-6 font-light text-sm sm:text-base tracking-wide">
-                Empowering every healing touch with intelligent care
-              </p>
-            </div>
-
-            {/* Phone Number Form */}
-            {!otpSent ? (
-              <form onSubmit={handleSendOTP} className="space-y-5 sm:space-y-6 w-full">
-                <div>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Phone className="h-5 w-5 text-text-light" />
-                    </div>
-                    <input
-                      type="tel"
-                      id="phone"
-                      value={phone}
-                      onChange={(e) => setPhone(formatPhoneNumber(e.target.value))}
-                      className="w-full pl-10 pr-3 py-3.5 sm:py-3 border border-border-color rounded-lg focus:outline-none focus:ring-2 focus:ring-healui-physio/20 focus:border-healui-physio transition-all duration-200 text-base sm:text-lg bg-white"
-                      placeholder="+91 98765 43210"
-                      disabled={loading}
-                      maxLength={13}
-                      autoComplete="tel"
-                      inputMode="tel"
-                    />
-                  </div>
-                  {error && (
-                    <div className="mt-2 flex items-center space-x-1 text-red-600">
-                      <AlertCircle className="h-4 w-4" />
-                      <p className="text-sm font-medium">{error}</p>
-                    </div>
-                  )}
+          {/* Main Content */}
+          <div className="flex-1 flex items-center justify-center p-4 sm:p-6">
+            <div className="w-full max-w-sm">
+              {/* Logo Section */}
+              <div className="text-center mb-4 sm:mb-8">
+                <div className="relative w-32 h-20 sm:w-40 sm:h-28 mx-auto mb-3 sm:mb-6">
+                  <Image
+                    src="/healui-logo/Healui Logo Final-12.png"
+                    alt="Healui Logo"
+                    fill
+                    className="object-contain"
+                    priority
+                  />
                 </div>
-
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="btn-primary w-full py-3.5 sm:py-3 px-4 text-base sm:text-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {loading ? (
-                    <span className="flex items-center justify-center">
-                      <Loader2 className="animate-spin h-5 w-5 mr-2" />
-                      Sending OTP...
-                    </span>
-                  ) : (
-                    'Get OTP'
-                  )}
-                </button>
-
-                <p className="text-center text-xs sm:text-sm text-text-light">
-                  By continuing, you agree to our{' '}
-                  <a href="#" className="text-healui-physio hover:text-healui-primary font-medium">Terms of Service</a>
-                  {' '}and{' '}
-                  <a href="#" className="text-healui-physio hover:text-healui-primary font-medium">Privacy Policy</a>
+                <p className="text-brand-white/90 text-base sm:text-lg font-medium mb-0.5 sm:mb-1 px-4">
+                  Hello there, Movement Expert!
                 </p>
-              </form>
-            ) : (
-              /* OTP Verification */
-              <div className="space-y-5 sm:space-y-6">
-                <button
-                  onClick={handleResendOTP}
-                  className="flex items-center space-x-2 text-text-gray hover:text-text-dark transition-colors -mb-2 sm:-mb-0"
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                  <span className="text-sm font-medium">Change phone number</span>
-                </button>
-
-                <div className="bg-gradient-to-br from-healui-physio/10 to-healui-primary/10 rounded-lg p-4 sm:p-6 text-center border border-healui-physio/20">
-                  <ShieldCheck className="h-10 sm:h-12 w-10 sm:w-12 text-healui-physio mx-auto mb-3 sm:mb-4" />
-                  <h2 className="text-base sm:text-lg font-display font-semibold text-text-dark mb-1 sm:mb-2">Enter verification code</h2>
-                  <p className="text-xs sm:text-sm text-text-gray">
-                    We've sent a 6-digit code to<br className="sm:hidden" /> {phone}
-                  </p>
-                </div>
-
-                <div>
-                  <div className="flex justify-center space-x-1.5 sm:space-x-2">
-                    {otp.map((digit, index) => (
-                      <input
-                        key={index}
-                        ref={(el) => (otpRefs.current[index] = el)}
-                        type="text"
-                        maxLength={1}
-                        value={digit}
-                        onChange={(e) => handleOtpChange(index, e.target.value)}
-                        onKeyDown={(e) => handleOtpKeyDown(index, e)}
-                        className="w-11 h-12 sm:w-12 sm:h-14 text-center text-lg sm:text-xl font-semibold border-2 border-border-color rounded-lg focus:outline-none focus:ring-2 focus:ring-healui-physio/20 focus:border-healui-physio transition-all duration-200 bg-white"
-                        disabled={otpVerifying}
-                        inputMode="numeric"
-                        pattern="[0-9]*"
-                        autoComplete="one-time-code"
-                      />
-                    ))}
-                  </div>
-                  {error && (
-                    <div className="mt-3 flex items-center justify-center space-x-1 text-red-600">
-                      <AlertCircle className="h-4 w-4" />
-                      <p className="text-sm font-medium">{error}</p>
-                    </div>
-                  )}
-                </div>
-
-                <button
-                  onClick={() => handleVerifyOTP()}
-                  disabled={otpVerifying || otp.some(digit => !digit)}
-                  className="btn-primary w-full py-3.5 sm:py-3 px-4 text-base sm:text-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {otpVerifying ? (
-                    <span className="flex items-center justify-center">
-                      <Loader2 className="animate-spin h-5 w-5 mr-2" />
-                      Verifying...
-                    </span>
-                  ) : (
-                    'Verify & Login'
-                  )}
-                </button>
-
-                <div className="text-center">
-                  <p className="text-xs sm:text-sm text-text-gray">
-                    Didn't receive the code?{' '}
-                    <button
-                      onClick={handleSendOTP}
-                      disabled={loading}
-                      className="text-healui-physio hover:text-healui-primary font-medium"
-                    >
-                      Resend OTP
-                    </button>
-                  </p>
-                </div>
+                <p className="text-brand-white/70 text-xs sm:text-sm px-4">
+                  Ready to make someone's day better?
+                </p>
               </div>
-            )}
+
+              {/* Form Container */}
+              <div className="bg-brand-white/95 backdrop-blur-md rounded-2xl p-4 sm:p-6 shadow-2xl">
+
+                {/* Phone Number Form */}
+                {!otpSent ? (
+                  <form onSubmit={handleSendOTP} className="space-y-4 sm:space-y-5">
+                    <div>
+                      <label htmlFor="phone" className="block text-xs sm:text-sm font-medium text-brand-black/70 mb-1.5 sm:mb-2">
+                        Phone Number
+                      </label>
+                      <div className="relative">
+                        <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-brand-black/40" />
+                        <input
+                          type="tel"
+                          id="phone"
+                          value={phone}
+                          onChange={(e) => setPhone(formatPhoneNumber(e.target.value))}
+                          className="w-full pl-12 pr-4 py-3 sm:py-3.5 border border-brand-light-teal/60 rounded-xl focus:outline-none focus:border-brand-teal focus:ring-2 focus:ring-brand-teal/20 transition-all text-base bg-brand-white text-brand-black placeholder-brand-black/50"
+                          placeholder="+91 98765 43210"
+                          disabled={loading}
+                          maxLength={13}
+                          autoComplete="tel"
+                          inputMode="tel"
+                        />
+                      </div>
+                      {error && (
+                        <div className="mt-1.5 sm:mt-2 flex items-center space-x-2 text-red-500 text-xs sm:text-sm">
+                          <AlertCircle className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0" />
+                          <span>{error}</span>
+                        </div>
+                      )}
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="w-full bg-brand-teal hover:bg-brand-teal/90 text-brand-white py-3 sm:py-3.5 rounded-xl font-semibold text-sm sm:text-base transition-all duration-200 disabled:opacity-60"
+                    >
+                      {loading ? (
+                        <span className="flex items-center justify-center">
+                          <Loader2 className="animate-spin h-4 w-4 sm:h-5 sm:w-5 mr-2" />
+                          Sending...
+                        </span>
+                      ) : (
+                        'Get OTP'
+                      )}
+                    </button>
+
+                    <p className="text-center text-xs text-brand-black/50">
+                      By continuing, you agree to our{' '}
+                      <a href="#" className="text-brand-teal underline">Terms</a>
+                      {' '}and{' '}
+                      <a href="#" className="text-brand-teal underline">Privacy Policy</a>
+                    </p>
+                  </form>
+                ) : (
+                  /* OTP Verification */
+                  <div className="space-y-4 sm:space-y-5">
+                    <button
+                      onClick={handleResendOTP}
+                      className="flex items-center space-x-2 text-brand-black/60 hover:text-brand-black transition-colors text-xs sm:text-sm"
+                    >
+                      <ChevronLeft className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                      <span>Change phone number</span>
+                    </button>
+
+                    <div className="text-center py-2 sm:py-4">
+                      <ShieldCheck className="h-10 w-10 sm:h-12 sm:w-12 text-brand-teal mx-auto mb-2 sm:mb-3" />
+                      <h3 className="text-base sm:text-lg font-semibold text-brand-black mb-1 sm:mb-2">Enter Verification Code</h3>
+                      <p className="text-xs sm:text-sm text-brand-black/60">
+                        Code sent to <span className="font-medium text-brand-teal">{phone}</span>
+                      </p>
+                    </div>
+
+                    <div className="space-y-3 sm:space-y-4">
+                      <div className="flex justify-center gap-1.5 sm:gap-2">
+                        {otp.map((digit, index) => (
+                          <input
+                            key={index}
+                            ref={(el) => (otpRefs.current[index] = el)}
+                            type="text"
+                            maxLength={1}
+                            value={digit}
+                            onChange={(e) => handleOtpChange(index, e.target.value)}
+                            onKeyDown={(e) => handleOtpKeyDown(index, e)}
+                            className="w-10 h-10 sm:w-12 sm:h-12 text-center text-base sm:text-lg font-semibold border border-brand-light-teal/60 rounded-lg focus:outline-none focus:border-brand-teal focus:ring-2 focus:ring-brand-teal/20 transition-all bg-brand-white text-brand-black"
+                            disabled={otpVerifying}
+                            inputMode="numeric"
+                            pattern="[0-9]*"
+                            autoComplete="one-time-code"
+                          />
+                        ))}
+                      </div>
+                      {error && (
+                        <div className="flex items-center space-x-2 text-red-500 text-xs sm:text-sm">
+                          <AlertCircle className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0" />
+                          <span>{error}</span>
+                        </div>
+                      )}
+                    </div>
+
+                    <button
+                      onClick={() => handleVerifyOTP()}
+                      disabled={otpVerifying || otp.some(digit => !digit)}
+                      className="w-full bg-brand-teal hover:bg-brand-teal/90 text-brand-white py-3 sm:py-3.5 rounded-xl font-semibold text-sm sm:text-base transition-all duration-200 disabled:opacity-60"
+                    >
+                      {otpVerifying ? (
+                        <span className="flex items-center justify-center">
+                          <Loader2 className="animate-spin h-4 w-4 sm:h-5 sm:w-5 mr-2" />
+                          Verifying...
+                        </span>
+                      ) : (
+                        'Verify & Login'
+                      )}
+                    </button>
+
+                    <p className="text-center text-xs sm:text-sm text-brand-black/60">
+                      Didn't receive the code?{' '}
+                      <button
+                        onClick={handleSendOTP}
+                        disabled={loading}
+                        className="text-brand-teal hover:text-brand-teal/80 underline"
+                      >
+                        Resend
+                      </button>
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>

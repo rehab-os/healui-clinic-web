@@ -7,8 +7,8 @@ import { format, parseISO } from 'date-fns';
 
 interface Visit {
   id: string;
-  patient_id: string;
-  clinic_id: string;
+  patient_id?: string; // Optional for marketplace visits
+  clinic_id?: string; // Optional for marketplace visits
   physiotherapist_id: string;
   visit_type: string;
   visit_mode: string;
@@ -19,6 +19,14 @@ interface Visit {
   chief_complaint?: string;
   video_link?: string;
   video_session_id?: string;
+  // Marketplace-specific fields
+  visit_source?: 'CLINIC' | 'MARKETPLACE';
+  patient_user_id?: string;
+  patient_address?: string;
+  consultation_fee?: number;
+  travel_fee?: number;
+  total_amount?: number;
+  // Patients
   patient?: {
     id: string;
     full_name: string;
@@ -27,6 +35,14 @@ interface Visit {
     date_of_birth: string;
     gender: string;
     patient_code: string;
+  };
+  patientUser?: {
+    id: string;
+    full_name: string;
+    phone: string;
+    email?: string;
+    date_of_birth?: string;
+    gender?: string;
   };
   physiotherapist?: {
     id: string;
@@ -109,8 +125,8 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
           : ''
       }`}
       onClick={() => {
-        if (onViewAppointment && visit.patient_id) {
-          onViewAppointment(visit.patient_id, visit.id);
+        if (onViewAppointment && (visit.patient_id || visit.patient_user_id)) {
+          onViewAppointment(visit.patient_id || visit.patient_user_id!, visit.id);
         }
       }}
     >
@@ -122,7 +138,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
           <div className="flex-1 min-w-0">
             <div className="flex items-center space-x-1.5 sm:space-x-2">
               <h3 className="text-xs sm:text-sm font-semibold text-gray-900 truncate">
-                {visit.patient?.full_name || 'Unknown Patient'}
+                {visit.patient?.full_name || visit.patientUser?.full_name || 'Unknown Patient'}
               </h3>
               {visit.visit_mode === 'ONLINE' && (
                 <Video className="h-3 w-3 sm:h-4 sm:w-4 text-blue-500 flex-shrink-0" />
@@ -130,7 +146,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
               <button
                 onClick={(e) => {
                   e.stopPropagation();
-                  onViewPatient(visit.patient);
+                  onViewPatient(visit.patient || visit.patientUser);
                 }}
                 className="text-healui-primary hover:text-healui-physio text-xs px-1 py-0.5 rounded hover:bg-healui-primary/10 transition-colors"
                 title="View patient details"
@@ -143,8 +159,8 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
                 <Clock className="h-3 w-3 mr-0.5" />
                 {visit.scheduled_time} • {format(parseISO(visit.scheduled_date), 'MMM dd')}
               </span>
-              {visit.patient?.phone && (
-                <span className="hidden sm:inline text-xs">{visit.patient.phone}</span>
+              {(visit.patient?.phone || visit.patientUser?.phone) && (
+                <span className="hidden sm:inline text-xs">{visit.patient?.phone || visit.patientUser?.phone}</span>
               )}
             </div>
           </div>
@@ -164,6 +180,16 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
             <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${getVisitTypeColor(visit.visit_type)}`}>
               {formatVisitType(visit.visit_type)}
             </span>
+            {visit.visit_source === 'MARKETPLACE' && (
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-purple-50 text-purple-700 border border-purple-200">
+                Marketplace
+              </span>
+            )}
+            {visit.total_amount && (
+              <span className="text-xs font-medium text-green-600">
+                ₹{visit.total_amount}
+              </span>
+            )}
             {isAdmin && visit.physiotherapist && (
               <span className="hidden sm:inline truncate">
                 Dr. {visit.physiotherapist.full_name}

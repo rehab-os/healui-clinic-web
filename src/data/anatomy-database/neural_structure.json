@@ -1,0 +1,736 @@
+[
+  {
+    "id": "n001",
+    "name": "Median Nerve",
+    "latin_name": "Nervus medianus",
+    "nerve_roots": "C5-T1",
+    "origin": "Lateral and medial cords of brachial plexus",
+    "course": [
+      "Lateral to brachial artery in arm",
+      "No branches in arm",
+      "Between heads of pronator teres",
+      "Under flexor digitorum superficialis arch",
+      "Through carpal tunnel"
+    ],
+    "motor_innervation": {
+      "forearm": ["Pronator teres", "FCR", "Palmaris longus", "FDS", "FPL", "Pronator quadratus", "Lateral FDP"],
+      "hand": ["Thenar muscles (except adductor pollicis)", "Lateral 2 lumbricals"]
+    },
+    "sensory_innervation": [
+      "Palmar aspect lateral 3.5 digits",
+      "Dorsal tips of same digits",
+      "Palmar cutaneous branch (thenar eminence)"
+    ],
+    "common_compression_sites": [
+      "Ligament of Struthers",
+      "Pronator teres",
+      "FDS arch",
+      "Carpal tunnel"
+    ],
+    "clinical_conditions": {
+      "carpal_tunnel_syndrome": {
+        "prevalence": "3-6% of population",
+        "symptoms": ["Night pain", "Numbness lateral 3.5 digits", "Thenar weakness"],
+        "tests": ["Phalen's", "Tinel's", "Carpal compression", "Durkan's"],
+        "electrodiagnostics": ["Prolonged distal latency", "Reduced conduction velocity"]
+      },
+      "pronator_syndrome": {
+        "location": "Proximal forearm",
+        "symptoms": ["Forearm pain", "Numbness including palm"],
+        "tests": ["Resisted pronation", "Resisted PIP flexion middle finger"]
+      },
+      "anterior_interosseous_syndrome": {
+        "pure_motor": "No sensory loss",
+        "weakness": ["FPL", "FDP to index", "Pronator quadratus"],
+        "sign": "Unable to make OK sign"
+      }
+    },
+    "neural_mobilization": {
+      "techniques": ["Nerve gliding", "Nerve tensioning"],
+      "positions": {
+        "ULNT1": "Shoulder depression, abduction, ER, elbow extension, wrist extension",
+        "carpal_tunnel": "Tendon gliding exercises"
+      },
+      "precautions": ["Avoid aggressive stretching", "Monitor symptoms"]
+    },
+    "differential_diagnosis": [
+      "C6-C7 radiculopathy",
+      "Thoracic outlet syndrome",
+      "Double crush syndrome"
+    ],
+    "treatment_approaches": {
+      "conservative": {
+        "splinting": ["Neutral wrist position", "Night splinting"],
+        "manual_therapy": ["Neural mobilization", "Carpal bone mobilization", "Soft tissue work"],
+        "exercises": ["Tendon gliding", "Nerve gliding", "Strengthening"],
+        "modalities": ["Ultrasound controversial", "Ice for acute"]
+      },
+      "injections": ["Corticosteroid", "Ultrasound guided"],
+      "surgical": {
+        "indications": ["Severe symptoms", "Thenar atrophy", "Failed conservative"],
+        "procedures": ["Open release", "Endoscopic release"]
+      }
+    },
+    "prognosis": {
+      "mild_moderate": "Good with conservative care",
+      "severe": "May have residual symptoms post-surgery"
+    },
+    "special_considerations": [
+      "Pregnancy-related often resolves postpartum",
+      "Diabetes increases risk",
+      "Work-related factors important"
+    ]
+  },
+  {
+    "id": "n002",
+    "name": "Ulnar Nerve",
+    "latin_name": "Nervus ulnaris",
+    "nerve_roots": "C8-T1",
+    "origin": "Medial cord of brachial plexus",
+    "course": [
+      "Medial to brachial artery",
+      "Posterior to medial epicondyle",
+      "Between heads of FCU",
+      "Guyon's canal at wrist"
+    ],
+    "motor_innervation": {
+      "forearm": ["FCU", "Medial FDP"],
+      "hand": ["Hypothenar muscles", "Interossei", "Medial 2 lumbricals", "Adductor pollicis", "Deep head FPB"]
+    },
+    "sensory_innervation": [
+      "Medial 1.5 digits palmar and dorsal",
+      "Dorsal branch (dorsal hand)"
+    ],
+    "common_compression_sites": [
+      "Arcade of Struthers",
+      "Cubital tunnel",
+      "FCU",
+      "Guyon's canal"
+    ],
+    "clinical_conditions": {
+      "cubital_tunnel_syndrome": {
+        "second_most_common": "After CTS",
+        "symptoms": ["Medial elbow pain", "Numbness ring/small fingers", "Weakness grip"],
+        "signs": ["Froment's sign", "Wartenberg's sign", "Claw hand (late)"],
+        "tests": ["Elbow flexion test", "Tinel's at elbow", "Pressure provocation"]
+      },
+      "guyons_canal_syndrome": {
+        "zones": ["Zone 1: Mixed", "Zone 2: Motor", "Zone 3: Sensory"],
+        "causes": ["Ganglion", "Hamate fracture", "Cyclist's palsy"],
+        "spares": "Dorsal hand sensation"
+      }
+    },
+    "electrodiagnostics": {
+      "ncs": ["Slowing across elbow", "Reduced amplitude"],
+      "emg": ["FCU spared in Guyon's", "Intrinsic muscle involvement"]
+    },
+    "neural_mobilization": {
+      "ulnt3": "Shoulder depression, abduction, elbow flexion, wrist extension",
+      "precautions": ["Subluxation at elbow", "Avoid prolonged stretch"]
+    },
+    "treatment_approaches": {
+      "conservative": {
+        "activity_modification": ["Avoid prolonged elbow flexion", "Elbow pads"],
+        "splinting": ["Night extension splint", "30-45° flexion"],
+        "exercises": ["Nerve gliding", "Strengthening intrinsics"]
+      },
+      "surgical": {
+        "indications": ["Muscle atrophy", "Failed conservative", "Severe symptoms"],
+        "options": ["In situ decompression", "Transposition", "Medial epicondylectomy"]
+      }
+    },
+    "prognosis": {
+      "factors": ["Duration of symptoms", "Severity", "Age"],
+      "outcomes": "Variable, worse than median nerve"
+    }
+  },
+  {
+    "id": "n003",
+    "name": "Radial Nerve",
+    "latin_name": "Nervus radialis",
+    "nerve_roots": "C5-T1",
+    "origin": "Posterior cord of brachial plexus",
+    "course": [
+      "Spiral groove of humerus",
+      "Lateral intermuscular septum",
+      "Divides at elbow into PIN and superficial"
+    ],
+    "motor_innervation": {
+      "arm": ["Triceps", "Anconeus"],
+      "forearm": ["Brachioradialis", "ECRL", "ECRB", "All extensors via PIN"]
+    },
+    "sensory_innervation": [
+      "Dorsal first web space",
+      "Dorsal lateral hand"
+    ],
+    "common_compression_sites": [
+      "Spiral groove",
+      "Lateral intermuscular septum",
+      "Arcade of Frohse (PIN)",
+      "Wartenberg's (superficial branch)"
+    ],
+    "clinical_conditions": {
+      "saturday_night_palsy": {
+        "location": "Spiral groove",
+        "cause": "Compression against humerus",
+        "presentation": ["Wrist drop", "Finger drop", "Thumb drop"],
+        "spared": ["Triceps (branches proximally)", "Sensation often preserved"]
+      },
+      "posterior_interosseous_syndrome": {
+        "pure_motor": "No sensory loss",
+        "weakness": ["Finger extension", "Thumb extension/abduction"],
+        "spared": ["Wrist extension (radial deviation)", "Brachioradialis"]
+      },
+      "wartenbergs_syndrome": {
+        "pure_sensory": "Superficial branch",
+        "symptoms": ["Dorsal radial hand numbness", "Pain with pronation"],
+        "tinel": "Over brachioradialis"
+      }
+    },
+    "clinical_tests": {
+      "motor": ["Wrist extension", "Finger extension", "Hitchhiker's sign"],
+      "provocative": ["Resisted supination", "Middle finger test (PIN)"]
+    },
+    "neural_mobilization": {
+      "ulnt2b": "Shoulder depression, IR, elbow extension, wrist flexion",
+      "specific": "PIN mobilization techniques"
+    },
+    "treatment_approaches": {
+      "conservative": {
+        "splinting": ["Cock-up splint", "Dynamic extension splint"],
+        "therapy": ["Tendon transfers education", "Strengthening", "Neural mobilization"]
+      },
+      "surgical": {
+        "timing": ["Wait 3-4 months if traumatic", "Earlier if mass lesion"],
+        "procedures": ["Neurolysis", "Nerve repair", "Tendon transfers"]
+      }
+    },
+    "prognosis": {
+      "saturday_night": "Often good recovery in 6-8 weeks",
+      "pin": "Variable depending on cause"
+    }
+  },
+  {
+    "id": "n004",
+    "name": "Sciatic Nerve",
+    "latin_name": "Nervus ischiadicus",
+    "nerve_roots": "L4-S3",
+    "origin": "Sacral plexus",
+    "course": [
+      "Exits pelvis through greater sciatic foramen",
+      "Under piriformis (usually)",
+      "Between greater trochanter and ischial tuberosity",
+      "Divides into tibial and peroneal"
+    ],
+    "divisions": {
+      "tibial": "Medial division",
+      "common_peroneal": "Lateral division"
+    },
+    "motor_innervation": {
+      "direct": ["Hamstrings", "Adductor magnus (hamstring portion)"],
+      "via_branches": "All muscles below knee"
+    },
+    "sensory_innervation": "Below knee except medial leg (saphenous)",
+    "anatomical_variations": {
+      "piriformis": ["Through muscle (20%)", "Split around muscle"],
+      "high_division": "In pelvis (20%)"
+    },
+    "clinical_conditions": {
+      "sciatica": {
+        "definition": "Symptom not diagnosis",
+        "causes": ["Disc herniation", "Stenosis", "Piriformis syndrome", "SI joint"],
+        "symptoms": ["Radiating leg pain", "Numbness", "Weakness"],
+        "red_flags": ["Bilateral", "Bowel/bladder", "Saddle anesthesia", "Progressive weakness"]
+      },
+      "piriformis_syndrome": {
+        "controversial": "Diagnosis of exclusion",
+        "tests": ["FAIR test", "Beatty test", "Pace sign"],
+        "symptoms": ["Buttock pain", "Sitting intolerance"]
+      },
+      "hamstring_syndrome": {
+        "location": "Ischial tuberosity",
+        "cause": "Fibrous bands",
+        "symptoms": ["Sitting pain", "Hamstring pain"]
+      }
+    },
+    "clinical_tests": {
+      "neural_tension": ["SLR", "Slump test", "Bowstring sign"],
+      "differentiation": ["Crossed SLR", "Femoral nerve stretch", "Prone knee bend"]
+    },
+    "imaging": {
+      "mri": "For disc, stenosis",
+      "neurography": "For peripheral lesions",
+      "emg": "Localization"
+    },
+    "treatment_approaches": {
+      "conservative": {
+        "acute": ["Relative rest", "Neural mobilization", "Positions of comfort"],
+        "exercises": ["Neural mobility", "Core stability", "Hip flexibility"],
+        "manual": ["Mobilization", "Soft tissue", "Traction"]
+      },
+      "injections": ["Epidural", "Piriformis", "SI joint"],
+      "surgical": ["Discectomy", "Decompression", "Piriformis release"]
+    },
+    "prognosis": {
+      "disc_herniation": "80-90% improve without surgery",
+      "recovery_time": "6-12 weeks typical"
+    }
+  },
+  {
+    "id": "n005",
+    "name": "Femoral Nerve",
+    "latin_name": "Nervus femoralis",
+    "nerve_roots": "L2-L4",
+    "origin": "Lumbar plexus",
+    "course": [
+      "Lateral to psoas",
+      "Under inguinal ligament",
+      "Lateral to femoral artery",
+      "Divides in femoral triangle"
+    ],
+    "motor_innervation": [
+      "Iliacus",
+      "Quadriceps",
+      "Sartorius",
+      "Pectineus"
+    ],
+    "sensory_innervation": [
+      "Anterior thigh",
+      "Medial leg via saphenous nerve"
+    ],
+    "clinical_conditions": {
+      "femoral_neuropathy": {
+        "causes": ["Retroperitoneal hematoma", "Hip surgery", "Diabetes", "Lithotomy position"],
+        "symptoms": ["Quad weakness", "Absent knee reflex", "Anterior thigh numbness"],
+        "functional_loss": ["Difficulty stairs", "Knee buckling"]
+      },
+      "meralgia_paresthetica": {
+        "nerve": "Lateral femoral cutaneous",
+        "related": "Not femoral but often confused",
+        "symptoms": ["Lateral thigh burning", "No weakness"]
+      }
+    },
+    "clinical_tests": {
+      "prone_knee_bend": "Femoral nerve stretch",
+      "motor": ["Knee extension", "Hip flexion"],
+      "reflex": "Patellar"
+    },
+    "treatment_approaches": {
+      "address_cause": ["Hematoma evacuation", "Position modification"],
+      "rehabilitation": ["Quad strengthening", "Gait training", "Bracing if needed"]
+    },
+    "prognosis": "Depends on cause and severity"
+  },
+  {
+    "id": "n006",
+    "name": "Common Peroneal Nerve",
+    "latin_name": "Nervus fibularis communis",
+    "nerve_roots": "L4-S2",
+    "origin": "Lateral division of sciatic",
+    "course": [
+      "Lateral popliteal fossa",
+      "Around fibular neck",
+      "Divides into deep and superficial"
+    ],
+    "branches": {
+      "deep_peroneal": ["Ankle dorsiflexors", "Toe extensors", "First web space sensation"],
+      "superficial_peroneal": ["Evertors", "Lateral leg sensation"]
+    },
+    "common_compression_sites": [
+      "Fibular head",
+      "Fibular tunnel",
+      "Anterior compartment"
+    ],
+    "clinical_conditions": {
+      "peroneal_neuropathy": {
+        "most_common": "Mononeuropathy of lower limb",
+        "causes": ["Fibular head compression", "Knee surgery", "Weight loss", "Habitual leg crossing"],
+        "presentation": ["Foot drop", "Steppage gait", "Lateral leg numbness"]
+      },
+      "anterior_compartment_syndrome": {
+        "acute": "Surgical emergency",
+        "chronic": "Exercise-induced",
+        "affects": "Deep peroneal nerve"
+      }
+    },
+    "clinical_tests": {
+      "motor": ["Dorsiflexion", "Eversion", "Toe extension"],
+      "sensory": ["First web space", "Lateral leg"],
+      "provocative": ["Tinel at fibular head", "Compression test"]
+    },
+    "electrodiagnostics": {
+      "conduction": "Slowing across fibular head",
+      "emg": "Denervation in distribution"
+    },
+    "treatment_approaches": {
+      "conservative": {
+        "protection": ["Avoid crossing legs", "Fibular head padding"],
+        "splinting": ["AFO for foot drop"],
+        "exercises": ["Ankle dorsiflexion strengthening", "Balance", "Gait training"]
+      },
+      "surgical": {
+        "indications": ["Space-occupying lesion", "Failed conservative"],
+        "procedures": ["Decompression", "Neurolysis"]
+      }
+    },
+    "prognosis": {
+      "factors": ["Axonal vs demyelinating", "Duration", "Severity"],
+      "recovery": "Variable, can take months"
+    }
+  },
+  {
+    "id": "n007",
+    "name": "Tibial Nerve",
+    "latin_name": "Nervus tibialis",
+    "nerve_roots": "L4-S3",
+    "origin": "Medial division of sciatic",
+    "course": [
+      "Through popliteal fossa",
+      "Deep to soleus",
+      "Behind medial malleolus",
+      "Divides into plantar nerves"
+    ],
+    "motor_innervation": [
+      "Plantarflexors",
+      "Toe flexors",
+      "Intrinsic foot muscles"
+    ],
+    "sensory_innervation": [
+      "Sole of foot",
+      "Lateral foot via sural nerve"
+    ],
+    "compression_sites": [
+      "Popliteal fossa",
+      "Tarsal tunnel",
+      "Plantar nerves"
+    ],
+    "clinical_conditions": {
+      "tarsal_tunnel_syndrome": {
+        "location": "Behind medial malleolus",
+        "causes": ["Space-occupying lesion", "Biomechanical", "Systemic disease"],
+        "symptoms": ["Burning feet", "Worse with standing", "Night pain"],
+        "signs": ["Tinel's", "Sensory loss", "Intrinsic weakness"]
+      },
+      "plantar_nerve_entrapment": {
+        "joggers_foot": "First branch medial plantar",
+        "mortons_neuroma": "Interdigital nerves"
+      }
+    },
+    "clinical_tests": {
+      "motor": ["Plantarflexion", "Toe flexion", "Intrinsic function"],
+      "sensory": ["Light touch", "Vibration sole"],
+      "special": ["Tinel's behind medial malleolus"]
+    },
+    "treatment_approaches": {
+      "conservative": {
+        "biomechanical": ["Orthotics", "Shoe modification"],
+        "medical": ["NSAIDs", "Nerve gliding"],
+        "injections": ["Diagnostic/therapeutic"]
+      },
+      "surgical": {
+        "tarsal_tunnel_release": "If space-occupying lesion or failed conservative"
+      }
+    }
+  },
+  {
+    "id": "n008",
+    "name": "Brachial Plexus",
+    "latin_name": "Plexus brachialis",
+    "nerve_roots": "C5-T1",
+    "organization": {
+      "roots": "C5, C6, C7, C8, T1",
+      "trunks": ["Upper (C5-6)", "Middle (C7)", "Lower (C8-T1)"],
+      "divisions": "Anterior and posterior",
+      "cords": ["Lateral", "Medial", "Posterior"],
+      "branches": "Terminal nerves"
+    },
+    "key_nerves": {
+      "musculocutaneous": "Lateral cord",
+      "median": "Lateral and medial cords",
+      "ulnar": "Medial cord",
+      "radial": "Posterior cord",
+      "axillary": "Posterior cord"
+    },
+    "clinical_conditions": {
+      "thoracic_outlet_syndrome": {
+        "types": ["Neurogenic (95%)", "Venous", "Arterial"],
+        "sites": ["Scalene triangle", "Costoclavicular", "Pectoralis minor"],
+        "tests": ["Roos test", "Adson's", "Wright's", "Costoclavicular"]
+      },
+      "brachial_plexitis": {
+        "aka": "Parsonage-Turner syndrome",
+        "presentation": ["Severe pain then weakness", "Patchy distribution"],
+        "recovery": "Months to years"
+      },
+      "erb_duchenne_palsy": {
+        "roots": "C5-C6",
+        "mechanism": "Birth trauma, motorcycle accident",
+        "position": "Waiter's tip"
+      },
+      "klumpke_palsy": {
+        "roots": "C8-T1",
+        "rare": "True isolated form",
+        "signs": ["Claw hand", "Horner's syndrome"]
+      }
+    },
+    "examination": {
+      "systematic": ["Root level testing", "Peripheral nerve testing"],
+      "reflexes": ["Biceps (C5-6)", "Triceps (C7)", "Brachioradialis (C5-6)"],
+      "special_tests": ["Spurling's", "Distraction", "ULNT"]
+    },
+    "treatment_approaches": {
+      "tos": {
+        "conservative": ["Postural correction", "Scalene stretching", "First rib mobilization", "Neural mobilization"],
+        "surgical": ["First rib resection", "Scalenectomy"]
+      },
+      "plexitis": {
+        "acute": ["Pain management", "Gentle ROM"],
+        "recovery": ["Progressive strengthening", "Compensatory strategies"]
+      }
+    }
+  },
+  {
+    "id": "n009",
+    "name": "Lateral Femoral Cutaneous Nerve",
+    "latin_name": "Nervus cutaneus femoris lateralis",
+    "nerve_roots": "L2-L3",
+    "origin": "Lumbar plexus",
+    "course": [
+      "Lateral to psoas",
+      "Under or through inguinal ligament",
+      "Medial to ASIS"
+    ],
+    "sensory_innervation": "Lateral thigh",
+    "clinical_condition": {
+      "meralgia_paresthetica": {
+        "symptoms": ["Burning lateral thigh", "Numbness", "No weakness"],
+        "causes": ["Tight clothing", "Obesity", "Pregnancy", "Diabetes"],
+        "aggravating": ["Standing", "Walking"],
+        "relieving": ["Sitting", "Hip flexion"]
+      }
+    },
+    "clinical_tests": {
+      "sensory": "Decreased lateral thigh",
+      "pelvic_compression": "Relieves symptoms",
+      "injection": "Diagnostic block"
+    },
+    "treatment_approaches": {
+      "conservative": {
+        "lifestyle": ["Weight loss", "Loose clothing", "Avoid prolonged standing"],
+        "medical": ["NSAIDs", "Gabapentin", "Injections"]
+      },
+      "surgical": {
+        "rare": ["Decompression", "Neurectomy"]
+      }
+    },
+    "prognosis": "Usually self-limiting"
+  },
+  {
+    "id": "n010",
+    "name": "Suprascapular Nerve",
+    "latin_name": "Nervus suprascapularis",
+    "nerve_roots": "C5-C6",
+    "origin": "Upper trunk of brachial plexus",
+    "course": [
+      "Suprascapular notch",
+      "Supraspinatus fossa",
+      "Around spine of scapula",
+      "Infraspinatus fossa"
+    ],
+    "motor_innervation": ["Supraspinatus", "Infraspinatus"],
+    "sensory_innervation": ["AC joint", "Glenohumeral joint"],
+    "compression_sites": [
+      "Suprascapular notch",
+      "Spinoglenoid notch"
+    ],
+    "clinical_conditions": {
+      "entrapment": {
+        "causes": ["Ganglion cyst", "Hypertrophied ligament", "Repetitive overhead"],
+        "notch_compression": "Both muscles affected",
+        "spinoglenoid": "Only infraspinatus"
+      }
+    },
+    "clinical_presentation": {
+      "symptoms": ["Deep shoulder pain", "Weakness ER", "Atrophy"],
+      "sports": ["Volleyball", "Baseball", "Swimming"]
+    },
+    "clinical_tests": {
+      "motor": ["Abduction", "External rotation"],
+      "atrophy": "Visible infraspinatus wasting",
+      "cross_body_adduction": "Stretches nerve"
+    },
+    "imaging": {
+      "mri": "Ganglion cyst, muscle atrophy",
+      "emg": "Denervation pattern"
+    },
+    "treatment_approaches": {
+      "conservative": {
+        "activity_modification": "Avoid overhead",
+        "strengthening": "Rotator cuff",
+        "injections": "If ganglion"
+      },
+      "surgical": {
+        "indications": ["Ganglion cyst", "Failed conservative"],
+        "procedures": ["Notch decompression", "Cyst excision"]
+      }
+    }
+  },
+  {
+    "id": "n011",
+    "name": "Pudendal Nerve",
+    "latin_name": "Nervus pudendus",
+    "nerve_roots": "S2-S4",
+    "origin": "Sacral plexus",
+    "course": [
+      "Exits greater sciatic foramen",
+      "Around sacrospinous ligament",
+      "Through lesser sciatic foramen",
+      "Alcock's canal"
+    ],
+    "innervation": {
+      "motor": ["External anal sphincter", "Pelvic floor muscles"],
+      "sensory": ["Perineum", "Genitalia"]
+    },
+    "clinical_conditions": {
+      "pudendal_neuralgia": {
+        "diagnostic_criteria": "Nantes criteria",
+        "symptoms": ["Perineal pain", "Worse sitting", "No night pain"],
+        "causes": ["Cycling", "Childbirth", "Surgery"]
+      }
+    },
+    "clinical_tests": {
+      "diagnostic_block": "CT-guided injection",
+      "physical": ["Tenderness ischial spine", "Trigger points"]
+    },
+    "treatment_approaches": {
+      "conservative": {
+        "positioning": ["Cushions", "Avoid sitting"],
+        "therapy": ["Pelvic floor PT", "Neural mobilization"],
+        "injections": ["Nerve blocks", "Botox to muscles"]
+      },
+      "surgical": {
+        "decompression": "Transgluteal or transperineal"
+      }
+    },
+    "prognosis": "Variable, often chronic"
+  },
+  {
+    "id": "n012",
+    "name": "Digital Nerves",
+    "latin_name": "Nervi digitales",
+    "location": "Hand and Foot",
+    "hand_innervation": {
+      "median": "Lateral 3.5 digits palmar",
+      "ulnar": "Medial 1.5 digits",
+      "radial": "Dorsal first web space"
+    },
+    "foot_innervation": {
+      "plantar_nerves": "Sole sensation",
+      "digital_branches": "Toes"
+    },
+    "clinical_conditions": {
+      "digital_nerve_injury": {
+        "common": "Lacerations",
+        "tests": ["Two-point discrimination", "Semmes-Weinstein"],
+        "treatment": ["Repair if >5mm gap", "Protection"]
+      },
+      "mortons_neuroma": {
+        "location": "3rd > 2nd web space",
+        "symptoms": ["Forefoot pain", "Numbness toes"],
+        "tests": ["Mulder's click", "Compression test"],
+        "treatment": ["Wide shoes", "Metatarsal pad", "Injections", "Excision"]
+      },
+      "bowlers_thumb": {
+        "nerve": "Ulnar digital to thumb",
+        "cause": "Repetitive trauma",
+        "treatment": ["Padding", "Technique modification"]
+      }
+    },
+    "examination": {
+      "sensory": ["Light touch", "Two-point discrimination", "Vibration"],
+      "provocative": ["Tinel's along course", "Compression"]
+    },
+    "treatment_principles": {
+      "protection": "Crucial for regeneration",
+      "desensitization": "For hypersensitivity",
+      "sensory_re_education": "After repair"
+    }
+  },
+  {
+    "id": "n013",
+    "name": "Spinal Nerve Roots",
+    "latin_name": "Radices nervorum spinalium",
+    "organization": {
+      "cervical": "8 roots (C1-C8)",
+      "thoracic": "12 roots",
+      "lumbar": "5 roots",
+      "sacral": "5 roots"
+    },
+    "anatomy": {
+      "exit": ["Cervical above vertebra", "Others below vertebra"],
+      "components": ["Dorsal sensory", "Ventral motor"]
+    },
+    "clinical_conditions": {
+      "radiculopathy": {
+        "causes": ["Disc herniation", "Stenosis", "Spondylolisthesis"],
+        "symptoms": ["Radiating pain", "Dermatomal numbness", "Myotomal weakness"],
+        "reflexes": {
+          "c5_6": "Biceps",
+          "c7": "Triceps",
+          "l4": "Patellar",
+          "s1": "Achilles"
+        }
+      }
+    },
+    "key_myotomes": {
+      "c5": "Shoulder abduction",
+      "c6": "Elbow flexion, wrist extension",
+      "c7": "Elbow extension, wrist flexion",
+      "c8": "Finger flexion",
+      "t1": "Finger abduction",
+      "l2": "Hip flexion",
+      "l3": "Knee extension",
+      "l4": "Ankle dorsiflexion",
+      "l5": "Great toe extension",
+      "s1": "Ankle plantarflexion"
+    },
+    "key_dermatomes": {
+      "c5": "Lateral shoulder",
+      "c6": "Thumb",
+      "c7": "Middle finger",
+      "c8": "Little finger",
+      "t4": "Nipple line",
+      "t10": "Umbilicus",
+      "l3": "Medial knee",
+      "l4": "Medial ankle",
+      "l5": "Dorsal foot",
+      "s1": "Lateral foot"
+    },
+    "clinical_tests": {
+      "cervical": ["Spurling's", "Distraction", "ULNT"],
+      "lumbar": ["SLR", "Crossed SLR", "Femoral stretch"]
+    },
+    "red_flags": [
+      "Progressive weakness",
+      "Myelopathic signs",
+      "Cauda equina symptoms",
+      "Bilateral symptoms"
+    ],
+    "treatment_approaches": {
+      "conservative": {
+        "acute": ["Relative rest", "Positioning", "Anti-inflammatories"],
+        "manual": ["Traction", "Mobilization", "Neural mobilization"],
+        "exercise": ["Extension bias often", "Core stability", "Postural"]
+      },
+      "injections": ["Epidural", "Selective nerve root block"],
+      "surgical": {
+        "indications": ["Progressive deficit", "Cauda equina", "Failed conservative"],
+        "procedures": ["Discectomy", "Laminectomy", "Fusion"]
+      }
+    },
+    "prognosis": {
+      "natural_history": "Most improve 6-12 weeks",
+      "surgical_outcomes": "Good for appropriate candidates"
+    }
+  }
+]

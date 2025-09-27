@@ -23,6 +23,7 @@ interface UserData {
 interface UserState {
   userData: UserData | null;
   currentClinic: Clinic | null;
+  currentContext: 'organization' | 'clinic' | 'my-practice';
   loading: boolean;
   error: string | null;
 }
@@ -30,6 +31,7 @@ interface UserState {
 const initialState: UserState = {
   userData: null,
   currentClinic: null,
+  currentContext: 'my-practice',
   loading: false,
   error: null,
 };
@@ -40,17 +42,28 @@ const userSlice = createSlice({
   reducers: {
     setUserData: (state, action: PayloadAction<UserData>) => {
       state.userData = action.payload;
-      // Set the first clinic as current if available
+      // Set the first clinic as current if available, otherwise default to my-practice
       if (action.payload.organization?.clinics.length > 0) {
         state.currentClinic = action.payload.organization.clinics[0];
+        state.currentContext = 'clinic';
+      } else {
+        state.currentContext = 'my-practice';
       }
     },
     setCurrentClinic: (state, action: PayloadAction<Clinic | null>) => {
       state.currentClinic = action.payload;
+      state.currentContext = action.payload ? 'clinic' : 'organization';
+    },
+    setCurrentContext: (state, action: PayloadAction<'organization' | 'clinic' | 'my-practice'>) => {
+      state.currentContext = action.payload;
+      if (action.payload === 'my-practice') {
+        state.currentClinic = null;
+      }
     },
     clearUserData: (state) => {
       state.userData = null;
       state.currentClinic = null;
+      state.currentContext = 'my-practice';
       state.error = null;
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
@@ -62,6 +75,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUserData, setCurrentClinic, clearUserData, setLoading, setError } = userSlice.actions;
+export const { setUserData, setCurrentClinic, setCurrentContext, clearUserData, setLoading, setError } = userSlice.actions;
 export { userSlice };
 export default userSlice.reducer;

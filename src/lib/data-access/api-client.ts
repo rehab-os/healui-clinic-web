@@ -122,6 +122,27 @@ export class ApiMethods {
         }
     }
 
+    static async apiPhotoRequest(method: string, url: string, file: File, photoType: 'profile' | 'cover' | 'gallery', caption?: string, additionalHeaders?: Record<string, string>) {
+        const formData = new FormData()
+        formData.append('photo', file)
+        formData.append('photoType', photoType)
+        if (caption) {
+            formData.append('caption', caption)
+        }
+
+        try {
+            const response = await fetch(url, {
+                method,
+                body: formData,
+                headers: getFileHeaders(additionalHeaders),
+            })
+            return await responseMiddleware(response)
+        } catch (error) {
+            console.error('Photo Upload Error:', error)
+            throw error
+        }
+    }
+
     static get(url: string, headers?: Record<string, string>) {
         return this.apiRequest('GET', url, undefined, headers)
     }
@@ -138,6 +159,10 @@ export class ApiMethods {
         return this.apiFileRequest('POST', url, file, 'audio', headers)
     }
 
+    static photoPost(url: string, file: File, photoType: 'profile' | 'cover' | 'gallery', caption?: string, headers?: Record<string, string>) {
+        return this.apiPhotoRequest('POST', url, file, photoType, caption, headers)
+    }
+
     static put(url: string, data: any, headers?: Record<string, string>) {
         return this.apiRequest('PUT', url, data, headers)
     }
@@ -146,8 +171,8 @@ export class ApiMethods {
         return this.apiRequest('PATCH', url, data, headers)
     }
 
-    static delete(url: string, headers?: Record<string, string>) {
-        return this.apiRequest('DELETE', url, undefined, headers)
+    static delete(url: string, data?: any, headers?: Record<string, string>) {
+        return this.apiRequest('DELETE', url, data, headers)
     }
 }
 

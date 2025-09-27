@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useAppSelector } from '../../../store/hooks';
+import { useAppSelector, useAppDispatch } from '../../../store/hooks';
 import ApiManager from '../../../services/api';
 import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
 import { Button } from '../../../components/ui/button';
@@ -28,8 +28,11 @@ import {
   Save,
   X,
   Search,
-  Filter
+  Filter,
+  Camera
 } from 'lucide-react';
+import { setUser } from '../../../store/slices/auth.slice';
+import ProfilePhotoUpload from '../../../components/molecule/ProfilePhotoUpload';
 
 // Import database data
 import machinesData from '../../../../database/machines/machines.json';
@@ -114,6 +117,7 @@ const LANGUAGES = [
 ];
 
 interface ProfileData {
+  full_name: string;
   license_number: string;
   experience_level: string;
   years_of_experience: number;
@@ -121,6 +125,7 @@ interface ProfileData {
   bio: string;
   languages: string[];
   is_profile_complete: boolean;
+  profile_completed_at?: string;
 }
 
 interface Education {
@@ -186,8 +191,11 @@ interface Workshop {
 }
 
 export default function ProfilePage() {
+  const dispatch = useAppDispatch();
   const { userData } = useAppSelector(state => state.user);
+  const { user: authUser } = useAppSelector(state => state.auth);
   const [profile, setProfile] = useState<ProfileData>({
+    full_name: '',
     license_number: '',
     experience_level: 'fresher',
     years_of_experience: 0,
@@ -254,6 +262,14 @@ export default function ProfilePage() {
     fetchProfile();
   }, []);
 
+  // Update name when authUser.full_name changes
+  useEffect(() => {
+    setProfile(prev => ({
+      ...prev,
+      full_name: authUser?.full_name || ''
+    }));
+  }, [authUser?.full_name]); // Watch the specific full_name property instead of the whole object
+
   const fetchProfile = async () => {
     try {
       setLoading(true);
@@ -261,15 +277,17 @@ export default function ProfilePage() {
       
       if (response.success && response.data) {
         setProfile({
+          full_name: authUser?.full_name || '',
           license_number: response.data.license_number || '',
           experience_level: response.data.experience_level || 'fresher',
           years_of_experience: response.data.years_of_experience || 0,
           specializations: response.data.specializations || [],
           bio: response.data.bio || '',
           languages: response.data.languages || [],
-          is_profile_complete: response.data.is_profile_complete || false
+          is_profile_complete: response.data.is_profile_complete || false,
+          profile_completed_at: response.data.profile_completed_at
         });
-        setEducations(response.data.educations || []);
+        setEducations(response.data.education || []);
         setTechniques(response.data.techniques || []);
         setMachines(response.data.machines || []);
         setWorkshops(response.data.workshops || []);
@@ -284,8 +302,11 @@ export default function ProfilePage() {
   const handleSaveProfile = async () => {
     try {
       setLoading(true);
+      
       // Always use POST endpoint which handles both create and update
+      // Include the full_name in the profile data
       const profileData = {
+        full_name: profile.full_name, // This will update the user name too
         license_number: profile.license_number,
         experience_level: profile.experience_level,
         years_of_experience: profile.years_of_experience,
@@ -296,8 +317,16 @@ export default function ProfilePage() {
       const response = await ApiManager.createPhysiotherapistProfile(profileData);
 
       if (response.success) {
+        // Update the auth user in Redux if the name changed
+        if (profile.full_name !== authUser?.full_name && authUser) {
+          dispatch(setUser({
+            ...authUser,
+            full_name: profile.full_name
+          }));
+        }
+        
         setIsEditing(false);
-        fetchProfile();
+        // No need to fetchProfile() since we already have the updated data locally
       }
     } catch (error) {
       console.error('Error saving profile:', error);
@@ -414,8 +443,9 @@ export default function ProfilePage() {
       </div>
 
       <Tabs value={selectedTab} onValueChange={setSelectedTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="profile">Profile</TabsTrigger>
+          <TabsTrigger value="photos">Photos</TabsTrigger>
           <TabsTrigger value="education">Education</TabsTrigger>
           <TabsTrigger value="techniques">Techniques</TabsTrigger>
           <TabsTrigger value="machines">Machines</TabsTrigger>
@@ -433,12 +463,24 @@ export default function ProfilePage() {
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
+                  <Label htmlFor="full_name">Full Name</Label>
+                  <Input
+                    id="full_name"
+                    value={profile.full_name || ''}
+                    onChange={(e) => setProfile({...profile, full_name: e.target.value})}
+                    disabled={!isEditing}
+                    placeholder="Enter your full name"
+                  />
+                </div>
+                
+                <div>
                   <Label htmlFor="license">License Number</Label>
                   <Input
                     id="license"
                     value={profile.license_number}
                     onChange={(e) => setProfile({...profile, license_number: e.target.value})}
                     disabled={!isEditing}
+                    placeholder="Enter your license number"
                   />
                 </div>
                 
@@ -573,6 +615,16 @@ export default function ProfilePage() {
               )}
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="photos">
+          <ProfilePhotoUpload 
+            profileId={profile.id}
+            onPhotoUpdate={() => {
+              // Optionally refresh profile data
+              fetchProfile();
+            }}
+          />
         </TabsContent>
 
         <TabsContent value="education">

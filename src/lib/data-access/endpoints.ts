@@ -105,6 +105,12 @@ export const ENDPOINTS = {
     DELETE_TECHNIQUE: (id: string) => `physiotherapist-profile/technique/${id}`,
     DELETE_MACHINE: (id: string) => `physiotherapist-profile/machine/${id}`,
     DELETE_WORKSHOP: (id: string) => `physiotherapist-profile/workshop/${id}`,
+    
+    // Physiotherapist Profile Photos
+    UPLOAD_PROFILE_PHOTO: () => 'physiotherapist-profile/photos/upload',
+    GET_PROFILE_PHOTOS: () => 'physiotherapist-profile/photos',
+    DELETE_PROFILE_PHOTO: () => 'physiotherapist-profile/photos',
+    GET_PHOTO_CONSTRAINTS: () => 'physiotherapist-profile/photos/constraints',
 
     // Audio
     TRANSCRIBE_AUDIO: () => 'audio/transcribe',
@@ -129,4 +135,28 @@ export const ENDPOINTS = {
     // Analytics - Common
     GET_RECENT_ACTIVITIES: (clinicId?: string) => clinicId ? `analytics/recent-activities?clinicId=${clinicId}` : 'analytics/recent-activities',
     GET_QUICK_STATS: (clinicId?: string) => clinicId ? `analytics/quick-stats?clinicId=${clinicId}` : 'analytics/quick-stats',
+
+    // Physiotherapist Availability
+    GET_MY_AVAILABILITY: () => 'physiotherapist-availability',
+    GET_PHYSIOTHERAPIST_AVAILABILITY: (id: string) => `physiotherapist-availability/physiotherapist/${id}`,
+    CREATE_AVAILABILITY: () => 'physiotherapist-availability',
+    UPDATE_AVAILABILITY: (id: string) => `physiotherapist-availability/${id}`,
+    DELETE_AVAILABILITY: (id: string) => `physiotherapist-availability/${id}`,
+    SET_DEFAULT_AVAILABILITY: () => 'physiotherapist-availability/set-defaults',
+    GET_AVAILABLE_SLOTS: (params: { date: string; availability_type: string; pincode?: string }) => {
+        const searchParams = new URLSearchParams({
+            date: params.date,
+            availability_type: params.availability_type,
+            ...(params.pincode && { pincode: params.pincode })
+        })
+        return `physiotherapist-availability/slots?${searchParams.toString()}`
+    },
+    GET_PHYSIOTHERAPIST_SLOTS: (physiotherapistId: string, params: { date: string; availability_type: string; pincode?: string }) => {
+        const searchParams = new URLSearchParams({
+            date: params.date,
+            availability_type: params.availability_type,
+            ...(params.pincode && { pincode: params.pincode })
+        })
+        return `physiotherapist-availability/slots/${physiotherapistId}?${searchParams.toString()}`
+    },
 }

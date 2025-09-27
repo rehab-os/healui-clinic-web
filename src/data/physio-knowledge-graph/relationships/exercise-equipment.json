@@ -1,0 +1,756 @@
+{
+  "exercise_equipment_mappings": {
+    "EX_001": {
+      "exercise_name": "Scapular Wall Slides",
+      "equipment_required": null,
+      "equipment_optional": ["EQ_034"],
+      "equipment_alternatives": ["wall", "doorframe"],
+      "progressions": {
+        "easier": null,
+        "harder": ["EQ_026"]
+      }
+    },
+    "EX_002": {
+      "exercise_name": "Prone Scapular Retraction",
+      "equipment_required": ["EQ_034"],
+      "equipment_optional": ["EQ_026"],
+      "equipment_alternatives": ["mat_on_floor", "bed"],
+      "progressions": {
+        "easier": null,
+        "harder": ["EQ_026", "weights"]
+      }
+    },
+    "EX_003": {
+      "exercise_name": "Pendulum Exercise (Codman's)",
+      "equipment_required": null,
+      "equipment_optional": ["EQ_034"],
+      "equipment_alternatives": ["chair_back", "table_edge"],
+      "progressions": {
+        "easier": null,
+        "harder": ["light_weight"]
+      }
+    },
+    "EX_004": {
+      "exercise_name": "Quadruped Rock Back",
+      "equipment_required": null,
+      "equipment_optional": ["EQ_034"],
+      "equipment_alternatives": ["mat", "carpet"],
+      "progressions": {
+        "easier": ["pillows_under_knees"],
+        "harder": ["EQ_027"]
+      }
+    },
+    "EX_005": {
+      "exercise_name": "Dead Bug",
+      "equipment_required": null,
+      "equipment_optional": null,
+      "equipment_alternatives": ["mat", "carpet"],
+      "progressions": {
+        "easier": ["bent_knee_version"],
+        "harder": ["EQ_026", "weights"]
+      }
+    },
+    "EX_006": {
+      "exercise_name": "Bird Dog",
+      "equipment_required": null,
+      "equipment_optional": null,
+      "equipment_alternatives": ["mat", "carpet"],
+      "progressions": {
+        "easier": ["separate_limbs"],
+        "harder": ["EQ_026", "unstable_surface"]
+      }
+    },
+    "EX_007": {
+      "exercise_name": "Straight Leg Raise",
+      "equipment_required": null,
+      "equipment_optional": ["EQ_026"],
+      "equipment_alternatives": ["ankle_weights"],
+      "progressions": {
+        "easier": ["bent_knee"],
+        "harder": ["EQ_026", "ankle_weights"]
+      }
+    },
+    "EX_008": {
+      "exercise_name": "Clamshells",
+      "equipment_required": null,
+      "equipment_optional": ["EQ_026"],
+      "equipment_alternatives": ["ankle_weights"],
+      "progressions": {
+        "easier": null,
+        "harder": ["EQ_026"]
+      }
+    },
+    "EX_009": {
+      "exercise_name": "Heel Slides",
+      "equipment_required": null,
+      "equipment_optional": ["EQ_034"],
+      "equipment_alternatives": ["mat", "bed"],
+      "progressions": {
+        "easier": ["powder_on_surface"],
+        "harder": ["EQ_026"]
+      }
+    },
+    "EX_010": {
+      "exercise_name": "Quad Sets",
+      "equipment_required": null,
+      "equipment_optional": null,
+      "equipment_alternatives": ["towel_under_knee"],
+      "progressions": {
+        "easier": null,
+        "harder": ["EQ_032"]
+      }
+    },
+    "EX_011": {
+      "exercise_name": "Ankle Pumps",
+      "equipment_required": null,
+      "equipment_optional": null,
+      "equipment_alternatives": null,
+      "progressions": {
+        "easier": null,
+        "harder": ["EQ_026"]
+      }
+    },
+    "EX_012": {
+      "exercise_name": "Standing Heel Raise",
+      "equipment_required": null,
+      "equipment_optional": ["EQ_035"],
+      "equipment_alternatives": ["wall", "chair"],
+      "progressions": {
+        "easier": ["bilateral"],
+        "harder": ["single_leg", "weights"]
+      }
+    },
+    "EX_013": {
+      "exercise_name": "Bridge",
+      "equipment_required": null,
+      "equipment_optional": ["EQ_027"],
+      "equipment_alternatives": ["mat"],
+      "progressions": {
+        "easier": null,
+        "harder": ["EQ_027", "EQ_026", "single_leg"]
+      }
+    },
+    "EX_014": {
+      "exercise_name": "Wall Sits",
+      "equipment_required": null,
+      "equipment_optional": null,
+      "equipment_alternatives": ["sturdy_chair"],
+      "progressions": {
+        "easier": ["higher_position"],
+        "harder": ["single_leg", "EQ_027"]
+      }
+    },
+    "EX_015": {
+      "exercise_name": "Cervical Retraction",
+      "equipment_required": null,
+      "equipment_optional": null,
+      "equipment_alternatives": ["wall_for_feedback"],
+      "progressions": {
+        "easier": null,
+        "harder": ["EQ_026"]
+      }
+    },
+    "EX_016": {
+      "exercise_name": "Thoracic Extension",
+      "equipment_required": ["EQ_028"],
+      "equipment_optional": null,
+      "equipment_alternatives": ["towel_roll", "pillow"],
+      "progressions": {
+        "easier": ["smaller_roll"],
+        "harder": ["EQ_028_firm"]
+      }
+    },
+    "EX_017": {
+      "exercise_name": "Mini Squats",
+      "equipment_required": null,
+      "equipment_optional": ["EQ_035"],
+      "equipment_alternatives": ["chair", "wall"],
+      "progressions": {
+        "easier": ["chair_assist"],
+        "harder": ["single_leg", "EQ_026"]
+      }
+    },
+    "EX_018": {
+      "exercise_name": "Step Ups",
+      "equipment_required": ["EQ_036"],
+      "equipment_optional": null,
+      "equipment_alternatives": ["stairs", "sturdy_platform"],
+      "progressions": {
+        "easier": ["lower_step", "handrail"],
+        "harder": ["higher_step", "weights", "lateral"]
+      }
+    },
+    "EX_019": {
+      "exercise_name": "Single Leg Balance",
+      "equipment_required": null,
+      "equipment_optional": ["EQ_029"],
+      "equipment_alternatives": ["pillow", "unstable_surface"],
+      "progressions": {
+        "easier": ["eyes_open", "finger_support"],
+        "harder": ["EQ_029", "eyes_closed", "head_movements"]
+      }
+    },
+    "EX_020": {
+      "exercise_name": "Nerve Glides - Median",
+      "equipment_required": null,
+      "equipment_optional": null,
+      "equipment_alternatives": null,
+      "progressions": {
+        "easier": ["smaller_range"],
+        "harder": ["larger_range", "hold_positions"]
+      }
+    },
+    "EX_021": {
+      "exercise_name": "External Rotation at 90°",
+      "equipment_required": ["EQ_026"],
+      "equipment_optional": ["EQ_031"],
+      "equipment_alternatives": ["cable_machine", "pulleys"],
+      "progressions": {
+        "easier": ["arm_supported"],
+        "harder": ["EQ_031", "plyometric"]
+      }
+    },
+    "EX_022": {
+      "exercise_name": "D2 Flexion PNF Pattern",
+      "equipment_required": null,
+      "equipment_optional": ["EQ_026"],
+      "equipment_alternatives": ["cable_machine", "manual_resistance"],
+      "progressions": {
+        "easier": ["assisted_movement"],
+        "harder": ["EQ_026", "speed_variations"]
+      }
+    },
+    "EX_023": {
+      "exercise_name": "Push-up Plus",
+      "equipment_required": null,
+      "equipment_optional": null,
+      "equipment_alternatives": ["wall_version", "incline"],
+      "progressions": {
+        "easier": ["wall", "incline"],
+        "harder": ["unstable_surface", "EQ_027"]
+      }
+    },
+    "EX_024": {
+      "exercise_name": "Eccentric Bicep Curls",
+      "equipment_required": ["EQ_026"],
+      "equipment_optional": null,
+      "equipment_alternatives": ["weights", "cable_machine"],
+      "progressions": {
+        "easier": ["lighter_weight"],
+        "harder": ["heavier_weight", "slower_tempo"]
+      }
+    },
+    "EX_025": {
+      "exercise_name": "Nerve Glides - Ulnar",
+      "equipment_required": null,
+      "equipment_optional": null,
+      "equipment_alternatives": null,
+      "progressions": {
+        "easier": ["smaller_range"],
+        "harder": ["larger_range", "hold_positions"]
+      }
+    },
+    "EX_026": {
+      "exercise_name": "Tendon Glides",
+      "equipment_required": null,
+      "equipment_optional": null,
+      "equipment_alternatives": null,
+      "progressions": {
+        "easier": ["passive_assist"],
+        "harder": ["against_resistance"]
+      }
+    },
+    "EX_027": {
+      "exercise_name": "Grip Strengthening",
+      "equipment_required": ["EQ_031"],
+      "equipment_optional": null,
+      "equipment_alternatives": ["stress_ball", "putty"],
+      "progressions": {
+        "easier": ["putty"],
+        "harder": ["EQ_031", "hold_variations"]
+      }
+    },
+    "EX_028": {
+      "exercise_name": "Side-lying Hip Abduction",
+      "equipment_required": null,
+      "equipment_optional": ["EQ_026"],
+      "equipment_alternatives": ["ankle_weights"],
+      "progressions": {
+        "easier": null,
+        "harder": ["EQ_026", "ankle_weights"]
+      }
+    },
+    "EX_029": {
+      "exercise_name": "Monster Walks",
+      "equipment_required": ["EQ_026"],
+      "equipment_optional": null,
+      "equipment_alternatives": ["loop_bands"],
+      "progressions": {
+        "easier": ["lighter_resistance"],
+        "harder": ["heavier_resistance", "mini_band"]
+      }
+    },
+    "EX_030": {
+      "exercise_name": "Single Leg Deadlift",
+      "equipment_required": null,
+      "equipment_optional": null,
+      "equipment_alternatives": ["weights", "kettlebell"],
+      "progressions": {
+        "easier": ["finger_support"],
+        "harder": ["weights", "unstable_surface"]
+      }
+    },
+    "EX_031": {
+      "exercise_name": "Terminal Knee Extension",
+      "equipment_required": ["EQ_026"],
+      "equipment_optional": null,
+      "equipment_alternatives": ["cable_machine", "pulleys"],
+      "progressions": {
+        "easier": ["lighter_resistance"],
+        "harder": ["heavier_resistance", "hold_contractions"]
+      }
+    },
+    "EX_032": {
+      "exercise_name": "Single Leg Squat",
+      "equipment_required": null,
+      "equipment_optional": ["EQ_035"],
+      "equipment_alternatives": ["chair", "wall"],
+      "progressions": {
+        "easier": ["chair_assist", "shallow_depth"],
+        "harder": ["full_depth", "unstable_surface"]
+      }
+    },
+    "EX_033": {
+      "exercise_name": "Lateral Step Down",
+      "equipment_required": ["EQ_036"],
+      "equipment_optional": null,
+      "equipment_alternatives": ["stairs", "platform"],
+      "progressions": {
+        "easier": ["lower_step", "handrail"],
+        "harder": ["higher_step", "no_touch"]
+      }
+    },
+    "EX_034": {
+      "exercise_name": "Calf Stretch - Gastrocnemius",
+      "equipment_required": null,
+      "equipment_optional": ["EQ_034"],
+      "equipment_alternatives": ["wall", "incline"],
+      "progressions": {
+        "easier": ["less_lean"],
+        "harder": ["strap", "longer_hold"]
+      }
+    },
+    "EX_035": {
+      "exercise_name": "Calf Stretch - Soleus",
+      "equipment_required": null,
+      "equipment_optional": null,
+      "equipment_alternatives": ["wall", "chair"],
+      "progressions": {
+        "easier": ["less_knee_bend"],
+        "harder": ["more_knee_bend", "weight_shift"]
+      }
+    },
+    "EX_036": {
+      "exercise_name": "Toe Raises",
+      "equipment_required": null,
+      "equipment_optional": null,
+      "equipment_alternatives": ["wall_support"],
+      "progressions": {
+        "easier": ["seated"],
+        "harder": ["single_leg", "EQ_026"]
+      }
+    },
+    "EX_037": {
+      "exercise_name": "Alphabet Draws",
+      "equipment_required": null,
+      "equipment_optional": null,
+      "equipment_alternatives": null,
+      "progressions": {
+        "easier": ["small_letters"],
+        "harder": ["large_letters", "cursive", "EQ_026"]
+      }
+    },
+    "EX_038": {
+      "exercise_name": "Towel Scrunches",
+      "equipment_required": ["towel"],
+      "equipment_optional": null,
+      "equipment_alternatives": ["washcloth", "paper"],
+      "progressions": {
+        "easier": ["thicker_towel"],
+        "harder": ["weights_on_towel", "marbles"]
+      }
+    },
+    "EX_039": {
+      "exercise_name": "Marble Pick-up",
+      "equipment_required": ["marbles", "cup"],
+      "equipment_optional": null,
+      "equipment_alternatives": ["coins", "small_objects"],
+      "progressions": {
+        "easier": ["larger_objects"],
+        "harder": ["smaller_objects", "timed"]
+      }
+    },
+    "EX_040": {
+      "exercise_name": "Cat-Cow Stretch",
+      "equipment_required": null,
+      "equipment_optional": null,
+      "equipment_alternatives": ["mat"],
+      "progressions": {
+        "easier": ["smaller_range"],
+        "harder": ["hold_positions", "limb_loading"]
+      }
+    },
+    "EX_041": {
+      "exercise_name": "Thoracic Rotation",
+      "equipment_required": null,
+      "equipment_optional": null,
+      "equipment_alternatives": ["mat"],
+      "progressions": {
+        "easier": ["passive_rotation"],
+        "harder": ["EQ_026", "hold_positions"]
+      }
+    },
+    "EX_042": {
+      "exercise_name": "Prone Press-up",
+      "equipment_required": null,
+      "equipment_optional": null,
+      "equipment_alternatives": ["EQ_034", "mat"],
+      "progressions": {
+        "easier": ["props_on_elbows"],
+        "harder": ["hold_position", "dynamic"]
+      }
+    },
+    "EX_043": {
+      "exercise_name": "McGill Big 3 - Curl-up",
+      "equipment_required": null,
+      "equipment_optional": null,
+      "equipment_alternatives": ["mat"],
+      "progressions": {
+        "easier": ["hands_on_chest"],
+        "harder": ["longer_holds", "eyes_closed"]
+      }
+    },
+    "EX_044": {
+      "exercise_name": "McGill Big 3 - Side Plank",
+      "equipment_required": null,
+      "equipment_optional": null,
+      "equipment_alternatives": ["mat"],
+      "progressions": {
+        "easier": ["knee_support"],
+        "harder": ["leg_lift", "arm_movement"]
+      }
+    },
+    "EX_045": {
+      "exercise_name": "Turkish Get-up",
+      "equipment_required": null,
+      "equipment_optional": ["EQ_026"],
+      "equipment_alternatives": ["kettlebell", "dumbbell"],
+      "progressions": {
+        "easier": ["no_weight", "segmented"],
+        "harder": ["heavier_weight", "eyes_closed"]
+      }
+    },
+    "EX_046": {
+      "exercise_name": "Bear Crawl",
+      "equipment_required": null,
+      "equipment_optional": null,
+      "equipment_alternatives": ["mat"],
+      "progressions": {
+        "easier": ["knees_on_ground"],
+        "harder": ["limb_lifts", "EQ_026"]
+      }
+    },
+    "EX_047": {
+      "exercise_name": "Farmer's Walk",
+      "equipment_required": ["weights"],
+      "equipment_optional": null,
+      "equipment_alternatives": ["kettlebells", "dumbbells"],
+      "progressions": {
+        "easier": ["lighter_weights"],
+        "harder": ["heavier_weights", "uneven_loading"]
+      }
+    },
+    "EX_048": {
+      "exercise_name": "Deep Breathing Exercise",
+      "equipment_required": null,
+      "equipment_optional": null,
+      "equipment_alternatives": ["EQ_021"],
+      "progressions": {
+        "easier": null,
+        "harder": ["EQ_021", "resistance_breathing"]
+      }
+    },
+    "EX_049": {
+      "exercise_name": "Pursed Lip Breathing",
+      "equipment_required": null,
+      "equipment_optional": null,
+      "equipment_alternatives": null,
+      "progressions": {
+        "easier": ["shorter_exhalation"],
+        "harder": ["longer_exhalation", "activity_integration"]
+      }
+    },
+    "EX_050": {
+      "exercise_name": "Stair Climbing Training",
+      "equipment_required": ["EQ_036"],
+      "equipment_optional": null,
+      "equipment_alternatives": ["actual_stairs", "step_platform"],
+      "progressions": {
+        "easier": ["lower_step", "handrail"],
+        "harder": ["higher_steps", "weighted", "speed"]
+      }
+    },
+    "EX_051": {
+      "exercise_name": "Weight Shifting in Standing",
+      "equipment_required": null,
+      "equipment_optional": ["EQ_035", "EQ_005"],
+      "equipment_alternatives": ["wall_support", "chair"],
+      "progressions": {
+        "easier": ["finger_support"],
+        "harder": ["EQ_005", "eyes_closed"]
+      }
+    },
+    "EX_052": {
+      "exercise_name": "Sit to Stand Training",
+      "equipment_required": null,
+      "equipment_optional": ["EQ_034"],
+      "equipment_alternatives": ["chair", "bed"],
+      "progressions": {
+        "easier": ["arm_assist", "higher_surface"],
+        "harder": ["no_arms", "unstable_surface"]
+      }
+    },
+    "EX_053": {
+      "exercise_name": "Facilitated Arm Movements",
+      "equipment_required": null,
+      "equipment_optional": ["EQ_034"],
+      "equipment_alternatives": ["table", "pillow_support"],
+      "progressions": {
+        "easier": ["full_assist"],
+        "harder": ["unassisted", "functional_tasks"]
+      }
+    },
+    "EX_054": {
+      "exercise_name": "Bed Mobility Training",
+      "equipment_required": ["EQ_034"],
+      "equipment_optional": null,
+      "equipment_alternatives": ["mat", "elevated_surface"],
+      "progressions": {
+        "easier": ["rail_assist"],
+        "harder": ["independent", "speed_variations"]
+      }
+    },
+    "EX_055": {
+      "exercise_name": "Dual Task Training",
+      "equipment_required": null,
+      "equipment_optional": ["objects_for_carrying"],
+      "equipment_alternatives": ["cognitive_tasks", "conversation"],
+      "progressions": {
+        "easier": ["simple_tasks"],
+        "harder": ["complex_tasks", "multiple_distractors"]
+      }
+    },
+    "EX_056": {
+      "exercise_name": "Gait Training Forward/Backward",
+      "equipment_required": null,
+      "equipment_optional": ["EQ_035"],
+      "equipment_alternatives": ["walker", "canes"],
+      "progressions": {
+        "easier": ["full_support"],
+        "harder": ["independent", "varied_speeds"]
+      }
+    },
+    "EX_057": {
+      "exercise_name": "Constraint Induced Movement Therapy",
+      "equipment_required": ["restraint_mitt"],
+      "equipment_optional": ["functional_objects"],
+      "equipment_alternatives": ["sling", "tape"],
+      "progressions": {
+        "easier": ["shorter_sessions"],
+        "harder": ["longer_sessions", "complex_tasks"]
+      }
+    },
+    "EX_094": {
+      "exercise_name": "Respiratory Muscle Training - Neuro",
+      "equipment_required": null,
+      "equipment_optional": ["inspiratory_muscle_trainer"],
+      "equipment_alternatives": ["breathing_exercises"],
+      "progressions": {
+        "easier": ["lower_resistance"],
+        "harder": ["higher_resistance", "longer_sessions"]
+      }
+    },
+    "EX_058": {
+      "exercise_name": "Neurological Gait Training",
+      "equipment_required": null,
+      "equipment_optional": ["EQ_002", "EQ_003", "EQ_035"],
+      "equipment_alternatives": ["walker", "canes", "gait_belt"],
+      "progressions": {
+        "easier": ["full_support", "slow_speed"],
+        "harder": ["independent", "varied_terrain"]
+      }
+    },
+    "EX_101": {
+      "exercise_name": "Tummy Time Progressive",
+      "equipment_required": null,
+      "equipment_optional": ["EQ_034", "EQ_036"],
+      "equipment_alternatives": ["mat", "firm_surface"],
+      "progressions": {
+        "easier": ["shorter_duration"],
+        "harder": ["longer_duration", "elevated_surface"]
+      }
+    },
+    "EX_120": {
+      "exercise_name": "Pediatric Balance Training",
+      "equipment_required": null,
+      "equipment_optional": ["EQ_029", "EQ_027"],
+      "equipment_alternatives": ["playground_equipment", "balance_beam"],
+      "progressions": {
+        "easier": ["stable_surface", "assistance"],
+        "harder": ["unstable_surface", "dynamic_tasks"]
+      }
+    },
+    "EX_151": {
+      "exercise_name": "Sport-Specific Training",
+      "equipment_required": null,
+      "equipment_optional": ["sport_specific_equipment"],
+      "equipment_alternatives": ["functional_movements"],
+      "progressions": {
+        "easier": ["basic_movements"],
+        "harder": ["sport_simulation", "competition_level"]
+      }
+    },
+    "EX_180": {
+      "exercise_name": "Aquatic Therapy Training",
+      "equipment_required": ["pool_access"],
+      "equipment_optional": ["EQ_037", "EQ_038"],
+      "equipment_alternatives": ["land_based_alternatives"],
+      "progressions": {
+        "easier": ["shallow_water", "flotation_support"],
+        "harder": ["deep_water", "resistance_equipment"]
+      }
+    }
+  },
+  "equipment_exercise_compatibility": {
+    "EQ_001": {
+      "equipment_name": "Biodex System 4 Pro",
+      "compatible_exercises": ["EX_021", "EX_031", "advanced_strengthening"],
+      "assessment_exercises": ["strength_testing", "ROM_assessment"],
+      "protocols": ["ACL_rehab", "RTC_strengthening"]
+    },
+    "EQ_002": {
+      "equipment_name": "AlterG Anti-Gravity Treadmill", 
+      "compatible_exercises": ["EX_050", "walking_variations", "running_progression"],
+      "assessment_exercises": ["gait_analysis"],
+      "protocols": ["post_surgical", "neurological_rehab"]
+    },
+    "EQ_003": {
+      "equipment_name": "Lokomat Pro",
+      "compatible_exercises": ["assisted_walking", "gait_training"],
+      "assessment_exercises": ["gait_parameters"],
+      "protocols": ["SCI", "stroke", "TBI_rehab"]
+    },
+    "EQ_005": {
+      "equipment_name": "SMART Balance Master",
+      "compatible_exercises": ["EX_019", "balance_training"],
+      "assessment_exercises": ["balance_assessment", "fall_risk"],
+      "protocols": ["vestibular_rehab", "fall_prevention"]
+    },
+    "EQ_014": {
+      "equipment_name": "Redcord Suspension System",
+      "compatible_exercises": ["EX_006", "EX_013", "EX_023", "EX_030"],
+      "assessment_exercises": ["neuromuscular_control"],
+      "protocols": ["core_stability", "sports_rehab"]
+    },
+    "EQ_015": {
+      "equipment_name": "Blood Flow Restriction System",
+      "compatible_exercises": ["EX_007", "EX_012", "EX_017", "EX_031"],
+      "assessment_exercises": ["occlusion_pressure"],
+      "protocols": ["post_surgical", "atrophy_prevention"]
+    },
+    "EQ_016": {
+      "equipment_name": "Whole Body Vibration Platform",
+      "compatible_exercises": ["EX_017", "EX_019", "EX_014"],
+      "assessment_exercises": ["balance_response"],
+      "protocols": ["bone_density", "balance_training"]
+    },
+    "EQ_018": {
+      "equipment_name": "Pilates Reformer (Clinical)",
+      "compatible_exercises": ["EX_005", "EX_013", "EX_043", "EX_044"],
+      "assessment_exercises": ["movement_quality"],
+      "protocols": ["core_rehab", "postural_training"]
+    },
+    "EQ_021": {
+      "equipment_name": "EMG Biofeedback System",
+      "compatible_exercises": ["EX_048", "EX_010", "EX_031", "EX_015"],
+      "assessment_exercises": ["muscle_activation"],
+      "protocols": ["muscle_re_education", "relaxation"]
+    },
+    "EQ_026": {
+      "equipment_name": "Resistance Bands Set",
+      "compatible_exercises": ["EX_021", "EX_024", "EX_029", "EX_031", "EX_007", "EX_008"],
+      "assessment_exercises": ["strength_screening"],
+      "protocols": ["home_programs", "travel_rehab"]
+    },
+    "EQ_027": {
+      "equipment_name": "Swiss Ball Collection",
+      "compatible_exercises": ["EX_013", "EX_005", "EX_014", "EX_043"],
+      "assessment_exercises": ["core_stability"],
+      "protocols": ["balance_training", "prenatal"]
+    },
+    "EQ_028": {
+      "equipment_name": "Foam Roller Set",
+      "compatible_exercises": ["EX_016", "myofascial_release"],
+      "assessment_exercises": ["tissue_mobility"],
+      "protocols": ["warm_up", "recovery"]
+    },
+    "EQ_029": {
+      "equipment_name": "Ankle Board/Wobble Board",
+      "compatible_exercises": ["EX_019", "proprioception_training"],
+      "assessment_exercises": ["ankle_stability"],
+      "protocols": ["ankle_rehab", "fall_prevention"]
+    },
+    "EQ_031": {
+      "equipment_name": "Dynamometer (Hand/Grip)",
+      "compatible_exercises": ["EX_027"],
+      "assessment_exercises": ["grip_strength", "strength_tracking"],
+      "protocols": ["hand_therapy", "progress_monitoring"]
+    },
+    "EQ_035": {
+      "equipment_name": "Parallel Bars",
+      "compatible_exercises": ["EX_012", "EX_017", "EX_018", "EX_032"],
+      "assessment_exercises": ["gait_training", "weight_bearing"],
+      "protocols": ["post_surgical", "neurological"]
+    },
+    "EQ_036": {
+      "equipment_name": "Stairs and Ramp Training Set",
+      "compatible_exercises": ["EX_018", "EX_033", "EX_050"],
+      "assessment_exercises": ["functional_mobility"],
+      "protocols": ["discharge_planning", "home_preparation"]
+    },
+    "EQ_037": {
+      "equipment_name": "Pulley System (Wall/Door Mounted)",
+      "compatible_exercises": ["EX_021", "EX_022", "EX_053", "EX_057"],
+      "assessment_exercises": ["shoulder_ROM", "assisted_movement"],
+      "protocols": ["shoulder_rehab", "neurological_rehab", "home_therapy"]
+    },
+    "EQ_038": {
+      "equipment_name": "Mirror Box Therapy",
+      "compatible_exercises": ["EX_053", "EX_057", "neurological_hand_exercises"],
+      "assessment_exercises": ["limb_awareness", "phantom_pain"],
+      "protocols": ["stroke_rehab", "phantom_limb", "hand_therapy"]
+    },
+    "EQ_039": {
+      "equipment_name": "Cupping Set",
+      "compatible_exercises": ["manual_therapy_exercises", "myofascial_work"],
+      "assessment_exercises": ["tissue_mobility", "pain_assessment"],
+      "protocols": ["manual_therapy", "pain_management", "recovery"]
+    },
+    "EQ_040": {
+      "equipment_name": "Instrument Assisted Soft Tissue Mobilization Tools",
+      "compatible_exercises": ["manual_therapy_exercises", "tissue_mobilization"],
+      "assessment_exercises": ["tissue_quality", "mobility_testing"],
+      "protocols": ["manual_therapy", "sports_therapy", "recovery"]
+    }
+  }
+}

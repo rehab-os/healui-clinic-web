@@ -1,0 +1,937 @@
+{
+  "category": "aquatic_therapy_exercises", 
+  "description": "Water-based therapeutic exercises utilizing hydrostatic properties",
+  "water_properties": {
+    "hydrostatic_pressure": "Reduces swelling and provides compression",
+    "buoyancy": "Reduces joint loading and body weight effects",
+    "viscosity": "Provides resistance in all planes of movement",
+    "temperature": "Warmth promotes muscle relaxation and circulation"
+  },
+  "exercises": {
+    "EX_201": {
+      "name": "Water Walking Forward and Backward",
+      "type": "aquatic_cardiovascular",
+      "body_region": "lower_extremity",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_030", "water_weights"],
+      "position": "standing_water",
+      "water_depth": "chest_deep",
+      "muscle_targets": {
+        "primary": ["quadriceps", "hamstrings", "calves"],
+        "secondary": ["core_stability", "cardiovascular_system"]
+      },
+      "translations": {
+        "en": {
+          "name": "Water Walking Forward and Backward",
+          "description": "Basic aquatic ambulation exercise for lower extremity conditioning",
+          "instructions": [
+            "Stand in chest-deep water",
+            "Walk forward with normal gait pattern",
+            "Focus on heel-toe contact",
+            "Reverse direction and walk backward",
+            "Maintain upright posture throughout"
+          ],
+          "cues": [
+            "Take full steps",
+            "Use arms for balance",
+            "Feel the water resistance"
+          ],
+          "common_errors": [
+            "Taking too small steps",
+            "Leaning too far forward",
+            "Holding breath during exercise"
+          ]
+        }
+      }
+    },
+    "EX_202": {
+      "name": "Aquatic Arm Circles and Cross-Body Movements",
+      "type": "aquatic_strengthening",
+      "body_region": "upper_extremity", 
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["water_weights", "EQ_030"],
+      "position": "standing_water",
+      "water_depth": "shoulder_deep",
+      "muscle_targets": {
+        "primary": ["deltoids", "rotator_cuff"],
+        "secondary": ["pectorals", "latissimus_dorsi"]
+      },
+      "translations": {
+        "en": {
+          "name": "Aquatic Arm Circles and Cross-Body Movements", 
+          "description": "Multi-planar shoulder strengthening using water resistance",
+          "instructions": [
+            "Stand in shoulder-deep water",
+            "Perform large arm circles forward and backward",
+            "Add cross-body movements at shoulder height",
+            "Include diagonal patterns",
+            "Control speed to manage resistance"
+          ],
+          "cues": [
+            "Feel water resistance in all directions",
+            "Keep movements smooth",
+            "Engage core for stability"
+          ],
+          "common_errors": [
+            "Moving too fast to feel resistance",
+            "Poor posture during movement",
+            "Limited range of motion"
+          ]
+        }
+      }
+    },
+    "EX_203": {
+      "name": "Water Jogging in Place",
+      "type": "aquatic_cardiovascular",
+      "body_region": "total_body",
+      "difficulty_level": 4,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_031", "aquatic_flotation_belt"],
+      "position": "suspended_or_standing",
+      "water_depth": "deep_water_or_chest_deep",
+      "muscle_targets": {
+        "primary": ["cardiovascular_system", "total_body_conditioning"],
+        "secondary": ["core_stability", "proprioception"]
+      },
+      "translations": {
+        "en": {
+          "name": "Water Jogging in Place",
+          "description": "High-intensity aquatic cardiovascular exercise",
+          "instructions": [
+            "Use flotation belt for deep water or stand in chest-deep water",
+            "Mimic running motion with arms and legs",
+            "Maintain upright posture",
+            "Vary intensity and speed",
+            "Include interval training protocols"
+          ],
+          "cues": [
+            "Drive knees up high",
+            "Pump arms vigorously", 
+            "Maintain running cadence"
+          ],
+          "common_errors": [
+            "Leaning too far forward or back",
+            "Inadequate arm movement",
+            "Too slow cadence"
+          ]
+        }
+      }
+    },
+    "EX_204": {
+      "name": "Aquatic Leg Swings Multi-Planar",
+      "type": "aquatic_mobility",
+      "body_region": "lower_extremity",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["pool_noodle", "EQ_039"],
+      "position": "standing_water",
+      "water_depth": "waist_to_chest_deep",
+      "muscle_targets": {
+        "primary": ["hip_flexors", "hip_extensors", "hip_abductors"],
+        "secondary": ["core_stability", "balance"]
+      },
+      "translations": {
+        "en": {
+          "name": "Aquatic Leg Swings Multi-Planar",
+          "description": "Hip mobility and strengthening in multiple planes using water resistance",
+          "instructions": [
+            "Stand holding pool edge or use flotation support",
+            "Swing leg forward and backward (sagittal plane)",
+            "Perform leg swings side to side (frontal plane)",
+            "Add circular movements (transverse plane)",
+            "Control movement speed for desired resistance"
+          ],
+          "cues": [
+            "Keep supporting leg stable",
+            "Full range of motion",
+            "Control the movement"
+          ],
+          "common_errors": [
+            "Using momentum instead of muscle control",
+            "Compensating with trunk movement",
+            "Limited range of motion"
+          ]
+        }
+      }
+    },
+    "EX_205": {
+      "name": "Aquatic Squats and Lunges",
+      "type": "aquatic_strengthening",
+      "body_region": "lower_extremity",
+      "difficulty_level": 4,
+      "equipment_required": null,
+      "equipment_optional": ["water_weights", "resistance_equipment"],
+      "position": "standing_water",
+      "water_depth": "chest_deep",
+      "muscle_targets": {
+        "primary": ["quadriceps", "gluteals", "hamstrings"],
+        "secondary": ["core_stability", "balance"]
+      },
+      "translations": {
+        "en": {
+          "name": "Aquatic Squats and Lunges", 
+          "description": "Functional lower extremity strengthening with reduced joint loading",
+          "instructions": [
+            "Perform squats with water support reducing joint stress",
+            "Add forward, reverse, and lateral lunges",
+            "Focus on controlled descent and ascent",
+            "Use water resistance for added challenge",
+            "Maintain proper form throughout"
+          ],
+          "cues": [
+            "Keep knees behind toes",
+            "Push through heels",
+            "Use water resistance"
+          ],
+          "common_errors": [
+            "Allowing knees to cave inward",
+            "Not using full range of motion",
+            "Poor posture during exercise"
+          ]
+        }
+      }
+    },
+    "EX_206": {
+      "name": "Aquatic Balance and Proprioception Training",
+      "type": "aquatic_balance",
+      "body_region": "neuromotor",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_005", "water_balance_equipment"],
+      "position": "standing_water",
+      "water_depth": "chest_deep",
+      "muscle_targets": {
+        "primary": ["proprioception", "postural_control"],
+        "secondary": ["core_stability", "ankle_stabilizers"]
+      },
+      "translations": {
+        "en": {
+          "name": "Aquatic Balance and Proprioception Training",
+          "description": "Balance training utilizing water's unstable environment",
+          "instructions": [
+            "Stand on one foot in chest-deep water",
+            "Perform balance challenges with eyes open and closed",
+            "Add upper extremity movements while balancing",
+            "Include dynamic balance activities",
+            "Progress to unstable surface equipment if available"
+          ],
+          "cues": [
+            "Feel the water movement",
+            "Stay centered over support foot", 
+            "Use core muscles for stability"
+          ],
+          "common_errors": [
+            "Holding breath during challenges",
+            "Not progressing difficulty appropriately",
+            "Relying too much on upper extremity support"
+          ]
+        }
+      }
+    },
+    "EX_207": {
+      "name": "Aquatic Gait Training Progressions",
+      "type": "aquatic_functional",
+      "body_region": "gait_mechanics",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_032", "underwater_treadmill"],
+      "position": "walking_water",
+      "water_depth": "variable_chest_to_waist",
+      "muscle_targets": {
+        "primary": ["gait_pattern_normalization"],
+        "secondary": ["lower_extremity_strength", "coordination"]
+      },
+      "translations": {
+        "en": {
+          "name": "Aquatic Gait Training Progressions",
+          "description": "Progressive gait training with adjustable weight bearing",
+          "instructions": [
+            "Start in deeper water for maximum unloading",
+            "Focus on normal heel-toe gait pattern",
+            "Gradually move to shallower water",
+            "Include backward walking and side-stepping",
+            "Progress speed and complexity as tolerated"
+          ],
+          "cues": [
+            "Normal heel-toe pattern",
+            "Swing arms naturally",
+            "Maintain upright posture"
+          ],
+          "common_errors": [
+            "Rushing progression to shallow water",
+            "Compensatory movement patterns",
+            "Not focusing on quality of movement"
+          ]
+        }
+      }
+    },
+    "EX_208": {
+      "name": "Aquatic Plyometric Training",
+      "type": "aquatic_power",
+      "body_region": "lower_extremity",
+      "difficulty_level": 5,
+      "equipment_required": null,
+      "equipment_optional": ["pool_deck", "plyometric_platform"],
+      "position": "standing_water",
+      "water_depth": "chest_to_waist_deep",
+      "muscle_targets": {
+        "primary": ["explosive_power", "plyometric_response"],
+        "secondary": ["landing_mechanics", "coordination"]
+      },
+      "translations": {
+        "en": {
+          "name": "Aquatic Plyometric Training",
+          "description": "Power development with reduced impact landing forces",
+          "instructions": [
+            "Perform jumping movements in chest-deep water", 
+            "Include vertical jumps, broad jumps, and lateral bounds",
+            "Focus on explosive takeoff and soft landing",
+            "Use pool deck for box jump variations",
+            "Progress intensity and complexity gradually"
+          ],
+          "cues": [
+            "Explosive upward drive",
+            "Soft landing in water",
+            "Quick ground contact time"
+          ],
+          "common_errors": [
+            "Not utilizing full explosive effort",
+            "Poor landing mechanics",
+            "Inadequate recovery between reps"
+          ]
+        }
+      }
+    },
+    "EX_209": {
+      "name": "Aquatic Core Strengthening",
+      "type": "aquatic_core",
+      "body_region": "core",
+      "difficulty_level": 4,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_030", "pool_noodles"],
+      "position": "floating_or_standing",
+      "water_depth": "deep_water",
+      "muscle_targets": {
+        "primary": ["core_stabilizers", "abdominals"],
+        "secondary": ["hip_flexors", "coordination"]
+      },
+      "translations": {
+        "en": {
+          "name": "Aquatic Core Strengthening",
+          "description": "Core strengthening utilizing water's three-dimensional resistance",
+          "instructions": [
+            "Use flotation equipment for supported positions",
+            "Perform leg lifts, bicycle movements, and twisting motions",
+            "Include plank variations using pool noodles",
+            "Add rotational movements for oblique strengthening",
+            "Maintain neutral spine throughout exercises"
+          ],
+          "cues": [
+            "Keep core engaged",
+            "Control all movements",
+            "Breathe regularly"
+          ],
+          "common_errors": [
+            "Holding breath during exertion",
+            "Using momentum instead of muscle control",
+            "Neck strain during floating exercises"
+          ]
+        }
+      }
+    },
+    "EX_210": {
+      "name": "Aquatic Stretching and Flexibility",
+      "type": "aquatic_flexibility",
+      "body_region": "total_body",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_030", "pool_noodles"],
+      "position": "floating_or_standing",
+      "water_depth": "variable",
+      "muscle_targets": {
+        "primary": ["flexibility", "muscle_relaxation"],
+        "secondary": ["joint_mobility", "circulation"]
+      },
+      "translations": {
+        "en": {
+          "name": "Aquatic Stretching and Flexibility",
+          "description": "Relaxation and flexibility training in warm water environment",
+          "instructions": [
+            "Use water buoyancy to assist stretching",
+            "Include static and dynamic stretching techniques",
+            "Focus on major muscle groups",
+            "Hold stretches longer in warm water environment",
+            "Combine with gentle movement and breathing"
+          ],
+          "cues": [
+            "Let water support the stretch",
+            "Breathe deeply and relax",
+            "Move gently into stretch"
+          ],
+          "common_errors": [
+            "Forcing stretches too aggressively",
+            "Not taking advantage of water support",
+            "Inadequate warm-up before stretching"
+          ]
+        }
+      }
+    },
+    "EX_211": {
+      "name": "Aquatic Spinal Decompression Exercises",
+      "type": "aquatic_mobility",
+      "body_region": "spine",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_030", "spine_support_equipment"],
+      "position": "floating",
+      "water_depth": "deep_water",
+      "muscle_targets": {
+        "primary": ["spinal_decompression"],
+        "secondary": ["paraspinal_muscles", "relaxation"]
+      },
+      "translations": {
+        "en": {
+          "name": "Aquatic Spinal Decompression Exercises",
+          "description": "Spinal decompression and mobility using water buoyancy",
+          "instructions": [
+            "Use flotation support for comfortable floating",
+            "Allow spine to lengthen in supported position",
+            "Perform gentle spinal movements",
+            "Include rotation and side-bending in supported positions",
+            "Focus on relaxation and pain relief"
+          ],
+          "cues": [
+            "Let water support your weight",
+            "Feel spine lengthening",
+            "Relax and breathe deeply"
+          ],
+          "common_errors": [
+            "Tension and anxiety in water",
+            "Not utilizing flotation support adequately",
+            "Moving too aggressively"
+          ]
+        }
+      }
+    },
+    "EX_212": {
+      "name": "Aquatic Arthritis Exercise Program",
+      "type": "aquatic_therapeutic",
+      "body_region": "joints",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["water_weights", "EQ_030"],
+      "position": "standing_water",
+      "water_depth": "chest_deep",
+      "muscle_targets": {
+        "primary": ["joint_mobility", "pain_reduction"],
+        "secondary": ["muscle_strength", "cardiovascular_health"]
+      },
+      "translations": {
+        "en": {
+          "name": "Aquatic Arthritis Exercise Program",
+          "description": "Joint-friendly exercises for arthritis management",
+          "instructions": [
+            "Begin with gentle warm-up movements",
+            "Include range of motion for all major joints",
+            "Add light resistance with water movement",
+            "Focus on pain-free movement",
+            "End with relaxation and cooling down"
+          ],
+          "cues": [
+            "Move within comfortable range",
+            "Use water warmth for pain relief",
+            "Stop if pain increases"
+          ],
+          "common_errors": [
+            "Pushing through significant pain",
+            "Not allowing adequate warm-up time",
+            "Exercising during acute flare-ups"
+          ]
+        }
+      }
+    },
+    "EX_213": {
+      "name": "Aquatic Post-Surgical Rehabilitation",
+      "type": "aquatic_rehabilitation",
+      "body_region": "surgical_site_specific",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["surgical_specific_equipment"],
+      "position": "variable",
+      "water_depth": "appropriate_for_condition",
+      "muscle_targets": {
+        "primary": ["surgical_site_healing"],
+        "secondary": ["circulation", "muscle_maintenance"]
+      },
+      "translations": {
+        "en": {
+          "name": "Aquatic Post-Surgical Rehabilitation",
+          "description": "Post-surgical rehabilitation utilizing water's healing properties",
+          "instructions": [
+            "Ensure wound healing and medical clearance",
+            "Start with gentle movement and circulation",
+            "Progress based on surgical protocol",
+            "Use hydrostatic pressure for edema control",
+            "Coordinate with surgical team guidelines"
+          ],
+          "cues": [
+            "Follow surgical restrictions",
+            "Listen to your body",
+            "Progress gradually"
+          ],
+          "common_errors": [
+            "Starting too early post-surgery",
+            "Not following surgical precautions",
+            "Progressing too quickly"
+          ]
+        }
+      }
+    },
+    "EX_214": {
+      "name": "Aquatic Cardiovascular Training Intervals",
+      "type": "aquatic_cardiovascular",
+      "body_region": "cardiovascular_system",
+      "difficulty_level": 4,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_031", "heart_rate_monitor"],
+      "position": "moving_water",
+      "water_depth": "deep_or_chest_deep",
+      "muscle_targets": {
+        "primary": ["cardiovascular_endurance"],
+        "secondary": ["total_body_conditioning", "metabolic_training"]
+      },
+      "translations": {
+        "en": {
+          "name": "Aquatic Cardiovascular Training Intervals", 
+          "description": "High-intensity interval training adapted for aquatic environment",
+          "instructions": [
+            "Alternate high and low intensity aquatic exercises",
+            "Include running, jumping, and cross-training movements",
+            "Monitor heart rate and perceived exertion",
+            "Use work-to-rest ratios appropriate for fitness level",
+            "Include proper warm-up and cool-down"
+          ],
+          "cues": [
+            "Push hard during work intervals",
+            "Recover completely during rest",
+            "Monitor your exertion level"
+          ],
+          "common_errors": [
+            "Not working hard enough during high intensity",
+            "Inadequate recovery periods",
+            "Poor exercise selection for water environment"
+          ]
+        }
+      }
+    },
+    "EX_215": {
+      "name": "Aquatic Pregnancy Exercise Program",
+      "type": "aquatic_prenatal",
+      "body_region": "total_body",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_030", "prenatal_flotation"],
+      "position": "standing_or_floating",
+      "water_depth": "chest_deep",
+      "muscle_targets": {
+        "primary": ["prenatal_fitness"],
+        "secondary": ["pelvic_floor", "posture", "circulation"]
+      },
+      "translations": {
+        "en": {
+          "name": "Aquatic Pregnancy Exercise Program",
+          "description": "Safe and effective exercise for pregnant women",
+          "instructions": [
+            "Focus on low-impact cardiovascular exercise",
+            "Include pelvic floor and core strengthening",
+            "Practice breathing techniques",
+            "Monitor body temperature and hydration",
+            "Modify as pregnancy progresses"
+          ],
+          "cues": [
+            "Stay hydrated",
+            "Listen to your body",
+            "Maintain comfortable intensity"
+          ],
+          "common_errors": [
+            "Exercising at too high intensity",
+            "Inadequate hydration",
+            "Not modifying for pregnancy changes"
+          ]
+        }
+      }
+    },
+    "EX_216": {
+      "name": "Aquatic Fibromyalgia Exercise Program",
+      "type": "aquatic_therapeutic",
+      "body_region": "total_body",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_030", "temperature_monitoring"],
+      "position": "various",
+      "water_depth": "comfortable_depth",
+      "muscle_targets": {
+        "primary": ["pain_management", "muscle_conditioning"],
+        "secondary": ["sleep_quality", "mood_improvement"]
+      },
+      "translations": {
+        "en": {
+          "name": "Aquatic Fibromyalgia Exercise Program", 
+          "description": "Gentle aquatic program for fibromyalgia symptom management",
+          "instructions": [
+            "Start with very gentle movements",
+            "Use warm water for muscle relaxation", 
+            "Include range of motion and light strengthening",
+            "Focus on relaxation and stress reduction",
+            "Progress very slowly and individualize"
+          ],
+          "cues": [
+            "Start very gently",
+            "Use warmth for comfort",
+            "Respect your limits"
+          ],
+          "common_errors": [
+            "Doing too much too soon",
+            "Not using water temperature therapeutically",
+            "Comparing progress to others"
+          ]
+        }
+      }
+    },
+    "EX_217": {
+      "name": "Aquatic Multiple Sclerosis Exercise Program",
+      "type": "aquatic_neurological",
+      "body_region": "neurological",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_030", "cooling_equipment"],
+      "position": "supported",
+      "water_depth": "safe_appropriate_depth",
+      "muscle_targets": {
+        "primary": ["neurological_function"],
+        "secondary": ["strength", "balance", "fatigue_management"]
+      },
+      "translations": {
+        "en": {
+          "name": "Aquatic Multiple Sclerosis Exercise Program",
+          "description": "Adapted aquatic exercise for multiple sclerosis management",
+          "instructions": [
+            "Monitor water temperature to prevent overheating",
+            "Include balance and coordination exercises",
+            "Focus on functional movement patterns",
+            "Allow for fatigue management and rest",
+            "Adapt exercises for individual limitations"
+          ],
+          "cues": [
+            "Pace yourself",
+            "Stay cool",
+            "Focus on what you can do"
+          ],
+          "common_errors": [
+            "Water too warm causing fatigue",
+            "Not modifying for individual symptoms",
+            "Overexertion leading to fatigue"
+          ]
+        }
+      }
+    },
+    "EX_218": {
+      "name": "Aquatic Parkinson's Disease Exercise Program",
+      "type": "aquatic_neurological",
+      "body_region": "neurological",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_030", "safety_equipment"],
+      "position": "supported_standing",
+      "water_depth": "chest_deep",
+      "muscle_targets": {
+        "primary": ["movement_initiation", "rigidity_reduction"],
+        "secondary": ["balance", "gait", "speech"]
+      },
+      "translations": {
+        "en": {
+          "name": "Aquatic Parkinson's Disease Exercise Program",
+          "description": "Aquatic therapy for Parkinson's disease symptom management",
+          "instructions": [
+            "Use water resistance to improve movement initiation",
+            "Include large amplitude movements",
+            "Practice dual-task activities",
+            "Focus on posture and balance training",
+            "Incorporate voice and speech exercises"
+          ],
+          "cues": [
+            "Think big movements",
+            "Speak loudly and clearly",
+            "Focus on posture"
+          ],
+          "common_errors": [
+            "Movements too small",
+            "Not using voice exercises",
+            "Inadequate safety precautions"
+          ]
+        }
+      }
+    },
+    "EX_219": {
+      "name": "Aquatic Senior Fitness Program",
+      "type": "aquatic_geriatric",
+      "body_region": "total_body",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_030", "senior_safety_equipment"],
+      "position": "standing_water",
+      "water_depth": "comfortable_depth",
+      "muscle_targets": {
+        "primary": ["functional_fitness", "fall_prevention"],
+        "secondary": ["bone_health", "social_interaction"]
+      },
+      "translations": {
+        "en": {
+          "name": "Aquatic Senior Fitness Program",
+          "description": "Comprehensive aquatic fitness program for older adults",
+          "instructions": [
+            "Include cardiovascular, strength, and flexibility components",
+            "Focus on functional movements for daily activities",
+            "Emphasize balance and fall prevention",
+            "Create social and enjoyable environment", 
+            "Modify for individual health conditions"
+          ],
+          "cues": [
+            "Move at your own pace",
+            "Have fun with the group",
+            "Focus on daily life activities"
+          ],
+          "common_errors": [
+            "Not considering individual health issues",
+            "Program too generic",
+            "Missing social interaction component"
+          ]
+        }
+      }
+    },
+    "EX_220": {
+      "name": "Aquatic Athletic Performance Training",
+      "type": "aquatic_performance",
+      "body_region": "total_body",
+      "difficulty_level": 5,
+      "equipment_required": null,
+      "equipment_optional": ["performance_monitoring", "resistance_equipment"],
+      "position": "various",
+      "water_depth": "variable",
+      "muscle_targets": {
+        "primary": ["athletic_performance"],
+        "secondary": ["power", "agility", "recovery"]
+      },
+      "translations": {
+        "en": {
+          "name": "Aquatic Athletic Performance Training",
+          "description": "High-level aquatic training for athletic performance enhancement",
+          "instructions": [
+            "Include sport-specific movement patterns in water",
+            "Use water resistance for power development",
+            "Practice agility and reaction training",
+            "Incorporate recovery and regeneration protocols",
+            "Monitor performance metrics and progression"
+          ],
+          "cues": [
+            "Maximize power output",
+            "Maintain sport-specific patterns",
+            "Use water for recovery"
+          ],
+          "common_errors": [
+            "Not adapting movements for water environment",
+            "Missing sport-specific applications",
+            "Inadequate progression monitoring"
+          ]
+        }
+      }
+    },
+    "EX_221": {
+      "name": "Aquatic Return to Work Conditioning",
+      "type": "aquatic_occupational",
+      "body_region": "work_specific",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["work_simulation_equipment"],
+      "position": "work_position_simulation",
+      "water_depth": "appropriate_for_activity",
+      "muscle_targets": {
+        "primary": ["work_specific_conditioning"],
+        "secondary": ["endurance", "injury_prevention"]
+      },
+      "translations": {
+        "en": {
+          "name": "Aquatic Return to Work Conditioning", 
+          "description": "Work-specific conditioning using aquatic environment",
+          "instructions": [
+            "Simulate work tasks and movements in water",
+            "Progress loading and intensity gradually",
+            "Include endurance and strength components",
+            "Practice proper body mechanics",
+            "Coordinate with occupational requirements"
+          ],
+          "cues": [
+            "Practice proper work posture",
+            "Build work endurance",
+            "Focus on injury prevention"
+          ],
+          "common_errors": [
+            "Not making exercises work-specific",
+            "Inadequate progression planning",
+            "Missing ergonomic education"
+          ]
+        }
+      }
+    },
+    "EX_222": {
+      "name": "Aquatic Pain Management Program",
+      "type": "aquatic_pain_management",
+      "body_region": "pain_affected_areas",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_030", "relaxation_aids"],
+      "position": "comfortable_positions",
+      "water_depth": "pain_appropriate_depth",
+      "muscle_targets": {
+        "primary": ["pain_reduction"],
+        "secondary": ["muscle_relaxation", "mood_improvement"]
+      },
+      "translations": {
+        "en": {
+          "name": "Aquatic Pain Management Program",
+          "description": "Comprehensive aquatic approach to chronic pain management",
+          "instructions": [
+            "Use water warmth and pressure for pain relief",
+            "Include gentle movement and stretching",
+            "Practice relaxation and mindfulness techniques",
+            "Focus on functional improvement",
+            "Coordinate with pain management team"
+          ],
+          "cues": [
+            "Let water ease your pain",
+            "Move gently and mindfully",
+            "Focus on what feels good"
+          ],
+          "common_errors": [
+            "Pushing through pain",
+            "Not using water properties therapeutically",
+            "Missing mind-body connection"
+          ]
+        }
+      }
+    },
+    "EX_223": {
+      "name": "Aquatic Lymphedema Management",
+      "type": "aquatic_therapeutic",
+      "body_region": "lymphatic_system",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["compression_garments"],
+      "position": "various",
+      "water_depth": "appropriate_for_pressure",
+      "muscle_targets": {
+        "primary": ["lymphatic_drainage"],
+        "secondary": ["circulation", "edema_reduction"]
+      },
+      "translations": {
+        "en": {
+          "name": "Aquatic Lymphedema Management",
+          "description": "Using hydrostatic pressure for lymphedema treatment",
+          "instructions": [
+            "Use water pressure for compression effect",
+            "Include gentle pumping movements",
+            "Practice deep breathing for lymphatic flow",
+            "Follow lymphedema precautions",
+            "Coordinate with lymphedema specialist"
+          ],
+          "cues": [
+            "Feel the water pressure helping",
+            "Breathe deeply",
+            "Move gently to pump lymph"
+          ],
+          "common_errors": [
+            "Not following lymphedema precautions",
+            "Water temperature too warm",
+            "Movements too aggressive"
+          ]
+        }
+      }
+    },
+    "EX_224": {
+      "name": "Aquatic Burn Rehabilitation",
+      "type": "aquatic_rehabilitation",
+      "body_region": "burn_affected_areas",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["protective_coverings"],
+      "position": "safe_positioning",
+      "water_depth": "appropriate_depth",
+      "muscle_targets": {
+        "primary": ["scar_management", "range_of_motion"],
+        "secondary": ["strength", "function"]
+      },
+      "translations": {
+        "en": {
+          "name": "Aquatic Burn Rehabilitation",
+          "description": "Specialized aquatic therapy for burn recovery",
+          "instructions": [
+            "Ensure wound healing and medical clearance",
+            "Use water for scar tissue management",
+            "Focus on maintaining range of motion",
+            "Include strengthening as appropriate",
+            "Coordinate with burn team"
+          ],
+          "cues": [
+            "Water helps with scar flexibility",
+            "Move within comfortable range",
+            "Be patient with healing"
+          ],
+          "common_errors": [
+            "Starting before adequate healing",
+            "Not protecting sensitive areas",
+            "Inadequate infection control"
+          ]
+        }
+      }
+    },
+    "EX_225": {
+      "name": "Aquatic Breathing and Relaxation Training",
+      "type": "aquatic_wellness",
+      "body_region": "respiratory_system",
+      "difficulty_level": 1,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_030", "relaxation_equipment"],
+      "position": "floating_or_supported",
+      "water_depth": "comfortable_depth",
+      "muscle_targets": {
+        "primary": ["respiratory_function"],
+        "secondary": ["relaxation", "stress_reduction"]
+      },
+      "translations": {
+        "en": {
+          "name": "Aquatic Breathing and Relaxation Training",
+          "description": "Combining breath work with aquatic environment for wellness",
+          "instructions": [
+            "Practice various breathing techniques in water",
+            "Use water support for relaxation positions",
+            "Include meditation and mindfulness practices",
+            "Focus on stress reduction and wellness",
+            "Create peaceful aquatic environment"
+          ],
+          "cues": [
+            "Breathe slowly and deeply",
+            "Let water support and relax you",
+            "Focus on present moment"
+          ],
+          "common_errors": [
+            "Rushing breathing exercises",
+            "Not creating calming environment",
+            "Missing mind-body connection"
+          ]
+        }
+      }
+    }
+  }
+}

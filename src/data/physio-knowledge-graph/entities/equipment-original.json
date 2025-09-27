@@ -1,0 +1,604 @@
+{
+  "equipment": {
+    "EQ_001": {
+      "name": "Biodex System 4 Pro",
+      "category": "isokinetic",
+      "subcategory": "computerized_testing",
+      "manufacturer": "Biodex Medical Systems",
+      "modalities": ["strength_testing", "training", "neuromuscular_re-education"],
+      "parameters": {
+        "modes": ["isokinetic", "isometric", "isotonic", "reactive_eccentric"],
+        "speeds": "0-500°/sec",
+        "torque": "500 ft-lbs"
+      },
+      "clinical_applications": ["ACL_rehab", "sports_testing", "research"],
+      "cost_range": "$$$$$",
+      "certification_required": true
+    },
+    "EQ_002": {
+      "name": "AlterG Anti-Gravity Treadmill",
+      "category": "gait_training",
+      "subcategory": "body_weight_support",
+      "manufacturer": "AlterG Inc",
+      "modalities": ["gait_training", "running_assessment"],
+      "parameters": {
+        "weight_reduction": "1-100%",
+        "speed": "0-12 mph",
+        "incline": "-10 to +15%"
+      },
+      "clinical_applications": ["post_surgical", "neurological", "sports_return"],
+      "cost_range": "$$$$$",
+      "certification_required": true
+    },
+    "EQ_003": {
+      "name": "Lokomat Pro",
+      "category": "robotic",
+      "subcategory": "gait_rehabilitation",
+      "manufacturer": "Hocoma",
+      "modalities": ["robotic_gait_training", "biofeedback"],
+      "parameters": {
+        "body_weight_support": "0-100%",
+        "guidance_force": "0-100%",
+        "walking_speed": "0-3.5 km/h"
+      },
+      "clinical_applications": ["SCI", "stroke", "TBI", "pediatric"],
+      "cost_range": "$$$$$$",
+      "certification_required": true
+    },
+    "EQ_004": {
+      "name": "Armeo Spring",
+      "category": "robotic",
+      "subcategory": "upper_extremity",
+      "manufacturer": "Hocoma",
+      "modalities": ["arm_rehabilitation", "functional_training"],
+      "parameters": {
+        "degrees_of_freedom": 6,
+        "workspace": "3D",
+        "games": "multiple_therapy_games"
+      },
+      "clinical_applications": ["stroke", "TBI", "MS", "orthopedic"],
+      "cost_range": "$$$$$",
+      "certification_required": true
+    },
+    "EQ_005": {
+      "name": "SMART Balance Master",
+      "category": "balance",
+      "subcategory": "computerized_dynamic_posturography",
+      "manufacturer": "Natus Medical",
+      "modalities": ["balance_assessment", "training", "fall_risk"],
+      "parameters": {
+        "protocols": ["SOT", "MCT", "ADT", "LOS"],
+        "visual_feedback": "real-time",
+        "perturbations": "multi-directional"
+      },
+      "clinical_applications": ["vestibular", "neurological", "geriatric"],
+      "cost_range": "$$$$$",
+      "certification_required": true
+    },
+    "EQ_006": {
+      "name": "Shockwave Therapy Unit (Storz Medical)",
+      "category": "modality",
+      "subcategory": "extracorporeal_shockwave",
+      "manufacturer": "Storz Medical",
+      "modalities": ["ESWT", "radial_shockwave"],
+      "parameters": {
+        "frequency": "1-21 Hz",
+        "pressure": "1-5 bar",
+        "pulses": "100-3000"
+      },
+      "clinical_applications": ["tendinopathy", "plantar_fasciitis", "calcific_tendinitis"],
+      "cost_range": "$$$$",
+      "certification_required": true
+    },
+    "EQ_007": {
+      "name": "Class IV K-Laser",
+      "category": "modality",
+      "subcategory": "therapeutic_laser",
+      "manufacturer": "K-Laser USA",
+      "modalities": ["HILT", "photobiomodulation"],
+      "parameters": {
+        "wavelengths": "660nm, 800nm, 905nm, 970nm",
+        "power": "up to 20W",
+        "modes": ["continuous", "pulsed", "super_pulsed"]
+      },
+      "clinical_applications": ["pain", "inflammation", "tissue_healing"],
+      "cost_range": "$$$$",
+      "certification_required": true
+    },
+    "EQ_008": {
+      "name": "Intelect Legend XT Combo",
+      "category": "modality",
+      "subcategory": "electrotherapy",
+      "manufacturer": "Chattanooga",
+      "modalities": ["ultrasound", "electrical_stimulation", "combination"],
+      "parameters": {
+        "ultrasound": "1MHz, 3MHz",
+        "estim_channels": 4,
+        "waveforms": ["IFC", "TENS", "NMES", "Russian", "Hi-Volt"]
+      },
+      "clinical_applications": ["pain", "muscle_re-education", "edema"],
+      "cost_range": "$$$",
+      "certification_required": false
+    },
+    "EQ_009": {
+      "name": "Game Ready Pro 2.1",
+      "category": "modality",
+      "subcategory": "cryotherapy_compression",
+      "manufacturer": "Game Ready",
+      "modalities": ["cold_therapy", "intermittent_compression"],
+      "parameters": {
+        "temperature": "35-55°F",
+        "pressure": "5-75 mmHg",
+        "treatment_time": "5-360 min"
+      },
+      "clinical_applications": ["acute_injury", "post_surgical", "sports"],
+      "cost_range": "$$$",
+      "certification_required": false
+    },
+    "EQ_010": {
+      "name": "Normatec Pulse 2.0",
+      "category": "modality",
+      "subcategory": "pneumatic_compression",
+      "manufacturer": "Hyperice",
+      "modalities": ["dynamic_compression", "recovery"],
+      "parameters": {
+        "pressure_range": "30-110 mmHg",
+        "zones": 5,
+        "programs": ["pre-configured", "customizable"]
+      },
+      "clinical_applications": ["recovery", "edema", "circulation"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_011": {
+      "name": "Dynatronics Solaris Plus",
+      "category": "modality",
+      "subcategory": "multi-modality",
+      "manufacturer": "Dynatronics",
+      "modalities": ["ultrasound", "estim", "laser", "light_therapy"],
+      "parameters": {
+        "channels": 5,
+        "touchscreen": true,
+        "protocols": "pre-programmed"
+      },
+      "clinical_applications": ["comprehensive_therapy"],
+      "cost_range": "$$$$",
+      "certification_required": false
+    },
+    "EQ_012": {
+      "name": "Spinal Decompression Table (DRX9000)",
+      "category": "traction",
+      "subcategory": "computerized_traction",
+      "manufacturer": "Excite Medical",
+      "modalities": ["spinal_decompression", "traction"],
+      "parameters": {
+        "force": "up to 200 lbs",
+        "angle": "adjustable",
+        "protocols": "disc-specific"
+      },
+      "clinical_applications": ["disc_herniation", "sciatica", "DDD"],
+      "cost_range": "$$$$$",
+      "certification_required": true
+    },
+    "EQ_013": {
+      "name": "Aquatic Therapy Pool (HydroWorx)",
+      "category": "aquatic",
+      "subcategory": "underwater_treadmill",
+      "manufacturer": "HydroWorx",
+      "modalities": ["aquatic_therapy", "underwater_treadmill"],
+      "parameters": {
+        "water_depth": "adjustable",
+        "treadmill_speed": "0-8.5 mph",
+        "resistance_jets": true
+      },
+      "clinical_applications": ["early_mobilization", "sports", "arthritis"],
+      "cost_range": "$$$$$$",
+      "certification_required": true
+    },
+    "EQ_014": {
+      "name": "Redcord Suspension System",
+      "category": "exercise",
+      "subcategory": "suspension_training",
+      "manufacturer": "Redcord",
+      "modalities": ["neurac", "suspension_exercise"],
+      "parameters": {
+        "adjustability": "infinite",
+        "accessories": "multiple",
+        "vibration": "optional"
+      },
+      "clinical_applications": ["neuromuscular_control", "core", "sports"],
+      "cost_range": "$$",
+      "certification_required": true
+    },
+    "EQ_015": {
+      "name": "Blood Flow Restriction System (Delfi PTS)",
+      "category": "specialized",
+      "subcategory": "BFR_training",
+      "manufacturer": "Delfi Medical",
+      "modalities": ["blood_flow_restriction", "occlusion_training"],
+      "parameters": {
+        "pressure": "personalized_tourniquet_pressure",
+        "limb_occlusion": "50-80%",
+        "safety_features": "doppler_ultrasound"
+      },
+      "clinical_applications": ["strength", "post_surgical", "atrophy_prevention"],
+      "cost_range": "$$$",
+      "certification_required": true
+    },
+    "EQ_016": {
+      "name": "Whole Body Vibration Platform (Power Plate)",
+      "category": "exercise",
+      "subcategory": "vibration_training",
+      "manufacturer": "Performance Health Systems",
+      "modalities": ["whole_body_vibration", "proprioception"],
+      "parameters": {
+        "frequency": "25-50 Hz",
+        "amplitude": "2-4mm",
+        "g-force": "up to 6.3g"
+      },
+      "clinical_applications": ["balance", "bone_density", "strength"],
+      "cost_range": "$$$",
+      "certification_required": false
+    },
+    "EQ_017": {
+      "name": "Dry Needling Equipment Set",
+      "category": "manual_therapy",
+      "subcategory": "dry_needling",
+      "manufacturer": "Various",
+      "modalities": ["trigger_point_dry_needling", "IMS"],
+      "parameters": {
+        "needle_sizes": "0.16-0.30mm x 15-100mm",
+        "guide_tubes": true,
+        "electro_stim_compatible": true
+      },
+      "clinical_applications": ["myofascial_pain", "trigger_points"],
+      "cost_range": "$",
+      "certification_required": true
+    },
+    "EQ_018": {
+      "name": "Pilates Reformer (Clinical)",
+      "category": "exercise",
+      "subcategory": "pilates_equipment",
+      "manufacturer": "Balanced Body",
+      "modalities": ["therapeutic_pilates", "movement_re-education"],
+      "parameters": {
+        "resistance": "spring-based",
+        "positions": "multiple",
+        "accessories": "jumpboard_tower"
+      },
+      "clinical_applications": ["core", "posture", "movement_quality"],
+      "cost_range": "$$$",
+      "certification_required": true
+    },
+    "EQ_019": {
+      "name": "Functional Electrical Stimulation (Bioness L300)",
+      "category": "neuroprosthetic",
+      "subcategory": "FES",
+      "manufacturer": "Bioness",
+      "modalities": ["functional_electrical_stimulation", "gait_assistance"],
+      "parameters": {
+        "wireless": true,
+        "gait_sensor": "3D_accelerometer",
+        "customizable_stimulation": true
+      },
+      "clinical_applications": ["foot_drop", "stroke", "MS", "TBI"],
+      "cost_range": "$$$$",
+      "certification_required": true
+    },
+    "EQ_020": {
+      "name": "Virtual Reality System (Virtualis)",
+      "category": "technology",
+      "subcategory": "VR_rehabilitation",
+      "manufacturer": "Virtualis",
+      "modalities": ["VR_therapy", "motion_analysis"],
+      "parameters": {
+        "tracking": "full_body",
+        "environments": "customizable",
+        "biofeedback": "real-time"
+      },
+      "clinical_applications": ["balance", "neurological", "pain"],
+      "cost_range": "$$$$",
+      "certification_required": false
+    },
+    "EQ_021": {
+      "name": "EMG Biofeedback System (Thought Technology)",
+      "category": "biofeedback",
+      "subcategory": "surface_EMG",
+      "manufacturer": "Thought Technology",
+      "modalities": ["EMG_biofeedback", "muscle_re-education"],
+      "parameters": {
+        "channels": "2-8",
+        "sensitivity": "0.1-2000 μV",
+        "feedback": "audio_visual"
+      },
+      "clinical_applications": ["muscle_re-education", "relaxation", "pelvic_floor"],
+      "cost_range": "$$$",
+      "certification_required": false
+    },
+    "EQ_022": {
+      "name": "Paraffin Bath Unit",
+      "category": "thermal",
+      "subcategory": "moist_heat",
+      "manufacturer": "Various",
+      "modalities": ["thermotherapy", "moist_heat"],
+      "parameters": {
+        "temperature": "125-134°F",
+        "capacity": "6-25 lbs",
+        "timer": "adjustable"
+      },
+      "clinical_applications": ["arthritis", "hand_therapy", "contractures"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_023": {
+      "name": "Fluidotherapy Unit",
+      "category": "thermal",
+      "subcategory": "dry_heat",
+      "manufacturer": "Chattanooga",
+      "modalities": ["dry_heat", "desensitization"],
+      "parameters": {
+        "temperature": "100-125°F",
+        "particle_agitation": "adjustable",
+        "treatment_areas": "hand_foot_knee"
+      },
+      "clinical_applications": ["CRPS", "arthritis", "desensitization"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_024": {
+      "name": "Mechanical Traction Unit",
+      "category": "traction",
+      "subcategory": "static_intermittent",
+      "manufacturer": "Chattanooga",
+      "modalities": ["cervical_traction", "lumbar_traction"],
+      "parameters": {
+        "force": "up to 200 lbs",
+        "modes": ["static", "intermittent", "progressive"],
+        "angle": "0-30 degrees"
+      },
+      "clinical_applications": ["disc_pathology", "nerve_root_compression"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_025": {
+      "name": "Continuous Passive Motion (CPM) Machine",
+      "category": "passive_motion",
+      "subcategory": "joint_specific",
+      "manufacturer": "Kinetec",
+      "modalities": ["passive_ROM", "post_surgical"],
+      "parameters": {
+        "ROM": "adjustable",
+        "speed": "variable",
+        "pause_settings": true
+      },
+      "clinical_applications": ["post_surgical_knee", "shoulder", "elbow"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_026": {
+      "name": "Resistance Bands Set",
+      "category": "exercise",
+      "subcategory": "elastic_resistance",
+      "manufacturer": "TheraBand",
+      "modalities": ["resistance_exercise", "stretching"],
+      "parameters": {
+        "resistance_levels": "8_color_coded",
+        "latex_free_options": true,
+        "accessories": "handles_anchors"
+      },
+      "clinical_applications": ["strengthening", "ROM", "home_programs"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_027": {
+      "name": "Swiss Ball Collection",
+      "category": "exercise",
+      "subcategory": "stability_training",
+      "manufacturer": "Various",
+      "modalities": ["balance", "core_training", "stretching"],
+      "parameters": {
+        "sizes": "45cm-85cm",
+        "burst_resistant": true,
+        "weight_capacity": "300-600 lbs"
+      },
+      "clinical_applications": ["core", "balance", "prenatal"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_028": {
+      "name": "Foam Roller Set",
+      "category": "manual_therapy",
+      "subcategory": "self_myofascial_release",
+      "manufacturer": "Various",
+      "modalities": ["myofascial_release", "mobility"],
+      "parameters": {
+        "densities": ["soft", "medium", "firm"],
+        "textures": ["smooth", "textured", "vibrating"],
+        "sizes": "various"
+      },
+      "clinical_applications": ["myofascial_release", "warm_up", "recovery"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_029": {
+      "name": "Ankle Board/Wobble Board",
+      "category": "balance",
+      "subcategory": "proprioception",
+      "manufacturer": "Various",
+      "modalities": ["balance_training", "proprioception"],
+      "parameters": {
+        "degrees_of_freedom": "1-3",
+        "difficulty": "adjustable",
+        "surfaces": "various"
+      },
+      "clinical_applications": ["ankle_rehab", "balance", "fall_prevention"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_030": {
+      "name": "Goniometer Set",
+      "category": "assessment",
+      "subcategory": "range_of_motion",
+      "manufacturer": "Various",
+      "modalities": ["ROM_assessment"],
+      "parameters": {
+        "types": ["universal", "finger", "inclinometer"],
+        "sizes": "various",
+        "digital_options": true
+      },
+      "clinical_applications": ["assessment", "progress_tracking"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_031": {
+      "name": "Dynamometer (Hand/Grip)",
+      "category": "assessment",
+      "subcategory": "strength_testing",
+      "manufacturer": "JAMAR",
+      "modalities": ["strength_assessment"],
+      "parameters": {
+        "range": "0-200 lbs",
+        "positions": 5,
+        "digital": "optional"
+      },
+      "clinical_applications": ["hand_strength", "progress_tracking"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_032": {
+      "name": "Electrical Muscle Stimulation (Compex)",
+      "category": "modality",
+      "subcategory": "NMES",
+      "manufacturer": "Compex",
+      "modalities": ["NMES", "recovery", "strength"],
+      "parameters": {
+        "programs": "multiple_preset",
+        "channels": 4,
+        "wireless": "available"
+      },
+      "clinical_applications": ["muscle_strengthening", "recovery", "pain"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_033": {
+      "name": "Kinesiology Tape",
+      "category": "taping",
+      "subcategory": "elastic_therapeutic_tape",
+      "manufacturer": "Various",
+      "modalities": ["taping", "support"],
+      "parameters": {
+        "elasticity": "140-180%",
+        "water_resistant": true,
+        "hypoallergenic": "options_available"
+      },
+      "clinical_applications": ["support", "edema", "proprioception"],
+      "cost_range": "$",
+      "certification_required": true
+    },
+    "EQ_034": {
+      "name": "Treatment Table (Hi-Lo Electric)",
+      "category": "furniture",
+      "subcategory": "adjustable_table",
+      "manufacturer": "Various",
+      "modalities": ["patient_positioning"],
+      "parameters": {
+        "height_range": "18-37 inches",
+        "weight_capacity": "400-600 lbs",
+        "sections": "2-3"
+      },
+      "clinical_applications": ["all_treatments"],
+      "cost_range": "$$$",
+      "certification_required": false
+    },
+    "EQ_035": {
+      "name": "Parallel Bars",
+      "category": "gait_training",
+      "subcategory": "ambulation",
+      "manufacturer": "Various",
+      "modalities": ["gait_training", "balance"],
+      "parameters": {
+        "length": "7-12 feet",
+        "height": "adjustable",
+        "width": "adjustable"
+      },
+      "clinical_applications": ["gait_training", "weight_bearing"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_036": {
+      "name": "Stairs and Ramp Training Set",
+      "category": "functional",
+      "subcategory": "mobility_training",
+      "manufacturer": "Various",
+      "modalities": ["functional_mobility", "stair_training"],
+      "parameters": {
+        "steps": "3-5",
+        "handrails": "adjustable",
+        "ramp_angle": "variable"
+      },
+      "clinical_applications": ["functional_mobility", "discharge_planning"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_037": {
+      "name": "Pulley System (Wall/Door Mounted)",
+      "category": "exercise",
+      "subcategory": "ROM_equipment",
+      "manufacturer": "Various",
+      "modalities": ["assisted_ROM", "strengthening"],
+      "parameters": {
+        "mounting": "wall_door",
+        "rope_length": "adjustable",
+        "handles": "various"
+      },
+      "clinical_applications": ["shoulder_ROM", "home_programs"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_038": {
+      "name": "Mirror Box Therapy",
+      "category": "neurological",
+      "subcategory": "mirror_therapy",
+      "manufacturer": "Various",
+      "modalities": ["mirror_therapy", "phantom_limb"],
+      "parameters": {
+        "size": "various",
+        "portability": true,
+        "adjustable": true
+      },
+      "clinical_applications": ["phantom_pain", "CRPS", "stroke"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_039": {
+      "name": "Cupping Set",
+      "category": "manual_therapy",
+      "subcategory": "myofascial_decompression",
+      "manufacturer": "Various",
+      "modalities": ["cupping", "myofascial_decompression"],
+      "parameters": {
+        "types": ["silicone", "plastic", "glass"],
+        "sizes": "various",
+        "suction_methods": ["manual", "pump"]
+      },
+      "clinical_applications": ["myofascial_release", "trigger_points"],
+      "cost_range": "$",
+      "certification_required": true
+    },
+    "EQ_040": {
+      "name": "Instrument Assisted Soft Tissue Mobilization Tools",
+      "category": "manual_therapy",
+      "subcategory": "IASTM",
+      "manufacturer": "Various",
+      "modalities": ["IASTM", "soft_tissue_mobilization"],
+      "parameters": {
+        "materials": ["stainless_steel", "plastic"],
+        "edges": "various",
+        "sizes": "set_of_4-6"
+      },
+      "clinical_applications": ["scar_tissue", "fascial_restrictions"],
+      "cost_range": "$$",
+      "certification_required": true
+    }
+  }
+}

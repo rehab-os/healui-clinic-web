@@ -1,0 +1,78 @@
+{
+  "category": "orthopedic_exercises",
+  "description": "Exercises for musculoskeletal conditions and injuries",
+  "exercises": {
+    "EX_001": {
+      "name": "Scapular Wall Slides",
+      "type": "mobility",
+      "body_region": "shoulder",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_039"],
+      "position": "standing",
+      "muscle_targets": {
+        "primary": ["lower_trapezius", "serratus_anterior"],
+        "secondary": ["rhomboids", "middle_trapezius"]
+      },
+      "translations": {
+        "en": {
+          "name": "Scapular Wall Slides",
+          "description": "Improve scapular mobility and postural control",
+          "instructions": [
+            "Stand with back against wall",
+            "Place arms in W position against wall",
+            "Slide arms up wall while maintaining contact",
+            "Focus on squeezing shoulder blades together",
+            "Return to starting position slowly"
+          ],
+          "cues": [
+            "Keep back flat against wall",
+            "Squeeze shoulder blades down and back",
+            "Move slowly and controlled"
+          ],
+          "common_errors": [
+            "Arching back away from wall",
+            "Shrugging shoulders up",
+            "Moving too quickly"
+          ]
+        }
+      }
+    },
+    "EX_002": {
+      "name": "Band Pull-Apart",
+      "type": "strengthening",
+      "body_region": "shoulder",
+      "difficulty_level": 2,
+      "equipment_required": ["EQ_024"],
+      "equipment_optional": null,
+      "position": "standing",
+      "muscle_targets": {
+        "primary": ["rhomboids", "middle_trapezius"],
+        "secondary": ["posterior_deltoid", "infraspinatus"]
+      },
+      "translations": {
+        "en": {
+          "name": "Band Pull-Apart",
+          "description": "Strengthen posterior shoulder and scapular muscles",
+          "instructions": [
+            "Hold resistance band with both hands at shoulder height",
+            "Keep arms straight and pull band apart",
+            "Squeeze shoulder blades together",
+            "Control return to starting position",
+            "Maintain good posture throughout"
+          ],
+          "cues": [
+            "Lead with pinky fingers",
+            "Feel stretch across chest",
+            "Control the return"
+          ],
+          "common_errors": [
+            "Using momentum",
+            "Allowing shoulders to roll forward",
+            "Incomplete range of motion"
+          ]
+        }
+      }
+    }
+  }
+}

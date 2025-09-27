@@ -1,0 +1,435 @@
+{
+  "clinical_prediction_rules": {
+    "CPR_001": {
+      "name": "Lumbar Spine Manipulation Clinical Prediction Rule",
+      "condition": "COND_008",
+      "purpose": "Identify patients likely to benefit from lumbar manipulation",
+      "criteria": [
+        {
+          "criterion": "duration_of_symptoms",
+          "value": "<16_days",
+          "points": 1
+        },
+        {
+          "criterion": "FABQ_work_subscale", 
+          "value": "<19",
+          "points": 1
+        },
+        {
+          "criterion": "hip_internal_rotation",
+          "value": ">35_degrees_one_hip",
+          "points": 1
+        },
+        {
+          "criterion": "lumbar_hypomobility",
+          "value": "present",
+          "points": 1
+        },
+        {
+          "criterion": "no_symptoms_distal_knee",
+          "value": "true",
+          "points": 1
+        }
+      ],
+      "interpretation": {
+        "4_or_5_criteria": "95%_likelihood_success",
+        "3_criteria": "68%_likelihood_success", 
+        "1_or_2_criteria": "45%_likelihood_success"
+      },
+      "validation_status": "validated",
+      "reference": "Flynn_2002_Spine"
+    },
+    "CPR_002": {
+      "name": "Cervical Spine Manipulation Clinical Prediction Rule",
+      "condition": "COND_011",
+      "purpose": "Predict response to cervical manipulation",
+      "criteria": [
+        {
+          "criterion": "symptom_duration",
+          "value": "<38_days",
+          "points": 1
+        },
+        {
+          "criterion": "positive_expectation",
+          "value": "manipulation_will_help",
+          "points": 1
+        },
+        {
+          "criterion": "side_bending_ROM",
+          "value": "<60_degrees_to_side",
+          "points": 1
+        },
+        {
+          "criterion": "FABQ_PA_subscale",
+          "value": "<12",
+          "points": 1
+        }
+      ],
+      "interpretation": {
+        "3_or_4_criteria": "89.7%_likelihood_success",
+        "2_criteria": "32.8%_likelihood_success",
+        "0_or_1_criteria": "7.7%_likelihood_success"
+      },
+      "validation_status": "validated",
+      "reference": "Tseng_2006_JOSPT"
+    },
+    "CPR_003": {
+      "name": "Lumbar Stabilization Exercise CPR",
+      "condition": "COND_008", 
+      "purpose": "Identify patients likely to benefit from stabilization exercises",
+      "criteria": [
+        {
+          "criterion": "age",
+          "value": "<40_years",
+          "points": 1
+        },
+        {
+          "criterion": "straight_leg_raise",
+          "value": ">91_degrees",
+          "points": 1
+        },
+        {
+          "criterion": "prone_instability_test",
+          "value": "positive",
+          "points": 1
+        },
+        {
+          "criterion": "aberrant_movements",
+          "value": "present",
+          "points": 1
+        }
+      ],
+      "interpretation": {
+        "3_or_4_criteria": "67%_likelihood_success",
+        "2_criteria": "33%_likelihood_success",
+        "0_or_1_criteria": "22%_likelihood_success"
+      },
+      "validation_status": "preliminary",
+      "reference": "Hicks_2005_PTJ"
+    },
+    "CPR_004": {
+      "name": "Lumbar Traction CPR",
+      "condition": "COND_009",
+      "purpose": "Predict response to mechanical traction",
+      "criteria": [
+        {
+          "criterion": "nerve_root_compression_signs",
+          "value": "present",
+          "points": 1
+        },
+        {
+          "criterion": "crossed_straight_leg_raise",
+          "value": "positive",
+          "points": 1
+        },
+        {
+          "criterion": "peripheralization_centralization",
+          "value": "peripheralization_with_extension",
+          "points": 1
+        },
+        {
+          "criterion": "age",
+          "value": ">30_years",
+          "points": 1
+        }
+      ],
+      "interpretation": {
+        "3_or_4_criteria": "success_likely",
+        "fewer_than_3": "consider_alternative_treatment"
+      },
+      "validation_status": "preliminary",
+      "reference": "Cai_2009_PTJ"
+    },
+    "CPR_005": {
+      "name": "Knee Osteoarthritis Exercise CPR",
+      "condition": "COND_006",
+      "purpose": "Predict response to exercise therapy",
+      "criteria": [
+        {
+          "criterion": "age",
+          "value": ">65_years",
+          "points": 1
+        },
+        {
+          "criterion": "knee_pain_severity",
+          "value": "<6_out_of_10",
+          "points": 1
+        },
+        {
+          "criterion": "morning_stiffness",
+          "value": "<30_minutes",
+          "points": 1
+        },
+        {
+          "criterion": "radiographic_severity",
+          "value": "mild_to_moderate",
+          "points": 1
+        }
+      ],
+      "interpretation": {
+        "3_or_4_criteria": "good_response_likely",
+        "2_criteria": "moderate_response",
+        "0_or_1_criteria": "poor_response_likely"
+      },
+      "validation_status": "under_development",
+      "reference": "Knoop_2012_Arthritis_Care"
+    },
+    "CPR_006": {
+      "name": "Shoulder Impingement Exercise CPR",
+      "condition": "COND_003",
+      "purpose": "Predict response to exercise program",
+      "criteria": [
+        {
+          "criterion": "symptom_duration",
+          "value": "<6_months",
+          "points": 1
+        },
+        {
+          "criterion": "positive_scapular_assistance_test",
+          "value": "reduces_symptoms",
+          "points": 1
+        },
+        {
+          "criterion": "SPADI_score",
+          "value": "<70",
+          "points": 1
+        },
+        {
+          "criterion": "age",
+          "value": "<65_years",
+          "points": 1
+        }
+      ],
+      "interpretation": {
+        "3_or_4_criteria": "excellent_response_likely",
+        "2_criteria": "good_response",
+        "0_or_1_criteria": "consider_other_interventions"
+      },
+      "validation_status": "preliminary",
+      "reference": "Roy_2009_PTJ"
+    },
+    "CPR_007": {
+      "name": "Ankle Sprain Recovery CPR",
+      "condition": "COND_014",
+      "purpose": "Predict risk of chronic ankle instability",
+      "criteria": [
+        {
+          "criterion": "previous_ankle_sprain",
+          "value": "yes",
+          "points": 2
+        },
+        {
+          "criterion": "initial_swelling",
+          "value": "severe",
+          "points": 1
+        },
+        {
+          "criterion": "weight_bearing_ability",
+          "value": "unable_immediately",
+          "points": 1
+        },
+        {
+          "criterion": "age",
+          "value": "<25_years",
+          "points": 1
+        }
+      ],
+      "interpretation": {
+        "4_or_5_points": "high_risk_chronic_instability",
+        "2_or_3_points": "moderate_risk",
+        "0_or_1_points": "low_risk"
+      },
+      "validation_status": "preliminary",
+      "reference": "Doherty_2016_BJSM"
+    }
+  },
+  "prognostic_indicators": {
+    "PROG_001": {
+      "name": "Low Back Pain Recovery Indicators",
+      "condition": "COND_008",
+      "favorable_factors": [
+        "acute_onset_<6weeks",
+        "younger_age_<40",
+        "high_self_efficacy",
+        "low_fear_avoidance",
+        "good_general_health",
+        "no_leg_pain",
+        "centralizing_symptoms"
+      ],
+      "unfavorable_factors": [
+        "chronic_symptoms_>12weeks",
+        "high_fear_avoidance_FABQ>15",
+        "depression_anxiety",
+        "poor_general_health",
+        "work_dissatisfaction",
+        "litigation_pending",
+        "previous_episodes_multiple"
+      ],
+      "recovery_timeline": {
+        "favorable": "4-8_weeks",
+        "mixed": "8-16_weeks",
+        "unfavorable": "chronic_course_likely"
+      }
+    },
+    "PROG_002": {
+      "name": "Stroke Recovery Indicators",
+      "condition": "COND_020",
+      "favorable_factors": [
+        "mild_initial_severity_NIHSS<6",
+        "younger_age_<65",
+        "left_hemisphere_stroke",
+        "no_cognitive_impairment",
+        "good_premorbid_function",
+        "strong_social_support",
+        "early_rehabilitation_start"
+      ],
+      "unfavorable_factors": [
+        "severe_initial_deficit",
+        "bilateral_involvement",
+        "cognitive_impairment",
+        "multiple_comorbidities",
+        "advanced_age_>80",
+        "poor_premorbid_function",
+        "delayed_rehabilitation"
+      ],
+      "recovery_timeline": {
+        "motor": "plateau_3-6_months",
+        "speech": "improvements_up_to_1_year", 
+        "cognitive": "variable_recovery"
+      }
+    },
+    "PROG_003": {
+      "name": "ACL Reconstruction Return to Sport",
+      "condition": "COND_004",
+      "favorable_factors": [
+        "younger_age_<25",
+        "high_motivation",
+        "good_preinjury_fitness",
+        "early_surgery",
+        "compliant_with_rehab",
+        "no_meniscal_injury",
+        "good_surgical_technique"
+      ],
+      "unfavorable_factors": [
+        "older_age_>30",
+        "poor_motivation",
+        "multiple_ligament_injury",
+        "meniscal_damage",
+        "delayed_surgery",
+        "poor_rehab_compliance",
+        "previous_injury_same_knee"
+      ],
+      "return_to_sport_timeline": {
+        "recreational": "6-9_months",
+        "competitive": "9-12_months",
+        "elite": "12+_months"
+      }
+    }
+  },
+  "assessment_tools": {
+    "STARTBACK": {
+      "name": "STarT Back Screening Tool",
+      "purpose": "Risk stratification for low back pain",
+      "conditions": ["COND_008"],
+      "categories": {
+        "low_risk": "0-3_points",
+        "medium_risk": "4-6_points_no_psychosocial",
+        "high_risk": "4-6_points_with_psychosocial"
+      },
+      "treatment_recommendations": {
+        "low_risk": "minimal_intervention_education",
+        "medium_risk": "physiotherapy_exercise_focus",
+        "high_risk": "intensive_psychologically_informed_approach"
+      }
+    },
+    "KOOS_JR": {
+      "name": "Knee Injury Osteoarthritis Outcome Score Jr",
+      "purpose": "Assess knee problems and function",
+      "conditions": ["COND_006", "COND_037"],
+      "interpretation": {
+        "severe_symptoms": "<60",
+        "moderate_symptoms": "60-80",
+        "mild_symptoms": ">80"
+      }
+    }
+  },
+  "clinical_decision_algorithms": {
+    "ALGORITHM_001": {
+      "name": "Low Back Pain Treatment Algorithm",
+      "condition": "COND_008",
+      "steps": [
+        {
+          "step": 1,
+          "action": "Screen for red flags",
+          "positive": "Refer immediately",
+          "negative": "Continue to step 2"
+        },
+        {
+          "step": 2,
+          "action": "Apply STarT Back tool",
+          "low_risk": "Education and reassurance",
+          "medium_risk": "Exercise-based physiotherapy",
+          "high_risk": "Psychologically informed physiotherapy"
+        },
+        {
+          "step": 3,
+          "action": "Assess response at 4 weeks",
+          "improved": "Continue current approach",
+          "not_improved": "Reassess and modify treatment"
+        },
+        {
+          "step": 4,
+          "action": "If no improvement at 8 weeks",
+          "action_required": "Consider alternative approaches or specialist referral"
+        }
+      ]
+    },
+    "ALGORITHM_002": {
+      "name": "Shoulder Impingement Treatment Algorithm",
+      "condition": "COND_003",
+      "steps": [
+        {
+          "step": 1,
+          "action": "Assess irritability level",
+          "high": "Pain management and gentle ROM",
+          "moderate": "Progressive exercise program",
+          "low": "Aggressive strengthening"
+        },
+        {
+          "step": 2,
+          "action": "Apply exercise CPR",
+          "positive": "Exercise-based treatment",
+          "negative": "Consider manual therapy or injection"
+        },
+        {
+          "step": 3,
+          "action": "Monitor progress at 6 weeks",
+          "improved": "Continue progression",
+          "plateau": "Add manual therapy or modify exercises",
+          "worse": "Reassess diagnosis and refer if needed"
+        }
+      ]
+    }
+  },
+  "usage_guidelines": {
+    "general_principles": [
+      "Use as clinical decision support, not replacement for clinical judgment",
+      "Consider individual patient factors not captured in rules",
+      "Validate findings with patient response to treatment",
+      "Update treatment based on ongoing assessment",
+      "Document rationale for clinical decisions"
+    ],
+    "limitations": [
+      "Most rules require further validation",
+      "Population-specific (may not apply to all demographics)",
+      "Static assessment (doesn't account for change over time)",
+      "Limited by quality of original studies"
+    ],
+    "implementation": [
+      "Train staff on proper use of prediction rules",
+      "Integrate into documentation systems",
+      "Monitor outcomes to validate local effectiveness",
+      "Regular review of new evidence and rule updates"
+    ]
+  }
+}

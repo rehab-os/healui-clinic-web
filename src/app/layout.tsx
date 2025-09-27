@@ -6,6 +6,11 @@ import { AuthProvider } from '../components/providers/AuthProvider';
 export const metadata = {
   title: 'Healui.ai - Clinical Management Platform',
   description: 'Transforming physiotherapy care in India through AI-powered clinical intelligence',
+  icons: {
+    icon: '/healui-logo/healui-logo-01.png',
+    shortcut: '/healui-logo/healui-logo-01.png',
+    apple: '/healui-logo/healui-logo-01.png',
+  },
 };
 
 export default function RootLayout({

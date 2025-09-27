@@ -17,7 +17,8 @@ import {
   User,
   ChevronLeft,
   ChevronRight,
-  LogOut
+  LogOut,
+  Clock
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -31,7 +32,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const pathname = usePathname();
   const dispatch = useAppDispatch();
   const { isAuthenticated } = useAppSelector(state => state.auth);
-  const { userData, currentClinic } = useAppSelector(state => state.user);
+  const { userData, currentClinic, currentContext } = useAppSelector(state => state.user);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -68,7 +69,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       name: 'Patients',
       href: '/dashboard/patients',
       icon: Users,
-      show: currentClinic !== null && (
+      show: currentContext !== 'my-practice' && currentClinic !== null && (
         currentClinic?.is_admin || 
         currentClinic?.role === 'receptionist' || 
         currentClinic?.role === 'manager'
@@ -78,7 +79,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       name: 'Appointments',
       href: '/dashboard/appointments',
       icon: Calendar,
-      show: currentClinic !== null,
+      show: currentContext === 'my-practice' || currentClinic !== null,
     },
     {
       name: 'Team',
@@ -96,6 +97,12 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       name: 'Profile',
       href: '/dashboard/profile',
       icon: User,
+      show: true,
+    },
+    {
+      name: 'Availability',
+      href: '/dashboard/availability',
+      icon: Clock,
       show: true,
     },
     {
@@ -249,7 +256,22 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
             <div className={`py-4 border-t border-border-color transition-all duration-300 ${isCollapsed ? 'px-2' : 'px-4'}`}>
               <div className={`bg-gray-50 rounded-lg transition-all duration-300 ${isCollapsed ? 'p-2' : 'p-3'} mb-3`}>
                 <div className="text-xs text-text-light">
-                  {currentClinic ? (
+                  {currentContext === 'my-practice' ? (
+                    <div className={`transition-all duration-300 ${isCollapsed ? 'text-center' : ''}`}>
+                      {isCollapsed ? (
+                        <div className="flex items-center justify-center">
+                          <div className="w-8 h-8 bg-healui-physio rounded-full flex items-center justify-center text-white font-bold text-xs">
+                            MP
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <p className="font-semibold text-text-dark text-sm truncate">My Practice</p>
+                          <p className="text-healui-physio font-medium truncate">Personal Practice</p>
+                        </>
+                      )}
+                    </div>
+                  ) : currentClinic ? (
                     <div className={`transition-all duration-300 ${isCollapsed ? 'text-center' : ''}`}>
                       {isCollapsed ? (
                         <div className="flex items-center justify-center">

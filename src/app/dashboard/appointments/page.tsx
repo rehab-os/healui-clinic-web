@@ -38,8 +38,8 @@ import { format, startOfWeek, endOfWeek, startOfMonth, endOfMonth, isToday, pars
 
 interface Visit {
   id: string;
-  patient_id: string;
-  clinic_id: string;
+  patient_id?: string; // Optional for marketplace visits
+  clinic_id?: string; // Optional for marketplace visits
   physiotherapist_id: string;
   visit_type: string;
   visit_mode: string;
@@ -48,6 +48,14 @@ interface Visit {
   duration_minutes: number;
   status: string;
   chief_complaint?: string;
+  // Marketplace-specific fields
+  visit_source?: 'CLINIC' | 'MARKETPLACE';
+  patient_user_id?: string;
+  patient_address?: string;
+  consultation_fee?: number;
+  travel_fee?: number;
+  total_amount?: number;
+  // Patients
   patient?: {
     id: string;
     full_name: string;
@@ -56,6 +64,14 @@ interface Visit {
     date_of_birth: string;
     gender: string;
     patient_code: string;
+  };
+  patientUser?: {
+    id: string;
+    full_name: string;
+    phone: string;
+    email?: string;
+    date_of_birth?: string;
+    gender?: string;
   };
   physiotherapist?: {
     id: string;
@@ -72,12 +88,13 @@ type FilterType = 'today' | 'week' | 'month' | 'all' | 'custom';
 
 export default function AppointmentsPage() {
   const router = useRouter();
-  const { currentClinic, userData } = useAppSelector(state => state.user);
+  const { currentClinic, userData, currentContext } = useAppSelector(state => state.user);
   const [visitsData, setVisitsData] = useState<VisitsData>({
     visits: [],
     total: 0,
   });
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState<FilterType>('today');
   const [customDate, setCustomDate] = useState(format(new Date(), 'yyyy-MM-dd'));
@@ -95,10 +112,11 @@ export default function AppointmentsPage() {
   const isAdmin = userData?.organization?.is_owner || currentClinic?.is_admin;
 
   useEffect(() => {
-    if (currentClinic?.id) {
+    // Fetch visits if we have a clinic selected OR we're in my-practice context
+    if (currentClinic?.id || currentContext === 'my-practice') {
       fetchVisits();
     }
-  }, [currentClinic, filterType, customDate, statusFilter, page]);
+  }, [currentClinic, currentContext, filterType, customDate, statusFilter, page]);
 
   const getDateRange = () => {
     const today = new Date();
@@ -131,33 +149,63 @@ export default function AppointmentsPage() {
   };
 
   const fetchVisits = async () => {
-    if (!currentClinic?.id) {
-      console.warn('No current clinic selected for appointments');
+    // Check if we have either a clinic or we're in my-practice context
+    if (!currentClinic?.id && currentContext !== 'my-practice') {
+      console.warn('No current clinic selected and not in my-practice context');
       return;
     }
     
     try {
       setLoading(true);
+      setError(null);
       const dateRange = getDateRange();
-      const params = {
-        clinic_id: currentClinic.id,
+      
+      let params: any = {
         ...dateRange,
         ...(statusFilter !== 'all' && { status: statusFilter }),
         ...(searchTerm && { search: searchTerm }),
-        ...(!isAdmin && userData?.id && { physiotherapist_id: userData.id }),
         page,
         limit,
       };
-      
-      console.log('Fetching visits with params:', params);
-      console.log('Current clinic:', currentClinic);
+
+      if (currentContext === 'my-practice') {
+        // For marketplace context, include visit_source and physiotherapist_id
+        console.log('🔍 My Practice Context - Current userData:', userData);
+        console.log('🔍 userData.user_id:', userData?.user_id);
+        
+        if (!userData?.user_id) {
+          console.error('❌ ERROR: userData.user_id is missing for marketplace context!');
+          setError('Unable to load appointments: User ID not found');
+          setLoading(false);
+          return;
+        }
+        
+        params = {
+          ...params,
+          visit_source: 'MARKETPLACE',
+          physiotherapist_id: userData.user_id, // Filter by current user's marketplace appointments
+        };
+        console.log('✅ Fetching marketplace visits with params:', params);
+      } else if (currentClinic?.id) {
+        // For clinic context, include clinic_id and role-based filtering
+        params = {
+          ...params,
+          clinic_id: currentClinic.id,
+          ...(!isAdmin && userData?.user_id && { physiotherapist_id: userData.user_id }),
+        };
+        console.log('Fetching clinic visits with params:', params);
+        console.log('Current clinic:', currentClinic);
+      }
       
       const response = await ApiManager.getVisits(params);
       if (response.success) {
         setVisitsData(response.data || { visits: [], total: 0 });
+      } else {
+        setError(response.message || 'Failed to fetch appointments');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to fetch visits:', error);
+      setError(error.message || 'An error occurred while fetching appointments');
     } finally {
       setLoading(false);
     }
@@ -245,14 +293,14 @@ export default function AppointmentsPage() {
     }
   };
 
-  if (!currentClinic) {
+  if (!currentClinic && currentContext !== 'my-practice') {
     return (
       <div className="max-w-2xl mx-auto py-12">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 text-center p-6 sm:p-8">
           <AlertCircle className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">No Clinic Selected</h2>
+          <h2 className="text-xl font-semibold text-gray-900 mb-2">No Context Selected</h2>
           <p className="text-gray-600">
-            Please select a clinic from the header to view appointments.
+            Please select a clinic or "My Practice" from the header to view appointments.
           </p>
         </div>
       </div>
@@ -272,7 +320,10 @@ export default function AppointmentsPage() {
           <div className="flex items-center justify-between py-2 sm:py-4">
             <div className="flex-1 min-w-0">
               <div className="inline-flex items-center px-2 py-1 sm:px-3 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium bg-healui-physio/10 text-healui-physio">
-                {currentClinic?.name || 'All Clinics'}
+                {currentContext === 'my-practice' 
+                  ? 'My Practice - Marketplace Appointments' 
+                  : currentClinic?.name || 'All Clinics'
+                }
               </div>
             </div>
           </div>
@@ -445,6 +496,20 @@ export default function AppointmentsPage() {
               <span className="text-gray-600">Loading appointments...</span>
             </div>
           </div>
+        ) : error ? (
+          <div className="bg-white sm:rounded-lg sm:shadow-sm sm:border sm:border-gray-200 p-6 sm:p-8 text-center">
+            <AlertCircle className="h-12 w-12 sm:h-16 sm:w-16 text-red-400 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-gray-900 mb-2">Error Loading Appointments</h3>
+            <p className="text-red-600 text-center text-sm sm:text-base mb-4">
+              {error}
+            </p>
+            <button
+              onClick={fetchVisits}
+              className="bg-healui-physio text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-healui-primary transition-colors"
+            >
+              Try Again
+            </button>
+          </div>
         ) : visitsData.visits.length === 0 ? (
           <div className="bg-white sm:rounded-lg sm:shadow-sm sm:border sm:border-gray-200 p-6 sm:p-8 text-center">
             <Calendar className="h-12 w-12 sm:h-16 sm:w-16 text-gray-400 mx-auto mb-4" />
@@ -545,15 +610,20 @@ export default function AppointmentsPage() {
                           className="cursor-pointer hover:bg-blue-50 rounded-lg p-2 -m-2 transition-colors"
                           onClick={(e) => {
                             e.stopPropagation();
-                            handleViewPatient(visit.patient);
+                            handleViewPatient(visit.patient || visit.patientUser);
                           }}
                           title="Click to view patient details"
                         >
                           <div className="text-sm font-medium text-healui-physio hover:text-healui-primary">
-                            {visit.patient?.full_name || 'Unknown Patient'}
+                            {visit.patient?.full_name || visit.patientUser?.full_name || 'Unknown Patient'}
                           </div>
-                          <div className="text-sm text-gray-500">
-                            {visit.patient?.phone || 'No phone'}
+                          <div className="text-sm text-gray-500 flex items-center space-x-2">
+                            <span>{visit.patient?.phone || visit.patientUser?.phone || 'No phone'}</span>
+                            {visit.visit_source === 'MARKETPLACE' && (
+                              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-purple-50 text-purple-700 border border-purple-200">
+                                Marketplace
+                              </span>
+                            )}
                           </div>
                         </div>
                       </td>

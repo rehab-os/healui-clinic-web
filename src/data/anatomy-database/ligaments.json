@@ -1,0 +1,771 @@
+[
+  {
+    "id": "l001",
+    "name": "Anterior Cruciate Ligament (ACL)",
+    "latin_name": "Ligamentum cruciatum anterius",
+    "region": "Knee",
+    "attachments": {
+      "origin": "Posteromedial aspect of lateral femoral condyle",
+      "insertion": "Anterior intercondylar area of tibia"
+    },
+    "fiber_bundles": ["Anteromedial bundle", "Posterolateral bundle"],
+    "blood_supply": ["Middle genicular artery"],
+    "innervation": ["Posterior articular nerve (branch of tibial nerve)"],
+    "primary_function": ["Prevents anterior tibial translation", "Rotational stability"],
+    "secondary_function": ["Proprioception", "Prevents hyperextension"],
+    "biomechanics": {
+      "peak_tensile_strength": "2160 N",
+      "stiffness": "242 N/mm",
+      "length": "31-38 mm"
+    },
+    "mechanism_of_injury": ["Non-contact pivoting", "Hyperextension", "Direct blow"],
+    "common_injuries": ["Complete tear", "Partial tear", "Avulsion fracture"],
+    "associated_injuries": ["Meniscal tears", "MCL injury", "Bone bruises"],
+    "clinical_tests": ["Anterior drawer test", "Lachman test", "Pivot shift test"],
+    "special_tests_sensitivity": {
+      "anterior_drawer": "48%",
+      "lachman": "87%",
+      "pivot_shift": "24%"
+    },
+    "imaging": ["MRI gold standard", "X-ray for avulsion", "CT for bony detail"],
+    "healing_timeframe": {
+      "surgical": "9-12 months return to sport",
+      "conservative": "Poor healing potential"
+    },
+    "treatment_approaches": {
+      "conservative": ["Rare, only for low-demand patients", "Bracing", "Muscle strengthening"],
+      "surgical": ["ACL reconstruction", "Graft choices: patellar tendon, hamstring, allograft"],
+      "rehabilitation_phases": [
+        "Pre-op: Reduce swelling, restore ROM",
+        "0-2 weeks: Protect graft, control pain",
+        "2-12 weeks: Progressive ROM, early strengthening",
+        "3-6 months: Advanced strengthening, proprioception",
+        "6-9 months: Sport-specific training",
+        "9-12 months: Return to sport testing"
+      ]
+    },
+    "rehabilitation_protocols": ["Accelerated", "Conservative", "Criteria-based progression"],
+    "key_exercises": ["Quad sets", "Straight leg raises", "Mini squats", "Balance training", "Plyometrics"],
+    "precautions": ["Avoid open chain knee extension 0-45°", "Protect graft in early phases"],
+    "prognosis": "Good with reconstruction, 85-90% return to sport",
+    "prevention_strategies": ["Neuromuscular training", "Landing mechanics", "Strength training"],
+    "notes": "Most commonly injured knee ligament in sports"
+  },
+  {
+    "id": "l002",
+    "name": "Posterior Cruciate Ligament (PCL)",
+    "latin_name": "Ligamentum cruciatum posterius",
+    "region": "Knee",
+    "attachments": {
+      "origin": "Medial femoral condyle",
+      "insertion": "Posterior intercondylar area of tibia"
+    },
+    "fiber_bundles": ["Anterolateral bundle (larger)", "Posteromedial bundle"],
+    "blood_supply": ["Middle genicular artery"],
+    "innervation": ["Posterior articular nerve"],
+    "primary_function": ["Prevents posterior tibial translation", "Central axis of knee rotation"],
+    "secondary_function": ["Resists varus/valgus stress", "Proprioception"],
+    "biomechanics": {
+      "peak_tensile_strength": "1627-2160 N",
+      "stiffness": "204 N/mm",
+      "length": "38 mm"
+    },
+    "mechanism_of_injury": ["Dashboard injury", "Fall on flexed knee", "Hyperflexion"],
+    "common_injuries": ["Isolated tear (rare)", "Combined injuries", "Avulsion"],
+    "associated_injuries": ["Posterolateral corner", "ACL", "Menisci"],
+    "clinical_tests": ["Posterior drawer test", "Posterior sag sign", "Quadriceps active test"],
+    "special_tests_sensitivity": {
+      "posterior_drawer": "90%",
+      "posterior_sag": "79%",
+      "quad_active": "98%"
+    },
+    "imaging": ["MRI", "Stress radiographs"],
+    "healing_timeframe": {
+      "conservative": "Better healing than ACL",
+      "surgical": "12-18 months"
+    },
+    "treatment_approaches": {
+      "conservative": ["Most grade I-II injuries", "Quadriceps strengthening"],
+      "surgical": ["Grade III or combined injuries", "Reconstruction or repair"]
+    },
+    "rehabilitation_protocols": ["Focus on quadriceps", "Avoid hamstring dominance early"],
+    "key_exercises": ["Quad sets", "Terminal knee extension", "Leg press", "Step-ups"],
+    "precautions": ["Avoid isolated hamstring work early", "Protect in flexion"],
+    "prognosis": "Good for isolated injuries",
+    "notes": "Stronger than ACL but less commonly injured"
+  },
+  {
+    "id": "l003",
+    "name": "Medial Collateral Ligament (MCL)",
+    "latin_name": "Ligamentum collaterale tibiale",
+    "region": "Knee",
+    "attachments": {
+      "origin": "Medial epicondyle of femur",
+      "insertion": "Medial tibia 4-5cm below joint line"
+    },
+    "layers": ["Superficial MCL", "Deep MCL", "Posterior oblique ligament"],
+    "blood_supply": ["Superior medial genicular artery", "Inferior medial genicular artery"],
+    "innervation": ["Medial articular nerve"],
+    "primary_function": ["Resists valgus stress", "Prevents medial opening"],
+    "secondary_function": ["Resists external rotation", "Some anterior translation resistance"],
+    "biomechanics": {
+      "peak_tensile_strength": "534 N",
+      "primary_restraint": "At 25° flexion"
+    },
+    "mechanism_of_injury": ["Valgus stress", "External rotation", "Contact to lateral knee"],
+    "common_injuries": {
+      "grade_1": "Minimal tear, <5mm opening",
+      "grade_2": "Partial tear, 5-10mm opening",
+      "grade_3": "Complete tear, >10mm opening"
+    },
+    "associated_injuries": ["ACL tear", "Medial meniscus", "Terrible triad"],
+    "clinical_tests": ["Valgus stress test at 0°", "Valgus stress test at 30°"],
+    "special_tests_sensitivity": {
+      "valgus_0_degrees": "25%",
+      "valgus_30_degrees": "86%"
+    },
+    "imaging": ["MRI", "Ultrasound", "Stress X-rays"],
+    "healing_timeframe": {
+      "grade_1": "2-4 weeks",
+      "grade_2": "4-6 weeks",
+      "grade_3": "6-12 weeks"
+    },
+    "treatment_approaches": {
+      "conservative": ["Most MCL injuries heal well", "Bracing", "Progressive rehab"],
+      "surgical": ["Rare, chronic instability or combined injuries"]
+    },
+    "rehabilitation_protocols": ["Early motion", "Progressive loading", "Sport-specific training"],
+    "key_exercises": ["Quad strengthening", "Hip strengthening", "Balance", "Proprioception"],
+    "precautions": ["Avoid valgus stress", "Progressive return to cutting sports"],
+    "prognosis": "Excellent with conservative treatment",
+    "notes": "Most commonly injured knee ligament, good healing capacity"
+  },
+  {
+    "id": "l004",
+    "name": "Lateral Collateral Ligament (LCL)",
+    "latin_name": "Ligamentum collaterale fibulare",
+    "region": "Knee",
+    "attachments": {
+      "origin": "Lateral epicondyle of femur",
+      "insertion": "Head of fibula"
+    },
+    "related_structures": ["Posterolateral corner", "Biceps femoris", "IT band"],
+    "blood_supply": ["Lateral superior genicular artery", "Lateral inferior genicular artery"],
+    "innervation": ["Lateral articular nerve"],
+    "primary_function": ["Resists varus stress", "Prevents lateral opening"],
+    "secondary_function": ["Resists external rotation", "Posterolateral stability"],
+    "biomechanics": {
+      "peak_tensile_strength": "750 N",
+      "length": "60-65 mm"
+    },
+    "mechanism_of_injury": ["Varus stress", "Hyperextension", "Contact to medial knee"],
+    "common_injuries": ["Isolated (rare)", "Combined with posterolateral corner"],
+    "associated_injuries": ["PCL", "Posterolateral corner", "Peroneal nerve"],
+    "clinical_tests": ["Varus stress test at 0°", "Varus stress test at 30°", "Dial test"],
+    "imaging": ["MRI", "Stress radiographs"],
+    "healing_timeframe": {
+      "conservative": "6-12 weeks",
+      "surgical": "6-9 months"
+    },
+    "treatment_approaches": {
+      "conservative": ["Grade I-II injuries", "Bracing"],
+      "surgical": ["Grade III or combined injuries", "Repair or reconstruction"]
+    },
+    "rehabilitation_protocols": ["Protect varus stress", "Address posterolateral corner"],
+    "key_exercises": ["Quad/hamstring balance", "Hip abduction", "Proprioception"],
+    "precautions": ["Check peroneal nerve", "Avoid varus stress"],
+    "prognosis": "Good if isolated, complex if combined injury",
+    "notes": "Less common than MCL injury"
+  },
+  {
+    "id": "l005",
+    "name": "Anterior Talofibular Ligament (ATFL)",
+    "latin_name": "Ligamentum talofibulare anterius",
+    "region": "Ankle - Lateral",
+    "attachments": {
+      "origin": "Anterior margin of lateral malleolus",
+      "insertion": "Lateral aspect of talar neck"
+    },
+    "bands": ["Single band (sometimes double)"],
+    "blood_supply": ["Perforating peroneal artery", "Lateral malleolar artery"],
+    "innervation": ["Lateral branch of deep peroneal nerve", "Sural nerve"],
+    "primary_function": ["Resists anterior talar translation", "Resists inversion in plantar flexion"],
+    "secondary_function": ["Proprioception", "Joint stability"],
+    "biomechanics": {
+      "peak_tensile_strength": "138-231 N",
+      "length": "20-25 mm",
+      "weakest_position": "Plantar flexion"
+    },
+    "mechanism_of_injury": ["Inversion in plantar flexion", "Most common ankle sprain"],
+    "common_injuries": {
+      "grade_1": "Stretch, microscopic tears",
+      "grade_2": "Partial tear",
+      "grade_3": "Complete rupture"
+    },
+    "associated_injuries": ["CFL injury", "Syndesmotic injury", "Osteochondral lesions"],
+    "clinical_tests": ["Anterior drawer test", "Talar tilt test"],
+    "special_tests_sensitivity": {
+      "anterior_drawer": "96%",
+      "talar_tilt": "67%"
+    },
+    "imaging": ["MRI", "Ultrasound", "Stress X-rays"],
+    "healing_timeframe": {
+      "grade_1": "2-3 weeks",
+      "grade_2": "4-6 weeks",
+      "grade_3": "6-12 weeks"
+    },
+    "treatment_approaches": {
+      "conservative": ["RICE protocol", "Early mobilization", "Functional rehab"],
+      "surgical": ["Chronic instability", "Elite athletes", "Broström repair"]
+    },
+    "rehabilitation_protocols": ["Early weight bearing", "Progressive loading", "Proprioception focus"],
+    "key_exercises": ["Ankle ROM", "Theraband strengthening", "Balance board", "Plyometrics"],
+    "precautions": ["Avoid early inversion stress", "Progress based on symptoms"],
+    "prognosis": "Good with proper rehab, 20-30% develop chronic instability",
+    "prevention": ["Prophylactic bracing", "Balance training", "Strengthening"],
+    "notes": "Most commonly injured ankle ligament (85% of sprains)"
+  },
+  {
+    "id": "l006",
+    "name": "Calcaneofibular Ligament (CFL)",
+    "latin_name": "Ligamentum calcaneofibulare",
+    "region": "Ankle - Lateral",
+    "attachments": {
+      "origin": "Tip of lateral malleolus",
+      "insertion": "Lateral surface of calcaneus"
+    },
+    "orientation": ["Crosses both ankle and subtalar joints"],
+    "blood_supply": ["Peroneal artery branches"],
+    "innervation": ["Sural nerve", "Superficial peroneal nerve"],
+    "primary_function": ["Resists inversion in neutral/dorsiflexion", "Subtalar stability"],
+    "secondary_function": ["Limits talar tilt"],
+    "biomechanics": {
+      "peak_tensile_strength": "346-714 N",
+      "length": "20-30 mm",
+      "orientation": "10-45° from vertical"
+    },
+    "mechanism_of_injury": ["Severe inversion", "Usually with ATFL"],
+    "common_injuries": ["Combined with ATFL (20%)", "Isolated (rare)"],
+    "clinical_tests": ["Talar tilt test", "Inversion stress test"],
+    "imaging": ["MRI", "Stress radiography"],
+    "healing_timeframe": "6-8 weeks typically",
+    "treatment_approaches": {
+      "conservative": ["Similar to ATFL", "Functional rehabilitation"],
+      "surgical": ["With ATFL in chronic cases"]
+    },
+    "notes": "Second most commonly injured lateral ankle ligament"
+  },
+  {
+    "id": "l007",
+    "name": "Posterior Talofibular Ligament (PTFL)",
+    "latin_name": "Ligamentum talofibulare posterius",
+    "region": "Ankle - Lateral",
+    "attachments": {
+      "origin": "Posterior margin of lateral malleolus",
+      "insertion": "Posterior lateral tubercle of talus"
+    },
+    "blood_supply": ["Peroneal artery"],
+    "innervation": ["Tibial nerve branches"],
+    "primary_function": ["Resists posterior talar translation", "Resists external rotation"],
+    "biomechanics": {
+      "peak_tensile_strength": "261-360 N",
+      "strongest": "Of lateral ankle ligaments"
+    },
+    "mechanism_of_injury": ["Severe trauma", "Ankle dislocation"],
+    "common_injuries": ["Rarely injured in isolation"],
+    "clinical_tests": ["Posterior drawer test"],
+    "notes": "Strongest lateral ankle ligament, rarely injured"
+  },
+  {
+    "id": "l008",
+    "name": "Deltoid Ligament Complex",
+    "latin_name": "Ligamentum deltoideum",
+    "region": "Ankle - Medial",
+    "components": {
+      "superficial": ["Tibionavicular", "Tibiocalcaneal", "Posterior tibiotalar", "Tibiospring"],
+      "deep": ["Anterior tibiotalar", "Posterior tibiotalar"]
+    },
+    "attachments": {
+      "origin": "Medial malleolus",
+      "insertion": "Navicular, talus, calcaneus, spring ligament"
+    },
+    "blood_supply": ["Posterior tibial artery", "Medial malleolar artery"],
+    "innervation": ["Tibial nerve"],
+    "primary_function": ["Resists eversion", "Prevents talar abduction", "Medial stability"],
+    "biomechanics": {
+      "very_strong": "3-4x stronger than lateral ligaments",
+      "peak_tensile_strength": "400-900 N depending on component"
+    },
+    "mechanism_of_injury": ["Eversion", "External rotation", "Often with fracture"],
+    "common_injuries": ["Isolated rare", "With lateral malleolar fracture", "Syndesmotic injury"],
+    "clinical_tests": ["Eversion stress test", "External rotation test", "Squeeze test"],
+    "imaging": ["MRI", "Stress views"],
+    "healing_timeframe": "8-12 weeks",
+    "treatment_approaches": {
+      "conservative": ["Most injuries", "Immobilization", "Progressive loading"],
+      "surgical": ["With unstable fractures", "Chronic instability"]
+    },
+    "notes": "Stronger than lateral ligaments, complex anatomy"
+  },
+  {
+    "id": "l009",
+    "name": "Anterior Inferior Tibiofibular Ligament (AITFL)",
+    "latin_name": "Ligamentum tibiofibulare anterius",
+    "region": "Ankle - Syndesmosis",
+    "attachments": {
+      "origin": "Anterolateral tubercle of tibia",
+      "insertion": "Anterior fibula"
+    },
+    "blood_supply": ["Perforating peroneal artery"],
+    "innervation": ["Deep peroneal nerve"],
+    "primary_function": ["Syndesmotic stability", "Prevents fibular separation"],
+    "biomechanics": {
+      "contributes": "35% of syndesmotic stability"
+    },
+    "mechanism_of_injury": ["External rotation", "Dorsiflexion", "High ankle sprain"],
+    "common_injuries": ["High ankle sprain", "With fractures"],
+    "clinical_tests": ["Squeeze test", "External rotation test", "Cotton test"],
+    "imaging": ["MRI", "CT scan", "Weight-bearing X-rays"],
+    "healing_timeframe": "8-12 weeks minimum",
+    "treatment_approaches": {
+      "conservative": ["Stable injuries", "Boot immobilization"],
+      "surgical": ["Unstable injuries", "Syndesmotic screw"]
+    },
+    "notes": "Part of syndesmotic complex, longer recovery than lateral sprains"
+  },
+  {
+    "id": "l010",
+    "name": "Glenohumeral Ligaments",
+    "latin_name": "Ligamenta glenohumeralia",
+    "region": "Shoulder",
+    "components": ["Superior (SGHL)", "Middle (MGHL)", "Inferior (IGHL)"],
+    "attachments": {
+      "origin": "Glenoid labrum and neck of scapula",
+      "insertion": "Anatomical neck of humerus"
+    },
+    "blood_supply": ["Anterior circumflex humeral artery", "Suprascapular artery"],
+    "innervation": ["Axillary nerve", "Suprascapular nerve"],
+    "primary_function": {
+      "SGHL": "Resists inferior translation and ER at 0°",
+      "MGHL": "Resists anterior translation at 45° abduction",
+      "IGHL": "Primary restraint at 90° abduction"
+    },
+    "biomechanics": {
+      "IGHL": "Strongest, anterior and posterior bands",
+      "complex": "Forms capsular thickenings"
+    },
+    "mechanism_of_injury": ["Anterior dislocation", "Repetitive overhead activities"],
+    "common_injuries": ["Bankart lesion", "HAGL lesion", "Capsular stretching"],
+    "clinical_tests": ["Apprehension test", "Relocation test", "Load and shift"],
+    "imaging": ["MR arthrogram", "CT arthrogram"],
+    "treatment_approaches": {
+      "conservative": ["First-time dislocations", "Strengthening"],
+      "surgical": ["Recurrent instability", "Bankart repair", "Capsular shift"]
+    },
+    "notes": "Complex contributes to shoulder stability"
+  },
+  {
+    "id": "l011",
+    "name": "Acromioclavicular Ligaments",
+    "latin_name": "Ligamenta acromioclavicularia",
+    "region": "Shoulder - AC Joint",
+    "components": ["Superior AC", "Inferior AC", "Anterior AC", "Posterior AC"],
+    "attachments": {
+      "origin": "Acromion",
+      "insertion": "Lateral clavicle"
+    },
+    "blood_supply": ["Thoracoacromial artery"],
+    "innervation": ["Lateral pectoral nerve", "Axillary nerve"],
+    "primary_function": ["Horizontal stability of AC joint", "Prevents anterior-posterior translation"],
+    "biomechanics": {
+      "provides": "68% of horizontal stability"
+    },
+    "mechanism_of_injury": ["Direct fall on shoulder", "Contact sports"],
+    "common_injuries": {
+      "type_1": "AC ligament sprain",
+      "type_2": "AC ligament rupture",
+      "type_3_6": "AC and CC ligament involvement"
+    },
+    "clinical_tests": ["Cross-body adduction", "AC compression test", "Piano key sign"],
+    "imaging": ["AP X-ray", "Zanca view", "Weighted views"],
+    "healing_timeframe": {
+      "type_1": "2-3 weeks",
+      "type_2": "4-6 weeks",
+      "type_3": "8-12 weeks"
+    },
+    "treatment_approaches": {
+      "conservative": ["Type I-III typically", "Sling", "Progressive rehab"],
+      "surgical": ["Type IV-VI", "Some type III in athletes"]
+    },
+    "notes": "Work with coracoclavicular ligaments for stability"
+  },
+  {
+    "id": "l012",
+    "name": "Coracoclavicular Ligaments",
+    "latin_name": "Ligamenta coracoclavicularia",
+    "region": "Shoulder - CC Joint",
+    "components": ["Conoid ligament", "Trapezoid ligament"],
+    "attachments": {
+      "conoid": {
+        "origin": "Posteromedial coracoid",
+        "insertion": "Conoid tubercle of clavicle"
+      },
+      "trapezoid": {
+        "origin": "Anterolateral coracoid",
+        "insertion": "Trapezoid line of clavicle"
+      }
+    },
+    "blood_supply": ["Suprascapular artery"],
+    "innervation": ["Lateral pectoral nerve"],
+    "primary_function": ["Vertical stability", "Suspend scapula from clavicle"],
+    "secondary_function": ["Limits rotation", "Force transmission"],
+    "biomechanics": {
+      "conoid": "Resists anterior and superior forces",
+      "trapezoid": "Resists posterior forces"
+    },
+    "mechanism_of_injury": ["AC joint separation", "High-energy trauma"],
+    "common_injuries": ["AC separation types III-VI"],
+    "clinical_tests": ["Vertical instability assessment"],
+    "imaging": ["Weighted stress views", "MRI"],
+    "treatment_approaches": {
+      "surgical": ["CC ligament reconstruction for high-grade separations"]
+    },
+    "notes": "Primary suspensory ligament of upper extremity"
+  },
+  {
+    "id": "l013",
+    "name": "Ulnar Collateral Ligament - Elbow",
+    "latin_name": "Ligamentum collaterale ulnare",
+    "region": "Elbow - Medial",
+    "components": ["Anterior bundle", "Posterior bundle", "Transverse bundle"],
+    "attachments": {
+      "origin": "Medial epicondyle",
+      "insertion": "Sublime tubercle of ulna"
+    },
+    "blood_supply": ["Superior ulnar collateral artery", "Posterior ulnar recurrent artery"],
+    "innervation": ["Ulnar nerve branches"],
+    "primary_function": ["Resists valgus stress", "Primary stabilizer 20-120° flexion"],
+    "biomechanics": {
+      "anterior_bundle": "Primary restraint",
+      "peak_tensile_strength": "260 N"
+    },
+    "mechanism_of_injury": ["Repetitive valgus stress", "Overhead throwing"],
+    "common_injuries": ["UCL sprain/tear", "Tommy John injury"],
+    "clinical_tests": ["Moving valgus stress test", "Milking maneuver", "Valgus stress test"],
+    "special_tests_sensitivity": {
+      "moving_valgus": "100%",
+      "milking": "63%"
+    },
+    "imaging": ["MRI with or without arthrogram", "Stress ultrasound"],
+    "healing_timeframe": {
+      "conservative": "3-6 months",
+      "surgical": "12-18 months"
+    },
+    "treatment_approaches": {
+      "conservative": ["Rest", "Rehab for partial tears"],
+      "surgical": ["Tommy John surgery", "UCL reconstruction"]
+    },
+    "rehabilitation_protocols": ["Thrower's program", "Progressive loading"],
+    "notes": "Critical for overhead athletes"
+  },
+  {
+    "id": "l014",
+    "name": "Lateral Collateral Ligament Complex - Elbow",
+    "latin_name": "Ligamentum collaterale laterale",
+    "region": "Elbow - Lateral",
+    "components": ["Radial collateral", "Lateral ulnar collateral (LUCL)", "Annular ligament"],
+    "attachments": {
+      "origin": "Lateral epicondyle",
+      "insertion": "Annular ligament and supinator crest"
+    },
+    "blood_supply": ["Radial recurrent artery"],
+    "innervation": ["Posterior interosseous nerve"],
+    "primary_function": ["Resists varus stress", "Posterolateral rotatory stability"],
+    "biomechanics": {
+      "LUCL": "Key for posterolateral stability"
+    },
+    "mechanism_of_injury": ["Elbow dislocation", "Iatrogenic", "Chronic overuse"],
+    "common_injuries": ["Posterolateral rotatory instability", "Tennis elbow association"],
+    "clinical_tests": ["Lateral pivot shift test", "Chair test", "Posterolateral drawer"],
+    "imaging": ["MRI", "Stress radiographs"],
+    "treatment_approaches": {
+      "conservative": ["Bracing", "Strengthening"],
+      "surgical": ["LUCL reconstruction for instability"]
+    },
+    "notes": "Complex anatomy, LUCL most important component"
+  },
+  {
+    "id": "l015",
+    "name": "Anterior Longitudinal Ligament",
+    "latin_name": "Ligamentum longitudinale anterius",
+    "region": "Spine",
+    "attachments": {
+      "origin": "Basilar part of occipital bone",
+      "insertion": "Anterior sacrum",
+      "covers": "Anterior vertebral bodies and discs"
+    },
+    "blood_supply": ["Segmental arteries"],
+    "innervation": ["Gray rami communicantes"],
+    "primary_function": ["Limits extension", "Reinforces anterior disc"],
+    "secondary_function": ["Maintains vertebral alignment"],
+    "biomechanics": {
+      "strength": "Strongest in lumbar region",
+      "fibers": "Multiple layers"
+    },
+    "mechanism_of_injury": ["Hyperextension", "Compression fractures"],
+    "common_injuries": ["DISH", "Avulsion with extension injury"],
+    "clinical_tests": ["Extension testing", "Imaging based"],
+    "imaging": ["MRI", "CT for ossification"],
+    "treatment_approaches": {
+      "conservative": ["Most injuries", "Bracing"],
+      "surgical": ["Unstable injuries"]
+    },
+    "notes": "Broad, strong ligament along anterior spine"
+  },
+  {
+    "id": "l016",
+    "name": "Posterior Longitudinal Ligament",
+    "latin_name": "Ligamentum longitudinale posterius",
+    "region": "Spine",
+    "attachments": {
+      "origin": "Body of axis (C2)",
+      "insertion": "Sacrum",
+      "location": "Posterior vertebral bodies in canal"
+    },
+    "blood_supply": ["Spinal branches"],
+    "innervation": ["Sinuvertebral nerve"],
+    "primary_function": ["Limits flexion", "Reinforces posterior disc"],
+    "biomechanics": {
+      "narrow": "At vertebral bodies",
+      "wide": "At disc levels"
+    },
+    "mechanism_of_injury": ["Disc herniation", "Flexion injuries"],
+    "common_injuries": ["OPLL", "Associated with disc herniation"],
+    "clinical_tests": ["Neurological assessment"],
+    "imaging": ["MRI", "CT for ossification"],
+    "treatment_approaches": {
+      "varies": "Based on associated pathology"
+    },
+    "notes": "Can contribute to central stenosis when ossified"
+  },
+  {
+    "id": "l017",
+    "name": "Ligamentum Flavum",
+    "latin_name": "Ligamentum flavum",
+    "region": "Spine",
+    "attachments": {
+      "origin": "Anterior surface of lamina above",
+      "insertion": "Posterior surface of lamina below"
+    },
+    "composition": ["80% elastic fibers", "20% collagen"],
+    "blood_supply": ["Dorsal branches of segmental arteries"],
+    "innervation": ["Medial branch of dorsal rami"],
+    "primary_function": ["Maintains upright posture", "Assists extension", "Protects neural elements"],
+    "biomechanics": {
+      "elastic": "Returns spine to neutral",
+      "thickest": "In lumbar region (5-6mm)"
+    },
+    "mechanism_of_injury": ["Hypertrophy with age", "Buckling in extension"],
+    "common_conditions": ["Spinal stenosis", "Ligamentum flavum hypertrophy"],
+    "clinical_tests": ["Extension-based symptoms"],
+    "imaging": ["MRI shows hypertrophy"],
+    "treatment_approaches": {
+      "conservative": ["Flexion exercises", "Postural training"],
+      "surgical": ["Laminectomy if stenotic"]
+    },
+    "notes": "Yellow color due to elastic fibers"
+  },
+  {
+    "id": "l018",
+    "name": "Supraspinous Ligament",
+    "latin_name": "Ligamentum supraspinale",
+    "region": "Spine",
+    "attachments": {
+      "origin": "C7 spinous process",
+      "insertion": "Sacrum",
+      "connects": "Tips of spinous processes"
+    },
+    "blood_supply": ["Dorsal branches"],
+    "innervation": ["Dorsal rami"],
+    "primary_function": ["Limits flexion", "Posterior support"],
+    "biomechanics": {
+      "merges": "With ligamentum nuchae in cervical spine"
+    },
+    "mechanism_of_injury": ["Flexion injuries", "Direct trauma"],
+    "common_injuries": ["Sprains", "Baastrup's disease"],
+    "clinical_tests": ["Palpation", "Flexion pain"],
+    "treatment_approaches": {
+      "conservative": ["Anti-inflammatories", "Manual therapy"]
+    },
+    "notes": "Superficial, palpable ligament"
+  },
+  {
+    "id": "l019",
+    "name": "Interspinous Ligaments",
+    "latin_name": "Ligamenta interspinalia",
+    "region": "Spine",
+    "attachments": {
+      "connects": "Adjacent spinous processes",
+      "from": "Root to apex of each process"
+    },
+    "blood_supply": ["Dorsal segmental branches"],
+    "innervation": ["Medial branches of dorsal rami"],
+    "primary_function": ["Limit flexion", "Segmental stability"],
+    "biomechanics": {
+      "weak": "In cervical region",
+      "stronger": "In lumbar region"
+    },
+    "mechanism_of_injury": ["Flexion overload", "Degenerative changes"],
+    "common_injuries": ["Sprains", "Degeneration"],
+    "clinical_tests": ["Segmental flexion pain"],
+    "imaging": ["MRI for tears"],
+    "treatment_approaches": {
+      "conservative": ["Manual therapy", "Stabilization exercises"]
+    },
+    "notes": "Between adjacent spinous processes"
+  },
+  {
+    "id": "l020",
+    "name": "Iliolumbar Ligament",
+    "latin_name": "Ligamentum iliolumbale",
+    "region": "Lumbopelvic",
+    "attachments": {
+      "origin": "L4 and L5 transverse processes",
+      "insertion": "Iliac crest and ilium"
+    },
+    "bands": ["Anterior", "Superior", "Posterior", "Inferior", "Vertical"],
+    "blood_supply": ["Iliolumbar artery"],
+    "innervation": ["Dorsal rami L4-L5"],
+    "primary_function": ["Lumbosacral stability", "Limits side bending", "Limits rotation"],
+    "biomechanics": {
+      "prevents": "Anterior displacement of L5 on S1"
+    },
+    "mechanism_of_injury": ["Rotation injuries", "Lifting and twisting"],
+    "common_injuries": ["Iliolumbar syndrome", "Sprains"],
+    "clinical_tests": ["Iliolumbar ligament test", "Palpation"],
+    "imaging": ["MRI", "Diagnostic injections"],
+    "treatment_approaches": {
+      "conservative": ["Manual therapy", "Injections", "Core stability"]
+    },
+    "notes": "Important for L5-S1 stability"
+  },
+  {
+    "id": "l021",
+    "name": "Sacroiliac Ligaments",
+    "latin_name": "Ligamenta sacroiliaca",
+    "region": "Sacroiliac Joint",
+    "components": {
+      "anterior": ["Anterior sacroiliac ligament"],
+      "posterior": ["Long posterior SI", "Short posterior SI"],
+      "interosseous": ["Strongest SI ligament"]
+    },
+    "attachments": {
+      "complex": "Multiple attachments between sacrum and ilium"
+    },
+    "blood_supply": ["Superior gluteal", "Iliolumbar", "Lateral sacral arteries"],
+    "innervation": ["L5-S4 dorsal rami"],
+    "primary_function": ["SI joint stability", "Force transfer", "Limits nutation/counternutation"],
+    "biomechanics": {
+      "self_locking": "Mechanism with weight bearing"
+    },
+    "mechanism_of_injury": ["Pregnancy", "Trauma", "Repetitive stress"],
+    "common_injuries": ["SI joint dysfunction", "Ligament sprain"],
+    "clinical_tests": ["FABER", "Gaenslen's", "SI compression/distraction"],
+    "imaging": ["MRI", "CT", "Diagnostic injections"],
+    "treatment_approaches": {
+      "conservative": ["Manual therapy", "SI belt", "Exercises"],
+      "interventional": ["SI joint injections", "Prolotherapy"]
+    },
+    "notes": "Complex ligamentous support for SI joint"
+  },
+  {
+    "id": "l022",
+    "name": "Sacrospinous Ligament",
+    "latin_name": "Ligamentum sacrospinale",
+    "region": "Pelvis",
+    "attachments": {
+      "origin": "Lateral sacrum and coccyx",
+      "insertion": "Ischial spine"
+    },
+    "relations": ["Forms greater sciatic foramen", "Pudendal nerve passes under"],
+    "blood_supply": ["Inferior gluteal artery"],
+    "innervation": ["S3-S4"],
+    "primary_function": ["Prevents sacral nutation", "Pelvic stability"],
+    "clinical_significance": ["Pudendal nerve entrapment", "Landmark for nerve blocks"],
+    "notes": "Important anatomical landmark"
+  },
+  {
+    "id": "l023",
+    "name": "Sacrotuberous Ligament",
+    "latin_name": "Ligamentum sacrotuberale",
+    "region": "Pelvis",
+    "attachments": {
+      "origin": "PSIS, lateral sacrum, coccyx",
+      "insertion": "Ischial tuberosity"
+    },
+    "relations": ["Forms lesser sciatic foramen", "Continues as biceps femoris tendon"],
+    "blood_supply": ["Inferior gluteal artery"],
+    "innervation": ["S2-S4"],
+    "primary_function": ["Prevents sacral nutation", "Pelvic floor support"],
+    "clinical_significance": ["Pudendal canal", "Hamstring connection"],
+    "common_conditions": ["Deep gluteal syndrome"],
+    "notes": "Large, strong pelvic ligament"
+  },
+  {
+    "id": "l024",
+    "name": "Spring Ligament",
+    "latin_name": "Ligamentum calcaneonaviculare plantare",
+    "region": "Foot - Medial Arch",
+    "components": ["Superomedial", "Medioplantar", "Inferoplantar bands"],
+    "attachments": {
+      "origin": "Sustentaculum tali of calcaneus",
+      "insertion": "Navicular"
+    },
+    "blood_supply": ["Medial plantar artery"],
+    "innervation": ["Medial plantar nerve"],
+    "primary_function": ["Supports talar head", "Maintains medial arch"],
+    "secondary_function": ["Static arch support"],
+    "biomechanics": {
+      "critical": "For arch integrity",
+      "contains": "Fibrocartilage for talar support"
+    },
+    "mechanism_of_injury": ["Chronic overload", "Acute eversion", "PTTD"],
+    "common_injuries": ["Spring ligament tear", "Attenuation"],
+    "associated_conditions": ["Adult acquired flatfoot", "PTTD"],
+    "clinical_tests": ["Arch height assessment", "Single heel rise"],
+    "imaging": ["MRI", "Ultrasound"],
+    "treatment_approaches": {
+      "conservative": ["Orthotics", "PT for PTTD"],
+      "surgical": ["Reconstruction with flatfoot surgery"]
+    },
+    "notes": "Key structure in medial longitudinal arch"
+  },
+  {
+    "id": "l025",
+    "name": "Plantar Fascia",
+    "latin_name": "Aponeurosis plantaris",
+    "region": "Foot - Plantar",
+    "components": ["Central", "Medial", "Lateral bands"],
+    "attachments": {
+      "origin": "Medial calcaneal tubercle",
+      "insertion": "Plantar plates and flexor sheaths of toes"
+    },
+    "blood_supply": ["Medial and lateral plantar arteries"],
+    "innervation": ["Medial and lateral plantar nerves"],
+    "primary_function": ["Windlass mechanism", "Arch support", "Shock absorption"],
+    "biomechanics": {
+      "windlass": "Tightens with toe extension",
+      "load": "2.5x body weight during running"
+    },
+    "mechanism_of_injury": ["Overuse", "Poor biomechanics", "Tight calves"],
+    "common_injuries": ["Plantar fasciitis", "Plantar fascia rupture"],
+    "clinical_tests": ["Windlass test", "Palpation", "Dorsiflexion test"],
+    "imaging": ["Ultrasound", "MRI"],
+    "treatment_approaches": {
+      "conservative": ["Stretching", "Orthotics", "Night splints", "Injections"],
+      "surgical": ["Fasciotomy (rare)"]
+    },
+    "prognosis": "90% resolve with conservative treatment",
+    "notes": "Not a true ligament but functions as one"
+  }
+]

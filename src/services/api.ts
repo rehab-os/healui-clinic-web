@@ -309,6 +309,11 @@ class ApiManager {
         return ApiMethods.post(url, data)
     }
 
+    static updatePracticeSettings = (data: any) => {
+        const url = BASE_URL + ENDPOINTS.UPDATE_PHYSIOTHERAPIST_PROFILE()
+        return ApiMethods.put(url, data)
+    }
+
     static addEducation = (data: any) => {
         const url = BASE_URL + ENDPOINTS.ADD_EDUCATION()
         return ApiMethods.post(url, data)
@@ -347,6 +352,27 @@ class ApiManager {
     static deleteWorkshop = (id: string) => {
         const url = BASE_URL + ENDPOINTS.DELETE_WORKSHOP(id)
         return ApiMethods.delete(url)
+    }
+
+    // Physiotherapist Profile Photos
+    static uploadProfilePhoto = (file: File, photoType: 'profile' | 'cover' | 'gallery', caption?: string) => {
+        const url = BASE_URL + ENDPOINTS.UPLOAD_PROFILE_PHOTO()
+        return ApiMethods.photoPost(url, file, photoType, caption)
+    }
+
+    static getProfilePhotos = () => {
+        const url = BASE_URL + ENDPOINTS.GET_PROFILE_PHOTOS()
+        return ApiMethods.get(url)
+    }
+
+    static deleteProfilePhoto = (photoType: 'profile' | 'cover' | 'gallery', photoId?: string) => {
+        const url = BASE_URL + ENDPOINTS.DELETE_PROFILE_PHOTO()
+        return ApiMethods.post(url, { photoType, photoId }, { 'X-HTTP-Method-Override': 'DELETE' })
+    }
+
+    static getPhotoConstraints = () => {
+        const url = BASE_URL + ENDPOINTS.GET_PHOTO_CONSTRAINTS()
+        return ApiMethods.get(url)
     }
 
     // Audio
@@ -440,6 +466,47 @@ class ApiManager {
 
     static getQuickStats = (clinicId?: string) => {
         const url = BASE_URL + ENDPOINTS.GET_QUICK_STATS(clinicId)
+        return ApiMethods.get(url)
+    }
+
+    // Physiotherapist Availability
+    static getMyAvailability = () => {
+        const url = BASE_URL + ENDPOINTS.GET_MY_AVAILABILITY()
+        return ApiMethods.get(url)
+    }
+
+    static getPhysiotherapistAvailability = (physiotherapistId: string) => {
+        const url = BASE_URL + ENDPOINTS.GET_PHYSIOTHERAPIST_AVAILABILITY(physiotherapistId)
+        return ApiMethods.get(url)
+    }
+
+    static createAvailability = (data: any) => {
+        const url = BASE_URL + ENDPOINTS.CREATE_AVAILABILITY()
+        return ApiMethods.post(url, data)
+    }
+
+    static updateAvailability = (id: string, data: any) => {
+        const url = BASE_URL + ENDPOINTS.UPDATE_AVAILABILITY(id)
+        return ApiMethods.put(url, data)
+    }
+
+    static deleteAvailability = (id: string) => {
+        const url = BASE_URL + ENDPOINTS.DELETE_AVAILABILITY(id)
+        return ApiMethods.delete(url)
+    }
+
+    static setDefaultAvailability = () => {
+        const url = BASE_URL + ENDPOINTS.SET_DEFAULT_AVAILABILITY()
+        return ApiMethods.post(url, {})
+    }
+
+    static getAvailableSlots = (params: { date: string; availability_type: string; pincode?: string }) => {
+        const url = BASE_URL + ENDPOINTS.GET_AVAILABLE_SLOTS(params)
+        return ApiMethods.get(url)
+    }
+
+    static getPhysiotherapistSlots = (physiotherapistId: string, params: { date: string; availability_type: string; pincode?: string }) => {
+        const url = BASE_URL + ENDPOINTS.GET_PHYSIOTHERAPIST_SLOTS(physiotherapistId, params)
         return ApiMethods.get(url)
     }
 }

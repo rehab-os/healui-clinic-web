@@ -1,0 +1,430 @@
+{
+  "exercise_contraindications": {
+    "EX_001": {
+      "exercise_name": "Scapular Wall Slides",
+      "absolute_contraindications": [
+        "acute_shoulder_dislocation",
+        "unstable_fracture",
+        "severe_acute_pain"
+      ],
+      "relative_contraindications": [
+        "recent_shoulder_surgery_<6weeks",
+        "acute_bursitis",
+        "severe_adhesive_capsulitis_phase1"
+      ],
+      "precautions": [
+        "monitor_pain_levels",
+        "avoid_forcing_movement",
+        "stop_if_sharp_pain"
+      ]
+    },
+    "EX_007": {
+      "exercise_name": "Straight Leg Raise",
+      "absolute_contraindications": [
+        "acute_hip_fracture",
+        "unstable_lumbar_spine",
+        "severe_acute_back_pain"
+      ],
+      "relative_contraindications": [
+        "hip_replacement_<12weeks",
+        "acute_hip_flexor_strain",
+        "pregnancy_3rd_trimester"
+      ],
+      "precautions": [
+        "maintain_neutral_spine",
+        "avoid_hip_flexor_cramping",
+        "stop_if_back_pain_increases"
+      ]
+    },
+    "EX_012": {
+      "exercise_name": "Standing Heel Raise",
+      "absolute_contraindications": [
+        "acute_achilles_rupture",
+        "unstable_ankle_fracture",
+        "severe_balance_impairment"
+      ],
+      "relative_contraindications": [
+        "acute_calf_strain",
+        "recent_ankle_surgery",
+        "plantar_fasciitis_acute_phase"
+      ],
+      "precautions": [
+        "use_support_if_needed",
+        "avoid_bouncing",
+        "progress_gradually"
+      ]
+    },
+    "EX_013": {
+      "exercise_name": "Bridge",
+      "absolute_contraindications": [
+        "acute_lumbar_disc_herniation",
+        "spondylolisthesis_unstable",
+        "severe_osteoporosis"
+      ],
+      "relative_contraindications": [
+        "pregnancy_supine_intolerance",
+        "recent_abdominal_surgery",
+        "acute_sacroiliac_dysfunction"
+      ],
+      "precautions": [
+        "avoid_excessive_lumbar_extension",
+        "control_movement_speed",
+        "stop_if_back_pain"
+      ]
+    },
+    "EX_019": {
+      "exercise_name": "Single Leg Balance",
+      "absolute_contraindications": [
+        "acute_vestibular_crisis",
+        "unstable_fracture_weight_bearing_limb",
+        "severe_cognitive_impairment"
+      ],
+      "relative_contraindications": [
+        "recent_fall_with_injury",
+        "severe_peripheral_neuropathy",
+        "acute_ankle_sprain"
+      ],
+      "precautions": [
+        "ensure_safe_environment",
+        "use_safety_measures",
+        "progress_gradually"
+      ]
+    },
+    "EX_023": {
+      "exercise_name": "Push-up Plus",
+      "absolute_contraindications": [
+        "acute_shoulder_dislocation",
+        "unstable_wrist_fracture",
+        "severe_cardiac_condition"
+      ],
+      "relative_contraindications": [
+        "rotator_cuff_tear_acute",
+        "carpal_tunnel_syndrome_severe",
+        "pregnancy_2nd_3rd_trimester"
+      ],
+      "precautions": [
+        "modify_to_incline_if_needed",
+        "monitor_wrist_position",
+        "avoid_breath_holding"
+      ]
+    },
+    "EX_032": {
+      "exercise_name": "Single Leg Squat",
+      "absolute_contraindications": [
+        "acute_knee_dislocation",
+        "unstable_lower_extremity_fracture",
+        "severe_balance_disorder"
+      ],
+      "relative_contraindications": [
+        "patellofemoral_pain_acute",
+        "ACL_reconstruction_<12weeks",
+        "severe_hip_arthritis"
+      ],
+      "precautions": [
+        "ensure_proper_knee_alignment",
+        "limit_depth_initially",
+        "use_support_if_needed"
+      ]
+    },
+    "EX_045": {
+      "exercise_name": "Turkish Get-up",
+      "absolute_contraindications": [
+        "acute_shoulder_instability",
+        "severe_cognitive_impairment",
+        "unstable_spine"
+      ],
+      "relative_contraindications": [
+        "recent_shoulder_surgery",
+        "severe_hip_limitation",
+        "balance_impairment"
+      ],
+      "precautions": [
+        "break_into_components",
+        "ensure_safe_environment",
+        "start_without_weight"
+      ]
+    },
+    "EX_048": {
+      "exercise_name": "Deep Breathing Exercise",
+      "absolute_contraindications": [
+        "pneumothorax_untreated",
+        "severe_respiratory_distress",
+        "hemoptysis_active"
+      ],
+      "relative_contraindications": [
+        "recent_thoracic_surgery",
+        "rib_fractures",
+        "severe_anxiety_breathing_focus"
+      ],
+      "precautions": [
+        "monitor_oxygen_saturation",
+        "avoid_forced_breathing",
+        "stop_if_dizziness"
+      ]
+    },
+    "EX_050": {
+      "exercise_name": "Stair Climbing Training",
+      "absolute_contraindications": [
+        "unstable_cardiac_condition",
+        "severe_peripheral_arterial_disease",
+        "unstable_lower_extremity_fracture"
+      ],
+      "relative_contraindications": [
+        "recent_cardiac_event",
+        "severe_COPD_exacerbation",
+        "severe_arthritis_weight_bearing_joints"
+      ],
+      "precautions": [
+        "monitor_vital_signs",
+        "have_emergency_plan",
+        "start_with_low_steps"
+      ]
+    }
+  },
+  "equipment_contraindications": {
+    "EQ_001": {
+      "equipment_name": "Biodex System 4 Pro",
+      "absolute_contraindications": [
+        "unstable_fracture",
+        "acute_joint_effusion",
+        "severe_osteoporosis",
+        "active_infection_joint"
+      ],
+      "relative_contraindications": [
+        "recent_surgery_<6weeks",
+        "severe_pain",
+        "limited_ROM",
+        "patient_anxiety_machine"
+      ],
+      "precautions": [
+        "proper_stabilization",
+        "gradual_speed_increase",
+        "monitor_patient_tolerance",
+        "emergency_stop_accessible"
+      ]
+    },
+    "EQ_002": {
+      "equipment_name": "AlterG Anti-Gravity Treadmill",
+      "absolute_contraindications": [
+        "open_wounds_lower_body",
+        "severe_claustrophobia",
+        "unstable_cardiac_condition",
+        "deep_vein_thrombosis"
+      ],
+      "relative_contraindications": [
+        "pregnancy",
+        "recent_abdominal_surgery",
+        "severe_peripheral_neuropathy",
+        "cognitive_impairment"
+      ],
+      "precautions": [
+        "proper_fitting_shorts",
+        "monitor_vital_signs",
+        "gradual_unweighting",
+        "emergency_protocols"
+      ]
+    },
+    "EQ_006": {
+      "equipment_name": "Shockwave Therapy Unit",
+      "absolute_contraindications": [
+        "pregnancy",
+        "malignancy_treatment_area",
+        "infection_treatment_area",
+        "blood_clotting_disorders",
+        "pacemaker",
+        "open_growth_plates"
+      ],
+      "relative_contraindications": [
+        "diabetes_peripheral_neuropathy",
+        "cortisone_injection_<6weeks",
+        "anticoagulant_therapy"
+      ],
+      "precautions": [
+        "informed_consent",
+        "proper_coupling_gel",
+        "monitor_patient_response",
+        "post_treatment_care"
+      ]
+    },
+    "EQ_007": {
+      "equipment_name": "Class IV K-Laser",
+      "absolute_contraindications": [
+        "pregnancy",
+        "malignancy_treatment_area",
+        "direct_eye_exposure",
+        "photosensitive_medications"
+      ],
+      "relative_contraindications": [
+        "tattoos_treatment_area",
+        "recent_steroid_injection",
+        "epilepsy",
+        "fever"
+      ],
+      "precautions": [
+        "eye_protection_required",
+        "avoid_reflective_surfaces",
+        "monitor_skin_response",
+        "proper_dosimetry"
+      ]
+    },
+    "EQ_008": {
+      "equipment_name": "Intelect Legend XT Combo",
+      "absolute_contraindications": [
+        "pregnancy_abdomen_pelvis",
+        "pacemaker",
+        "malignancy",
+        "infection_acute",
+        "thrombophlebitis",
+        "impaired_sensation"
+      ],
+      "relative_contraindications": [
+        "metal_implants",
+        "cardiac_conditions",
+        "hypertension",
+        "epilepsy"
+      ],
+      "precautions": [
+        "test_skin_sensation",
+        "avoid_water_ultrasound",
+        "proper_electrode_placement",
+        "monitor_skin_reaction"
+      ]
+    },
+    "EQ_015": {
+      "equipment_name": "Blood Flow Restriction System",
+      "absolute_contraindications": [
+        "history_thromboembolism",
+        "cancer_active",
+        "sickle_cell_disease",
+        "lymphectomy",
+        "severe_peripheral_arterial_disease"
+      ],
+      "relative_contraindications": [
+        "hypertension_uncontrolled",
+        "pregnancy",
+        "varicose_veins",
+        "diabetes_complications"
+      ],
+      "precautions": [
+        "proper_cuff_size",
+        "doppler_pressure_measurement",
+        "continuous_monitoring",
+        "emergency_release_protocol"
+      ]
+    }
+  },
+  "condition_specific_contraindications": {
+    "COND_020": {
+      "condition_name": "Stroke (CVA)",
+      "exercise_contraindications": [
+        "blood_pressure_>200/110",
+        "resting_heart_rate_>120",
+        "oxygen_saturation_<90%",
+        "severe_cognitive_impairment",
+        "uncontrolled_seizures"
+      ],
+      "activity_modifications": [
+        "avoid_valsalva_maneuver",
+        "monitor_blood_pressure",
+        "ensure_safe_environment",
+        "have_emergency_plan"
+      ]
+    },
+    "COND_026": {
+      "condition_name": "Chronic Obstructive Pulmonary Disease", 
+      "exercise_contraindications": [
+        "resting_oxygen_saturation_<88%",
+        "active_exacerbation",
+        "hemoptysis",
+        "severe_pulmonary_hypertension",
+        "unstable_angina"
+      ],
+      "activity_modifications": [
+        "supplemental_oxygen_if_needed",
+        "pulse_oximetry_monitoring",
+        "paced_breathing_techniques",
+        "energy_conservation"
+      ]
+    },
+    "COND_037": {
+      "condition_name": "Post-Surgical Rehabilitation (TKR)",
+      "exercise_contraindications": [
+        "active_infection",
+        "component_loosening",
+        "dislocation_risk_high",
+        "DVT_active",
+        "wound_healing_problems"
+      ],
+      "activity_modifications": [
+        "weight_bearing_restrictions",
+        "ROM_limitations_initial",
+        "avoid_deep_flexion_early",
+        "infection_precautions"
+      ]
+    }
+  },
+  "medication_considerations": {
+    "anticoagulants": {
+      "drugs": ["warfarin", "heparin", "rivaroxaban", "apixaban"],
+      "exercise_modifications": [
+        "avoid_high_fall_risk_activities",
+        "monitor_for_bruising",
+        "avoid_contact_activities",
+        "be_cautious_with_manual_therapy"
+      ],
+      "contraindicated_modalities": ["deep_friction_massage", "aggressive_stretching"]
+    },
+    "corticosteroids": {
+      "drugs": ["prednisone", "cortisone", "methylprednisolone"],
+      "exercise_modifications": [
+        "increased_fracture_risk",
+        "delayed_healing",
+        "tendon_weakness",
+        "infection_susceptibility"
+      ],
+      "contraindicated_modalities": ["aggressive_strengthening", "high_impact_activities"]
+    },
+    "beta_blockers": {
+      "drugs": ["metoprolol", "atenolol", "propranolol"],
+      "exercise_modifications": [
+        "blunted_heart_rate_response",
+        "use_RPE_instead_target_HR",
+        "monitor_blood_pressure",
+        "gradual_warm_up"
+      ]
+    },
+    "muscle_relaxants": {
+      "drugs": ["cyclobenzaprine", "baclofen", "tizanidine"],
+      "exercise_modifications": [
+        "drowsiness_sedation",
+        "impaired_balance",
+        "fall_risk_increased",
+        "cognitive_effects"
+      ]
+    }
+  },
+  "screening_checklist": {
+    "pre_treatment": [
+      "Review_medical_history",
+      "Check_current_medications",
+      "Assess_vital_signs",
+      "Screen_for_red_flags",
+      "Evaluate_contraindications",
+      "Obtain_informed_consent"
+    ],
+    "session_monitoring": [
+      "Monitor_patient_response",
+      "Watch_for_adverse_reactions",
+      "Assess_exercise_tolerance",
+      "Check_vital_signs_if_indicated",
+      "Document_any_concerns"
+    ],
+    "emergency_procedures": [
+      "Know_emergency_contacts",
+      "Have_emergency_action_plan",
+      "Know_location_emergency_equipment",
+      "Practice_emergency_scenarios",
+      "Maintain_CPR_certification"
+    ]
+  }
+}

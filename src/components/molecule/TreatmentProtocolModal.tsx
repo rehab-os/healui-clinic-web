@@ -5,6 +5,7 @@ import { X, Plus, Minus, Target, Activity, Utensils, FileText, Download, Save, P
 import { useAppSelector } from '../../store/hooks';
 import { downloadTreatmentProtocolPDF, printTreatmentProtocol } from '../../utils/pdfGenerator';
 import { format, parseISO } from 'date-fns';
+import { AnatomySearchSelect } from './AnatomySearchSelect';
 
 // Import database JSON files
 import jointsData from '../../../database/joint_structures.json';
@@ -102,7 +103,7 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
   
   // State management
   const [currentStep, setCurrentStep] = useState(1);
-  const [selectedAreas, setSelectedAreas] = useState<AffectedArea[]>([]);
+  const [selectedAreas, setSelectedAreas] = useState<any[]>([]); // Updated to handle anatomy structures
   const [availableAreas, setAvailableAreas] = useState<AffectedArea[]>([]);
   const [selectedExercises, setSelectedExercises] = useState<Exercise[]>([]);
   const [nutritionRecommendations, setNutritionRecommendations] = useState<string>('');
@@ -232,6 +233,22 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
     });
     
     setAvailableAreas(updatedAreas);
+  };
+
+  // New anatomy selection handlers for advanced search
+  const handleAnatomyStructureSelect = (structure: any) => {
+    // Check if structure is already selected
+    const isAlreadySelected = selectedAreas.some(s => 
+      s.name === structure.name && s.type === structure.type
+    );
+    
+    if (!isAlreadySelected) {
+      setSelectedAreas(prev => [...prev, structure]);
+    }
+  };
+
+  const handleAnatomyStructureRemove = (structureName: string) => {
+    setSelectedAreas(prev => prev.filter(s => s.name !== structureName));
   };
 
   // Helper functions for managing editable lists
@@ -444,108 +461,16 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
                   Step 1: Select Affected Areas
                 </h3>
                 <p className="text-xs sm:text-sm text-gray-600">
-                  Choose the anatomical structures that need attention in this treatment protocol.
+                  Search and select the anatomical structures (muscles, joints, etc.) that need attention in this treatment protocol.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
-                {/* Muscles */}
-                <div className="bg-red-50 rounded-lg p-3 sm:p-4">
-                  <h4 className="font-semibold text-red-800 mb-2 sm:mb-3 flex items-center text-sm sm:text-base">
-                    <Activity className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
-                    Muscles
-                  </h4>
-                  <div className="space-y-1.5 sm:space-y-2 max-h-48 sm:max-h-64 overflow-y-auto">
-                    {availableAreas.filter(area => area.category === 'muscles').map((muscle) => (
-                      <label key={muscle.id} className="flex items-center space-x-2 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={muscle.selected}
-                          onChange={() => toggleAreaSelection(muscle.id, muscle.category)}
-                          className="w-4 h-4 text-healui-physio border-gray-300 rounded focus:ring-healui-physio"
-                        />
-                        <span className="text-xs sm:text-sm text-gray-700">{muscle.name}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Joints */}
-                <div className="bg-blue-50 rounded-lg p-3 sm:p-4">
-                  <h4 className="font-semibold text-blue-800 mb-2 sm:mb-3 text-sm sm:text-base">
-                    Joint Structures
-                  </h4>
-                  <div className="space-y-1.5 sm:space-y-2 max-h-48 sm:max-h-64 overflow-y-auto">
-                    {availableAreas.filter(area => area.category === 'joints').map((joint) => (
-                      <label key={joint.id} className="flex items-center space-x-2 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={joint.selected}
-                          onChange={() => toggleAreaSelection(joint.id, joint.category)}
-                          className="w-4 h-4 text-healui-physio border-gray-300 rounded focus:ring-healui-physio"
-                        />
-                        <span className="text-sm text-gray-700">{joint.name}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Tendons */}
-                <div className="bg-green-50 rounded-lg p-3 sm:p-4">
-                  <h4 className="font-semibold text-green-800 mb-2 sm:mb-3 text-sm sm:text-base">
-                    Tendons
-                  </h4>
-                  <div className="space-y-1.5 sm:space-y-2 max-h-48 sm:max-h-64 overflow-y-auto">
-                    {availableAreas.filter(area => area.category === 'tendons').map((tendon) => (
-                      <label key={tendon.id} className="flex items-center space-x-2 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={tendon.selected}
-                          onChange={() => toggleAreaSelection(tendon.id, tendon.category)}
-                          className="w-4 h-4 text-healui-physio border-gray-300 rounded focus:ring-healui-physio"
-                        />
-                        <span className="text-sm text-gray-700">{tendon.name}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Neural */}
-                <div className="bg-purple-50 rounded-lg p-3 sm:p-4">
-                  <h4 className="font-semibold text-purple-800 mb-2 sm:mb-3 text-sm sm:text-base">
-                    Neural Structures
-                  </h4>
-                  <div className="space-y-1.5 sm:space-y-2 max-h-48 sm:max-h-64 overflow-y-auto">
-                    {availableAreas.filter(area => area.category === 'neural').map((neural) => (
-                      <label key={neural.id} className="flex items-center space-x-2 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={neural.selected}
-                          onChange={() => toggleAreaSelection(neural.id, neural.category)}
-                          className="w-4 h-4 text-healui-physio border-gray-300 rounded focus:ring-healui-physio"
-                        />
-                        <span className="text-sm text-gray-700">{neural.name}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {selectedAreas.length > 0 && (
-                <div className="mt-6 p-4 bg-healui-physio/5 rounded-lg">
-                  <h4 className="font-semibold text-healui-physio mb-2">Selected Areas:</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedAreas.map((area) => (
-                      <span
-                        key={`${area.category}-${area.id}`}
-                        className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-healui-physio text-white"
-                      >
-                        {area.name}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
+              <AnatomySearchSelect
+                selectedStructures={selectedAreas}
+                onStructureSelect={handleAnatomyStructureSelect}
+                onStructureRemove={handleAnatomyStructureRemove}
+                structureType="all"
+              />
             </div>
           )}
 
