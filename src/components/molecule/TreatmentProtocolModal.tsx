@@ -1,35 +1,44 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { X, Plus, Minus, Target, Activity, Utensils, FileText, Download, Save, Printer, User, Phone, Mail, Stethoscope, AlertCircle, Info, Pill, Loader2 } from 'lucide-react';
-import { useAppSelector } from '../../store/hooks';
+import { X, Plus, Minus, Target, Activity, Utensils, FileText, Download, Printer, User, Phone, Mail, Stethoscope, AlertCircle, Info, Pill, Loader2 } from 'lucide-react';
+import { notifications } from '@mantine/notifications';
+import { useAppSelector, useAppDispatch } from '../../store/hooks';
+import { store } from '../../store/store';
 import { downloadTreatmentProtocolPDF, printTreatmentProtocol } from '../../utils/pdfGenerator';
 import { format, parseISO } from 'date-fns';
 import { AnatomySearchSelect } from './AnatomySearchSelect';
+import { 
+    createAndLoadTreatmentProtocol, 
+    updateAndReloadTreatmentProtocol,
+    loadProtocolForVisit,
+    finalizeTreatmentProtocol,
+    sendTreatmentProtocolToPatient,
+    generateTreatmentProtocolPDF
+} from '../../store/actions/treatment-protocol.actions';
+import { closeProtocolModal } from '../../store/slices/treatment-protocol.slice';
+import { 
+    CreateTreatmentProtocolDto, 
+    StructureType, 
+    ProtocolStatus 
+} from '../../lib/types';
 
 // Import database JSON files
-import jointsData from '../../../database/joint_structures.json';
-import tendonsData from '../../../database/tendons.json';
-import neuralsData from '../../../database/neural_structure.json';
 import neckExercisesData from '../../../database/excercises/neck_excercise.json';
 
-// Define head and neck muscles subset to avoid large import
-const musclesData = [
-  { id: "m001", name: "Sternocleidomastoid" },
-  { id: "m002", name: "Trapezius (Upper)" },
-  { id: "m003", name: "Levator Scapulae" },
-  { id: "m004", name: "Scalenes" },
-  { id: "m005", name: "Suboccipital Muscles" },
-  { id: "m006", name: "Deep Neck Flexors" },
-  { id: "m007", name: "Semispinalis Capitis" },
-  { id: "m008", name: "Splenius Capitis" },
-  { id: "m009", name: "Rectus Capitis" },
-  { id: "m010", name: "Longus Colli" }
-];
+// Simple UUID generator
+const generateUUID = () => {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    const r = Math.random() * 16 | 0;
+    const v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+};
 
 interface TreatmentProtocolModalProps {
   isOpen: boolean;
   onClose: () => void;
+  visitId: string;
   patient: {
     id: string;
     full_name: string;
@@ -85,32 +94,42 @@ interface Exercise {
 }
 
 interface AffectedArea {
-  category: 'muscles' | 'joints' | 'tendons' | 'neural';
   id: string;
   name: string;
-  selected: boolean;
+  type: 'muscle' | 'joint' | 'tendon' | 'ligament' | 'neural';
+  region: string;
+  details?: any;
+  selected?: boolean;
 }
 
 const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
   isOpen,
   onClose,
+  visitId,
   patient,
   visitHistory = [],
   currentComplaint = '',
   nutritionData = null,
 }) => {
+  const dispatch = useAppDispatch();
   const { currentClinic } = useAppSelector(state => state.user);
+  const { 
+    currentProtocol, 
+    loading, 
+    error,
+    existsCache 
+  } = useAppSelector(state => state.treatmentProtocol);
   
   // State management
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedAreas, setSelectedAreas] = useState<any[]>([]); // Updated to handle anatomy structures
-  const [availableAreas, setAvailableAreas] = useState<AffectedArea[]>([]);
+  // availableAreas no longer needed - AnatomySearchSelect handles this
   const [selectedExercises, setSelectedExercises] = useState<Exercise[]>([]);
   const [nutritionRecommendations, setNutritionRecommendations] = useState<string>('');
   const [protocolTitle, setProtocolTitle] = useState('');
   const [generalNotes, setGeneralNotes] = useState('');
   const [showExplanations, setShowExplanations] = useState(true);
-  const [isDownloading, setIsDownloading] = useState(false);
+  const [lastSavedProtocolId, setLastSavedProtocolId] = useState<string | null>(null);
   
   // Editable nutrition data states
   const [editableBloodTests, setEditableBloodTests] = useState<string[]>([]);
@@ -119,124 +138,148 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
   const [editableSupplements, setEditableSupplements] = useState<string[]>([]);
   const [editableGeneralAdvice, setEditableGeneralAdvice] = useState<string[]>([]);
   const [editablePrecautions, setEditablePrecautions] = useState<string[]>([]);
+  
+  // Determine if we're editing an existing protocol
+  const isEditing = !!currentProtocol;
 
-  // Initialize available areas from database
+  // Load existing protocol when modal opens
   useEffect(() => {
-    const areas: AffectedArea[] = [];
+    if (isOpen && visitId) {
+      dispatch(loadProtocolForVisit(visitId));
+    }
+  }, [isOpen, visitId, dispatch]);
+
+  // Populate form when currentProtocol is loaded
+  useEffect(() => {
+    // Skip updating form if we just saved and this is an update to the same protocol
+    if (currentProtocol && lastSavedProtocolId === currentProtocol.id) {
+      console.log('Skipping form update - maintaining local state after save');
+      return;
+    }
     
-    // Add muscles (focusing on head and neck)
-    musclesData.forEach((muscle: any) => {
-      areas.push({
-        category: 'muscles',
-        id: muscle.id,
-        name: muscle.name,
-        selected: false,
-      });
-    });
+    if (currentProtocol) {
+      console.log('Syncing form with protocol from Redux:', currentProtocol.protocol_title);
+      setProtocolTitle(currentProtocol.protocol_title);
+      setGeneralNotes(currentProtocol.general_notes || '');
+      setNutritionRecommendations(currentProtocol.additional_manual_notes || '');
+      setShowExplanations(currentProtocol.show_explanations);
+      
+      // Set selected areas
+      if (currentProtocol.affected_areas) {
+        setSelectedAreas(currentProtocol.affected_areas.map(area => ({
+          id: area.structure_id || area.id,
+          name: area.structure_name,
+          type: area.structure_type,
+          category: area.structure_category,
+          selected: true
+        })));
+      }
+      
+      // Set selected exercises
+      if (currentProtocol.exercises) {
+        setSelectedExercises(currentProtocol.exercises.map(ex => ({
+          name: ex.exercise_name,
+          description: ex.exercise_description || '',
+          sets: ex.custom_sets.toString(),
+          frequency: ex.frequency || '',
+          customReps: ex.custom_reps,
+          customSets: ex.custom_sets,
+          customTime: ex.custom_duration_seconds,
+          customNotes: ex.custom_notes || '',
+        })));
+      }
+      
+      // Set nutrition recommendations if available
+      if (currentProtocol.recommendations) {
+        const rec = currentProtocol.recommendations;
+        setEditableBloodTests(rec.blood_tests || []);
+        setEditableRecommendedFoods(rec.recommended_foods || []);
+        setEditableFoodsToAvoid(rec.foods_to_avoid || []);
+        setEditableSupplements(rec.supplements || []);
+        setEditableGeneralAdvice(rec.general_advice || []);
+        setEditablePrecautions(rec.precautions || []);
+      }
+    } else {
+      // Reset form for new protocol
+      setProtocolTitle('');
+      setGeneralNotes('');
+      setNutritionRecommendations('');
+      setShowExplanations(true);
+      setSelectedAreas([]);
+      setSelectedExercises([]);
+      setCurrentStep(1);
+    }
+  }, [currentProtocol?.id]); // Only re-run when protocol ID changes (new protocol loaded)
 
-    // Add joints
-    jointsData.slice(0, 5).forEach((joint: any) => {
-      areas.push({
-        category: 'joints',
-        id: joint.id,
-        name: joint.name,
-        selected: false,
-      });
-    });
-
-    // Add tendons
-    tendonsData.slice(0, 5).forEach((tendon: any) => {
-      areas.push({
-        category: 'tendons',
-        id: tendon.id,
-        name: tendon.name,
-        selected: false,
-      });
-    });
-
-    // Add neural structures
-    neuralsData.slice(0, 5).forEach((neural: any) => {
-      areas.push({
-        category: 'neural',
-        id: neural.id,
-        name: neural.name,
-        selected: false,
-      });
-    });
-
-    setAvailableAreas(areas);
-  }, []);
+  // AnatomySearchSelect now handles the data loading
 
   // Initialize editable nutrition data when nutritionData changes
   useEffect(() => {
     if (nutritionData) {
-      // Blood tests
-      const bloodTests = nutritionData.bloodTests?.map(test => 
-        showExplanations ? `${test.test} (${test.reason})` : test.test
-      ) || [];
+      // Blood tests - handle both array of strings and array of objects
+      const bloodTests = Array.isArray(nutritionData.bloodTests) 
+        ? nutritionData.bloodTests.map(test => {
+            if (typeof test === 'string') return test;
+            return showExplanations ? `${test.test} (${test.reason})` : test.test;
+          })
+        : [];
       setEditableBloodTests(bloodTests);
 
-      // Recommended foods - flatten all categories
-      const recommendedFoods = nutritionData.recommendedFoods?.flatMap(category =>
-        category.items.map(item => 
-          showExplanations ? `${item} (${category.reason})` : item
-        )
-      ) || [];
+      // Recommended foods - handle both simple arrays and complex structure
+      const recommendedFoods = Array.isArray(nutritionData.recommendedFoods)
+        ? nutritionData.recommendedFoods.length > 0 && typeof nutritionData.recommendedFoods[0] === 'object' && nutritionData.recommendedFoods[0].items
+          ? nutritionData.recommendedFoods.flatMap(category =>
+              category.items.map(item => 
+                showExplanations ? `${item} (${category.reason})` : item
+              )
+            )
+          : nutritionData.recommendedFoods // Simple string array
+        : [];
       setEditableRecommendedFoods(recommendedFoods);
 
-      // Foods to avoid
-      const foodsToAvoid = nutritionData.avoidFoods?.map(food =>
-        showExplanations ? `${food.item} (${food.reason})` : food.item
-      ) || [];
+      // Foods to avoid - handle both array of strings and array of objects
+      const foodsToAvoid = Array.isArray(nutritionData.avoidFoods)
+        ? nutritionData.avoidFoods.map(food => {
+            if (typeof food === 'string') return food;
+            return showExplanations ? `${food.item} (${food.reason})` : food.item;
+          })
+        : [];
       setEditableFoodsToAvoid(foodsToAvoid);
 
-      // Supplements
-      const supplements = nutritionData.supplements?.map(supplement =>
-        showExplanations 
-          ? `${supplement.name} - ${supplement.dosage} (${supplement.reason})`
-          : `${supplement.name} - ${supplement.dosage}`
-      ) || [];
+      // Supplements - handle both array of strings and array of objects
+      const supplements = Array.isArray(nutritionData.supplements)
+        ? nutritionData.supplements.map(supplement => {
+            if (typeof supplement === 'string') return supplement;
+            return showExplanations 
+              ? `${supplement.name} - ${supplement.dosage} (${supplement.reason})`
+              : `${supplement.name} - ${supplement.dosage}`;
+          })
+        : [];
       setEditableSupplements(supplements);
 
-      // General advice
-      const generalAdvice = nutritionData.generalAdvice?.map(advice =>
-        showExplanations ? `${advice.advice} (${advice.reason})` : advice.advice
-      ) || [];
+      // General advice - handle both array of strings and array of objects
+      const generalAdvice = Array.isArray(nutritionData.generalAdvice)
+        ? nutritionData.generalAdvice.map(advice => {
+            if (typeof advice === 'string') return advice;
+            return showExplanations ? `${advice.advice} (${advice.reason})` : advice.advice;
+          })
+        : [];
       setEditableGeneralAdvice(generalAdvice);
 
-      // Precautions
-      const precautions = nutritionData.precautions?.map(precaution =>
-        showExplanations ? `${precaution.precaution} (${precaution.reason})` : precaution.precaution
-      ) || [];
+      // Precautions - handle both array of strings and array of objects
+      const precautions = Array.isArray(nutritionData.precautions)
+        ? nutritionData.precautions.map(precaution => {
+            if (typeof precaution === 'string') return precaution;
+            return showExplanations ? `${precaution.precaution} (${precaution.reason})` : precaution.precaution;
+          })
+        : [];
       setEditablePrecautions(precautions);
     }
   }, [nutritionData, showExplanations]);
 
-  // Handle area selection
-  const toggleAreaSelection = (areaId: string, category: string) => {
-    const updatedAreas = availableAreas.map(area => {
-      if (area.id === areaId && area.category === category) {
-        const newSelected = !area.selected;
-        
-        // Update selected areas array
-        if (newSelected) {
-          setSelectedAreas(prev => [...prev, { ...area, selected: true }]);
-        } else {
-          setSelectedAreas(prev => prev.filter(selected => 
-            !(selected.id === areaId && selected.category === category)
-          ));
-        }
-        
-        return { ...area, selected: newSelected };
-      }
-      return area;
-    });
-    
-    setAvailableAreas(updatedAreas);
-  };
-
-  // New anatomy selection handlers for advanced search
+  // Anatomy selection handlers
   const handleAnatomyStructureSelect = (structure: any) => {
+    console.log('Selecting anatomy structure:', structure);
     // Check if structure is already selected
     const isAlreadySelected = selectedAreas.some(s => 
       s.name === structure.name && s.type === structure.type
@@ -295,49 +338,295 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
     }));
   };
 
-  // Generate and download protocol
-  const downloadProtocol = async () => {
-    if (!patient || isDownloading) return;
-    
-    setIsDownloading(true);
-    
+  // Save protocol (create or update)
+  const saveProtocol = async () => {
+    if (!patient || !visitId) {
+      notifications.show({
+        title: 'Error',
+        message: 'Missing patient or visit information',
+        color: 'red',
+      });
+      return;
+    }
+
     try {
-      const protocol = {
-        patient: patient,
-        clinic: currentClinic || {},
-        protocolTitle: protocolTitle || 'Treatment Protocol',
-        selectedAreas,
-        selectedExercises,
-        nutritionRecommendations,
-        generalNotes,
-        // Use edited data instead of original nutritionData
-        editedNutritionData: {
-          bloodTests: editableBloodTests.filter(test => test.trim()),
-          recommendedFoods: editableRecommendedFoods.filter(food => food.trim()),
-          foodsToAvoid: editableFoodsToAvoid.filter(food => food.trim()),
+      const protocolData: CreateTreatmentProtocolDto = {
+        visit_id: visitId,
+        protocol_title: protocolTitle || 'Treatment Protocol',
+        current_complaint: currentComplaint,
+        general_notes: generalNotes,
+        additional_manual_notes: nutritionRecommendations,
+        show_explanations: showExplanations,
+        exercises: selectedExercises.map((exercise, index) => ({
+          exercise_name: exercise.name,
+          exercise_description: exercise.description,
+          custom_reps: exercise.customReps || 10,
+          custom_sets: exercise.customSets || 3,
+          custom_duration_seconds: exercise.customTime || 30,
+          custom_notes: exercise.customNotes,
+          frequency: exercise.frequency,
+          order_index: index,
+        })),
+        affected_areas: selectedAreas.map(area => {
+          console.log('Mapping affected area:', area);
+          
+          // Map the type to the expected enum values
+          let structureType: StructureType;
+          switch (area.type?.toLowerCase()) {
+            case 'muscle':
+              structureType = 'muscles' as StructureType;
+              break;
+            case 'joint':
+              structureType = 'joints' as StructureType;
+              break;
+            case 'tendon':
+            case 'ligament': // Ligaments also map to tendons category
+              structureType = 'tendons' as StructureType;
+              break;
+            case 'neural':
+              structureType = 'neural' as StructureType;
+              break;
+            default:
+              console.warn('Unknown structure type:', area.type, 'defaulting to tendons');
+              structureType = 'tendons' as StructureType;
+          }
+          
+          const mappedArea = {
+            structure_name: area.name,
+            structure_type: structureType,
+            structure_category: structureType,
+            structure_id: area.id || (() => {
+              console.log('Generating UUID for area:', area.name);
+              const uuid = generateUUID();
+              console.log('Generated UUID:', uuid);
+              return uuid;
+            })(),
+          };
+          console.log('Mapped to:', mappedArea);
+          return mappedArea;
+        }),
+        recommendations: {
+          blood_tests: editableBloodTests.filter(test => test.trim()),
+          recommended_foods: editableRecommendedFoods.filter(food => food.trim()),
+          foods_to_avoid: editableFoodsToAvoid.filter(food => food.trim()),
           supplements: editableSupplements.filter(supplement => supplement.trim()),
-          generalAdvice: editableGeneralAdvice.filter(advice => advice.trim()),
+          general_advice: editableGeneralAdvice.filter(advice => advice.trim()),
           precautions: editablePrecautions.filter(precaution => precaution.trim()),
-          hydration: nutritionData?.hydration || '',
-          generalGuidelines: nutritionData?.generalGuidelines || [],
+          hydration_notes: nutritionData?.hydration || '',
+          general_guidelines: nutritionData?.generalGuidelines || [],
+          additional_notes: nutritionRecommendations,
         },
-        showExplanations,
-        visitHistory,
-        currentComplaint,
-        createdDate: new Date().toLocaleDateString(),
       };
 
-      await downloadTreatmentProtocolPDF(protocol);
+      console.log('=== COMPLETE PROTOCOL DATA BEING SENT ===');
+      console.log(JSON.stringify(protocolData, null, 2));
+      console.log('=== END PROTOCOL DATA ===');
+
+      let savedProtocol;
+      if (isEditing && currentProtocol) {
+        // Update existing protocol
+        const result = await dispatch(updateAndReloadTreatmentProtocol(currentProtocol.id, protocolData) as any);
+        savedProtocol = result;
+        console.log('Updated protocol result:', result);
+      } else {
+        // Create new protocol
+        const result = await dispatch(createAndLoadTreatmentProtocol(protocolData) as any);
+        savedProtocol = result;
+        console.log('Created protocol result:', result);
+      }
+      
+      console.log('SaveProtocol - saved protocol:', savedProtocol);
+      console.log('Comparing titles:');
+      console.log('- Sent title:', protocolTitle);
+      console.log('- Received title:', savedProtocol?.protocol_title);
+      
+      // Check if backend returned different data than what we sent
+      if (savedProtocol?.protocol_title !== protocolTitle) {
+        console.warn('⚠️ Backend returned different title than what was sent!');
+        console.warn(`Sent: "${protocolTitle}" | Received: "${savedProtocol?.protocol_title}"`);
+      }
+      
+      // Mark this protocol as just saved to prevent form reset
+      if (savedProtocol?.id) {
+        setLastSavedProtocolId(savedProtocol.id);
+      }
+      
+      // Show enhanced success notification
+      notifications.show({
+        id: 'protocol-save-success',
+        title: '✅ Protocol Saved!',
+        message: isEditing 
+          ? `"${protocolTitle}" has been updated successfully` 
+          : `"${protocolTitle}" has been saved as draft`,
+        color: 'green',
+        autoClose: 4000,
+        withCloseButton: true,
+        styles: (theme) => ({
+          root: {
+            backgroundColor: '#f0f9ff',
+            borderColor: '#22c55e',
+            borderWidth: '2px',
+            borderStyle: 'solid',
+            borderRadius: '12px',
+          },
+          title: {
+            color: '#166534',
+            fontWeight: 600,
+            fontSize: '16px',
+          },
+          description: {
+            color: '#166534',
+            fontSize: '14px',
+          },
+          icon: {
+            backgroundColor: '#22c55e',
+            color: 'white',
+          },
+        }),
+      });
+      
+      // The saved protocol should now be in Redux state via the action
+      // Return the saved protocol
+      return savedProtocol;
+    } catch (error: any) {
+      console.error('Error saving protocol:', error);
+      notifications.show({
+        title: 'Error',
+        message: error.message || 'Failed to save protocol. Please try again.',
+        color: 'red',
+      });
+      // Error handling is done in Redux
+      throw error;
+    }
+  };
+
+  // Save and send protocol workflow
+  const saveAndSendProtocol = async () => {
+    try {
+      console.log('Starting save and send workflow...');
+      
+      // First save the protocol
+      const savedProtocol = await saveProtocol();
+      console.log('Protocol saved:', savedProtocol);
+      
+      // Get the current protocol from Redux state after save
+      const protocolToProcess = savedProtocol || currentProtocol;
+      console.log('Protocol to process:', protocolToProcess);
+
+      if (protocolToProcess?.id) {
+        // Finalize the protocol if it's in draft status
+        if (protocolToProcess.status === ProtocolStatus.DRAFT) {
+          console.log('Finalizing protocol...');
+          const finalizedProtocol = await dispatch(finalizeTreatmentProtocol(protocolToProcess.id));
+          console.log('Protocol finalized:', finalizedProtocol);
+          
+          // Send to patient after finalization
+          if (finalizedProtocol) {
+            console.log('Sending protocol to patient...');
+            await dispatch(sendTreatmentProtocolToPatient(protocolToProcess.id));
+            console.log('Protocol sent successfully!');
+            
+            notifications.show({
+              id: 'protocol-send-success',
+              title: '🚀 Protocol Sent!',
+              message: `"${protocolTitle}" has been finalized and sent to ${patient?.full_name}`,
+              color: 'green',
+              autoClose: 5000,
+              withCloseButton: true,
+              styles: (theme) => ({
+                root: {
+                  backgroundColor: '#f0f9ff',
+                  borderColor: '#3b82f6',
+                  borderWidth: '2px',
+                  borderStyle: 'solid',
+                  borderRadius: '12px',
+                },
+                title: {
+                  color: '#1e40af',
+                  fontWeight: 600,
+                  fontSize: '16px',
+                },
+                description: {
+                  color: '#1e40af',
+                  fontSize: '14px',
+                },
+                icon: {
+                  backgroundColor: '#3b82f6',
+                  color: 'white',
+                },
+              }),
+            });
+          }
+        } else {
+          // Already finalized, just send
+          console.log('Protocol already finalized, sending to patient...');
+          await dispatch(sendTreatmentProtocolToPatient(protocolToProcess.id));
+          console.log('Protocol sent successfully!');
+          
+          notifications.show({
+            id: 'protocol-send-only-success',
+            title: '📧 Protocol Sent!',
+            message: `Treatment protocol sent to ${patient?.full_name} successfully`,
+            color: 'green',
+            autoClose: 4000,
+            withCloseButton: true,
+            styles: (theme) => ({
+              root: {
+                backgroundColor: '#f0f9ff',
+                borderColor: '#3b82f6',
+                borderWidth: '2px',
+                borderStyle: 'solid',
+                borderRadius: '12px',
+              },
+              title: {
+                color: '#1e40af',
+                fontWeight: 600,
+                fontSize: '16px',
+              },
+              description: {
+                color: '#1e40af',
+                fontSize: '14px',
+              },
+              icon: {
+                backgroundColor: '#3b82f6',
+                color: 'white',
+              },
+            }),
+          });
+        }
+      } else {
+        console.error('No protocol ID found after save');
+        notifications.show({
+          title: 'Error',
+          message: 'Failed to save protocol. Please check the form and try again.',
+          color: 'red',
+        });
+      }
+    } catch (error) {
+      console.error('Error in save and send workflow:', error);
+      notifications.show({
+        title: 'Error',
+        message: 'An error occurred during the save and send process. Please try again.',
+        color: 'red',
+      });
+    }
+  };
+
+  // Generate and download protocol
+  const downloadProtocol = async () => {
+    if (!patient || !currentProtocol) return;
+    
+    try {
+      await dispatch(generateTreatmentProtocolPDF(currentProtocol.id));
+      // Handle PDF download - this depends on backend implementation
     } catch (error) {
       console.error('Error downloading protocol:', error);
-    } finally {
-      setIsDownloading(false);
     }
   };
 
   // Print protocol
   const printProtocol = () => {
-    if (!patient) return;
+    if (!patient || !currentProtocol) return;
     
     const protocol = {
       patient: patient,
@@ -367,6 +656,36 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
     printTreatmentProtocol(protocol);
   };
 
+  // Finalize protocol
+  const finalizeProtocol = async () => {
+    if (!currentProtocol) return;
+    
+    try {
+      await dispatch(finalizeTreatmentProtocol(currentProtocol.id));
+    } catch (error) {
+      console.error('Error finalizing protocol:', error);
+    }
+  };
+
+  // Send protocol to patient
+  const sendProtocolToPatient = async () => {
+    if (!currentProtocol) return;
+    
+    try {
+      await dispatch(sendTreatmentProtocolToPatient(currentProtocol.id));
+    } catch (error) {
+      console.error('Error sending protocol to patient:', error);
+    }
+  };
+
+  // Handle modal close
+  const handleClose = () => {
+    // Reset the saved protocol ID so form syncs properly next time
+    setLastSavedProtocolId(null);
+    dispatch(closeProtocolModal());
+    onClose();
+  };
+
   // Generate nutrition recommendations based on selected areas
   const generateNutritionRecommendations = () => {
     const recommendations = [];
@@ -394,12 +713,53 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
 
   if (!isOpen || !patient) return null;
 
+  // Show error if visitId is missing
+  if (!visitId) {
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 lg:flex lg:items-center lg:justify-center z-50 lg:p-4">
+        <div className="bg-white lg:rounded-lg shadow-xl w-full lg:max-w-md h-full lg:h-auto p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-semibold text-gray-900">Treatment Protocol</h2>
+            <button
+              onClick={handleClose}
+              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+          <div className="text-center py-8">
+            <AlertCircle className="h-12 w-12 text-amber-500 mx-auto mb-4" />
+            <p className="text-gray-700 mb-2">No visit selected</p>
+            <p className="text-sm text-gray-600">
+              Please open the treatment protocol from a specific visit in the appointments page.
+            </p>
+          </div>
+          <div className="flex justify-center mt-6">
+            <button
+              onClick={handleClose}
+              className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 lg:flex lg:items-center lg:justify-center z-50 lg:p-4">
       <div className="bg-white lg:rounded-lg shadow-xl w-full lg:max-w-6xl h-full lg:h-[90vh] flex flex-col overflow-hidden safe-top safe-bottom">
         {/* Header */}
         <div className="bg-gradient-to-r from-healui-physio to-healui-primary text-white">
           <div className="px-4 sm:px-6 py-4">
+            {/* Error Display */}
+            {(error.creating || error.updating || error.current) && (
+              <div className="mb-4 p-3 bg-red-100 border border-red-300 rounded-lg text-red-800 text-sm">
+                {error.creating || error.updating || error.current}
+              </div>
+            )}
+            
             <div className="flex items-center justify-between">
               {/* Title Section */}
               <div className="flex items-center space-x-3">
@@ -442,7 +802,7 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
                 
                 {/* Close Button */}
                 <button
-                  onClick={onClose}
+                  onClick={handleClose}
                   className="p-2 lg:p-2 -mr-2 lg:mr-0 text-white/80 hover:text-white hover:bg-white/20 rounded-lg transition-colors"
                 >
                   <X className="h-6 w-6 lg:h-5 lg:w-5" />
@@ -454,7 +814,16 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
 
         {/* Content */}
         <div className="flex-1 overflow-hidden">
-          {currentStep === 1 && (
+          {loading.current ? (
+            <div className="h-full flex items-center justify-center">
+              <div className="text-center">
+                <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-healui-physio" />
+                <p className="text-gray-600">Loading treatment protocol...</p>
+              </div>
+            </div>
+          ) : (
+            <>
+            {currentStep === 1 && (
             <div className="h-full p-4 lg:p-6 overflow-y-auto">
               <div className="mb-4 sm:mb-6">
                 <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">
@@ -1073,6 +1442,8 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
               </div>
             </div>
           )}
+            </>
+          )}
         </div>
 
         {/* Footer */}
@@ -1094,32 +1465,132 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
             
             {currentStep < 4 ? (
               <button
-                onClick={() => setCurrentStep(currentStep + 1)}
+                type="button"
+                onClick={() => {
+                  console.log('Next button clicked, moving from step', currentStep, 'to', currentStep + 1);
+                  setCurrentStep(currentStep + 1);
+                }}
                 className="px-4 sm:px-6 py-2 bg-healui-physio text-white rounded-lg hover:bg-healui-physio/90 transition-colors text-xs sm:text-sm"
               >
                 Next
               </button>
             ) : (
               <div className="flex flex-col sm:flex-row gap-2">
+                {/* Save as Draft Button */}
                 <button
-                  onClick={printProtocol}
-                  className="inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-xs sm:text-sm"
+                  type="button"
+                  onClick={saveProtocol}
+                  disabled={loading.creating || loading.updating}
+                  className="inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-xs sm:text-sm"
                 >
-                  <Printer className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-                  Print
-                </button>
-                <button
-                  onClick={downloadProtocol}
-                  disabled={isDownloading}
-                  className="inline-flex items-center justify-center px-3 sm:px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-green-400 disabled:cursor-not-allowed transition-colors text-xs sm:text-sm"
-                >
-                  {isDownloading ? (
+                  {(loading.creating || loading.updating) ? (
                     <Loader2 className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 animate-spin" />
                   ) : (
-                    <Download className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                    <FileText className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                   )}
-                  {isDownloading ? 'Generating...' : 'Download PDF'}
+                  Save as Draft
                 </button>
+
+                {/* Save Button */}
+                <button
+                  type="button"
+                  onClick={async () => {
+                    try {
+                      const savedProtocol = await saveProtocol();
+                      // Use the saved protocol or current protocol from state
+                      const protocolToFinalize = savedProtocol || currentProtocol;
+                      if (protocolToFinalize?.status === ProtocolStatus.DRAFT && protocolToFinalize?.id) {
+                        await dispatch(finalizeTreatmentProtocol(protocolToFinalize.id));
+                        notifications.show({
+                          id: 'protocol-finalize-success',
+                          title: '🎯 Protocol Finalized!',
+                          message: `"${protocolTitle}" has been saved and finalized successfully`,
+                          color: 'green',
+                          autoClose: 4000,
+                          withCloseButton: true,
+                          styles: (theme) => ({
+                            root: {
+                              backgroundColor: '#f0f9ff',
+                              borderColor: '#f59e0b',
+                              borderWidth: '2px',
+                              borderStyle: 'solid',
+                              borderRadius: '12px',
+                            },
+                            title: {
+                              color: '#92400e',
+                              fontWeight: 600,
+                              fontSize: '16px',
+                            },
+                            description: {
+                              color: '#92400e',
+                              fontSize: '14px',
+                            },
+                            icon: {
+                              backgroundColor: '#f59e0b',
+                              color: 'white',
+                            },
+                          }),
+                        });
+                      }
+                    } catch (error) {
+                      console.error('Error saving and finalizing protocol:', error);
+                      notifications.show({
+                        title: 'Error',
+                        message: 'Failed to save protocol. Please try again.',
+                        color: 'red',
+                      });
+                    }
+                  }}
+                  disabled={loading.creating || loading.updating || loading.finalizing}
+                  className="inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-xs sm:text-sm"
+                >
+                  {(loading.creating || loading.updating || loading.finalizing) ? (
+                    <Loader2 className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 animate-spin" />
+                  ) : (
+                    <FileText className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                  )}
+                  Save
+                </button>
+
+                {/* Save and Send Button */}
+                <button
+                  type="button"
+                  onClick={saveAndSendProtocol}
+                  disabled={loading.creating || loading.updating || loading.finalizing || loading.sendingToPatient}
+                  className="inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-healui-physio text-white rounded-lg hover:bg-healui-physio/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-xs sm:text-sm"
+                >
+                  {(loading.creating || loading.updating || loading.finalizing || loading.sendingToPatient) ? (
+                    <Loader2 className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 animate-spin" />
+                  ) : (
+                    <Mail className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                  )}
+                  Save & Send
+                </button>
+
+                {/* Additional Options for existing protocols */}
+                {currentProtocol && (
+                  <>
+                    <button
+                      onClick={printProtocol}
+                      className="inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-xs sm:text-sm"
+                    >
+                      <Printer className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                      Print
+                    </button>
+                    <button
+                      onClick={downloadProtocol}
+                      disabled={loading.generatingPDF}
+                      className="inline-flex items-center justify-center px-3 sm:px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-green-400 disabled:cursor-not-allowed transition-colors text-xs sm:text-sm"
+                    >
+                      {loading.generatingPDF ? (
+                        <Loader2 className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 animate-spin" />
+                      ) : (
+                        <Download className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                      )}
+                      {loading.generatingPDF ? 'Generating...' : 'Download PDF'}
+                    </button>
+                  </>
+                )}
               </div>
             )}
           </div>

@@ -473,5 +473,171 @@ export interface GenerateNoteResponseDto {
     note: SOAPNoteData | BAPNoteData | ProgressNoteData
 }
 
+// Treatment Protocol Types
+export enum ProtocolStatus {
+    DRAFT = 'DRAFT',
+    FINALIZED = 'FINALIZED',
+    SENT_TO_PATIENT = 'SENT_TO_PATIENT',
+    ARCHIVED = 'ARCHIVED'
+}
+
+export enum StructureType {
+    MUSCLES = 'muscles',
+    JOINTS = 'joints',
+    TENDONS = 'tendons',
+    NEURAL = 'neural'
+}
+
+export interface CreateTreatmentProtocolExerciseDto {
+    exercise_id?: string
+    exercise_name: string
+    exercise_description?: string
+    custom_reps: number
+    custom_sets: number
+    custom_duration_seconds: number
+    custom_notes?: string
+    frequency?: string
+    order_index?: number
+}
+
+export interface CreateTreatmentProtocolAreaDto {
+    structure_id?: string
+    structure_name: string
+    structure_type: StructureType
+    structure_category?: string
+    additional_metadata?: {
+        side?: 'left' | 'right' | 'bilateral'
+        severity?: 'mild' | 'moderate' | 'severe'
+        notes?: string
+    }
+}
+
+export interface CreateTreatmentProtocolRecommendationDto {
+    blood_tests?: string[]
+    recommended_foods?: string[]
+    foods_to_avoid?: string[]
+    supplements?: string[]
+    general_advice?: string[]
+    precautions?: string[]
+    hydration_notes?: string
+    general_guidelines?: string[]
+    additional_notes?: string
+}
+
+export interface CreateTreatmentProtocolDto {
+    visit_id: string
+    protocol_title: string
+    current_complaint?: string
+    general_notes?: string
+    additional_manual_notes?: string
+    show_explanations?: boolean
+    exercises?: CreateTreatmentProtocolExerciseDto[]
+    affected_areas?: CreateTreatmentProtocolAreaDto[]
+    recommendations?: CreateTreatmentProtocolRecommendationDto
+}
+
+export interface UpdateTreatmentProtocolDto extends Partial<CreateTreatmentProtocolDto> {
+    status?: ProtocolStatus
+}
+
+export interface TreatmentProtocolExerciseResponseDto {
+    id: string
+    exercise_id?: string
+    exercise_name: string
+    exercise_description?: string
+    custom_reps: number
+    custom_sets: number
+    custom_duration_seconds: number
+    custom_notes?: string
+    frequency?: string
+    order_index: number
+}
+
+export interface TreatmentProtocolAreaResponseDto {
+    id: string
+    structure_id?: string
+    structure_name: string
+    structure_type: StructureType
+    structure_category?: string
+    additional_metadata?: {
+        side?: 'left' | 'right' | 'bilateral'
+        severity?: 'mild' | 'moderate' | 'severe'
+        notes?: string
+    }
+}
+
+export interface TreatmentProtocolRecommendationResponseDto {
+    id: string
+    blood_tests?: string[]
+    recommended_foods?: string[]
+    foods_to_avoid?: string[]
+    supplements?: string[]
+    general_advice?: string[]
+    precautions?: string[]
+    hydration_notes?: string
+    general_guidelines?: string[]
+    additional_notes?: string
+}
+
+export interface TreatmentProtocolResponseDto {
+    id: string
+    visit_id: string
+    patient_id: string
+    clinic_id: string
+    physiotherapist_id: string
+    protocol_title: string
+    current_complaint?: string
+    general_notes?: string
+    additional_manual_notes?: string
+    show_explanations: boolean
+    status: ProtocolStatus
+    finalized_at?: Date
+    sent_to_patient_at?: Date
+    created_by: string
+    updated_by?: string
+    created_at: Date
+    updated_at: Date
+    exercises?: TreatmentProtocolExerciseResponseDto[]
+    affected_areas?: TreatmentProtocolAreaResponseDto[]
+    recommendations?: TreatmentProtocolRecommendationResponseDto
+    patient?: {
+        id: string
+        full_name: string
+        phone: string
+        email?: string
+        date_of_birth: Date
+        gender: string
+    }
+    clinic?: {
+        id: string
+        name: string
+        address?: string
+        contact_phone?: string
+    }
+    physiotherapist?: {
+        id: string
+        first_name: string
+        last_name: string
+        email: string
+    }
+}
+
+export interface GetTreatmentProtocolsQueryDto {
+    visit_id?: string
+    patient_id?: string
+    clinic_id?: string
+    physiotherapist_id?: string
+    status?: ProtocolStatus
+    search?: string
+    page?: number
+    limit?: number
+}
+
+export interface TreatmentProtocolExistsResponseDto {
+    exists: boolean
+    protocol_id?: string
+    status?: ProtocolStatus
+}
+
 // Re-export analytics types
 export * from './analytics.types'

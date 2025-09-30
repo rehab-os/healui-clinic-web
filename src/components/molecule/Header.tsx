@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import ContextSwitcher from './ContextSwitcher';
 import {
   Menu,
@@ -18,8 +19,30 @@ const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen = false }) => 
     <header className={`glass border-b border-border-color sticky top-0 z-40 shadow-sm transition-all duration-300 ${isMenuOpen ? 'lg:backdrop-blur-none backdrop-blur-sm brightness-95' : ''}`}>
       <div className="px-3 sm:px-6 py-2 sm:py-3">
         <div className="flex items-center justify-between">
-          {/* Left Section - Brand */}
-          <div className="flex items-center space-x-2 sm:space-x-4">
+          {/* Left Section - Logo */}
+          <div className="flex items-center">
+            {/* Healui Logo */}
+            <div className="flex items-center">
+              <div className="relative h-8 sm:h-10 lg:h-12 w-auto">
+                <Image
+                  src="/healui-logo/Healui Logo Final-10.png"
+                  alt="Healui"
+                  width={150}
+                  height={48}
+                  className="h-full w-auto object-contain"
+                  priority
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Right Section - Menu & Context Switcher */}
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            {/* Context Switcher */}
+            <div className="context-switcher">
+              <ContextSwitcher />
+            </div>
+            
             {/* Mobile Menu Toggle */}
             <button
               onClick={onMenuToggle}
@@ -32,29 +55,6 @@ const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen = false }) => 
                 <Menu className="h-5 w-5 text-text-gray" />
               )}
             </button>
-
-            {/* Healui.ai Brand - Clean & Simple */}
-            <div className="flex items-center">
-              {/* Text Logo - Matching Login Style */}
-              <div className="flex flex-col">
-                <h1 className="text-lg sm:text-xl lg:text-2xl font-mono font-light tracking-tight leading-none">
-                  <span className="text-gray-800">healui</span>
-                  <span className="text-healui-primary font-medium">.ai</span>
-                </h1>
-                {/* Emotionally connecting tagline for larger screens */}
-                <span className="hidden lg:block text-xs text-text-light font-medium leading-none">
-                  Where healing meets intelligence
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Section */}
-          <div className="flex items-center">
-            {/* Context Switcher - Always visible, compact on mobile */}
-            <div className="context-switcher-mobile">
-              <ContextSwitcher />
-            </div>
           </div>
         </div>
       </div>

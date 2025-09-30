@@ -1229,6 +1229,7 @@ export default function AppointmentDetailsPage() {
             <TreatmentProtocolModal
               isOpen={showTreatmentProtocol}
               onClose={() => setShowTreatmentProtocol(false)}
+              visitId={params.appointmentId as string}
               patient={patient}
               visitHistory={patientVisits}
               currentComplaint={appointment?.chief_complaint || ''}

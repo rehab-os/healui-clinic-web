@@ -226,35 +226,18 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Smart Mobile-Responsive Topbar */}
+      {/* Simple Dashboard Header */}
       <div className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
           <div className="flex items-center justify-between py-3 sm:py-4">
-            {/* Doctor Info */}
+            {/* Simple Welcome */}
             <div className="flex-1 min-w-0">
-              <h1 className="text-lg sm:text-xl font-bold text-gray-900 truncate">
-                Dr. {userData?.name || 'Doctor'}
+              <h1 className="text-lg sm:text-xl font-semibold text-gray-900">
+                Welcome back, Dr. {userData?.name || 'Doctor'}
               </h1>
-              <div className="flex items-center space-x-2 text-xs sm:text-sm text-gray-600">
-                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-healui-physio/10 text-healui-physio">
-                  {dashboardMode === 'organization' ? 'Org Admin' : 'Clinic Admin'}
-                </span>
-                {dashboardMode === 'clinic' && currentClinic && (
-                  <>
-                    <span className="text-gray-400 hidden sm:inline">•</span>
-                    <span className="truncate hidden sm:inline">{currentClinic.name}</span>
-                  </>
-                )}
-                {dashboardMode === 'organization' && userData?.organization && (
-                  <>
-                    <span className="text-gray-400 hidden sm:inline">•</span>
-                    <span className="truncate hidden sm:inline">{userData.organization.name}</span>
-                  </>
-                )}
-              </div>
             </div>
             
-            {/* Date & Loading */}
+            {/* Date & Time */}
             <div className="flex items-center space-x-3 sm:space-x-4 flex-shrink-0">
               <div className="text-right">
                 <div className="text-sm sm:text-base font-semibold text-gray-900">
@@ -274,22 +257,10 @@ export default function Dashboard() {
               
               {/* Loading Indicator */}
               {(loading.clinicPatients || loading.organizationOverview) && (
-                <div className="flex items-center">
-                  <Loader2 className="h-4 w-4 sm:h-5 sm:w-5 animate-spin text-healui-physio" />
-                  <span className="text-xs text-gray-600 ml-1 hidden sm:inline">Loading...</span>
-                </div>
+                <Loader2 className="h-4 w-4 sm:h-5 sm:w-5 animate-spin text-healui-physio" />
               )}
             </div>
           </div>
-          
-          {/* Mobile Clinic/Org Name */}
-          {((dashboardMode === 'clinic' && currentClinic) || (dashboardMode === 'organization' && userData?.organization)) && (
-            <div className="pb-2 sm:hidden">
-              <p className="text-xs text-gray-600 truncate">
-                {dashboardMode === 'clinic' ? currentClinic?.name : userData?.organization?.name}
-              </p>
-            </div>
-          )}
         </div>
       </div>
       

@@ -82,32 +82,32 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'SCHEDULED':
-        return 'bg-healui-primary/20 text-healui-primary border-healui-primary/30';
+        return 'bg-[#eff8ff] text-[#1e5f79]';
       case 'IN_PROGRESS':
-        return 'bg-healui-accent/20 text-healui-accent border-healui-accent/30';
+        return 'bg-yellow-50 text-yellow-700';
       case 'COMPLETED':
-        return 'bg-healui-physio/20 text-healui-physio border-healui-physio/30';
+        return 'bg-green-50 text-green-700';
       case 'CANCELLED':
-        return 'bg-red-100 text-red-800 border-red-200';
+        return 'bg-red-50 text-red-700';
       case 'NO_SHOW':
-        return 'bg-gray-100 text-gray-800 border-gray-200';
+        return 'bg-gray-50 text-[#000000]';
       default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
+        return 'bg-gray-50 text-[#000000]';
     }
   };
 
   const getVisitTypeColor = (type: string) => {
     switch (type) {
       case 'INITIAL_CONSULTATION':
-        return 'bg-healui-primary/20 text-healui-primary border border-healui-primary/30';
+        return 'bg-[#c8eaeb] text-[#1e5f79]';
       case 'FOLLOW_UP':
-        return 'bg-healui-physio/20 text-healui-physio border border-healui-physio/30';
+        return 'bg-[#eff8ff] text-[#1e5f79]';
       case 'REVIEW':
-        return 'bg-healui-accent/20 text-healui-accent border border-healui-accent/30';
+        return 'bg-green-50 text-green-700';
       case 'EMERGENCY':
-        return 'bg-red-100 text-red-800 border border-red-200';
+        return 'bg-red-50 text-red-700';
       default:
-        return 'bg-gray-100 text-gray-800 border border-gray-200';
+        return 'bg-gray-50 text-[#000000]';
     }
   };
 
@@ -119,9 +119,9 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
 
   return (
     <div 
-      className={`bg-white sm:rounded-lg border-b sm:border border-gray-200 hover:shadow-md transition-all duration-200 cursor-pointer ${
+      className={`bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 cursor-pointer ${
         isOnlineVisit 
-          ? 'border-l-4 border-l-blue-500' 
+          ? 'border-l-4 border-l-[#1e5f79]' 
           : ''
       }`}
       onClick={() => {
@@ -130,99 +130,118 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
         }
       }}
     >
-      {/* Ultra-Compact Mobile Design */}
-      <div className="px-3 py-2 sm:p-3">
-        {/* Main Row - Patient, Time, Status */}
-        <div className="flex items-center justify-between mb-1.5 sm:mb-2">
-          {/* Patient Info - Non-clickable */}
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center space-x-1.5 sm:space-x-2">
-              <h3 className="text-xs sm:text-sm font-semibold text-gray-900 truncate">
-                {visit.patient?.full_name || visit.patientUser?.full_name || 'Unknown Patient'}
-              </h3>
-              {visit.visit_mode === 'ONLINE' && (
-                <Video className="h-3 w-3 sm:h-4 sm:w-4 text-blue-500 flex-shrink-0" />
-              )}
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onViewPatient(visit.patient || visit.patientUser);
-                }}
-                className="text-healui-primary hover:text-healui-physio text-xs px-1 py-0.5 rounded hover:bg-healui-primary/10 transition-colors"
-                title="View patient details"
-              >
-                <User className="h-3 w-3" />
-              </button>
+      <div className="p-4">
+        {/* Header with Avatar and Patient */}
+        <div className="flex items-start justify-between mb-4">
+          <div className="flex items-center space-x-3">
+            {/* Avatar */}
+            <div className="h-10 w-10 rounded-full bg-[#1e5f79] flex items-center justify-center text-white font-semibold flex-shrink-0">
+              {(visit.patient?.full_name || visit.patientUser?.full_name || 'UK').split(' ').map(n => n[0]).join('').slice(0, 2)}
             </div>
-            <div className="flex items-center space-x-2 sm:space-x-3 text-xs text-gray-600 mt-0.5">
-              <span className="flex items-center">
-                <Clock className="h-3 w-3 mr-0.5" />
-                {visit.scheduled_time} • {format(parseISO(visit.scheduled_date), 'MMM dd')}
-              </span>
-              {(visit.patient?.phone || visit.patientUser?.phone) && (
-                <span className="hidden sm:inline text-xs">{visit.patient?.phone || visit.patientUser?.phone}</span>
-              )}
+            
+            {/* Patient Info */}
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center space-x-2 mb-1">
+                <h3 className="text-base font-semibold text-[#000000] truncate">
+                  {visit.patient?.full_name || visit.patientUser?.full_name || 'Unknown Patient'}
+                </h3>
+                {visit.visit_mode === 'ONLINE' && (
+                  <Video className="h-4 w-4 text-[#1e5f79]" />
+                )}
+              </div>
+              <div className="flex items-center space-x-4 text-sm text-gray-600">
+                <span className="flex items-center">
+                  <Phone className="h-4 w-4 mr-1 text-gray-400" />
+                  {visit.patient?.phone || visit.patientUser?.phone || 'No phone'}
+                </span>
+                <span className="flex items-center">
+                  <Clock className="h-4 w-4 mr-1 text-gray-400" />
+                  {visit.scheduled_time} • {format(parseISO(visit.scheduled_date), 'MMM dd, yyyy')}
+                </span>
+              </div>
             </div>
           </div>
           
-          {/* Status & Quick Action */}
-          <div className="flex items-center space-x-1.5 sm:space-x-2 flex-shrink-0">
-            <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(visit.status)}`}>
-              {visit.status.replace('_', ' ')}
-            </span>
-          </div>
+          {/* Status Badge */}
+          <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(visit.status)}`}>
+            {visit.status.replace('_', ' ')}
+          </span>
         </div>
 
-        {/* Secondary Row - Visit Type, Doctor, Actions */}
-        <div className="flex items-center justify-between mt-1">
-          {/* Visit Type & Doctor */}
-          <div className="flex items-center space-x-1.5 sm:space-x-2 text-xs text-gray-600 flex-1 min-w-0">
-            <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${getVisitTypeColor(visit.visit_type)}`}>
+        {/* Visit Details */}
+        <div className="space-y-2 mb-4">
+          <div className="flex items-center space-x-4 text-sm text-gray-600">
+            <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getVisitTypeColor(visit.visit_type)}`}>
               {formatVisitType(visit.visit_type)}
             </span>
+            <span className="flex items-center">
+              <Clock className="h-3 w-3 mr-1 text-gray-400" />
+              {visit.duration_minutes} min
+            </span>
+            {isAdmin && visit.physiotherapist && (
+              <span className="flex items-center">
+                <Stethoscope className="h-3 w-3 mr-1 text-gray-400" />
+                {visit.physiotherapist.full_name}
+              </span>
+            )}
+          </div>
+          
+          {visit.chief_complaint && (
+            <div className="text-sm text-gray-600">
+              <span className="font-medium">Chief Complaint:</span> {visit.chief_complaint}
+            </div>
+          )}
+          
+          <div className="flex items-center space-x-2">
             {visit.visit_source === 'MARKETPLACE' && (
-              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-purple-50 text-purple-700 border border-purple-200">
+              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-[#c8eaeb] text-[#1e5f79]">
                 Marketplace
               </span>
             )}
             {visit.total_amount && (
-              <span className="text-xs font-medium text-green-600">
+              <span className="text-sm font-medium text-green-600">
                 ₹{visit.total_amount}
               </span>
             )}
-            {isAdmin && visit.physiotherapist && (
-              <span className="hidden sm:inline truncate">
-                Dr. {visit.physiotherapist.full_name}
-              </span>
-            )}
             {visit.note && (
-              <FileText className="h-3 w-3 text-healui-primary" title="Has note" />
+              <FileText className="h-3 w-3 text-[#1e5f79]" title="Has note" />
             )}
           </div>
+        </div>
+        {/* Action Buttons */}
+        <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onViewPatient(visit.patient || visit.patientUser);
+            }}
+            className="text-sm text-[#1e5f79] hover:text-[#1e5f79]/80 font-medium"
+          >
+            View Patient
+          </button>
           
-          {/* Quick Actions */}
-          <div className="flex items-center space-x-0.5 sm:space-x-1 flex-shrink-0">
+          <div className="flex items-center space-x-2">
             {visit.status === 'SCHEDULED' && visit.visit_mode === 'ONLINE' && onJoinVideoCall && (
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   onJoinVideoCall(visit.id);
                 }}
-                className="flex items-center px-2 py-1 bg-blue-500 text-white rounded text-xs font-medium hover:bg-blue-600 transition-colors"
+                className="inline-flex items-center px-3 py-1.5 border border-[#1e5f79] rounded-md text-sm font-medium text-[#1e5f79] bg-white hover:bg-[#eff8ff]"
                 title="Join Video Call"
               >
-                <Video className="h-3 w-3 sm:mr-1" />
-                <span className="hidden sm:inline">Join</span>
+                <Video className="h-4 w-4 mr-1.5" />
+                Join Call
               </button>
             )}
-
+            
             {visit.status === 'SCHEDULED' && onStartVisit && (
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   onStartVisit(visit.id);
                 }}
-                className="p-1 text-green-600 hover:bg-green-50 rounded transition-colors"
+                className="p-2 text-green-600 hover:text-green-800 hover:bg-green-50 rounded-lg transition-colors"
                 title="Start Visit"
               >
                 <Activity className="h-4 w-4" />
@@ -235,7 +254,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
                   e.stopPropagation();
                   onReschedule(visit.id);
                 }}
-                className="p-1 text-orange-600 hover:bg-orange-50 rounded transition-colors"
+                className="p-2 text-orange-600 hover:text-orange-800 hover:bg-orange-50 rounded-lg transition-colors"
                 title="Reschedule"
               >
                 <Calendar className="h-4 w-4" />
@@ -248,7 +267,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
                   e.stopPropagation();
                   onCancel(visit.id);
                 }}
-                className="p-1 text-red-500 hover:bg-red-50 rounded transition-colors"
+                className="p-2 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-lg transition-colors"
                 title="Cancel"
               >
                 <XCircle className="h-4 w-4" />
@@ -261,7 +280,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
                   e.stopPropagation();
                   onAddNote(visit.id);
                 }}
-                className="p-1 text-healui-primary hover:bg-healui-primary/10 rounded transition-colors"
+                className="p-2 text-[#1e5f79] hover:text-[#1e5f79]/80 hover:bg-[#eff8ff] rounded-lg transition-colors"
                 title="Add Note"
               >
                 <FileText className="h-4 w-4" />
@@ -269,13 +288,6 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
             )}
           </div>
         </div>
-        
-        {/* Chief Complaint - Only on larger screens */}
-        {visit.chief_complaint && (
-          <div className="mt-1.5 sm:mt-2 pt-1.5 sm:pt-2 border-t border-gray-100">
-            <p className="text-xs text-gray-600 line-clamp-1">{visit.chief_complaint}</p>
-          </div>
-        )}
       </div>
     </div>
   );

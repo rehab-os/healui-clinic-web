@@ -112,6 +112,10 @@ export const ENDPOINTS = {
     DELETE_PROFILE_PHOTO: () => 'physiotherapist-profile/photos',
     GET_PHOTO_CONSTRAINTS: () => 'physiotherapist-profile/photos/constraints',
 
+    // Bank Account
+    UPDATE_BANK_ACCOUNT: () => 'physiotherapist-profile/bank-account',
+    GET_BANK_ACCOUNT: () => 'physiotherapist-profile/bank-account',
+
     // Audio
     TRANSCRIBE_AUDIO: () => 'audio/transcribe',
 
@@ -159,4 +163,30 @@ export const ENDPOINTS = {
         })
         return `physiotherapist-availability/slots/${physiotherapistId}?${searchParams.toString()}`
     },
+
+    // Treatment Protocols
+    GET_TREATMENT_PROTOCOLS: (params?: Record<string, any>) => {
+        let url = 'treatment-protocols'
+        if (params) {
+            const searchParams = new URLSearchParams()
+            Object.keys(params).forEach(key => {
+                if (params[key] !== undefined && params[key] !== null) {
+                    searchParams.append(key, params[key].toString())
+                }
+            })
+            if (searchParams.toString()) {
+                url += '?' + searchParams.toString()
+            }
+        }
+        return url
+    },
+    GET_TREATMENT_PROTOCOL: (id: string) => `treatment-protocols/${id}`,
+    CREATE_TREATMENT_PROTOCOL: () => 'treatment-protocols',
+    UPDATE_TREATMENT_PROTOCOL: (id: string) => `treatment-protocols/${id}`,
+    DELETE_TREATMENT_PROTOCOL: (id: string) => `treatment-protocols/${id}`,
+    GET_TREATMENT_PROTOCOL_BY_VISIT: (visitId: string) => `treatment-protocols/visit/${visitId}`,
+    CHECK_TREATMENT_PROTOCOL_EXISTS: (visitId: string) => `treatment-protocols/visit/${visitId}/exists`,
+    FINALIZE_TREATMENT_PROTOCOL: (id: string) => `treatment-protocols/${id}/finalize`,
+    SEND_TREATMENT_PROTOCOL: (id: string) => `treatment-protocols/${id}/send-to-patient`,
+    GENERATE_TREATMENT_PROTOCOL_PDF: (id: string) => `treatment-protocols/${id}/pdf`,
 }

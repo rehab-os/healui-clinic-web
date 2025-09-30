@@ -258,18 +258,18 @@ export default function Login() {
             }}
           >
           </div>
-          {/* Mobile Background */}
+          {/* Mobile Background - Physiotherapist working with patient */}
           <div 
             className="sm:hidden absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1559939238-8ba10e4d9549?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80')`
+              backgroundImage: `url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80')`
             }}
           >
           </div>
         </div>
         
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-brand-black/70 via-brand-black/50 to-brand-teal/80"></div>
+        {/* Overlay - Darker for mobile to improve readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-brand-black/80 via-brand-black/60 to-brand-teal/90 sm:from-brand-black/70 sm:via-brand-black/50 sm:to-brand-teal/80"></div>
         
         {/* Content */}
         <div className="relative z-10 min-h-screen flex flex-col">

@@ -130,21 +130,21 @@
 @layer components {
   /* Button Components */
   .btn-primary {
-    @apply bg-gradient-physio text-white px-8 py-3.5 rounded-xl font-semibold 
-           transition-all duration-300 hover:shadow-physio hover:scale-105
+    @apply bg-brand-teal text-brand-white px-8 py-3.5 rounded-xl font-semibold 
+           transition-all duration-300 hover:bg-brand-teal/90 hover:shadow-lg
            active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 
-           focus-visible:outline-healui-physio;
+           focus-visible:outline-brand-teal;
   }
   
   .btn-secondary {
-    @apply bg-healui-physio/10 text-healui-physio border-2 border-transparent 
+    @apply bg-brand-black/10 text-brand-black border-2 border-transparent 
            px-8 py-3.5 rounded-xl font-semibold transition-all duration-300
-           hover:border-healui-physio hover:shadow-md;
+           hover:border-brand-black/30 hover:shadow-md;
   }
   
   /* Card Components */
   .card-base {
-    @apply bg-white p-10 rounded-lg shadow-sm border border-border-color
+    @apply bg-brand-white p-10 rounded-lg shadow-sm border border-gray-200
            transition-all duration-300 hover:-translate-y-1 hover:shadow-lg;
   }
   
@@ -212,6 +212,20 @@
     }
     50% {
       background-position: right center;
+    }
+  }
+  
+  /* Mobile slide up animation */
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+  
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
     }
   }
   

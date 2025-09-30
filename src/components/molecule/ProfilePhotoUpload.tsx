@@ -24,7 +24,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 
 interface Photo {
   id: string;
-  photoType: 'profile' | 'cover' | 'gallery';
+  photoType: 'profile' | 'cover' | 'gallery' | 'signature';
   url: string;
   caption?: string;
   uploadedAt: string;
@@ -44,6 +44,7 @@ interface PhotoConstraints {
   };
   cover: typeof PhotoConstraints.profile;
   gallery: typeof PhotoConstraints.profile & { maxCount: number };
+  signature: typeof PhotoConstraints.profile;
 }
 
 interface ProfilePhotoUploadProps {
@@ -62,10 +63,11 @@ const ProfilePhotoUpload: React.FC<ProfilePhotoUploadProps> = ({ profileId, onPh
     profilePhoto?: Photo;
     coverPhoto?: Photo;
     galleryPhotos: Photo[];
+    signature?: Photo;
   }>({ galleryPhotos: [] });
   const [constraints, setConstraints] = useState<PhotoConstraints | null>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
-  const [selectedPhotoType, setSelectedPhotoType] = useState<'profile' | 'cover' | 'gallery'>('profile');
+  const [selectedPhotoType, setSelectedPhotoType] = useState<'profile' | 'cover' | 'gallery' | 'signature'>('profile');
   
   // Refs
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -104,7 +106,7 @@ const ProfilePhotoUpload: React.FC<ProfilePhotoUploadProps> = ({ profileId, onPh
   };
 
   // Validate file before upload
-  const validateFile = (file: File, photoType: 'profile' | 'cover' | 'gallery'): string | null => {
+  const validateFile = (file: File, photoType: 'profile' | 'cover' | 'gallery' | 'signature'): string | null => {
     // Basic safety checks - always keep these
     if (file.type && !file.type.startsWith('image/')) {
       return 'Please select an image file (JPEG, PNG, or WEBP).';
@@ -205,7 +207,7 @@ const ProfilePhotoUpload: React.FC<ProfilePhotoUploadProps> = ({ profileId, onPh
   }, [selectedPhotoType, constraints]);
 
   // Upload photo
-  const uploadPhoto = async (file: File, photoType: 'profile' | 'cover' | 'gallery') => {
+  const uploadPhoto = async (file: File, photoType: 'profile' | 'cover' | 'gallery' | 'signature') => {
     try {
       setUploading(true);
       setUploadProgress(0);
@@ -221,7 +223,7 @@ const ProfilePhotoUpload: React.FC<ProfilePhotoUploadProps> = ({ profileId, onPh
       setUploadProgress(100);
       
       if (response.success) {
-        setSuccess(`${photoType === 'profile' ? 'Profile' : photoType === 'cover' ? 'Cover' : 'Gallery'} photo uploaded successfully`);
+        setSuccess(`${photoType === 'profile' ? 'Profile' : photoType === 'cover' ? 'Cover' : photoType === 'signature' ? 'Signature' : 'Gallery'} photo uploaded successfully`);
         await fetchPhotos(); // Refresh photos
         onPhotoUpdate?.(); // Notify parent component
         
@@ -262,7 +264,7 @@ const ProfilePhotoUpload: React.FC<ProfilePhotoUploadProps> = ({ profileId, onPh
   };
 
   // Delete photo
-  const handleDeletePhoto = async (photoType: 'profile' | 'cover' | 'gallery', photoId?: string) => {
+  const handleDeletePhoto = async (photoType: 'profile' | 'cover' | 'gallery' | 'signature', photoId?: string) => {
     if (!confirm('Are you sure you want to delete this photo?')) return;
     
     try {
@@ -343,6 +345,12 @@ const ProfilePhotoUpload: React.FC<ProfilePhotoUploadProps> = ({ profileId, onPh
                       <li>Try using a wider image or crop it to be more rectangular</li>
                     </>
                   )}
+                  {selectedPhotoType === 'signature' && (
+                    <>
+                      <li>Signatures should be wide format, like 400×100px or 300×150px</li>
+                      <li>Crop your signature image to remove excess white space</li>
+                    </>
+                  )}
                 </ul>
               </div>
             )}
@@ -351,7 +359,7 @@ const ProfilePhotoUpload: React.FC<ProfilePhotoUploadProps> = ({ profileId, onPh
                 <p className="font-medium mb-1">💡 Image too small:</p>
                 <ul className="list-disc list-inside space-y-1 text-xs">
                   <li>Use a higher resolution image</li>
-                  <li>Minimum size: {selectedPhotoType === 'profile' ? '400×400px' : selectedPhotoType === 'cover' ? '800×300px' : '400×300px'}</li>
+                  <li>Minimum size: {selectedPhotoType === 'profile' ? '400×400px' : selectedPhotoType === 'cover' ? '800×300px' : selectedPhotoType === 'signature' ? '200×100px' : '400×300px'}</li>
                 </ul>
               </div>
             )}
@@ -534,6 +542,76 @@ const ProfilePhotoUpload: React.FC<ProfilePhotoUploadProps> = ({ profileId, onPh
           </CardContent>
         </Card>
       </div>
+
+      {/* Signature */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg flex items-center gap-2">
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
+            Digital Signature
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="relative w-full h-24">
+            {loading ? (
+              <Skeleton className="w-full h-full rounded-lg" />
+            ) : photos.signature ? (
+              <div className="relative w-full h-full group">
+                <Image
+                  src={photos.signature.url}
+                  alt="Signature"
+                  fill
+                  className="rounded-lg object-contain bg-white border"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
+                <button
+                  onClick={() => handleDeletePhoto('signature')}
+                  className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 rounded-lg flex items-center justify-center transition-opacity"
+                  disabled={uploading}
+                >
+                  <Trash2 className="h-6 w-6 text-white" />
+                </button>
+              </div>
+            ) : (
+              <div className="w-full h-full rounded-lg bg-gray-100 border-2 border-dashed border-gray-300 flex items-center justify-center">
+                <svg className="h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+              </div>
+            )}
+          </div>
+          
+          <div className="text-center space-y-2">
+            <p className="text-sm text-gray-600">
+              {constraints?.signature?.description || 'Upload your digital signature for professional documents'}
+            </p>
+            <div className="text-xs text-gray-500 space-y-1">
+              <p>Max size: {constraints && formatFileSize(constraints.signature?.maxSize || 2097152)}</p>
+              <p>Min size: {constraints?.signature?.minWidth || 200}×{constraints?.signature?.minHeight || 100}px</p>
+              <p>Aspect ratio: {constraints?.signature?.aspectRatioRange?.min || 1.5}:1 to {constraints?.signature?.aspectRatioRange?.max || 5}:1 (wide format)</p>
+              <p>Formats: {constraints?.signature?.allowedFormats?.join(', ').toUpperCase() || 'JPEG, PNG, WEBP'}</p>
+            </div>
+            <Button
+              onClick={() => {
+                setSelectedPhotoType('signature');
+                fileInputRef.current?.click();
+              }}
+              disabled={uploading || loading}
+              size="sm"
+              variant={photos.signature ? 'outline' : 'default'}
+            >
+              {uploading && selectedPhotoType === 'signature' ? (
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+              ) : (
+                <Upload className="h-4 w-4 mr-2" />
+              )}
+              {photos.signature ? 'Change Signature' : 'Upload Signature'}
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Gallery Photos */}
       <Card>

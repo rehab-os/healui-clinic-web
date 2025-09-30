@@ -26,6 +26,9 @@ import type {
     CreateNoteDto,
     UpdateNoteDto,
     SignNoteDto,
+    CreateTreatmentProtocolDto,
+    UpdateTreatmentProtocolDto,
+    GetTreatmentProtocolsQueryDto,
 } from '../lib/types'
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://healui-backend-core.onrender.com/api/v1/'
@@ -355,7 +358,7 @@ class ApiManager {
     }
 
     // Physiotherapist Profile Photos
-    static uploadProfilePhoto = (file: File, photoType: 'profile' | 'cover' | 'gallery', caption?: string) => {
+    static uploadProfilePhoto = (file: File, photoType: 'profile' | 'cover' | 'gallery' | 'signature', caption?: string) => {
         const url = BASE_URL + ENDPOINTS.UPLOAD_PROFILE_PHOTO()
         return ApiMethods.photoPost(url, file, photoType, caption)
     }
@@ -365,13 +368,24 @@ class ApiManager {
         return ApiMethods.get(url)
     }
 
-    static deleteProfilePhoto = (photoType: 'profile' | 'cover' | 'gallery', photoId?: string) => {
+    static deleteProfilePhoto = (photoType: 'profile' | 'cover' | 'gallery' | 'signature', photoId?: string) => {
         const url = BASE_URL + ENDPOINTS.DELETE_PROFILE_PHOTO()
         return ApiMethods.post(url, { photoType, photoId }, { 'X-HTTP-Method-Override': 'DELETE' })
     }
 
     static getPhotoConstraints = () => {
         const url = BASE_URL + ENDPOINTS.GET_PHOTO_CONSTRAINTS()
+        return ApiMethods.get(url)
+    }
+
+    // Bank Account
+    static updateBankAccount = (data: any) => {
+        const url = BASE_URL + ENDPOINTS.UPDATE_BANK_ACCOUNT()
+        return ApiMethods.put(url, data)
+    }
+
+    static getBankAccount = () => {
+        const url = BASE_URL + ENDPOINTS.GET_BANK_ACCOUNT()
         return ApiMethods.get(url)
     }
 
@@ -507,6 +521,57 @@ class ApiManager {
 
     static getPhysiotherapistSlots = (physiotherapistId: string, params: { date: string; availability_type: string; pincode?: string }) => {
         const url = BASE_URL + ENDPOINTS.GET_PHYSIOTHERAPIST_SLOTS(physiotherapistId, params)
+        return ApiMethods.get(url)
+    }
+
+    // Treatment Protocols
+    static getTreatmentProtocols = (params?: GetTreatmentProtocolsQueryDto) => {
+        const url = BASE_URL + ENDPOINTS.GET_TREATMENT_PROTOCOLS(params)
+        return ApiMethods.get(url)
+    }
+
+    static getTreatmentProtocol = (id: string) => {
+        const url = BASE_URL + ENDPOINTS.GET_TREATMENT_PROTOCOL(id)
+        return ApiMethods.get(url)
+    }
+
+    static getTreatmentProtocolByVisit = (visitId: string) => {
+        const url = BASE_URL + ENDPOINTS.GET_TREATMENT_PROTOCOL_BY_VISIT(visitId)
+        return ApiMethods.get(url)
+    }
+
+    static checkTreatmentProtocolExists = (visitId: string) => {
+        const url = BASE_URL + ENDPOINTS.CHECK_TREATMENT_PROTOCOL_EXISTS(visitId)
+        return ApiMethods.get(url)
+    }
+
+    static createTreatmentProtocol = (data: CreateTreatmentProtocolDto) => {
+        const url = BASE_URL + ENDPOINTS.CREATE_TREATMENT_PROTOCOL()
+        return ApiMethods.post(url, data)
+    }
+
+    static updateTreatmentProtocol = (id: string, data: UpdateTreatmentProtocolDto) => {
+        const url = BASE_URL + ENDPOINTS.UPDATE_TREATMENT_PROTOCOL(id)
+        return ApiMethods.put(url, data)
+    }
+
+    static deleteTreatmentProtocol = (id: string) => {
+        const url = BASE_URL + ENDPOINTS.DELETE_TREATMENT_PROTOCOL(id)
+        return ApiMethods.delete(url)
+    }
+
+    static finalizeTreatmentProtocol = (id: string) => {
+        const url = BASE_URL + ENDPOINTS.FINALIZE_TREATMENT_PROTOCOL(id)
+        return ApiMethods.post(url, {})
+    }
+
+    static sendTreatmentProtocolToPatient = (id: string) => {
+        const url = BASE_URL + ENDPOINTS.SEND_TREATMENT_PROTOCOL(id)
+        return ApiMethods.post(url, {})
+    }
+
+    static generateTreatmentProtocolPDF = (id: string) => {
+        const url = BASE_URL + ENDPOINTS.GENERATE_TREATMENT_PROTOCOL_PDF(id)
         return ApiMethods.get(url)
     }
 }

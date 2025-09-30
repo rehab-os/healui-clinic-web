@@ -1,0 +1,35 @@
+User-agent: *
+Allow: /
+
+# AI and bot crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+# Sitemap location
+Sitemap: https://healui.ai/sitemap.xml
+
+# Disallow admin and private areas
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /admin/
+Disallow: /_next/
+Disallow: /login/
+
+# Allow public pages for SEO
+Allow: /
+Allow: /about
+Allow: /features
+Allow: /pricing
+Allow: /contact

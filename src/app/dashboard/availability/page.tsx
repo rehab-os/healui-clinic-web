@@ -3,15 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../../store/hooks';
 import ApiManager from '../../../services/api';
-import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
-import { Button } from '../../../components/ui/button';
-import { Input } from '../../../components/ui/input';
-import { Label } from '../../../components/ui/label';
-import { Badge } from '../../../components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../../components/ui/tabs';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '../../../components/ui/dialog';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../../components/ui/select';
-import { Textarea } from '../../../components/ui/textarea';
+// Removed UI component imports - using clean custom designs
 import { 
   Calendar,
   Clock,
@@ -298,7 +290,7 @@ export default function AvailabilityPage() {
     const clinic = userData?.organization?.clinics?.find(c => c.id === availability.clinic_id);
     
     return (
-      <div key={availability.id} className="border rounded-lg p-4 hover:bg-gray-50 transition-colors">
+      <div key={availability.id} className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
         {/* Header */}
         <div className="flex justify-between items-start mb-3">
           <div className="flex items-center gap-2">
@@ -311,20 +303,18 @@ export default function AvailabilityPage() {
             </div>
           </div>
           <div className="flex gap-1">
-            <Button
-              size="sm"
-              variant="ghost"
+            <button
               onClick={() => handleEdit(availability)}
+              className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
             >
               <Edit className="h-4 w-4" />
-            </Button>
-            <Button
-              size="sm"
-              variant="ghost"
+            </button>
+            <button
               onClick={() => handleDelete(availability.id)}
+              className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
             >
-              <Trash2 className="h-4 w-4 text-red-600" />
-            </Button>
+              <Trash2 className="h-4 w-4" />
+            </button>
           </div>
         </div>
         
@@ -359,34 +349,41 @@ export default function AvailabilityPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-5xl space-y-12">
-      {/* Header Section - Minimal */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
-        <div>
-          <h1 className="text-2xl font-semibold text-gray-900">Availability</h1>
-          <p className="text-gray-600 mt-1">Manage your schedule and service availability</p>
-        </div>
-        
-        <div className="flex gap-3">
-          {availabilities.length === 0 && (
-            <Button
-              variant="outline"
-              onClick={() => setShowDefaultsDialog(true)}
-            >
-              Quick Setup
-            </Button>
-          )}
-          <Button 
-            onClick={() => {
-              resetForm();
-              setShowAddModal(true);
-            }}
-          >
-            <Plus className="h-4 w-4 mr-2" />
-            Add Availability
-          </Button>
+    <div className="min-h-screen bg-gray-50">
+      {/* Clean Page Header */}
+      <div className="bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between py-6">
+            <div>
+              <h1 className="text-2xl font-semibold text-gray-900">Availability</h1>
+              <p className="mt-1 text-sm text-gray-500">Manage your schedule and service availability</p>
+            </div>
+            
+            <div className="flex gap-3">
+              {availabilities.length === 0 && (
+                <button
+                  onClick={() => setShowDefaultsDialog(true)}
+                  className="inline-flex items-center px-4 py-2 bg-white border border-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  Quick Setup
+                </button>
+              )}
+              <button 
+                onClick={() => {
+                  resetForm();
+                  setShowAddModal(true);
+                }}
+                className="inline-flex items-center px-4 py-2 bg-[#1e5f79] text-white text-sm font-medium rounded-lg hover:bg-[#1e5f79]/90 transition-colors"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Add Availability
+              </button>
+            </div>
+          </div>
         </div>
       </div>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
       {/* Profile Completion Alert */}
       <ProfileCompletionAlert 
@@ -395,30 +392,28 @@ export default function AvailabilityPage() {
         onNavigateToProfile={() => router.push('/dashboard/profile')}
       />
 
-      {error.fetch && (
-        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2">
-          <AlertCircle className="h-4 w-4 text-red-500" />
-          <span className="text-red-700">{error.fetch}</span>
-        </div>
-      )}
-
-      {/* Practice Settings Section - Minimal */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <div>
-            <CardTitle className="text-lg font-medium">Practice Settings</CardTitle>
-            <p className="text-sm text-gray-600 mt-1">Manage your fees, services, and practice details</p>
+        {error.fetch && (
+          <div className="p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2">
+            <AlertCircle className="h-4 w-4 text-red-500" />
+            <span className="text-red-700">{error.fetch}</span>
           </div>
-          <Button 
-            variant="outline" 
-            size="sm"
-            onClick={handleEditPracticeSettings}
-          >
-            <Edit className="h-4 w-4 mr-2" />
-            Edit
-          </Button>
-        </CardHeader>
-        <CardContent className="pt-0">
+        )}
+
+        {/* Practice Settings Section */}
+        <div className="bg-white rounded-lg p-6">
+          <div className="flex flex-row items-center justify-between mb-6">
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900">Practice Settings</h2>
+              <p className="text-sm text-gray-500 mt-1">Manage your fees, services, and practice details</p>
+            </div>
+            <button 
+              onClick={handleEditPracticeSettings}
+              className="inline-flex items-center px-4 py-2 bg-white border border-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              <Edit className="h-4 w-4 mr-2" />
+              Edit
+            </button>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Profile Status */}
             <div className="space-y-2">
@@ -482,88 +477,122 @@ export default function AvailabilityPage() {
               </p>
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
 
-      {/* Tabs Section - Minimal */}
-      <Card>
-        <Tabs value={selectedTab} onValueChange={(value) => setSelectedTab(value as AvailabilityType)}>
-          <CardHeader>
-            <CardTitle className="text-lg font-medium">Schedule</CardTitle>
-            <div className="mt-4">
+        {/* Schedule Section */}
+        <div className="bg-white rounded-lg p-6">
+          <div className="mb-6">
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">Schedule</h2>
+            <div className="bg-white border border-gray-200 rounded-lg p-1">
               {userData?.organization?.clinics && userData.organization.clinics.length > 0 ? (
-                <TabsList className="grid w-full grid-cols-3">
-                  <TabsTrigger value={AvailabilityType.CLINIC} className="flex items-center gap-2">
+                <div className="grid grid-cols-3 gap-1">
+                  <button
+                    onClick={() => setSelectedTab(AvailabilityType.CLINIC)}
+                    className={`flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium rounded transition-all ${
+                      selectedTab === AvailabilityType.CLINIC
+                        ? 'bg-[#1e5f79] text-white'
+                        : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+                    }`}
+                  >
                     <Building2 className="h-4 w-4" />
-                    Clinic
-                    <span className="ml-1 text-xs text-gray-500">({getFilteredAvailabilities(AvailabilityType.CLINIC).length})</span>
-                  </TabsTrigger>
-                  <TabsTrigger value={AvailabilityType.HOME_VISIT} className="flex items-center gap-2">
+                    <span className="hidden sm:inline">Clinic</span>
+                    <span className="text-xs">({getFilteredAvailabilities(AvailabilityType.CLINIC).length})</span>
+                  </button>
+                  <button
+                    onClick={() => setSelectedTab(AvailabilityType.HOME_VISIT)}
+                    className={`flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium rounded transition-all ${
+                      selectedTab === AvailabilityType.HOME_VISIT
+                        ? 'bg-[#1e5f79] text-white'
+                        : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+                    }`}
+                  >
                     <Home className="h-4 w-4" />
-                    Home Visit
-                    <span className="ml-1 text-xs text-gray-500">({getFilteredAvailabilities(AvailabilityType.HOME_VISIT).length})</span>
-                  </TabsTrigger>
-                  <TabsTrigger value={AvailabilityType.ONLINE} className="flex items-center gap-2">
+                    <span className="hidden sm:inline">Home Visit</span>
+                    <span className="text-xs">({getFilteredAvailabilities(AvailabilityType.HOME_VISIT).length})</span>
+                  </button>
+                  <button
+                    onClick={() => setSelectedTab(AvailabilityType.ONLINE)}
+                    className={`flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium rounded transition-all ${
+                      selectedTab === AvailabilityType.ONLINE
+                        ? 'bg-[#1e5f79] text-white'
+                        : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+                    }`}
+                  >
                     <Laptop className="h-4 w-4" />
-                    Online
-                    <span className="ml-1 text-xs text-gray-500">({getFilteredAvailabilities(AvailabilityType.ONLINE).length})</span>
-                  </TabsTrigger>
-                </TabsList>
+                    <span className="hidden sm:inline">Online</span>
+                    <span className="text-xs">({getFilteredAvailabilities(AvailabilityType.ONLINE).length})</span>
+                  </button>
+                </div>
               ) : (
-                <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value={AvailabilityType.HOME_VISIT} className="flex items-center gap-2">
+                <div className="grid grid-cols-2 gap-1">
+                  <button
+                    onClick={() => setSelectedTab(AvailabilityType.HOME_VISIT)}
+                    className={`flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium rounded transition-all ${
+                      selectedTab === AvailabilityType.HOME_VISIT
+                        ? 'bg-[#1e5f79] text-white'
+                        : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+                    }`}
+                  >
                     <Home className="h-4 w-4" />
-                    Home Visit
-                    <span className="ml-1 text-xs text-gray-500">({getFilteredAvailabilities(AvailabilityType.HOME_VISIT).length})</span>
-                  </TabsTrigger>
-                  <TabsTrigger value={AvailabilityType.ONLINE} className="flex items-center gap-2">
+                    <span className="hidden sm:inline">Home Visit</span>
+                    <span className="text-xs">({getFilteredAvailabilities(AvailabilityType.HOME_VISIT).length})</span>
+                  </button>
+                  <button
+                    onClick={() => setSelectedTab(AvailabilityType.ONLINE)}
+                    className={`flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium rounded transition-all ${
+                      selectedTab === AvailabilityType.ONLINE
+                        ? 'bg-[#1e5f79] text-white'
+                        : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+                    }`}
+                  >
                     <Laptop className="h-4 w-4" />
-                    Online
-                    <span className="ml-1 text-xs text-gray-500">({getFilteredAvailabilities(AvailabilityType.ONLINE).length})</span>
-                  </TabsTrigger>
-                </TabsList>
+                    <span className="hidden sm:inline">Online</span>
+                    <span className="text-xs">({getFilteredAvailabilities(AvailabilityType.ONLINE).length})</span>
+                  </button>
+                </div>
               )}
             </div>
-          </CardHeader>
+          </div>
 
-          {userData?.organization?.clinics && userData.organization.clinics.length > 0 && (
-            <TabsContent value={AvailabilityType.CLINIC}>
-              <CardContent>
-                {loading.fetch ? (
-                  <div className="flex items-center justify-center py-8">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
-                  </div>
-                ) : getFilteredAvailabilities(AvailabilityType.CLINIC).length === 0 ? (
-                  <div className="text-center py-12">
-                    <Building2 className="h-12 w-12 mx-auto mb-4 text-gray-400" />
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">No clinic hours set</h3>
-                    <p className="text-gray-600 mb-4">
-                      Add your clinic availability to start accepting appointments
-                    </p>
-                    <Button
-                      onClick={() => {
-                        setFormData({ ...formData, availability_type: AvailabilityType.CLINIC });
-                        setShowAddModal(true);
-                      }}
-                    >
-                      <Plus className="h-4 w-4 mr-2" />
-                      Add Clinic Hours
-                    </Button>
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {getFilteredAvailabilities(AvailabilityType.CLINIC).map(renderAvailabilityCard)}
-                  </div>
-                )}
-              </CardContent>
-            </TabsContent>
+          {/* Clinic Tab Content */}
+          {userData?.organization?.clinics && userData.organization.clinics.length > 0 && selectedTab === AvailabilityType.CLINIC && (
+            <div className="mt-6">
+              {loading.fetch ? (
+                <div className="flex items-center justify-center py-8">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#1e5f79]"></div>
+                </div>
+              ) : getFilteredAvailabilities(AvailabilityType.CLINIC).length === 0 ? (
+                <div className="text-center py-12">
+                  <Building2 className="h-12 w-12 mx-auto mb-4 text-gray-400" />
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">No clinic hours set</h3>
+                  <p className="text-gray-600 mb-4">
+                    Add your clinic availability to start accepting appointments
+                  </p>
+                  <button
+                    onClick={() => {
+                      setFormData({ ...formData, availability_type: AvailabilityType.CLINIC });
+                      setShowAddModal(true);
+                    }}
+                    className="inline-flex items-center px-4 py-2 bg-[#1e5f79] text-white text-sm font-medium rounded-lg hover:bg-[#1e5f79]/90 transition-colors"
+                  >
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Clinic Hours
+                  </button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {getFilteredAvailabilities(AvailabilityType.CLINIC).map(renderAvailabilityCard)}
+                </div>
+              )}
+            </div>
           )}
 
-          <TabsContent value={AvailabilityType.HOME_VISIT}>
-            <CardContent>
-              <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg flex items-start gap-2">
-                <Info className="h-4 w-4 text-blue-600 mt-0.5" />
-                <p className="text-sm text-blue-800">
+          {/* Home Visit Tab Content */}
+          {selectedTab === AvailabilityType.HOME_VISIT && (
+            <div className="mt-6">
+              <div className="mb-4 p-3 bg-[#eff8ff] border border-[#c8eaeb] rounded-lg flex items-start gap-2">
+                <Info className="h-4 w-4 text-[#1e5f79] mt-0.5" />
+                <p className="text-sm text-[#1e5f79]">
                   Set your availability for home visits. You can specify service areas by pincodes or radius.
                 </p>
               </div>
@@ -575,26 +604,28 @@ export default function AvailabilityPage() {
                   <p className="text-gray-600 mb-4">
                     Add your home visit availability to serve patients at their location
                   </p>
-                  <Button
+                  <button
                     onClick={() => {
                       setFormData({ ...formData, availability_type: AvailabilityType.HOME_VISIT });
                       setShowAddModal(true);
                     }}
+                    className="inline-flex items-center px-4 py-2 bg-[#1e5f79] text-white text-sm font-medium rounded-lg hover:bg-[#1e5f79]/90 transition-colors"
                   >
                     <Plus className="h-4 w-4 mr-2" />
                     Add Home Visit Hours
-                  </Button>
+                  </button>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {getFilteredAvailabilities(AvailabilityType.HOME_VISIT).map(renderAvailabilityCard)}
                 </div>
               )}
-            </CardContent>
-          </TabsContent>
+            </div>
+          )}
 
-          <TabsContent value={AvailabilityType.ONLINE}>
-            <CardContent>
+          {/* Online Tab Content */}
+          {selectedTab === AvailabilityType.ONLINE && (
+            <div className="mt-6">
               {getFilteredAvailabilities(AvailabilityType.ONLINE).length === 0 ? (
                 <div className="text-center py-12">
                   <Laptop className="h-12 w-12 mx-auto mb-4 text-gray-400" />
@@ -602,401 +633,437 @@ export default function AvailabilityPage() {
                   <p className="text-gray-600 mb-4">
                     Add your online consultation availability to serve patients remotely
                   </p>
-                  <Button
+                  <button
                     onClick={() => {
                       setFormData({ ...formData, availability_type: AvailabilityType.ONLINE });
                       setShowAddModal(true);
                     }}
+                    className="inline-flex items-center px-4 py-2 bg-[#1e5f79] text-white text-sm font-medium rounded-lg hover:bg-[#1e5f79]/90 transition-colors"
                   >
                     <Plus className="h-4 w-4 mr-2" />
                     Add Online Hours
-                  </Button>
+                  </button>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {getFilteredAvailabilities(AvailabilityType.ONLINE).map(renderAvailabilityCard)}
                 </div>
               )}
-            </CardContent>
-          </TabsContent>
-        </Tabs>
-      </Card>
+            </div>
+          )}
+        </div>
 
-      {/* Add/Edit Availability Modal */}
-      <Dialog open={showAddModal} onOpenChange={setShowAddModal}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle>
-              {editingAvailability ? 'Edit' : 'Add'} Availability
-            </DialogTitle>
-          </DialogHeader>
+        {/* Add/Edit Availability Modal */}
+        {showAddModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg p-6 w-full max-w-2xl m-4 max-h-[90vh] overflow-y-auto">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-gray-900">
+                  {editingAvailability ? 'Edit' : 'Add'} Availability
+                </h3>
+                <button
+                  onClick={() => {
+                    setShowAddModal(false);
+                    resetForm();
+                  }}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
           
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label>Availability Type</Label>
-                <Select
-                  value={formData.availability_type}
-                  onValueChange={(value) => setFormData({ ...formData, availability_type: value as AvailabilityType })}
-                  disabled={!!editingAvailability}
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value={AvailabilityType.CLINIC}>Clinic</SelectItem>
-                    <SelectItem value={AvailabilityType.HOME_VISIT}>Home Visit</SelectItem>
-                    <SelectItem value={AvailabilityType.ONLINE}>Online</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Availability Type</label>
+                    <select
+                      value={formData.availability_type}
+                      onChange={(e) => setFormData({ ...formData, availability_type: e.target.value as AvailabilityType })}
+                      disabled={!!editingAvailability}
+                      className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]/20 focus:border-[#1e5f79] disabled:bg-gray-50"
+                    >
+                      <option value={AvailabilityType.CLINIC}>Clinic</option>
+                      <option value={AvailabilityType.HOME_VISIT}>Home Visit</option>
+                      <option value={AvailabilityType.ONLINE}>Online</option>
+                    </select>
+                  </div>
 
-              {formData.availability_type === AvailabilityType.CLINIC && (
+                  {formData.availability_type === AvailabilityType.CLINIC && (
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Clinic</label>
+                      <select
+                        value={formData.clinic_id || ''}
+                        onChange={(e) => setFormData({ ...formData, clinic_id: e.target.value })}
+                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]/20 focus:border-[#1e5f79]"
+                      >
+                        <option value="">Select clinic</option>
+                        {userData?.organization?.clinics?.map(clinic => (
+                          <option key={clinic.id} value={clinic.id}>
+                            {clinic.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+                </div>
+
                 <div>
-                  <Label>Clinic</Label>
-                  <Select
-                    value={formData.clinic_id}
-                    onValueChange={(value) => setFormData({ ...formData, clinic_id: value })}
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Day of Week</label>
+                  <select
+                    value={formData.day_of_week.toString()}
+                    onChange={(e) => setFormData({ ...formData, day_of_week: parseInt(e.target.value) as DayOfWeek })}
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]/20 focus:border-[#1e5f79]"
                   >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select clinic" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {userData?.organization?.clinics?.map(clinic => (
-                        <SelectItem key={clinic.id} value={clinic.id}>
-                          {clinic.name}
-                        </SelectItem>
+                    {DAY_NAMES.map((day, index) => (
+                      <option key={index} value={index.toString()}>
+                        {day}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Start Time</label>
+                    <select
+                      value={formData.start_time}
+                      onChange={(e) => setFormData({ ...formData, start_time: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]/20 focus:border-[#1e5f79]"
+                    >
+                      {TIME_SLOTS.map(time => (
+                        <option key={time} value={time}>{time}</option>
                       ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              )}
-            </div>
+                    </select>
+                  </div>
 
-            <div>
-              <Label>Day of Week</Label>
-              <Select
-                value={formData.day_of_week.toString()}
-                onValueChange={(value) => setFormData({ ...formData, day_of_week: parseInt(value) as DayOfWeek })}
-              >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {DAY_NAMES.map((day, index) => (
-                    <SelectItem key={index} value={index.toString()}>
-                      {day}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label>Start Time</Label>
-                <Select
-                  value={formData.start_time}
-                  onValueChange={(value) => setFormData({ ...formData, start_time: value })}
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {TIME_SLOTS.map(time => (
-                      <SelectItem key={time} value={time}>{time}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label>End Time</Label>
-                <Select
-                  value={formData.end_time}
-                  onValueChange={(value) => setFormData({ ...formData, end_time: value })}
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {TIME_SLOTS.map(time => (
-                      <SelectItem key={time} value={time}>{time}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            <div>
-              <Label>Slot Duration (minutes)</Label>
-              <Select
-                value={formData.slot_duration_minutes.toString()}
-                onValueChange={(value) => setFormData({ ...formData, slot_duration_minutes: parseInt(value) })}
-              >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="15">15 minutes</SelectItem>
-                  <SelectItem value="30">30 minutes</SelectItem>
-                  <SelectItem value="45">45 minutes</SelectItem>
-                  <SelectItem value="60">60 minutes</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            {formData.availability_type === AvailabilityType.HOME_VISIT && (
-              <>
-                <div>
-                  <Label>Service Pincodes (comma separated)</Label>
-                  <Input
-                    placeholder="e.g., 400001, 400002, 400003"
-                    value={formData.service_pincodes?.join(', ') || ''}
-                    onChange={(e) => setFormData({
-                      ...formData,
-                      service_pincodes: e.target.value.split(',').map(s => s.trim()).filter(s => s)
-                    })}
-                  />
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">End Time</label>
+                    <select
+                      value={formData.end_time}
+                      onChange={(e) => setFormData({ ...formData, end_time: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]/20 focus:border-[#1e5f79]"
+                    >
+                      {TIME_SLOTS.map(time => (
+                        <option key={time} value={time}>{time}</option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
 
                 <div>
-                  <Label>Maximum Radius (km)</Label>
-                  <Input
-                    type="number"
-                    placeholder="e.g., 10"
-                    value={formData.max_radius_km || ''}
-                    onChange={(e) => setFormData({
-                      ...formData,
-                      max_radius_km: e.target.value ? parseInt(e.target.value) : undefined
-                    })}
-                  />
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Slot Duration (minutes)</label>
+                  <select
+                    value={formData.slot_duration_minutes.toString()}
+                    onChange={(e) => setFormData({ ...formData, slot_duration_minutes: parseInt(e.target.value) })}
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]/20 focus:border-[#1e5f79]"
+                  >
+                    <option value="15">15 minutes</option>
+                    <option value="30">30 minutes</option>
+                    <option value="45">45 minutes</option>
+                    <option value="60">60 minutes</option>
+                  </select>
                 </div>
-              </>
-            )}
-          </div>
 
-          {submitError && (
-            <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-2">
-              <AlertCircle className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
-              <div className="flex-1">
-                <p className="text-red-700 font-medium">Error saving availability:</p>
-                <p className="text-red-600 text-sm mt-1">{submitError}</p>
-                {submitError.includes('Time conflict') && (
-                  <p className="text-red-600 text-xs mt-2 italic">
-                    💡 Tip: Try choosing a different time slot or check your existing schedules above.
-                  </p>
+                {formData.availability_type === AvailabilityType.HOME_VISIT && (
+                  <>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Service Pincodes (comma separated)</label>
+                      <input
+                        type="text"
+                        placeholder="e.g., 400001, 400002, 400003"
+                        value={formData.service_pincodes?.join(', ') || ''}
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          service_pincodes: e.target.value.split(',').map(s => s.trim()).filter(s => s)
+                        })}
+                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]/20 focus:border-[#1e5f79]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Maximum Radius (km)</label>
+                      <input
+                        type="number"
+                        placeholder="e.g., 10"
+                        value={formData.max_radius_km || ''}
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          max_radius_km: e.target.value ? parseInt(e.target.value) : undefined
+                        })}
+                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]/20 focus:border-[#1e5f79]"
+                      />
+                    </div>
+                  </>
                 )}
               </div>
-            </div>
-          )}
 
-          <DialogFooter>
-            <Button variant="outline" onClick={() => {
-              setShowAddModal(false);
-              resetForm();
-            }}>
-              Cancel
-            </Button>
-            <Button onClick={handleSubmit} disabled={isSubmitting}>
-              {isSubmitting ? (
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-              ) : (
-                <Save className="h-4 w-4 mr-2" />
+              {submitError && (
+                <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-2">
+                  <AlertCircle className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
+                  <div className="flex-1">
+                    <p className="text-red-700 font-medium">Error saving availability:</p>
+                    <p className="text-red-600 text-sm mt-1">{submitError}</p>
+                    {submitError.includes('Time conflict') && (
+                      <p className="text-red-600 text-xs mt-2 italic">
+                        💡 Tip: Try choosing a different time slot or check your existing schedules above.
+                      </p>
+                    )}
+                  </div>
+                </div>
               )}
-              {isSubmitting ? 'Saving...' : editingAvailability ? 'Update' : 'Add'} Availability
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
 
-      {/* Set Defaults Confirmation Dialog */}
-      <Dialog open={showDefaultsDialog} onOpenChange={setShowDefaultsDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Set Default Schedule</DialogTitle>
-          </DialogHeader>
-          <p className="text-sm text-gray-600 my-4">
-            This will set a default schedule with:
-          </p>
-          <ul className="space-y-2 text-sm">
-            <li className="flex items-center gap-2">
-              <ChevronRight className="h-4 w-4" />
-              <strong>Clinic hours:</strong> Monday to Friday, 9:00 AM - 5:00 PM
-            </li>
-            <li className="flex items-center gap-2">
-              <ChevronRight className="h-4 w-4" />
-              <strong>Online consultations:</strong> Monday, Wednesday, Friday, 7:00 PM - 9:00 PM
-            </li>
-          </ul>
-          <p className="text-sm text-gray-600 mt-4">
-            You can customize these settings after they're created.
-          </p>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setShowDefaultsDialog(false)}>
-              Cancel
-            </Button>
-            <Button onClick={handleSetDefaults}>
-              Set Defaults
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      {/* Practice Settings Modal */}
-      <Dialog open={showPracticeModal} onOpenChange={setShowPracticeModal}>
-        <DialogContent className="max-w-3xl">
-          <DialogHeader>
-            <DialogTitle>Practice Settings</DialogTitle>
-          </DialogHeader>
-          
-          <div className="space-y-6">
-            {/* Practice Information */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold flex items-center gap-2">
-                <MapPin className="h-5 w-5" />
-                Practice Information
-              </h3>
-              
-              <div className="grid grid-cols-1 gap-4">
-                <div>
-                  <Label>Practice Address</Label>
-                  <Textarea
-                    placeholder="Enter your practice address..."
-                    value={tempPracticeSettings.practice_address || ''}
-                    onChange={(e) => setTempPracticeSettings({
-                      ...tempPracticeSettings,
-                      practice_address: e.target.value
-                    })}
-                    rows={3}
-                  />
-                </div>
-                
-                <div>
-                  <Label>Service Areas</Label>
-                  <Textarea
-                    placeholder="Describe the areas you serve (e.g., Mumbai Central, Bandra, etc.)"
-                    value={tempPracticeSettings.service_areas || ''}
-                    onChange={(e) => setTempPracticeSettings({
-                      ...tempPracticeSettings,
-                      service_areas: e.target.value
-                    })}
-                    rows={2}
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Fee Structure */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold flex items-center gap-2">
-                <DollarSign className="h-5 w-5" />
-                Fee Structure
-              </h3>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label>Consultation Fee (₹)</Label>
-                  <Input
-                    type="number"
-                    placeholder="0"
-                    value={tempPracticeSettings.consultation_fee || ''}
-                    onChange={(e) => setTempPracticeSettings({
-                      ...tempPracticeSettings,
-                      consultation_fee: parseInt(e.target.value) || 0
-                    })}
-                  />
-                </div>
-                
-                <div>
-                  <Label>Home Visit Fee (₹)</Label>
-                  <Input
-                    type="number"
-                    placeholder="0"
-                    value={tempPracticeSettings.home_visit_fee || ''}
-                    onChange={(e) => setTempPracticeSettings({
-                      ...tempPracticeSettings,
-                      home_visit_fee: parseInt(e.target.value) || 0
-                    })}
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Service Availability */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold flex items-center gap-2">
-                <Settings className="h-5 w-5" />
-                Service Availability
-              </h3>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="flex items-center space-x-3">
-                  <input
-                    type="checkbox"
-                    id="online_consultation"
-                    checked={tempPracticeSettings.online_consultation_available || false}
-                    onChange={(e) => setTempPracticeSettings({
-                      ...tempPracticeSettings,
-                      online_consultation_available: e.target.checked
-                    })}
-                    className="w-4 h-4 text-healui-physio bg-gray-100 border-gray-300 rounded focus:ring-healui-physio focus:ring-2"
-                  />
-                  <label htmlFor="online_consultation" className="flex items-center gap-2 text-sm">
-                    <Laptop className="h-4 w-4" />
-                    Online Consultation Available
-                  </label>
-                </div>
-                
-                <div className="flex items-center space-x-3">
-                  <input
-                    type="checkbox"
-                    id="home_visit"
-                    checked={tempPracticeSettings.home_visit_available || false}
-                    onChange={(e) => setTempPracticeSettings({
-                      ...tempPracticeSettings,
-                      home_visit_available: e.target.checked
-                    })}
-                    className="w-4 h-4 text-healui-physio bg-gray-100 border-gray-300 rounded focus:ring-healui-physio focus:ring-2"
-                  />
-                  <label htmlFor="home_visit" className="flex items-center gap-2 text-sm">
-                    <Home className="h-4 w-4" />
-                    Home Visit Available
-                  </label>
-                </div>
+              <div className="flex justify-end gap-2 mt-6">
+                <button
+                  onClick={() => {
+                    setShowAddModal(false);
+                    resetForm();
+                  }}
+                  className="px-4 py-2 bg-white border border-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                  className="inline-flex items-center px-4 py-2 bg-[#1e5f79] text-white text-sm font-medium rounded-lg hover:bg-[#1e5f79]/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  {isSubmitting ? (
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  ) : (
+                    <Save className="h-4 w-4 mr-2" />
+                  )}
+                  {isSubmitting ? 'Saving...' : editingAvailability ? 'Update' : 'Add'} Availability
+                </button>
               </div>
             </div>
           </div>
+        )}
 
-          {practiceError.update && (
-            <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-2">
-              <AlertCircle className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
-              <div className="flex-1">
-                <p className="text-red-700 font-medium">Error saving practice settings:</p>
-                <p className="text-red-600 text-sm mt-1">{practiceError.update}</p>
+        {/* Set Defaults Confirmation Dialog */}
+        {showDefaultsDialog && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg p-6 w-full max-w-md m-4">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-gray-900">Set Default Schedule</h3>
+                <button
+                  onClick={() => setShowDefaultsDialog(false)}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+              <p className="text-sm text-gray-600 my-4">
+                This will set a default schedule with:
+              </p>
+              <ul className="space-y-2 text-sm">
+                <li className="flex items-center gap-2">
+                  <ChevronRight className="h-4 w-4" />
+                  <strong>Clinic hours:</strong> Monday to Friday, 9:00 AM - 5:00 PM
+                </li>
+                <li className="flex items-center gap-2">
+                  <ChevronRight className="h-4 w-4" />
+                  <strong>Online consultations:</strong> Monday, Wednesday, Friday, 7:00 PM - 9:00 PM
+                </li>
+              </ul>
+              <p className="text-sm text-gray-600 mt-4">
+                You can customize these settings after they're created.
+              </p>
+              <div className="flex justify-end gap-2 mt-6">
+                <button
+                  onClick={() => setShowDefaultsDialog(false)}
+                  className="px-4 py-2 bg-white border border-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSetDefaults}
+                  className="px-4 py-2 bg-[#1e5f79] text-white text-sm font-medium rounded-lg hover:bg-[#1e5f79]/90 transition-colors"
+                >
+                  Set Defaults
+                </button>
               </div>
             </div>
-          )}
+          </div>
+        )}
 
-          <DialogFooter>
-            <Button variant="outline" onClick={() => {
-              setShowPracticeModal(false);
-              setIsEditingPractice(false);
-              setTempPracticeSettings(practiceSettings);
-            }}>
-              Cancel
-            </Button>
-            <Button onClick={handleSavePracticeSettings} disabled={practiceLoading.update}>
-              {practiceLoading.update ? (
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-              ) : (
-                <Save className="h-4 w-4 mr-2" />
+        {/* Practice Settings Modal */}
+        {showPracticeModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg p-6 w-full max-w-3xl m-4 max-h-[90vh] overflow-y-auto">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-gray-900">Practice Settings</h3>
+                <button
+                  onClick={() => {
+                    setShowPracticeModal(false);
+                    setIsEditingPractice(false);
+                    setTempPracticeSettings(practiceSettings);
+                  }}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+          
+              <div className="space-y-6">
+                {/* Practice Information */}
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold flex items-center gap-2">
+                    <MapPin className="h-5 w-5" />
+                    Practice Information
+                  </h3>
+                  
+                  <div className="grid grid-cols-1 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Practice Address</label>
+                      <textarea
+                        placeholder="Enter your practice address..."
+                        value={tempPracticeSettings.practice_address || ''}
+                        onChange={(e) => setTempPracticeSettings({
+                          ...tempPracticeSettings,
+                          practice_address: e.target.value
+                        })}
+                        rows={3}
+                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]/20 focus:border-[#1e5f79] resize-none"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Service Areas</label>
+                      <textarea
+                        placeholder="Describe the areas you serve (e.g., Mumbai Central, Bandra, etc.)"
+                        value={tempPracticeSettings.service_areas || ''}
+                        onChange={(e) => setTempPracticeSettings({
+                          ...tempPracticeSettings,
+                          service_areas: e.target.value
+                        })}
+                        rows={2}
+                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]/20 focus:border-[#1e5f79] resize-none"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Fee Structure */}
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold flex items-center gap-2">
+                    <DollarSign className="h-5 w-5" />
+                    Fee Structure
+                  </h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Consultation Fee (₹)</label>
+                      <input
+                        type="number"
+                        placeholder="0"
+                        value={tempPracticeSettings.consultation_fee || ''}
+                        onChange={(e) => setTempPracticeSettings({
+                          ...tempPracticeSettings,
+                          consultation_fee: parseInt(e.target.value) || 0
+                        })}
+                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]/20 focus:border-[#1e5f79]"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Home Visit Fee (₹)</label>
+                      <input
+                        type="number"
+                        placeholder="0"
+                        value={tempPracticeSettings.home_visit_fee || ''}
+                        onChange={(e) => setTempPracticeSettings({
+                          ...tempPracticeSettings,
+                          home_visit_fee: parseInt(e.target.value) || 0
+                        })}
+                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]/20 focus:border-[#1e5f79]"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Service Availability */}
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold flex items-center gap-2">
+                    <Settings className="h-5 w-5" />
+                    Service Availability
+                  </h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="flex items-center space-x-3">
+                      <input
+                        type="checkbox"
+                        id="online_consultation"
+                        checked={tempPracticeSettings.online_consultation_available || false}
+                        onChange={(e) => setTempPracticeSettings({
+                          ...tempPracticeSettings,
+                          online_consultation_available: e.target.checked
+                        })}
+                        className="w-4 h-4 text-[#1e5f79] bg-gray-100 border-gray-300 rounded focus:ring-[#1e5f79] focus:ring-2"
+                      />
+                      <label htmlFor="online_consultation" className="flex items-center gap-2 text-sm">
+                        <Laptop className="h-4 w-4" />
+                        Online Consultation Available
+                      </label>
+                    </div>
+                    
+                    <div className="flex items-center space-x-3">
+                      <input
+                        type="checkbox"
+                        id="home_visit"
+                        checked={tempPracticeSettings.home_visit_available || false}
+                        onChange={(e) => setTempPracticeSettings({
+                          ...tempPracticeSettings,
+                          home_visit_available: e.target.checked
+                        })}
+                        className="w-4 h-4 text-[#1e5f79] bg-gray-100 border-gray-300 rounded focus:ring-[#1e5f79] focus:ring-2"
+                      />
+                      <label htmlFor="home_visit" className="flex items-center gap-2 text-sm">
+                        <Home className="h-4 w-4" />
+                        Home Visit Available
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {practiceError.update && (
+                <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-2">
+                  <AlertCircle className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
+                  <div className="flex-1">
+                    <p className="text-red-700 font-medium">Error saving practice settings:</p>
+                    <p className="text-red-600 text-sm mt-1">{practiceError.update}</p>
+                  </div>
+                </div>
               )}
-              {practiceLoading.update ? 'Saving...' : 'Save Settings'}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+
+              <div className="flex justify-end gap-2 mt-6">
+                <button
+                  onClick={() => {
+                    setShowPracticeModal(false);
+                    setIsEditingPractice(false);
+                    setTempPracticeSettings(practiceSettings);
+                  }}
+                  className="px-4 py-2 bg-white border border-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSavePracticeSettings}
+                  disabled={practiceLoading.update}
+                  className="inline-flex items-center px-4 py-2 bg-[#1e5f79] text-white text-sm font-medium rounded-lg hover:bg-[#1e5f79]/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  {practiceLoading.update ? (
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  ) : (
+                    <Save className="h-4 w-4 mr-2" />
+                  )}
+                  {practiceLoading.update ? 'Saving...' : 'Save Settings'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -122,7 +122,7 @@ export class ApiMethods {
         }
     }
 
-    static async apiPhotoRequest(method: string, url: string, file: File, photoType: 'profile' | 'cover' | 'gallery', caption?: string, additionalHeaders?: Record<string, string>) {
+    static async apiPhotoRequest(method: string, url: string, file: File, photoType: 'profile' | 'cover' | 'gallery' | 'signature', caption?: string, additionalHeaders?: Record<string, string>) {
         const formData = new FormData()
         formData.append('photo', file)
         formData.append('photoType', photoType)
@@ -159,7 +159,7 @@ export class ApiMethods {
         return this.apiFileRequest('POST', url, file, 'audio', headers)
     }
 
-    static photoPost(url: string, file: File, photoType: 'profile' | 'cover' | 'gallery', caption?: string, headers?: Record<string, string>) {
+    static photoPost(url: string, file: File, photoType: 'profile' | 'cover' | 'gallery' | 'signature', caption?: string, headers?: Record<string, string>) {
         return this.apiPhotoRequest('POST', url, file, photoType, caption, headers)
     }
 
