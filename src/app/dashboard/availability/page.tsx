@@ -28,7 +28,8 @@ import {
   TrendingUp,
   ArrowRight,
   Sparkles,
-  Activity
+  Activity,
+  X
 } from 'lucide-react';
 import {
   setFetchLoading,
