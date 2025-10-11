@@ -164,6 +164,27 @@ export const ENDPOINTS = {
         return `physiotherapist-availability/slots/${physiotherapistId}?${searchParams.toString()}`
     },
 
+    // Physio Service Locations
+    GET_SERVICE_LOCATIONS: (physiotherapistId: string) => `physiotherapists/${physiotherapistId}/service-locations`,
+    CREATE_SERVICE_LOCATION: (physiotherapistId: string) => `physiotherapists/${physiotherapistId}/service-locations`,
+    UPDATE_SERVICE_LOCATION: (physiotherapistId: string, locationId: string) => `physiotherapists/${physiotherapistId}/service-locations/${locationId}`,
+    DELETE_SERVICE_LOCATION: (physiotherapistId: string, locationId: string) => `physiotherapists/${physiotherapistId}/service-locations/${locationId}`,
+    SEARCH_BY_PINCODE: (params: { pincode: string; dayOfWeek?: number }) => {
+        const searchParams = new URLSearchParams({
+            pincode: params.pincode,
+            ...(params.dayOfWeek !== undefined && { dayOfWeek: params.dayOfWeek.toString() })
+        })
+        return `marketplace/service-locations/search?${searchParams.toString()}`
+    },
+    GET_ZONE_INFO: (locationId: string, params: { pincode: string; latitude?: number; longitude?: number }) => {
+        const searchParams = new URLSearchParams({
+            pincode: params.pincode,
+            ...(params.latitude && { latitude: params.latitude.toString() }),
+            ...(params.longitude && { longitude: params.longitude.toString() })
+        })
+        return `marketplace/service-locations/${locationId}/zone-info?${searchParams.toString()}`
+    },
+
     // Treatment Protocols
     GET_TREATMENT_PROTOCOLS: (params?: Record<string, any>) => {
         let url = 'treatment-protocols'

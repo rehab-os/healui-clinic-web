@@ -1,9 +1,34 @@
 import React from 'react';
 import { 
   Clock, User, Stethoscope, FileText, Activity, 
-  Calendar, ChevronRight, Phone, Mail, XCircle, Video
+  Calendar, ChevronRight, Phone, Mail, XCircle, Video,
+  Home, MapPin, Target
 } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
+
+interface ServiceLocation {
+  id: string;
+  location_name: string;
+  base_address: string;
+  base_pincode: string;
+  service_pincodes: string[];
+  zone_config: {
+    green: {
+      pincodes: string[];
+      radius_km: number;
+    };
+    yellow: {
+      pincodes: string[];
+      radius_km: number;
+      extra_charge: number;
+    };
+    red: {
+      pincodes: string[];
+      radius_km: number;
+      extra_charge: number;
+    };
+  };
+}
 
 interface Visit {
   id: string;
@@ -26,6 +51,12 @@ interface Visit {
   consultation_fee?: number;
   travel_fee?: number;
   total_amount?: number;
+  // Service location for home visits
+  service_location?: ServiceLocation;
+  service_location_id?: string;
+  // Zone information for the visit
+  patient_zone?: 'green' | 'yellow' | 'red';
+  zone_extra_charge?: number;
   // Patients
   patient?: {
     id: string;
@@ -117,6 +148,30 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
     ).join(' ');
   };
 
+  const getZoneColor = (zone: 'green' | 'yellow' | 'red' | undefined) => {
+    switch (zone) {
+      case 'green':
+        return 'bg-green-100 text-green-700';
+      case 'yellow':
+        return 'bg-yellow-100 text-yellow-700';
+      case 'red':
+        return 'bg-red-100 text-red-700';
+      default:
+        return '';
+    }
+  };
+
+  const getZoneDotColor = (zone: 'green' | 'yellow' | 'red') => {
+    switch (zone) {
+      case 'green':
+        return 'bg-green-500';
+      case 'yellow':
+        return 'bg-yellow-500';
+      case 'red':
+        return 'bg-red-500';
+    }
+  };
+
   return (
     <div 
       className={`bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 cursor-pointer ${
@@ -147,6 +202,9 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
                 </h3>
                 {visit.visit_mode === 'ONLINE' && (
                   <Video className="h-4 w-4 text-[#1e5f79]" />
+                )}
+                {visit.visit_mode === 'HOME' && (
+                  <Home className="h-4 w-4 text-orange-600" />
                 )}
               </div>
               <div className="flex items-center space-x-4 text-sm text-gray-600">
@@ -207,6 +265,74 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
               <FileText className="h-3 w-3 text-[#1e5f79]" title="Has note" />
             )}
           </div>
+          
+          {/* Home Visit Details */}
+          {visit.visit_mode === 'HOME' && (
+            <div className="mt-3 p-3 bg-gray-50 rounded-lg space-y-2">
+              <div className="flex items-center gap-2">
+                <Home className="h-4 w-4 text-gray-500" />
+                <span className="text-xs font-medium text-gray-700">Home Visit</span>
+              </div>
+              
+              {/* Service Location */}
+              {visit.service_location && (
+                <div className="space-y-1">
+                  <div className="flex items-start gap-2">
+                    <MapPin className="h-3 w-3 text-gray-500 mt-0.5" />
+                    <div className="flex-1 text-xs">
+                      <span className="font-medium text-gray-700">{visit.service_location.location_name}</span>
+                      <p className="text-gray-500">{visit.service_location.base_address}</p>
+                    </div>
+                  </div>
+                  
+                  {/* Zone Summary */}
+                  {visit.service_location.zone_config && (
+                    <div className="flex items-center gap-2 ml-5">
+                      <Target className="h-3 w-3 text-gray-500" />
+                      <div className="flex items-center gap-3 text-xs">
+                        <span className="text-gray-600">Service Areas:</span>
+                        <div className="flex items-center gap-1">
+                          <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+                          <span className="text-gray-600">{visit.service_location.zone_config.green.pincodes.length}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div className="w-1.5 h-1.5 rounded-full bg-yellow-500"></div>
+                          <span className="text-gray-600">{visit.service_location.zone_config.yellow.pincodes.length}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div className="w-1.5 h-1.5 rounded-full bg-red-500"></div>
+                          <span className="text-gray-600">{visit.service_location.zone_config.red.pincodes.length}</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+              
+              {/* Patient Zone */}
+              {visit.patient_zone && (
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-gray-600">Patient Zone:</span>
+                  <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${getZoneColor(visit.patient_zone)}`}>
+                    {visit.patient_zone.charAt(0).toUpperCase() + visit.patient_zone.slice(1)}
+                    {visit.zone_extra_charge && visit.zone_extra_charge > 0 && (
+                      <span className="ml-1">(+₹{visit.zone_extra_charge})</span>
+                    )}
+                  </span>
+                </div>
+              )}
+              
+              {/* Patient Address */}
+              {visit.patient_address && (
+                <div className="flex items-start gap-2">
+                  <MapPin className="h-3 w-3 text-gray-500 mt-0.5" />
+                  <p className="text-xs text-gray-600 flex-1">
+                    {visit.patient_address}
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
         {/* Action Buttons */}
         <div className="flex items-center justify-between pt-4 border-t border-gray-100">

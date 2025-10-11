@@ -31,6 +31,8 @@ import {
   Activity,
   X
 } from 'lucide-react';
+import ServiceLocationSetup from '../../../components/molecule/ServiceLocationSetup';
+import LeafletMapPicker from '../../../components/molecule/LeafletMapPicker';
 import {
   setFetchLoading,
   setAvailabilities,
@@ -38,9 +40,17 @@ import {
   addAvailability,
   updateAvailability,
   removeAvailability,
+  setLocationsLoading,
+  setServiceLocations,
+  setLocationsError,
+  addServiceLocation,
+  updateServiceLocation,
+  removeServiceLocation,
   AvailabilityType,
   DayOfWeek,
-  PhysiotherapistAvailability
+  PhysiotherapistAvailability,
+  PhysioServiceLocation,
+  ServiceZoneConfig
 } from '../../../store/slices/availability.slice';
 import {
   setPracticeSettings,
@@ -70,14 +80,29 @@ interface AvailabilityFormData {
   slot_duration_minutes: number;
   service_pincodes?: string[];
   max_radius_km?: number;
+  service_location_id?: string;
+}
+
+interface ServiceLocationFormData {
+  location_name: string;
+  base_address: string;
+  base_pincode: string;
+  latitude: number;
+  longitude: number;
+  service_pincodes: string[];
+  zone_config: ServiceZoneConfig;
+  is_active: boolean;
 }
 
 export default function AvailabilityPage() {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const { availabilities, loading, error } = useAppSelector(state => state.availability);
+  const { availabilities, serviceLocations, loading, error } = useAppSelector(state => state.availability);
   const { settings: practiceSettings, loading: practiceLoading, error: practiceError } = useAppSelector(state => state.practice);
   const { userData } = useAppSelector(state => state.user);
+  
+  // Debug user state
+  console.log('🔍 Current user state:', { userData, hasId: !!userData?.id, hasUserId: !!userData?.user_id });
   
   const [selectedTab, setSelectedTab] = useState<AvailabilityType>(
     userData?.organization?.clinics?.length > 0 ? AvailabilityType.CLINIC : AvailabilityType.HOME_VISIT
@@ -91,6 +116,26 @@ export default function AvailabilityPage() {
   const [isEditingPractice, setIsEditingPractice] = useState(false);
   const [tempPracticeSettings, setTempPracticeSettings] = useState<PracticeSettings>({});
   
+  // Service Location State
+  const [showLocationModal, setShowLocationModal] = useState(false);
+  const [editingLocation, setEditingLocation] = useState<PhysioServiceLocation | null>(null);
+  const [locationFormData, setLocationFormData] = useState<ServiceLocationFormData>({
+    location_name: '',
+    base_address: '',
+    base_pincode: '',
+    latitude: 0,
+    longitude: 0,
+    service_pincodes: [],
+    zone_config: {
+      green: { pincodes: [], radius_km: 5 },
+      yellow: { pincodes: [], radius_km: 10, extra_charge: 200 },
+      red: { pincodes: [], radius_km: 15, extra_charge: 500 }
+    },
+    is_active: true
+  });
+  const [isSubmittingLocation, setIsSubmittingLocation] = useState(false);
+  const [locationSubmitError, setLocationSubmitError] = useState<string | null>(null);
+  
   const [formData, setFormData] = useState<AvailabilityFormData>({
     availability_type: AvailabilityType.CLINIC,
     day_of_week: DayOfWeek.MONDAY,
@@ -103,6 +148,37 @@ export default function AvailabilityPage() {
     fetchAvailability();
     fetchPracticeSettings();
   }, []);
+  
+  // Fetch service locations when userData becomes available
+  useEffect(() => {
+    if (userData?.user_id) {
+      console.log('✅ userData.user_id available, fetching service locations');
+      fetchServiceLocations();
+    } else {
+      console.log('⏳ Waiting for userData.user_id...');
+    }
+  }, [userData?.user_id]);
+
+  const fetchServiceLocations = async () => {
+    if (!userData?.user_id) return;
+    
+    try {
+      dispatch(setLocationsLoading(true));
+      const response = await ApiManager.getServiceLocations(userData.user_id);
+      
+      if (response.success && response.data) {
+        dispatch(setServiceLocations(response.data));
+      } else {
+        dispatch(setServiceLocations([]));
+      }
+    } catch (error) {
+      console.error('Error fetching service locations:', error);
+      dispatch(setLocationsError('Failed to fetch service locations'));
+      dispatch(setServiceLocations([]));
+    } finally {
+      dispatch(setLocationsLoading(false));
+    }
+  };
 
   const fetchPracticeSettings = async () => {
     try {
@@ -211,7 +287,8 @@ export default function AvailabilityPage() {
       end_time: availability.end_time,
       slot_duration_minutes: availability.slot_duration_minutes,
       service_pincodes: availability.service_pincodes,
-      max_radius_km: availability.max_radius_km
+      max_radius_km: availability.max_radius_km,
+      service_location_id: availability.service_location_id
     });
     setShowAddModal(true);
   };
@@ -272,6 +349,119 @@ export default function AvailabilityPage() {
     setSubmitError(null);
   };
 
+  // Service Location Handlers
+  const handleCreateLocation = async () => {
+    if (!userData?.user_id) return;
+    
+    setIsSubmittingLocation(true);
+    setLocationSubmitError(null);
+    
+    try {
+      const response = await ApiManager.createServiceLocation(userData.user_id, locationFormData);
+      if (response.success && response.data) {
+        dispatch(addServiceLocation(response.data));
+        setShowLocationModal(false);
+        resetLocationForm();
+      } else {
+        setLocationSubmitError(response.message || 'Failed to create service location');
+      }
+    } catch (error: any) {
+      console.error('Error creating service location:', error);
+      setLocationSubmitError(error.message || 'Failed to create service location');
+    } finally {
+      setIsSubmittingLocation(false);
+    }
+  };
+
+  const handleUpdateLocation = async () => {
+    if (!userData?.user_id || !editingLocation) return;
+    
+    setIsSubmittingLocation(true);
+    setLocationSubmitError(null);
+    
+    try {
+      const response = await ApiManager.updateServiceLocation(userData.user_id, editingLocation.id, locationFormData);
+      if (response.success && response.data) {
+        dispatch(updateServiceLocation(response.data));
+        setShowLocationModal(false);
+        resetLocationForm();
+      } else {
+        setLocationSubmitError(response.message || 'Failed to update service location');
+      }
+    } catch (error: any) {
+      console.error('Error updating service location:', error);
+      setLocationSubmitError(error.message || 'Failed to update service location');
+    } finally {
+      setIsSubmittingLocation(false);
+    }
+  };
+
+  const handleDeleteLocation = async (locationId: string) => {
+    if (!userData?.user_id) return;
+    
+    if (confirm('Are you sure you want to delete this service location?')) {
+      try {
+        const response = await ApiManager.deleteServiceLocation(userData.user_id, locationId);
+        if (response.success) {
+          dispatch(removeServiceLocation(locationId));
+        }
+      } catch (error) {
+        console.error('Error deleting service location:', error);
+      }
+    }
+  };
+
+  const handleEditLocation = (location: PhysioServiceLocation) => {
+    setEditingLocation(location);
+    setLocationFormData({
+      location_name: location.location_name,
+      base_address: location.base_address,
+      base_pincode: location.base_pincode,
+      latitude: location.latitude,
+      longitude: location.longitude,
+      service_pincodes: location.service_pincodes,
+      zone_config: location.zone_config,
+      is_active: location.is_active
+    });
+    setShowLocationModal(true);
+  };
+
+  const resetLocationForm = () => {
+    setLocationFormData({
+      location_name: '',
+      base_address: '',
+      base_pincode: '',
+      latitude: 0,
+      longitude: 0,
+      service_pincodes: [],
+      zone_config: {
+        green: { pincodes: [], radius_km: 5 },
+        yellow: { pincodes: [], radius_km: 10, extra_charge: 200 },
+        red: { pincodes: [], radius_km: 15, extra_charge: 500 }
+      },
+      is_active: true
+    });
+    setEditingLocation(null);
+    setLocationSubmitError(null);
+  };
+
+  const handleLocationSelect = (lat: number, lng: number, address?: string) => {
+    const extractedPincode = extractPincodeFromAddress(address || '');
+    setLocationFormData(prev => ({
+      ...prev,
+      latitude: lat,
+      longitude: lng,
+      base_address: address || '',
+      base_pincode: extractedPincode
+    }));
+  };
+
+  const extractPincodeFromAddress = (address: string): string => {
+    // Extract 6-digit pincode from address string
+    const pincodeMatch = address.match(/\b\d{6}\b/);
+    return pincodeMatch ? pincodeMatch[0] : '';
+  };
+
   const getFilteredAvailabilities = (type: AvailabilityType) => {
     return availabilities.filter(a => a.availability_type === type);
   };
@@ -329,7 +519,58 @@ export default function AvailabilityPage() {
         {/* Home Visit Details */}
         {availability.availability_type === AvailabilityType.HOME_VISIT && (
           <div className="space-y-2">
-            {availability.service_pincodes && availability.service_pincodes.length > 0 && (
+            {availability.service_location_id && (
+              (() => {
+                const serviceLocation = serviceLocations.find(loc => loc.id === availability.service_location_id);
+                if (serviceLocation) {
+                  const totalPincodes = serviceLocation.service_pincodes.length;
+                  const greenCount = serviceLocation.zone_config.green.pincodes.length;
+                  const yellowCount = serviceLocation.zone_config.yellow.pincodes.length;
+                  const redCount = serviceLocation.zone_config.red.pincodes.length;
+                  
+                  return (
+                    <div className="space-y-2">
+                      <div className="flex items-start gap-2">
+                        <MapPin className="h-4 w-4 text-gray-500 mt-0.5" />
+                        <div>
+                          <p className="text-sm font-medium text-gray-700">{serviceLocation.location_name}</p>
+                          <p className="text-xs text-gray-500">{serviceLocation.base_address}</p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center gap-2">
+                        <Target className="h-4 w-4 text-gray-500" />
+                        <div className="flex items-center gap-3 text-xs">
+                          <span className="text-gray-600">Service Areas: {totalPincodes} pincodes</span>
+                          <div className="flex items-center gap-1">
+                            <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                            <span className="text-green-600">{greenCount}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
+                            <span className="text-yellow-600">{yellowCount} (+₹{serviceLocation.zone_config.yellow.extra_charge})</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <div className="w-2 h-2 rounded-full bg-red-500"></div>
+                            <span className="text-red-600">{redCount} (+₹{serviceLocation.zone_config.red.extra_charge})</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                } else {
+                  return (
+                    <div className="flex items-center gap-2">
+                      <MapPin className="h-4 w-4 text-orange-500" />
+                      <p className="text-sm text-orange-600">Service location not found</p>
+                    </div>
+                  );
+                }
+              })()
+            )}
+            
+            {/* Legacy support for old format */}
+            {!availability.service_location_id && availability.service_pincodes && availability.service_pincodes.length > 0 && (
               <div className="flex items-start gap-2">
                 <MapPin className="h-4 w-4 text-gray-500 mt-0.5" />
                 <div>
@@ -337,7 +578,7 @@ export default function AvailabilityPage() {
                 </div>
               </div>
             )}
-            {availability.max_radius_km && (
+            {!availability.service_location_id && availability.max_radius_km && (
               <div className="flex items-center gap-2">
                 <Target className="h-4 w-4 text-gray-500" />
                 <p className="text-sm text-gray-600">Radius: {availability.max_radius_km} km</p>
@@ -478,6 +719,102 @@ export default function AvailabilityPage() {
               </p>
             </div>
           </div>
+        </div>
+
+        {/* Service Locations Section */}
+        <div className="bg-white rounded-lg p-6">
+          <div className="flex flex-row items-center justify-between mb-6">
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900">Service Locations</h2>
+              <p className="text-sm text-gray-500 mt-1">Manage your home visit service areas and zones</p>
+            </div>
+            <button 
+              onClick={() => {
+                resetLocationForm();
+                setShowLocationModal(true);
+              }}
+              className="inline-flex items-center px-4 py-2 bg-[#1e5f79] text-white text-sm font-medium rounded-lg hover:bg-[#1e5f79]/90 transition-colors"
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              Add Location
+            </button>
+          </div>
+
+          {loading.locations ? (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#1e5f79]"></div>
+            </div>
+          ) : serviceLocations.length === 0 ? (
+            <div className="text-center py-12">
+              <MapPin className="h-12 w-12 mx-auto mb-4 text-gray-400" />
+              <h3 className="text-lg font-medium text-gray-900 mb-2">No service locations</h3>
+              <p className="text-gray-600 mb-4">
+                Add service locations to define where you provide home visits and configure zone-based pricing
+              </p>
+              <button
+                onClick={() => {
+                  resetLocationForm();
+                  setShowLocationModal(true);
+                }}
+                className="inline-flex items-center px-4 py-2 bg-[#1e5f79] text-white text-sm font-medium rounded-lg hover:bg-[#1e5f79]/90 transition-colors"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Add First Location
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {serviceLocations.map((location) => (
+                <div key={location.id} className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                  {/* Header */}
+                  <div className="flex justify-between items-start mb-3">
+                    <div className="flex items-center gap-2">
+                      <MapPin className="h-4 w-4 text-gray-500" />
+                      <div>
+                        <span className="font-medium text-gray-900">{location.location_name}</span>
+                        <p className="text-sm text-gray-600">{location.base_pincode}</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-1">
+                      <button
+                        onClick={() => handleEditLocation(location)}
+                        className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                      >
+                        <Edit className="h-4 w-4" />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteLocation(location.id)}
+                        className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+                  
+                  {/* Address */}
+                  <div className="mb-3">
+                    <p className="text-sm text-gray-600">{location.base_address}</p>
+                  </div>
+                  
+                  {/* Zone Summary */}
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                      <span className="text-xs text-gray-600">Green: {location.zone_config.green.pincodes.length} pincodes</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
+                      <span className="text-xs text-gray-600">Yellow: {location.zone_config.yellow.pincodes.length} pincodes (+₹{location.zone_config.yellow.extra_charge})</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-red-500"></div>
+                      <span className="text-xs text-gray-600">Red: {location.zone_config.red.pincodes.length} pincodes (+₹{location.zone_config.red.extra_charge})</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Schedule Section */}
@@ -766,35 +1103,43 @@ export default function AvailabilityPage() {
                 </div>
 
                 {formData.availability_type === AvailabilityType.HOME_VISIT && (
-                  <>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Service Pincodes (comma separated)</label>
-                      <input
-                        type="text"
-                        placeholder="e.g., 400001, 400002, 400003"
-                        value={formData.service_pincodes?.join(', ') || ''}
-                        onChange={(e) => setFormData({
-                          ...formData,
-                          service_pincodes: e.target.value.split(',').map(s => s.trim()).filter(s => s)
-                        })}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Service Location</label>
+                    {serviceLocations.length === 0 ? (
+                      <div className="w-full px-3 py-2 border border-orange-200 bg-orange-50 rounded-lg text-orange-700 text-sm">
+                        No service locations available. 
+                        <button
+                          type="button"
+                          onClick={() => {
+                            resetLocationForm();
+                            setShowLocationModal(true);
+                          }}
+                          className="ml-2 underline hover:no-underline"
+                        >
+                          Create one first
+                        </button>
+                      </div>
+                    ) : (
+                      <select
+                        value={formData.service_location_id || ''}
+                        onChange={(e) => setFormData({ ...formData, service_location_id: e.target.value })}
                         className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]/20 focus:border-[#1e5f79]"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Maximum Radius (km)</label>
-                      <input
-                        type="number"
-                        placeholder="e.g., 10"
-                        value={formData.max_radius_km || ''}
-                        onChange={(e) => setFormData({
-                          ...formData,
-                          max_radius_km: e.target.value ? parseInt(e.target.value) : undefined
-                        })}
-                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]/20 focus:border-[#1e5f79]"
-                      />
-                    </div>
-                  </>
+                        required
+                      >
+                        <option value="">Select service location</option>
+                        {serviceLocations.map(location => (
+                          <option key={location.id} value={location.id}>
+                            {location.location_name} ({location.base_pincode})
+                          </option>
+                        ))}
+                      </select>
+                    )}
+                    {formData.service_location_id && (
+                      <p className="text-xs text-gray-500 mt-1">
+                        This availability will use the zones and pincodes configured for the selected location
+                      </p>
+                    )}
+                  </div>
                 )}
               </div>
 
@@ -1060,6 +1405,113 @@ export default function AvailabilityPage() {
                   )}
                   {practiceLoading.update ? 'Saving...' : 'Save Settings'}
                 </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Service Location Modal */}
+        {showLocationModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-auto">
+            <div className="bg-white rounded-3xl w-full max-w-5xl m-4 max-h-[95vh] overflow-hidden">
+              <div className="flex items-center justify-between p-6 border-b border-gray-100">
+                <h3 className="text-2xl font-bold text-gray-900">
+                  {editingLocation ? 'Edit' : 'Add'} Service Location
+                </h3>
+                <button
+                  onClick={() => {
+                    setShowLocationModal(false);
+                    resetLocationForm();
+                  }}
+                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                >
+                  <X className="h-6 w-6 text-gray-400" />
+                </button>
+              </div>
+              
+              <div className="overflow-y-auto max-h-[calc(95vh-80px)]">
+                <ServiceLocationSetup
+                  initialData={editingLocation ? {
+                    location_name: locationFormData.location_name,
+                    base_address: locationFormData.base_address,
+                    base_pincode: locationFormData.base_pincode,
+                    latitude: locationFormData.latitude,
+                    longitude: locationFormData.longitude,
+                    service_pincodes: locationFormData.service_pincodes,
+                    zone_config: locationFormData.zone_config
+                  } : undefined}
+                  onSave={async (data) => {
+                    console.log('=== ONSAVE CALLBACK TRIGGERED ===');
+                    console.log('Received data:', data);
+                    console.log('userData?.user_id:', userData?.user_id);
+                    console.log('editingLocation:', editingLocation);
+                    
+                    setLocationFormData({
+                      ...locationFormData,
+                      ...data
+                    });
+                    
+                    if (!userData?.user_id) {
+                      console.log('❌ No userData.user_id found, aborting');
+                      setLocationSubmitError('User session not found. Please refresh the page and try again.');
+                      setIsSubmittingLocation(false);
+                      return;
+                    }
+                    
+                    console.log('Setting loading state...');
+                    setIsSubmittingLocation(true);
+                    setLocationSubmitError(null);
+                    
+                    try {
+                      let response;
+                      if (editingLocation) {
+                        console.log('📝 Updating existing location:', editingLocation.id);
+                        response = await ApiManager.updateServiceLocation(userData.user_id, editingLocation.id, data);
+                        console.log('Update response:', response);
+                        if (response.success && response.data) {
+                          dispatch(updateServiceLocation(response.data));
+                        }
+                      } else {
+                        console.log('➕ Creating new location');
+                        response = await ApiManager.createServiceLocation(userData.user_id, data);
+                        console.log('Create response:', response);
+                        if (response.success && response.data) {
+                          dispatch(addServiceLocation(response.data));
+                        }
+                      }
+                      
+                      if (response.success) {
+                        console.log('✅ API call successful, closing modal');
+                        setShowLocationModal(false);
+                        resetLocationForm();
+                      } else {
+                        console.log('❌ API call failed:', response.message);
+                        setLocationSubmitError(response.message || `Failed to ${editingLocation ? 'update' : 'create'} service location`);
+                      }
+                    } catch (error: any) {
+                      console.error(`❌ Error ${editingLocation ? 'updating' : 'creating'} service location:`, error);
+                      setLocationSubmitError(error.message || `Failed to ${editingLocation ? 'update' : 'create'} service location`);
+                    } finally {
+                      console.log('🏁 Setting loading state to false');
+                      setIsSubmittingLocation(false);
+                    }
+                  }}
+                  onCancel={() => {
+                    setShowLocationModal(false);
+                    resetLocationForm();
+                  }}
+                  loading={isSubmittingLocation}
+                />
+                
+                {locationSubmitError && (
+                  <div className="mx-6 mb-6 p-4 bg-red-50 rounded-xl flex items-start gap-3">
+                    <AlertCircle className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
+                    <div className="flex-1">
+                      <p className="text-red-700 font-medium">Error saving location:</p>
+                      <p className="text-red-600 text-sm mt-1">{locationSubmitError}</p>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

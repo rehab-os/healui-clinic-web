@@ -58,6 +58,7 @@ const LeafletMapPicker: React.FC<LeafletMapPickerProps> = ({
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<L.Map | null>(null);
   const markerRef = useRef<L.Marker | null>(null);
+  const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [loading, setLoading] = useState(true);
   const [searchValue, setSearchValue] = useState('');
   const [searchLoading, setSearchLoading] = useState(false);
@@ -72,6 +73,13 @@ const LeafletMapPicker: React.FC<LeafletMapPickerProps> = ({
       try {
         const leaflet = await initializeLeaflet();
         if (!leaflet || !mapRef.current) return;
+
+        // Clear any existing map instance
+        if (mapRef.current._leaflet_id) {
+          delete mapRef.current._leaflet_id;
+        }
+        // Clear innerHTML to ensure clean state
+        mapRef.current.innerHTML = '';
 
         // Create map instance
         const map = leaflet.map(mapRef.current).setView([initialLat, initialLng], 15);
@@ -120,6 +128,19 @@ const LeafletMapPicker: React.FC<LeafletMapPickerProps> = ({
       if (mapInstance.current) {
         mapInstance.current.remove();
         mapInstance.current = null;
+      }
+      if (markerRef.current) {
+        markerRef.current = null;
+      }
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
+      }
+      // Clear the map container
+      if (mapRef.current) {
+        if (mapRef.current._leaflet_id) {
+          delete mapRef.current._leaflet_id;
+        }
+        mapRef.current.innerHTML = '';
       }
     };
   }, [initialLat, initialLng]);
@@ -171,12 +192,15 @@ const LeafletMapPicker: React.FC<LeafletMapPickerProps> = ({
   const handleSearchChange = (value: string) => {
     setSearchValue(value);
     
+    // Clear previous timeout
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+    
     // Debounce search
-    const timeoutId = setTimeout(() => {
+    searchTimeoutRef.current = setTimeout(() => {
       searchPlaces(value);
-    }, 300);
-
-    return () => clearTimeout(timeoutId);
+    }, 500);
   };
 
   // Handle search result selection
@@ -234,8 +258,9 @@ const LeafletMapPicker: React.FC<LeafletMapPickerProps> = ({
           value={searchValue}
           onChange={(e) => handleSearchChange(e.target.value)}
           onFocus={() => searchResults.length > 0 && setShowResults(true)}
+          onBlur={() => setTimeout(() => setShowResults(false), 200)}
           className="w-full pl-10 pr-20 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Search for a location in India..."
+          placeholder="Search area or pincode (e.g., Delhi, 110001, Connaught Place)..."
         />
         <button
           onClick={getCurrentLocation}
@@ -252,7 +277,7 @@ const LeafletMapPicker: React.FC<LeafletMapPickerProps> = ({
 
         {/* Search Results Dropdown */}
         {showResults && searchResults.length > 0 && (
-          <div className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+          <div className="absolute z-[9999] w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
             {searchResults.map((result) => (
               <button
                 key={result.place_id}
@@ -294,7 +319,7 @@ const LeafletMapPicker: React.FC<LeafletMapPickerProps> = ({
           className="w-full"
         />
         <div className="absolute bottom-3 left-3 bg-white/90 backdrop-blur-sm rounded-lg p-2 text-xs text-gray-600">
-          Click on the map or drag the marker to select location
+          Search area/pincode above or click on map to select location
         </div>
       </div>
 

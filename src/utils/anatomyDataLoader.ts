@@ -27,8 +27,10 @@ export interface MuscleData {
   };
   blood_supply: string[];
   actions: {
-    primary: string[];
+    primary?: string[];
     secondary?: string[];
+    bilateral?: string[];
+    unilateral?: string[];
   };
   synergists?: string[];
   antagonists?: string[];

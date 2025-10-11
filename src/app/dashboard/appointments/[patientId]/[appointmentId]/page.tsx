@@ -27,7 +27,7 @@ import {
 
 interface Patient {
   id: string;
-  patient_code: string;
+  patient_code?: string;
   full_name: string;
   phone: string;
   email?: string;
@@ -41,13 +41,20 @@ interface Patient {
   current_medications?: string[];
   insurance_provider?: string;
   insurance_policy_number?: string;
-  status: string;
-  created_at: string;
+  status?: string;
+  created_at?: string;
+  // Marketplace patient fields
+  account_type?: string;
+  primary_user_id?: string;
+  relationship?: string;
+  is_active?: boolean;
+  last_login?: string;
+  pincode?: string;
 }
 
 interface Visit {
   id: string;
-  patient_id: string;
+  patient_id?: string;
   visit_type: string;
   visit_mode: string;
   scheduled_date: string;
@@ -60,6 +67,20 @@ interface Visit {
     full_name: string;
   };
   note?: Note;
+  // Marketplace fields
+  visit_source?: 'CLINIC' | 'MARKETPLACE';
+  patient_user_id?: string;
+  consultation_fee?: string;
+  travel_fee?: string;
+  total_amount?: string;
+  patient_address?: string;
+  payment_info?: {
+    method: 'RAZORPAY' | 'PAYTM' | 'UPI' | 'CASH';
+    transaction_id?: string;
+    status: 'PENDING' | 'COMPLETED' | 'FAILED' | 'REFUNDED';
+    paid_at?: string;
+  };
+  patientUser?: Patient;
 }
 
 interface Note {
@@ -89,6 +110,10 @@ export default function AppointmentDetailsPage() {
   const router = useRouter();
   const { currentClinic, userData } = useAppSelector(state => state.user);
   
+  // For marketplace visits, the patientId param will be patient_user_id
+  // For clinic visits, the patientId param will be patient_id
+  // We'll determine which one based on the appointment data
+  
   const [patient, setPatient] = useState<Patient | null>(null);
   const [appointment, setAppointment] = useState<Visit | null>(null);
   const [patientVisits, setPatientVisits] = useState<Visit[]>([]);
@@ -113,12 +138,18 @@ export default function AppointmentDetailsPage() {
   const [nutritionData, setNutritionData] = useState<any>(null);
 
   useEffect(() => {
-    if (params.patientId && params.appointmentId && currentClinic?.id) {
-      fetchPatientData();
+    if (params.appointmentId) {
       fetchAppointmentData();
+    }
+  }, [params.appointmentId, currentClinic?.id]);
+
+  // Fetch patient data and visits after appointment data is loaded
+  useEffect(() => {
+    if (appointment) {
+      fetchPatientData();
       fetchPatientVisits();
     }
-  }, [params.patientId, params.appointmentId, currentClinic?.id]);
+  }, [appointment]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -134,9 +165,38 @@ export default function AppointmentDetailsPage() {
 
   const fetchPatientData = async () => {
     try {
-      const response = await ApiManager.getPatient(params.patientId as string);
-      if (response.success && response.data) {
-        setPatient(response.data);
+      // For marketplace visits, use patientUser data from appointment
+      if (appointment?.visit_source === 'MARKETPLACE') {
+        if (appointment?.patientUser) {
+          console.log('Using marketplace patientUser data:', appointment.patientUser);
+          setPatient(appointment.patientUser);
+          return;
+        } else {
+          // Fallback: create a patient object from available marketplace data
+          console.log('PatientUser not in response, creating from URL params and visit data');
+          const fallbackPatient = {
+            id: appointment.patient_user_id || params.patientId as string,
+            full_name: 'Marketplace Patient', // Placeholder
+            phone: '', // Will be empty until backend fix
+            email: '',
+            date_of_birth: '1990-01-01', // Placeholder
+            gender: 'M',
+            address: appointment.patient_address || ''
+          };
+          setPatient(fallbackPatient);
+          return;
+        }
+      }
+      
+      // For clinic visits, fetch patient data
+      if (appointment?.patient_id) {
+        console.log('Fetching clinic patient data for ID:', appointment.patient_id);
+        const response = await ApiManager.getPatient(appointment.patient_id);
+        if (response.success && response.data) {
+          setPatient(response.data);
+        }
+      } else {
+        console.error('No patient_id found for clinic visit');
       }
     } catch (error) {
       console.error('Failed to fetch patient:', error);
@@ -160,9 +220,27 @@ export default function AppointmentDetailsPage() {
   const fetchPatientVisits = async () => {
     try {
       setTimelineLoading(true);
-      const response = await ApiManager.getPatientVisits(params.patientId as string, { 
-        limit: 100 
-      });
+      
+      let response;
+      if (appointment?.visit_source === 'MARKETPLACE') {
+        // For marketplace visits, get all visits for this physiotherapist from marketplace
+        console.log('Fetching marketplace visits for physiotherapist:', appointment.physiotherapist.id);
+        response = await ApiManager.getVisits({
+          visit_source: 'MARKETPLACE',
+          physiotherapist_id: appointment.physiotherapist.id,
+          limit: 100
+        });
+      } else if (appointment?.patient_id) {
+        // For clinic visits, get patient visits
+        console.log('Fetching clinic patient visits for patient ID:', appointment.patient_id);
+        response = await ApiManager.getPatientVisits(appointment.patient_id, { 
+          limit: 100 
+        });
+      } else {
+        console.error('Cannot fetch visits: missing patient_id for clinic visit or invalid marketplace visit');
+        return;
+      }
+      
       if (response.success && response.data) {
         setPatientVisits(response.data.visits || []);
       }
@@ -432,6 +510,11 @@ export default function AppointmentDetailsPage() {
                   <span className="hidden md:inline text-sm text-gray-500">
                     • {calculateAge(patient.date_of_birth)}y {patient.gender}
                   </span>
+                  {appointment?.visit_source === 'MARKETPLACE' && (
+                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-700">
+                      Marketplace
+                    </span>
+                  )}
                 </div>
                 <div className="flex items-center space-x-2 md:space-x-3 text-xs md:text-sm text-gray-600 mt-0.5">
                   <span className="inline-flex items-center">
@@ -495,13 +578,39 @@ export default function AppointmentDetailsPage() {
             </div>
           </div>
           
-          {/* Chief Complaint - Full width below */}
-          {appointment.chief_complaint && (
-            <div className="mt-3 pt-3 border-t border-gray-100">
-              <div className="flex items-start space-x-2">
-                <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">Chief Complaint:</span>
-                <p className="text-sm md:text-base text-gray-800 flex-1">{appointment.chief_complaint}</p>
-              </div>
+          {/* Chief Complaint and Marketplace Info - Full width below */}
+          {(appointment.chief_complaint || (appointment?.visit_source === 'MARKETPLACE' && (appointment.consultation_fee || appointment.total_amount))) && (
+            <div className="mt-3 pt-3 border-t border-gray-100 space-y-3">
+              {appointment.chief_complaint && (
+                <div className="flex items-start space-x-2">
+                  <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">Chief Complaint:</span>
+                  <p className="text-sm md:text-base text-gray-800 flex-1">{appointment.chief_complaint}</p>
+                </div>
+              )}
+              
+              {/* Marketplace Pricing Info */}
+              {appointment?.visit_source === 'MARKETPLACE' && (appointment.consultation_fee || appointment.total_amount) && (
+                <div className="flex items-center space-x-4 text-xs">
+                  <span className="text-gray-500 uppercase tracking-wider">Fees:</span>
+                  <div className="flex items-center space-x-3">
+                    {appointment.consultation_fee && (
+                      <span className="text-gray-700">
+                        Consultation: ₹{appointment.consultation_fee}
+                      </span>
+                    )}
+                    {appointment.travel_fee && (
+                      <span className="text-gray-700">
+                        Travel: ₹{appointment.travel_fee}
+                      </span>
+                    )}
+                    {appointment.total_amount && (
+                      <span className="font-medium text-gray-900">
+                        Total: ₹{appointment.total_amount}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -1247,16 +1356,20 @@ export default function AppointmentDetailsPage() {
                       <div className="space-y-2">
                         <div className="flex items-center justify-between">
                           <span className="text-xs text-gray-500">Phone</span>
-                          <span className="text-sm text-gray-900 font-medium">{patient.phone}</span>
+                          <span className="text-sm text-gray-900 font-medium">{patient.phone || 'Not provided'}</span>
                         </div>
                         <div className="flex items-center justify-between">
                           <span className="text-xs text-gray-500">Email</span>
                           <span className="text-sm text-gray-900">{patient.email || 'Not provided'}</span>
                         </div>
-                        {patient.address && (
+                        {(patient.address || appointment?.patient_address) && (
                           <div className="flex items-start justify-between">
-                            <span className="text-xs text-gray-500">Address</span>
-                            <span className="text-sm text-gray-900 text-right max-w-48">{patient.address}</span>
+                            <span className="text-xs text-gray-500">
+                              {appointment?.visit_source === 'MARKETPLACE' && appointment?.visit_mode === 'HOME_VISIT' ? 'Visit Address' : 'Address'}
+                            </span>
+                            <span className="text-sm text-gray-900 text-right max-w-48">
+                              {appointment?.patient_address || patient.address}
+                            </span>
                           </div>
                         )}
                       </div>

@@ -16,6 +16,33 @@ export enum DayOfWeek {
     SATURDAY = 6
 }
 
+export interface ZoneConfig {
+    pincodes: string[]
+    radius_km: number
+    extra_charge?: number
+}
+
+export interface ServiceZoneConfig {
+    green: ZoneConfig
+    yellow: ZoneConfig & { extra_charge: number }
+    red: ZoneConfig & { extra_charge: number }
+}
+
+export interface PhysioServiceLocation {
+    id: string
+    physiotherapist_id: string
+    location_name: string
+    base_address: string
+    base_pincode: string
+    latitude: number
+    longitude: number
+    service_pincodes: string[]
+    zone_config: ServiceZoneConfig
+    is_active: boolean
+    created_at: string
+    updated_at: string
+}
+
 export interface PhysiotherapistAvailability {
     id: string
     physiotherapist_id: string
@@ -27,9 +54,11 @@ export interface PhysiotherapistAvailability {
     slot_duration_minutes: number
     service_pincodes?: string[]
     max_radius_km?: number
+    service_location_id?: string
     is_active: boolean
     created_at: string
     updated_at: string
+    serviceLocation?: PhysioServiceLocation
 }
 
 export interface AvailableSlot {
@@ -44,12 +73,17 @@ export interface AvailableSlot {
 interface AvailabilityState {
     availabilities: PhysiotherapistAvailability[]
     availableSlots: AvailableSlot[]
+    serviceLocations: PhysioServiceLocation[]
     loading: {
         fetch: boolean
         create: boolean
         update: boolean
         delete: boolean
         slots: boolean
+        locations: boolean
+        createLocation: boolean
+        updateLocation: boolean
+        deleteLocation: boolean
     }
     error: {
         fetch: string | null
@@ -57,25 +91,38 @@ interface AvailabilityState {
         update: string | null
         delete: string | null
         slots: string | null
+        locations: string | null
+        createLocation: string | null
+        updateLocation: string | null
+        deleteLocation: string | null
     }
 }
 
 const initialState: AvailabilityState = {
     availabilities: [],
     availableSlots: [],
+    serviceLocations: [],
     loading: {
         fetch: false,
         create: false,
         update: false,
         delete: false,
-        slots: false
+        slots: false,
+        locations: false,
+        createLocation: false,
+        updateLocation: false,
+        deleteLocation: false
     },
     error: {
         fetch: null,
         create: null,
         update: null,
         delete: null,
-        slots: null
+        slots: null,
+        locations: null,
+        createLocation: null,
+        updateLocation: null,
+        deleteLocation: null
     }
 }
 
@@ -172,10 +219,82 @@ export const availabilitySlice = createSlice({
             state.error.slots = action.payload
         },
 
+        // Service Locations
+        setLocationsLoading: (state, action: PayloadAction<boolean>) => {
+            state.loading.locations = action.payload
+            if (action.payload) {
+                state.error.locations = null
+            }
+        },
+        setServiceLocations: (state, action: PayloadAction<PhysioServiceLocation[]>) => {
+            state.serviceLocations = action.payload
+            state.loading.locations = false
+            state.error.locations = null
+        },
+        setLocationsError: (state, action: PayloadAction<string>) => {
+            state.loading.locations = false
+            state.error.locations = action.payload
+        },
+
+        // Create service location
+        setCreateLocationLoading: (state, action: PayloadAction<boolean>) => {
+            state.loading.createLocation = action.payload
+            if (action.payload) {
+                state.error.createLocation = null
+            }
+        },
+        addServiceLocation: (state, action: PayloadAction<PhysioServiceLocation>) => {
+            state.serviceLocations.push(action.payload)
+            state.loading.createLocation = false
+            state.error.createLocation = null
+        },
+        setCreateLocationError: (state, action: PayloadAction<string>) => {
+            state.loading.createLocation = false
+            state.error.createLocation = action.payload
+        },
+
+        // Update service location
+        setUpdateLocationLoading: (state, action: PayloadAction<boolean>) => {
+            state.loading.updateLocation = action.payload
+            if (action.payload) {
+                state.error.updateLocation = null
+            }
+        },
+        updateServiceLocation: (state, action: PayloadAction<PhysioServiceLocation>) => {
+            const index = state.serviceLocations.findIndex(l => l.id === action.payload.id)
+            if (index !== -1) {
+                state.serviceLocations[index] = action.payload
+            }
+            state.loading.updateLocation = false
+            state.error.updateLocation = null
+        },
+        setUpdateLocationError: (state, action: PayloadAction<string>) => {
+            state.loading.updateLocation = false
+            state.error.updateLocation = action.payload
+        },
+
+        // Delete service location
+        setDeleteLocationLoading: (state, action: PayloadAction<boolean>) => {
+            state.loading.deleteLocation = action.payload
+            if (action.payload) {
+                state.error.deleteLocation = null
+            }
+        },
+        removeServiceLocation: (state, action: PayloadAction<string>) => {
+            state.serviceLocations = state.serviceLocations.filter(l => l.id !== action.payload)
+            state.loading.deleteLocation = false
+            state.error.deleteLocation = null
+        },
+        setDeleteLocationError: (state, action: PayloadAction<string>) => {
+            state.loading.deleteLocation = false
+            state.error.deleteLocation = action.payload
+        },
+
         // Clear state
         clearAvailability: (state) => {
             state.availabilities = []
             state.availableSlots = []
+            state.serviceLocations = []
             state.loading = initialState.loading
             state.error = initialState.error
         }
@@ -198,6 +317,18 @@ export const {
     setSlotsLoading,
     setAvailableSlots,
     setSlotsError,
+    setLocationsLoading,
+    setServiceLocations,
+    setLocationsError,
+    setCreateLocationLoading,
+    addServiceLocation,
+    setCreateLocationError,
+    setUpdateLocationLoading,
+    updateServiceLocation,
+    setUpdateLocationError,
+    setDeleteLocationLoading,
+    removeServiceLocation,
+    setDeleteLocationError,
     clearAvailability
 } = availabilitySlice.actions
 

@@ -102,8 +102,10 @@ export const AnatomySearchSelect: React.FC<AnatomySearchSelectProps> = ({
 
   const handleStructureSelect = (structure: AnatomyStructure) => {
     let protocolStructure: any = {
-      type: structure.type.charAt(0).toUpperCase() + structure.type.slice(1),
+      id: structure.id,
+      type: structure.type,
       name: structure.name,
+      category: structure.type,
       details: {}
     };
 
@@ -113,8 +115,11 @@ export const AnatomySearchSelect: React.FC<AnatomySearchSelectProps> = ({
       protocolStructure.details = {
         origin: muscle.origin?.join(', ') || '',
         insertion: muscle.insertion?.join(', ') || '',
-        innervation: muscle.innervation ? `${muscle.innervation.nerve} (${muscle.innervation.nerve_roots?.join(', ')})` : '',
-        actions: muscle.actions?.primary.join(', ') || '',
+        innervation: muscle.innervation ? `${muscle.innervation.nerve} (${muscle.innervation.nerve_roots?.join(', ') || ''})` : '',
+        actions: muscle.actions?.primary?.join(', ') || 
+                 (muscle.actions?.bilateral && muscle.actions?.unilateral ? 
+                   `Bilateral: ${muscle.actions.bilateral.join(', ')}; Unilateral: ${muscle.actions.unilateral.join(', ')}` : 
+                   '') || '',
         clinicalNotes: muscle.clinical_relevance || '',
         conditions: muscle.common_conditions?.join(', ') || '',
         referredPain: muscle.referred_pain_patterns?.join(', ') || '',
@@ -269,7 +274,11 @@ export const AnatomySearchSelect: React.FC<AnatomySearchSelectProps> = ({
                         <div className="mt-1 text-xs text-gray-500">
                           {structure.type === 'muscle' && details && (
                             <>
-                              <p><strong>Actions:</strong> {details.actions?.primary?.slice(0, 2).join(', ') || 'N/A'}</p>
+                              <p><strong>Actions:</strong> {
+                                details.actions?.primary?.slice(0, 2).join(', ') || 
+                                (details.actions?.bilateral ? details.actions.bilateral.slice(0, 2).join(', ') : null) ||
+                                'N/A'
+                              }</p>
                               {details.common_conditions && details.common_conditions.length > 0 && (
                                 <p><strong>Conditions:</strong> {details.common_conditions.slice(0, 2).join(', ')}</p>
                               )}

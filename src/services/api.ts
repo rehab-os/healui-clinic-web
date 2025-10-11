@@ -524,6 +524,55 @@ class ApiManager {
         return ApiMethods.get(url)
     }
 
+    // Physio Service Locations
+    static getServiceLocations = (physiotherapistId: string) => {
+        const url = BASE_URL + ENDPOINTS.GET_SERVICE_LOCATIONS(physiotherapistId)
+        return ApiMethods.get(url)
+    }
+
+    static createServiceLocation = (physiotherapistId: string, data: any) => {
+        const url = BASE_URL + ENDPOINTS.CREATE_SERVICE_LOCATION(physiotherapistId)
+        return ApiMethods.post(url, data)
+    }
+
+    static updateServiceLocation = (physiotherapistId: string, locationId: string, data: any) => {
+        const url = BASE_URL + ENDPOINTS.UPDATE_SERVICE_LOCATION(physiotherapistId, locationId)
+        return ApiMethods.put(url, data)
+    }
+
+    static deleteServiceLocation = (physiotherapistId: string, locationId: string) => {
+        const url = BASE_URL + ENDPOINTS.DELETE_SERVICE_LOCATION(physiotherapistId, locationId)
+        return ApiMethods.delete(url)
+    }
+
+    static searchPhysiosByPincode = (params: { pincode: string; dayOfWeek?: number }) => {
+        const url = BASE_URL + ENDPOINTS.SEARCH_BY_PINCODE(params)
+        return ApiMethods.get(url)
+    }
+
+    static getZoneInfo = (locationId: string, params: { pincode: string; latitude?: number; longitude?: number }) => {
+        const url = BASE_URL + ENDPOINTS.GET_ZONE_INFO(locationId, params)
+        return ApiMethods.get(url)
+    }
+
+    // Pincodes
+    static searchPincodes = (query: string, limit?: number) => {
+        const params = new URLSearchParams({ q: query })
+        if (limit) params.append('limit', limit.toString())
+        const url = BASE_URL + `pincodes/search?${params.toString()}`
+        return ApiMethods.get(url)
+    }
+
+    static getPincodeDetails = (pincode: string) => {
+        const url = BASE_URL + `pincodes/${pincode}`
+        return ApiMethods.get(url)
+    }
+
+    static validatePincodes = (pincodes: string[]) => {
+        const url = BASE_URL + `pincodes/validate`
+        return ApiMethods.post(url, { pincodes })
+    }
+
     // Treatment Protocols
     static getTreatmentProtocols = (params?: GetTreatmentProtocolsQueryDto) => {
         const url = BASE_URL + ENDPOINTS.GET_TREATMENT_PROTOCOLS(params)
