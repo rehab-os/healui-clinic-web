@@ -31,7 +31,7 @@ import {
   Activity,
   X
 } from 'lucide-react';
-import ServiceLocationSetup from '../../../components/molecule/ServiceLocationSetup';
+import ServiceAreaSetup from '../../../components/molecule/ServiceAreaSetup';
 import LeafletMapPicker from '../../../components/molecule/LeafletMapPicker';
 import {
   setFetchLoading,
@@ -50,7 +50,8 @@ import {
   DayOfWeek,
   PhysiotherapistAvailability,
   PhysioServiceLocation,
-  ServiceZoneConfig
+  ServiceZoneConfig,
+  CoordinateZoneConfig
 } from '../../../store/slices/availability.slice';
 import {
   setPracticeSettings,
@@ -64,6 +65,27 @@ import ProfileCompletionAlert from '../../../components/molecule/ProfileCompleti
 import { useRouter } from 'next/navigation';
 
 const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+// Available specializations
+const SPECIALIZATIONS = [
+  { value: 'orthopedic', label: 'Orthopedic Physiotherapy' },
+  { value: 'neurological', label: 'Neurological Physiotherapy' },
+  { value: 'pediatric', label: 'Pediatric Physiotherapy' },
+  { value: 'geriatric', label: 'Geriatric Physiotherapy' },
+  { value: 'sports', label: 'Sports Physiotherapy' },
+  { value: 'cardiac', label: 'Cardiac Physiotherapy' },
+  { value: 'pulmonary', label: 'Pulmonary Physiotherapy' },
+  { value: 'women_health', label: 'Women\'s Health Physiotherapy' },
+  { value: 'pain_management', label: 'Pain Management' },
+  { value: 'rehabilitation', label: 'Rehabilitation' }
+];
+
+// Specialization pricing interface
+interface SpecializationPricing {
+  specialization: string;
+  consultation_fee: number;
+  home_visit_fee: number;
+}
 
 const TIME_SLOTS = Array.from({ length: 48 }, (_, i) => {
   const hour = Math.floor(i / 2);
@@ -83,6 +105,31 @@ interface AvailabilityFormData {
   service_location_id?: string;
 }
 
+// New ServiceArea form data structure
+interface ServiceAreaFormData {
+  name: string;
+  latitude: number;
+  longitude: number;
+  base_address?: string;
+  zone_config: CoordinateZoneConfig;
+  is_active: boolean;
+}
+
+// Import ServiceArea interface from availability.slice
+interface ServiceArea {
+  id: string;
+  physiotherapist_id: string;
+  name: string;
+  latitude: number;
+  longitude: number;
+  zone_config: CoordinateZoneConfig;
+  base_address?: string;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+// Legacy ServiceLocation form data (keeping for backward compatibility)
 interface ServiceLocationFormData {
   location_name: string;
   base_address: string;
@@ -116,7 +163,31 @@ export default function AvailabilityPage() {
   const [isEditingPractice, setIsEditingPractice] = useState(false);
   const [tempPracticeSettings, setTempPracticeSettings] = useState<PracticeSettings>({});
   
-  // Service Location State
+  // Specialization pricing state
+  const [specializationPricing, setSpecializationPricing] = useState<SpecializationPricing[]>([]);
+  const [profileSpecializations, setProfileSpecializations] = useState<string[]>([]);
+  
+  // Service Area State (New coordinate-based)
+  const [showServiceAreaModal, setShowServiceAreaModal] = useState(false);
+  const [editingServiceArea, setEditingServiceArea] = useState<ServiceArea | null>(null);
+  const [serviceAreaFormData, setServiceAreaFormData] = useState<ServiceAreaFormData>({
+    name: '',
+    latitude: 28.6139,
+    longitude: 77.2090,
+    base_address: '',
+    zone_config: {
+      green_radius_km: 5,
+      yellow_radius_km: 15,
+      red_radius_km: 25,
+      yellow_travel_charge: 200,
+      red_travel_charge: 500
+    },
+    is_active: true
+  });
+  const [isSubmittingServiceArea, setIsSubmittingServiceArea] = useState(false);
+  const [serviceAreaSubmitError, setServiceAreaSubmitError] = useState<string | null>(null);
+
+  // Legacy Service Location State (for backward compatibility)
   const [showLocationModal, setShowLocationModal] = useState(false);
   const [editingLocation, setEditingLocation] = useState<PhysioServiceLocation | null>(null);
   const [locationFormData, setLocationFormData] = useState<ServiceLocationFormData>({
@@ -147,6 +218,8 @@ export default function AvailabilityPage() {
   useEffect(() => {
     fetchAvailability();
     fetchPracticeSettings();
+    fetchSpecializations();
+    fetchMySpecialtyPricings();
   }, []);
   
   // Fetch service locations when userData becomes available
@@ -164,6 +237,36 @@ export default function AvailabilityPage() {
     
     try {
       dispatch(setLocationsLoading(true));
+      
+      // Try to fetch from new service areas API first
+      try {
+        const serviceAreaResponse = await ApiManager.getMyServiceArea();
+        
+        if (serviceAreaResponse.success && serviceAreaResponse.data) {
+          // Convert service area to legacy format for Redux compatibility
+          // BUT preserve the original zone_config structure for editing
+          const legacyLocation = {
+            id: serviceAreaResponse.data.id,
+            physiotherapist_id: serviceAreaResponse.data.physiotherapist_id,
+            location_name: serviceAreaResponse.data.name,
+            base_address: serviceAreaResponse.data.base_address || '',
+            base_pincode: '',
+            latitude: serviceAreaResponse.data.latitude,
+            longitude: serviceAreaResponse.data.longitude,
+            service_pincodes: [],
+            zone_config: serviceAreaResponse.data.zone_config, // Keep original structure
+            is_active: serviceAreaResponse.data.is_active,
+            created_at: serviceAreaResponse.data.created_at,
+            updated_at: serviceAreaResponse.data.updated_at
+          };
+          dispatch(setServiceLocations([legacyLocation]));
+          return;
+        }
+      } catch (serviceAreaError) {
+        console.log('No service area found, falling back to legacy service locations');
+      }
+      
+      // Fallback to legacy service locations API
       const response = await ApiManager.getServiceLocations(userData.user_id);
       
       if (response.success && response.data) {
@@ -186,10 +289,6 @@ export default function AvailabilityPage() {
       
       if (response.success && response.data) {
         const settings: PracticeSettings = {
-          practice_address: response.data.practice_address || '',
-          service_areas: response.data.service_areas || '',
-          consultation_fee: response.data.consultation_fee || 0,
-          home_visit_fee: response.data.home_visit_fee || 0,
           online_consultation_available: response.data.online_consultation_available || false,
           home_visit_available: response.data.home_visit_available || false,
           marketplace_active: response.data.marketplace_active || false,
@@ -197,9 +296,63 @@ export default function AvailabilityPage() {
         };
         dispatch(setPracticeSettings(settings));
         setTempPracticeSettings(settings);
+        
+        // Also store profile specializations for pricing
+        if (response.data.specializations) {
+          setProfileSpecializations(response.data.specializations);
+        }
       }
     } catch (error) {
       console.error('Error fetching practice settings:', error);
+    }
+  };
+
+  const fetchSpecializations = async () => {
+    try {
+      const response = await ApiManager.getSpecializations();
+      if (response.success && response.data) {
+        // Update SPECIALIZATIONS constant with backend data if needed
+        console.log('Available specializations:', response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching specializations:', error);
+    }
+  };
+
+  const fetchMySpecialtyPricings = async () => {
+    try {
+      const response = await ApiManager.getMySpecialtyPricings();
+      if (response.success && response.data) {
+        const backendPricings = response.data.map((pricing: any) => ({
+          specialization: pricing.specialization,
+          consultation_fee: pricing.price_per_session,
+          home_visit_fee: pricing.price_per_session + 200 // Default increment for home visits
+        }));
+        setSpecializationPricing(backendPricings);
+      } else {
+        // If no pricing exists, auto-populate from profile specializations
+        await initializeSpecializationPricingFromProfile();
+      }
+    } catch (error) {
+      console.error('Error fetching specialty pricings:', error);
+      // Fallback to profile specializations
+      await initializeSpecializationPricingFromProfile();
+    }
+  };
+
+  const initializeSpecializationPricingFromProfile = async () => {
+    try {
+      const profileResponse = await ApiManager.getPhysiotherapistProfile();
+      if (profileResponse.success && profileResponse.data?.specializations) {
+        const profileSpecializations = profileResponse.data.specializations.map((spec: string) => ({
+          specialization: spec,
+          consultation_fee: 500, // Default consultation fee
+          home_visit_fee: 800     // Default home visit fee
+        }));
+        setSpecializationPricing(profileSpecializations);
+      }
+    } catch (error) {
+      console.error('Error initializing from profile specializations:', error);
     }
   };
 
@@ -310,17 +463,57 @@ export default function AvailabilityPage() {
       dispatch(setPracticeUpdateLoading(true));
       
       // Filter out read-only fields that shouldn't be sent to backend
-      const { profile_completed_at, updated_at, id, ...updateData } = tempPracticeSettings;
+      // Also remove consultation_fee and home_visit_fee as they're now managed via specialization pricing
+      const { profile_completed_at, updated_at, id, consultation_fee, home_visit_fee, ...updateData } = tempPracticeSettings;
       
-      const response = await ApiManager.updatePracticeSettings(updateData);
+      // Save practice settings (without fees)
+      const practiceResponse = await ApiManager.updatePracticeSettings(updateData);
       
-      if (response.success) {
-        dispatch(updatePracticeSettings(tempPracticeSettings));
-        setIsEditingPractice(false);
-        setShowPracticeModal(false);
-      } else {
-        dispatch(setPracticeUpdateError(response.message || 'Failed to update practice settings'));
+      if (!practiceResponse.success) {
+        dispatch(setPracticeUpdateError(practiceResponse.message || 'Failed to update practice settings'));
+        return;
       }
+
+      // Save specialization pricing using the proper specialization pricing API
+      if (specializationPricing.length > 0) {
+        // First get available specialization categories to map names to IDs
+        const categoriesResponse = await ApiManager.getSpecializations();
+        
+        if (categoriesResponse.success && categoriesResponse.data) {
+          const categories = categoriesResponse.data;
+          
+          for (const pricing of specializationPricing) {
+            try {
+              // Find the specialization category ID
+              const category = categories.find((cat: any) => 
+                cat.code === pricing.specialization || cat.name === pricing.specialization
+              );
+              
+              if (category) {
+                // Use the individual create API for each specialization
+                await ApiManager.createSpecialtyPricing({
+                  specialization_id: category.id,
+                  price_per_session: Number(pricing.consultation_fee),
+                  description: `Pricing for ${category.name}`,
+                  years_of_experience: 1,
+                  is_featured: false
+                });
+              }
+            } catch (error) {
+              console.warn(`Failed to save pricing for ${pricing.specialization}:`, error);
+              // Continue with other specializations
+            }
+          }
+        }
+      }
+      
+      dispatch(updatePracticeSettings(tempPracticeSettings));
+      setIsEditingPractice(false);
+      setShowPracticeModal(false);
+      
+      // Refresh specialty pricings from backend
+      fetchMySpecialtyPricings();
+      
     } catch (error: any) {
       console.error('Error saving practice settings:', error);
       dispatch(setPracticeUpdateError(error.message || 'Failed to save practice settings'));
@@ -333,6 +526,60 @@ export default function AvailabilityPage() {
     setTempPracticeSettings(practiceSettings);
     setIsEditingPractice(true);
     setShowPracticeModal(true);
+  };
+
+  // Specialization pricing handlers
+  const addSpecializationPricing = async () => {
+    try {
+      // Get profile specializations first
+      const profileResponse = await ApiManager.getPhysiotherapistProfile();
+      if (profileResponse.success && profileResponse.data?.specializations) {
+        const profileSpecializations = profileResponse.data.specializations;
+        
+        // Find specializations from profile that don't have pricing yet
+        const unpricedSpecializations = profileSpecializations.filter(
+          (spec: string) => !specializationPricing.find(pricing => pricing.specialization === spec)
+        );
+        
+        if (unpricedSpecializations.length > 0) {
+          const newPricing: SpecializationPricing = {
+            specialization: unpricedSpecializations[0],
+            consultation_fee: 500,
+            home_visit_fee: 800
+          };
+          setSpecializationPricing([...specializationPricing, newPricing]);
+        } else {
+          alert('All your profile specializations already have pricing set. Add more specializations in your profile first.');
+        }
+      }
+    } catch (error) {
+      console.error('Error adding specialization pricing:', error);
+    }
+  };
+
+  const removeSpecializationPricing = async (index: number) => {
+    const pricing = specializationPricing[index];
+    
+    // Try to delete from backend if it exists
+    try {
+      const response = await ApiManager.getMySpecialtyPricings();
+      if (response.success && response.data) {
+        const backendPricing = response.data.find((p: any) => p.specialization === pricing.specialization);
+        if (backendPricing) {
+          await ApiManager.deleteSpecialtyPricing(backendPricing.id);
+        }
+      }
+    } catch (error) {
+      console.warn('Error deleting specialization pricing from backend:', error);
+    }
+    
+    setSpecializationPricing(specializationPricing.filter((_, i) => i !== index));
+  };
+
+  const updateSpecializationPricing = (index: number, field: keyof SpecializationPricing, value: string | number) => {
+    const updated = [...specializationPricing];
+    updated[index] = { ...updated[index], [field]: value };
+    setSpecializationPricing(updated);
   };
 
   const resetForm = () => {
@@ -399,9 +646,22 @@ export default function AvailabilityPage() {
   const handleDeleteLocation = async (locationId: string) => {
     if (!userData?.user_id) return;
     
-    if (confirm('Are you sure you want to delete this service location?')) {
+    if (confirm('Are you sure you want to delete this service area?')) {
       try {
-        const response = await ApiManager.deleteServiceLocation(userData.user_id, locationId);
+        // Try to delete from new service areas API first
+        let response;
+        try {
+          response = await ApiManager.deleteServiceArea();
+          if (response.success) {
+            dispatch(removeServiceLocation(locationId));
+            return;
+          }
+        } catch (serviceAreaError) {
+          console.log('Service area deletion failed, falling back to legacy API');
+        }
+        
+        // Fallback to legacy service locations API
+        response = await ApiManager.deleteServiceLocation(userData.user_id, locationId);
         if (response.success) {
           dispatch(removeServiceLocation(locationId));
         }
@@ -412,18 +672,66 @@ export default function AvailabilityPage() {
   };
 
   const handleEditLocation = (location: PhysioServiceLocation) => {
-    setEditingLocation(location);
-    setLocationFormData({
-      location_name: location.location_name,
+    console.log('handleEditLocation called with:', location);
+    console.log('zone_config structure:', location.zone_config);
+    
+    // Always use the new service area modal since the legacy modal doesn't exist
+    // Convert the old zone_config structure to the new one if needed
+    let zoneConfig: CoordinateZoneConfig;
+    
+    if (location.zone_config && 'green_radius_km' in location.zone_config) {
+      // Already in new format
+      zoneConfig = location.zone_config as CoordinateZoneConfig;
+    } else if (location.zone_config && 'green' in location.zone_config && 'yellow' in location.zone_config && 'red' in location.zone_config) {
+      // Convert old format to new format
+      console.log('Converting old zone_config format to new format');
+      zoneConfig = {
+        green_radius_km: location.zone_config.green?.radius_km || 5,
+        yellow_radius_km: location.zone_config.yellow?.radius_km || 15,
+        red_radius_km: location.zone_config.red?.radius_km || 25,
+        yellow_travel_charge: location.zone_config.yellow?.extra_charge || 200,
+        red_travel_charge: location.zone_config.red?.extra_charge || 500
+      };
+    } else {
+      // Default values if zone_config is missing
+      console.log('Using default zone_config');
+      zoneConfig = {
+        green_radius_km: 5,
+        yellow_radius_km: 15,
+        red_radius_km: 25,
+        yellow_travel_charge: 200,
+        red_travel_charge: 500
+      };
+    }
+    
+    const serviceAreaData = {
+      id: location.id,
+      physiotherapist_id: location.physiotherapist_id,
+      name: location.location_name,
+      latitude: Number(location.latitude),
+      longitude: Number(location.longitude),
       base_address: location.base_address,
-      base_pincode: location.base_pincode,
-      latitude: location.latitude,
-      longitude: location.longitude,
-      service_pincodes: location.service_pincodes,
-      zone_config: location.zone_config,
+      zone_config: zoneConfig,
+      is_active: location.is_active,
+      created_at: location.created_at,
+      updated_at: location.updated_at
+    };
+    
+    const formData = {
+      name: location.location_name,
+      latitude: Number(location.latitude),
+      longitude: Number(location.longitude),
+      base_address: location.base_address,
+      zone_config: zoneConfig,
       is_active: location.is_active
-    });
-    setShowLocationModal(true);
+    };
+    
+    console.log('Setting editingServiceArea:', serviceAreaData);
+    console.log('Setting serviceAreaFormData:', formData);
+    setEditingServiceArea(serviceAreaData);
+    setServiceAreaFormData(formData);
+    console.log('About to set showServiceAreaModal to true');
+    setShowServiceAreaModal(true);
   };
 
   const resetLocationForm = () => {
@@ -522,50 +830,85 @@ export default function AvailabilityPage() {
             {availability.service_location_id && (
               (() => {
                 const serviceLocation = serviceLocations.find(loc => loc.id === availability.service_location_id);
-                if (serviceLocation) {
-                  const totalPincodes = serviceLocation.service_pincodes.length;
-                  const greenCount = serviceLocation.zone_config.green.pincodes.length;
-                  const yellowCount = serviceLocation.zone_config.yellow.pincodes.length;
-                  const redCount = serviceLocation.zone_config.red.pincodes.length;
-                  
-                  return (
-                    <div className="space-y-2">
-                      <div className="flex items-start gap-2">
-                        <MapPin className="h-4 w-4 text-gray-500 mt-0.5" />
-                        <div>
-                          <p className="text-sm font-medium text-gray-700">{serviceLocation.location_name}</p>
-                          <p className="text-xs text-gray-500">{serviceLocation.base_address}</p>
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-center gap-2">
-                        <Target className="h-4 w-4 text-gray-500" />
-                        <div className="flex items-center gap-3 text-xs">
-                          <span className="text-gray-600">Service Areas: {totalPincodes} pincodes</span>
-                          <div className="flex items-center gap-1">
-                            <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                            <span className="text-green-600">{greenCount}</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
-                            <span className="text-yellow-600">{yellowCount} (+₹{serviceLocation.zone_config.yellow.extra_charge})</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <div className="w-2 h-2 rounded-full bg-red-500"></div>
-                            <span className="text-red-600">{redCount} (+₹{serviceLocation.zone_config.red.extra_charge})</span>
+                if (serviceLocation && serviceLocation.zone_config) {
+                  // Check if it's the new coordinate-based structure
+                  if ('green_radius_km' in serviceLocation.zone_config) {
+                    // New coordinate-based structure
+                    return (
+                      <div className="space-y-2">
+                        <div className="flex items-start gap-2">
+                          <MapPin className="h-4 w-4 text-gray-500 mt-0.5" />
+                          <div>
+                            <p className="text-sm font-medium text-gray-700">{serviceLocation.location_name}</p>
+                            <p className="text-xs text-gray-500">{serviceLocation.base_address}</p>
                           </div>
                         </div>
+                        
+                        <div className="flex items-center gap-2">
+                          <Target className="h-4 w-4 text-gray-500" />
+                          <div className="flex items-center gap-3 text-xs">
+                            <span className="text-gray-600">Service Zones:</span>
+                            <div className="flex items-center gap-1">
+                              <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                              <span className="text-green-600">{serviceLocation.zone_config.green_radius_km}km</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
+                              <span className="text-yellow-600">{serviceLocation.zone_config.yellow_radius_km}km (+₹{serviceLocation.zone_config.yellow_travel_charge})</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <div className="w-2 h-2 rounded-full bg-red-500"></div>
+                              <span className="text-red-600">{serviceLocation.zone_config.red_radius_km}km (+₹{serviceLocation.zone_config.red_travel_charge})</span>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  );
-                } else {
-                  return (
-                    <div className="flex items-center gap-2">
-                      <MapPin className="h-4 w-4 text-orange-500" />
-                      <p className="text-sm text-orange-600">Service location not found</p>
-                    </div>
-                  );
+                    );
+                  } else {
+                    // Legacy pincode-based structure
+                    const totalPincodes = serviceLocation.service_pincodes?.length || 0;
+                    const greenCount = serviceLocation.zone_config.green?.pincodes?.length || 0;
+                    const yellowCount = serviceLocation.zone_config.yellow?.pincodes?.length || 0;
+                    const redCount = serviceLocation.zone_config.red?.pincodes?.length || 0;
+                    
+                    return (
+                      <div className="space-y-2">
+                        <div className="flex items-start gap-2">
+                          <MapPin className="h-4 w-4 text-gray-500 mt-0.5" />
+                          <div>
+                            <p className="text-sm font-medium text-gray-700">{serviceLocation.location_name}</p>
+                            <p className="text-xs text-gray-500">{serviceLocation.base_address}</p>
+                          </div>
+                        </div>
+                        
+                        <div className="flex items-center gap-2">
+                          <Target className="h-4 w-4 text-gray-500" />
+                          <div className="flex items-center gap-3 text-xs">
+                            <span className="text-gray-600">Service Areas: {totalPincodes} pincodes</span>
+                            <div className="flex items-center gap-1">
+                              <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                              <span className="text-green-600">{greenCount}</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
+                              <span className="text-yellow-600">{yellowCount} (+₹{serviceLocation.zone_config.yellow?.extra_charge || 0})</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <div className="w-2 h-2 rounded-full bg-red-500"></div>
+                              <span className="text-red-600">{redCount} (+₹{serviceLocation.zone_config.red?.extra_charge || 0})</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  }
                 }
+                return (
+                  <div className="flex items-center gap-2">
+                    <MapPin className="h-4 w-4 text-orange-500" />
+                    <p className="text-sm text-orange-600">Service location not found</p>
+                  </div>
+                );
               })()
             )}
             
@@ -656,7 +999,7 @@ export default function AvailabilityPage() {
               Edit
             </button>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Profile Status */}
             <div className="space-y-2">
               <div className="flex items-center gap-2">
@@ -678,18 +1021,6 @@ export default function AvailabilityPage() {
               </div>
             </div>
 
-            {/* Fee Structure */}
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <DollarSign className="h-4 w-4 text-gray-500" />
-                <span className="text-sm font-medium text-gray-700">Fees</span>
-              </div>
-              <div className="space-y-1">
-                <p className="text-sm text-gray-600">Consultation: ₹{practiceSettings.consultation_fee || 0}</p>
-                <p className="text-sm text-gray-600">Home Visit: ₹{practiceSettings.home_visit_fee || 0}</p>
-              </div>
-            </div>
-
             {/* Services */}
             <div className="space-y-2">
               <div className="flex items-center gap-2">
@@ -708,16 +1039,27 @@ export default function AvailabilityPage() {
               </div>
             </div>
 
-            {/* Address */}
+            {/* Specialization Pricing Summary */}
             <div className="space-y-2">
               <div className="flex items-center gap-2">
-                <MapPin className="h-4 w-4 text-gray-500" />
-                <span className="text-sm font-medium text-gray-700">Location</span>
+                <span className="text-lg">₹</span>
+                <span className="text-sm font-medium text-gray-700">Specialization Pricing</span>
               </div>
-              <p className="text-sm text-gray-600">
-                {practiceSettings.practice_address || 'Not set'}
-              </p>
+              <div className="space-y-1">
+                {specializationPricing.length > 0 ? (
+                  <p className="text-sm text-gray-600">{specializationPricing.length} specialization{specializationPricing.length > 1 ? 's' : ''} configured</p>
+                ) : (
+                  <p className="text-sm text-gray-500">No pricing set</p>
+                )}
+                <button
+                  onClick={handleEditPracticeSettings}
+                  className="text-xs text-blue-600 hover:text-blue-700"
+                >
+                  Configure pricing →
+                </button>
+              </div>
             </div>
+
           </div>
         </div>
 
@@ -730,13 +1072,26 @@ export default function AvailabilityPage() {
             </div>
             <button 
               onClick={() => {
-                resetLocationForm();
-                setShowLocationModal(true);
+                setServiceAreaFormData({
+                  name: '',
+                  latitude: 28.6139,
+                  longitude: 77.2090,
+                  base_address: '',
+                  zone_config: {
+                    green_radius_km: 5,
+                    yellow_radius_km: 15,
+                    red_radius_km: 25,
+                    yellow_travel_charge: 200,
+                    red_travel_charge: 500
+                  },
+                  is_active: true
+                });
+                setShowServiceAreaModal(true);
               }}
               className="inline-flex items-center px-4 py-2 bg-[#1e5f79] text-white text-sm font-medium rounded-lg hover:bg-[#1e5f79]/90 transition-colors"
             >
               <Plus className="h-4 w-4 mr-2" />
-              Add Location
+              Add Service Area
             </button>
           </div>
 
@@ -753,13 +1108,26 @@ export default function AvailabilityPage() {
               </p>
               <button
                 onClick={() => {
-                  resetLocationForm();
-                  setShowLocationModal(true);
+                  setServiceAreaFormData({
+                    name: '',
+                    latitude: 28.6139,
+                    longitude: 77.2090,
+                    base_address: '',
+                    zone_config: {
+                      green_radius_km: 5,
+                      yellow_radius_km: 15,
+                      red_radius_km: 25,
+                      yellow_travel_charge: 200,
+                      red_travel_charge: 500
+                    },
+                    is_active: true
+                  });
+                  setShowServiceAreaModal(true);
                 }}
                 className="inline-flex items-center px-4 py-2 bg-[#1e5f79] text-white text-sm font-medium rounded-lg hover:bg-[#1e5f79]/90 transition-colors"
               >
                 <Plus className="h-4 w-4 mr-2" />
-                Add First Location
+                Add First Service Area
               </button>
             </div>
           ) : (
@@ -777,7 +1145,10 @@ export default function AvailabilityPage() {
                     </div>
                     <div className="flex gap-1">
                       <button
-                        onClick={() => handleEditLocation(location)}
+                        onClick={() => {
+                          console.log('Edit button clicked');
+                          handleEditLocation(location);
+                        }}
                         className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
                       >
                         <Edit className="h-4 w-4" />
@@ -798,18 +1169,43 @@ export default function AvailabilityPage() {
                   
                   {/* Zone Summary */}
                   <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                      <span className="text-xs text-gray-600">Green: {location.zone_config.green.pincodes.length} pincodes</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
-                      <span className="text-xs text-gray-600">Yellow: {location.zone_config.yellow.pincodes.length} pincodes (+₹{location.zone_config.yellow.extra_charge})</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 rounded-full bg-red-500"></div>
-                      <span className="text-xs text-gray-600">Red: {location.zone_config.red.pincodes.length} pincodes (+₹{location.zone_config.red.extra_charge})</span>
-                    </div>
+                    {location.zone_config ? (
+                      // Check if it's the new coordinate-based structure
+                      'green_radius_km' in location.zone_config ? (
+                        <>
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                            <span className="text-xs text-gray-600">Green: {location.zone_config.green_radius_km} km radius</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
+                            <span className="text-xs text-gray-600">Yellow: {location.zone_config.yellow_radius_km} km (+₹{location.zone_config.yellow_travel_charge})</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 rounded-full bg-red-500"></div>
+                            <span className="text-xs text-gray-600">Red: {location.zone_config.red_radius_km} km (+₹{location.zone_config.red_travel_charge})</span>
+                          </div>
+                        </>
+                      ) : (
+                        // Legacy pincode-based structure
+                        <>
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                            <span className="text-xs text-gray-600">Green: {location.zone_config.green?.pincodes?.length || 0} pincodes</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
+                            <span className="text-xs text-gray-600">Yellow: {location.zone_config.yellow?.pincodes?.length || 0} pincodes (+₹{location.zone_config.yellow?.extra_charge || 0})</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 rounded-full bg-red-500"></div>
+                            <span className="text-xs text-gray-600">Red: {location.zone_config.red?.pincodes?.length || 0} pincodes (+₹{location.zone_config.red?.extra_charge || 0})</span>
+                          </div>
+                        </>
+                      )
+                    ) : (
+                      <div className="text-xs text-gray-500 italic">No zone configuration available</div>
+                    )}
                   </div>
                 </div>
               ))}
@@ -1251,80 +1647,105 @@ export default function AvailabilityPage() {
               </div>
           
               <div className="space-y-6">
-                {/* Practice Information */}
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold flex items-center gap-2">
-                    <MapPin className="h-5 w-5" />
-                    Practice Information
-                  </h3>
-                  
-                  <div className="grid grid-cols-1 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Practice Address</label>
-                      <textarea
-                        placeholder="Enter your practice address..."
-                        value={tempPracticeSettings.practice_address || ''}
-                        onChange={(e) => setTempPracticeSettings({
-                          ...tempPracticeSettings,
-                          practice_address: e.target.value
-                        })}
-                        rows={3}
-                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]/20 focus:border-[#1e5f79] resize-none"
-                      />
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Service Areas</label>
-                      <textarea
-                        placeholder="Describe the areas you serve (e.g., Mumbai Central, Bandra, etc.)"
-                        value={tempPracticeSettings.service_areas || ''}
-                        onChange={(e) => setTempPracticeSettings({
-                          ...tempPracticeSettings,
-                          service_areas: e.target.value
-                        })}
-                        rows={2}
-                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]/20 focus:border-[#1e5f79] resize-none"
-                      />
-                    </div>
-                  </div>
-                </div>
 
-                {/* Fee Structure */}
+                {/* Specialization-Based Pricing */}
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold flex items-center gap-2">
-                    <DollarSign className="h-5 w-5" />
-                    Fee Structure
-                  </h3>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex items-center justify-between">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Consultation Fee (₹)</label>
-                      <input
-                        type="number"
-                        placeholder="0"
-                        value={tempPracticeSettings.consultation_fee || ''}
-                        onChange={(e) => setTempPracticeSettings({
-                          ...tempPracticeSettings,
-                          consultation_fee: parseInt(e.target.value) || 0
-                        })}
-                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]/20 focus:border-[#1e5f79]"
-                      />
+                      <h3 className="text-lg font-semibold flex items-center gap-2">
+                        <DollarSign className="h-5 w-5" />
+                        Specialization Pricing
+                      </h3>
+                      <p className="text-sm text-gray-500 mt-1">Set different rates for your specializations</p>
                     </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Home Visit Fee (₹)</label>
-                      <input
-                        type="number"
-                        placeholder="0"
-                        value={tempPracticeSettings.home_visit_fee || ''}
-                        onChange={(e) => setTempPracticeSettings({
-                          ...tempPracticeSettings,
-                          home_visit_fee: parseInt(e.target.value) || 0
-                        })}
-                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]/20 focus:border-[#1e5f79]"
-                      />
-                    </div>
+                    <button
+                      type="button"
+                      onClick={addSpecializationPricing}
+                      disabled={specializationPricing.length >= profileSpecializations.length}
+                      className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <Plus className="h-4 w-4 mr-1" />
+                      Add Specialization
+                    </button>
                   </div>
+
+                  {specializationPricing.length > 0 ? (
+                    <div className="border border-gray-200 rounded-lg overflow-hidden">
+                      <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-50">
+                          <tr>
+                            <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Specialization</th>
+                            <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Consultation Fee</th>
+                            {/* <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Home Visit Fee</th> */}
+                            <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                          {specializationPricing.map((pricing, index) => (
+                            <tr key={index}>
+                              <td className="px-4 py-3">
+                                <select
+                                  value={pricing.specialization}
+                                  onChange={(e) => updateSpecializationPricing(index, 'specialization', e.target.value)}
+                                  className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                                >
+                                  {profileSpecializations.map((spec) => (
+                                    <option 
+                                      key={spec} 
+                                      value={spec}
+                                      disabled={specializationPricing.some((p, i) => i !== index && p.specialization === spec)}
+                                    >
+                                      {SPECIALIZATIONS.find(s => s.value === spec)?.label || spec}
+                                    </option>
+                                  ))}
+                                </select>
+                              </td>
+                              <td className="px-4 py-3">
+                                <div className="flex items-center space-x-1">
+                                  <span className="text-sm text-gray-500">₹</span>
+                                  <input
+                                    type="number"
+                                    min="0"
+                                    step="50"
+                                    value={pricing.consultation_fee}
+                                    onChange={(e) => updateSpecializationPricing(index, 'consultation_fee', parseInt(e.target.value) || 0)}
+                                    className="w-24 px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                                  />
+                                </div>
+                              </td>
+                              {/* <td className="px-4 py-3">
+                                <div className="flex items-center space-x-1">
+                                  <span className="text-sm text-gray-500">₹</span>
+                                  <input
+                                    type="number"
+                                    min="0"
+                                    step="50"
+                                    value={pricing.home_visit_fee}
+                                    onChange={(e) => updateSpecializationPricing(index, 'home_visit_fee', parseInt(e.target.value) || 0)}
+                                    className="w-24 px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                                  />
+                                </div>
+                              </td> */}
+                              <td className="px-4 py-3">
+                                <button
+                                  type="button"
+                                  onClick={() => removeSpecializationPricing(index)}
+                                  className="inline-flex items-center p-1 text-red-600 hover:text-red-700 hover:bg-red-50 rounded"
+                                >
+                                  <Trash2 className="h-4 w-4" />
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className="text-center py-6 border border-gray-300 border-dashed rounded-lg">
+                      <p className="text-sm text-gray-500">No specialization pricing configured</p>
+                      <p className="text-xs text-gray-400 mt-1">Add specializations to set different rates for specific services</p>
+                    </div>
+                  )}
                 </div>
 
                 {/* Service Availability */}
@@ -1335,7 +1756,7 @@ export default function AvailabilityPage() {
                   </h3>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="flex items-center space-x-3">
+                    {/* <div className="flex items-center space-x-3">
                       <input
                         type="checkbox"
                         id="online_consultation"
@@ -1350,7 +1771,7 @@ export default function AvailabilityPage() {
                         <Laptop className="h-4 w-4" />
                         Online Consultation Available
                       </label>
-                    </div>
+                    </div> */}
                     
                     <div className="flex items-center space-x-3">
                       <input
@@ -1410,18 +1831,19 @@ export default function AvailabilityPage() {
           </div>
         )}
 
-        {/* Service Location Modal */}
-        {showLocationModal && (
+        {/* Service Area Modal */}
+        {showServiceAreaModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-auto">
             <div className="bg-white rounded-3xl w-full max-w-5xl m-4 max-h-[95vh] overflow-hidden">
               <div className="flex items-center justify-between p-6 border-b border-gray-100">
                 <h3 className="text-2xl font-bold text-gray-900">
-                  {editingLocation ? 'Edit' : 'Add'} Service Location
+                  {editingServiceArea ? 'Edit' : 'Add'} Service Area
                 </h3>
                 <button
                   onClick={() => {
-                    setShowLocationModal(false);
-                    resetLocationForm();
+                    setShowServiceAreaModal(false);
+                    setEditingServiceArea(null);
+                    setServiceAreaSubmitError(null);
                   }}
                   className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                 >
@@ -1430,85 +1852,121 @@ export default function AvailabilityPage() {
               </div>
               
               <div className="overflow-y-auto max-h-[calc(95vh-80px)]">
-                <ServiceLocationSetup
-                  initialData={editingLocation ? {
-                    location_name: locationFormData.location_name,
-                    base_address: locationFormData.base_address,
-                    base_pincode: locationFormData.base_pincode,
-                    latitude: locationFormData.latitude,
-                    longitude: locationFormData.longitude,
-                    service_pincodes: locationFormData.service_pincodes,
-                    zone_config: locationFormData.zone_config
+                <ServiceAreaSetup
+                  initialData={editingServiceArea ? {
+                    name: serviceAreaFormData.name,
+                    latitude: serviceAreaFormData.latitude,
+                    longitude: serviceAreaFormData.longitude,
+                    base_address: serviceAreaFormData.base_address,
+                    zone_config: serviceAreaFormData.zone_config
                   } : undefined}
                   onSave={async (data) => {
-                    console.log('=== ONSAVE CALLBACK TRIGGERED ===');
+                    console.log('=== Service Area Save Callback ===');
                     console.log('Received data:', data);
                     console.log('userData?.user_id:', userData?.user_id);
-                    console.log('editingLocation:', editingLocation);
+                    console.log('editingServiceArea:', editingServiceArea);
                     
-                    setLocationFormData({
-                      ...locationFormData,
-                      ...data
-                    });
+                    console.log('=== Service Area Save Callback ===');
+                    console.log('Received data:', data);
                     
                     if (!userData?.user_id) {
-                      console.log('❌ No userData.user_id found, aborting');
-                      setLocationSubmitError('User session not found. Please refresh the page and try again.');
-                      setIsSubmittingLocation(false);
+                      setServiceAreaSubmitError('User session not found. Please refresh the page and try again.');
                       return;
                     }
                     
-                    console.log('Setting loading state...');
-                    setIsSubmittingLocation(true);
-                    setLocationSubmitError(null);
+                    setIsSubmittingServiceArea(true);
+                    setServiceAreaSubmitError(null);
                     
                     try {
                       let response;
-                      if (editingLocation) {
-                        console.log('📝 Updating existing location:', editingLocation.id);
-                        response = await ApiManager.updateServiceLocation(userData.user_id, editingLocation.id, data);
-                        console.log('Update response:', response);
+                      if (editingServiceArea) {
+                        // Update existing service area using the new coordinate-based API
+                        response = await ApiManager.updateServiceArea({
+                          name: data.name,
+                          latitude: data.latitude,
+                          longitude: data.longitude,
+                          base_address: data.base_address || '',
+                          zone_config: data.zone_config,
+                          is_active: true
+                        });
+                        
                         if (response.success && response.data) {
-                          dispatch(updateServiceLocation(response.data));
+                          // Convert to legacy format for Redux compatibility during transition
+                          const legacyLocation = {
+                            id: response.data.id,
+                            physiotherapist_id: response.data.physiotherapist_id,
+                            location_name: response.data.name,
+                            base_address: response.data.base_address || '',
+                            base_pincode: '',
+                            latitude: response.data.latitude,
+                            longitude: response.data.longitude,
+                            service_pincodes: [],
+                            zone_config: response.data.zone_config, // Keep original structure
+                            is_active: response.data.is_active,
+                            created_at: response.data.created_at,
+                            updated_at: response.data.updated_at
+                          };
+                          dispatch(updateServiceLocation(legacyLocation));
                         }
                       } else {
-                        console.log('➕ Creating new location');
-                        response = await ApiManager.createServiceLocation(userData.user_id, data);
-                        console.log('Create response:', response);
+                        // Create new service area using the new coordinate-based API
+                        response = await ApiManager.createServiceArea({
+                          name: data.name,
+                          latitude: data.latitude,
+                          longitude: data.longitude,
+                          base_address: data.base_address || '',
+                          zone_config: data.zone_config,
+                          is_active: true
+                        });
+                        
                         if (response.success && response.data) {
-                          dispatch(addServiceLocation(response.data));
+                          // Convert to legacy format for Redux compatibility during transition
+                          const legacyLocation = {
+                            id: response.data.id,
+                            physiotherapist_id: response.data.physiotherapist_id,
+                            location_name: response.data.name,
+                            base_address: response.data.base_address || '',
+                            base_pincode: '',
+                            latitude: response.data.latitude,
+                            longitude: response.data.longitude,
+                            service_pincodes: [],
+                            zone_config: response.data.zone_config, // Keep original structure
+                            is_active: response.data.is_active,
+                            created_at: response.data.created_at,
+                            updated_at: response.data.updated_at
+                          };
+                          dispatch(addServiceLocation(legacyLocation));
                         }
                       }
                       
                       if (response.success) {
-                        console.log('✅ API call successful, closing modal');
-                        setShowLocationModal(false);
-                        resetLocationForm();
+                        setShowServiceAreaModal(false);
+                        setEditingServiceArea(null);
+                        setServiceAreaSubmitError(null);
                       } else {
-                        console.log('❌ API call failed:', response.message);
-                        setLocationSubmitError(response.message || `Failed to ${editingLocation ? 'update' : 'create'} service location`);
+                        setServiceAreaSubmitError(response.message || `Failed to ${editingServiceArea ? 'update' : 'create'} service area`);
                       }
                     } catch (error: any) {
-                      console.error(`❌ Error ${editingLocation ? 'updating' : 'creating'} service location:`, error);
-                      setLocationSubmitError(error.message || `Failed to ${editingLocation ? 'update' : 'create'} service location`);
+                      console.error(`Error ${editingServiceArea ? 'updating' : 'creating'} service area:`, error);
+                      setServiceAreaSubmitError(error.message || `Failed to ${editingServiceArea ? 'update' : 'create'} service area`);
                     } finally {
-                      console.log('🏁 Setting loading state to false');
-                      setIsSubmittingLocation(false);
+                      setIsSubmittingServiceArea(false);
                     }
                   }}
                   onCancel={() => {
-                    setShowLocationModal(false);
-                    resetLocationForm();
+                    setShowServiceAreaModal(false);
+                    setEditingServiceArea(null);
+                    setServiceAreaSubmitError(null);
                   }}
-                  loading={isSubmittingLocation}
+                  loading={isSubmittingServiceArea}
                 />
                 
-                {locationSubmitError && (
+                {serviceAreaSubmitError && (
                   <div className="mx-6 mb-6 p-4 bg-red-50 rounded-xl flex items-start gap-3">
                     <AlertCircle className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
                     <div className="flex-1">
-                      <p className="text-red-700 font-medium">Error saving location:</p>
-                      <p className="text-red-600 text-sm mt-1">{locationSubmitError}</p>
+                      <p className="text-red-700 font-medium">Error saving service area:</p>
+                      <p className="text-red-600 text-sm mt-1">{serviceAreaSubmitError}</p>
                     </div>
                   </div>
                 )}

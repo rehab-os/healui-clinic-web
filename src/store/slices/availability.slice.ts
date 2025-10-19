@@ -16,6 +16,30 @@ export enum DayOfWeek {
     SATURDAY = 6
 }
 
+// New coordinate-based zone configuration
+export interface CoordinateZoneConfig {
+    green_radius_km: number        // e.g., 5 km - no travel charge
+    yellow_radius_km: number       // e.g., 15 km  
+    red_radius_km: number          // e.g., 25 km
+    yellow_travel_charge: number   // travel charge for yellow zone
+    red_travel_charge: number      // travel charge for red zone
+}
+
+// New ServiceArea entity (coordinate-based)
+export interface ServiceArea {
+    id: string
+    physiotherapist_id: string
+    name: string
+    latitude: number
+    longitude: number
+    zone_config: CoordinateZoneConfig
+    base_address?: string
+    is_active: boolean
+    created_at: string
+    updated_at: string
+}
+
+// Legacy - keeping for backward compatibility during transition
 export interface ZoneConfig {
     pincodes: string[]
     radius_km: number
@@ -73,7 +97,8 @@ export interface AvailableSlot {
 interface AvailabilityState {
     availabilities: PhysiotherapistAvailability[]
     availableSlots: AvailableSlot[]
-    serviceLocations: PhysioServiceLocation[]
+    serviceLocations: PhysioServiceLocation[]  // Legacy
+    serviceAreas: ServiceArea[]  // New coordinate-based service areas
     loading: {
         fetch: boolean
         create: boolean
@@ -101,7 +126,8 @@ interface AvailabilityState {
 const initialState: AvailabilityState = {
     availabilities: [],
     availableSlots: [],
-    serviceLocations: [],
+    serviceLocations: [],  // Legacy
+    serviceAreas: [],      // New coordinate-based service areas
     loading: {
         fetch: false,
         create: false,

@@ -545,6 +545,38 @@ class ApiManager {
         return ApiMethods.delete(url)
     }
 
+    // Service Areas (New coordinate-based system)
+    static getMyServiceArea = () => {
+        const url = BASE_URL + 'service-areas/my-area'
+        return ApiMethods.get(url)
+    }
+
+    static createServiceArea = (data: any) => {
+        const url = BASE_URL + 'service-areas'
+        return ApiMethods.post(url, data)
+    }
+
+    static updateServiceArea = (data: any) => {
+        const url = BASE_URL + 'service-areas'
+        return ApiMethods.put(url, data)
+    }
+
+    static deleteServiceArea = () => {
+        const url = BASE_URL + 'service-areas'
+        return ApiMethods.delete(url)
+    }
+
+    static searchPhysiotherapistsByLocation = (params: { latitude: number; longitude: number; max_radius_km?: number; availability_type?: string }) => {
+        const url = BASE_URL + 'service-areas/search'
+        return ApiMethods.post(url, params)
+    }
+
+    static checkServiceAvailability = (physiotherapistId: string, params: { latitude: number; longitude: number }) => {
+        const url = BASE_URL + `service-areas/check-availability/${physiotherapistId}`
+        return ApiMethods.get(url, { params })
+    }
+
+    // Legacy pincode-based methods (keeping for backward compatibility)
     static searchPhysiosByPincode = (params: { pincode: string; dayOfWeek?: number }) => {
         const url = BASE_URL + ENDPOINTS.SEARCH_BY_PINCODE(params)
         return ApiMethods.get(url)
@@ -621,6 +653,52 @@ class ApiManager {
 
     static generateTreatmentProtocolPDF = (id: string) => {
         const url = BASE_URL + ENDPOINTS.GENERATE_TREATMENT_PROTOCOL_PDF(id)
+        return ApiMethods.get(url)
+    }
+
+    // Specialization Pricing APIs
+    static getSpecializations = () => {
+        const url = BASE_URL + 'specialty-pricing/specializations'
+        return ApiMethods.get(url)
+    }
+
+    static getMySpecialtyPricings = () => {
+        const url = BASE_URL + 'specialty-pricing/my-specialties'
+        return ApiMethods.get(url)
+    }
+
+    static createSpecialtyPricing = (data: any) => {
+        const url = BASE_URL + 'specialty-pricing'
+        return ApiMethods.post(url, data)
+    }
+
+    static bulkCreateSpecialtyPricings = (data: any) => {
+        const url = BASE_URL + 'specialty-pricing/bulk'
+        return ApiMethods.post(url, data)
+    }
+
+    static updateSpecialtyPricing = (id: string, data: any) => {
+        const url = BASE_URL + `specialty-pricing/${id}`
+        return ApiMethods.put(url, data)
+    }
+
+    static deleteSpecialtyPricing = (id: string) => {
+        const url = BASE_URL + `specialty-pricing/${id}`
+        return ApiMethods.delete(url)
+    }
+
+    static searchPhysiotherapistsBySpecialty = (params: { latitude: number; longitude: number; specialization?: string; min_price?: number; max_price?: number; featured_only?: boolean }) => {
+        const url = BASE_URL + 'specialty-pricing/search'
+        return ApiMethods.post(url, params)
+    }
+
+    static getPhysiotherapistSpecialties = (physiotherapistId: string, params?: { latitude?: number; longitude?: number }) => {
+        const url = BASE_URL + `specialty-pricing/physio/${physiotherapistId}/specialties`
+        return ApiMethods.get(url, { params })
+    }
+
+    static getSpecialtyPricingSetupGuide = () => {
+        const url = BASE_URL + 'specialty-pricing/setup-guide'
         return ApiMethods.get(url)
     }
 }

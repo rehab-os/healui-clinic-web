@@ -2,10 +2,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface PracticeSettings {
     id?: string
-    practice_address?: string
-    service_areas?: string
-    consultation_fee?: number
-    home_visit_fee?: number
     online_consultation_available?: boolean
     home_visit_available?: boolean
     marketplace_active?: boolean
@@ -27,10 +23,6 @@ interface PracticeState {
 
 const initialState: PracticeState = {
     settings: {
-        practice_address: '',
-        service_areas: '',
-        consultation_fee: 0,
-        home_visit_fee: 0,
         online_consultation_available: false,
         home_visit_available: false
     },
