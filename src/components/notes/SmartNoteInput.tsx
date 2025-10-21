@@ -3,16 +3,21 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Mic, FileText, Sparkles, CheckCircle, AlertCircle, 
-  Edit3, RotateCcw, Save, X, ChevronDown, ChevronUp 
+  Edit3, RotateCcw, Save, X, ChevronDown, ChevronUp, Stethoscope 
 } from 'lucide-react';
 import AudioRecorder from './AudioRecorder';
 import ApiManager from '../../services/api';
+import type { VisitConditionResponseDto } from '../../lib/types';
 
 interface SmartNoteInputProps {
   visitId: string;
   onNoteCreated?: () => void;
   onCancel?: () => void;
   defaultNoteType?: 'SOAP' | 'BAP' | 'Progress';
+  // Optional: pre-select a specific condition
+  preSelectedVisitConditionId?: string;
+  // Enable/disable condition-aware mode
+  enableConditionMode?: boolean;
 }
 
 type InputMode = 'audio' | 'text' | 'review';
@@ -31,7 +36,9 @@ export default function SmartNoteInput({
   visitId, 
   onNoteCreated, 
   onCancel,
-  defaultNoteType = 'SOAP' 
+  defaultNoteType = 'SOAP',
+  preSelectedVisitConditionId,
+  enableConditionMode = true
 }: SmartNoteInputProps) {
   const [inputMode, setInputMode] = useState<InputMode>('text');
   const [noteType, setNoteType] = useState<NoteType>(defaultNoteType);
@@ -44,6 +51,45 @@ export default function SmartNoteInput({
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [additionalNotes, setAdditionalNotes] = useState('');
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
+  
+  // Condition-aware state
+  const [visitConditions, setVisitConditions] = useState<VisitConditionResponseDto[]>([]);
+  const [selectedVisitConditionId, setSelectedVisitConditionId] = useState<string | null>(preSelectedVisitConditionId || null);
+  const [loadingConditions, setLoadingConditions] = useState(false);
+  const [useConditionMode, setUseConditionMode] = useState(enableConditionMode && !!preSelectedVisitConditionId);
+
+  // Load visit conditions on mount
+  useEffect(() => {
+    if (enableConditionMode) {
+      loadVisitConditions();
+    }
+  }, [visitId, enableConditionMode]);
+
+  const loadVisitConditions = async () => {
+    setLoadingConditions(true);
+    try {
+      const response = await ApiManager.getVisitConditions(visitId);
+      if (response.success && response.data) {
+        const conditions = response.data || [];
+        setVisitConditions(conditions);
+        
+        // Auto-enable condition mode if conditions exist and no pre-selection
+        if (conditions.length > 0 && !preSelectedVisitConditionId) {
+          setUseConditionMode(true);
+          // Auto-select first condition if only one exists
+          if (conditions.length === 1) {
+            setSelectedVisitConditionId(conditions[0].id);
+          }
+        }
+      }
+    } catch (err) {
+      console.error('Failed to load visit conditions:', err);
+      // Gracefully fall back to visit-level notes
+      setUseConditionMode(false);
+    } finally {
+      setLoadingConditions(false);
+    }
+  };
 
   const handleAudioRecordingComplete = async (blob: Blob) => {
     setAudioBlob(blob);
@@ -132,6 +178,12 @@ export default function SmartNoteInput({
       return;
     }
 
+    // Validate condition selection if in condition mode
+    if (useConditionMode && !selectedVisitConditionId) {
+      setError('Please select a condition for this note.');
+      return;
+    }
+
     setError(null);
     setIsSaving(true);
 
@@ -144,7 +196,11 @@ export default function SmartNoteInput({
         treatment_codes: [],
         treatment_details: {},
         goals: {},
-        outcome_measures: {}
+        outcome_measures: {},
+        // Add visit condition if selected
+        ...(useConditionMode && selectedVisitConditionId && {
+          visit_condition_id: selectedVisitConditionId
+        })
       };
 
       const response = await ApiManager.createNote(notePayload);
@@ -169,6 +225,10 @@ export default function SmartNoteInput({
     setAdditionalNotes('');
     setError(null);
     setAudioBlob(null);
+    // Don't reset condition selection, but reset mode if no pre-selection
+    if (!preSelectedVisitConditionId) {
+      setSelectedVisitConditionId(visitConditions.length === 1 ? visitConditions[0].id : null);
+    }
   };
 
   const renderNoteFields = () => {
@@ -238,6 +298,76 @@ export default function SmartNoteInput({
               ))}
             </div>
           </div>
+
+          {/* Condition Selection */}
+          {enableConditionMode && (
+            <div className="mb-6">
+              <div className="flex items-center justify-between mb-3">
+                <label className="block text-sm font-medium text-text-dark">
+                  Note Target
+                </label>
+                {visitConditions.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setUseConditionMode(!useConditionMode)}
+                    className="text-xs text-healui-physio hover:text-healui-physio/80 font-medium transition-colors"
+                  >
+                    {useConditionMode ? 'Switch to Visit-Level' : 'Switch to Condition-Based'}
+                  </button>
+                )}
+              </div>
+              
+              {loadingConditions ? (
+                <div className="p-3 border border-border-color rounded-lg bg-gray-50">
+                  <div className="animate-pulse flex items-center space-x-2">
+                    <div className="h-4 w-4 bg-gray-300 rounded"></div>
+                    <div className="h-4 bg-gray-300 rounded w-32"></div>
+                  </div>
+                </div>
+              ) : visitConditions.length === 0 ? (
+                <div className="p-3 border border-border-color rounded-lg bg-gray-50">
+                  <p className="text-sm text-gray-600">No conditions found for this visit. Note will be created at visit level.</p>
+                </div>
+              ) : useConditionMode ? (
+                <div>
+                  <div className="space-y-2">
+                    {visitConditions.map((condition) => (
+                      <label key={condition.id} className="flex items-center p-3 border border-border-color rounded-lg hover:bg-healui-physio/5 cursor-pointer transition-all duration-200">
+                        <input
+                          type="radio"
+                          name="visitCondition"
+                          value={condition.id}
+                          checked={selectedVisitConditionId === condition.id}
+                          onChange={(e) => setSelectedVisitConditionId(e.target.value)}
+                          className="mr-3 text-healui-physio focus:ring-healui-physio/20"
+                        />
+                        <div className="flex items-center flex-1">
+                          <Stethoscope className="h-4 w-4 mr-2 text-healui-physio" />
+                          <div>
+                            <span className="font-medium text-text-dark text-sm">
+                              {condition.condition_name}
+                            </span>
+                            <div className="text-xs text-text-light mt-1">
+                              {condition.treatment_focus} • {condition.chief_complaint || 'No specific complaint noted'}
+                            </div>
+                          </div>
+                        </div>
+                      </label>
+                    ))}
+                  </div>
+                  {!selectedVisitConditionId && (
+                    <p className="text-xs text-red-600 mt-2">Please select a condition for this note.</p>
+                  )}
+                </div>
+              ) : (
+                <div className="p-3 border border-border-color rounded-lg bg-blue-50">
+                  <p className="text-sm text-blue-700">
+                    <strong>Visit-Level Note:</strong> This note will be associated with the entire visit rather than a specific condition.
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Input Mode Tabs */}
           <div className="flex space-x-2 mb-6">
@@ -330,11 +460,19 @@ export default function SmartNoteInput({
           <div className="bg-healui-physio/10 border border-healui-primary/30 rounded-lg p-4">
             <div className="flex items-start space-x-2">
               <CheckCircle className="h-5 w-5 text-healui-primary mt-0.5" />
-              <div>
+              <div className="flex-1">
                 <p className="text-sm font-medium text-healui-primary">AI-Generated {noteType} Note</p>
                 <p className="text-xs text-healui-physio mt-1">
                   Review and edit the generated note before saving. You are responsible for accuracy.
                 </p>
+                {useConditionMode && selectedVisitConditionId && (
+                  <div className="mt-2 flex items-center space-x-2">
+                    <Stethoscope className="h-3 w-3 text-healui-physio" />
+                    <span className="text-xs text-healui-physio font-medium">
+                      Condition: {visitConditions.find(c => c.id === selectedVisitConditionId)?.condition_name || 'Unknown'}
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -379,7 +517,7 @@ export default function SmartNoteInput({
             </button>
             <button
               onClick={handleSaveNote}
-              disabled={isSaving}
+              disabled={isSaving || (useConditionMode && !selectedVisitConditionId)}
               className="flex items-center space-x-2 px-6 py-2 bg-healui-physio text-white rounded-lg hover:bg-healui-primary transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSaving ? (

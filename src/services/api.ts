@@ -29,6 +29,11 @@ import type {
     CreateTreatmentProtocolDto,
     UpdateTreatmentProtocolDto,
     GetTreatmentProtocolsQueryDto,
+    // Multi-Condition Support Types
+    CreatePatientConditionDto,
+    UpdatePatientConditionStatusDto,
+    UpdatePatientConditionDescriptionDto,
+    CreateVisitConditionDto,
 } from '../lib/types'
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://healui-backend-core.onrender.com/api/v1/'
@@ -203,6 +208,100 @@ class ApiManager {
     static deletePatient = (id: string) => {
         const url = BASE_URL + ENDPOINTS.DELETE_PATIENT(id)
         return ApiMethods.delete(url)
+    }
+
+    // Patient Conditions (Multi-Condition Support)
+    static getPatientConditions = (patientId: string) => {
+        const url = BASE_URL + ENDPOINTS.GET_PATIENT_CONDITIONS(patientId)
+        return ApiMethods.get(url)
+    }
+
+    static createPatientCondition = (patientId: string, data: CreatePatientConditionDto) => {
+        const url = BASE_URL + ENDPOINTS.CREATE_PATIENT_CONDITION(patientId)
+        return ApiMethods.post(url, data)
+    }
+
+    static updatePatientConditionStatus = (patientId: string, conditionId: string, data: UpdatePatientConditionStatusDto) => {
+        const url = BASE_URL + ENDPOINTS.UPDATE_PATIENT_CONDITION_STATUS(patientId, conditionId)
+        return ApiMethods.put(url, data)
+    }
+
+    static updatePatientConditionDescription = (patientId: string, conditionId: string, data: UpdatePatientConditionDescriptionDto) => {
+        const url = BASE_URL + ENDPOINTS.UPDATE_PATIENT_CONDITION_DESCRIPTION(patientId, conditionId)
+        return ApiMethods.put(url, data)
+    }
+
+    // Unified update method - preferred for new implementations
+    static updatePatientCondition = (patientId: string, conditionId: string, data: any) => {
+        const url = BASE_URL + ENDPOINTS.UPDATE_PATIENT_CONDITION(patientId, conditionId)
+        return ApiMethods.patch(url, data)
+    }
+
+    static deletePatientCondition = (patientId: string, conditionId: string) => {
+        const url = BASE_URL + ENDPOINTS.DELETE_PATIENT_CONDITION(patientId, conditionId)
+        return ApiMethods.delete(url)
+    }
+
+    static getAvailableConditions = (patientId: string, params?: any) => {
+        const url = BASE_URL + ENDPOINTS.GET_AVAILABLE_CONDITIONS(patientId, params)
+        return ApiMethods.get(url)
+    }
+
+    static syncPatientCondition = (patientId: string, conditionId: string) => {
+        const url = BASE_URL + ENDPOINTS.SYNC_PATIENT_CONDITION(patientId, conditionId)
+        return ApiMethods.post(url, {})
+    }
+
+    // Visit Conditions (Multi-Condition Support)
+    static getVisitConditions = (visitId: string) => {
+        const url = BASE_URL + ENDPOINTS.GET_VISIT_CONDITIONS(visitId)
+        return ApiMethods.get(url)
+    }
+
+    static createVisitCondition = (data: CreateVisitConditionDto) => {
+        const url = BASE_URL + ENDPOINTS.CREATE_VISIT_CONDITION()
+        return ApiMethods.post(url, data)
+    }
+
+    static updateVisitCondition = (id: string, data: Partial<CreateVisitConditionDto>) => {
+        const url = BASE_URL + ENDPOINTS.UPDATE_VISIT_CONDITION(id)
+        return ApiMethods.put(url, data)
+    }
+
+    static deleteVisitCondition = (id: string) => {
+        const url = BASE_URL + ENDPOINTS.DELETE_VISIT_CONDITION(id)
+        return ApiMethods.delete(url)
+    }
+
+    static getConditionHistory = (patientConditionId: string) => {
+        const url = BASE_URL + ENDPOINTS.GET_CONDITION_HISTORY(patientConditionId)
+        return ApiMethods.get(url)
+    }
+
+    static getAvailableConditionsForVisit = (patientId: string, params?: any) => {
+        const url = BASE_URL + ENDPOINTS.GET_AVAILABLE_CONDITIONS_FOR_VISIT(patientId, params)
+        return ApiMethods.get(url)
+    }
+
+    // Neo4j Conditions (Knowledge Graph)
+    static getAllConditions = (params?: any) => {
+        const url = BASE_URL + ENDPOINTS.GET_ALL_CONDITIONS(params)
+        return ApiMethods.get(url)
+    }
+
+    static getConditionById = (conditionId: string) => {
+        const url = BASE_URL + ENDPOINTS.GET_CONDITION_BY_ID(conditionId)
+        return ApiMethods.get(url)
+    }
+
+    static getConditionsByBodyRegion = (bodyRegion: string) => {
+        const url = BASE_URL + ENDPOINTS.GET_CONDITIONS_BY_BODY_REGION(bodyRegion)
+        return ApiMethods.get(url)
+    }
+
+    static getConditionProtocols = (conditionId: string) => {
+        const url = BASE_URL + ENDPOINTS.GET_CONDITION_PROTOCOLS(conditionId)
+        return ApiMethods.get(url)
     }
 
     // Visits

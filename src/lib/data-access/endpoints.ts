@@ -74,6 +74,30 @@ export const ENDPOINTS = {
     GET_PATIENT_VISITS: (id: string) => `patients/${id}/visits`,
     GET_PATIENT_VISIT_HISTORY: (id: string) => `patients/${id}/visit-history`,
 
+    // Patient Conditions (Multi-Condition Support)
+    GET_PATIENT_CONDITIONS: (patientId: string) => `patients/${patientId}/conditions`,
+    CREATE_PATIENT_CONDITION: (patientId: string) => `patients/${patientId}/conditions`,
+    UPDATE_PATIENT_CONDITION: (patientId: string, conditionId: string) => `patients/${patientId}/conditions/${conditionId}`,
+    UPDATE_PATIENT_CONDITION_STATUS: (patientId: string, conditionId: string) => `patients/${patientId}/conditions/${conditionId}/status`,
+    UPDATE_PATIENT_CONDITION_DESCRIPTION: (patientId: string, conditionId: string) => `patients/${patientId}/conditions/${conditionId}/description`,
+    DELETE_PATIENT_CONDITION: (patientId: string, conditionId: string) => `patients/${patientId}/conditions/${conditionId}`,
+    GET_AVAILABLE_CONDITIONS: (patientId: string, params?: Record<string, any>) => {
+        let url = `patients/${patientId}/available-conditions`
+        if (params) {
+            const searchParams = new URLSearchParams()
+            Object.keys(params).forEach(key => {
+                if (params[key] !== undefined && params[key] !== null) {
+                    searchParams.append(key, params[key].toString())
+                }
+            })
+            if (searchParams.toString()) {
+                url += '?' + searchParams.toString()
+            }
+        }
+        return url
+    },
+    SYNC_PATIENT_CONDITION: (patientId: string, conditionId: string) => `patients/${patientId}/conditions/${conditionId}/sync`,
+
     // Visits
     GET_VISITS: () => 'patients/visits',
     GET_VISIT: (id: string) => `patients/visits/${id}`,
@@ -86,11 +110,53 @@ export const ENDPOINTS = {
     RESCHEDULE_VISIT: (id: string) => `patients/visits/${id}/reschedule`,
     GET_AVAILABLE_PHYSIOTHERAPISTS: () => 'patients/physiotherapists/availability',
 
+    // Visit Conditions (Multi-Condition Support)
+    GET_VISIT_CONDITIONS: (visitId: string) => `visit-conditions/visit/${visitId}`,
+    CREATE_VISIT_CONDITION: () => 'visit-conditions',
+    UPDATE_VISIT_CONDITION: (id: string) => `visit-conditions/${id}`,
+    DELETE_VISIT_CONDITION: (id: string) => `visit-conditions/${id}`,
+    GET_CONDITION_HISTORY: (patientConditionId: string) => `visit-conditions/patient-condition/${patientConditionId}/history`,
+    GET_AVAILABLE_CONDITIONS_FOR_VISIT: (patientId: string, params?: Record<string, any>) => {
+        let url = `visit-conditions/patients/${patientId}/available-conditions`
+        if (params) {
+            const searchParams = new URLSearchParams()
+            Object.keys(params).forEach(key => {
+                if (params[key] !== undefined && params[key] !== null) {
+                    searchParams.append(key, params[key].toString())
+                }
+            })
+            if (searchParams.toString()) {
+                url += '?' + searchParams.toString()
+            }
+        }
+        return url
+    },
+
     // Notes
     CREATE_NOTE: () => 'patients/notes',
     GET_NOTE: (id: string) => `patients/notes/${id}`,
     UPDATE_NOTE: (id: string) => `patients/notes/${id}`,
     SIGN_NOTE: (id: string) => `patients/notes/${id}/sign`,
+
+    // Neo4j Conditions (Knowledge Graph)
+    GET_ALL_CONDITIONS: (params?: Record<string, any>) => {
+        let url = 'neo4j/conditions'
+        if (params) {
+            const searchParams = new URLSearchParams()
+            Object.keys(params).forEach(key => {
+                if (params[key] !== undefined && params[key] !== null) {
+                    searchParams.append(key, params[key].toString())
+                }
+            })
+            if (searchParams.toString()) {
+                url += '?' + searchParams.toString()
+            }
+        }
+        return url
+    },
+    GET_CONDITION_BY_ID: (conditionId: string) => `neo4j/conditions/${conditionId}`,
+    GET_CONDITIONS_BY_BODY_REGION: (bodyRegion: string) => `neo4j/conditions/regions/${bodyRegion}`,
+    GET_CONDITION_PROTOCOLS: (conditionId: string) => `neo4j/conditions/${conditionId}/protocols`,
 
     // Physiotherapist Profile
     GET_PHYSIOTHERAPIST_PROFILE: () => 'physiotherapist-profile',

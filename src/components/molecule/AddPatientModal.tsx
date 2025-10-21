@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
-import { X, User, Phone, Mail, Calendar, MapPin, Heart, AlertCircle, Shield } from 'lucide-react';
+import { X, User, Phone, Mail, Calendar, MapPin, Heart, AlertCircle, Shield, Stethoscope } from 'lucide-react';
 import { useAppSelector } from '../../store/hooks';
 import ApiManager from '../../services/api';
-import type { CreatePatientDto } from '../../lib/types';
+import ConditionSelector from './ConditionSelector';
+import type { 
+  CreatePatientDto, 
+  Neo4jConditionResponseDto,
+  CreatePatientConditionDto,
+  ConditionType 
+} from '../../lib/types';
 
 interface AddPatientModalProps {
   onClose: () => void;
@@ -29,6 +35,12 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
     insurance_policy_number: '',
   });
 
+  // Multi-condition state
+  const [selectedConditions, setSelectedConditions] = useState<Neo4jConditionResponseDto[]>([]);
+  const [conditionType, setConditionType] = useState<ConditionType>('ACUTE');
+  const [conditionDescription, setConditionDescription] = useState('');
+  const [showConditions, setShowConditions] = useState(false);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -52,6 +64,34 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
       const response = await ApiManager.createPatient(patientData);
       
       if (response.success) {
+        const patientId = response.data?.id;
+        
+        // If conditions are selected, add them to the patient
+        if (selectedConditions.length > 0 && patientId) {
+          try {
+            const conditionPromises = selectedConditions.map(async (condition) => {
+              const conditionData: CreatePatientConditionDto = {
+                neo4j_condition_id: condition.condition_id,
+                description: conditionDescription || condition.description,
+                condition_type: conditionType,
+              };
+              
+              return ApiManager.createPatientCondition(patientId, conditionData);
+            });
+
+            const conditionResults = await Promise.all(conditionPromises);
+            const failedConditions = conditionResults.filter(r => !r.success);
+            
+            if (failedConditions.length > 0) {
+              console.warn('Some conditions failed to add:', failedConditions);
+              // Still proceed with success since patient was created
+            }
+          } catch (err) {
+            console.error('Error adding conditions to patient:', err);
+            // Still proceed with success since patient was created
+          }
+        }
+        
         onSuccess();
       } else {
         setError(response.message || 'Failed to create patient');
@@ -260,6 +300,74 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                   />
                 </div>
               </div>
+            </div>
+
+            {/* Conditions Section */}
+            <div>
+              <div className="flex items-center justify-between mb-3 sm:mb-4">
+                <h3 className="text-base sm:text-lg font-semibold text-brand-black flex items-center">
+                  <Stethoscope className="h-4 w-4 sm:h-5 sm:w-5 mr-2 text-brand-teal" />
+                  Initial Conditions
+                </h3>
+                <button
+                  type="button"
+                  onClick={() => setShowConditions(!showConditions)}
+                  className="text-sm text-brand-teal hover:text-brand-teal/80 font-medium transition-colors"
+                >
+                  {showConditions ? 'Hide' : 'Add Conditions'}
+                </button>
+              </div>
+              
+              {showConditions && (
+                <div className="space-y-3 sm:space-y-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                  <p className="text-xs sm:text-sm text-gray-600 mb-3">
+                    Select any known conditions for this patient from our knowledge base. These can also be added later.
+                  </p>
+                  
+                  <ConditionSelector
+                    selectedConditions={selectedConditions}
+                    onConditionsChange={setSelectedConditions}
+                    multiple={true}
+                    showSearch={true}
+                    showBodyRegionFilter={true}
+                    placeholder="Search and select initial conditions..."
+                    className="mb-4"
+                  />
+                  
+                  {selectedConditions.length > 0 && (
+                    <>
+                      <div>
+                        <label className="block text-xs sm:text-sm font-medium text-brand-black mb-1 sm:mb-1.5">
+                          Condition Type
+                        </label>
+                        <select
+                          value={conditionType}
+                          onChange={(e) => setConditionType(e.target.value as ConditionType)}
+                          className="w-full px-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 bg-brand-white text-sm sm:text-base"
+                        >
+                          <option value="ACUTE">Acute</option>
+                          <option value="CHRONIC">Chronic</option>
+                          <option value="POST_SURGICAL">Post-Surgical</option>
+                          <option value="CONGENITAL">Congenital</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="block text-xs sm:text-sm font-medium text-brand-black mb-1 sm:mb-1.5">
+                          Additional Notes (Optional)
+                        </label>
+                        <textarea
+                          value={conditionDescription}
+                          onChange={(e) => setConditionDescription(e.target.value)}
+                          className="w-full px-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 bg-brand-white text-sm sm:text-base"
+                          rows={2}
+                          placeholder="Any patient-specific notes about these conditions..."
+                        />
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
             </div>
 
             {/* Insurance Information */}

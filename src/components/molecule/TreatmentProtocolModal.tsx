@@ -8,6 +8,7 @@ import { store } from '../../store/store';
 import { downloadTreatmentProtocolPDF, printTreatmentProtocol } from '../../utils/pdfGenerator';
 import { format, parseISO } from 'date-fns';
 import { AnatomySearchSelect } from './AnatomySearchSelect';
+import ApiManager from '../../services/api';
 import { 
     createAndLoadTreatmentProtocol, 
     updateAndReloadTreatmentProtocol,
@@ -20,7 +21,8 @@ import { closeProtocolModal } from '../../store/slices/treatment-protocol.slice'
 import { 
     CreateTreatmentProtocolDto, 
     StructureType, 
-    ProtocolStatus 
+    ProtocolStatus,
+    VisitConditionResponseDto 
 } from '../../lib/types';
 
 // Import database JSON files
@@ -50,6 +52,9 @@ interface TreatmentProtocolModalProps {
   } | null;
   visitHistory?: any[];
   currentComplaint?: string;
+  // Multi-condition support
+  preSelectedVisitConditionId?: string;
+  enableConditionMode?: boolean;
   nutritionData?: {
     bloodTests?: {
       test: string;
@@ -109,6 +114,8 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
   patient,
   visitHistory = [],
   currentComplaint = '',
+  preSelectedVisitConditionId,
+  enableConditionMode = true,
   nutritionData = null,
 }) => {
   const dispatch = useAppDispatch();
@@ -139,6 +146,12 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
   const [editableGeneralAdvice, setEditableGeneralAdvice] = useState<string[]>([]);
   const [editablePrecautions, setEditablePrecautions] = useState<string[]>([]);
   
+  // Multi-condition state
+  const [visitConditions, setVisitConditions] = useState<VisitConditionResponseDto[]>([]);
+  const [selectedVisitConditionId, setSelectedVisitConditionId] = useState<string | null>(preSelectedVisitConditionId || null);
+  const [loadingConditions, setLoadingConditions] = useState(false);
+  const [useConditionMode, setUseConditionMode] = useState(enableConditionMode && !!preSelectedVisitConditionId);
+  
   // Determine if we're editing an existing protocol
   const isEditing = !!currentProtocol;
 
@@ -146,8 +159,38 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
   useEffect(() => {
     if (isOpen && visitId) {
       dispatch(loadProtocolForVisit(visitId));
+      if (enableConditionMode) {
+        loadVisitConditions();
+      }
     }
-  }, [isOpen, visitId, dispatch]);
+  }, [isOpen, visitId, dispatch, enableConditionMode]);
+
+  // Load visit conditions
+  const loadVisitConditions = async () => {
+    setLoadingConditions(true);
+    try {
+      const response = await ApiManager.getVisitConditions(visitId);
+      if (response.success && response.data) {
+        const conditions = response.data || [];
+        setVisitConditions(conditions);
+        
+        // Auto-enable condition mode if conditions exist and no pre-selection
+        if (conditions.length > 0 && !preSelectedVisitConditionId) {
+          setUseConditionMode(true);
+          // Auto-select first condition if only one exists
+          if (conditions.length === 1) {
+            setSelectedVisitConditionId(conditions[0].id);
+          }
+        }
+      }
+    } catch (err) {
+      console.error('Failed to load visit conditions:', err);
+      // Gracefully fall back to visit-level protocols
+      setUseConditionMode(false);
+    } finally {
+      setLoadingConditions(false);
+    }
+  };
 
   // Populate form when currentProtocol is loaded
   useEffect(() => {
@@ -207,7 +250,7 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
       setShowExplanations(true);
       setSelectedAreas([]);
       setSelectedExercises([]);
-      setCurrentStep(1);
+      setCurrentStep(useConditionMode && visitConditions.length > 1 ? 0 : 1);
     }
   }, [currentProtocol?.id]); // Only re-run when protocol ID changes (new protocol loaded)
 
@@ -357,6 +400,10 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
         general_notes: generalNotes,
         additional_manual_notes: nutritionRecommendations,
         show_explanations: showExplanations,
+        // Add visit condition if selected
+        ...(useConditionMode && selectedVisitConditionId && {
+          visit_condition_id: selectedVisitConditionId
+        }),
         exercises: selectedExercises.map((exercise, index) => ({
           exercise_name: exercise.name,
           exercise_description: exercise.description,
@@ -775,29 +822,36 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
               <div className="flex items-center space-x-3 sm:space-x-4">
                 {/* Progress Indicator */}
                 <div className="hidden sm:flex items-center space-x-2">
-                  {[1, 2, 3, 4].map((step) => (
-                    <div key={step} className="flex items-center">
-                      <div
-                        className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-semibold transition-all ${
-                          currentStep >= step
-                            ? 'bg-white text-healui-physio shadow-lg'
-                            : 'bg-white/20 text-white/60'
-                        }`}
-                      >
-                        {step}
+                  {(() => {
+                    const totalSteps = useConditionMode && visitConditions.length > 1 ? 5 : 4;
+                    const steps = useConditionMode && visitConditions.length > 1 ? [0, 1, 2, 3, 4] : [1, 2, 3, 4];
+                    return steps.map((step, index) => (
+                      <div key={step} className="flex items-center">
+                        <div
+                          className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-semibold transition-all ${
+                            currentStep >= step
+                              ? 'bg-white text-healui-physio shadow-lg'
+                              : 'bg-white/20 text-white/60'
+                          }`}
+                        >
+                          {step === 0 ? <Stethoscope className="h-4 w-4" /> : step}
+                        </div>
+                        {index < steps.length - 1 && (
+                          <div className={`h-0.5 w-6 mx-1 ${
+                            currentStep > step ? 'bg-white' : 'bg-white/30'
+                          }`} />
+                        )}
                       </div>
-                      {step < 4 && (
-                        <div className={`h-0.5 w-6 mx-1 ${
-                          currentStep > step ? 'bg-white' : 'bg-white/30'
-                        }`} />
-                      )}
-                    </div>
-                  ))}
+                    ));
+                  })()}
                 </div>
                 
                 {/* Mobile Progress */}
                 <div className="sm:hidden bg-white/20 backdrop-blur rounded-full px-3 py-1">
-                  <span className="text-sm font-semibold">{currentStep}/4</span>
+                  <span className="text-sm font-semibold">
+                    {currentStep === 0 ? '1' : currentStep + (useConditionMode && visitConditions.length > 1 ? 1 : 0)}/
+                    {useConditionMode && visitConditions.length > 1 ? 5 : 4}
+                  </span>
                 </div>
                 
                 {/* Close Button */}
@@ -823,11 +877,113 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
             </div>
           ) : (
             <>
+            {/* Condition Selection Step */}
+            {currentStep === 0 && useConditionMode && (
+              <div className="h-full p-4 lg:p-6 overflow-y-auto">
+                <div className="mb-4 sm:mb-6">
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">
+                    Step 1: Select Target Condition
+                  </h3>
+                  <p className="text-xs sm:text-sm text-gray-600">
+                    Choose which condition this treatment protocol will target.
+                  </p>
+                </div>
+
+                <div className="max-w-2xl mx-auto">
+                  {loadingConditions ? (
+                    <div className="text-center py-8">
+                      <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-healui-physio" />
+                      <p className="text-gray-600">Loading visit conditions...</p>
+                    </div>
+                  ) : visitConditions.length === 0 ? (
+                    <div className="text-center py-8">
+                      <AlertCircle className="h-12 w-12 text-amber-500 mx-auto mb-4" />
+                      <h4 className="text-lg font-medium text-gray-900 mb-2">No Conditions Found</h4>
+                      <p className="text-gray-600 mb-4">
+                        This visit doesn't have any specific conditions assigned. The protocol will be created at the visit level.
+                      </p>
+                      <button
+                        onClick={() => {
+                          setUseConditionMode(false);
+                          setCurrentStep(1);
+                        }}
+                        className="px-4 py-2 bg-healui-physio text-white rounded-lg hover:bg-healui-physio/90 transition-colors"
+                      >
+                        Continue with Visit-Level Protocol
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between mb-4">
+                        <h4 className="font-medium text-gray-900">Visit Conditions ({visitConditions.length})</h4>
+                        <button
+                          onClick={() => {
+                            setUseConditionMode(false);
+                            setCurrentStep(1);
+                          }}
+                          className="text-sm text-healui-physio hover:text-healui-physio/80 font-medium transition-colors"
+                        >
+                          Skip to Visit-Level Protocol
+                        </button>
+                      </div>
+
+                      <div className="space-y-3">
+                        {visitConditions.map((condition) => (
+                          <label
+                            key={condition.id}
+                            className="flex items-center p-4 border border-border-color rounded-lg hover:bg-healui-physio/5 cursor-pointer transition-all duration-200"
+                          >
+                            <input
+                              type="radio"
+                              name="targetCondition"
+                              value={condition.id}
+                              checked={selectedVisitConditionId === condition.id}
+                              onChange={(e) => setSelectedVisitConditionId(e.target.value)}
+                              className="mr-4 text-healui-physio focus:ring-healui-physio/20"
+                            />
+                            <div className="flex items-center flex-1">
+                              <Stethoscope className="h-5 w-5 mr-3 text-healui-physio" />
+                              <div className="flex-1">
+                                <div className="font-medium text-gray-900">
+                                  {condition.condition_name}
+                                </div>
+                                <div className="text-sm text-gray-600 mt-1">
+                                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-healui-physio/10 text-healui-physio mr-2">
+                                    {condition.treatment_focus}
+                                  </span>
+                                  {condition.chief_complaint && (
+                                    <span className="text-gray-500">
+                                      {condition.chief_complaint}
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </label>
+                        ))}
+                      </div>
+
+                      {!selectedVisitConditionId && (
+                        <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mt-4">
+                          <div className="flex items-center">
+                            <AlertCircle className="h-4 w-4 text-amber-600 mr-2" />
+                            <p className="text-sm text-amber-700">
+                              Please select a condition to target with this treatment protocol.
+                            </p>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
             {currentStep === 1 && (
             <div className="h-full p-4 lg:p-6 overflow-y-auto">
               <div className="mb-4 sm:mb-6">
                 <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">
-                  Step 1: Select Affected Areas
+                  Step {useConditionMode && visitConditions.length > 1 ? '2' : '1'}: Select Affected Areas
                 </h3>
                 <p className="text-xs sm:text-sm text-gray-600">
                   Search and select the anatomical structures (muscles, joints, etc.) that need attention in this treatment protocol.
@@ -847,7 +1003,7 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
             <div className="h-full p-4 lg:p-6 overflow-y-auto">
               <div className="mb-4 sm:mb-6">
                 <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">
-                  Step 2: Select Neck Exercises
+                  Step {useConditionMode && visitConditions.length > 1 ? '3' : '2'}: Select Neck Exercises
                 </h3>
                 <p className="text-xs sm:text-sm text-gray-600">
                   Choose appropriate neck exercises and customize their parameters.
@@ -978,7 +1134,7 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
             <div className="h-full p-4 lg:p-6 overflow-y-auto">
               <div className="mb-4 sm:mb-6">
                 <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">
-                  Step 3: Edit Treatment Recommendations
+                  Step {useConditionMode && visitConditions.length > 1 ? '4' : '3'}: Edit Treatment Recommendations
                 </h3>
                 <p className="text-xs sm:text-sm text-gray-600">
                   Review and modify nutrition, blood tests, advice and precautions. Add/remove points as needed.
@@ -1246,7 +1402,7 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
             <div className="h-full p-4 lg:p-6 overflow-y-auto">
               <div className="mb-4 sm:mb-6">
                 <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">
-                  Step 4: Review & Export
+                  Step {useConditionMode && visitConditions.length > 1 ? '5' : '4'}: Review & Export
                 </h3>
                 <p className="text-xs sm:text-sm text-gray-600">
                   Review the complete treatment protocol and export as PDF.
@@ -1309,6 +1465,30 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
                       </ul>
                     </div>
                   </div>
+
+                  {/* Target Condition Information */}
+                  {useConditionMode && selectedVisitConditionId && (
+                    <div className="mt-4 p-3 bg-healui-physio/10 border border-healui-physio/20 rounded-lg">
+                      <h5 className="font-medium text-healui-physio mb-2 text-sm sm:text-base flex items-center">
+                        <Stethoscope className="h-4 w-4 mr-2" />
+                        Target Condition
+                      </h5>
+                      {(() => {
+                        const targetCondition = visitConditions.find(c => c.id === selectedVisitConditionId);
+                        return targetCondition ? (
+                          <div className="text-xs sm:text-sm text-gray-600 space-y-1">
+                            <div><strong>Condition:</strong> {targetCondition.condition_name}</div>
+                            <div><strong>Focus:</strong> {targetCondition.treatment_focus}</div>
+                            {targetCondition.chief_complaint && (
+                              <div><strong>Chief Complaint:</strong> {targetCondition.chief_complaint}</div>
+                            )}
+                          </div>
+                        ) : (
+                          <p className="text-xs sm:text-sm text-gray-600">Condition information not available</p>
+                        );
+                      })()}
+                    </div>
+                  )}
                 </div>
 
                 {/* Affected Areas */}
@@ -1449,11 +1629,18 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
         {/* Footer */}
         <div className="flex items-center justify-between p-4 lg:p-6 border-t border-gray-200 bg-gray-50">
           <div className="flex items-center space-x-2 text-xs sm:text-sm text-gray-500">
-            <span>Step {currentStep} of 4</span>
+            <span>
+              Step {currentStep === 0 ? '1' : currentStep + (useConditionMode && visitConditions.length > 1 ? 1 : 0)} of {useConditionMode && visitConditions.length > 1 ? 5 : 4}
+              {useConditionMode && selectedVisitConditionId && (
+                <span className="ml-2 text-healui-physio">
+                  • {visitConditions.find(c => c.id === selectedVisitConditionId)?.condition_name}
+                </span>
+              )}
+            </span>
           </div>
           
           <div className="flex items-center space-x-2 sm:space-x-3">
-            {currentStep > 1 && (
+            {(currentStep > 1 || (currentStep > 0 && useConditionMode && visitConditions.length > 1)) && (
               <button
                 onClick={() => setCurrentStep(currentStep - 1)}
                 className="px-3 sm:px-4 py-2 text-gray-600 hover:text-gray-800 font-medium text-xs sm:text-sm"
@@ -1467,10 +1654,15 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
               <button
                 type="button"
                 onClick={() => {
+                  // Validate condition selection if on step 0
+                  if (currentStep === 0 && useConditionMode && !selectedVisitConditionId) {
+                    return; // Don't proceed without condition selection
+                  }
                   console.log('Next button clicked, moving from step', currentStep, 'to', currentStep + 1);
                   setCurrentStep(currentStep + 1);
                 }}
-                className="px-4 sm:px-6 py-2 bg-healui-physio text-white rounded-lg hover:bg-healui-physio/90 transition-colors text-xs sm:text-sm"
+                disabled={currentStep === 0 && useConditionMode && !selectedVisitConditionId}
+                className="px-4 sm:px-6 py-2 bg-healui-physio text-white rounded-lg hover:bg-healui-physio/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-xs sm:text-sm"
               >
                 Next
               </button>

@@ -8,12 +8,17 @@ import {
   ArrowLeft, User, Phone, Mail, Calendar, MapPin, Heart, Shield, 
   FileText, Clock, Activity, AlertCircle, Plus, Save, Edit3, 
   CheckCircle, Stethoscope, Pill, Brain, Target, ClipboardList,
-  CalendarPlus, Eye, Edit, Trash2, Sparkles, Video, MoreVertical, PenTool, Info, XCircle
+  CalendarPlus, Eye, Edit, Trash2, Sparkles, Video, MoreVertical, PenTool, Info, XCircle, ChevronDown, ChevronUp
 } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import SmartNoteInput from '../../../../../components/notes/SmartNoteInput';
 import NutritionSuggestions from '../../../../../components/nutrition/NutritionSuggestions';
 import TreatmentProtocolModal from '../../../../../components/molecule/TreatmentProtocolModal';
+import VisitConditionContext from '../../../../../components/conditions/VisitConditionContext';
+import ConditionProtocolCard from '../../../../../components/conditions/ConditionProtocolCard';
+import ConditionNotesTab from '../../../../../components/conditions/ConditionNotesTab';
+import ConditionProgressIndicator from '../../../../../components/conditions/ConditionProgressIndicator';
+import { VisitCondition, ConditionProtocol, ConditionGoal } from '../../../../../types/condition-types';
 import {
   SlidePopup,
   SlidePopupContent,
@@ -125,6 +130,8 @@ export default function AppointmentDetailsPage() {
   const [showTreatmentProtocol, setShowTreatmentProtocol] = useState(false);
   const [selectedVisit, setSelectedVisit] = useState<Visit | null>(null);
   const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
+  const [nutritionExpanded, setNutritionExpanded] = useState(true);
+  const [mobileNutritionExpanded, setMobileNutritionExpanded] = useState(true);
   const [showContactDetails, setShowContactDetails] = useState(false);
   const [showVisitNotes, setShowVisitNotes] = useState(false);
   const [isCreatingNote, setIsCreatingNote] = useState(false);
@@ -136,6 +143,15 @@ export default function AppointmentDetailsPage() {
   });
   const [additionalNotes, setAdditionalNotes] = useState('');
   const [nutritionData, setNutritionData] = useState<any>(null);
+  
+  // Condition-aware state
+  const [visitConditions, setVisitConditions] = useState<VisitCondition[]>([]);
+  const [patientConditions, setPatientConditions] = useState<any[]>([]);
+  const [conditionProtocols, setConditionProtocols] = useState<{[key: string]: ConditionProtocol}>({});
+  const [conditionLoading, setConditionLoading] = useState(false);
+  const [conditionError, setConditionError] = useState<string | null>(null);
+  const [activeNotesTab, setActiveNotesTab] = useState('all');
+  const [showConditionAwareNotes, setShowConditionAwareNotes] = useState(false);
 
   useEffect(() => {
     if (params.appointmentId) {
@@ -148,8 +164,16 @@ export default function AppointmentDetailsPage() {
     if (appointment) {
       fetchPatientData();
       fetchPatientVisits();
+      fetchVisitConditions();
     }
   }, [appointment]);
+
+  // Fetch patient conditions when patient data is loaded
+  useEffect(() => {
+    if (patient && appointment?.patient_id) {
+      fetchPatientConditions();
+    }
+  }, [patient, appointment?.patient_id]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -248,6 +272,70 @@ export default function AppointmentDetailsPage() {
       console.error('Failed to fetch patient visits:', error);
     } finally {
       setTimelineLoading(false);
+    }
+  };
+
+  const fetchVisitConditions = async () => {
+    if (!appointment?.id) return;
+    
+    try {
+      setConditionLoading(true);
+      setConditionError(null);
+      
+      const response = await ApiManager.getVisitConditions(appointment.id);
+      if (response.success && response.data) {
+        setVisitConditions(response.data);
+        
+        // Check if we should show condition-aware notes
+        setShowConditionAwareNotes(response.data.length > 0);
+        
+        // Fetch protocols for each condition
+        for (const visitCondition of response.data) {
+          // Use neo4j_condition_id from the visit condition data
+          if (visitCondition.neo4j_condition_id) {
+            fetchConditionProtocol(visitCondition.neo4j_condition_id);
+          }
+        }
+      } else {
+        // No conditions found - fall back to traditional view
+        setVisitConditions([]);
+        setShowConditionAwareNotes(false);
+      }
+    } catch (error) {
+      console.error('Failed to fetch visit conditions:', error);
+      // On error, gracefully fall back to traditional visit timeline
+      setConditionError('Failed to load visit conditions');
+      setVisitConditions([]);
+      setShowConditionAwareNotes(false);
+    } finally {
+      setConditionLoading(false);
+    }
+  };
+
+  const fetchPatientConditions = async () => {
+    if (!appointment?.patient_id) return;
+    
+    try {
+      const response = await ApiManager.getPatientConditions(appointment.patient_id);
+      if (response.success && response.data) {
+        setPatientConditions(response.data);
+      }
+    } catch (error) {
+      console.error('Failed to fetch patient conditions:', error);
+    }
+  };
+
+  const fetchConditionProtocol = async (conditionId: string) => {
+    try {
+      const response = await ApiManager.getConditionProtocols(conditionId);
+      if (response.success && response.data && response.data.length > 0) {
+        setConditionProtocols(prev => ({
+          ...prev,
+          [conditionId]: response.data[0] // Use the first protocol
+        }));
+      }
+    } catch (error) {
+      console.error(`Failed to fetch protocol for condition ${conditionId}:`, error);
     }
   };
 
@@ -641,14 +729,22 @@ export default function AppointmentDetailsPage() {
             {!appointment.note && (
               <>
                 <button
-                  onClick={() => setShowSmartNotePopup(true)}
+                  onClick={() => {
+                    setSelectedVisit(appointment);
+                    setShowSmartNotePopup(true);
+                  }}
                   className="inline-flex items-center px-3 sm:px-4 py-2 bg-white text-gray-700 text-xs sm:text-sm font-medium rounded-full hover:bg-gray-50 transition-all shadow-lg border border-gray-200"
                 >
                   <Sparkles className="h-4 w-4 sm:h-4 sm:w-4" />
-                  <span className="hidden sm:inline ml-2">AI Note</span>
+                  <span className="hidden sm:inline ml-2">
+                    {visitConditions.length > 0 ? 'Smart Note' : 'AI Note'}
+                  </span>
                 </button>
                 <button
-                  onClick={() => setShowManualNotePopup(true)}
+                  onClick={() => {
+                    setSelectedVisit(appointment);
+                    setShowManualNotePopup(true);
+                  }}
                   className="inline-flex items-center px-3 sm:px-4 py-2 bg-healui-physio text-white text-xs sm:text-sm font-medium rounded-full hover:bg-healui-primary transition-all shadow-lg"
                 >
                   <PenTool className="h-4 w-4 sm:h-4 sm:w-4" />
@@ -716,10 +812,21 @@ export default function AppointmentDetailsPage() {
 
             {/* Professional Nutrition & Diet Recommendations */}
             <div className="bg-white border border-gray-200 rounded p-3 mt-2">
-              <h3 className="text-xs font-semibold text-gray-900 mb-3 pb-1 border-b border-gray-100">
-                Nutrition & Diet Recommendations
-              </h3>
-              <NutritionSuggestions 
+              <div 
+                className="flex items-center justify-between cursor-pointer mb-3 pb-1 border-b border-gray-100"
+                onClick={() => setNutritionExpanded(!nutritionExpanded)}
+              >
+                <h3 className="text-xs font-semibold text-gray-900">
+                  Nutrition & Diet Recommendations
+                </h3>
+                {nutritionExpanded ? (
+                  <ChevronUp className="h-4 w-4 text-gray-500" />
+                ) : (
+                  <ChevronDown className="h-4 w-4 text-gray-500" />
+                )}
+              </div>
+              {nutritionExpanded && (
+                <NutritionSuggestions 
                 patientData={{
                   age: calculateAge(patient.date_of_birth),
                   gender: patient.gender === 'M' ? 'Male' : patient.gender === 'F' ? 'Female' : 'Other',
@@ -736,11 +843,65 @@ export default function AppointmentDetailsPage() {
                 className="nutrition-professional"
                 onDataChange={setNutritionData}
               />
+              )}
             </div>
+
+            {/* Condition Progress Indicators - Desktop Only */}
+            {visitConditions.length > 0 && (
+              <div className="space-y-2 mt-2">
+                {visitConditions.map((visitCondition) => (
+                  <ConditionProgressIndicator
+                    key={visitCondition.id}
+                    visitCondition={visitCondition}
+                    loading={conditionLoading}
+                    className="text-xs"
+                  />
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Main Content - Timeline */}
           <div className="lg:col-span-9">
+            
+            {/* Visit Condition Context */}
+            <VisitConditionContext
+              visitConditions={visitConditions}
+              loading={conditionLoading}
+              error={conditionError}
+              className="mb-3"
+              showActions={true}
+              onConditionUpdated={() => {
+                // Refresh visit conditions data
+                fetchVisitConditions();
+              }}
+            />
+
+            {/* Condition Protocol Cards */}
+            {visitConditions.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+                {visitConditions.map((visitCondition) => (
+                  <ConditionProtocolCard
+                    key={visitCondition.id}
+                    visitCondition={visitCondition}
+                    protocol={conditionProtocols[visitCondition.neo4j_condition_id]}
+                    loading={conditionLoading}
+                    onViewProtocol={(protocolId) => {
+                      // Handle view protocol
+                      console.log('View protocol:', protocolId);
+                    }}
+                    onEditProtocol={(protocolId) => {
+                      // Handle edit protocol
+                      console.log('Edit protocol:', protocolId);
+                    }}
+                    onDownloadProtocol={(protocolId) => {
+                      // Handle download protocol
+                      console.log('Download protocol:', protocolId);
+                    }}
+                  />
+                ))}
+              </div>
+            )}
             
             {/* Mobile Medical Summary */}
             <div className="lg:hidden bg-white border border-gray-200 rounded p-3 mb-2">
@@ -779,10 +940,21 @@ export default function AppointmentDetailsPage() {
 
             {/* Mobile Nutrition Recommendations */}
             <div className="lg:hidden bg-white border border-gray-200 rounded p-3 mb-2">
-              <h3 className="text-xs font-semibold text-gray-900 mb-2 pb-1 border-b border-gray-100">
-                Nutrition Recommendations
-              </h3>
-              <NutritionSuggestions 
+              <div 
+                className="flex items-center justify-between cursor-pointer mb-2 pb-1 border-b border-gray-100"
+                onClick={() => setMobileNutritionExpanded(!mobileNutritionExpanded)}
+              >
+                <h3 className="text-xs font-semibold text-gray-900">
+                  Nutrition Recommendations
+                </h3>
+                {mobileNutritionExpanded ? (
+                  <ChevronUp className="h-4 w-4 text-gray-500" />
+                ) : (
+                  <ChevronDown className="h-4 w-4 text-gray-500" />
+                )}
+              </div>
+              {mobileNutritionExpanded && (
+                <NutritionSuggestions 
                 patientData={{
                   age: calculateAge(patient.date_of_birth),
                   gender: patient.gender === 'M' ? 'Male' : patient.gender === 'F' ? 'Female' : 'Other',
@@ -799,15 +971,48 @@ export default function AppointmentDetailsPage() {
                 className="nutrition-mobile"
                 onDataChange={setNutritionData}
               />
+              )}
             </div>
 
-            {/* Patient Visit Timeline */}
-            <div className="bg-white rounded-lg p-3 sm:p-4">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 sm:mb-4 space-y-2 sm:space-y-0">
-                <div>
-                  <h3 className="text-sm font-semibold text-gray-900">Visit Timeline</h3>
-                  <p className="text-xs text-gray-500 mt-1">{getFilteredVisits().length} of {patientVisits.length} appointments</p>
-                </div>
+            {/* Condition-Aware Notes Section */}
+            {showConditionAwareNotes ? (
+              <ConditionNotesTab
+                visitConditions={visitConditions}
+                notes={patientVisits.filter(visit => visit.note).map(visit => ({
+                  ...visit.note!,
+                  visit_id: visit.id,
+                  condition_associations: undefined // Will be populated by backend
+                }))}
+                activeTab={activeNotesTab}
+                onTabChange={setActiveNotesTab}
+                onCreateNote={(conditionId) => {
+                  // Handle condition-specific note creation
+                  setSelectedVisit(appointment);
+                  if (conditionId) {
+                    // Store the selected condition for the note creation
+                    const selectedCondition = visitConditions.find(vc => 
+                      vc.neo4j_condition_id === conditionId
+                    );
+                    if (selectedCondition) {
+                      setSelectedVisit({
+                        ...appointment,
+                        selectedConditionId: selectedCondition.id
+                      });
+                    }
+                  }
+                  setShowSmartNotePopup(true);
+                }}
+                loading={timelineLoading}
+                className="mb-3"
+              />
+            ) : (
+              /* Fallback: Traditional Patient Visit Timeline */
+              <div className="bg-white rounded-lg p-3 sm:p-4">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 sm:mb-4 space-y-2 sm:space-y-0">
+                  <div>
+                    <h3 className="text-sm font-semibold text-gray-900">Visit Timeline</h3>
+                    <p className="text-xs text-gray-500 mt-1">{getFilteredVisits().length} of {patientVisits.length} appointments</p>
+                  </div>
                 <div className="flex items-center gap-3">
                   {/* Notes Toggle */}
                   <button
@@ -1036,7 +1241,8 @@ export default function AppointmentDetailsPage() {
                   ))
                 )}
               </div>
-            </div>
+              </div>
+            )}
 
             {/* Smart Note Popup */}
             <SlidePopup open={showSmartNotePopup} onOpenChange={(open) => {
@@ -1068,11 +1274,14 @@ export default function AppointmentDetailsPage() {
                   )}
                   <SmartNoteInput
                     visitId={selectedVisit?.id || appointment.id}
+                    preSelectedVisitConditionId={(selectedVisit as any)?.selectedConditionId}
+                    enableConditionMode={visitConditions.length > 0}
                     onNoteCreated={() => {
                       setShowSmartNotePopup(false);
                       setSelectedVisit(null);
                       fetchAppointmentData();
                       fetchPatientVisits();
+                      fetchVisitConditions();
                     }}
                     onCancel={() => {
                       setShowSmartNotePopup(false);

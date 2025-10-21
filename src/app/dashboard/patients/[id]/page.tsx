@@ -14,6 +14,7 @@ import { format, parseISO } from 'date-fns';
 import SmartNoteInput from '../../../../components/notes/SmartNoteInput';
 import NutritionSuggestions from '../../../../components/nutrition/NutritionSuggestions';
 import TreatmentProtocolModal from '../../../../components/molecule/TreatmentProtocolModal';
+import PatientConditionManagement from '../../../../components/molecule/PatientConditionManagement';
 import {
   SlidePopup,
   SlidePopupContent,
@@ -354,6 +355,19 @@ export default function PatientDetailsPage() {
             {/* Quick Actions */}
             <div className="flex items-center space-x-2">
               <button
+                onClick={() => {
+                  // Scroll to condition management section
+                  const conditionSection = document.querySelector('[data-condition-management]');
+                  if (conditionSection) {
+                    conditionSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
+                }}
+                className="btn-secondary text-sm px-4 py-2 inline-flex items-center"
+              >
+                <Stethoscope className="h-4 w-4 mr-1" />
+                Conditions
+              </button>
+              <button
                 onClick={() => setShowTreatmentProtocol(true)}
                 className="btn-primary text-sm px-4 py-2 inline-flex items-center"
               >
@@ -485,6 +499,18 @@ export default function PatientDetailsPage() {
                   <p className="text-xs text-gray-500">No current medications</p>
                 )}
               </div>
+            </div>
+
+            {/* Patient Condition Management */}
+            <div className="mt-4" data-condition-management>
+              <PatientConditionManagement
+                patientId={patient.id}
+                patientName={patient.full_name}
+                onConditionsChange={(conditions) => {
+                  // Optionally handle condition changes
+                  console.log('Patient conditions updated:', conditions);
+                }}
+              />
             </div>
 
             {/* Nutrition Suggestions */}

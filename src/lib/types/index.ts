@@ -292,6 +292,155 @@ export interface PatientResponseDto {
     created_by: string
     created_at: Date
     updated_at: Date
+    conditions?: PatientConditionResponseDto[]  // NEW: Multi-condition support
+}
+
+// Multi-Condition Support Types
+export enum ConditionStatus {
+    ACTIVE = 'ACTIVE',
+    RESOLVED = 'RESOLVED',
+    IMPROVING = 'IMPROVING',
+    CHRONIC = 'CHRONIC'
+}
+
+export enum ConditionType {
+    ACUTE = 'ACUTE',
+    CHRONIC = 'CHRONIC',
+    POST_SURGICAL = 'POST_SURGICAL',
+    CONGENITAL = 'CONGENITAL'
+}
+
+export enum TreatmentFocus {
+    PRIMARY = 'PRIMARY',
+    SECONDARY = 'SECONDARY'
+}
+
+// Patient Condition Types
+export interface CreatePatientConditionDto {
+    neo4j_condition_id: string
+    description?: string
+    condition_type?: ConditionType
+    onset_date?: string
+}
+
+export interface UpdatePatientConditionStatusDto {
+    status: ConditionStatus
+}
+
+export interface UpdatePatientConditionDescriptionDto {
+    description: string
+}
+
+export enum SeverityLevel {
+    MILD = 'MILD',
+    MODERATE = 'MODERATE',
+    SEVERE = 'SEVERE',
+}
+
+export interface UpdatePatientConditionDto {
+    status?: ConditionStatus
+    description?: string
+    severity_level?: SeverityLevel
+    current_protocol_id?: string
+    last_assessment_date?: string
+    discharge_summary?: string
+    discharged_at?: string
+    discharged_by_id?: string
+}
+
+export interface PatientConditionResponseDto {
+    id: string
+    patient_id?: string
+    patient_user_id?: string
+    neo4j_condition_id: string
+    condition_name: string
+    description?: string
+    condition_type: ConditionType
+    onset_date?: Date
+    status: ConditionStatus
+    body_region?: string
+    neo4j_metadata?: any
+    created_at: Date
+    updated_at: Date
+    neo4j_condition?: Neo4jConditionResponseDto
+    visit_conditions_count?: number
+    last_treated_date?: Date
+    
+    // New fields
+    discharged_at?: Date
+    discharged_by_id?: string
+    discharge_summary?: string
+    current_protocol_id?: string
+    severity_level?: SeverityLevel
+    last_assessment_date?: Date
+    dischargedBy?: {
+        id: string
+        full_name: string
+    }
+}
+
+// Visit Condition Types
+export interface CreateVisitConditionDto {
+    visit_id: string
+    patient_condition_id: string
+    treatment_focus?: TreatmentFocus
+    chief_complaint?: string
+    session_goals?: string[]
+    condition_metadata?: any
+}
+
+export interface VisitConditionResponseDto {
+    id: string
+    visit_id: string
+    patient_condition_id: string
+    neo4j_condition_id: string
+    condition_name: string
+    body_region?: string
+    treatment_focus: TreatmentFocus
+    chief_complaint?: string
+    session_goals?: string[]
+    condition_metadata?: any
+    next_visit_plan?: string
+    created_at: Date
+    updated_at: Date
+    condition?: PatientConditionResponseDto
+    notes_count?: number
+    protocols_count?: number
+}
+
+// Neo4j Condition Types
+export interface Neo4jConditionResponseDto {
+    condition_id: string
+    condition_name: string
+    description: string
+    body_region: string
+    category: string
+    severity_levels?: string[]
+    typical_duration_weeks?: number
+    contraindications?: string[]
+    risk_factors?: string[]
+    assessment_criteria?: string[]
+    treatment_protocols?: Neo4jTreatmentProtocolResponseDto[]
+}
+
+export interface Neo4jTreatmentProtocolResponseDto {
+    protocol_id: string
+    protocol_name: string
+    phase: string
+    duration_weeks: number
+    goals?: string[]
+    precautions?: string[]
+    progression_criteria?: string[]
+    exercises?: any[]
+}
+
+// Enhanced Visit Types with Multi-Condition Support
+export interface ChiefComplaintDto {
+    condition_id: string
+    condition_name: string
+    complaint: string
+    severity?: number // 1-10 scale
+    treatment_focus: TreatmentFocus
 }
 
 // Visit Types
@@ -323,7 +472,8 @@ export interface CreateVisitDto {
     scheduled_date: string
     scheduled_time: string
     duration_minutes?: number
-    chief_complaint?: string
+    chief_complaint?: string           // Keep for backward compatibility
+    chief_complaints?: ChiefComplaintDto[]  // NEW: Multi-condition support
     parent_visit_id?: string
     visit_mode?: VisitMode
 }
@@ -368,7 +518,8 @@ export interface VisitResponseDto {
     scheduled_time: string
     duration_minutes: number
     status: VisitStatus
-    chief_complaint?: string
+    chief_complaint?: string          // Keep for backward compatibility
+    chief_complaints?: ChiefComplaintDto[]  // NEW: Multi-condition support
     check_in_time?: Date
     start_time?: Date
     end_time?: Date
@@ -383,6 +534,8 @@ export interface VisitResponseDto {
     created_by: string
     created_at: Date
     updated_at: Date
+    visitConditions?: VisitConditionResponseDto[]  // NEW: Conditions treated in visit
+    notes?: NoteResponseDto[]         // NEW: Multiple notes support
 }
 
 // Note Types
@@ -402,6 +555,7 @@ export interface CreateNoteDto {
     goals?: any
     outcome_measures?: Record<string, any>
     attachments?: string[]
+    visit_condition_id?: string      // NEW: Link note to specific condition
 }
 
 export interface UpdateNoteDto extends Partial<CreateNoteDto> {}
@@ -427,6 +581,8 @@ export interface NoteResponseDto {
     created_by: string
     created_at: Date
     updated_at: Date
+    visit_condition_id?: string      // NEW: Link note to specific condition
+    condition_name?: string          // NEW: Condition name for display
 }
 
 // Team Management Types
