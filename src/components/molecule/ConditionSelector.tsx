@@ -49,11 +49,14 @@ interface ConditionSelectorProps {
     disabled?: boolean
     // Custom styling
     className?: string
+    // Exclude specific condition IDs (e.g., already in visit)
+    excludeConditionIds?: string[]
 }
 
 interface ConditionWithDetails extends Neo4jConditionResponseDto {
     isAlreadyAssigned?: boolean
     assignedCondition?: PatientConditionResponseDto
+    isExcluded?: boolean
 }
 
 const BODY_REGIONS = [
@@ -85,7 +88,8 @@ export const ConditionSelector: React.FC<ConditionSelectorProps> = ({
     showBodyRegionFilter = true,
     placeholder = "Search and select conditions...",
     disabled = false,
-    className = ""
+    className = "",
+    excludeConditionIds = []
 }) => {
     // State
     const [availableConditions, setAvailableConditions] = useState<ConditionWithDetails[]>([])
@@ -127,16 +131,24 @@ export const ConditionSelector: React.FC<ConditionSelectorProps> = ({
                                 (pc: PatientConditionResponseDto) => 
                                     pc.neo4j_condition_id === condition.condition_id
                             )
+                            const isExcluded = excludeConditionIds.includes(condition.condition_id)
                             return {
                                 ...condition,
                                 isAlreadyAssigned: !!assigned,
-                                assignedCondition: assigned
+                                assignedCondition: assigned,
+                                isExcluded: isExcluded
                             }
                         })
                     }
                 } catch (err) {
                     console.warn('Failed to load patient conditions:', err)
                 }
+            } else if (excludeConditionIds.length > 0) {
+                // Just mark excluded conditions even without patient ID
+                conditions = conditions.map(condition => ({
+                    ...condition,
+                    isExcluded: excludeConditionIds.includes(condition.condition_id)
+                }))
             }
 
             setAvailableConditions(conditions)
@@ -152,7 +164,7 @@ export const ConditionSelector: React.FC<ConditionSelectorProps> = ({
     // Effects
     useEffect(() => {
         loadConditions()
-    }, [selectedBodyRegion, patientId])
+    }, [selectedBodyRegion, patientId, excludeConditionIds])
 
     useEffect(() => {
         if (!showSearch) return
@@ -181,7 +193,7 @@ export const ConditionSelector: React.FC<ConditionSelectorProps> = ({
 
     // Handle condition selection
     const handleConditionSelect = (condition: ConditionWithDetails) => {
-        if (disabled || condition.isAlreadyAssigned) return
+        if (disabled || condition.isAlreadyAssigned || condition.isExcluded) return
 
         let newSelected: Neo4jConditionResponseDto[]
 
@@ -217,6 +229,9 @@ export const ConditionSelector: React.FC<ConditionSelectorProps> = ({
 
     // Get status color for condition
     const getStatusColor = (condition: ConditionWithDetails) => {
+        if (condition.isExcluded) {
+            return 'bg-orange-100 text-orange-800 border-orange-200'
+        }
         if (condition.isAlreadyAssigned) {
             const status = condition.assignedCondition?.status
             switch (status) {
@@ -332,7 +347,7 @@ export const ConditionSelector: React.FC<ConditionSelectorProps> = ({
 
             {/* Dropdown with Conditions */}
             {showDropdown && (
-                <Card className="absolute top-full left-0 right-0 z-50 mt-1 max-h-96 overflow-hidden shadow-lg">
+                <Card className="absolute top-full left-0 right-0 z-[9999] mt-1 max-h-96 overflow-hidden shadow-lg">
                     <CardContent className="p-0">
                         {loading && (
                             <div className="p-4 space-y-2">
@@ -381,10 +396,10 @@ export const ConditionSelector: React.FC<ConditionSelectorProps> = ({
                                             key={condition.condition_id}
                                             type="button"
                                             onClick={() => handleConditionSelect(condition)}
-                                            disabled={condition.isAlreadyAssigned}
+                                            disabled={condition.isAlreadyAssigned || condition.isExcluded}
                                             className={`w-full text-left p-3 border-b border-gray-100 hover:bg-gray-50 transition-colors
                                                 ${isSelected ? 'bg-blue-50 border-blue-200' : ''}
-                                                ${condition.isAlreadyAssigned ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}
+                                                ${(condition.isAlreadyAssigned || condition.isExcluded) ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}
                                             `}
                                         >
                                             <div className="flex items-start justify-between">
@@ -408,7 +423,14 @@ export const ConditionSelector: React.FC<ConditionSelectorProps> = ({
                                                         >
                                                             {condition.category}
                                                         </Badge>
-                                                        {condition.isAlreadyAssigned && (
+                                                        {condition.isExcluded && (
+                                                            <Badge
+                                                                className={`text-xs px-2 py-0 ${getStatusColor(condition)}`}
+                                                            >
+                                                                Already in Visit
+                                                            </Badge>
+                                                        )}
+                                                        {condition.isAlreadyAssigned && !condition.isExcluded && (
                                                             <Badge
                                                                 className={`text-xs px-2 py-0 ${getStatusColor(condition)}`}
                                                             >
@@ -439,7 +461,7 @@ export const ConditionSelector: React.FC<ConditionSelectorProps> = ({
             {/* Click outside to close dropdown */}
             {showDropdown && (
                 <div
-                    className="fixed inset-0 z-40"
+                    className="fixed inset-0 z-[9998]"
                     onClick={() => setShowDropdown(false)}
                 />
             )}

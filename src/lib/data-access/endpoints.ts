@@ -116,6 +116,7 @@ export const ENDPOINTS = {
     UPDATE_VISIT_CONDITION: (id: string) => `visit-conditions/${id}`,
     DELETE_VISIT_CONDITION: (id: string) => `visit-conditions/${id}`,
     GET_CONDITION_HISTORY: (patientConditionId: string) => `visit-conditions/patient-condition/${patientConditionId}/history`,
+    GET_CONDITION_PROTOCOL: (conditionId: string) => `neo4j/conditions/${conditionId}/protocol`,
     GET_AVAILABLE_CONDITIONS_FOR_VISIT: (patientId: string, params?: Record<string, any>) => {
         let url = `visit-conditions/patients/${patientId}/available-conditions`
         if (params) {

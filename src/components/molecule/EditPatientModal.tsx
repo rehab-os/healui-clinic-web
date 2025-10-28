@@ -1,58 +1,57 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, User, Phone, Mail, Calendar, MapPin, Heart, AlertCircle, Shield, Stethoscope, Plus, Trash2, Activity, Briefcase, Users } from 'lucide-react';
 import { useAppSelector } from '../../store/hooks';
 import ApiManager from '../../services/api';
-import ConditionSelector from './ConditionSelector';
 import type { 
-  CreatePatientDto, 
-  Neo4jConditionResponseDto,
-  CreatePatientConditionDto,
-  ConditionType,
+  UpdatePatientDto, 
+  PatientResponseDto,
   PreviousSurgeryDto,
   PastIllnessDto,
   PastInvestigationDto,
-  ActivityLevel
+  ActivityLevel,
+  PatientStatus
 } from '../../lib/types';
 
-interface AddPatientModalProps {
+interface EditPatientModalProps {
+  patient: PatientResponseDto;
   onClose: () => void;
   onSuccess: () => void;
 }
 
-const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess }) => {
-  const { currentClinic } = useAppSelector(state => state.user);
+const EditPatientModal: React.FC<EditPatientModalProps> = ({ patient, onClose, onSuccess }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [formData, setFormData] = useState({
-    full_name: '',
-    phone: '',
-    email: '',
-    date_of_birth: '',
-    gender: 'M',
-    address: '',
-    emergency_contact_name: '',
-    emergency_contact_phone: '',
-    medical_history: '',
-    chronic_conditions: '',
-    occupation: '',
-    activity_level: '' as ActivityLevel | '',
-    family_history: '',
-    allergies: '',
-    current_medications: '',
-    insurance_provider: '',
-    insurance_policy_number: '',
+    full_name: patient.full_name || '',
+    phone: patient.phone || '',
+    email: patient.email || '',
+    date_of_birth: patient.date_of_birth ? new Date(patient.date_of_birth).toISOString().split('T')[0] : '',
+    gender: patient.gender || 'M',
+    address: patient.address || '',
+    emergency_contact_name: patient.emergency_contact_name || '',
+    emergency_contact_phone: patient.emergency_contact_phone || '',
+    medical_history: patient.medical_history || '',
+    chronic_conditions: patient.chronic_conditions?.join(', ') || '',
+    occupation: patient.occupation || '',
+    activity_level: patient.activity_level || '' as ActivityLevel | '',
+    family_history: patient.family_history || '',
+    allergies: patient.allergies?.join(', ') || '',
+    current_medications: patient.current_medications?.join(', ') || '',
+    insurance_provider: patient.insurance_provider || '',
+    insurance_policy_number: patient.insurance_policy_number || '',
+    status: patient.status || 'ACTIVE' as PatientStatus,
   });
 
-  // New medical history state
-  const [previousSurgeries, setPreviousSurgeries] = useState<PreviousSurgeryDto[]>([]);
-  const [pastIllnesses, setPastIllnesses] = useState<PastIllnessDto[]>([]);
-  const [pastInvestigations, setPastInvestigations] = useState<PastInvestigationDto[]>([]);
-
-  // Multi-condition state
-  const [selectedConditions, setSelectedConditions] = useState<Neo4jConditionResponseDto[]>([]);
-  const [conditionType, setConditionType] = useState<ConditionType>('ACUTE');
-  const [conditionDescription, setConditionDescription] = useState('');
-  const [showConditions, setShowConditions] = useState(false);
+  // Medical history state
+  const [previousSurgeries, setPreviousSurgeries] = useState<PreviousSurgeryDto[]>(
+    patient.previous_surgeries || []
+  );
+  const [pastIllnesses, setPastIllnesses] = useState<PastIllnessDto[]>(
+    patient.past_illnesses || []
+  );
+  const [pastInvestigations, setPastInvestigations] = useState<PastInvestigationDto[]>(
+    patient.past_investigations || []
+  );
 
   // Helper function to clean optional string fields
   const cleanOptionalField = (value: string | undefined): string | undefined => {
@@ -65,17 +64,10 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
     e.preventDefault();
     setError('');
 
-    if (!currentClinic?.id) {
-      setError('No clinic selected');
-      return;
-    }
-
     try {
       setLoading(true);
-      console.log('Current clinic:', currentClinic); // Debug log
-      const patientData: CreatePatientDto = {
+      const patientData: UpdatePatientDto = {
         ...formData,
-        clinic_id: currentClinic.id,
         chronic_conditions: formData.chronic_conditions ? formData.chronic_conditions.split(',').map(c => c.trim()).filter(Boolean) : undefined,
         allergies: formData.allergies ? formData.allergies.split(',').map(a => a.trim()).filter(Boolean) : undefined,
         current_medications: formData.current_medications ? formData.current_medications.split(',').map(m => m.trim()).filter(Boolean) : undefined,
@@ -113,42 +105,18 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
           : undefined,
         activity_level: formData.activity_level || undefined,
       };
-      console.log('Patient data being sent:', patientData); // Debug log
 
-      const response = await ApiManager.createPatient(patientData);
+      // Debug logging
+      console.log('Raw previous surgeries:', previousSurgeries);
+      console.log('Raw past investigations:', pastInvestigations);
+      console.log('Processed patient data:', JSON.stringify(patientData, null, 2));
+
+      const response = await ApiManager.updatePatient(patient.id, patientData);
       
       if (response.success) {
-        const patientId = response.data?.id;
-        
-        // If conditions are selected, add them to the patient
-        if (selectedConditions.length > 0 && patientId) {
-          try {
-            const conditionPromises = selectedConditions.map(async (condition) => {
-              const conditionData: CreatePatientConditionDto = {
-                neo4j_condition_id: condition.condition_id,
-                description: conditionDescription || condition.description,
-                condition_type: conditionType,
-              };
-              
-              return ApiManager.createPatientCondition(patientId, conditionData);
-            });
-
-            const conditionResults = await Promise.all(conditionPromises);
-            const failedConditions = conditionResults.filter(r => !r.success);
-            
-            if (failedConditions.length > 0) {
-              console.warn('Some conditions failed to add:', failedConditions);
-              // Still proceed with success since patient was created
-            }
-          } catch (err) {
-            console.error('Error adding conditions to patient:', err);
-            // Still proceed with success since patient was created
-          }
-        }
-        
         onSuccess();
       } else {
-        setError(response.message || 'Failed to create patient');
+        setError(response.message || 'Failed to update patient');
       }
     } catch (err: any) {
       setError(err.message || 'An error occurred');
@@ -202,10 +170,10 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-end sm:items-center justify-center z-50 p-2 sm:p-4">
-      <div className="bg-brand-white rounded-t-xl sm:rounded-xl w-full max-w-lg sm:max-w-2xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden flex flex-col shadow-xl border border-gray-200">
+      <div className="bg-brand-white rounded-t-xl sm:rounded-xl w-full max-w-lg sm:max-w-4xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden flex flex-col shadow-xl border border-gray-200">
         {/* Header */}
         <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-200 flex items-center justify-between bg-brand-white sticky top-0 z-10">
-          <h2 className="text-lg sm:text-xl font-semibold text-brand-black">Add New Patient</h2>
+          <h2 className="text-lg sm:text-xl font-semibold text-brand-black">Edit Patient - {patient.patient_code}</h2>
           <button
             onClick={onClose}
             className="p-2 hover:bg-brand-teal/10 rounded-lg transition-all duration-200"
@@ -241,7 +209,6 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                     value={formData.full_name}
                     onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
                     className="w-full px-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 bg-brand-white text-sm sm:text-base"
-                    placeholder="John Doe"
                   />
                 </div>
 
@@ -255,7 +222,6 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     className="w-full px-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 bg-brand-white text-sm sm:text-base"
-                    placeholder="+91 9876543210"
                   />
                 </div>
 
@@ -268,7 +234,6 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="w-full px-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 bg-brand-white text-sm sm:text-base"
-                    placeholder="john@example.com"
                   />
                 </div>
 
@@ -301,6 +266,21 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                   </select>
                 </div>
 
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-brand-black mb-1 sm:mb-1.5">
+                    Status
+                  </label>
+                  <select
+                    value={formData.status}
+                    onChange={(e) => setFormData({ ...formData, status: e.target.value as PatientStatus })}
+                    className="w-full px-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 bg-brand-white text-sm sm:text-base"
+                  >
+                    <option value="ACTIVE">Active</option>
+                    <option value="INACTIVE">Inactive</option>
+                    <option value="DISCHARGED">Discharged</option>
+                  </select>
+                </div>
+
                 <div className="sm:col-span-2">
                   <label className="block text-xs sm:text-sm font-medium text-brand-black mb-1 sm:mb-1.5">
                     Address
@@ -310,7 +290,6 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                     onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                     className="w-full px-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 bg-brand-white text-sm sm:text-base"
                     rows={2}
-                    placeholder="Full address"
                   />
                 </div>
               </div>
@@ -332,7 +311,6 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                     value={formData.emergency_contact_name}
                     onChange={(e) => setFormData({ ...formData, emergency_contact_name: e.target.value })}
                     className="w-full px-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 bg-brand-white text-sm sm:text-base"
-                    placeholder="Emergency contact name"
                   />
                 </div>
 
@@ -345,7 +323,6 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                     value={formData.emergency_contact_phone}
                     onChange={(e) => setFormData({ ...formData, emergency_contact_phone: e.target.value })}
                     className="w-full px-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 bg-brand-white text-sm sm:text-base"
-                    placeholder="+91 9876543210"
                   />
                 </div>
               </div>
@@ -367,20 +344,6 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                     onChange={(e) => setFormData({ ...formData, medical_history: e.target.value })}
                     className="w-full px-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 bg-brand-white text-sm sm:text-base"
                     rows={3}
-                    placeholder="Any relevant medical history"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs sm:text-sm font-medium text-brand-black mb-1 sm:mb-1.5">
-                    Allergies
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.allergies}
-                    onChange={(e) => setFormData({ ...formData, allergies: e.target.value })}
-                    className="w-full px-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 bg-brand-white text-sm sm:text-base"
-                    placeholder="Comma separated list (e.g., Penicillin, Peanuts)"
                   />
                 </div>
 
@@ -394,6 +357,19 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                     onChange={(e) => setFormData({ ...formData, chronic_conditions: e.target.value })}
                     className="w-full px-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 bg-brand-white text-sm sm:text-base"
                     placeholder="Comma separated list (e.g., Diabetes, Hypertension)"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-brand-black mb-1 sm:mb-1.5">
+                    Allergies
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.allergies}
+                    onChange={(e) => setFormData({ ...formData, allergies: e.target.value })}
+                    className="w-full px-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 bg-brand-white text-sm sm:text-base"
+                    placeholder="Comma separated list"
                   />
                 </div>
 
@@ -446,7 +422,6 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                       />
                       <input
                         type="date"
-                        placeholder="Date"
                         value={surgery.date || ''}
                         onChange={(e) => updatePreviousSurgery(index, 'date', e.target.value)}
                         className="px-2 py-1.5 border border-gray-300 rounded text-sm"
@@ -500,7 +475,6 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                       />
                       <input
                         type="date"
-                        placeholder="Date"
                         value={illness.date || ''}
                         onChange={(e) => updatePastIllness(index, 'date', e.target.value)}
                         className="px-2 py-1.5 border border-gray-300 rounded text-sm"
@@ -563,7 +537,6 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                       />
                       <input
                         type="date"
-                        placeholder="Date"
                         value={investigation.date || ''}
                         onChange={(e) => updatePastInvestigation(index, 'date', e.target.value)}
                         className="px-2 py-1.5 border border-gray-300 rounded text-sm"
@@ -614,7 +587,6 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                     value={formData.occupation}
                     onChange={(e) => setFormData({ ...formData, occupation: e.target.value })}
                     className="w-full px-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 bg-brand-white text-sm sm:text-base"
-                    placeholder="Patient's occupation"
                   />
                 </div>
 
@@ -645,78 +617,9 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                     onChange={(e) => setFormData({ ...formData, family_history: e.target.value })}
                     className="w-full px-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 bg-brand-white text-sm sm:text-base"
                     rows={2}
-                    placeholder="Relevant family medical history"
                   />
                 </div>
               </div>
-            </div>
-
-            {/* Conditions Section */}
-            <div>
-              <div className="flex items-center justify-between mb-3 sm:mb-4">
-                <h3 className="text-base sm:text-lg font-semibold text-brand-black flex items-center">
-                  <Stethoscope className="h-4 w-4 sm:h-5 sm:w-5 mr-2 text-brand-teal" />
-                  Initial Conditions
-                </h3>
-                <button
-                  type="button"
-                  onClick={() => setShowConditions(!showConditions)}
-                  className="text-sm text-brand-teal hover:text-brand-teal/80 font-medium transition-colors"
-                >
-                  {showConditions ? 'Hide' : 'Add Conditions'}
-                </button>
-              </div>
-              
-              {showConditions && (
-                <div className="space-y-3 sm:space-y-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
-                  <p className="text-xs sm:text-sm text-gray-600 mb-3">
-                    Select any known conditions for this patient from our knowledge base. These can also be added later.
-                  </p>
-                  
-                  <ConditionSelector
-                    selectedConditions={selectedConditions}
-                    onConditionsChange={setSelectedConditions}
-                    multiple={true}
-                    showSearch={true}
-                    showBodyRegionFilter={true}
-                    placeholder="Search and select initial conditions..."
-                    className="mb-4"
-                  />
-                  
-                  {selectedConditions.length > 0 && (
-                    <>
-                      <div>
-                        <label className="block text-xs sm:text-sm font-medium text-brand-black mb-1 sm:mb-1.5">
-                          Condition Type
-                        </label>
-                        <select
-                          value={conditionType}
-                          onChange={(e) => setConditionType(e.target.value as ConditionType)}
-                          className="w-full px-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 bg-brand-white text-sm sm:text-base"
-                        >
-                          <option value="ACUTE">Acute</option>
-                          <option value="CHRONIC">Chronic</option>
-                          <option value="POST_SURGICAL">Post-Surgical</option>
-                          <option value="CONGENITAL">Congenital</option>
-                        </select>
-                      </div>
-
-                      <div>
-                        <label className="block text-xs sm:text-sm font-medium text-brand-black mb-1 sm:mb-1.5">
-                          Additional Notes (Optional)
-                        </label>
-                        <textarea
-                          value={conditionDescription}
-                          onChange={(e) => setConditionDescription(e.target.value)}
-                          className="w-full px-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 bg-brand-white text-sm sm:text-base"
-                          rows={2}
-                          placeholder="Any patient-specific notes about these conditions..."
-                        />
-                      </div>
-                    </>
-                  )}
-                </div>
-              )}
             </div>
 
             {/* Insurance Information */}
@@ -735,7 +638,6 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                     value={formData.insurance_provider}
                     onChange={(e) => setFormData({ ...formData, insurance_provider: e.target.value })}
                     className="w-full px-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 bg-brand-white text-sm sm:text-base"
-                    placeholder="Insurance company name"
                   />
                 </div>
 
@@ -748,7 +650,6 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                     value={formData.insurance_policy_number}
                     onChange={(e) => setFormData({ ...formData, insurance_policy_number: e.target.value })}
                     className="w-full px-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 bg-brand-white text-sm sm:text-base"
-                    placeholder="Policy number"
                   />
                 </div>
               </div>
@@ -770,7 +671,7 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
             disabled={loading}
             className="btn-primary px-4 sm:px-6 py-2 sm:py-2.5 text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed order-1 sm:order-2"
           >
-            {loading ? 'Creating...' : 'Create Patient'}
+            {loading ? 'Updating...' : 'Update Patient'}
           </button>
         </div>
       </div>
@@ -778,4 +679,4 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
   );
 };
 
-export default AddPatientModal;
+export default EditPatientModal;

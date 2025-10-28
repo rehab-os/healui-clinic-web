@@ -263,6 +263,15 @@ class ApiManager {
         return ApiMethods.post(url, data)
     }
 
+    static addConditionToVisit = (visitId: string, data: CreateVisitConditionDto) => {
+        const visitConditionData = {
+            ...data,
+            visit_id: visitId
+        }
+        const url = BASE_URL + ENDPOINTS.CREATE_VISIT_CONDITION()
+        return ApiMethods.post(url, visitConditionData)
+    }
+
     static updateVisitCondition = (id: string, data: Partial<CreateVisitConditionDto>) => {
         const url = BASE_URL + ENDPOINTS.UPDATE_VISIT_CONDITION(id)
         return ApiMethods.put(url, data)
@@ -280,6 +289,11 @@ class ApiManager {
 
     static getAvailableConditionsForVisit = (patientId: string, params?: any) => {
         const url = BASE_URL + ENDPOINTS.GET_AVAILABLE_CONDITIONS_FOR_VISIT(patientId, params)
+        return ApiMethods.get(url)
+    }
+
+    static getConditionProtocol = (conditionId: string) => {
+        const url = BASE_URL + ENDPOINTS.GET_CONDITION_PROTOCOL(conditionId)
         return ApiMethods.get(url)
     }
 

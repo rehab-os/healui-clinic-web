@@ -14,11 +14,16 @@ import {
   Calendar,
   CheckCircle,
   Award,
-  User
+  User,
+  Plus,
+  Eye
 } from 'lucide-react';
 import { VisitCondition } from '../../types/condition-types';
 import ConditionEditModal from './ConditionEditModal';
 import VisitConditionEditModal from './VisitConditionEditModal';
+import AddConditionToVisitModal from './AddConditionToVisitModal';
+import ProtocolViewerModal from './ProtocolViewerModal';
+import ApiManager from '../../services/api';
 import type { PatientConditionResponseDto, VisitConditionResponseDto } from '../../lib/types';
 
 interface VisitConditionContextProps {
@@ -28,6 +33,8 @@ interface VisitConditionContextProps {
   className?: string;
   showActions?: boolean;
   onConditionUpdated?: () => void; // Callback to refresh data
+  visitId?: string; // Required for adding conditions
+  patientId?: string; // Required for adding conditions
 }
 
 const VisitConditionContext: React.FC<VisitConditionContextProps> = ({
@@ -36,15 +43,21 @@ const VisitConditionContext: React.FC<VisitConditionContextProps> = ({
   error = null,
   className = '',
   showActions = true,
-  onConditionUpdated
+  onConditionUpdated,
+  visitId,
+  patientId
 }) => {
   const [isExpanded, setIsExpanded] = React.useState(true);
   
   // Modal states
   const [showConditionModal, setShowConditionModal] = React.useState(false);
   const [showVisitModal, setShowVisitModal] = React.useState(false);
+  const [showAddConditionModal, setShowAddConditionModal] = React.useState(false);
+  const [showProtocolModal, setShowProtocolModal] = React.useState(false);
   const [selectedCondition, setSelectedCondition] = React.useState<PatientConditionResponseDto | null>(null);
   const [selectedVisitCondition, setSelectedVisitCondition] = React.useState<VisitConditionResponseDto | null>(null);
+  const [protocolData, setProtocolData] = React.useState<any>(null);
+  const [protocolLoading, setProtocolLoading] = React.useState(false);
 
   // Handler functions
   const handleEditCondition = (visitCondition: any) => {
@@ -72,6 +85,36 @@ const VisitConditionContext: React.FC<VisitConditionContextProps> = ({
       onConditionUpdated();
     }
   };
+
+  const handleConditionAdded = () => {
+    setShowAddConditionModal(false);
+    if (onConditionUpdated) {
+      onConditionUpdated();
+    }
+  };
+
+  const handleViewProtocol = async (visitCondition: any) => {
+    setProtocolLoading(true);
+    setShowProtocolModal(true);
+    setProtocolData(null);
+
+    try {
+      const response = await ApiManager.getConditionProtocol(visitCondition.neo4j_condition_id);
+      
+      if (response.success && response.data) {
+        setProtocolData(response.data);
+      } else {
+        console.warn('Protocol not found for condition:', visitCondition.neo4j_condition_id);
+      }
+    } catch (error) {
+      console.error('Error fetching protocol:', error);
+    } finally {
+      setProtocolLoading(false);
+    }
+  };
+
+  // Get existing Neo4j condition IDs to prevent duplicates
+  const existingConditionIds = visitConditions.map(vc => vc.neo4j_condition_id).filter(Boolean);
 
   if (loading) {
     return (
@@ -107,8 +150,48 @@ const VisitConditionContext: React.FC<VisitConditionContextProps> = ({
             <Target className="h-4 w-4 mr-2 text-gray-500" />
             Visit Focus
           </h3>
+          {visitId && patientId && showActions && (
+            <button
+              onClick={() => setShowAddConditionModal(true)}
+              className="flex items-center gap-1 px-3 py-1.5 bg-healui-physio text-white rounded-lg text-xs font-medium hover:bg-healui-physio/90 transition-colors"
+            >
+              <Plus className="w-3 h-3" />
+              Add Condition
+            </button>
+          )}
         </div>
-        <p className="text-sm text-gray-500">No specific conditions identified for this visit</p>
+        <div className="text-center py-6">
+          <Target className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+          <p className="text-sm text-gray-500 mb-3">No conditions selected for this visit</p>
+          {visitId && patientId && showActions ? (
+            <div className="space-y-2">
+              <p className="text-xs text-yellow-600 bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                ⚠️ Add at least one condition before documenting treatment or protocols
+              </p>
+              <button
+                onClick={() => setShowAddConditionModal(true)}
+                className="btn-primary text-sm px-4 py-2"
+              >
+                <Plus className="w-4 h-4 inline mr-2" />
+                Add Condition to Visit
+              </button>
+            </div>
+          ) : (
+            <p className="text-xs text-gray-400">Conditions must be added to track treatment focus</p>
+          )}
+        </div>
+        
+        {/* Add Condition Modal */}
+        {visitId && patientId && (
+          <AddConditionToVisitModal
+            isOpen={showAddConditionModal}
+            onClose={() => setShowAddConditionModal(false)}
+            visitId={visitId}
+            patientId={patientId}
+            existingConditionIds={existingConditionIds}
+            onConditionAdded={handleConditionAdded}
+          />
+        )}
       </div>
     );
   }
@@ -176,15 +259,26 @@ const VisitConditionContext: React.FC<VisitConditionContextProps> = ({
               ({visitConditions.length} condition{visitConditions.length !== 1 ? 's' : ''})
             </span>
           </h3>
-          <button
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="p-1 hover:bg-gray-100 rounded transition-colors"
-          >
-            {isExpanded ? 
-              <ChevronUp className="h-4 w-4 text-gray-500" /> : 
-              <ChevronDown className="h-4 w-4 text-gray-500" />
-            }
-          </button>
+          <div className="flex items-center gap-2">
+            {visitId && patientId && showActions && (
+              <button
+                onClick={() => setShowAddConditionModal(true)}
+                className="flex items-center gap-1 px-2 py-1 bg-healui-physio text-white rounded text-xs font-medium hover:bg-healui-physio/90 transition-colors"
+              >
+                <Plus className="w-3 h-3" />
+                Add More
+              </button>
+            )}
+            <button
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="p-1 hover:bg-gray-100 rounded transition-colors"
+            >
+              {isExpanded ? 
+                <ChevronUp className="h-4 w-4 text-gray-500" /> : 
+                <ChevronDown className="h-4 w-4 text-gray-500" />
+              }
+            </button>
+          </div>
         </div>
 
         {isExpanded && (
@@ -244,6 +338,13 @@ const VisitConditionContext: React.FC<VisitConditionContextProps> = ({
                     {/* Action Buttons */}
                     {showActions && (
                       <div className="flex items-center gap-1 ml-2">
+                        <button
+                          onClick={() => handleViewProtocol(visitCondition)}
+                          className="p-1 hover:bg-purple-100 rounded transition-colors"
+                          title="View treatment protocol"
+                        >
+                          <Eye className="h-3 w-3 text-purple-600" />
+                        </button>
                         <button
                           onClick={() => handleEditCondition(visitCondition)}
                           className="p-1 hover:bg-blue-100 rounded transition-colors"
@@ -401,6 +502,26 @@ const VisitConditionContext: React.FC<VisitConditionContextProps> = ({
         onClose={() => setShowVisitModal(false)}
         visitCondition={selectedVisitCondition}
         onVisitConditionUpdated={handleVisitConditionUpdated}
+      />
+
+      {/* Add Condition Modal */}
+      {visitId && patientId && (
+        <AddConditionToVisitModal
+          isOpen={showAddConditionModal}
+          onClose={() => setShowAddConditionModal(false)}
+          visitId={visitId}
+          patientId={patientId}
+          existingConditionIds={existingConditionIds}
+          onConditionAdded={handleConditionAdded}
+        />
+      )}
+
+      {/* Protocol Viewer Modal */}
+      <ProtocolViewerModal
+        isOpen={showProtocolModal}
+        onClose={() => setShowProtocolModal(false)}
+        condition={protocolData}
+        loading={protocolLoading}
       />
     </div>
   );

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useAppSelector } from '../../../store/hooks';
 import ApiManager from '../../../services/api';
 import AddPatientModal from '../../../components/molecule/AddPatientModal';
-import PatientDetailsModal from '../../../components/molecule/PatientDetailsModal';
+import EnhancedPatientDetailsModal from '../../../components/molecule/EnhancedPatientDetailsModal';
 import ScheduleVisitModal from '../../../components/molecule/ScheduleVisitModal';
 import { 
   UserPlus,
@@ -43,6 +43,34 @@ interface Patient {
   date_of_birth: Date;
   gender: string;
   address?: string;
+  emergency_contact_name?: string;
+  emergency_contact_phone?: string;
+  medical_history?: string;
+  chronic_conditions?: string[];
+  previous_surgeries?: Array<{
+    procedure: string;
+    date: string;
+    body_part: string;
+  }>;
+  past_illnesses?: Array<{
+    illness: string;
+    date: string;
+    treatment: string;
+    resolved: boolean;
+  }>;
+  past_investigations?: Array<{
+    type: string;
+    date: string;
+    findings: string;
+    body_part?: string;
+  }>;
+  occupation?: string;
+  activity_level?: string;
+  family_history?: string;
+  allergies?: string[];
+  current_medications?: string[];
+  insurance_provider?: string;
+  insurance_policy_number?: string;
   status: string;
   created_at: string;
   visits?: any[];
@@ -444,7 +472,7 @@ export default function PatientsPage() {
       )}
 
       {showDetailsModal && selectedPatient && (
-        <PatientDetailsModal
+        <EnhancedPatientDetailsModal
           patient={selectedPatient}
           onClose={() => {
             setShowDetailsModal(false);
@@ -453,6 +481,9 @@ export default function PatientsPage() {
           onScheduleVisit={() => {
             setShowDetailsModal(false);
             setShowScheduleModal(true);
+          }}
+          onPatientUpdate={() => {
+            fetchPatients(); // Refresh patient list after update
           }}
         />
       )}
@@ -523,14 +554,14 @@ const PatientCard: React.FC<PatientCardProps> = ({ patient, viewMode, onView, on
 
   if (viewMode === 'list') {
     return (
-      <tr className="hover:bg-gray-50">
+      <tr className="hover:bg-gray-50 cursor-pointer" onClick={onView}>
         <td className="px-6 py-4 whitespace-nowrap">
           <div className="flex items-center">
             <div className="h-10 w-10 rounded-full bg-brand-teal flex items-center justify-center text-white font-semibold flex-shrink-0">
               {patient.full_name.split(' ').map(n => n[0]).join('').slice(0, 2)}
             </div>
             <div className="ml-4">
-              <div className="text-sm font-medium text-gray-900">
+              <div className="text-sm font-medium text-gray-900 hover:text-brand-teal">
                 {patient.full_name}
               </div>
             </div>
@@ -556,13 +587,19 @@ const PatientCard: React.FC<PatientCardProps> = ({ patient, viewMode, onView, on
         </td>
         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
           <button
-            onClick={onView}
+            onClick={(e) => {
+              e.stopPropagation();
+              onView();
+            }}
             className="text-brand-teal hover:text-brand-teal/80 mr-3"
           >
             View
           </button>
           <button
-            onClick={onSchedule}
+            onClick={(e) => {
+              e.stopPropagation();
+              onSchedule();
+            }}
             className="text-gray-600 hover:text-gray-900"
           >
             Schedule
@@ -573,7 +610,10 @@ const PatientCard: React.FC<PatientCardProps> = ({ patient, viewMode, onView, on
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
+    <div 
+      className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 cursor-pointer"
+      onClick={onView}
+    >
       <div className="p-5">
         {/* Header with Avatar and Status */}
         <div className="flex items-start justify-between mb-4">
@@ -616,13 +656,19 @@ const PatientCard: React.FC<PatientCardProps> = ({ patient, viewMode, onView, on
         {/* Action Buttons */}
         <div className="flex items-center justify-between pt-4 border-t border-gray-100">
           <button
-            onClick={onView}
+            onClick={(e) => {
+              e.stopPropagation();
+              onView();
+            }}
             className="text-sm text-brand-teal hover:text-brand-teal/80 font-medium"
           >
             View Details
           </button>
           <button
-            onClick={onSchedule}
+            onClick={(e) => {
+              e.stopPropagation();
+              onSchedule();
+            }}
             className="inline-flex items-center px-3 py-1.5 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
           >
             <CalendarPlus className="h-4 w-4 mr-1.5" />

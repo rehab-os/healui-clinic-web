@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import ApiManager from '../../services/api';
 import { format, parseISO } from 'date-fns';
+import EditPatientModal from './EditPatientModal';
 
 interface Patient {
   id: string;
@@ -20,6 +21,27 @@ interface Patient {
   emergency_contact_name?: string;
   emergency_contact_phone?: string;
   medical_history?: string;
+  chronic_conditions?: string[];
+  previous_surgeries?: Array<{
+    procedure: string;
+    date: string;
+    body_part: string;
+  }>;
+  past_illnesses?: Array<{
+    illness: string;
+    date: string;
+    treatment: string;
+    resolved: boolean;
+  }>;
+  past_investigations?: Array<{
+    type: string;
+    date: string;
+    findings: string;
+    body_part?: string;
+  }>;
+  occupation?: string;
+  activity_level?: string;
+  family_history?: string;
   allergies?: string[];
   current_medications?: string[];
   insurance_provider?: string;
@@ -69,12 +91,14 @@ interface EnhancedPatientDetailsModalProps {
   patient: Patient;
   onClose: () => void;
   onScheduleVisit: () => void;
+  onPatientUpdate?: () => void;
 }
 
 const EnhancedPatientDetailsModal: React.FC<EnhancedPatientDetailsModalProps> = ({ 
   patient, 
   onClose, 
-  onScheduleVisit 
+  onScheduleVisit,
+  onPatientUpdate
 }) => {
   const [visits, setVisits] = useState<Visit[]>([]);
   const [loading, setLoading] = useState(true);
@@ -84,6 +108,7 @@ const EnhancedPatientDetailsModal: React.FC<EnhancedPatientDetailsModalProps> = 
   const [expandedVisit, setExpandedVisit] = useState<string | null>(null);
   const [showNewNote, setShowNewNote] = useState(false);
   const [selectedVisitForNote, setSelectedVisitForNote] = useState<string | null>(null);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [noteType, setNoteType] = useState<'SOAP' | 'DAP' | 'PROGRESS'>('SOAP');
   const [noteData, setNoteData] = useState<any>({
     soap: { subjective: '', objective: '', assessment: '', plan: '' },
@@ -272,6 +297,13 @@ const EnhancedPatientDetailsModal: React.FC<EnhancedPatientDetailsModalProps> = 
               </div>
             </div>
             <div className="flex items-center space-x-2">
+              <button
+                onClick={() => setShowEditModal(true)}
+                className="inline-flex items-center px-4 py-2 bg-white/20 backdrop-blur text-white rounded-lg hover:bg-white/30 transition-colors"
+              >
+                <Edit3 className="h-4 w-4 mr-2" />
+                Edit Patient
+              </button>
               <button
                 onClick={onScheduleVisit}
                 className="inline-flex items-center px-4 py-2 bg-white/20 backdrop-blur text-white rounded-lg hover:bg-white/30 transition-colors"
@@ -673,6 +705,197 @@ const EnhancedPatientDetailsModal: React.FC<EnhancedPatientDetailsModalProps> = 
                   <p className="text-gray-500 italic">No current medications</p>
                 )}
               </div>
+
+              {/* Chronic Conditions */}
+              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                  <Stethoscope className="h-5 w-5 mr-2 text-purple-600" />
+                  Chronic Conditions
+                </h3>
+                {displayPatient.chronic_conditions && displayPatient.chronic_conditions.length > 0 ? (
+                  <div className="flex flex-wrap gap-2">
+                    {displayPatient.chronic_conditions.map((condition, index) => (
+                      <span key={index} className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800 border border-purple-200">
+                        {condition}
+                      </span>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-gray-500 italic">No chronic conditions recorded</p>
+                )}
+              </div>
+
+              {/* Previous Surgeries */}
+              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                  <ClipboardList className="h-5 w-5 mr-2 text-indigo-600" />
+                  Previous Surgeries
+                </h3>
+                {displayPatient.previous_surgeries && displayPatient.previous_surgeries.length > 0 ? (
+                  <div className="space-y-3">
+                    {displayPatient.previous_surgeries.map((surgery, index) => (
+                      <div key={index} className="border border-gray-200 rounded-lg p-4 bg-gray-50">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                          <div>
+                            <span className="text-sm font-medium text-gray-600">Procedure:</span>
+                            <p className="text-gray-900">{surgery.procedure}</p>
+                          </div>
+                          <div>
+                            <span className="text-sm font-medium text-gray-600">Date:</span>
+                            <p className="text-gray-900">
+                              {surgery.date ? format(new Date(surgery.date), 'MMM dd, yyyy') : 'Not specified'}
+                            </p>
+                          </div>
+                          {surgery.body_part && (
+                            <div>
+                              <span className="text-sm font-medium text-gray-600">Body Part:</span>
+                              <p className="text-gray-900">{surgery.body_part}</p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-gray-500 italic">No previous surgeries recorded</p>
+                )}
+              </div>
+
+              {/* Past Illnesses */}
+              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                  <FileText className="h-5 w-5 mr-2 text-green-600" />
+                  Past Illnesses
+                </h3>
+                {displayPatient.past_illnesses && displayPatient.past_illnesses.length > 0 ? (
+                  <div className="space-y-3">
+                    {displayPatient.past_illnesses.map((illness, index) => (
+                      <div key={index} className="border border-gray-200 rounded-lg p-4 bg-gray-50">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">
+                          <div>
+                            <span className="text-sm font-medium text-gray-600">Illness:</span>
+                            <p className="text-gray-900">{illness.illness}</p>
+                          </div>
+                          <div>
+                            <span className="text-sm font-medium text-gray-600">Date:</span>
+                            <p className="text-gray-900">
+                              {illness.date ? format(new Date(illness.date), 'MMM dd, yyyy') : 'Not specified'}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                          <div>
+                            <span className="text-sm font-medium text-gray-600">Treatment:</span>
+                            <p className="text-gray-900">{illness.treatment}</p>
+                          </div>
+                          <div>
+                            <span className="text-sm font-medium text-gray-600">Status:</span>
+                            <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                              illness.resolved 
+                                ? 'bg-green-100 text-green-800 border border-green-200'
+                                : 'bg-yellow-100 text-yellow-800 border border-yellow-200'
+                            }`}>
+                              {illness.resolved ? 'Resolved' : 'Ongoing'}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-gray-500 italic">No past illnesses recorded</p>
+                )}
+              </div>
+
+              {/* Past Investigations */}
+              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                  <Target className="h-5 w-5 mr-2 text-teal-600" />
+                  Past Investigations
+                </h3>
+                {displayPatient.past_investigations && displayPatient.past_investigations.length > 0 ? (
+                  <div className="space-y-3">
+                    {displayPatient.past_investigations.map((investigation, index) => (
+                      <div key={index} className="border border-gray-200 rounded-lg p-4 bg-gray-50">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-2">
+                          <div>
+                            <span className="text-sm font-medium text-gray-600">Type:</span>
+                            <p className="text-gray-900">{investigation.type}</p>
+                          </div>
+                          <div>
+                            <span className="text-sm font-medium text-gray-600">Date:</span>
+                            <p className="text-gray-900">
+                              {investigation.date ? format(new Date(investigation.date), 'MMM dd, yyyy') : 'Not specified'}
+                            </p>
+                          </div>
+                          {investigation.body_part && (
+                            <div>
+                              <span className="text-sm font-medium text-gray-600">Body Part:</span>
+                              <p className="text-gray-900">{investigation.body_part}</p>
+                            </div>
+                          )}
+                        </div>
+                        <div>
+                          <span className="text-sm font-medium text-gray-600">Findings:</span>
+                          <p className="text-gray-900 mt-1">{investigation.findings}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-gray-500 italic">No past investigations recorded</p>
+                )}
+              </div>
+
+              {/* Lifestyle Information */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Occupation */}
+                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                    <User className="h-5 w-5 mr-2 text-gray-600" />
+                    Occupation
+                  </h3>
+                  {displayPatient.occupation ? (
+                    <p className="text-gray-700">{displayPatient.occupation}</p>
+                  ) : (
+                    <p className="text-gray-500 italic">Not specified</p>
+                  )}
+                </div>
+
+                {/* Activity Level */}
+                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                    <Activity className="h-5 w-5 mr-2 text-emerald-600" />
+                    Activity Level
+                  </h3>
+                  {displayPatient.activity_level ? (
+                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+                      displayPatient.activity_level === 'ATHLETIC' ? 'bg-green-100 text-green-800 border border-green-200' :
+                      displayPatient.activity_level === 'ACTIVE' ? 'bg-blue-100 text-blue-800 border border-blue-200' :
+                      displayPatient.activity_level === 'MODERATE' ? 'bg-yellow-100 text-yellow-800 border border-yellow-200' :
+                      displayPatient.activity_level === 'LIGHT' ? 'bg-orange-100 text-orange-800 border border-orange-200' :
+                      'bg-red-100 text-red-800 border border-red-200'
+                    }`}>
+                      {displayPatient.activity_level.charAt(0) + displayPatient.activity_level.slice(1).toLowerCase()}
+                    </span>
+                  ) : (
+                    <p className="text-gray-500 italic">Not specified</p>
+                  )}
+                </div>
+              </div>
+
+              {/* Family History */}
+              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                  <Brain className="h-5 w-5 mr-2 text-pink-600" />
+                  Family History
+                </h3>
+                {displayPatient.family_history ? (
+                  <p className="text-gray-700 whitespace-pre-wrap">{displayPatient.family_history}</p>
+                ) : (
+                  <p className="text-gray-500 italic">No family history recorded</p>
+                )}
+              </div>
             </div>
           )}
         </div>
@@ -787,6 +1010,19 @@ const EnhancedPatientDetailsModal: React.FC<EnhancedPatientDetailsModalProps> = 
               </div>
             </div>
           </div>
+        )}
+
+        {/* Edit Patient Modal */}
+        {showEditModal && fullPatientData && (
+          <EditPatientModal
+            patient={fullPatientData}
+            onClose={() => setShowEditModal(false)}
+            onSuccess={() => {
+              setShowEditModal(false);
+              fetchFullPatientData(); // Refresh patient data
+              onPatientUpdate?.(); // Notify parent component
+            }}
+          />
         )}
       </div>
     </div>

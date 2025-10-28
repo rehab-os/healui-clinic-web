@@ -248,6 +248,35 @@ export enum PatientStatus {
     DISCHARGED = 'DISCHARGED'
 }
 
+// Medical History Support Types
+export enum ActivityLevel {
+    SEDENTARY = 'SEDENTARY',
+    LIGHT = 'LIGHT',
+    MODERATE = 'MODERATE',
+    ACTIVE = 'ACTIVE',
+    ATHLETIC = 'ATHLETIC'
+}
+
+export interface PreviousSurgeryDto {
+    procedure: string
+    date?: string
+    body_part?: string
+}
+
+export interface PastIllnessDto {
+    illness: string
+    date?: string
+    treatment: string
+    resolved: boolean
+}
+
+export interface PastInvestigationDto {
+    type: string
+    date?: string
+    findings: string
+    body_part?: string
+}
+
 export interface CreatePatientDto {
     full_name: string
     phone: string
@@ -258,6 +287,13 @@ export interface CreatePatientDto {
     emergency_contact_name?: string
     emergency_contact_phone?: string
     medical_history?: string
+    chronic_conditions?: string[]
+    previous_surgeries?: PreviousSurgeryDto[]
+    past_illnesses?: PastIllnessDto[]
+    past_investigations?: PastInvestigationDto[]
+    occupation?: string
+    activity_level?: ActivityLevel
+    family_history?: string
     allergies?: string[]
     current_medications?: string[]
     referred_by?: string
@@ -283,6 +319,13 @@ export interface PatientResponseDto {
     emergency_contact_name?: string
     emergency_contact_phone?: string
     medical_history?: string
+    chronic_conditions?: string[]
+    previous_surgeries?: PreviousSurgeryDto[]
+    past_illnesses?: PastIllnessDto[]
+    past_investigations?: PastInvestigationDto[]
+    occupation?: string
+    activity_level?: ActivityLevel
+    family_history?: string
     allergies?: string[]
     current_medications?: string[]
     status: PatientStatus

@@ -871,9 +871,12 @@ export default function AppointmentDetailsPage() {
               error={conditionError}
               className="mb-3"
               showActions={true}
+              visitId={appointment?.id}
+              patientId={appointment?.patient_id || appointment?.patient_user_id}
               onConditionUpdated={() => {
                 // Refresh visit conditions data
                 fetchVisitConditions();
+                fetchPatientConditions();
               }}
             />
 
