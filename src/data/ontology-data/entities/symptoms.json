@@ -1,0 +1,3649 @@
+{
+  "symptoms": {
+    "SYMPTOM_001": {
+      "name": "Sharp pain with overhead activities",
+      "type": "pain",
+      "body_regions": [
+        "shoulder"
+      ],
+      "characteristics": {
+        "quality": "sharp",
+        "trigger": "overhead_movement",
+        "severity_range": "moderate_to_severe"
+      },
+      "clinical_significance": "Common in impingement syndromes and rotator cuff pathology"
+    },
+    "SYMPTOM_002": {
+      "name": "Night pain disturbing sleep",
+      "type": "pain",
+      "body_regions": [
+        "shoulder",
+        "hip"
+      ],
+      "characteristics": {
+        "quality": "variable",
+        "trigger": "lying_on_affected_side",
+        "timing": "nocturnal"
+      },
+      "clinical_significance": "Highly suggestive of inflammatory or adhesive conditions"
+    },
+    "SYMPTOM_003": {
+      "name": "Progressive loss of range of motion",
+      "type": "movement_restriction",
+      "body_regions": [
+        "shoulder",
+        "elbow",
+        "knee"
+      ],
+      "characteristics": {
+        "onset": "gradual",
+        "pattern": "capsular",
+        "progression": "worsening"
+      },
+      "clinical_significance": "Pathognomonic for adhesive capsulitis when in shoulder"
+    },
+    "SYMPTOM_004": {
+      "name": "Morning stiffness lasting >30 minutes",
+      "type": "stiffness",
+      "body_regions": [
+        "spine",
+        "multiple_joints"
+      ],
+      "characteristics": {
+        "duration": ">30_minutes",
+        "timing": "morning",
+        "improvement": "with_activity"
+      },
+      "clinical_significance": "Indicative of inflammatory arthropathy"
+    },
+    "SYMPTOM_005": {
+      "name": "Pain radiating down leg below knee",
+      "type": "neurological_pain",
+      "body_regions": [
+        "lumbar_spine",
+        "lower_extremity"
+      ],
+      "characteristics": {
+        "quality": "shooting_burning",
+        "distribution": "dermatomal",
+        "below_knee": true
+      },
+      "clinical_significance": "Suggests nerve root compression"
+    },
+    "SYMPTOM_006": {
+      "name": "Numbness and tingling in dermatomal pattern",
+      "type": "neurological_sensory",
+      "body_regions": [
+        "spine",
+        "extremities"
+      ],
+      "characteristics": {
+        "quality": "pins_needles",
+        "distribution": "dermatomal",
+        "constant_intermittent": "variable"
+      },
+      "clinical_significance": "Indicates nerve involvement"
+    },
+    "SYMPTOM_007": {
+      "name": "Weakness in specific muscle groups",
+      "type": "neurological_motor",
+      "body_regions": [
+        "extremities"
+      ],
+      "characteristics": {
+        "pattern": "myotomal",
+        "severity": "variable",
+        "progression": "stable_or_worsening"
+      },
+      "clinical_significance": "Suggests nerve root or peripheral nerve pathology"
+    },
+    "SYMPTOM_008": {
+      "name": "Catching or locking sensation",
+      "type": "mechanical",
+      "body_regions": [
+        "knee",
+        "shoulder",
+        "elbow"
+      ],
+      "characteristics": {
+        "frequency": "intermittent",
+        "mechanical_block": true,
+        "relief": "with_manipulation"
+      },
+      "clinical_significance": "Indicates intra-articular pathology or loose body"
+    },
+    "SYMPTOM_009": {
+      "name": "Giving way or instability",
+      "type": "mechanical",
+      "body_regions": [
+        "knee",
+        "ankle",
+        "shoulder"
+      ],
+      "characteristics": {
+        "trigger": "weight_bearing_or_movement",
+        "frequency": "variable",
+        "actual_vs_feeling": "both"
+      },
+      "clinical_significance": "Suggests ligamentous insufficiency or muscle weakness"
+    },
+    "SYMPTOM_010": {
+      "name": "Swelling after activity",
+      "type": "inflammatory",
+      "body_regions": [
+        "knee",
+        "ankle",
+        "wrist"
+      ],
+      "characteristics": {
+        "onset": "post_activity",
+        "duration": "hours_to_days",
+        "pitting": "variable"
+      },
+      "clinical_significance": "Common in degenerative and overuse conditions"
+    },
+    "SYMPTOM_011": {
+      "name": "Pain worse at start of activity, improves with warming up",
+      "type": "pain",
+      "body_regions": [
+        "tendon_sites"
+      ],
+      "characteristics": {
+        "pattern": "warm_up_phenomenon",
+        "duration": "first_10_15_minutes",
+        "severity": "moderate"
+      },
+      "clinical_significance": "Classic for tendinopathy"
+    },
+    "SYMPTOM_012": {
+      "name": "Pain with resisted muscle contraction",
+      "type": "pain",
+      "body_regions": [
+        "muscle_tendon_units"
+      ],
+      "characteristics": {
+        "trigger": "isometric_contraction",
+        "location": "muscle_or_tendon",
+        "reproduction": "consistent"
+      },
+      "clinical_significance": "Indicates contractile tissue pathology"
+    },
+    "SYMPTOM_013": {
+      "name": "Bilateral symptoms",
+      "type": "distribution_pattern",
+      "body_regions": [
+        "multiple"
+      ],
+      "characteristics": {
+        "symmetry": "bilateral",
+        "onset": "variable",
+        "severity": "may_differ"
+      },
+      "clinical_significance": "Suggests systemic condition"
+    },
+    "SYMPTOM_014": {
+      "name": "Pain at rest",
+      "type": "pain",
+      "body_regions": [
+        "any"
+      ],
+      "characteristics": {
+        "trigger": "none_at_rest",
+        "severity": "variable",
+        "quality": "variable"
+      },
+      "clinical_significance": "May indicate inflammatory process or severe pathology"
+    },
+    "SYMPTOM_015": {
+      "name": "Difficulty walking or abnormal gait",
+      "type": "functional_limitation",
+      "body_regions": [
+        "lower_extremity",
+        "spine"
+      ],
+      "characteristics": {
+        "pattern": "antalgic_or_specific",
+        "compensation": "present",
+        "distance_limited": "variable"
+      },
+      "clinical_significance": "Indicates significant functional impairment"
+    },
+    "SYMPTOM_016": {
+      "name": "Unable to bear weight",
+      "type": "functional_limitation",
+      "body_regions": [
+        "lower_extremity"
+      ],
+      "characteristics": {
+        "complete_partial": "variable",
+        "immediate_delayed": "variable",
+        "mechanism": "pain_or_instability"
+      },
+      "clinical_significance": "Red flag for fracture or severe injury"
+    },
+    "SYMPTOM_017": {
+      "name": "Burning or electric shock sensation",
+      "type": "neurological_pain",
+      "body_regions": [
+        "spine",
+        "extremities"
+      ],
+      "characteristics": {
+        "quality": "burning_electric",
+        "trigger": "movement_or_spontaneous",
+        "distribution": "nerve_pathway"
+      },
+      "clinical_significance": "Indicates neuropathic pain"
+    },
+    "SYMPTOM_018": {
+      "name": "Throbbing pain",
+      "type": "pain",
+      "body_regions": [
+        "any"
+      ],
+      "characteristics": {
+        "quality": "throbbing_pulsating",
+        "rhythm": "with_heartbeat",
+        "severity": "variable"
+      },
+      "clinical_significance": "Often indicates inflammation or vascular involvement"
+    },
+    "SYMPTOM_019": {
+      "name": "Crepitus or grinding sensation",
+      "type": "mechanical",
+      "body_regions": [
+        "knee",
+        "shoulder",
+        "neck"
+      ],
+      "characteristics": {
+        "audible": "sometimes",
+        "palpable": "yes",
+        "painful": "variable"
+      },
+      "clinical_significance": "Common in degenerative conditions"
+    },
+    "SYMPTOM_020": {
+      "name": "Pain worse with prolonged positions",
+      "type": "pain",
+      "body_regions": [
+        "spine",
+        "hip"
+      ],
+      "characteristics": {
+        "positions": "sitting_standing_lying",
+        "duration_to_onset": "20_60_minutes",
+        "relief": "position_change"
+      },
+      "clinical_significance": "Suggests postural or mechanical factors"
+    },
+    "SYMPTOM_021": {
+      "name": "Difficulty with stairs",
+      "type": "functional_limitation",
+      "body_regions": [
+        "knee",
+        "hip"
+      ],
+      "characteristics": {
+        "direction": "up_down_both",
+        "mechanism": "pain_weakness_instability",
+        "handrail_needed": "variable"
+      },
+      "clinical_significance": "Common in lower limb pathology"
+    },
+    "SYMPTOM_022": {
+      "name": "Pain with deep breathing or coughing",
+      "type": "pain",
+      "body_regions": [
+        "thoracic_spine",
+        "ribs"
+      ],
+      "characteristics": {
+        "trigger": "respiratory_movement",
+        "location": "chest_or_back",
+        "pleuritic": "possible"
+      },
+      "clinical_significance": "May indicate rib or thoracic involvement"
+    },
+    "SYMPTOM_023": {
+      "name": "Difficulty gripping or dropping objects",
+      "type": "functional_limitation",
+      "body_regions": [
+        "hand",
+        "wrist"
+      ],
+      "characteristics": {
+        "frequency": "intermittent_or_constant",
+        "objects_affected": "all_or_specific",
+        "grip_type": "power_or_precision"
+      },
+      "clinical_significance": "Indicates hand or neurological pathology"
+    },
+    "SYMPTOM_024": {
+      "name": "Visible deformity",
+      "type": "structural",
+      "body_regions": [
+        "any"
+      ],
+      "characteristics": {
+        "onset": "sudden_or_gradual",
+        "type": "angulation_rotation_shortening",
+        "severity": "obvious"
+      },
+      "clinical_significance": "Red flag requiring immediate assessment"
+    },
+    "SYMPTOM_025": {
+      "name": "Skin color or temperature changes",
+      "type": "vascular_autonomic",
+      "body_regions": [
+        "extremities"
+      ],
+      "characteristics": {
+        "color": "red_blue_pale",
+        "temperature": "hot_cold",
+        "symmetry": "unilateral_usually"
+      },
+      "clinical_significance": "May indicate vascular or autonomic involvement"
+    },
+    "SYMPTOM_026": {
+      "name": "Pain worse with weather changes",
+      "type": "pain",
+      "body_regions": [
+        "joints"
+      ],
+      "characteristics": {
+        "trigger": "barometric_pressure",
+        "predictive": "often",
+        "severity_change": "mild_to_moderate"
+      },
+      "clinical_significance": "Common in arthritis and old injuries"
+    },
+    "SYMPTOM_027": {
+      "name": "Muscle spasms or cramping",
+      "type": "muscular",
+      "body_regions": [
+        "back",
+        "extremities"
+      ],
+      "characteristics": {
+        "duration": "seconds_to_minutes",
+        "trigger": "movement_or_rest",
+        "visible": "sometimes"
+      },
+      "clinical_significance": "Protective mechanism or metabolic issue"
+    },
+    "SYMPTOM_028": {
+      "name": "Fatigue with minimal exertion",
+      "type": "systemic",
+      "body_regions": [
+        "generalized"
+      ],
+      "characteristics": {
+        "onset": "with_minimal_activity",
+        "recovery": "prolonged",
+        "pattern": "consistent"
+      },
+      "clinical_significance": "May indicate deconditioning or systemic condition"
+    },
+    "SYMPTOM_029": {
+      "name": "Pain immediately after injury",
+      "type": "pain",
+      "body_regions": [
+        "any"
+      ],
+      "characteristics": {
+        "onset": "immediate",
+        "mechanism": "traumatic",
+        "severity": "usually_severe"
+      },
+      "clinical_significance": "Suggests acute tissue damage"
+    },
+    "SYMPTOM_030": {
+      "name": "Gradual onset pain without trauma",
+      "type": "pain",
+      "body_regions": [
+        "any"
+      ],
+      "characteristics": {
+        "onset": "insidious",
+        "progression": "gradual_worsening",
+        "trauma": "none"
+      },
+      "clinical_significance": "Common in overuse or degenerative conditions"
+    },
+    "SYMPTOM_031": {
+      "name": "Clicking or popping sounds",
+      "type": "mechanical",
+      "body_regions": [
+        "joints"
+      ],
+      "characteristics": {
+        "painful": "variable",
+        "reproducible": "sometimes",
+        "frequency": "with_movement"
+      },
+      "clinical_significance": "May be normal or indicate pathology"
+    },
+    "SYMPTOM_032": {
+      "name": "Sensation of joint subluxation",
+      "type": "mechanical",
+      "body_regions": [
+        "shoulder",
+        "patella",
+        "hip"
+      ],
+      "characteristics": {
+        "actual_vs_feeling": "both_possible",
+        "frequency": "variable",
+        "self_reducing": "usually"
+      },
+      "clinical_significance": "Indicates instability"
+    },
+    "SYMPTOM_033": {
+      "name": "Pain with specific movements only",
+      "type": "pain",
+      "body_regions": [
+        "any"
+      ],
+      "characteristics": {
+        "movement_specific": "yes",
+        "arc_of_motion": "specific_range",
+        "avoidable": "yes"
+      },
+      "clinical_significance": "Suggests mechanical impingement"
+    },
+    "SYMPTOM_034": {
+      "name": "Referred pain to distant site",
+      "type": "pain",
+      "body_regions": [
+        "spine",
+        "hip",
+        "shoulder"
+      ],
+      "characteristics": {
+        "location": "distant_from_source",
+        "pattern": "non_dermatomal",
+        "confusing": "often"
+      },
+      "clinical_significance": "Common from spine and hip"
+    },
+    "SYMPTOM_035": {
+      "name": "Inability to find comfortable position",
+      "type": "pain",
+      "body_regions": [
+        "spine",
+        "shoulder"
+      ],
+      "characteristics": {
+        "severity": "significant",
+        "sleep_affected": "yes",
+        "constant_shifting": "yes"
+      },
+      "clinical_significance": "Indicates severe inflammation or instability"
+    },
+    "SYMPTOM_036": {
+      "name": "Pain with direct pressure",
+      "type": "pain",
+      "body_regions": [
+        "any"
+      ],
+      "characteristics": {
+        "trigger": "palpation",
+        "localized": "yes",
+        "severity": "variable"
+      },
+      "clinical_significance": "Indicates local tissue irritation"
+    },
+    "SYMPTOM_037": {
+      "name": "Feeling of heaviness in limb",
+      "type": "sensory",
+      "body_regions": [
+        "extremities"
+      ],
+      "characteristics": {
+        "actual_weight": "no_change",
+        "effort_increased": "yes",
+        "fatiguability": "increased"
+      },
+      "clinical_significance": "May indicate neurological or vascular issue"
+    },
+    "SYMPTOM_038": {
+      "name": "Difficulty with fine motor tasks",
+      "type": "functional_limitation",
+      "body_regions": [
+        "hand"
+      ],
+      "characteristics": {
+        "tasks": "buttoning_writing_typing",
+        "dexterity": "reduced",
+        "speed": "slower"
+      },
+      "clinical_significance": "Indicates hand or neurological dysfunction"
+    },
+    "SYMPTOM_039": {
+      "name": "Pain worse at end of day",
+      "type": "pain",
+      "body_regions": [
+        "weight_bearing_joints"
+      ],
+      "characteristics": {
+        "timing": "evening",
+        "accumulation": "throughout_day",
+        "relief": "rest_overnight"
+      },
+      "clinical_significance": "Common in degenerative conditions"
+    },
+    "SYMPTOM_040": {
+      "name": "Sharp pain with initial weight bearing",
+      "type": "pain",
+      "body_regions": [
+        "foot",
+        "heel"
+      ],
+      "characteristics": {
+        "timing": "first_steps",
+        "quality": "sharp_stabbing",
+        "improvement": "after_few_steps"
+      },
+      "clinical_significance": "Classic for plantar fasciitis"
+    },
+    "SYMPTOM_041": {
+      "name": "Aching pain after prolonged activity",
+      "type": "pain",
+      "body_regions": [
+        "any"
+      ],
+      "characteristics": {
+        "quality": "deep_aching",
+        "onset": "delayed_after_activity",
+        "duration": "hours_to_days"
+      },
+      "clinical_significance": "Common in overuse syndromes"
+    },
+    "SYMPTOM_042": {
+      "name": "Pins and needles sensation",
+      "type": "neurological_sensory",
+      "body_regions": [
+        "extremities"
+      ],
+      "characteristics": {
+        "quality": "tingling",
+        "distribution": "variable",
+        "triggers": "position_or_constant"
+      },
+      "clinical_significance": "Indicates nerve compression or irritation"
+    },
+    "SYMPTOM_043": {
+      "name": "Loss of proprioception or balance",
+      "type": "neurological_sensory",
+      "body_regions": [
+        "lower_extremity",
+        "spine"
+      ],
+      "characteristics": {
+        "awareness": "position_sense_reduced",
+        "balance": "impaired",
+        "falls_risk": "increased"
+      },
+      "clinical_significance": "Indicates proprioceptive deficit"
+    },
+    "SYMPTOM_044": {
+      "name": "Pain with sitting for extended periods",
+      "type": "pain",
+      "body_regions": [
+        "lumbar_spine",
+        "coccyx",
+        "hip"
+      ],
+      "characteristics": {
+        "duration_to_onset": "20_60_minutes",
+        "relief": "standing_walking",
+        "surface_dependent": "sometimes"
+      },
+      "clinical_significance": "Common in disc and postural conditions"
+    },
+    "SYMPTOM_045": {
+      "name": "Difficulty rising from seated position",
+      "type": "functional_limitation",
+      "body_regions": [
+        "hip",
+        "knee",
+        "lumbar_spine"
+      ],
+      "characteristics": {
+        "need_arm_assist": "variable",
+        "multiple_attempts": "sometimes",
+        "pain_vs_weakness": "both_possible"
+      },
+      "clinical_significance": "Indicates significant functional impairment"
+    },
+    "SYMPTOM_046": {
+      "name": "Tenderness along bone",
+      "type": "pain",
+      "body_regions": [
+        "any_bone"
+      ],
+      "characteristics": {
+        "palpation": "tender",
+        "pattern": "along_bone_length",
+        "swelling": "possible"
+      },
+      "clinical_significance": "May indicate stress fracture or periostitis"
+    },
+    "SYMPTOM_047": {
+      "name": "Pain with passive movement",
+      "type": "pain",
+      "body_regions": [
+        "joints"
+      ],
+      "characteristics": {
+        "movement": "passive_only",
+        "pattern": "non_capsular_or_capsular",
+        "end_feel": "abnormal"
+      },
+      "clinical_significance": "Indicates non-contractile tissue involvement"
+    },
+    "SYMPTOM_048": {
+      "name": "Difficulty sleeping due to pain",
+      "type": "functional_limitation",
+      "body_regions": [
+        "any"
+      ],
+      "characteristics": {
+        "sleep_pattern": "disrupted",
+        "position_dependent": "often",
+        "frequency": "nightly"
+      },
+      "clinical_significance": "Indicates significant pain severity"
+    },
+    "SYMPTOM_049": {
+      "name": "Warmth or heat in joint",
+      "type": "inflammatory",
+      "body_regions": [
+        "joints"
+      ],
+      "characteristics": {
+        "temperature": "increased",
+        "comparison": "warmer_than_opposite",
+        "associated": "swelling_redness"
+      },
+      "clinical_significance": "Indicates active inflammation"
+    },
+    "SYMPTOM_050": {
+      "name": "Limited movement in all directions",
+      "type": "movement_restriction",
+      "body_regions": [
+        "joints"
+      ],
+      "characteristics": {
+        "pattern": "capsular",
+        "severity": "moderate_to_severe",
+        "painful": "usually"
+      },
+      "clinical_significance": "Suggests joint capsule involvement"
+    },
+    "SYMPTOM_051": {
+      "name": "Snapping or clicking hip",
+      "type": "mechanical",
+      "body_regions": [
+        "hip"
+      ],
+      "characteristics": {
+        "location": "lateral_anterior_medial",
+        "audible": "sometimes",
+        "painful": "variable"
+      },
+      "clinical_significance": "Indicates snapping hip syndrome"
+    },
+    "SYMPTOM_052": {
+      "name": "Pain with combined movements",
+      "type": "pain",
+      "body_regions": [
+        "spine"
+      ],
+      "characteristics": {
+        "movements": "flexion_rotation_combined",
+        "single_plane": "less_painful",
+        "pattern": "consistent"
+      },
+      "clinical_significance": "Suggests facet joint or disc involvement"
+    },
+    "SYMPTOM_053": {
+      "name": "Hyperesthesia or allodynia",
+      "type": "neurological_sensory",
+      "body_regions": [
+        "any"
+      ],
+      "characteristics": {
+        "sensitivity": "increased",
+        "light_touch": "painful",
+        "distribution": "variable"
+      },
+      "clinical_significance": "Indicates central sensitization or neuropathy"
+    },
+    "SYMPTOM_054": {
+      "name": "Feeling of joint being stuck",
+      "type": "mechanical",
+      "body_regions": [
+        "spine",
+        "joints"
+      ],
+      "characteristics": {
+        "duration": "momentary",
+        "release": "with_movement",
+        "painful": "usually"
+      },
+      "clinical_significance": "Common in facet joint dysfunction"
+    },
+    "SYMPTOM_055": {
+      "name": "Radiating pain following nerve path",
+      "type": "neurological_pain",
+      "body_regions": [
+        "spine",
+        "extremities"
+      ],
+      "characteristics": {
+        "distribution": "dermatomal",
+        "quality": "sharp_burning_electric",
+        "constant_intermittent": "variable"
+      },
+      "clinical_significance": "Indicates nerve root involvement"
+    },
+    "SYMPTOM_056": {
+      "name": "Difficulty with overhead activities",
+      "type": "functional_limitation",
+      "body_regions": [
+        "shoulder"
+      ],
+      "characteristics": {
+        "activities": "reaching_lifting_working",
+        "height_dependent": "yes",
+        "compensation": "often"
+      },
+      "clinical_significance": "Common in shoulder pathology"
+    },
+    "SYMPTOM_057": {
+      "name": "Pain with reaching behind back",
+      "type": "functional_limitation",
+      "body_regions": [
+        "shoulder"
+      ],
+      "characteristics": {
+        "activities": "fastening_bra_wallet_pocket",
+        "internal_rotation": "limited",
+        "painful_arc": "yes"
+      },
+      "clinical_significance": "Indicates internal rotation deficit"
+    },
+    "SYMPTOM_058": {
+      "name": "Feeling of shoulder slipping out",
+      "type": "mechanical",
+      "body_regions": [
+        "shoulder"
+      ],
+      "characteristics": {
+        "apprehension": "yes",
+        "positions": "abduction_external_rotation",
+        "history": "dislocation_possible"
+      },
+      "clinical_significance": "Indicates shoulder instability"
+    },
+    "SYMPTOM_059": {
+      "name": "Knee buckling or giving way",
+      "type": "mechanical",
+      "body_regions": [
+        "knee"
+      ],
+      "characteristics": {
+        "frequency": "occasional_to_frequent",
+        "warning": "with_or_without",
+        "falls": "possible"
+      },
+      "clinical_significance": "Suggests ligament deficiency or weakness"
+    },
+    "SYMPTOM_060": {
+      "name": "Knee swelling within hours of injury",
+      "type": "inflammatory",
+      "body_regions": [
+        "knee"
+      ],
+      "characteristics": {
+        "onset": "within_2_4_hours",
+        "severity": "moderate_to_severe",
+        "hemarthrosis": "possible"
+      },
+      "clinical_significance": "Suggests significant intra-articular injury"
+    },
+    "SYMPTOM_061": {
+      "name": "Pain behind kneecap",
+      "type": "pain",
+      "body_regions": [
+        "knee"
+      ],
+      "characteristics": {
+        "location": "retropatellar",
+        "activities": "stairs_squatting_sitting",
+        "quality": "aching_sharp"
+      },
+      "clinical_significance": "Common in patellofemoral syndrome"
+    },
+    "SYMPTOM_062": {
+      "name": "Ankle rolling or giving way",
+      "type": "mechanical",
+      "body_regions": [
+        "ankle"
+      ],
+      "characteristics": {
+        "terrain": "uneven_surfaces",
+        "frequency": "recurrent",
+        "confidence": "reduced"
+      },
+      "clinical_significance": "Indicates ankle instability"
+    },
+    "SYMPTOM_063": {
+      "name": "Heel pain with first steps in morning",
+      "type": "pain",
+      "body_regions": [
+        "foot"
+      ],
+      "characteristics": {
+        "timing": "first_steps_AM",
+        "location": "plantar_heel",
+        "improvement": "after_walking"
+      },
+      "clinical_significance": "Pathognomonic for plantar fasciitis"
+    },
+    "SYMPTOM_064": {
+      "name": "Toe deformity or deviation",
+      "type": "structural",
+      "body_regions": [
+        "foot"
+      ],
+      "characteristics": {
+        "toes_affected": "variable",
+        "type": "hammer_claw_bunion",
+        "progressive": "usually"
+      },
+      "clinical_significance": "Common in foot pathology"
+    },
+    "SYMPTOM_065": {
+      "name": "Hip pain with weight bearing",
+      "type": "pain",
+      "body_regions": [
+        "hip"
+      ],
+      "characteristics": {
+        "location": "groin_lateral_buttock",
+        "activities": "walking_standing",
+        "pattern": "consistent"
+      },
+      "clinical_significance": "Common in hip pathology"
+    },
+    "SYMPTOM_066": {
+      "name": "Hip catching or clicking",
+      "type": "mechanical",
+      "body_regions": [
+        "hip"
+      ],
+      "characteristics": {
+        "painful": "variable",
+        "location": "anterior_lateral",
+        "activities": "hip_flexion_rotation"
+      },
+      "clinical_significance": "May indicate labral pathology"
+    },
+    "SYMPTOM_067": {
+      "name": "Difficulty putting on socks or shoes",
+      "type": "functional_limitation",
+      "body_regions": [
+        "hip",
+        "lumbar_spine"
+      ],
+      "characteristics": {
+        "movement": "hip_flexion_limited",
+        "compensation": "required",
+        "bilateral": "variable"
+      },
+      "clinical_significance": "Indicates significant hip restriction"
+    },
+    "SYMPTOM_068": {
+      "name": "Low back pain with bending forward",
+      "type": "pain",
+      "body_regions": [
+        "lumbar_spine"
+      ],
+      "characteristics": {
+        "movement": "flexion",
+        "activities": "lifting_bending",
+        "return_difficult": "sometimes"
+      },
+      "clinical_significance": "Common in disc pathology"
+    },
+    "SYMPTOM_069": {
+      "name": "Low back pain with extension",
+      "type": "pain",
+      "body_regions": [
+        "lumbar_spine"
+      ],
+      "characteristics": {
+        "movement": "extension",
+        "activities": "standing_walking",
+        "relief": "flexion"
+      },
+      "clinical_significance": "Suggests facet or stenosis"
+    },
+    "SYMPTOM_070": {
+      "name": "Pain centralizing with movement",
+      "type": "pain",
+      "body_regions": [
+        "spine"
+      ],
+      "characteristics": {
+        "pattern": "moving_toward_spine",
+        "with_treatment": "good_prognostic_sign",
+        "direction_specific": "yes"
+      },
+      "clinical_significance": "Indicates mechanical response"
+    },
+    "SYMPTOM_071": {
+      "name": "Pain peripheralizing with movement",
+      "type": "pain",
+      "body_regions": [
+        "spine"
+      ],
+      "characteristics": {
+        "pattern": "moving_away_from_spine",
+        "with_treatment": "poor_prognostic_sign",
+        "direction_specific": "yes"
+      },
+      "clinical_significance": "Suggests worsening"
+    },
+    "SYMPTOM_072": {
+      "name": "Neck pain with rotation",
+      "type": "pain",
+      "body_regions": [
+        "cervical_spine"
+      ],
+      "characteristics": {
+        "movement": "rotation",
+        "unilateral_bilateral": "variable",
+        "end_range": "worse"
+      },
+      "clinical_significance": "Common in facet dysfunction"
+    },
+    "SYMPTOM_073": {
+      "name": "Headaches associated with neck pain",
+      "type": "pain",
+      "body_regions": [
+        "cervical_spine",
+        "head"
+      ],
+      "characteristics": {
+        "origin": "cervicogenic",
+        "location": "occipital_temporal",
+        "neck_movement": "triggers"
+      },
+      "clinical_significance": "Indicates cervicogenic headache"
+    },
+    "SYMPTOM_074": {
+      "name": "Jaw pain or clicking",
+      "type": "pain",
+      "body_regions": [
+        "TMJ"
+      ],
+      "characteristics": {
+        "activities": "chewing_yawning",
+        "clicking": "with_or_without_pain",
+        "deviation": "possible"
+      },
+      "clinical_significance": "Indicates TMJ dysfunction"
+    },
+    "SYMPTOM_075": {
+      "name": "Pain with gripping activities",
+      "type": "pain",
+      "body_regions": [
+        "elbow",
+        "forearm"
+      ],
+      "characteristics": {
+        "location": "lateral_medial_elbow",
+        "activities": "gripping_lifting",
+        "strength": "reduced"
+      },
+      "clinical_significance": "Common in epicondylitis"
+    },
+    "SYMPTOM_076": {
+      "name": "Wrist pain with loading",
+      "type": "pain",
+      "body_regions": [
+        "wrist"
+      ],
+      "characteristics": {
+        "activities": "push_ups_weight_bearing",
+        "location": "dorsal_volar_ulnar",
+        "clicking": "possible"
+      },
+      "clinical_significance": "Various wrist pathologies"
+    },
+    "SYMPTOM_077": {
+      "name": "Finger stiffness in morning",
+      "type": "stiffness",
+      "body_regions": [
+        "hand"
+      ],
+      "characteristics": {
+        "duration": "variable",
+        "making_fist": "difficult",
+        "improvement": "with_movement"
+      },
+      "clinical_significance": "Common in arthritis"
+    },
+    "SYMPTOM_078": {
+      "name": "Trigger finger catching",
+      "type": "mechanical",
+      "body_regions": [
+        "hand"
+      ],
+      "characteristics": {
+        "catching": "with_flexion",
+        "release": "sudden_or_stuck",
+        "palpable_nodule": "often"
+      },
+      "clinical_significance": "Diagnostic of trigger finger"
+    },
+    "SYMPTOM_079": {
+      "name": "Thumb pain with pinching",
+      "type": "pain",
+      "body_regions": [
+        "thumb"
+      ],
+      "characteristics": {
+        "activities": "pinching_gripping",
+        "location": "base_of_thumb",
+        "weakness": "associated"
+      },
+      "clinical_significance": "Common in thumb arthritis"
+    },
+    "SYMPTOM_080": {
+      "name": "Calf pain with walking",
+      "type": "pain",
+      "body_regions": [
+        "lower_leg"
+      ],
+      "characteristics": {
+        "onset": "predictable_distance",
+        "relief": "rest",
+        "cramping": "yes"
+      },
+      "clinical_significance": "May indicate claudication"
+    },
+    "SYMPTOM_081": {
+      "name": "Foot numbness or burning",
+      "type": "neurological_sensory",
+      "body_regions": [
+        "foot"
+      ],
+      "characteristics": {
+        "location": "toes_forefoot_whole",
+        "worse": "night_or_walking",
+        "quality": "burning_numbness"
+      },
+      "clinical_significance": "Neuropathy or nerve entrapment"
+    },
+    "SYMPTOM_082": {
+      "name": "Leg pain worse with standing",
+      "type": "pain",
+      "body_regions": [
+        "lower_extremity"
+      ],
+      "characteristics": {
+        "bilateral": "often",
+        "relief": "sitting_forward_bend",
+        "walking": "limited_distance"
+      },
+      "clinical_significance": "Suggests spinal stenosis"
+    },
+    "SYMPTOM_083": {
+      "name": "Saddle area numbness",
+      "type": "neurological_sensory",
+      "body_regions": [
+        "perineum"
+      ],
+      "characteristics": {
+        "distribution": "saddle_area",
+        "bilateral": "yes",
+        "bowel_bladder": "possible_dysfunction"
+      },
+      "clinical_significance": "Red flag - cauda equina"
+    },
+    "SYMPTOM_084": {
+      "name": "Bilateral leg weakness",
+      "type": "neurological_motor",
+      "body_regions": [
+        "lower_extremity"
+      ],
+      "characteristics": {
+        "distribution": "bilateral",
+        "progression": "variable",
+        "walking": "affected"
+      },
+      "clinical_significance": "Red flag - central pathology"
+    },
+    "SYMPTOM_085": {
+      "name": "Unexplained weight loss",
+      "type": "systemic",
+      "body_regions": [
+        "generalized"
+      ],
+      "characteristics": {
+        "amount": "significant",
+        "time_frame": "weeks_to_months",
+        "appetite": "variable"
+      },
+      "clinical_significance": "Red flag - systemic pathology"
+    },
+    "SYMPTOM_086": {
+      "name": "Night sweats",
+      "type": "systemic",
+      "body_regions": [
+        "generalized"
+      ],
+      "characteristics": {
+        "severity": "drenching",
+        "frequency": "regular",
+        "associated": "fever_weight_loss"
+      },
+      "clinical_significance": "Red flag - infection or malignancy"
+    },
+    "SYMPTOM_087": {
+      "name": "Fever with musculoskeletal pain",
+      "type": "systemic",
+      "body_regions": [
+        "generalized"
+      ],
+      "characteristics": {
+        "temperature": "elevated",
+        "pattern": "constant_intermittent",
+        "associated": "malaise"
+      },
+      "clinical_significance": "Red flag - infection"
+    },
+    "SYMPTOM_088": {
+      "name": "Progressive neurological deficit",
+      "type": "neurological_motor",
+      "body_regions": [
+        "variable"
+      ],
+      "characteristics": {
+        "progression": "worsening",
+        "distribution": "expanding",
+        "severity": "increasing"
+      },
+      "clinical_significance": "Red flag - progressive pathology"
+    },
+    "SYMPTOM_089": {
+      "name": "Bowel or bladder dysfunction",
+      "type": "neurological_autonomic",
+      "body_regions": [
+        "sacral"
+      ],
+      "characteristics": {
+        "control": "lost_or_retained",
+        "onset": "recent",
+        "associated": "saddle_numbness"
+      },
+      "clinical_significance": "Red flag - cauda equina"
+    },
+    "SYMPTOM_090": {
+      "name": "Pain not responding to treatment",
+      "type": "pain",
+      "body_regions": [
+        "any"
+      ],
+      "characteristics": {
+        "duration": "prolonged",
+        "treatments_tried": "multiple",
+        "progression": "worsening"
+      },
+      "clinical_significance": "Red flag - consider serious pathology"
+    },
+    "SYMPTOM_091": {
+      "name": "Severe pain with minimal trauma",
+      "type": "pain",
+      "body_regions": [
+        "any"
+      ],
+      "characteristics": {
+        "mechanism": "minimal",
+        "severity": "disproportionate",
+        "immediate": "yes"
+      },
+      "clinical_significance": "Red flag - possible fracture"
+    },
+    "SYMPTOM_092": {
+      "name": "Constant severe night pain",
+      "type": "pain",
+      "body_regions": [
+        "any"
+      ],
+      "characteristics": {
+        "timing": "night",
+        "severity": "severe",
+        "unrelenting": "yes"
+      },
+      "clinical_significance": "Red flag - possible malignancy"
+    },
+    "SYMPTOM_093": {
+      "name": "Multiple joint involvement",
+      "type": "distribution_pattern",
+      "body_regions": [
+        "multiple_joints"
+      ],
+      "characteristics": {
+        "pattern": "symmetric_asymmetric",
+        "number": "multiple",
+        "migration": "possible"
+      },
+      "clinical_significance": "Suggests systemic arthropathy"
+    },
+    "SYMPTOM_094": {
+      "name": "Skin rash with joint pain",
+      "type": "associated_symptoms",
+      "body_regions": [
+        "joints",
+        "skin"
+      ],
+      "characteristics": {
+        "rash_type": "variable",
+        "distribution": "variable",
+        "timing": "with_joint_symptoms"
+      },
+      "clinical_significance": "Suggests systemic condition"
+    },
+    "SYMPTOM_095": {
+      "name": "Eye symptoms with joint pain",
+      "type": "associated_symptoms",
+      "body_regions": [
+        "joints",
+        "eyes"
+      ],
+      "characteristics": {
+        "eye_symptoms": "redness_pain_vision",
+        "timing": "with_joint_symptoms",
+        "recurrent": "possible"
+      },
+      "clinical_significance": "Suggests inflammatory arthropathy"
+    },
+    "SYMPTOM_096": {
+      "name": "Vertigo or dizziness",
+      "type": "neurological_vestibular",
+      "body_regions": [
+        "vestibular"
+      ],
+      "characteristics": {
+        "trigger": "position_change",
+        "duration": "seconds_to_continuous",
+        "nausea": "possible"
+      },
+      "clinical_significance": "Vestibular or cervical origin"
+    },
+    "SYMPTOM_097": {
+      "name": "Tinnitus",
+      "type": "neurological_sensory",
+      "body_regions": [
+        "ear",
+        "cervical"
+      ],
+      "characteristics": {
+        "quality": "ringing_buzzing",
+        "constant_intermittent": "variable",
+        "unilateral_bilateral": "variable"
+      },
+      "clinical_significance": "May relate to cervical or TMJ"
+    },
+    "SYMPTOM_098": {
+      "name": "Difficulty swallowing",
+      "type": "functional_limitation",
+      "body_regions": [
+        "cervical",
+        "throat"
+      ],
+      "characteristics": {
+        "solids_liquids": "variable",
+        "location": "throat_chest",
+        "associated": "neck_pain"
+      },
+      "clinical_significance": "May indicate cervical pathology"
+    },
+    "SYMPTOM_099": {
+      "name": "Visual disturbances",
+      "type": "neurological_sensory",
+      "body_regions": [
+        "cervical",
+        "neurological"
+      ],
+      "characteristics": {
+        "type": "blurring_diplopia",
+        "trigger": "neck_movement",
+        "duration": "temporary"
+      },
+      "clinical_significance": "May indicate vertebrobasilar insufficiency"
+    },
+    "SYMPTOM_100": {
+      "name": "Complete loss of movement",
+      "type": "movement_restriction",
+      "body_regions": [
+        "any"
+      ],
+      "characteristics": {
+        "onset": "sudden_gradual",
+        "painful": "variable",
+        "mechanical_block": "possible"
+      },
+      "clinical_significance": "Severe pathology or mechanical block"
+    },
+    "SYMPTOM_101": {
+      "name": "Audible pop at time of injury",
+      "type": "mechanical_trauma",
+      "body_regions": [
+        "knee",
+        "ankle"
+      ],
+      "characteristics": {
+        "timing": "immediate_at_injury",
+        "audible": "yes",
+        "witnessed": "often"
+      },
+      "clinical_significance": "Pathognomonic for ACL rupture when in knee",
+      "icd11_code": "NA01.3",
+      "snomed_code": "429400009"
+    },
+    "SYMPTOM_102": {
+      "name": "Theater sign - pain sitting with knee bent",
+      "type": "positional_pain",
+      "body_regions": [
+        "knee"
+      ],
+      "characteristics": {
+        "position": "prolonged_knee_flexion",
+        "activities": "cinema_driving_sitting",
+        "relief": "standing_straightening"
+      },
+      "clinical_significance": "Pathognomonic for patellofemoral pain syndrome",
+      "icd11_code": "FB56.0",
+      "snomed_code": "239720000"
+    },
+    "SYMPTOM_103": {
+      "name": "Shopping cart sign - relief when leaning forward",
+      "type": "positional_relief",
+      "body_regions": [
+        "lumbar_spine"
+      ],
+      "characteristics": {
+        "position": "forward_flexion",
+        "activities": "shopping_cart_bicycle",
+        "walking_distance": "increased_when_leaning"
+      },
+      "clinical_significance": "Pathognomonic for neurogenic claudication",
+      "icd11_code": "8B20.2",
+      "snomed_code": "192979007"
+    },
+    "SYMPTOM_104": {
+      "name": "Joint line tenderness on palpation",
+      "type": "localized_tenderness",
+      "body_regions": [
+        "knee"
+      ],
+      "characteristics": {
+        "location": "medial_or_lateral_joint_line",
+        "palpation": "point_tender",
+        "severity": "moderate_to_severe"
+      },
+      "clinical_significance": "Highly suggestive of meniscal pathology",
+      "icd11_code": "FB53",
+      "snomed_code": "239717007"
+    },
+    "SYMPTOM_105": {
+      "name": "Median nerve distribution numbness",
+      "type": "neurological_sensory",
+      "body_regions": [
+        "hand"
+      ],
+      "characteristics": {
+        "distribution": "thumb_index_middle_radial_ring",
+        "spares": "little_finger",
+        "pattern": "median_nerve_territory"
+      },
+      "clinical_significance": "Pathognomonic for carpal tunnel syndrome",
+      "icd11_code": "8C90.0",
+      "snomed_code": "57406009"
+    },
+    "SYMPTOM_106": {
+      "name": "Painful arc 60-120 degrees shoulder abduction",
+      "type": "movement_related_pain",
+      "body_regions": [
+        "shoulder"
+      ],
+      "characteristics": {
+        "arc_range": "60_to_120_degrees",
+        "movement": "shoulder_abduction",
+        "pain_free": "before_and_after_arc"
+      },
+      "clinical_significance": "Classic for subacromial impingement syndrome",
+      "icd11_code": "FB50.2",
+      "snomed_code": "21186006"
+    },
+    "SYMPTOM_107": {
+      "name": "Coffee cup sign - difficulty lifting cup with straight arm",
+      "type": "functional_limitation",
+      "body_regions": [
+        "elbow"
+      ],
+      "characteristics": {
+        "activity": "lifting_with_extended_elbow",
+        "pain_location": "lateral_epicondyle",
+        "compensation": "flexed_elbow_possible"
+      },
+      "clinical_significance": "Characteristic of lateral epicondylalgia",
+      "icd11_code": "FB53.1",
+      "snomed_code": "202855006"
+    },
+    "SYMPTOM_108": {
+      "name": "Shaking hands for symptom relief",
+      "type": "behavioral_response",
+      "body_regions": [
+        "hand"
+      ],
+      "characteristics": {
+        "behavior": "hand_shaking_flicking",
+        "timing": "night_or_upon_waking",
+        "relief": "temporary"
+      },
+      "clinical_significance": "Classic behavioral sign in carpal tunnel syndrome",
+      "icd11_code": "8C90.0",
+      "snomed_code": "57406009"
+    },
+    "SYMPTOM_109": {
+      "name": "Bone-on-bone grinding sensation",
+      "type": "mechanical_degenerative",
+      "body_regions": [
+        "knee",
+        "hip",
+        "joints"
+      ],
+      "characteristics": {
+        "sensation": "bone_grinding",
+        "palpable": "yes",
+        "audible": "sometimes"
+      },
+      "clinical_significance": "Indicates severe osteoarthritis with cartilage loss",
+      "icd11_code": "FA00",
+      "snomed_code": "396275006"
+    },
+    "SYMPTOM_110": {
+      "name": "Immediate effusion after injury",
+      "type": "inflammatory_trauma",
+      "body_regions": [
+        "knee"
+      ],
+      "characteristics": {
+        "onset": "within_2_hours",
+        "severity": "moderate_to_large",
+        "hemarthrosis": "possible"
+      },
+      "clinical_significance": "Indicates significant intra-articular injury",
+      "icd11_code": "FB55",
+      "snomed_code": "444611009"
+    },
+    "SYMPTOM_111": {
+      "name": "Pain worse going downstairs than upstairs",
+      "type": "directional_functional_pain",
+      "body_regions": [
+        "knee"
+      ],
+      "characteristics": {
+        "direction": "descent_worse",
+        "mechanism": "eccentric_loading",
+        "location": "anterior_knee"
+      },
+      "clinical_significance": "Characteristic of patellofemoral pain syndrome",
+      "icd11_code": "FB56.0",
+      "snomed_code": "239720000"
+    },
+    "SYMPTOM_112": {
+      "name": "Pain with resisted wrist extension",
+      "type": "muscle_tendon_pain",
+      "body_regions": [
+        "elbow"
+      ],
+      "characteristics": {
+        "test": "resisted_wrist_extension",
+        "location": "lateral_epicondyle",
+        "reproduction": "consistent"
+      },
+      "clinical_significance": "Diagnostic test finding for tennis elbow",
+      "icd11_code": "FB53.1",
+      "snomed_code": "202855006"
+    },
+    "SYMPTOM_113": {
+      "name": "Finkelstein test positive",
+      "type": "provocative_test_finding",
+      "body_regions": [
+        "thumb",
+        "wrist"
+      ],
+      "characteristics": {
+        "test": "thumb_in_fist_ulnar_deviation",
+        "pain_location": "radial_styloid",
+        "sharp_severe": "yes"
+      },
+      "clinical_significance": "Pathognomonic for De Quervain's tenosynovitis",
+      "icd11_code": "FB52.4",
+      "snomed_code": "80313002"
+    },
+    "SYMPTOM_114": {
+      "name": "C-sign - cupping posterior hip with hand",
+      "type": "behavioral_localization",
+      "body_regions": [
+        "hip"
+      ],
+      "characteristics": {
+        "gesture": "C_shaped_hand_around_hip",
+        "location": "posterior_lateral_hip",
+        "unconscious": "often"
+      },
+      "clinical_significance": "Classic sign for deep hip pathology",
+      "icd11_code": "FB57",
+      "snomed_code": "49218002"
+    },
+    "SYMPTOM_115": {
+      "name": "Phalen test positive",
+      "type": "provocative_test_finding",
+      "body_regions": [
+        "wrist",
+        "hand"
+      ],
+      "characteristics": {
+        "test": "wrist_flexion_60_seconds",
+        "symptoms": "numbness_tingling_median",
+        "reproduction": "consistent"
+      },
+      "clinical_significance": "Diagnostic for carpal tunnel syndrome",
+      "icd11_code": "8C90.0",
+      "snomed_code": "57406009"
+    },
+    "SYMPTOM_116": {
+      "name": "Tinel sign positive",
+      "type": "provocative_test_finding",
+      "body_regions": [
+        "wrist",
+        "hand"
+      ],
+      "characteristics": {
+        "test": "percussion_over_carpal_tunnel",
+        "symptoms": "electric_shock_sensation",
+        "distribution": "median_nerve"
+      },
+      "clinical_significance": "Supportive of carpal tunnel syndrome",
+      "icd11_code": "8C90.0",
+      "snomed_code": "57406009"
+    },
+    "SYMPTOM_117": {
+      "name": "Locking - inability to fully extend joint",
+      "type": "mechanical_block",
+      "body_regions": [
+        "knee"
+      ],
+      "characteristics": {
+        "movement": "terminal_extension_blocked",
+        "mechanical": "true_block",
+        "intermittent": "usually"
+      },
+      "clinical_significance": "Indicates displaced meniscal tear or loose body",
+      "icd11_code": "FB53",
+      "snomed_code": "298236004"
+    },
+    "SYMPTOM_118": {
+      "name": "Quadriceps avoidance gait",
+      "type": "compensatory_movement",
+      "body_regions": [
+        "knee"
+      ],
+      "characteristics": {
+        "pattern": "early_heel_strike",
+        "compensation": "reduced_quadriceps_activity",
+        "instability": "functional"
+      },
+      "clinical_significance": "Indicates ACL deficiency",
+      "icd11_code": "NA01.3",
+      "snomed_code": "429400009"
+    },
+    "SYMPTOM_119": {
+      "name": "Capsular pattern of movement restriction",
+      "type": "movement_restriction_pattern",
+      "body_regions": [
+        "shoulder"
+      ],
+      "characteristics": {
+        "pattern": "external_rotation_most_limited",
+        "hierarchy": "ER_less_than_ABD_less_than_IR",
+        "proportional": "yes"
+      },
+      "clinical_significance": "Indicates glenohumeral capsule involvement",
+      "icd11_code": "FB50",
+      "snomed_code": "299292002"
+    },
+    "SYMPTOM_120": {
+      "name": "Intermittent claudication - predictable walking distance",
+      "type": "vascular_neurogenic_claudication",
+      "body_regions": [
+        "lower_extremity"
+      ],
+      "characteristics": {
+        "distance": "predictable_consistent",
+        "relief": "rest_sitting_forward_flexion",
+        "bilateral": "often"
+      },
+      "clinical_significance": "Characteristic of spinal stenosis",
+      "icd11_code": "8B20.2",
+      "snomed_code": "192979007"
+    },
+    "SYMPTOM_121": {
+      "name": "McMurray test positive",
+      "type": "provocative_test_finding",
+      "body_regions": [
+        "knee"
+      ],
+      "characteristics": {
+        "test": "rotation_with_flexion_extension",
+        "finding": "click_or_pain",
+        "location": "joint_line"
+      },
+      "clinical_significance": "Indicates meniscal tear",
+      "icd11_code": "FB53",
+      "snomed_code": "239717007"
+    },
+    "SYMPTOM_122": {
+      "name": "Lachman test positive",
+      "type": "provocative_test_finding",
+      "body_regions": [
+        "knee"
+      ],
+      "characteristics": {
+        "test": "anterior_translation_20_degree_flexion",
+        "finding": "excessive_translation_soft_endpoint",
+        "comparison": "contralateral_side"
+      },
+      "clinical_significance": "Diagnostic for ACL rupture",
+      "icd11_code": "NA01.3",
+      "snomed_code": "429400009"
+    },
+    "SYMPTOM_123": {
+      "name": "Step-off deformity",
+      "type": "structural_deformity",
+      "body_regions": [
+        "lumbar_spine"
+      ],
+      "characteristics": {
+        "palpation": "prominent_spinous_process",
+        "level": "L5_or_L4",
+        "visible": "sometimes"
+      },
+      "clinical_significance": "Indicates spondylolisthesis",
+      "icd11_code": "8A12",
+      "snomed_code": "274152006"
+    },
+    "SYMPTOM_124": {
+      "name": "Antalgic gait pattern",
+      "type": "compensatory_movement",
+      "body_regions": [
+        "lower_extremity"
+      ],
+      "characteristics": {
+        "pattern": "shortened_stance_phase",
+        "cause": "pain_avoidance",
+        "compensation": "trunk_lean"
+      },
+      "clinical_significance": "Indicates significant weight-bearing pain",
+      "icd11_code": "ME84.1",
+      "snomed_code": "22325002"
+    },
+    "SYMPTOM_125": {
+      "name": "Positive SLR with sensitization",
+      "type": "provocative_test_finding",
+      "body_regions": [
+        "lumbar_spine",
+        "lower_extremity"
+      ],
+      "characteristics": {
+        "test": "straight_leg_raise_with_sensitizers",
+        "sensitizers": "dorsiflexion_neck_flexion",
+        "reproduction": "leg_pain_below_knee"
+      },
+      "clinical_significance": "Indicates nerve root tension",
+      "icd11_code": "8B80.1",
+      "snomed_code": "202794004"
+    },
+    "SYMPTOM_126": {
+      "name": "Dyspnea on exertion",
+      "type": "respiratory",
+      "body_regions": [
+        "chest",
+        "respiratory_system"
+      ],
+      "characteristics": {
+        "quality": "breathlessness",
+        "trigger": "physical_activity",
+        "severity_scale": "modified_borg_scale"
+      },
+      "clinical_significance": "Essential indicator for cardiac and pulmonary conditions",
+      "snomed_ct": "267036007",
+      "icd11": "MD11.0"
+    },
+    "SYMPTOM_127": {
+      "name": "Orthopnea (difficulty breathing lying flat)",
+      "type": "respiratory",
+      "body_regions": [
+        "chest",
+        "respiratory_system"
+      ],
+      "characteristics": {
+        "quality": "positional_breathlessness",
+        "trigger": "supine_position",
+        "relief": "sitting_upright"
+      },
+      "clinical_significance": "Pathognomonic for heart failure",
+      "snomed_ct": "62744007",
+      "icd11": "MD11.1"
+    },
+    "SYMPTOM_128": {
+      "name": "Peripheral edema",
+      "type": "vascular",
+      "body_regions": [
+        "lower_extremity",
+        "ankle",
+        "foot"
+      ],
+      "characteristics": {
+        "pattern": "bilateral_or_unilateral",
+        "pitting": "variable",
+        "distribution": "gravity_dependent"
+      },
+      "clinical_significance": "Indicates fluid retention, heart failure, or venous insufficiency",
+      "snomed_ct": "267038008",
+      "icd11": "BD60.0"
+    },
+    "SYMPTOM_129": {
+      "name": "Exercise-induced angina",
+      "type": "cardiac_pain",
+      "body_regions": [
+        "chest",
+        "left_arm",
+        "jaw"
+      ],
+      "characteristics": {
+        "quality": "crushing_or_pressure",
+        "trigger": "physical_exertion",
+        "duration": "2-10_minutes"
+      },
+      "clinical_significance": "Indicates coronary artery disease",
+      "snomed_ct": "194828000",
+      "icd11": "BA80.0"
+    },
+    "SYMPTOM_130": {
+      "name": "Productive cough with sputum",
+      "type": "respiratory",
+      "body_regions": [
+        "chest",
+        "respiratory_system"
+      ],
+      "characteristics": {
+        "quality": "wet_cough",
+        "production": "sputum",
+        "timing": "variable"
+      },
+      "clinical_significance": "Indicates respiratory infection or chronic lung disease",
+      "snomed_ct": "28743005",
+      "icd11": "MD12.0"
+    },
+    "SYMPTOM_131": {
+      "name": "Wheeze or audible breathing sounds",
+      "type": "respiratory",
+      "body_regions": [
+        "chest",
+        "respiratory_system"
+      ],
+      "characteristics": {
+        "quality": "high_pitched_whistle",
+        "trigger": "expiration_or_inspiration",
+        "audibility": "patient_or_clinician"
+      },
+      "clinical_significance": "Indicates airway obstruction or asthma",
+      "snomed_ct": "56018004",
+      "icd11": "MD12.1"
+    },
+    "SYMPTOM_132": {
+      "name": "Fatigue with minimal exertion",
+      "type": "systemic",
+      "body_regions": [
+        "whole_body"
+      ],
+      "characteristics": {
+        "onset": "rapid",
+        "trigger": "minimal_activity",
+        "recovery": "prolonged"
+      },
+      "clinical_significance": "Common in heart failure and pulmonary conditions",
+      "snomed_ct": "84229001",
+      "icd11": "MG22.0"
+    },
+    "SYMPTOM_133": {
+      "name": "Accessory muscle use for breathing",
+      "type": "respiratory",
+      "body_regions": [
+        "neck",
+        "chest"
+      ],
+      "characteristics": {
+        "muscles": "sternocleidomastoid_scalenes",
+        "visibility": "observable",
+        "trigger": "respiratory_distress"
+      },
+      "clinical_significance": "Indicates significant respiratory compromise",
+      "snomed_ct": "248549008",
+      "icd11": "MD12.2"
+    },
+    "SYMPTOM_134": {
+      "name": "Oxygen desaturation with activity",
+      "type": "respiratory",
+      "body_regions": [
+        "respiratory_system"
+      ],
+      "characteristics": {
+        "measurement": "pulse_oximetry",
+        "threshold": "below_90_percent",
+        "trigger": "physical_activity"
+      },
+      "clinical_significance": "Objective measure of respiratory or cardiac compromise",
+      "snomed_ct": "389087006",
+      "icd11": "MD12.3"
+    },
+    "SYMPTOM_135": {
+      "name": "Paroxysmal nocturnal dyspnea",
+      "type": "respiratory",
+      "body_regions": [
+        "chest"
+      ],
+      "characteristics": {
+        "timing": "nocturnal",
+        "onset": "sudden",
+        "relief": "sitting_up"
+      },
+      "clinical_significance": "Highly specific for heart failure",
+      "snomed_ct": "55442008",
+      "icd11": "MD11.2"
+    },
+    "SYMPTOM_136": {
+      "name": "Spasticity with increased muscle tone",
+      "type": "neurological_motor",
+      "body_regions": [
+        "upper_extremity",
+        "lower_extremity"
+      ],
+      "characteristics": {
+        "pattern": "velocity_dependent",
+        "distribution": "flexor_or_extensor",
+        "severity": "modified_ashworth_scale"
+      },
+      "clinical_significance": "Indicates upper motor neuron lesion",
+      "snomed_ct": "397790002",
+      "icd11": "8B60.0"
+    },
+    "SYMPTOM_137": {
+      "name": "Rigidity (cogwheel or lead pipe)",
+      "type": "neurological_motor",
+      "body_regions": [
+        "upper_extremity",
+        "neck"
+      ],
+      "characteristics": {
+        "type": "cogwheel_or_leadpipe",
+        "distribution": "axial_or_appendicular",
+        "velocity": "velocity_independent"
+      },
+      "clinical_significance": "Pathognomonic for Parkinson's disease",
+      "snomed_ct": "16046003",
+      "icd11": "8A00.00"
+    },
+    "SYMPTOM_138": {
+      "name": "Resting tremor",
+      "type": "neurological_motor",
+      "body_regions": [
+        "hand",
+        "upper_extremity"
+      ],
+      "characteristics": {
+        "frequency": "4-6_hertz",
+        "pattern": "pill_rolling",
+        "trigger": "at_rest"
+      },
+      "clinical_significance": "Classic sign of Parkinson's disease",
+      "snomed_ct": "26079004",
+      "icd11": "8A00.01"
+    },
+    "SYMPTOM_139": {
+      "name": "Ataxia and coordination deficits",
+      "type": "neurological_motor",
+      "body_regions": [
+        "upper_extremity",
+        "lower_extremity"
+      ],
+      "characteristics": {
+        "pattern": "dysmetria",
+        "testing": "finger_to_nose",
+        "severity": "mild_to_severe"
+      },
+      "clinical_significance": "Indicates cerebellar dysfunction",
+      "snomed_ct": "20262006",
+      "icd11": "8B62.0"
+    },
+    "SYMPTOM_140": {
+      "name": "Dysarthria or speech difficulties",
+      "type": "neurological_cognitive",
+      "body_regions": [
+        "head_neck"
+      ],
+      "characteristics": {
+        "type": "motor_speech_disorder",
+        "clarity": "reduced_intelligibility",
+        "articulation": "impaired"
+      },
+      "clinical_significance": "Common in stroke and neurological conditions",
+      "snomed_ct": "8011004",
+      "icd11": "MA80.20"
+    },
+    "SYMPTOM_141": {
+      "name": "Cognitive fatigue",
+      "type": "neurological_cognitive",
+      "body_regions": [
+        "brain"
+      ],
+      "characteristics": {
+        "onset": "after_mental_tasks",
+        "duration": "prolonged",
+        "impact": "functional_limitation"
+      },
+      "clinical_significance": "Common in multiple sclerosis and brain injury",
+      "snomed_ct": "13791008",
+      "icd11": "MB23.4"
+    },
+    "SYMPTOM_142": {
+      "name": "Dysphasia or language difficulties",
+      "type": "neurological_cognitive",
+      "body_regions": [
+        "brain"
+      ],
+      "characteristics": {
+        "type": "receptive_or_expressive",
+        "comprehension": "variable",
+        "expression": "variable"
+      },
+      "clinical_significance": "Indicates dominant hemisphere brain lesion",
+      "snomed_ct": "87715008",
+      "icd11": "MA80.10"
+    },
+    "SYMPTOM_143": {
+      "name": "Autonomic dysfunction",
+      "type": "neurological_autonomic",
+      "body_regions": [
+        "cardiovascular",
+        "gastrointestinal"
+      ],
+      "characteristics": {
+        "manifestations": "orthostatic_hypotension",
+        "systems": "multiple",
+        "severity": "variable"
+      },
+      "clinical_significance": "Common in spinal cord injury and Parkinson's",
+      "snomed_ct": "386033004",
+      "icd11": "8B80.0"
+    },
+    "SYMPTOM_144": {
+      "name": "Hyperreflexia",
+      "type": "neurological_reflex",
+      "body_regions": [
+        "upper_extremity",
+        "lower_extremity"
+      ],
+      "characteristics": {
+        "response": "exaggerated",
+        "distribution": "bilateral_or_unilateral",
+        "clonus": "present_or_absent"
+      },
+      "clinical_significance": "Indicates upper motor neuron lesion",
+      "snomed_ct": "86689002",
+      "icd11": "8B61.0"
+    },
+    "SYMPTOM_145": {
+      "name": "Hemianopia or visual field defects",
+      "type": "neurological_visual",
+      "body_regions": [
+        "eyes"
+      ],
+      "characteristics": {
+        "pattern": "homonymous_or_heteronymous",
+        "quadrant": "variable",
+        "awareness": "may_be_unaware"
+      },
+      "clinical_significance": "Indicates posterior cerebral circulation stroke",
+      "snomed_ct": "18093002",
+      "icd11": "9A02.0"
+    },
+    "SYMPTOM_146": {
+      "name": "Delayed motor milestones",
+      "type": "developmental",
+      "body_regions": [
+        "whole_body"
+      ],
+      "characteristics": {
+        "milestones": "sitting_walking_crawling",
+        "delay": "age_appropriate_comparison",
+        "pattern": "gross_or_fine_motor"
+      },
+      "clinical_significance": "Indicates developmental delay or neurological condition",
+      "snomed_ct": "278919001",
+      "icd11": "6A02.0"
+    },
+    "SYMPTOM_147": {
+      "name": "Toe walking pattern",
+      "type": "movement_pattern",
+      "body_regions": [
+        "lower_extremity",
+        "foot"
+      ],
+      "characteristics": {
+        "gait": "forefoot_contact",
+        "heel_contact": "absent",
+        "flexibility": "may_be_tight_achilles"
+      },
+      "clinical_significance": "May indicate cerebral palsy or idiopathic toe walking",
+      "snomed_ct": "22325002",
+      "icd11": "8A05.1"
+    },
+    "SYMPTOM_148": {
+      "name": "Scissoring gait pattern",
+      "type": "movement_pattern",
+      "body_regions": [
+        "lower_extremity"
+      ],
+      "characteristics": {
+        "pattern": "legs_cross_midline",
+        "spasticity": "adductor_muscles",
+        "base_of_support": "narrow"
+      },
+      "clinical_significance": "Characteristic of spastic cerebral palsy",
+      "snomed_ct": "22325002",
+      "icd11": "8A05.2"
+    },
+    "SYMPTOM_149": {
+      "name": "Persistent primitive reflexes",
+      "type": "neurological_reflex",
+      "body_regions": [
+        "whole_body"
+      ],
+      "characteristics": {
+        "reflexes": "moro_grasp_rooting",
+        "age": "beyond_normal_integration",
+        "impact": "interferes_with_movement"
+      },
+      "clinical_significance": "Indicates neurological immaturity or dysfunction",
+      "snomed_ct": "271587009",
+      "icd11": "8B63.0"
+    },
+    "SYMPTOM_150": {
+      "name": "Sensory processing difficulties",
+      "type": "sensory",
+      "body_regions": [
+        "nervous_system"
+      ],
+      "characteristics": {
+        "response": "over_or_under_responsive",
+        "modalities": "tactile_auditory_visual",
+        "behavior": "avoidance_or_seeking"
+      },
+      "clinical_significance": "Common in autism and developmental conditions",
+      "snomed_ct": "247804008",
+      "icd11": "6A02.1"
+    },
+    "SYMPTOM_151": {
+      "name": "Urinary urgency and frequency",
+      "type": "genitourinary",
+      "body_regions": [
+        "pelvis",
+        "bladder"
+      ],
+      "characteristics": {
+        "urgency": "sudden_compelling_urge",
+        "frequency": "more_than_8_times_daily",
+        "nocturia": "may_be_present"
+      },
+      "clinical_significance": "Indicates overactive bladder or pelvic floor dysfunction",
+      "snomed_ct": "75088002",
+      "icd11": "GC90.0"
+    },
+    "SYMPTOM_152": {
+      "name": "Pelvic organ prolapse sensation",
+      "type": "structural",
+      "body_regions": [
+        "pelvis"
+      ],
+      "characteristics": {
+        "sensation": "bulging_or_pressure",
+        "position": "worsens_with_standing",
+        "relief": "lying_down"
+      },
+      "clinical_significance": "Indicates pelvic floor support deficiency",
+      "snomed_ct": "271607009",
+      "icd11": "GC42.0"
+    },
+    "SYMPTOM_153": {
+      "name": "Diastasis recti separation",
+      "type": "structural",
+      "body_regions": [
+        "abdomen"
+      ],
+      "characteristics": {
+        "separation": "rectus_abdominis_muscles",
+        "measurement": "finger_widths",
+        "visibility": "doming_with_exertion"
+      },
+      "clinical_significance": "Common postpartum condition affecting core stability",
+      "snomed_ct": "609496007",
+      "icd11": "GD20.0"
+    },
+    "SYMPTOM_154": {
+      "name": "Widespread musculoskeletal pain",
+      "type": "pain_syndrome",
+      "body_regions": [
+        "multiple_body_regions"
+      ],
+      "characteristics": {
+        "distribution": "above_and_below_waist",
+        "duration": "chronic_3_months",
+        "trigger_points": "multiple_tender_points"
+      },
+      "clinical_significance": "Characteristic of fibromyalgia syndrome",
+      "snomed_ct": "203082005",
+      "icd11": "MG30.01"
+    },
+    "SYMPTOM_155": {
+      "name": "Post-exertional symptom flare",
+      "type": "systemic",
+      "body_regions": [
+        "whole_body"
+      ],
+      "characteristics": {
+        "trigger": "physical_or_mental_exertion",
+        "onset": "delayed_24-48_hours",
+        "duration": "days_to_weeks"
+      },
+      "clinical_significance": "Pathognomonic for chronic fatigue syndrome",
+      "snomed_ct": "52702003",
+      "icd11": "8E49.0"
+    },
+    "SYMPTOM_156": {
+      "name": "Allodynia (pain from light touch)",
+      "type": "neuropathic_pain",
+      "body_regions": [
+        "affected_area"
+      ],
+      "characteristics": {
+        "stimulus": "normally_non_painful",
+        "response": "painful_sensation",
+        "distribution": "variable"
+      },
+      "clinical_significance": "Indicates central sensitization or nerve damage",
+      "snomed_ct": "247398009",
+      "icd11": "8A84.0"
+    },
+    "SYMPTOM_157": {
+      "name": "Temperature sensitivity",
+      "type": "sensory",
+      "body_regions": [
+        "affected_area"
+      ],
+      "characteristics": {
+        "sensitivity": "hot_or_cold",
+        "response": "pain_or_discomfort",
+        "severity": "variable"
+      },
+      "clinical_significance": "Common in complex regional pain syndrome",
+      "snomed_ct": "247347003",
+      "icd11": "8A84.1"
+    },
+    "SYMPTOM_158": {
+      "name": "Lateral ankle pain with inversion movement",
+      "type": "mechanical_pain",
+      "body_regions": [
+        "ankle",
+        "lateral_ankle"
+      ],
+      "characteristics": {
+        "quality": "sharp_or_aching",
+        "trigger": "inversion_movement",
+        "location": "lateral_ankle_ATFL_region"
+      },
+      "clinical_significance": "Pathognomonic for ATFL ligament injury",
+      "snomed_ct": "247373008",
+      "icd11": "FB56.2"
+    },
+    "SYMPTOM_159": {
+      "name": "Point tenderness over anterior talofibular ligament",
+      "type": "localized_tenderness",
+      "body_regions": [
+        "ankle",
+        "lateral_ankle"
+      ],
+      "characteristics": {
+        "location": "anterior_to_lateral_malleolus",
+        "palpation": "point_tender",
+        "severity": "moderate_to_severe"
+      },
+      "clinical_significance": "Highly specific for ATFL tear",
+      "snomed_ct": "247373008",
+      "icd11": "FB56.2"
+    },
+    "SYMPTOM_160": {
+      "name": "Pain walking on uneven surfaces",
+      "type": "functional_limitation",
+      "body_regions": [
+        "ankle"
+      ],
+      "characteristics": {
+        "trigger": "uneven_terrain",
+        "mechanism": "challenges_ankle_stability",
+        "apprehension": "fear_of_rolling_ankle"
+      },
+      "clinical_significance": "Indicates functional ankle instability post-ATFL injury",
+      "snomed_ct": "247373008",
+      "icd11": "FB56.2"
+    },
+    "SYMPTOM_161": {
+      "name": "Positive anterior drawer test ankle",
+      "type": "clinical_test_finding",
+      "body_regions": [
+        "ankle"
+      ],
+      "characteristics": {
+        "test": "anterior_drawer_ankle",
+        "finding": "excessive_anterior_translation",
+        "comparison": "contralateral_side"
+      },
+      "clinical_significance": "Pathognomonic for ATFL insufficiency",
+      "snomed_ct": "247373008",
+      "icd11": "FB56.2"
+    },
+    "SYMPTOM_162": {
+      "name": "Positive talar tilt test",
+      "type": "clinical_test_finding",
+      "body_regions": [
+        "ankle"
+      ],
+      "characteristics": {
+        "test": "talar_tilt_inversion_stress",
+        "finding": "excessive_inversion_tilt",
+        "comparison": "contralateral_side"
+      },
+      "clinical_significance": "Indicates ATFL and CFL injury",
+      "snomed_ct": "247373008",
+      "icd11": "FB56.2"
+    },
+    "SYMPTOM_163": {
+      "name": "History of ankle inversion injury mechanism",
+      "type": "injury_mechanism",
+      "body_regions": [
+        "ankle"
+      ],
+      "characteristics": {
+        "mechanism": "inversion_plantarflexion",
+        "timing": "acute_or_recurrent",
+        "activity": "sports_or_uneven_surface"
+      },
+      "clinical_significance": "Classic mechanism for ATFL injury",
+      "snomed_ct": "247373008",
+      "icd11": "FB56.2"
+    },
+    
+    "SYMPTOM_379": {
+      "name": "Palpable step-off deformity",
+      "type": "structural_deformity",
+      "body_regions": ["spine"],
+      "characteristics": {
+        "location": "lumbar_spine",
+        "palpable": "prominent_spinous_process"
+      },
+      "clinical_significance": "Pathognomonic for spondylolisthesis"
+    },
+    "SYMPTOM_380": {
+      "name": "Pain increases with extension",
+      "type": "pain",
+      "body_regions": ["spine"],
+      "characteristics": {
+        "trigger": "spinal_extension",
+        "quality": "mechanical"
+      },
+      "clinical_significance": "Classic for spondylolisthesis"
+    },
+    "SYMPTOM_381": {
+      "name": "Bilateral leg pain and numbness",
+      "type": "neurological",
+      "body_regions": ["lower_extremity"],
+      "characteristics": {
+        "distribution": "bilateral",
+        "pattern": "neurogenic"
+      },
+      "clinical_significance": "Suggests central stenosis from spondylolisthesis"
+    },
+    "SYMPTOM_382": {
+      "name": "Neurogenic claudication symptoms",
+      "type": "functional_limitation",
+      "body_regions": ["lower_extremity"],
+      "characteristics": {
+        "trigger": "walking",
+        "relief": "sitting_or_flexion"
+      },
+      "clinical_significance": "Central spinal stenosis"
+    },
+    "SYMPTOM_383": {
+      "name": "Hamstring tightness",
+      "type": "muscle_tension",
+      "body_regions": ["thigh"],
+      "characteristics": {
+        "location": "posterior_thigh",
+        "bilateral": "common"
+      },
+      "clinical_significance": "Compensatory in spondylolisthesis"
+    },
+    "SYMPTOM_384": {
+      "name": "Lower back pain with standing",
+      "type": "pain",
+      "body_regions": ["spine"],
+      "characteristics": {
+        "trigger": "prolonged_standing",
+        "relief": "sitting"
+      },
+      "clinical_significance": "Mechanical back pain"
+    },
+    "SYMPTOM_385": {
+      "name": "Relief with sitting or forward flexion",
+      "type": "pain_relief_pattern",
+      "body_regions": ["spine"],
+      "characteristics": {
+        "relief_position": "flexion",
+        "mechanism": "opens_spinal_canal"
+      },
+      "clinical_significance": "Classic for spinal stenosis"
+    },
+    "SYMPTOM_386": {
+      "name": "Pain worsens with extension and rotation",
+      "type": "pain",
+      "body_regions": ["spine"],
+      "characteristics": {
+        "trigger": "extension_rotation",
+        "location": "facet_joints"
+      },
+      "clinical_significance": "Pathognomonic for facet joint syndrome"
+    },
+    "SYMPTOM_387": {
+      "name": "Unilateral back pain without radiation",
+      "type": "pain",
+      "body_regions": ["spine"],
+      "characteristics": {
+        "distribution": "unilateral",
+        "radiation": "absent"
+      },
+      "clinical_significance": "Typical facet pattern"
+    },
+    "SYMPTOM_388": {
+      "name": "Relief with flexion",
+      "type": "pain_relief_pattern",
+      "body_regions": ["spine"],
+      "characteristics": {
+        "relief_position": "flexion",
+        "mechanism": "unloads_facets"
+      },
+      "clinical_significance": "Facet joint pathology"
+    },
+    "SYMPTOM_389": {
+      "name": "Pain over paraspinal muscles",
+      "type": "pain",
+      "body_regions": ["spine"],
+      "characteristics": {
+        "location": "paraspinal",
+        "quality": "deep_aching"
+      },
+      "clinical_significance": "Facet-related muscle spasm"
+    },
+    "SYMPTOM_390": {
+      "name": "Difficulty getting out of bed",
+      "type": "functional_limitation",
+      "body_regions": ["spine"],
+      "characteristics": {
+        "timing": "morning",
+        "mechanism": "stiffness"
+      },
+      "clinical_significance": "Morning stiffness pattern"
+    },
+    "SYMPTOM_391": {
+      "name": "Pain worse in evening",
+      "type": "pain",
+      "body_regions": ["spine"],
+      "characteristics": {
+        "timing": "evening",
+        "pattern": "mechanical"
+      },
+      "clinical_significance": "Mechanical pain pattern"
+    },
+    "SYMPTOM_392": {
+      "name": "Unilateral pain below L5 level",
+      "type": "pain",
+      "body_regions": ["pelvis"],
+      "characteristics": {
+        "distribution": "unilateral",
+        "location": "below_L5"
+      },
+      "clinical_significance": "Classic SI joint pattern"
+    },
+    "SYMPTOM_393": {
+      "name": "Pain over posterior superior iliac spine",
+      "type": "pain",
+      "body_regions": ["pelvis"],
+      "characteristics": {
+        "location": "PSIS",
+        "palpable": "point_tenderness"
+      },
+      "clinical_significance": "SI joint dysfunction"
+    },
+    "SYMPTOM_394": {
+      "name": "Pain with transitional movements",
+      "type": "pain",
+      "body_regions": ["pelvis"],
+      "characteristics": {
+        "trigger": "position_changes",
+        "examples": "sit_to_stand"
+      },
+      "clinical_significance": "SI joint instability"
+    },
+    "SYMPTOM_395": {
+      "name": "Difficulty with single leg stance",
+      "type": "functional_limitation",
+      "body_regions": ["pelvis"],
+      "characteristics": {
+        "test": "single_leg_balance",
+        "mechanism": "pelvic_instability"
+      },
+      "clinical_significance": "SI joint dysfunction"
+    },
+    "SYMPTOM_396": {
+      "name": "Pain radiates to groin or thigh",
+      "type": "pain",
+      "body_regions": ["pelvis", "thigh"],
+      "characteristics": {
+        "radiation": "anterior_thigh",
+        "mechanism": "referred_pain"
+      },
+      "clinical_significance": "SI joint referral pattern"
+    },
+    "SYMPTOM_397": {
+      "name": "Pain with getting out of car",
+      "type": "functional_limitation",
+      "body_regions": ["pelvis"],
+      "characteristics": {
+        "activity": "car_egress",
+        "mechanism": "hip_flexion_to_extension"
+      },
+      "clinical_significance": "SI joint stress"
+    },
+    "SYMPTOM_398": {
+      "name": "Asymmetric standing posture",
+      "type": "postural_deviation",
+      "body_regions": ["pelvis"],
+      "characteristics": {
+        "observation": "weight_shift",
+        "compensation": "unloading_affected_side"
+      },
+      "clinical_significance": "SI joint compensation"
+    },
+    "SYMPTOM_399": {
+      "name": "Pain directly over coccyx",
+      "type": "pain",
+      "body_regions": ["pelvis"],
+      "characteristics": {
+        "location": "coccyx",
+        "palpable": "point_tenderness"
+      },
+      "clinical_significance": "Pathognomonic for coccydynia"
+    },
+    "SYMPTOM_400": {
+      "name": "Pain worse with sitting",
+      "type": "pain",
+      "body_regions": ["pelvis"],
+      "characteristics": {
+        "trigger": "sitting",
+        "mechanism": "direct_pressure"
+      },
+      "clinical_significance": "Classic coccydynia pattern"
+    },
+    "SYMPTOM_401": {
+      "name": "Pain with transition from sitting to standing",
+      "type": "pain",
+      "body_regions": ["pelvis"],
+      "characteristics": {
+        "trigger": "sit_to_stand",
+        "mechanism": "coccyx_movement"
+      },
+      "clinical_significance": "Coccydynia functional impairment"
+    },
+    "SYMPTOM_402": {
+      "name": "Pain with defecation",
+      "type": "pain",
+      "body_regions": ["pelvis"],
+      "characteristics": {
+        "trigger": "straining",
+        "mechanism": "pelvic_floor_tension"
+      },
+      "clinical_significance": "Coccydynia complication"
+    },
+    "SYMPTOM_403": {
+      "name": "History of fall on tailbone",
+      "type": "injury_mechanism",
+      "body_regions": ["pelvis"],
+      "characteristics": {
+        "mechanism": "direct_trauma",
+        "location": "coccyx"
+      },
+      "clinical_significance": "Common coccydynia etiology"
+    },
+    "SYMPTOM_404": {
+      "name": "Relief with standing or walking",
+      "type": "pain_relief_pattern",
+      "body_regions": ["pelvis"],
+      "characteristics": {
+        "relief_activity": "upright_position",
+        "mechanism": "pressure_relief"
+      },
+      "clinical_significance": "Coccydynia pattern"
+    },
+    "SYMPTOM_405": {
+      "name": "Difficulty with prolonged sitting",
+      "type": "functional_limitation",
+      "body_regions": ["pelvis"],
+      "characteristics": {
+        "activity": "prolonged_sitting",
+        "limitation": "pain_induced"
+      },
+      "clinical_significance": "Coccydynia impact"
+    },
+    "SYMPTOM_406": {
+      "name": "Use of cushion for sitting",
+      "type": "adaptive_behavior",
+      "body_regions": ["pelvis"],
+      "characteristics": {
+        "adaptation": "donut_cushion",
+        "purpose": "pressure_relief"
+      },
+      "clinical_significance": "Coccydynia compensation"
+    },
+    "SYMPTOM_407": {
+      "name": "Neck pain following motor vehicle accident",
+      "type": "pain",
+      "body_regions": ["neck"],
+      "characteristics": {
+        "onset": "post_MVA",
+        "mechanism": "acceleration_deceleration"
+      },
+      "clinical_significance": "Pathognomonic for whiplash"
+    },
+    "SYMPTOM_408": {
+      "name": "Delayed onset of symptoms",
+      "type": "temporal_pattern",
+      "body_regions": ["neck"],
+      "characteristics": {
+        "timing": "hours_to_days",
+        "mechanism": "inflammatory_response"
+      },
+      "clinical_significance": "Typical whiplash presentation"
+    },
+    "SYMPTOM_409": {
+      "name": "Headaches",
+      "type": "pain",
+      "body_regions": ["head"],
+      "characteristics": {
+        "type": "cervicogenic",
+        "location": "occipital"
+      },
+      "clinical_significance": "Whiplash-associated disorder"
+    },
+    "SYMPTOM_410": {
+      "name": "Dizziness and vertigo",
+      "type": "neurological",
+      "body_regions": ["head"],
+      "characteristics": {
+        "type": "cervicogenic",
+        "trigger": "head_movements"
+      },
+      "clinical_significance": "Whiplash vestibular involvement"
+    },
+    "SYMPTOM_411": {
+      "name": "Cognitive difficulties",
+      "type": "neurological",
+      "body_regions": ["head"],
+      "characteristics": {
+        "type": "concentration_memory",
+        "severity": "mild_to_moderate"
+      },
+      "clinical_significance": "Post-concussive symptoms"
+    },
+    "SYMPTOM_412": {
+      "name": "Upper extremity numbness and tingling",
+      "type": "neurological",
+      "body_regions": ["upper_extremity"],
+      "characteristics": {
+        "distribution": "dermatomal",
+        "mechanism": "nerve_irritation"
+      },
+      "clinical_significance": "Cervical nerve involvement"
+    },
+    "SYMPTOM_413": {
+      "name": "Fatigue",
+      "type": "systemic",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "quality": "overwhelming",
+        "timing": "persistent"
+      },
+      "clinical_significance": "Common systemic symptom"
+    },
+    "SYMPTOM_414": {
+      "name": "Sleep disturbances",
+      "type": "systemic",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "type": "insomnia_fragmented",
+        "cause": "pain_related"
+      },
+      "clinical_significance": "Secondary to pain/disability"
+    }
+    },
+    "SYMPTOM_415": {
+      "name": "Ascending symmetric weakness",
+      "type": "neurological",
+      "body_regions": ["lower_extremity", "upper_extremity"],
+      "characteristics": {
+        "pattern": "distal_to_proximal",
+        "symmetry": "bilateral"
+      },
+      "clinical_significance": "Pathognomonic for Guillain-Barré"
+    },
+    "SYMPTOM_416": {
+      "name": "Areflexia or hyporeflexia",
+      "type": "neurological",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "reflexes": "absent_diminished",
+        "distribution": "generalized"
+      },
+      "clinical_significance": "Guillain-Barré syndrome"
+    },
+    "SYMPTOM_417": {
+      "name": "Distal numbness and tingling",
+      "type": "neurological",
+      "body_regions": ["hands", "feet"],
+      "characteristics": {
+        "distribution": "glove_stocking",
+        "onset": "early"
+      },
+      "clinical_significance": "Peripheral neuropathy"
+    },
+    "SYMPTOM_418": {
+      "name": "Respiratory muscle weakness",
+      "type": "neurological",
+      "body_regions": ["chest"],
+      "characteristics": {
+        "muscles": "diaphragm_intercostals",
+        "severity": "potentially_life_threatening"
+      },
+      "clinical_significance": "Guillain-Barré respiratory crisis"
+    },
+    "SYMPTOM_419": {
+      "name": "Facial weakness",
+      "type": "neurological",
+      "body_regions": ["face"],
+      "characteristics": {
+        "pattern": "bilateral_asymmetric",
+        "cranial_nerve": "VII"
+      },
+      "clinical_significance": "Cranial nerve involvement"
+    },
+    "SYMPTOM_420": {
+      "name": "Recent viral illness",
+      "type": "history",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "timing": "2_4_weeks_prior",
+        "type": "respiratory_GI"
+      },
+      "clinical_significance": "Guillain-Barré trigger"
+    },
+    "SYMPTOM_421": {
+      "name": "Difficulty swallowing",
+      "type": "functional_limitation",
+      "body_regions": ["throat"],
+      "characteristics": {
+        "mechanism": "cranial_nerve_weakness",
+        "risk": "aspiration"
+      },
+      "clinical_significance": "Bulbar involvement"
+    },
+    "SYMPTOM_422": {
+      "name": "Autonomic dysfunction",
+      "type": "neurological",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "manifestations": "BP_fluctuations_arrhythmias",
+        "severity": "variable"
+      },
+      "clinical_significance": "Guillain-Barré complication"
+    },
+    "SYMPTOM_423": {
+      "name": "Fatigable weakness",
+      "type": "neurological",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "pattern": "worse_with_use",
+        "recovery": "with_rest"
+      },
+      "clinical_significance": "Pathognomonic for myasthenia gravis"
+    },
+    "SYMPTOM_424": {
+      "name": "Weakness improves with rest",
+      "type": "neurological",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "pattern": "fluctuating",
+        "timing": "better_morning"
+      },
+      "clinical_significance": "Myasthenia gravis pattern"
+    },
+    "SYMPTOM_425": {
+      "name": "Ptosis and diplopia",
+      "type": "neurological",
+      "body_regions": ["eyes"],
+      "characteristics": {
+        "ptosis": "eyelid_drooping",
+        "diplopia": "double_vision"
+      },
+      "clinical_significance": "Ocular myasthenia"
+    },
+    "SYMPTOM_426": {
+      "name": "Dysarthria and dysphagia",
+      "type": "functional_limitation",
+      "body_regions": ["throat"],
+      "characteristics": {
+        "speech": "slurred",
+        "swallowing": "difficult"
+      },
+      "clinical_significance": "Bulbar myasthenia"
+    },
+    "SYMPTOM_427": {
+      "name": "Proximal muscle weakness",
+      "type": "neurological",
+      "body_regions": ["upper_extremity", "lower_extremity"],
+      "characteristics": {
+        "distribution": "proximal",
+        "pattern": "fatigable"
+      },
+      "clinical_significance": "Generalized myasthenia"
+    },
+    "SYMPTOM_428": {
+      "name": "Symptoms worse with exertion",
+      "type": "functional_pattern",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "trigger": "physical_activity",
+        "mechanism": "neuromuscular_fatigue"
+      },
+      "clinical_significance": "Myasthenia pattern"
+    },
+    "SYMPTOM_429": {
+      "name": "Respiratory muscle involvement",
+      "type": "neurological",
+      "body_regions": ["chest"],
+      "characteristics": {
+        "muscles": "diaphragm",
+        "severity": "myasthenic_crisis"
+      },
+      "clinical_significance": "Life-threatening myasthenia"
+    },
+    "SYMPTOM_430": {
+      "name": "Fluctuating symptoms throughout day",
+      "type": "temporal_pattern",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "timing": "worse_evening",
+        "variability": "hour_to_hour"
+      },
+      "clinical_significance": "Myasthenia hallmark"
+    },
+    "SYMPTOM_431": {
+      "name": "New weakness in previously affected muscles",
+      "type": "neurological",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "pattern": "post_polio_progression",
+        "timing": "decades_later"
+      },
+      "clinical_significance": "Post-polio syndrome pathognomonic"
+    },
+    "SYMPTOM_432": {
+      "name": "History of acute poliomyelitis",
+      "type": "history",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "timing": "childhood_young_adult",
+        "recovery": "partial_complete"
+      },
+      "clinical_significance": "Required for post-polio diagnosis"
+    },
+    "SYMPTOM_433": {
+      "name": "Progressive muscle atrophy",
+      "type": "structural",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "pattern": "slowly_progressive",
+        "distribution": "asymmetric"
+      },
+      "clinical_significance": "Post-polio motor neuron loss"
+    },
+    "SYMPTOM_434": {
+      "name": "New weakness in unaffected muscles",
+      "type": "neurological",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "pattern": "previously_normal_muscles",
+        "mechanism": "overuse"
+      },
+      "clinical_significance": "Post-polio compensation failure"
+    },
+    "SYMPTOM_435": {
+      "name": "Muscle and joint pain",
+      "type": "pain",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "type": "deep_aching",
+        "trigger": "overuse"
+      },
+      "clinical_significance": "Post-polio overuse syndrome"
+    },
+    "SYMPTOM_436": {
+      "name": "Cold intolerance",
+      "type": "systemic",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "manifestation": "increased_weakness",
+        "trigger": "cold_exposure"
+      },
+      "clinical_significance": "Post-polio autonomic dysfunction"
+    },
+    "SYMPTOM_437": {
+      "name": "Distal muscle weakness and atrophy",
+      "type": "neurological",
+      "body_regions": ["hands", "feet"],
+      "characteristics": {
+        "pattern": "distal_symmetric",
+        "progression": "slowly_progressive"
+      },
+      "clinical_significance": "Charcot-Marie-Tooth pathognomonic"
+    },
+    "SYMPTOM_438": {
+      "name": "High-arched feet (pes cavus)",
+      "type": "structural_deformity",
+      "body_regions": ["feet"],
+      "characteristics": {
+        "deformity": "high_arch",
+        "bilateral": "typical"
+      },
+      "clinical_significance": "CMT foot deformity"
+    },
+    "SYMPTOM_439": {
+      "name": "Hammer toes",
+      "type": "structural_deformity",
+      "body_regions": ["feet"],
+      "characteristics": {
+        "deformity": "digit_flexion",
+        "mechanism": "intrinsic_weakness"
+      },
+      "clinical_significance": "CMT foot complications"
+    },
+    "SYMPTOM_440": {
+      "name": "Distal sensory loss",
+      "type": "neurological",
+      "body_regions": ["hands", "feet"],
+      "characteristics": {
+        "pattern": "stocking_glove",
+        "modalities": "vibration_position"
+      },
+      "clinical_significance": "CMT sensory neuropathy"
+    },
+    "SYMPTOM_441": {
+      "name": "Foot drop",
+      "type": "functional_limitation",
+      "body_regions": ["feet"],
+      "characteristics": {
+        "mechanism": "dorsiflexor_weakness",
+        "gait": "steppage"
+      },
+      "clinical_significance": "CMT motor weakness"
+    },
+    "SYMPTOM_442": {
+      "name": "Frequent ankle sprains",
+      "type": "functional_limitation",
+      "body_regions": ["ankle"],
+      "characteristics": {
+        "mechanism": "instability",
+        "recurrence": "frequent"
+      },
+      "clinical_significance": "CMT ankle weakness"
+    },
+    "SYMPTOM_443": {
+      "name": "Difficulty with fine motor tasks",
+      "type": "functional_limitation",
+      "body_regions": ["hands"],
+      "characteristics": {
+        "tasks": "buttoning_writing",
+        "mechanism": "intrinsic_weakness"
+      },
+      "clinical_significance": "CMT hand involvement"
+    },
+    "SYMPTOM_444": {
+      "name": "Family history of similar symptoms",
+      "type": "history",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "inheritance": "autosomal_dominant",
+        "penetrance": "variable"
+      },
+      "clinical_significance": "Hereditary neuropathy"
+    },
+    "SYMPTOM_445": {
+      "name": "Progressive muscle weakness",
+      "type": "neurological",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "pattern": "proximal_predominant",
+        "progression": "relentless"
+      },
+      "clinical_significance": "Muscular dystrophy hallmark"
+    },
+    "SYMPTOM_446": {
+      "name": "Muscle pseudohypertrophy",
+      "type": "structural",
+      "body_regions": ["calves"],
+      "characteristics": {
+        "appearance": "enlarged_firm",
+        "composition": "fat_fibrosis"
+      },
+      "clinical_significance": "Duchenne dystrophy sign"
+    },
+    "SYMPTOM_447": {
+      "name": "Gowers' sign",
+      "type": "functional_limitation",
+      "body_regions": ["lower_extremity"],
+      "characteristics": {
+        "maneuver": "climbing_up_legs",
+        "mechanism": "proximal_weakness"
+      },
+      "clinical_significance": "Duchenne dystrophy pathognomonic"
+    },
+    "SYMPTOM_448": {
+      "name": "Delayed motor milestones",
+      "type": "developmental",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "milestones": "walking_climbing",
+        "timing": "delayed"
+      },
+      "clinical_significance": "Early dystrophy signs"
+    },
+    "SYMPTOM_449": {
+      "name": "Waddling gait",
+      "type": "functional_limitation",
+      "body_regions": ["lower_extremity"],
+      "characteristics": {
+        "pattern": "trendelenburg",
+        "mechanism": "hip_abductor_weakness"
+      },
+      "clinical_significance": "Proximal weakness gait"
+    },
+    "SYMPTOM_450": {
+      "name": "Frequent falls",
+      "type": "functional_limitation",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "mechanism": "weakness_imbalance",
+        "frequency": "increasing"
+      },
+      "clinical_significance": "Progressive weakness indicator"
+    },
+    "SYMPTOM_451": {
+      "name": "Difficulty climbing stairs",
+      "type": "functional_limitation",
+      "body_regions": ["lower_extremity"],
+      "characteristics": {
+        "mechanism": "quadriceps_weakness",
+        "pattern": "ascending_difficulty"
+      },
+      "clinical_significance": "Proximal weakness"
+    },
+    "SYMPTOM_452": {
+      "name": "Progressive weakness with fasciculations",
+      "type": "neurological",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "fasciculations": "visible_twitching",
+        "weakness": "progressive"
+      },
+      "clinical_significance": "ALS pathognomonic"
+    },
+    "SYMPTOM_453": {
+      "name": "Upper and lower motor neuron signs",
+      "type": "neurological",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "UMN": "spasticity_hyperreflexia",
+        "LMN": "weakness_atrophy"
+      },
+      "clinical_significance": "ALS diagnostic criteria"
+    },
+    "SYMPTOM_454": {
+      "name": "Dysarthria and dysphagia",
+      "type": "functional_limitation",
+      "body_regions": ["throat"],
+      "characteristics": {
+        "speech": "slurred_nasal",
+        "swallowing": "progressive_difficulty"
+      },
+      "clinical_significance": "Bulbar ALS"
+    },
+    "SYMPTOM_455": {
+      "name": "Muscle cramps",
+      "type": "pain",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "frequency": "frequent",
+        "severity": "severe"
+      },
+      "clinical_significance": "Early ALS symptom"
+    },
+    "SYMPTOM_456": {
+      "name": "Emotional lability",
+      "type": "neurological",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "manifestation": "pseudobulbar_affect",
+        "trigger": "inappropriate_stimuli"
+      },
+      "clinical_significance": "Bulbar ALS complication"
+    },
+    "SYMPTOM_457": {
+      "name": "Difficulty with fine motor tasks",
+      "type": "functional_limitation",
+      "body_regions": ["hands"],
+      "characteristics": {
+        "tasks": "writing_buttoning",
+        "mechanism": "intrinsic_weakness"
+      },
+      "clinical_significance": "Early ALS hand involvement"
+    },
+    "SYMPTOM_458": {
+      "name": "Weight loss",
+      "type": "systemic",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "mechanism": "muscle_atrophy",
+        "progression": "gradual"
+      },
+      "clinical_significance": "Progressive disease marker"
+    },
+    "SYMPTOM_459": {
+      "name": "Progressive chorea",
+      "type": "neurological",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "movement": "involuntary_dance_like",
+        "progression": "relentless"
+      },
+      "clinical_significance": "Huntington's pathognomonic"
+    },
+    "SYMPTOM_460": {
+      "name": "Cognitive decline",
+      "type": "neurological",
+      "body_regions": ["head"],
+      "characteristics": {
+        "type": "executive_memory",
+        "progression": "progressive"
+      },
+      "clinical_significance": "Huntington's dementia"
+    },
+    "SYMPTOM_461": {
+      "name": "Psychiatric symptoms",
+      "type": "psychiatric",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "manifestations": "depression_psychosis",
+        "onset": "early"
+      },
+      "clinical_significance": "Huntington's behavioral changes"
+    },
+    "SYMPTOM_462": {
+      "name": "Dystonia",
+      "type": "neurological",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "type": "sustained_contractions",
+        "pattern": "focal_generalized"
+      },
+      "clinical_significance": "Huntington's motor symptom"
+    },
+    "SYMPTOM_463": {
+      "name": "Depression and anxiety",
+      "type": "psychiatric",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "severity": "moderate_severe",
+        "timing": "early_onset"
+      },
+      "clinical_significance": "Huntington's psychiatric manifestation"
+    },
+    "SYMPTOM_464": {
+      "name": "Difficulty with balance",
+      "type": "functional_limitation",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "mechanism": "motor_control_loss",
+        "pattern": "progressive"
+      },
+      "clinical_significance": "Huntington's motor impairment"
+    },
+    "SYMPTOM_465": {
+      "name": "Incoordination of voluntary movements",
+      "type": "neurological",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "type": "cerebellar_ataxia",
+        "activities": "reaching_walking"
+      },
+      "clinical_significance": "Ataxia pathognomonic"
+    },
+    "SYMPTOM_466": {
+      "name": "Wide-based unsteady gait",
+      "type": "functional_limitation",
+      "body_regions": ["lower_extremity"],
+      "characteristics": {
+        "gait": "wide_based_staggering",
+        "mechanism": "cerebellar_dysfunction"
+      },
+      "clinical_significance": "Ataxic gait"
+    },
+    "SYMPTOM_467": {
+      "name": "Dysmetria",
+      "type": "neurological",
+      "body_regions": ["upper_extremity"],
+      "characteristics": {
+        "manifestation": "past_pointing",
+        "test": "finger_to_nose"
+      },
+      "clinical_significance": "Cerebellar dysfunction"
+    },
+    "SYMPTOM_468": {
+      "name": "Intention tremor",
+      "type": "neurological",
+      "body_regions": ["upper_extremity"],
+      "characteristics": {
+        "timing": "with_movement",
+        "amplitude": "increases_near_target"
+      },
+      "clinical_significance": "Cerebellar tremor"
+    },
+    "SYMPTOM_469": {
+      "name": "Nystagmus",
+      "type": "neurological",
+      "body_regions": ["eyes"],
+      "characteristics": {
+        "type": "gaze_evoked",
+        "direction": "horizontal_vertical"
+      },
+      "clinical_significance": "Cerebellar eye movement disorder"
+    },
+    "SYMPTOM_470": {
+      "name": "Difficulty with rapid alternating movements",
+      "type": "neurological",
+      "body_regions": ["upper_extremity"],
+      "characteristics": {
+        "test": "diadochokinesia",
+        "manifestation": "dysdiadochokinesia"
+      },
+      "clinical_significance": "Cerebellar dysfunction"
+    },
+    "SYMPTOM_471": {
+      "name": "Unilateral facial paralysis",
+      "type": "neurological",
+      "body_regions": ["face"],
+      "characteristics": {
+        "distribution": "entire_face",
+        "pattern": "LMN_type"
+      },
+      "clinical_significance": "Bell's palsy pathognomonic"
+    },
+    "SYMPTOM_472": {
+      "name": "Inability to close eye on affected side",
+      "type": "functional_limitation",
+      "body_regions": ["eyes"],
+      "characteristics": {
+        "mechanism": "orbicularis_weakness",
+        "risk": "corneal_exposure"
+      },
+      "clinical_significance": "Bell's palsy complication"
+    },
+    "SYMPTOM_473": {
+      "name": "Loss of nasolabial fold",
+      "type": "structural",
+      "body_regions": ["face"],
+      "characteristics": {
+        "appearance": "flattened_fold",
+        "side": "affected"
+      },
+      "clinical_significance": "Facial nerve paralysis sign"
+    },
+    "SYMPTOM_474": {
+      "name": "Drooling",
+      "type": "functional_limitation",
+      "body_regions": ["face"],
+      "characteristics": {
+        "mechanism": "lip_incompetence",
+        "side": "affected"
+      },
+      "clinical_significance": "Facial weakness consequence"
+    },
+    "SYMPTOM_475": {
+      "name": "Hyperacusis",
+      "type": "sensory",
+      "body_regions": ["ears"],
+      "characteristics": {
+        "mechanism": "stapedius_paralysis",
+        "manifestation": "sound_sensitivity"
+      },
+      "clinical_significance": "Facial nerve branch involvement"
+    },
+    "SYMPTOM_476": {
+      "name": "Altered taste sensation",
+      "type": "sensory",
+      "body_regions": ["tongue"],
+      "characteristics": {
+        "distribution": "anterior_two_thirds",
+        "mechanism": "chorda_tympani"
+      },
+      "clinical_significance": "Facial nerve gustatory branch"
+    },
+    "SYMPTOM_477": {
+      "name": "Pain around ear",
+      "type": "pain",
+      "body_regions": ["ears"],
+      "characteristics": {
+        "location": "postauricular",
+        "timing": "early"
+      },
+      "clinical_significance": "Bell's palsy prodrome"
+    },
+    "SYMPTOM_478": {
+      "name": "Sudden, severe, shooting facial pain",
+      "type": "pain",
+      "body_regions": ["face"],
+      "characteristics": {
+        "quality": "electric_shock",
+        "intensity": "severe"
+      },
+      "clinical_significance": "Trigeminal neuralgia pathognomonic"
+    },
+    "SYMPTOM_479": {
+      "name": "Pain triggered by light touch",
+      "type": "pain",
+      "body_regions": ["face"],
+      "characteristics": {
+        "trigger": "light_touch",
+        "allodynia": "mechanical"
+      },
+      "clinical_significance": "Trigeminal neuralgia hallmark"
+    },
+    "SYMPTOM_480": {
+      "name": "Pain in trigeminal nerve distribution",
+      "type": "pain",
+      "body_regions": ["face"],
+      "characteristics": {
+        "distribution": "V1_V2_V3",
+        "pattern": "dermatomal"
+      },
+      "clinical_significance": "Trigeminal neuralgia localization"
+    },
+    "SYMPTOM_481": {
+      "name": "Pain lasts seconds to minutes",
+      "type": "temporal_pattern",
+      "body_regions": ["face"],
+      "characteristics": {
+        "duration": "brief",
+        "pattern": "paroxysmal"
+      },
+      "clinical_significance": "Classic trigeminal neuralgia"
+    },
+    "SYMPTOM_482": {
+      "name": "Trigger zones on face",
+      "type": "sensory",
+      "body_regions": ["face"],
+      "characteristics": {
+        "zones": "specific_areas",
+        "sensitivity": "extreme"
+      },
+      "clinical_significance": "Trigeminal neuralgia feature"
+    },
+    "SYMPTOM_483": {
+      "name": "Avoidance of touching face",
+      "type": "adaptive_behavior",
+      "body_regions": ["face"],
+      "characteristics": {
+        "behavior": "protective",
+        "activities": "washing_shaving"
+      },
+      "clinical_significance": "Trigeminal neuralgia impact"
+    },
+    "SYMPTOM_484": {
+      "name": "Pain worse with chewing or talking",
+      "type": "pain",
+      "body_regions": ["face"],
+      "characteristics": {
+        "trigger": "jaw_movement",
+        "mechanism": "mechanical_stimulation"
+      },
+      "clinical_significance": "Trigeminal mandibular branch"
+    },
+    "SYMPTOM_485": {
+      "name": "Unilateral facial pain",
+      "type": "pain",
+      "body_regions": ["face"],
+      "characteristics": {
+        "distribution": "unilateral",
+        "crossing": "never_crosses_midline"
+      },
+      "clinical_significance": "Trigeminal neuralgia characteristic"
+    },
+    "SYMPTOM_486": {
+      "name": "Persistent dyspnea on exertion",
+      "type": "respiratory",
+      "body_regions": ["chest"],
+      "characteristics": {
+        "trigger": "exertion",
+        "persistence": "post_acute_illness"
+      },
+      "clinical_significance": "Post-pneumonia complication"
+    },
+    "SYMPTOM_487": {
+      "name": "Reduced exercise tolerance",
+      "type": "functional_limitation",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "mechanism": "cardiopulmonary_deconditioning",
+        "severity": "significant_reduction"
+      },
+      "clinical_significance": "Post-illness deconditioning"
+    },
+    "SYMPTOM_488": {
+      "name": "Productive cough",
+      "type": "respiratory",
+      "body_regions": ["chest"],
+      "characteristics": {
+        "sputum": "purulent_clear",
+        "timing": "persistent"
+      },
+      "clinical_significance": "Ongoing respiratory inflammation"
+    },
+    "SYMPTOM_489": {
+      "name": "Chest tightness",
+      "type": "respiratory",
+      "body_regions": ["chest"],
+      "characteristics": {
+        "sensation": "constricting",
+        "trigger": "activity_rest"
+      },
+      "clinical_significance": "Respiratory impairment"
+    },
+    "SYMPTOM_490": {
+      "name": "Decreased lung function",
+      "type": "respiratory",
+      "body_regions": ["chest"],
+      "characteristics": {
+        "measures": "FEV1_FVC_DLCO",
+        "pattern": "restrictive_obstructive"
+      },
+      "clinical_significance": "Objective pulmonary impairment"
+    },
+    "SYMPTOM_491": {
+      "name": "Muscle weakness and deconditioning",
+      "type": "functional_limitation",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "mechanism": "disuse_atrophy",
+        "distribution": "generalized"
+      },
+      "clinical_significance": "Post-illness syndrome"
+    },
+    "SYMPTOM_492": {
+      "name": "Progressive shortness of breath",
+      "type": "respiratory",
+      "body_regions": ["chest"],
+      "characteristics": {
+        "progression": "gradual_worsening",
+        "pattern": "exertional_then_rest"
+      },
+      "clinical_significance": "Pulmonary fibrosis hallmark"
+    },
+    "SYMPTOM_493": {
+      "name": "Dry, persistent cough",
+      "type": "respiratory",
+      "body_regions": ["chest"],
+      "characteristics": {
+        "character": "non_productive",
+        "timing": "persistent"
+      },
+      "clinical_significance": "Pulmonary fibrosis symptom"
+    },
+    "SYMPTOM_494": {
+      "name": "Clubbing of fingers",
+      "type": "structural",
+      "body_regions": ["hands"],
+      "characteristics": {
+        "appearance": "bulbous_fingertips",
+        "nail_changes": "curved_nails"
+      },
+      "clinical_significance": "Chronic hypoxemia sign"
+    },
+    "SYMPTOM_495": {
+      "name": "Fine inspiratory crackles",
+      "type": "respiratory",
+      "body_regions": ["chest"],
+      "characteristics": {
+        "timing": "inspiration",
+        "quality": "fine_dry"
+      },
+      "clinical_significance": "Pulmonary fibrosis auscultatory finding"
+    },
+    "SYMPTOM_496": {
+      "name": "Reversible airway obstruction",
+      "type": "respiratory",
+      "body_regions": ["chest"],
+      "characteristics": {
+        "reversibility": "bronchodilator_response",
+        "variability": "episodic"
+      },
+      "clinical_significance": "Asthma pathognomonic"
+    },
+    "SYMPTOM_497": {
+      "name": "Wheeze with expiration",
+      "type": "respiratory",
+      "body_regions": ["chest"],
+      "characteristics": {
+        "timing": "expiratory",
+        "mechanism": "airway_narrowing"
+      },
+      "clinical_significance": "Asthma auscultatory finding"
+    },
+    "SYMPTOM_498": {
+      "name": "Episodic dyspnea",
+      "type": "respiratory",
+      "body_regions": ["chest"],
+      "characteristics": {
+        "pattern": "intermittent",
+        "variability": "unpredictable"
+      },
+      "clinical_significance": "Asthma variability"
+    },
+    "SYMPTOM_499": {
+      "name": "Nocturnal symptoms",
+      "type": "temporal_pattern",
+      "body_regions": ["chest"],
+      "characteristics": {
+        "timing": "nighttime_early_morning",
+        "symptoms": "cough_wheeze_dyspnea"
+      },
+      "clinical_significance": "Asthma circadian pattern"
+    },
+    "SYMPTOM_500": {
+      "name": "Trigger-induced symptoms",
+      "type": "respiratory",
+      "body_regions": ["chest"],
+      "characteristics": {
+        "triggers": "allergens_irritants",
+        "response": "immediate_delayed"
+      },
+      "clinical_significance": "Asthma environmental sensitivity"
+    },
+    "SYMPTOM_501": {
+      "name": "Exercise-induced symptoms",
+      "type": "respiratory",
+      "body_regions": ["chest"],
+      "characteristics": {
+        "trigger": "physical_activity",
+        "timing": "during_after_exercise"
+      },
+      "clinical_significance": "Exercise-induced asthma"
+    },
+    "SYMPTOM_502": {
+      "name": "Response to bronchodilators",
+      "type": "therapeutic_response",
+      "body_regions": ["chest"],
+      "characteristics": {
+        "response": "rapid_improvement",
+        "medication": "beta_agonists"
+      },
+      "clinical_significance": "Asthma reversibility"
+    },
+    "SYMPTOM_503": {
+      "name": "Chronic productive cough with purulent sputum",
+      "type": "respiratory",
+      "body_regions": ["chest"],
+      "characteristics": {
+        "duration": "chronic",
+        "sputum": "purulent_copious"
+      },
+      "clinical_significance": "Bronchiectasis pathognomonic"
+    },
+    "SYMPTOM_504": {
+      "name": "Abnormal airway dilation on imaging",
+      "type": "imaging_finding",
+      "body_regions": ["chest"],
+      "characteristics": {
+        "finding": "bronchial_dilation",
+        "imaging": "CT_scan"
+      },
+      "clinical_significance": "Bronchiectasis diagnostic"
+    },
+    "SYMPTOM_505": {
+      "name": "Recurrent respiratory infections",
+      "type": "infectious",
+      "body_regions": ["chest"],
+      "characteristics": {
+        "frequency": "recurrent",
+        "organisms": "bacterial_atypical"
+      },
+      "clinical_significance": "Bronchiectasis complication"
+    },
+    "SYMPTOM_506": {
+      "name": "Hemoptysis",
+      "type": "respiratory",
+      "body_regions": ["chest"],
+      "characteristics": {
+        "appearance": "blood_streaked_sputum",
+        "severity": "mild_massive"
+      },
+      "clinical_significance": "Bronchiectasis serious complication"
+    },
+    "SYMPTOM_507": {
+      "name": "Coarse crackles on auscultation",
+      "type": "respiratory",
+      "body_regions": ["chest"],
+      "characteristics": {
+        "quality": "coarse_wet",
+        "timing": "inspiratory"
+      },
+      "clinical_significance": "Bronchiectasis auscultatory finding"
+    },
+    "SYMPTOM_508": {
+      "name": "Reduced functional capacity post-surgery",
+      "type": "functional_limitation",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "timing": "post_operative",
+        "mechanism": "deconditioning_surgical_effects"
+      },
+      "clinical_significance": "Post-cardiac surgery syndrome"
+    },
+    "SYMPTOM_509": {
+      "name": "Sternotomy pain and stiffness",
+      "type": "pain",
+      "body_regions": ["chest"],
+      "characteristics": {
+        "location": "sternal_incision",
+        "quality": "aching_stiffness"
+      },
+      "clinical_significance": "Post-surgical complication"
+    },
+    "SYMPTOM_510": {
+      "name": "Anxiety about activity",
+      "type": "psychiatric",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "trigger": "physical_activity",
+        "mechanism": "fear_avoidance"
+      },
+      "clinical_significance": "Post-cardiac surgery psychology"
+    },
+    "SYMPTOM_511": {
+      "name": "Depression and mood changes",
+      "type": "psychiatric",
+      "body_regions": ["systemic"],
+      "characteristics": {
+        "timing": "post_operative",
+        "severity": "mild_moderate"
+      },
+      "clinical_significance": "Post-surgical adjustment disorder"
+    }
+  }
+}

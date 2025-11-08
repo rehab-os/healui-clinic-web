@@ -364,6 +364,40 @@ export interface CreatePatientConditionDto {
     description?: string
     condition_type?: ConditionType
     onset_date?: string
+    
+    // ========== SCREENING FIELDS ==========
+    // Red Flag Fields
+    night_pain?: boolean
+    unexplained_weight_loss?: boolean
+    history_cancer_tb?: boolean
+    fever_with_symptoms?: boolean
+    bladder_bowel_changes?: boolean
+    neurological_symptoms?: boolean
+    recent_trauma?: boolean
+    red_flag_notes?: string
+
+    // Primary Problem Fields
+    chief_complaint?: string
+    primary_body_region?: string
+    pain_present?: boolean
+    vas_score?: number
+    symptom_duration?: SymptomDuration
+
+    // Functional Impact
+    functional_limitation_level?: FunctionalLimitationLevel
+    work_affected?: boolean
+    sleep_affected?: boolean
+    daily_activities_affected?: boolean
+
+    // Mechanism/Context
+    mechanism_of_injury?: MechanismOfInjury
+    related_to_work?: boolean
+    related_to_sport?: boolean
+    previous_episodes?: boolean
+
+    // Patient Expectations
+    primary_goal?: string
+    urgency_level?: UrgencyLevel
 }
 
 export interface UpdatePatientConditionStatusDto {
@@ -380,6 +414,32 @@ export enum SeverityLevel {
     SEVERE = 'SEVERE',
 }
 
+export enum FunctionalLimitationLevel {
+    NONE = 'NONE',
+    MILD = 'MILD',
+    MODERATE = 'MODERATE',
+    SEVERE = 'SEVERE'
+}
+
+export enum MechanismOfInjury {
+    TRAUMA = 'TRAUMA',
+    GRADUAL_ONSET = 'GRADUAL_ONSET',
+    POST_SURGICAL = 'POST_SURGICAL',
+    UNKNOWN = 'UNKNOWN'
+}
+
+export enum UrgencyLevel {
+    ROUTINE = 'ROUTINE',
+    URGENT = 'URGENT',
+    EMERGENT = 'EMERGENT'
+}
+
+export enum SymptomDuration {
+    ACUTE = 'ACUTE',        // < 6 weeks
+    SUBACUTE = 'SUBACUTE',  // 6-12 weeks  
+    CHRONIC = 'CHRONIC'     // > 3 months
+}
+
 export interface UpdatePatientConditionDto {
     status?: ConditionStatus
     description?: string
@@ -389,6 +449,40 @@ export interface UpdatePatientConditionDto {
     discharge_summary?: string
     discharged_at?: string
     discharged_by_id?: string
+    
+    // ========== SCREENING FIELDS ==========
+    // Red Flag Fields
+    night_pain?: boolean
+    unexplained_weight_loss?: boolean
+    history_cancer_tb?: boolean
+    fever_with_symptoms?: boolean
+    bladder_bowel_changes?: boolean
+    neurological_symptoms?: boolean
+    recent_trauma?: boolean
+    red_flag_notes?: string
+
+    // Primary Problem Fields
+    chief_complaint?: string
+    primary_body_region?: string
+    pain_present?: boolean
+    vas_score?: number
+    symptom_duration?: SymptomDuration
+
+    // Functional Impact
+    functional_limitation_level?: FunctionalLimitationLevel
+    work_affected?: boolean
+    sleep_affected?: boolean
+    daily_activities_affected?: boolean
+
+    // Mechanism/Context
+    mechanism_of_injury?: MechanismOfInjury
+    related_to_work?: boolean
+    related_to_sport?: boolean
+    previous_episodes?: boolean
+
+    // Patient Expectations
+    primary_goal?: string
+    urgency_level?: UrgencyLevel
 }
 
 export interface PatientConditionResponseDto {
@@ -417,6 +511,49 @@ export interface PatientConditionResponseDto {
     severity_level?: SeverityLevel
     last_assessment_date?: Date
     dischargedBy?: {
+        id: string
+        full_name: string
+    }
+    
+    // ========== SCREENING FIELDS ==========
+    screening_completed?: boolean
+    screening_date?: Date
+    screened_by_id?: string
+    
+    // Red Flag Fields
+    night_pain?: boolean
+    unexplained_weight_loss?: boolean
+    history_cancer_tb?: boolean
+    fever_with_symptoms?: boolean
+    bladder_bowel_changes?: boolean
+    neurological_symptoms?: boolean
+    recent_trauma?: boolean
+    red_flag_notes?: string
+
+    // Primary Problem Fields
+    chief_complaint?: string
+    primary_body_region?: string
+    pain_present?: boolean
+    vas_score?: number
+    symptom_duration?: SymptomDuration
+
+    // Functional Impact
+    functional_limitation_level?: FunctionalLimitationLevel
+    work_affected?: boolean
+    sleep_affected?: boolean
+    daily_activities_affected?: boolean
+
+    // Mechanism/Context
+    mechanism_of_injury?: MechanismOfInjury
+    related_to_work?: boolean
+    related_to_sport?: boolean
+    previous_episodes?: boolean
+
+    // Patient Expectations
+    primary_goal?: string
+    urgency_level?: UrgencyLevel
+    
+    screenedBy?: {
         id: string
         full_name: string
     }

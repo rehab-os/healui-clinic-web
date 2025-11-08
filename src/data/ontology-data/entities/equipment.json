@@ -1,0 +1,2713 @@
+{
+  "equipment": {
+    "EQ_001": {
+      "name": "Biodex System 4 Pro",
+      "category": "isokinetic",
+      "subcategory": "computerized_testing",
+      "manufacturer": "Biodex Medical Systems",
+      "modalities": ["strength_testing", "training", "neuromuscular_re-education"],
+      "parameters": {
+        "modes": ["isokinetic", "isometric", "isotonic", "reactive_eccentric"],
+        "speeds": "0-500°/sec",
+        "torque": "500 ft-lbs"
+      },
+      "clinical_applications": ["ACL_rehab", "sports_testing", "research"],
+      "cost_range": "$$$$$",
+      "certification_required": true
+    },
+    "EQ_002": {
+      "name": "AlterG Anti-Gravity Treadmill",
+      "category": "gait_training",
+      "subcategory": "body_weight_support",
+      "manufacturer": "AlterG Inc",
+      "modalities": ["gait_training", "running_assessment"],
+      "parameters": {
+        "weight_reduction": "1-100%",
+        "speed": "0-12 mph",
+        "incline": "-10 to +15%"
+      },
+      "clinical_applications": ["post_surgical", "neurological", "sports_return"],
+      "cost_range": "$$$$$",
+      "certification_required": true
+    },
+    "EQ_003": {
+      "name": "Lokomat Pro",
+      "category": "robotic",
+      "subcategory": "gait_rehabilitation",
+      "manufacturer": "Hocoma",
+      "modalities": ["robotic_gait_training", "biofeedback"],
+      "parameters": {
+        "body_weight_support": "0-100%",
+        "guidance_force": "0-100%",
+        "walking_speed": "0-3.5 km/h"
+      },
+      "clinical_applications": ["SCI", "stroke", "TBI", "pediatric"],
+      "cost_range": "$$$$$$",
+      "certification_required": true
+    },
+    "EQ_004": {
+      "name": "Armeo Spring",
+      "category": "robotic",
+      "subcategory": "upper_extremity",
+      "manufacturer": "Hocoma",
+      "modalities": ["arm_rehabilitation", "functional_training"],
+      "parameters": {
+        "degrees_of_freedom": 6,
+        "workspace": "3D",
+        "games": "multiple_therapy_games"
+      },
+      "clinical_applications": ["stroke", "TBI", "MS", "orthopedic"],
+      "cost_range": "$$$$$",
+      "certification_required": true
+    },
+    "EQ_005": {
+      "name": "SMART Balance Master",
+      "category": "balance",
+      "subcategory": "computerized_dynamic_posturography",
+      "manufacturer": "Natus Medical",
+      "modalities": ["balance_assessment", "training", "fall_risk"],
+      "parameters": {
+        "protocols": ["SOT", "MCT", "ADT", "LOS"],
+        "visual_feedback": "real-time",
+        "perturbations": "multi-directional"
+      },
+      "clinical_applications": ["vestibular", "neurological", "geriatric"],
+      "cost_range": "$$$$$",
+      "certification_required": true
+    },
+    "EQ_006": {
+      "name": "Shockwave Therapy Unit (Storz Medical)",
+      "category": "modality",
+      "subcategory": "extracorporeal_shockwave",
+      "manufacturer": "Storz Medical",
+      "modalities": ["ESWT", "radial_shockwave"],
+      "parameters": {
+        "frequency": "1-21 Hz",
+        "pressure": "1-5 bar",
+        "pulses": "100-3000"
+      },
+      "clinical_applications": ["tendinopathy", "plantar_fasciitis", "calcific_tendinitis"],
+      "cost_range": "$$$$",
+      "certification_required": true
+    },
+    "EQ_007": {
+      "name": "Class IV K-Laser",
+      "category": "modality",
+      "subcategory": "therapeutic_laser",
+      "manufacturer": "K-Laser USA",
+      "modalities": ["HILT", "photobiomodulation"],
+      "parameters": {
+        "wavelengths": "660nm, 800nm, 905nm, 970nm",
+        "power": "up to 20W",
+        "modes": ["continuous", "pulsed", "super_pulsed"]
+      },
+      "clinical_applications": ["pain", "inflammation", "tissue_healing"],
+      "cost_range": "$$$$",
+      "certification_required": true
+    },
+    "EQ_008": {
+      "name": "Intelect Legend XT Combo",
+      "category": "modality",
+      "subcategory": "electrotherapy",
+      "manufacturer": "Chattanooga",
+      "modalities": ["ultrasound", "electrical_stimulation", "combination"],
+      "parameters": {
+        "ultrasound": "1MHz, 3MHz",
+        "estim_channels": 4,
+        "waveforms": ["IFC", "TENS", "NMES", "Russian", "Hi-Volt"]
+      },
+      "clinical_applications": ["pain", "muscle_re-education", "edema"],
+      "cost_range": "$$$",
+      "certification_required": false
+    },
+    "EQ_009": {
+      "name": "Game Ready Pro 2.1",
+      "category": "modality",
+      "subcategory": "cryotherapy_compression",
+      "manufacturer": "Game Ready",
+      "modalities": ["cold_therapy", "intermittent_compression"],
+      "parameters": {
+        "temperature": "35-55°F",
+        "pressure": "5-75 mmHg",
+        "treatment_time": "5-360 min"
+      },
+      "clinical_applications": ["acute_injury", "post_surgical", "sports"],
+      "cost_range": "$$$",
+      "certification_required": false
+    },
+    "EQ_010": {
+      "name": "Normatec Pulse 2.0",
+      "category": "modality",
+      "subcategory": "pneumatic_compression",
+      "manufacturer": "Hyperice",
+      "modalities": ["dynamic_compression", "recovery"],
+      "parameters": {
+        "pressure_range": "30-110 mmHg",
+        "zones": 5,
+        "programs": ["pre-configured", "customizable"]
+      },
+      "clinical_applications": ["recovery", "edema", "circulation"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_011": {
+      "name": "Dynatronics Solaris Plus",
+      "category": "modality",
+      "subcategory": "multi-modality",
+      "manufacturer": "Dynatronics",
+      "modalities": ["ultrasound", "estim", "laser", "light_therapy"],
+      "parameters": {
+        "channels": 5,
+        "touchscreen": true,
+        "protocols": "pre-programmed"
+      },
+      "clinical_applications": ["comprehensive_therapy"],
+      "cost_range": "$$$$",
+      "certification_required": false
+    },
+    "EQ_012": {
+      "name": "Spinal Decompression Table (DRX9000)",
+      "category": "traction",
+      "subcategory": "computerized_traction",
+      "manufacturer": "Excite Medical",
+      "modalities": ["spinal_decompression", "traction"],
+      "parameters": {
+        "force": "up to 200 lbs",
+        "angle": "adjustable",
+        "protocols": "disc-specific"
+      },
+      "clinical_applications": ["disc_herniation", "sciatica", "DDD"],
+      "cost_range": "$$$$$",
+      "certification_required": true
+    },
+    "EQ_013": {
+      "name": "Aquatic Therapy Pool (HydroWorx)",
+      "category": "aquatic",
+      "subcategory": "underwater_treadmill",
+      "manufacturer": "HydroWorx",
+      "modalities": ["aquatic_therapy", "underwater_treadmill"],
+      "parameters": {
+        "water_depth": "adjustable",
+        "treadmill_speed": "0-8.5 mph",
+        "resistance_jets": true
+      },
+      "clinical_applications": ["early_mobilization", "sports", "arthritis"],
+      "cost_range": "$$$$$$",
+      "certification_required": true
+    },
+    "EQ_014": {
+      "name": "Redcord Suspension System",
+      "category": "exercise",
+      "subcategory": "suspension_training",
+      "manufacturer": "Redcord",
+      "modalities": ["neurac", "suspension_exercise"],
+      "parameters": {
+        "adjustability": "infinite",
+        "accessories": "multiple",
+        "vibration": "optional"
+      },
+      "clinical_applications": ["neuromuscular_control", "core", "sports"],
+      "cost_range": "$$",
+      "certification_required": true
+    },
+    "EQ_015": {
+      "name": "Blood Flow Restriction System (Delfi PTS)",
+      "category": "specialized",
+      "subcategory": "BFR_training",
+      "manufacturer": "Delfi Medical",
+      "modalities": ["blood_flow_restriction", "occlusion_training"],
+      "parameters": {
+        "pressure": "personalized_tourniquet_pressure",
+        "limb_occlusion": "50-80%",
+        "safety_features": "doppler_ultrasound"
+      },
+      "clinical_applications": ["strength", "post_surgical", "atrophy_prevention"],
+      "cost_range": "$$$",
+      "certification_required": true
+    },
+    "EQ_016": {
+      "name": "Whole Body Vibration Platform (Power Plate)",
+      "category": "exercise",
+      "subcategory": "vibration_training",
+      "manufacturer": "Performance Health Systems",
+      "modalities": ["whole_body_vibration", "proprioception"],
+      "parameters": {
+        "frequency": "25-50 Hz",
+        "amplitude": "2-4mm",
+        "g-force": "up to 6.3g"
+      },
+      "clinical_applications": ["balance", "bone_density", "strength"],
+      "cost_range": "$$$",
+      "certification_required": false
+    },
+    "EQ_017": {
+      "name": "Dry Needling Equipment Set",
+      "category": "manual_therapy",
+      "subcategory": "dry_needling",
+      "manufacturer": "Various",
+      "modalities": ["trigger_point_dry_needling", "IMS"],
+      "parameters": {
+        "needle_sizes": "0.16-0.30mm x 15-100mm",
+        "guide_tubes": true,
+        "electro_stim_compatible": true
+      },
+      "clinical_applications": ["myofascial_pain", "trigger_points"],
+      "cost_range": "$",
+      "certification_required": true
+    },
+    "EQ_018": {
+      "name": "Pilates Reformer (Clinical)",
+      "category": "exercise",
+      "subcategory": "pilates_equipment",
+      "manufacturer": "Balanced Body",
+      "modalities": ["therapeutic_pilates", "movement_re-education"],
+      "parameters": {
+        "resistance": "spring-based",
+        "positions": "multiple",
+        "accessories": "jumpboard_tower"
+      },
+      "clinical_applications": ["core", "posture", "movement_quality"],
+      "cost_range": "$$$",
+      "certification_required": true
+    },
+    "EQ_019": {
+      "name": "Functional Electrical Stimulation (Bioness L300)",
+      "category": "neuroprosthetic",
+      "subcategory": "FES",
+      "manufacturer": "Bioness",
+      "modalities": ["functional_electrical_stimulation", "gait_assistance"],
+      "parameters": {
+        "wireless": true,
+        "gait_sensor": "3D_accelerometer",
+        "customizable_stimulation": true
+      },
+      "clinical_applications": ["foot_drop", "stroke", "MS", "TBI"],
+      "cost_range": "$$$$",
+      "certification_required": true
+    },
+    "EQ_020": {
+      "name": "Virtual Reality System (Virtualis)",
+      "category": "technology",
+      "subcategory": "VR_rehabilitation",
+      "manufacturer": "Virtualis",
+      "modalities": ["VR_therapy", "motion_analysis"],
+      "parameters": {
+        "tracking": "full_body",
+        "environments": "customizable",
+        "biofeedback": "real-time"
+      },
+      "clinical_applications": ["balance", "neurological", "pain"],
+      "cost_range": "$$$$",
+      "certification_required": false
+    },
+    "EQ_021": {
+      "name": "EMG Biofeedback System (Thought Technology)",
+      "category": "biofeedback",
+      "subcategory": "surface_EMG",
+      "manufacturer": "Thought Technology",
+      "modalities": ["EMG_biofeedback", "muscle_re-education"],
+      "parameters": {
+        "channels": "2-8",
+        "sensitivity": "0.1-2000 μV",
+        "feedback": "audio_visual"
+      },
+      "clinical_applications": ["muscle_re-education", "relaxation", "pelvic_floor"],
+      "cost_range": "$$$",
+      "certification_required": false
+    },
+    "EQ_022": {
+      "name": "Paraffin Bath Unit",
+      "category": "thermal",
+      "subcategory": "moist_heat",
+      "manufacturer": "Various",
+      "modalities": ["thermotherapy", "moist_heat"],
+      "parameters": {
+        "temperature": "125-134°F",
+        "capacity": "6-25 lbs",
+        "timer": "adjustable"
+      },
+      "clinical_applications": ["arthritis", "hand_therapy", "contractures"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_023": {
+      "name": "Fluidotherapy Unit",
+      "category": "thermal",
+      "subcategory": "dry_heat",
+      "manufacturer": "Chattanooga",
+      "modalities": ["dry_heat", "desensitization"],
+      "parameters": {
+        "temperature": "100-125°F",
+        "particle_agitation": "adjustable",
+        "treatment_areas": "hand_foot_knee"
+      },
+      "clinical_applications": ["CRPS", "arthritis", "desensitization"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_024": {
+      "name": "Mechanical Traction Unit",
+      "category": "traction",
+      "subcategory": "static_intermittent",
+      "manufacturer": "Chattanooga",
+      "modalities": ["cervical_traction", "lumbar_traction"],
+      "parameters": {
+        "force": "up to 200 lbs",
+        "modes": ["static", "intermittent", "progressive"],
+        "angle": "0-30 degrees"
+      },
+      "clinical_applications": ["disc_pathology", "nerve_root_compression"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_025": {
+      "name": "Continuous Passive Motion (CPM) Machine",
+      "category": "passive_motion",
+      "subcategory": "joint_specific",
+      "manufacturer": "Kinetec",
+      "modalities": ["passive_ROM", "post_surgical"],
+      "parameters": {
+        "ROM": "adjustable",
+        "speed": "variable",
+        "pause_settings": true
+      },
+      "clinical_applications": ["post_surgical_knee", "shoulder", "elbow"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_026": {
+      "name": "Resistance Bands Set",
+      "category": "exercise",
+      "subcategory": "elastic_resistance",
+      "manufacturer": "TheraBand",
+      "modalities": ["resistance_exercise", "stretching"],
+      "parameters": {
+        "resistance_levels": "8_color_coded",
+        "latex_free_options": true,
+        "accessories": "handles_anchors"
+      },
+      "clinical_applications": ["strengthening", "ROM", "home_programs"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_027": {
+      "name": "Swiss Ball Collection",
+      "category": "exercise",
+      "subcategory": "stability_training",
+      "manufacturer": "Various",
+      "modalities": ["balance", "core_training", "stretching"],
+      "parameters": {
+        "sizes": "45cm-85cm",
+        "burst_resistant": true,
+        "weight_capacity": "300-600 lbs"
+      },
+      "clinical_applications": ["core", "balance", "prenatal"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_028": {
+      "name": "Foam Roller Set",
+      "category": "manual_therapy",
+      "subcategory": "self_myofascial_release",
+      "manufacturer": "Various",
+      "modalities": ["myofascial_release", "mobility"],
+      "parameters": {
+        "densities": ["soft", "medium", "firm"],
+        "textures": ["smooth", "textured", "vibrating"],
+        "sizes": "various"
+      },
+      "clinical_applications": ["myofascial_release", "warm_up", "recovery"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_029": {
+      "name": "Ankle Board/Wobble Board",
+      "category": "balance",
+      "subcategory": "proprioception",
+      "manufacturer": "Various",
+      "modalities": ["balance_training", "proprioception"],
+      "parameters": {
+        "degrees_of_freedom": "1-3",
+        "difficulty": "adjustable",
+        "surfaces": "various"
+      },
+      "clinical_applications": ["ankle_rehab", "balance", "fall_prevention"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_030": {
+      "name": "Goniometer Set",
+      "category": "assessment",
+      "subcategory": "range_of_motion",
+      "manufacturer": "Various",
+      "modalities": ["ROM_assessment"],
+      "parameters": {
+        "types": ["universal", "finger", "inclinometer"],
+        "sizes": "various",
+        "digital_options": true
+      },
+      "clinical_applications": ["assessment", "progress_tracking"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_031": {
+      "name": "Dynamometer (Hand/Grip)",
+      "category": "assessment",
+      "subcategory": "strength_testing",
+      "manufacturer": "JAMAR",
+      "modalities": ["strength_assessment"],
+      "parameters": {
+        "range": "0-200 lbs",
+        "positions": 5,
+        "digital": "optional"
+      },
+      "clinical_applications": ["hand_strength", "progress_tracking"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_032": {
+      "name": "Electrical Muscle Stimulation (Compex)",
+      "category": "modality",
+      "subcategory": "NMES",
+      "manufacturer": "Compex",
+      "modalities": ["NMES", "recovery", "strength"],
+      "parameters": {
+        "programs": "multiple_preset",
+        "channels": 4,
+        "wireless": "available"
+      },
+      "clinical_applications": ["muscle_strengthening", "recovery", "pain"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_033": {
+      "name": "Kinesiology Tape",
+      "category": "taping",
+      "subcategory": "elastic_therapeutic_tape",
+      "manufacturer": "Various",
+      "modalities": ["taping", "support"],
+      "parameters": {
+        "elasticity": "140-180%",
+        "water_resistant": true,
+        "hypoallergenic": "options_available"
+      },
+      "clinical_applications": ["support", "edema", "proprioception"],
+      "cost_range": "$",
+      "certification_required": true
+    },
+    "EQ_034": {
+      "name": "Treatment Table (Hi-Lo Electric)",
+      "category": "furniture",
+      "subcategory": "adjustable_table",
+      "manufacturer": "Various",
+      "modalities": ["patient_positioning"],
+      "parameters": {
+        "height_range": "18-37 inches",
+        "weight_capacity": "400-600 lbs",
+        "sections": "2-3"
+      },
+      "clinical_applications": ["all_treatments"],
+      "cost_range": "$$$",
+      "certification_required": false
+    },
+    "EQ_035": {
+      "name": "Parallel Bars",
+      "category": "gait_training",
+      "subcategory": "ambulation",
+      "manufacturer": "Various",
+      "modalities": ["gait_training", "balance"],
+      "parameters": {
+        "length": "7-12 feet",
+        "height": "adjustable",
+        "width": "adjustable"
+      },
+      "clinical_applications": ["gait_training", "weight_bearing"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_036": {
+      "name": "Stairs and Ramp Training Set",
+      "category": "functional",
+      "subcategory": "mobility_training",
+      "manufacturer": "Various",
+      "modalities": ["functional_mobility", "stair_training"],
+      "parameters": {
+        "steps": "3-5",
+        "handrails": "adjustable",
+        "ramp_angle": "variable"
+      },
+      "clinical_applications": ["functional_mobility", "discharge_planning"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_037": {
+      "name": "Pulley System (Wall/Door Mounted)",
+      "category": "exercise",
+      "subcategory": "ROM_equipment",
+      "manufacturer": "Various",
+      "modalities": ["assisted_ROM", "strengthening"],
+      "parameters": {
+        "mounting": "wall_door",
+        "rope_length": "adjustable",
+        "handles": "various"
+      },
+      "clinical_applications": ["shoulder_ROM", "home_programs"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_038": {
+      "name": "Mirror Box Therapy",
+      "category": "neurological",
+      "subcategory": "mirror_therapy",
+      "manufacturer": "Various",
+      "modalities": ["mirror_therapy", "phantom_limb"],
+      "parameters": {
+        "size": "various",
+        "portability": true,
+        "adjustable": true
+      },
+      "clinical_applications": ["phantom_pain", "CRPS", "stroke"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_039": {
+      "name": "Cupping Set",
+      "category": "manual_therapy",
+      "subcategory": "myofascial_decompression",
+      "manufacturer": "Various",
+      "modalities": ["cupping", "myofascial_decompression"],
+      "parameters": {
+        "types": ["silicone", "plastic", "glass"],
+        "sizes": "various",
+        "suction_methods": ["manual", "pump"]
+      },
+      "clinical_applications": ["myofascial_release", "trigger_points"],
+      "cost_range": "$",
+      "certification_required": true
+    },
+    "EQ_040": {
+      "name": "Instrument Assisted Soft Tissue Mobilization Tools",
+      "category": "manual_therapy",
+      "subcategory": "IASTM",
+      "manufacturer": "Various",
+      "modalities": ["IASTM", "soft_tissue_mobilization"],
+      "parameters": {
+        "materials": ["stainless_steel", "plastic"],
+        "edges": "various",
+        "sizes": "set_of_4-6"
+      },
+      "clinical_applications": ["scar_tissue", "fascial_restrictions"],
+      "cost_range": "$$",
+      "certification_required": true
+    },
+    "EQ_041": {
+      "name": "TENS Unit (Basic)",
+      "category": "modality",
+      "subcategory": "electrotherapy",
+      "manufacturer": "Various",
+      "modalities": ["TENS", "pain_management"],
+      "parameters": {
+        "channels": "2-4",
+        "waveforms": ["conventional", "burst", "modulation"],
+        "timer": "adjustable"
+      },
+      "clinical_applications": ["pain_management", "acute_injuries", "chronic_pain", "post_surgical_pain"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_042": {
+      "name": "Interferential Therapy Unit",
+      "category": "modality",
+      "subcategory": "electrotherapy",
+      "manufacturer": "Various",
+      "modalities": ["IFT", "deep_tissue_stimulation"],
+      "parameters": {
+        "frequency": "0-150 Hz",
+        "channels": "2-4",
+        "mode": "quadripolar_bipolar"
+      },
+      "clinical_applications": ["deep_tissue_pain", "muscle_spasms", "edema_reduction", "circulation_improvement"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_043": {
+      "name": "Ultrasound Therapy Unit (Basic)",
+      "category": "modality",
+      "subcategory": "therapeutic_ultrasound",
+      "manufacturer": "Various",
+      "modalities": ["therapeutic_ultrasound", "phonophoresis"],
+      "parameters": {
+        "frequency": "1MHz, 3MHz",
+        "intensity": "0.1-3.0 W/cm²",
+        "mode": "continuous_pulsed"
+      },
+      "clinical_applications": ["soft_tissue_injuries", "tendonitis", "bursitis", "scar_tissue_treatment"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_044": {
+      "name": "Shortwave Diathermy Unit",
+      "category": "modality",
+      "subcategory": "deep_heating",
+      "manufacturer": "Various",
+      "modalities": ["shortwave_diathermy", "deep_heating"],
+      "parameters": {
+        "frequency": "27.12 MHz",
+        "heating_pattern": "inductive_capacitive",
+        "timer": "adjustable"
+      },
+      "clinical_applications": ["arthritis", "muscle_strains", "joint_stiffness", "chronic_inflammation"],
+      "cost_range": "$$$",
+      "certification_required": true
+    },
+    "EQ_045": {
+      "name": "Laser Therapy Device (Basic)",
+      "category": "modality",
+      "subcategory": "low_level_laser",
+      "manufacturer": "Various",
+      "modalities": ["LLLT", "photobiomodulation"],
+      "parameters": {
+        "wavelength": "632-904nm",
+        "power": "5-500mW",
+        "mode": "continuous_pulsed"
+      },
+      "clinical_applications": ["wound_healing", "tendon_injuries", "arthritis", "neuropathy"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_046": {
+      "name": "Shockwave Therapy Machine (Basic)",
+      "category": "modality",
+      "subcategory": "radial_shockwave",
+      "manufacturer": "Various",
+      "modalities": ["radial_shockwave", "ESWT"],
+      "parameters": {
+        "frequency": "1-15 Hz",
+        "pressure": "1-4 bar",
+        "applicators": "multiple"
+      },
+      "clinical_applications": ["plantar_fasciitis", "tennis_elbow", "calcific_tendonitis", "trigger_points"],
+      "cost_range": "$$$",
+      "certification_required": true
+    },
+    "EQ_047": {
+      "name": "EMS Unit (Basic)",
+      "category": "modality",
+      "subcategory": "electrical_muscle_stimulation",
+      "manufacturer": "Various",
+      "modalities": ["EMS", "NMES", "muscle_strengthening"],
+      "parameters": {
+        "channels": "2-4",
+        "waveforms": ["symmetric", "asymmetric"],
+        "programs": "preset_custom"
+      },
+      "clinical_applications": ["muscle_weakness", "post_surgery_rehabilitation", "muscle_atrophy", "sports_training"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_048": {
+      "name": "Treatment Table (Basic)",
+      "category": "furniture",
+      "subcategory": "manual_therapy_table",
+      "manufacturer": "Various",
+      "modalities": ["patient_positioning", "manual_therapy"],
+      "parameters": {
+        "height": "fixed_adjustable",
+        "width": "24-32 inches",
+        "sections": "1-2"
+      },
+      "clinical_applications": ["manual_therapy", "patient_examination", "exercise_therapy", "massage"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_049": {
+      "name": "Traction Unit (Basic)",
+      "category": "traction",
+      "subcategory": "manual_mechanical",
+      "manufacturer": "Various",
+      "modalities": ["manual_traction", "mechanical_traction"],
+      "parameters": {
+        "force": "manual_controlled",
+        "application": "cervical_lumbar",
+        "duration": "variable"
+      },
+      "clinical_applications": ["disc_herniation", "neck_pain", "back_pain", "spinal_decompression"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_050": {
+      "name": "Treadmill (Basic)",
+      "category": "exercise",
+      "subcategory": "cardio_equipment",
+      "manufacturer": "Various",
+      "modalities": ["gait_training", "cardiovascular_exercise"],
+      "parameters": {
+        "speed": "0.5-12 mph",
+        "incline": "0-15%",
+        "handrails": true
+      },
+      "clinical_applications": ["gait_training", "cardio_rehabilitation", "weight_bearing_exercises", "balance_training"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_051": {
+      "name": "Stationary Bike (Basic)",
+      "category": "exercise",
+      "subcategory": "cardio_equipment",
+      "manufacturer": "Various",
+      "modalities": ["cardiovascular_exercise", "lower_extremity_strengthening"],
+      "parameters": {
+        "resistance": "adjustable",
+        "seat": "adjustable",
+        "display": "basic_metrics"
+      },
+      "clinical_applications": ["knee_rehabilitation", "cardiovascular_fitness", "lower_limb_strengthening", "warm_up_exercises"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_052": {
+      "name": "Parallel Bars (Basic)",
+      "category": "gait_training",
+      "subcategory": "ambulation_support",
+      "manufacturer": "Various",
+      "modalities": ["gait_training", "balance_support"],
+      "parameters": {
+        "length": "6-10 feet",
+        "height": "adjustable",
+        "base": "stable"
+      },
+      "clinical_applications": ["gait_training", "balance_exercises", "weight_bearing_practice", "transfer_training"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_053": {
+      "name": "Isokinetic Machine (Basic)",
+      "category": "assessment",
+      "subcategory": "strength_testing",
+      "manufacturer": "Various",
+      "modalities": ["isokinetic_testing", "strength_training"],
+      "parameters": {
+        "speeds": "variable",
+        "modes": ["isokinetic", "isometric"],
+        "joints": "multiple"
+      },
+      "clinical_applications": ["muscle_strength_testing", "ACL_rehabilitation", "sports_injury_recovery", "objective_assessment"],
+      "cost_range": "$$$",
+      "certification_required": true
+    },
+    "EQ_054": {
+      "name": "CPM Machine (Basic)",
+      "category": "passive_motion",
+      "subcategory": "continuous_passive_motion",
+      "manufacturer": "Various",
+      "modalities": ["passive_ROM", "joint_mobilization"],
+      "parameters": {
+        "ROM": "adjustable",
+        "speed": "variable",
+        "joints": "knee_shoulder_elbow"
+      },
+      "clinical_applications": ["post_surgical_knee_recovery", "joint_mobilization", "preventing_stiffness", "passive_range_of_motion"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_055": {
+      "name": "Gait Trainer (Basic)",
+      "category": "gait_training",
+      "subcategory": "assisted_ambulation",
+      "manufacturer": "Various",
+      "modalities": ["assisted_gait_training", "body_weight_support"],
+      "parameters": {
+        "support": "partial_body_weight",
+        "speed": "adjustable",
+        "harness": "included"
+      },
+      "clinical_applications": ["neurological_rehabilitation", "stroke_recovery", "spinal_cord_injury", "pediatric_therapy"],
+      "cost_range": "$$$",
+      "certification_required": true
+    },
+    "EQ_056": {
+      "name": "Hydrocollator Unit",
+      "category": "thermal",
+      "subcategory": "moist_heat",
+      "manufacturer": "Various",
+      "modalities": ["moist_heat_therapy", "thermotherapy"],
+      "parameters": {
+        "temperature": "160-170°F",
+        "capacity": "8-12 packs",
+        "timer": "automatic"
+      },
+      "clinical_applications": ["muscle_relaxation", "pain_relief", "pre_exercise_warming", "chronic_pain_management"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_057": {
+      "name": "Paraffin Wax Bath (Basic)",
+      "category": "thermal",
+      "subcategory": "moist_heat",
+      "manufacturer": "Various",
+      "modalities": ["paraffin_therapy", "heat_treatment"],
+      "parameters": {
+        "temperature": "125-130°F",
+        "capacity": "6 lbs",
+        "timer": "manual"
+      },
+      "clinical_applications": ["hand_arthritis", "joint_stiffness", "skin_conditioning", "finger_injuries"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_058": {
+      "name": "Ice Machine",
+      "category": "thermal",
+      "subcategory": "cryotherapy",
+      "manufacturer": "Various",
+      "modalities": ["cryotherapy", "cold_therapy"],
+      "parameters": {
+        "temperature": "32°F",
+        "capacity": "variable",
+        "delivery": "ice_packs_direct"
+      },
+      "clinical_applications": ["acute_injuries", "swelling_reduction", "post_exercise_recovery", "inflammation_control"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_059": {
+      "name": "Goniometer (Basic)",
+      "category": "assessment",
+      "subcategory": "range_of_motion_measurement",
+      "manufacturer": "Various",
+      "modalities": ["ROM_measurement", "joint_assessment"],
+      "parameters": {
+        "type": "universal",
+        "material": "plastic_metal",
+        "accuracy": "±2 degrees"
+      },
+      "clinical_applications": ["range_of_motion_measurement", "progress_tracking", "joint_angle_assessment", "disability_evaluation"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_060": {
+      "name": "Dynamometer (Basic)",
+      "category": "assessment",
+      "subcategory": "strength_measurement",
+      "manufacturer": "Various",
+      "modalities": ["strength_testing", "grip_assessment"],
+      "parameters": {
+        "range": "0-100 lbs",
+        "type": "hydraulic_mechanical",
+        "calibration": "manual"
+      },
+      "clinical_applications": ["grip_strength_testing", "muscle_strength_assessment", "progress_monitoring", "functional_evaluation"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_061": {
+      "name": "Hydrotherapy Pool (Basic)",
+      "category": "aquatic",
+      "subcategory": "therapeutic_pool",
+      "manufacturer": "Various",
+      "modalities": ["aquatic_therapy", "hydrotherapy"],
+      "parameters": {
+        "temperature": "92-96°F",
+        "depth": "3-4 feet",
+        "features": "basic_access"
+      },
+      "clinical_applications": ["aquatic_therapy", "joint_mobility", "post_surgical_rehabilitation", "arthritis_management"],
+      "cost_range": "$$$",
+      "certification_required": true
+    },
+    "EQ_062": {
+      "name": "Underwater Treadmill (Basic)",
+      "category": "aquatic",
+      "subcategory": "aquatic_exercise",
+      "manufacturer": "Various",
+      "modalities": ["underwater_walking", "aquatic_exercise"],
+      "parameters": {
+        "speed": "0-5 mph",
+        "water_depth": "adjustable",
+        "features": "basic_controls"
+      },
+      "clinical_applications": ["low_impact_exercise", "sports_rehabilitation", "weight_bearing_progression", "gait_retraining"],
+      "cost_range": "$$$",
+      "certification_required": false
+    },
+    "EQ_101": {
+      "name": "Table/Chair for Support",
+      "category": "support",
+      "subcategory": "stabilization",
+      "manufacturer": "Various",
+      "modalities": ["support", "stabilization"],
+      "parameters": {
+        "height": "adjustable",
+        "weight_capacity": "300+ lbs",
+        "stability": "non_slip"
+      },
+      "clinical_applications": ["pendulum_exercises", "support_during_mobility", "balance_assistance"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_102": {
+      "name": "Treatment Table",
+      "category": "furniture",
+      "subcategory": "treatment_surface",
+      "manufacturer": "Various",
+      "modalities": ["positioning", "treatment"],
+      "parameters": {
+        "height": "adjustable",
+        "width": "24-28_inches",
+        "padding": "comfortable"
+      },
+      "clinical_applications": ["passive_stretching", "manual_therapy", "exercise_positioning"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_103": {
+      "name": "Door Frame",
+      "category": "structural",
+      "subcategory": "fixed_anchor",
+      "manufacturer": "Building_Structure",
+      "modalities": ["stretching", "anchoring"],
+      "parameters": {
+        "height": "standard",
+        "width": "standard",
+        "strength": "structural"
+      },
+      "clinical_applications": ["doorway_stretches", "resistance_anchoring", "home_exercises"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_104": {
+      "name": "Resistance Bands",
+      "category": "resistance",
+      "subcategory": "elastic_resistance",
+      "manufacturer": "TheraBand/Various",
+      "modalities": ["strengthening", "stretching"],
+      "parameters": {
+        "resistance_levels": "multiple",
+        "length": "4-6_feet",
+        "material": "latex_rubber"
+      },
+      "clinical_applications": ["strengthening", "range_of_motion", "home_exercise", "travel_exercise"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_105": {
+      "name": "Light Dumbbells (1-5 lbs)",
+      "category": "resistance",
+      "subcategory": "free_weights",
+      "manufacturer": "Various",
+      "modalities": ["strengthening", "endurance"],
+      "parameters": {
+        "weight_range": "1-5_lbs",
+        "grip": "comfortable",
+        "material": "rubber_coated"
+      },
+      "clinical_applications": ["strengthening", "functional_training", "endurance", "coordination"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_106": {
+      "name": "Wall (Immovable Surface)",
+      "category": "structural",
+      "subcategory": "fixed_resistance",
+      "manufacturer": "Building_Structure",
+      "modalities": ["isometric_exercise", "stabilization"],
+      "parameters": {
+        "surface": "flat",
+        "stability": "immovable",
+        "height": "full_height"
+      },
+      "clinical_applications": ["isometric_exercises", "wall_slides", "balance_support"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_107": {
+      "name": "Resistance Tubing",
+      "category": "resistance",
+      "subcategory": "elastic_resistance",
+      "manufacturer": "TheraBand/Various",
+      "modalities": ["strengthening", "stretching"],
+      "parameters": {
+        "resistance_levels": "color_coded",
+        "length": "4-6_feet",
+        "handles": "comfortable_grip"
+      },
+      "clinical_applications": ["eccentric_training", "strengthening", "functional_movement"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_108": {
+      "name": "Light Weights (2-10 lbs)",
+      "category": "resistance",
+      "subcategory": "free_weights",
+      "manufacturer": "Various",
+      "modalities": ["strengthening", "endurance"],
+      "parameters": {
+        "weight_range": "2-10_lbs",
+        "grip": "ergonomic",
+        "material": "neoprene_coated"
+      },
+      "clinical_applications": ["progressive_strengthening", "endurance_training", "functional_patterns"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_109": {
+      "name": "Medicine Ball (2-10 lbs)",
+      "category": "functional",
+      "subcategory": "plyometric",
+      "manufacturer": "Various",
+      "modalities": ["plyometric_training", "functional_exercise"],
+      "parameters": {
+        "weight_range": "2-10_lbs",
+        "diameter": "8-12_inches",
+        "bounce": "variable"
+      },
+      "clinical_applications": ["plyometric_training", "sport_specific_training", "power_development"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_110": {
+      "name": "Cable Machine/Pulley System",
+      "category": "resistance",
+      "subcategory": "cable_system",
+      "manufacturer": "Various",
+      "modalities": ["strengthening", "functional_training"],
+      "parameters": {
+        "weight_stack": "adjustable",
+        "height": "adjustable",
+        "angles": "multiple"
+      },
+      "clinical_applications": ["functional_strengthening", "sport_specific_training", "overhead_exercises"],
+      "cost_range": "$$$",
+      "certification_required": false
+    },
+    "EQ_111": {
+      "name": "Ice Pack/Cryotherapy",
+      "category": "modality",
+      "subcategory": "thermal_therapy",
+      "manufacturer": "Various",
+      "modalities": ["pain_relief", "inflammation_control"],
+      "parameters": {
+        "temperature": "32-50°F",
+        "duration": "15-20_minutes",
+        "type": "cold_pack"
+      },
+      "clinical_applications": ["acute_injury", "post_exercise", "inflammation_control", "pain_management"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_112": {
+      "name": "Pillow/Bolster",
+      "category": "support",
+      "subcategory": "positioning",
+      "manufacturer": "Various",
+      "modalities": ["positioning", "support"],
+      "parameters": {
+        "size": "variable",
+        "firmness": "adjustable",
+        "material": "foam_memory_foam"
+      },
+      "clinical_applications": ["positioning", "support", "comfort", "elevation"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_113": {
+      "name": "Knee Brace/Support",
+      "category": "orthotic",
+      "subcategory": "joint_support",
+      "manufacturer": "Various",
+      "modalities": ["support", "protection"],
+      "parameters": {
+        "type": "hinged_sleeve",
+        "size": "adjustable",
+        "material": "neoprene_fabric"
+      },
+      "clinical_applications": ["joint_protection", "support_during_exercise", "post_surgical_support"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_114": {
+      "name": "Resistance Band (Heavy)",
+      "category": "resistance",
+      "subcategory": "elastic_resistance",
+      "manufacturer": "TheraBand/Various",
+      "modalities": ["strengthening", "closed_chain_exercise"],
+      "parameters": {
+        "resistance": "heavy",
+        "length": "4-6_feet",
+        "durability": "high"
+      },
+      "clinical_applications": ["closed_chain_exercises", "strengthening", "functional_movement"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_115": {
+      "name": "Balance Pad/Foam Pad",
+      "category": "balance",
+      "subcategory": "unstable_surface",
+      "manufacturer": "Airex/Various",
+      "modalities": ["balance_training", "proprioception"],
+      "parameters": {
+        "size": "16x20_inches",
+        "thickness": "2-2.5_inches",
+        "firmness": "medium"
+      },
+      "clinical_applications": ["balance_training", "proprioception", "ankle_rehabilitation", "core_stability"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_116": {
+      "name": "Ankle Weights (1-5 lbs)",
+      "category": "resistance",
+      "subcategory": "wearable_weights",
+      "manufacturer": "Various",
+      "modalities": ["strengthening", "resistance"],
+      "parameters": {
+        "weight_range": "1-5_lbs",
+        "attachment": "velcro_strap",
+        "comfort": "padded"
+      },
+      "clinical_applications": ["hamstring_strengthening", "ankle_strengthening", "functional_training"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_117": {
+      "name": "Plyometric Box/Platform",
+      "category": "functional",
+      "subcategory": "jumping_platform",
+      "manufacturer": "Various",
+      "modalities": ["plyometric_training", "step_training"],
+      "parameters": {
+        "height_range": "6-24_inches",
+        "surface": "non_slip",
+        "weight_capacity": "300+_lbs"
+      },
+      "clinical_applications": ["plyometric_training", "step_exercises", "functional_training", "sport_preparation"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_118": {
+      "name": "Dumbbells (10-25 lbs)",
+      "category": "resistance",
+      "subcategory": "free_weights",
+      "manufacturer": "Various",
+      "modalities": ["strengthening", "functional_training"],
+      "parameters": {
+        "weight_range": "10-25_lbs",
+        "grip": "knurled",
+        "material": "cast_iron_rubber"
+      },
+      "clinical_applications": ["advanced_strengthening", "functional_training", "sport_specific_training"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_119": {
+      "name": "Agility Cones/Markers",
+      "category": "functional",
+      "subcategory": "training_markers",
+      "manufacturer": "Various",
+      "modalities": ["agility_training", "sport_training"],
+      "parameters": {
+        "height": "6-9_inches",
+        "color": "bright_visible",
+        "quantity": "set_of_12"
+      },
+      "clinical_applications": ["cutting_drills", "agility_training", "sport_specific_drills", "coordination"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_120": {
+      "name": "Agility Ladder",
+      "category": "functional",
+      "subcategory": "coordination_training",
+      "manufacturer": "Various",
+      "modalities": ["footwork_training", "coordination"],
+      "parameters": {
+        "length": "15-20_feet",
+        "rung_spacing": "16-18_inches",
+        "material": "nylon_plastic"
+      },
+      "clinical_applications": ["footwork_training", "coordination", "agility", "sport_specific_training"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_121": {
+      "name": "BOSU Ball/Balance Trainer",
+      "category": "balance",
+      "subcategory": "unstable_surface",
+      "manufacturer": "BOSU/Various",
+      "modalities": ["balance_training", "proprioception", "core_training"],
+      "parameters": {
+        "diameter": "26_inches",
+        "height": "8.5_inches",
+        "weight_capacity": "300_lbs"
+      },
+      "clinical_applications": ["proprioceptive_training", "balance_training", "core_stability", "functional_training"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_122": {
+      "name": "Towel/Strap",
+      "category": "stretching",
+      "subcategory": "stretch_assist",
+      "manufacturer": "Various",
+      "modalities": ["stretching", "mobility"],
+      "parameters": {
+        "material": "cotton_nylon",
+        "length": "3-6_feet",
+        "width": "1-2_inches"
+      },
+      "clinical_applications": ["assisted_stretching", "mobility_exercises", "home_exercise", "range_of_motion"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_123": {
+      "name": "Track/Treadmill",
+      "category": "cardio",
+      "subcategory": "running_surface",
+      "manufacturer": "Various",
+      "modalities": ["running", "walking", "gait_training"],
+      "parameters": {
+        "surface": "controlled",
+        "speed": "adjustable",
+        "incline": "adjustable"
+      },
+      "clinical_applications": ["gait_retraining", "running_progression", "cardiovascular_training", "endurance_building"],
+      "cost_range": "$$$",
+      "certification_required": false
+    },
+    "EQ_124": {
+      "name": "Lumbar Support Pillow",
+      "category": "support",
+      "description": "Small pillow designed to maintain lumbar lordosis during sitting or lying",
+      "applications": ["postural_support", "pain_relief", "neutral_spine_positioning"],
+      "parameters": {
+        "firmness": "medium",
+        "size": "adjustable",
+        "material": "memory_foam"
+      },
+      "clinical_applications": ["acute_back_pain_management", "postural_correction", "sleeping_comfort"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_125": {
+      "name": "Heat Pack",
+      "category": "modality",
+      "description": "Heating pad or hot water bottle for pain relief and muscle relaxation",
+      "applications": ["pain_relief", "muscle_relaxation", "circulation_improvement"],
+      "parameters": {
+        "temperature": "adjustable",
+        "duration": "15-20_minutes",
+        "safety": "timer_controlled"
+      },
+      "clinical_applications": ["chronic_pain_management", "pre_exercise_warmup", "muscle_spasm_relief"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_126": {
+      "name": "Ergonomic Chair",
+      "category": "furniture",
+      "description": "Office chair with proper lumbar support and adjustability",
+      "applications": ["postural_support", "workplace_ergonomics", "long_term_sitting"],
+      "parameters": {
+        "lumbar_support": "adjustable",
+        "height": "adjustable",
+        "armrests": "adjustable"
+      },
+      "clinical_applications": ["workplace_injury_prevention", "postural_correction", "chronic_pain_management"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_127": {
+      "name": "Stress Ball",
+      "category": "strengthening",
+      "description": "Soft rubber ball for grip strengthening and hand exercises",
+      "applications": ["grip_strengthening", "hand_therapy", "stress_relief"],
+      "parameters": {
+        "firmness": "variable",
+        "size": "palm_sized",
+        "material": "rubber"
+      },
+      "clinical_applications": ["tennis_elbow_rehab", "grip_weakness", "hand_arthritis"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_128": {
+      "name": "Light Dumbbells (1-5 lbs)",
+      "category": "strengthening",
+      "description": "Light weights for progressive loading of injured tissues",
+      "applications": ["eccentric_exercise", "progressive_strengthening", "tendon_loading"],
+      "parameters": {
+        "weight_range": "1-5_lbs",
+        "grip": "comfortable",
+        "material": "rubber_coated"
+      },
+      "clinical_applications": ["tendinopathy_rehab", "progressive_loading", "functional_training"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_129": {
+      "name": "Tennis Elbow Strap",
+      "category": "support",
+      "description": "Counterforce brace for lateral epicondylalgia management",
+      "applications": ["pain_relief", "activity_modification", "load_reduction"],
+      "parameters": {
+        "material": "neoprene",
+        "adjustment": "velcro",
+        "position": "proximal_forearm"
+      },
+      "clinical_applications": ["tennis_elbow_management", "activity_support", "pain_control"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_130": {
+      "name": "Tennis Ball",
+      "category": "mobility",
+      "description": "Standard tennis ball for self-massage and trigger point release",
+      "applications": ["self_massage", "trigger_point_release", "plantar_fascia_release"],
+      "parameters": {
+        "size": "standard",
+        "firmness": "medium",
+        "texture": "textured"
+      },
+      "clinical_applications": ["plantar_fasciitis_treatment", "muscle_tension_release", "foot_massage"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_131": {
+      "name": "Night Splint",
+      "category": "support",
+      "description": "Dorsiflexion splint worn during sleep for plantar fasciitis",
+      "applications": ["night_time_stretching", "morning_pain_prevention", "tissue_healing"],
+      "parameters": {
+        "angle": "5-10_degrees_dorsiflexion",
+        "material": "lightweight_plastic",
+        "padding": "comfortable"
+      },
+      "clinical_applications": ["plantar_fasciitis_management", "achilles_tendinitis", "morning_stiffness"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_132": {
+      "name": "Supportive Footwear",
+      "category": "support",
+      "description": "Shoes with proper arch support and cushioning",
+      "applications": ["arch_support", "shock_absorption", "biomechanical_correction"],
+      "parameters": {
+        "arch_support": "built_in",
+        "heel_drop": "appropriate",
+        "cushioning": "adequate"
+      },
+      "clinical_applications": ["plantar_fasciitis_management", "foot_pain_prevention", "biomechanical_support"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_133": {
+      "name": "Balance Board (BAPS)",
+      "category": "balance",
+      "description": "Biomechanical Ankle Platform System for balance training",
+      "applications": ["balance_training", "proprioception", "ankle_stability"],
+      "parameters": {
+        "size": "circular_platform",
+        "adjustability": "multiple_ball_sizes",
+        "stability": "progressive"
+      },
+      "clinical_applications": ["ankle_sprain_rehab", "balance_deficits", "proprioceptive_training"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_134": {
+      "name": "Ankle Brace",
+      "category": "support",
+      "description": "Supportive brace for ankle stability and protection",
+      "applications": ["joint_protection", "stability_support", "injury_prevention"],
+      "parameters": {
+        "support_level": "variable",
+        "material": "neoprene_fabric",
+        "closure": "velcro_straps"
+      },
+      "clinical_applications": ["ankle_sprain_recovery", "chronic_instability", "return_to_sport"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_135": {
+      "name": "Ice Pack",
+      "category": "modality",
+      "description": "Cold therapy pack for acute injury management",
+      "applications": ["acute_injury", "inflammation_control", "pain_relief"],
+      "parameters": {
+        "temperature": "cold",
+        "duration": "15-20_minutes",
+        "application": "intermittent"
+      },
+      "clinical_applications": ["acute_sprains", "post_exercise", "inflammation_management"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_136": {
+      "name": "Therapy Putty",
+      "category": "strengthening",
+      "description": "Resistive putty for hand and finger strengthening",
+      "applications": ["grip_strengthening", "finger_exercises", "hand_rehabilitation"],
+      "parameters": {
+        "resistance_levels": "multiple_colors",
+        "material": "silicone_putty",
+        "reusable": "yes"
+      },
+      "clinical_applications": ["carpal_tunnel_rehab", "hand_arthritis", "grip_weakness"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_137": {
+      "name": "Wrist Splint",
+      "category": "support",
+      "description": "Neutral wrist splint for rest and support",
+      "applications": ["wrist_immobilization", "carpal_tunnel_management", "tendinitis_support"],
+      "parameters": {
+        "position": "neutral_wrist",
+        "material": "thermoplastic",
+        "wearing": "night_or_activity"
+      },
+      "clinical_applications": ["carpal_tunnel_syndrome", "wrist_tendinitis", "post_injury_support"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_138": {
+      "name": "Ankle Weights",
+      "category": "strengthening",
+      "description": "Adjustable weights for ankle or wrist strengthening",
+      "applications": ["progressive_resistance", "limb_strengthening", "rehabilitation"],
+      "parameters": {
+        "weight_range": "1-10_lbs",
+        "adjustability": "removable_weights",
+        "closure": "velcro_straps"
+      },
+      "clinical_applications": ["hip_strengthening", "ankle_rehab", "progressive_loading"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_139": {
+      "name": "Thumb Spica Splint",
+      "category": "support",
+      "description": "Thumb immobilization splint for De Quervain's tenosynovitis",
+      "applications": ["thumb_immobilization", "tendinitis_support", "post_injury_protection"],
+      "parameters": {
+        "immobilization": "thumb_and_wrist",
+        "material": "thermoplastic",
+        "wearing_schedule": "activity_dependent"
+      },
+      "clinical_applications": ["De_Quervains_tenosynovitis", "thumb_arthritis", "scaphoid_fracture"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_140": {
+      "name": "Bite Guard/Night Guard",
+      "category": "support",
+      "description": "Dental appliance for TMJ protection during sleep",
+      "applications": ["teeth_protection", "jaw_positioning", "bruxism_management"],
+      "parameters": {
+        "material": "acrylic_resin",
+        "fit": "custom_molded",
+        "thickness": "variable"
+      },
+      "clinical_applications": ["TMJ_disorders", "bruxism", "jaw_pain_management"],
+      "cost_range": "$$$",
+      "certification_required": true
+    },
+    "EQ_141": {
+      "name": "Posture Mirror",
+      "category": "feedback",
+      "description": "Mirror for postural awareness and biofeedback training",
+      "applications": ["postural_feedback", "movement_awareness", "exercise_form"],
+      "parameters": {
+        "size": "full_length",
+        "mounting": "wall_or_portable",
+        "visibility": "clear_reflection"
+      },
+      "clinical_applications": ["postural_training", "movement_reeducation", "exercise_instruction"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_142": {
+      "name": "Hemi Walker",
+      "category": "mobility",
+      "description": "One-handed walker designed for stroke patients with hemiplegia",
+      "applications": ["mobility_assistance", "balance_support", "gait_training"],
+      "parameters": {
+        "height": "adjustable",
+        "weight": "lightweight",
+        "hand_grip": "ergonomic_single"
+      },
+      "clinical_applications": ["stroke_rehabilitation", "hemiplegia_support", "mobility_training"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_143": {
+      "name": "Transfer Board",
+      "category": "mobility",
+      "description": "Smooth board for safe patient transfers between surfaces",
+      "applications": ["bed_to_chair_transfer", "wheelchair_transfers", "safety"],
+      "parameters": {
+        "length": "24_inches",
+        "width": "8_inches",
+        "surface": "smooth_non_slip"
+      },
+      "clinical_applications": ["transfer_training", "mobility_assistance", "fall_prevention"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_144": {
+      "name": "Functional Electrical Stimulation Unit",
+      "category": "stimulation",
+      "description": "Device for electrical stimulation to activate paralyzed muscles",
+      "applications": ["muscle_activation", "motor_relearning", "function_improvement"],
+      "parameters": {
+        "channels": "multi_channel",
+        "intensity": "adjustable",
+        "programs": "pre_set_custom"
+      },
+      "clinical_applications": ["stroke_rehabilitation", "motor_recovery", "muscle_reeducation"],
+      "cost_range": "$$$",
+      "certification_required": true
+    },
+    "EQ_145": {
+      "name": "Metronome",
+      "category": "feedback",
+      "description": "Device providing auditory rhythmic cues for movement timing",
+      "applications": ["rhythm_training", "gait_cuing", "movement_coordination"],
+      "parameters": {
+        "tempo_range": "40-200_bpm",
+        "volume": "adjustable",
+        "sound_options": "multiple_tones"
+      },
+      "clinical_applications": ["parkinsons_training", "gait_rehabilitation", "motor_coordination"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_146": {
+      "name": "Visual Cue Lines",
+      "category": "feedback",
+      "description": "Floor markings or laser lines to provide visual cues for gait",
+      "applications": ["freezing_of_gait", "step_length_training", "gait_initiation"],
+      "parameters": {
+        "spacing": "adjustable",
+        "color": "high_contrast",
+        "material": "tape_or_laser"
+      },
+      "clinical_applications": ["parkinsons_gait_training", "neurological_rehabilitation"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_147": {
+      "name": "Cooling Vest",
+      "category": "thermal",
+      "description": "Vest with cooling elements to prevent overheating during exercise",
+      "applications": ["heat_management", "MS_exercise", "temperature_regulation"],
+      "parameters": {
+        "cooling_duration": "2-4_hours",
+        "weight": "lightweight",
+        "adjustability": "multiple_sizes"
+      },
+      "clinical_applications": ["MS_rehabilitation", "heat_sensitive_conditions"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_148": {
+      "name": "Fatigue Monitoring Device",
+      "category": "assessment",
+      "description": "Wearable device to monitor energy levels and pacing",
+      "applications": ["fatigue_tracking", "activity_pacing", "energy_conservation"],
+      "parameters": {
+        "battery_life": "7_days",
+        "data_tracking": "heart_rate_activity",
+        "alerts": "fatigue_warnings"
+      },
+      "clinical_applications": ["MS_fatigue_management", "chronic_fatigue_conditions"],
+      "cost_range": "$$$",
+      "certification_required": false
+    },
+    "EQ_149": {
+      "name": "Texture Discrimination Kit",
+      "category": "assessment",
+      "description": "Collection of different textures for sensory re-education",
+      "applications": ["sensory_training", "neuropathy_rehabilitation", "tactile_discrimination"],
+      "parameters": {
+        "textures": "varied_roughness",
+        "size": "portable_kit",
+        "materials": "safe_non_toxic"
+      },
+      "clinical_applications": ["peripheral_neuropathy", "sensory_reeducation"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_150": {
+      "name": "Inspection Mirror",
+      "category": "safety",
+      "description": "Angled mirror for self-inspection of feet and body areas",
+      "applications": ["skin_inspection", "diabetic_foot_care", "self_monitoring"],
+      "parameters": {
+        "angle": "adjustable",
+        "size": "compact_portable",
+        "handle": "ergonomic"
+      },
+      "clinical_applications": ["neuropathy_care", "diabetic_management", "wound_prevention"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_151": {
+      "name": "Cognitive Training Software",
+      "category": "assessment",
+      "description": "Computer-based cognitive rehabilitation programs",
+      "applications": ["attention_training", "memory_exercises", "cognitive_rehabilitation"],
+      "parameters": {
+        "difficulty_levels": "adaptive",
+        "tracking": "progress_monitoring",
+        "exercises": "multiple_domains"
+      },
+      "clinical_applications": ["TBI_rehabilitation", "cognitive_impairment", "attention_disorders"],
+      "cost_range": "$$$",
+      "certification_required": false
+    },
+    "EQ_152": {
+      "name": "Dual Task Training Equipment",
+      "category": "training",
+      "description": "Equipment for combining physical and cognitive tasks",
+      "applications": ["dual_task_training", "cognitive_motor_integration", "functional_training"],
+      "parameters": {
+        "tasks": "customizable",
+        "difficulty": "adjustable",
+        "feedback": "real_time"
+      },
+      "clinical_applications": ["TBI_rehabilitation", "cognitive_motor_training"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_153": {
+      "name": "FES Cycling Equipment",
+      "category": "stimulation",
+      "description": "Functional electrical stimulation bicycle for paralyzed limbs",
+      "applications": ["muscle_strengthening", "cardiovascular_fitness", "bone_density"],
+      "parameters": {
+        "channels": "8_channel",
+        "programs": "preset_custom",
+        "feedback": "biofeedback_monitoring"
+      },
+      "clinical_applications": ["spinal_cord_injury", "paralysis_rehabilitation"],
+      "cost_range": "$$$$$",
+      "certification_required": true
+    },
+    "EQ_154": {
+      "name": "Standing Frame",
+      "category": "mobility",
+      "description": "Device to support standing for paralyzed individuals",
+      "applications": ["bone_health", "circulation", "psychological_benefits"],
+      "parameters": {
+        "adjustability": "height_angle",
+        "support": "full_body",
+        "mobility": "stationary_mobile"
+      },
+      "clinical_applications": ["spinal_cord_injury", "prolonged_immobilization"],
+      "cost_range": "$$$$",
+      "certification_required": false
+    },
+    "EQ_155": {
+      "name": "Pulse Oximeter",
+      "category": "monitoring",
+      "description": "Device to monitor oxygen saturation during exercise",
+      "applications": ["oxygen_monitoring", "exercise_safety", "dyspnea_management"],
+      "parameters": {
+        "accuracy": "medical_grade",
+        "display": "digital_readout",
+        "alarms": "customizable_limits"
+      },
+      "clinical_applications": ["COPD_management", "cardiac_rehabilitation", "pulmonary_rehabilitation"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_156": {
+      "name": "Incentive Spirometer",
+      "category": "breathing",
+      "description": "Device to encourage deep breathing and lung expansion",
+      "applications": ["lung_expansion", "breathing_training", "post_surgical_care"],
+      "parameters": {
+        "volume_range": "500-4000ml",
+        "visual_feedback": "ball_or_piston",
+        "portability": "compact_design"
+      },
+      "clinical_applications": ["pulmonary_rehabilitation", "post_operative_care", "breathing_exercises"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_157": {
+      "name": "Percussion Cup",
+      "category": "airway_clearance",
+      "description": "Cup-shaped device for chest percussion therapy",
+      "applications": ["chest_percussion", "secretion_mobilization", "airway_clearance"],
+      "parameters": {
+        "material": "rubber_or_plastic",
+        "size": "adult_pediatric",
+        "grip": "ergonomic_handle"
+      },
+      "clinical_applications": ["COPD_management", "cystic_fibrosis", "pneumonia_recovery"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_158": {
+      "name": "Heart Rate Monitor",
+      "category": "monitoring",
+      "description": "Device to continuously monitor heart rate during exercise",
+      "applications": ["exercise_monitoring", "cardiac_safety", "target_heart_rate"],
+      "parameters": {
+        "type": "chest_strap_wrist",
+        "accuracy": "medical_grade",
+        "alarms": "programmable_zones"
+      },
+      "clinical_applications": ["cardiac_rehabilitation", "exercise_prescription", "post_MI_monitoring"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_159": {
+      "name": "Blood Pressure Monitor",
+      "category": "monitoring",
+      "description": "Automated blood pressure measurement device",
+      "applications": ["blood_pressure_monitoring", "exercise_safety", "hypertension_management"],
+      "parameters": {
+        "cuff_sizes": "multiple_sizes",
+        "accuracy": "validated_medical",
+        "memory": "data_storage"
+      },
+      "clinical_applications": ["cardiac_rehabilitation", "hypertension_monitoring", "exercise_testing"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_160": {
+      "name": "Mirror Box Therapy Kit",
+      "category": "neurological",
+      "description": "Specialized mirror setup for mirror therapy and motor imagery",
+      "applications": ["mirror_therapy", "phantom_limb_pain", "CRPS_treatment"],
+      "parameters": {
+        "mirror_size": "adjustable",
+        "box_design": "open_closed_options",
+        "positioning": "portable"
+      },
+      "clinical_applications": ["CRPS", "stroke_rehabilitation", "phantom_limb_pain"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_161": {
+      "name": "Continuous Passive Motion Machine",
+      "category": "rehabilitation",
+      "description": "Automated device for passive joint movement post-surgery",
+      "applications": ["post_surgical_care", "prevent_adhesions", "maintain_ROM"],
+      "parameters": {
+        "ROM_range": "0-120_degrees",
+        "speed_control": "variable",
+        "comfort_features": "padding_adjustments"
+      },
+      "clinical_applications": ["total_knee_replacement", "total_hip_replacement", "post_surgical_care"],
+      "cost_range": "$$$",
+      "certification_required": true
+    },
+    "EQ_162": {
+      "name": "Pelvic Floor Biofeedback Unit",
+      "category": "biofeedback",
+      "description": "Device providing visual/auditory feedback for pelvic floor muscle training",
+      "applications": ["pelvic_floor_training", "incontinence_treatment", "muscle_coordination"],
+      "parameters": {
+        "sensors": "EMG_pressure",
+        "feedback": "visual_auditory",
+        "programs": "customizable"
+      },
+      "clinical_applications": ["pelvic_floor_dysfunction", "stress_incontinence", "womens_health"],
+      "cost_range": "$$$$",
+      "certification_required": true
+    },
+    "EQ_163": {
+      "name": "Dix-Hallpike Test Table",
+      "category": "assessment",
+      "description": "Specialized table for vestibular assessment and treatment",
+      "applications": ["BPPV_diagnosis", "repositioning_maneuvers", "vestibular_testing"],
+      "parameters": {
+        "head_drop_capability": "yes",
+        "positioning": "adjustable",
+        "safety_features": "side_rails"
+      },
+      "clinical_applications": ["BPPV", "vestibular_disorders", "balance_assessment"],
+      "cost_range": "$$$",
+      "certification_required": false
+    },
+    "EQ_164": {
+      "name": "Cervical Support Pillow",
+      "category": "support",
+      "description": "Ergonomic pillow designed to maintain cervical spine alignment",
+      "applications": ["neck_support", "posture_correction", "sleep_positioning"],
+      "parameters": {
+        "material": "memory_foam",
+        "contour": "cervical_curve",
+        "firmness": "medium"
+      },
+      "clinical_applications": ["thoracic_outlet_syndrome", "cervical_pain", "postural_correction"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_165": {
+      "name": "Ergonomic Workstation Setup Kit",
+      "category": "ergonomic",
+      "description": "Complete kit for proper workstation ergonomics",
+      "applications": ["workplace_ergonomics", "posture_improvement", "injury_prevention"],
+      "parameters": {
+        "components": ["monitor_stand", "keyboard_tray", "document_holder"],
+        "adjustability": "multi_level",
+        "compatibility": "universal"
+      },
+      "clinical_applications": ["thoracic_outlet_syndrome", "neck_strain", "repetitive_strain_injuries"],
+      "cost_range": "$$$",
+      "certification_required": false
+    },
+    "EQ_166": {
+      "name": "TMJ Mouth Guard",
+      "category": "orthotic",
+      "description": "Custom or semi-custom mouth guard for TMJ protection",
+      "applications": ["teeth_grinding_protection", "jaw_positioning", "pain_reduction"],
+      "parameters": {
+        "material": "medical_grade_plastic",
+        "thickness": "variable",
+        "fit": "custom_molded"
+      },
+      "clinical_applications": ["temporomandibular_disorder", "bruxism", "jaw_pain"],
+      "cost_range": "$$",
+      "certification_required": true
+    },
+    "EQ_167": {
+      "name": "Jaw Exercise Tool Kit",
+      "category": "exercise",
+      "description": "Set of tools for TMJ exercises and mobilization",
+      "applications": ["jaw_strengthening", "range_of_motion", "muscle_coordination"],
+      "parameters": {
+        "tools": ["bite_blocks", "resistance_bands", "measurement_ruler"],
+        "resistance_levels": "multiple",
+        "material": "medical_grade"
+      },
+      "clinical_applications": ["temporomandibular_disorder", "post_surgical_jaw", "trismus"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_168": {
+      "name": "Scoliometer",
+      "category": "assessment",
+      "description": "Device to measure spinal rotation and rib hump angle",
+      "applications": ["scoliosis_screening", "curve_measurement", "progress_tracking"],
+      "parameters": {
+        "measurement_range": "0-30_degrees",
+        "accuracy": "±1_degree",
+        "type": "inclinometer"
+      },
+      "clinical_applications": ["scoliosis", "spinal_deformity", "postural_assessment"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_169": {
+      "name": "Postural Mirror System",
+      "category": "feedback",
+      "description": "Large mirror setup for postural awareness and exercise feedback",
+      "applications": ["postural_training", "movement_awareness", "exercise_form"],
+      "parameters": {
+        "size": "full_length",
+        "mounting": "wall_mobile",
+        "visibility": "high_quality_reflection"
+      },
+      "clinical_applications": ["scoliosis", "postural_disorders", "movement_training"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_170": {
+      "name": "Spinal Decompression Unit",
+      "category": "traction",
+      "description": "Device for spinal decompression and elongation",
+      "applications": ["spinal_decompression", "curve_reduction", "pain_relief"],
+      "parameters": {
+        "force_range": "variable",
+        "positioning": "adjustable",
+        "safety_features": "emergency_release"
+      },
+      "clinical_applications": ["scoliosis", "disc_degeneration", "spinal_stenosis"],
+      "cost_range": "$$$",
+      "certification_required": true
+    },
+    "EQ_171": {
+      "name": "Prone Extension Board",
+      "category": "positioning",
+      "description": "Angled board for prone spinal extension exercises",
+      "applications": ["spinal_extension", "posture_correction", "mobility_training"],
+      "parameters": {
+        "angle_adjustment": "0-45_degrees",
+        "surface": "padded",
+        "stability": "non_slip_base"
+      },
+      "clinical_applications": ["ankylosing_spondylitis", "kyphosis", "spinal_stiffness"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_172": {
+      "name": "Spinal Mobility Measurement Tool",
+      "category": "assessment",
+      "description": "Device to measure spinal range of motion",
+      "applications": ["mobility_assessment", "progress_tracking", "treatment_planning"],
+      "parameters": {
+        "measurement_type": "flexion_extension_lateral",
+        "accuracy": "±2_degrees",
+        "portability": "handheld"
+      },
+      "clinical_applications": ["ankylosing_spondylitis", "spinal_stiffness", "mobility_disorders"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_173": {
+      "name": "Adaptive Equipment Set for RA",
+      "category": "adaptive",
+      "description": "Collection of joint protection tools for daily activities",
+      "applications": ["joint_protection", "energy_conservation", "independence"],
+      "parameters": {
+        "tools": ["jar_openers", "ergonomic_utensils", "button_hooks"],
+        "design": "large_grip_handles",
+        "materials": "lightweight"
+      },
+      "clinical_applications": ["rheumatoid_arthritis", "hand_arthritis", "joint_deformities"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_174": {
+      "name": "Paraffin Wax Bath",
+      "category": "thermal",
+      "description": "Therapeutic wax bath for heat therapy and pain relief",
+      "applications": ["heat_therapy", "joint_stiffness", "pain_management"],
+      "parameters": {
+        "temperature_range": "125-130°F",
+        "capacity": "6-9_pounds_wax",
+        "timer": "adjustable"
+      },
+      "clinical_applications": ["rheumatoid_arthritis", "hand_stiffness", "chronic_pain"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_175": {
+      "name": "Therapy Pool Access",
+      "category": "aquatic",
+      "description": "Temperature-controlled pool for aquatic therapy",
+      "applications": ["aquatic_therapy", "low_impact_exercise", "joint_mobility"],
+      "parameters": {
+        "temperature": "83-88°F",
+        "depth": "3-5_feet",
+        "accessibility": "ramps_rails"
+      },
+      "clinical_applications": ["rheumatoid_arthritis", "fibromyalgia", "chronic_pain"],
+      "cost_range": "$$$$",
+      "certification_required": true
+    },
+    "EQ_176": {
+      "name": "Hip Kit Post-Surgery",
+      "category": "adaptive",
+      "description": "Set of tools to maintain hip precautions during daily activities",
+      "applications": ["hip_precautions", "daily_activities", "independence"],
+      "parameters": {
+        "tools": ["reacher", "sock_aid", "long_shoe_horn", "sponge_on_stick"],
+        "length": "26-32_inches",
+        "design": "lightweight_ergonomic"
+      },
+      "clinical_applications": ["total_hip_replacement", "hip_fracture", "hip_surgery"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_177": {
+      "name": "Elevated Toilet Seat",
+      "category": "adaptive",
+      "description": "Raised toilet seat to maintain hip precautions",
+      "applications": ["hip_precautions", "safe_toileting", "independence"],
+      "parameters": {
+        "height_options": "3-6_inches",
+        "weight_capacity": "350_pounds",
+        "features": ["handles", "locking_mechanism"]
+      },
+      "clinical_applications": ["total_hip_replacement", "hip_surgery", "mobility_limitations"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_178": {
+      "name": "Hip Abduction Pillow",
+      "category": "positioning",
+      "description": "Wedge pillow to maintain hip abduction post-surgery",
+      "applications": ["hip_positioning", "dislocation_prevention", "comfort"],
+      "parameters": {
+        "angle": "15-30_degrees",
+        "material": "foam_with_cover",
+        "straps": "adjustable"
+      },
+      "clinical_applications": ["total_hip_replacement", "hip_fracture", "post_surgical_positioning"],
+      "cost_range": "$",
+      "certification_required": false
+    },
+    "EQ_179": {
+      "name": "Compression Bandaging System",
+      "category": "compression",
+      "description": "Multi-layer compression bandaging system for lymphedema",
+      "applications": ["lymphedema_management", "edema_reduction", "tissue_support"],
+      "parameters": {
+        "layers": "2-4_layer_system",
+        "compression_level": "20-60_mmHg",
+        "materials": ["short_stretch", "padding", "stockinette"]
+      },
+      "clinical_applications": ["lymphedema", "venous_insufficiency", "post_surgical_edema"],
+      "cost_range": "$$",
+      "certification_required": true
+    },
+    "EQ_180": {
+      "name": "Lymphedema Pump",
+      "category": "pneumatic",
+      "description": "Sequential pneumatic compression device for lymphedema",
+      "applications": ["lymphatic_drainage", "edema_reduction", "circulation_improvement"],
+      "parameters": {
+        "chambers": "multiple_sequential",
+        "pressure_range": "20-80_mmHg",
+        "cycle_time": "adjustable"
+      },
+      "clinical_applications": ["lymphedema", "chronic_venous_insufficiency", "post_mastectomy"],
+      "cost_range": "$$$$",
+      "certification_required": true
+    },
+    "EQ_181": {
+      "name": "Compression Garments",
+      "category": "compression",
+      "description": "Custom-fitted compression garments for long-term management",
+      "applications": ["maintenance_therapy", "daily_wear", "exercise_support"],
+      "parameters": {
+        "compression_class": "I-IV",
+        "styles": ["sleeve", "glove", "stocking"],
+        "material": "breathable_medical_grade"
+      },
+      "clinical_applications": ["lymphedema", "lipedema", "chronic_edema"],
+      "cost_range": "$$$",
+      "certification_required": false
+    },
+    "EQ_182": {
+      "name": "Pediatric Standing Frame",
+      "category": "positioning",
+      "description": "Adjustable standing frame for weight bearing in children with CP",
+      "applications": ["weight_bearing", "postural_control", "bone_health"],
+      "parameters": {
+        "adjustability": "height_width_angle",
+        "support_options": ["trunk", "hip", "knee"],
+        "age_range": "2-18_years"
+      },
+      "clinical_applications": ["cerebral_palsy", "spina_bifida", "muscular_dystrophy"],
+      "cost_range": "$$$",
+      "certification_required": false
+    },
+    "EQ_183": {
+      "name": "Pediatric Gait Trainer",
+      "category": "mobility",
+      "description": "Supportive device for gait training in children with neurological conditions",
+      "applications": ["gait_training", "mobility_development", "strength_building"],
+      "parameters": {
+        "support_level": "adjustable",
+        "wheels": "directional_locking",
+        "harness": "body_weight_support"
+      },
+      "clinical_applications": ["cerebral_palsy", "developmental_delays", "neurological_disorders"],
+      "cost_range": "$$$$",
+      "certification_required": true
+    },
+    "EQ_184": {
+      "name": "Dynamic Ankle Foot Orthosis (DAFO)",
+      "category": "orthotic",
+      "description": "Custom molded orthosis for ankle stability and function",
+      "applications": ["ankle_support", "gait_improvement", "spasticity_management"],
+      "parameters": {
+        "design": "solid_or_hinged",
+        "material": "thermoplastic",
+        "customization": "individual_molding"
+      },
+      "clinical_applications": ["cerebral_palsy", "foot_drop", "ankle_instability"],
+      "cost_range": "$$$",
+      "certification_required": true
+    },
+    "EQ_185": {
+      "name": "Adaptive Seating System",
+      "category": "positioning",
+      "description": "Customizable seating for proper positioning and function",
+      "applications": ["postural_support", "pressure_relief", "functional_positioning"],
+      "parameters": {
+        "components": ["tilt", "recline", "lateral_supports"],
+        "adjustability": "multi_directional",
+        "accessories": ["tray", "headrest", "straps"]
+      },
+      "clinical_applications": ["cerebral_palsy", "muscular_dystrophy", "spinal_cord_injury"],
+      "cost_range": "$$$$",
+      "certification_required": true
+    },
+    "EQ_186": {
+      "name": "Fine Motor Skills Kit",
+      "category": "therapeutic_tools",
+      "description": "Collection of tools for developing fine motor and manipulation skills",
+      "applications": ["fine_motor_development", "hand_coordination", "dexterity_training"],
+      "parameters": {
+        "tools": ["tweezers", "tongs", "pegboards", "threading_materials"],
+        "sizes": "graduated_difficulty",
+        "age_range": "3-12_years"
+      },
+      "clinical_applications": ["developmental_coordination_disorder", "fine_motor_delays", "hand_therapy"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_187": {
+      "name": "Balance Training Equipment Set",
+      "category": "balance",
+      "description": "Various surfaces and tools for progressive balance training",
+      "applications": ["balance_training", "proprioception", "postural_control"],
+      "parameters": {
+        "surfaces": ["foam_pads", "balance_discs", "wobble_boards"],
+        "difficulty_levels": "progressive",
+        "safety_features": "non_slip_base"
+      },
+      "clinical_applications": ["developmental_coordination_disorder", "balance_disorders", "fall_prevention"],
+      "cost_range": "$$$",
+      "certification_required": false
+    },
+    "EQ_188": {
+      "name": "Sensory Integration Equipment",
+      "category": "sensory",
+      "description": "Tools for sensory processing and integration activities",
+      "applications": ["sensory_integration", "tactile_processing", "proprioceptive_input"],
+      "parameters": {
+        "components": ["textured_materials", "weighted_items", "vibration_tools"],
+        "sensory_systems": "multiple",
+        "age_appropriate": "pediatric_focus"
+      },
+      "clinical_applications": ["sensory_processing_disorder", "autism", "developmental_delays"],
+      "cost_range": "$$",
+      "certification_required": false
+    },
+    "EQ_189": {
+      "name": "Vestibular Rehabilitation Equipment Set",
+      "category": "vestibular",
+      "description": "Comprehensive set for vestibular rehabilitation therapy",
+      "applications": ["balance_training", "gaze_stabilization", "habituation_exercises"],
+      "parameters": {
+        "components": ["balance_pads", "visual_targets", "head_positioning_aids"],
+        "difficulty_levels": "progressive",
+        "portability": "clinic_home_use"
+      },
+      "clinical_applications": ["vestibular_disorders", "BPPV", "balance_disorders"],
+      "cost_range": "$$$",
+      "certification_required": true
+    },
+    "EQ_190": {
+      "name": "Infrared Video Goggles",
+      "category": "assessment",
+      "description": "Video goggles for observing and recording eye movements",
+      "applications": ["nystagmus_observation", "vestibular_testing", "treatment_monitoring"],
+      "parameters": {
+        "recording": "high_resolution_video",
+        "illumination": "infrared",
+        "magnification": "adjustable"
+      },
+      "clinical_applications": ["vestibular_disorders", "BPPV", "neurological_conditions"],
+      "cost_range": "$$$$",
+      "certification_required": true
+    },
+    "EQ_191": {
+      "name": "Treatment Table",
+      "category": "furniture",
+      "subcategory": "treatment_surface",
+      "description": "Adjustable height treatment table for patient positioning during exercises",
+      "specifications": {
+        "adjustability": "electric_height_adjustment",
+        "weight_capacity": "400_lbs",
+        "dimensions": "72x28_inches",
+        "padding": "2_inch_foam"
+      },
+      "primary_use": ["patient_positioning", "exercise_support"],
+      "compatible_exercises": ["pendulum_exercises", "stretching"],
+      "maintenance": "daily_cleaning",
+      "cost_category": "high"
+    },
+    "EQ_192": {
+      "name": "Light Weights Set",
+      "category": "resistance",
+      "subcategory": "free_weights",
+      "description": "Set of light dumbbells for early strengthening phase",
+      "specifications": {
+        "weight_range": "1-5_lbs",
+        "material": "rubber_coated",
+        "grip": "ergonomic_handle",
+        "increment": "1_lb_steps"
+      },
+      "primary_use": ["early_strengthening", "isometric_exercises"],
+      "compatible_exercises": ["biceps_curls", "isometric_holds"],
+      "maintenance": "weekly_cleaning",
+      "cost_category": "medium"
+    },
+    "EQ_193": {
+      "name": "Medicine Ball",
+      "category": "plyometric",
+      "subcategory": "weighted_ball",
+      "description": "Weighted ball for plyometric and functional training",
+      "specifications": {
+        "weight_range": "2-12_lbs",
+        "material": "rubber",
+        "diameter": "9_inches",
+        "grip": "textured_surface"
+      },
+      "primary_use": ["plyometric_training", "functional_movement"],
+      "compatible_exercises": ["throws", "catches", "overhead_patterns"],
+      "maintenance": "regular_cleaning",
+      "cost_category": "low"
+    },
+    "EQ_194": {
+      "name": "Functional Training Tools",
+      "category": "functional",
+      "subcategory": "sport_specific",
+      "description": "Collection of tools for sport-specific overhead training",
+      "specifications": {
+        "components": ["cones", "markers", "targets"],
+        "material": "durable_plastic",
+        "storage": "carrying_case",
+        "versatility": "multi_sport"
+      },
+      "primary_use": ["sport_specific_training", "functional_patterns"],
+      "compatible_exercises": ["overhead_activities", "throwing_mechanics"],
+      "maintenance": "minimal",
+      "cost_category": "medium"
+    },
+    "EQ_195": {
+      "name": "Shoulder Stabilization Platform",
+      "category": "stability",
+      "subcategory": "proprioceptive_training",
+      "description": "Unstable surface for shoulder proprioception and stability training",
+      "specifications": {
+        "surface": "foam_pad",
+        "dimensions": "12x12_inches",
+        "thickness": "2_inches",
+        "density": "medium_firmness"
+      },
+      "primary_use": ["proprioceptive_training", "stability_exercises"],
+      "compatible_exercises": ["closed_chain_exercises", "weight_shifts"],
+      "maintenance": "regular_cleaning",
+      "cost_category": "low"
+    },
+    "EQ_196": {
+      "name": "Wall Push-up Bars",
+      "category": "support",
+      "subcategory": "exercise_aids",
+      "description": "Adjustable wall-mounted bars for graduated push-up exercises",
+      "specifications": {
+        "material": "steel_construction",
+        "grip": "ergonomic_handles",
+        "adjustment": "multiple_heights",
+        "mounting": "wall_bracket"
+      },
+      "primary_use": ["closed_chain_exercises", "progressive_strengthening"],
+      "compatible_exercises": ["wall_pushups", "incline_exercises"],
+      "maintenance": "periodic_inspection",
+      "cost_category": "medium"
+    },
+    "EQ_197": {
+      "name": "Overhead Pulley System",
+      "category": "resistance",
+      "subcategory": "pulley_system",
+      "description": "Adjustable pulley system for overhead movement training",
+      "specifications": {
+        "mounting": "ceiling_or_door",
+        "adjustability": "variable_angles",
+        "resistance": "elastic_cord",
+        "range": "360_degree_movement"
+      },
+      "primary_use": ["overhead_training", "functional_patterns"],
+      "compatible_exercises": ["overhead_pulls", "diagonal_patterns"],
+      "maintenance": "regular_inspection",
+      "cost_category": "high"
+    },
+    "EQ_198": {
+      "name": "PNF Resistance Cords",
+      "category": "resistance",
+      "subcategory": "elastic_bands",
+      "description": "Specialized resistance cords for PNF patterns and diagonal movements",
+      "specifications": {
+        "material": "latex_tubing",
+        "resistance_levels": "multiple_strengths",
+        "handles": "comfortable_grips",
+        "length": "adjustable"
+      },
+      "primary_use": ["PNF_patterns", "diagonal_movements"],
+      "compatible_exercises": ["D1_D2_patterns", "scapular_PNF"],
+      "maintenance": "regular_inspection",
+      "cost_category": "medium"
+    },
+    "EQ_199": {
+      "name": "Throwing Progression Equipment",
+      "category": "sport_specific",
+      "subcategory": "throwing_aids",
+      "description": "Complete set for progressive throwing rehabilitation program",
+      "specifications": {
+        "components": ["weighted_balls", "distance_markers", "targets"],
+        "weight_progression": "2oz_to_16oz",
+        "material": "leather_synthetic",
+        "storage": "equipment_bag"
+      },
+      "primary_use": ["throwing_rehabilitation", "sport_return"],
+      "compatible_exercises": ["throwing_progression", "velocity_training"],
+      "maintenance": "regular_cleaning",
+      "cost_category": "high"
+    },
+    "EQ_200": {
+      "name": "Adjustable Grip Trainer",
+      "category": "strengthening",
+      "subcategory": "grip_device",
+      "description": "Variable resistance grip strengthening device",
+      "specifications": {
+        "resistance_range": "10-40_lbs",
+        "adjustment": "dial_control",
+        "material": "metal_foam_grips",
+        "portability": "compact_design"
+      },
+      "primary_use": ["grip_strengthening", "early_rehabilitation"],
+      "compatible_exercises": ["grip_exercises", "squeeze_training"],
+      "maintenance": "minimal",
+      "cost_category": "low"
+    },
+    "EQ_201": {
+      "name": "Pronation/Supination Bar",
+      "category": "strengthening",
+      "subcategory": "rotational_device",
+      "description": "Weighted bar for forearm rotation exercises",
+      "specifications": {
+        "weight": "adjustable_1-5_lbs",
+        "length": "12_inches",
+        "material": "steel_with_padding",
+        "grip": "textured_handle"
+      },
+      "primary_use": ["forearm_strengthening", "rotational_training"],
+      "compatible_exercises": ["pronation_supination", "wrist_rotation"],
+      "maintenance": "periodic_cleaning",
+      "cost_category": "medium"
+    },
+    "EQ_202": {
+      "name": "Therapeutic Putty Set",
+      "category": "strengthening",
+      "subcategory": "resistance_material",
+      "description": "Progressive resistance putty for hand and finger strengthening",
+      "specifications": {
+        "resistance_levels": "6_progressive_strengths",
+        "material": "silicone_putty",
+        "quantity": "2oz_containers",
+        "color_coding": "resistance_identification"
+      },
+      "primary_use": ["hand_strengthening", "finger_rehabilitation"],
+      "compatible_exercises": ["grip_training", "finger_exercises"],
+      "maintenance": "container_storage",
+      "cost_category": "low"
+    },
+    "EQ_203": {
+      "name": "Functional Activity Simulator",
+      "category": "functional",
+      "subcategory": "work_simulation",
+      "description": "Adjustable system for simulating work and sport activities",
+      "specifications": {
+        "adjustability": "height_angle_resistance",
+        "activities": "lifting_carrying_manipulation",
+        "weight_range": "1-25_lbs",
+        "setup": "modular_components"
+      },
+      "primary_use": ["functional_training", "work_conditioning"],
+      "compatible_exercises": ["functional_activities", "job_simulation"],
+      "maintenance": "regular_calibration",
+      "cost_category": "high"
+    },
+    "EQ_204": {
+      "name": "Advanced Grip Dynamometer",
+      "category": "assessment",
+      "subcategory": "measurement_tool",
+      "description": "Digital grip strength measurement and training device",
+      "specifications": {
+        "measurement_range": "0-200_lbs",
+        "accuracy": "±1_lb",
+        "display": "digital_readout",
+        "data_storage": "memory_function"
+      },
+      "primary_use": ["strength_assessment", "progress_monitoring"],
+      "compatible_exercises": ["grip_testing", "strength_training"],
+      "maintenance": "calibration_required",
+      "cost_category": "high"
+    },
+    "EQ_205": {
+      "name": "Elevation Pillows",
+      "category": "positioning",
+      "subcategory": "support_aids",
+      "description": "Therapeutic pillows for limb elevation and positioning",
+      "specifications": {
+        "material": "memory_foam",
+        "sizes": "multiple_options",
+        "cover": "washable_fabric",
+        "firmness": "medium_support"
+      },
+      "primary_use": ["swelling_reduction", "positioning"],
+      "compatible_exercises": ["elevation", "positioning"],
+      "maintenance": "regular_washing",
+      "cost_category": "low"
+    },
+    "EQ_206": {
+      "name": "Elbow Protection Pad",
+      "category": "protective",
+      "subcategory": "padding",
+      "description": "Protective padding for elbow during activities",
+      "specifications": {
+        "material": "gel_foam_composite",
+        "size": "universal_fit",
+        "attachment": "velcro_straps",
+        "thickness": "15mm_padding"
+      },
+      "primary_use": ["elbow_protection", "bursitis_management"],
+      "compatible_exercises": ["activity_training", "protection_education"],
+      "maintenance": "hand_washable",
+      "cost_category": "low"
+    },
+    "EQ_207": {
+      "name": "Elbow Extension Splint",
+      "category": "orthotic",
+      "subcategory": "positioning_splint",
+      "description": "Night splint to maintain elbow extension",
+      "specifications": {
+        "material": "thermoplastic",
+        "adjustability": "angle_adjustment",
+        "padding": "soft_interface",
+        "strapping": "secure_closure"
+      },
+      "primary_use": ["positioning", "contracture_prevention"],
+      "compatible_exercises": ["positioning", "sleep_management"],
+      "maintenance": "regular_cleaning",
+      "cost_category": "medium"
+    },
+    "EQ_208": {
+      "name": "Hand Exercise Putty - Soft",
+      "category": "strengthening",
+      "subcategory": "resistance_material",
+      "description": "Soft resistance putty for hand strengthening",
+      "specifications": {
+        "resistance": "extra_soft_to_soft",
+        "material": "therapeutic_putty",
+        "quantity": "2oz_container",
+        "color": "resistance_coded"
+      },
+      "primary_use": ["hand_strengthening", "early_rehabilitation"],
+      "compatible_exercises": ["grip_training", "finger_exercises"],
+      "maintenance": "container_storage",
+      "cost_category": "low"
+    },
+    "EQ_209": {
+      "name": "Sensory Stimulation Kit",
+      "category": "sensory_training",
+      "subcategory": "texture_materials",
+      "description": "Various textures for desensitization training",
+      "specifications": {
+        "textures": "soft_to_rough_progression",
+        "materials": "fabric_sandpaper_velcro",
+        "organization": "labeled_samples",
+        "portability": "carrying_case"
+      },
+      "primary_use": ["desensitization", "sensory_reeducation"],
+      "compatible_exercises": ["sensory_training", "nerve_rehabilitation"],
+      "maintenance": "regular_cleaning",
+      "cost_category": "medium"
+    },
+    "EQ_210": {
+      "name": "Fine Motor Skill Trainer",
+      "category": "functional",
+      "subcategory": "dexterity_tools",
+      "description": "Collection of tools for fine motor skill development",
+      "specifications": {
+        "components": "pegboard_beads_buttons_zippers",
+        "difficulty_levels": "progressive_complexity",
+        "storage": "organized_container",
+        "instructions": "exercise_guide_included"
+      },
+      "primary_use": ["fine_motor_training", "functional_rehabilitation"],
+      "compatible_exercises": ["dexterity_training", "functional_activities"],
+      "maintenance": "component_inspection",
+      "cost_category": "medium"
+    },
+    "EQ_211": {
+      "name": "Wrist Support Brace",
+      "category": "orthotic",
+      "subcategory": "wrist_support",
+      "description": "Adjustable wrist support for TFCC protection",
+      "specifications": {
+        "material": "neoprene_with_stays",
+        "adjustability": "tension_control",
+        "size_range": "XS_to_XL",
+        "closure": "velcro_straps"
+      },
+      "primary_use": ["wrist_support", "TFCC_protection"],
+      "compatible_exercises": ["protected_movement", "early_mobilization"],
+      "maintenance": "hand_washable",
+      "cost_category": "medium"
+    },
+    "EQ_212": {
+      "name": "Wrist Stability Board",
+      "category": "proprioceptive",
+      "subcategory": "balance_training",
+      "description": "Unstable surface for wrist proprioceptive training",
+      "specifications": {
+        "surface": "dome_shaped_base",
+        "diameter": "8_inches",
+        "material": "rubber_non_slip",
+        "difficulty": "adjustable_instability"
+      },
+      "primary_use": ["proprioceptive_training", "stability_exercises"],
+      "compatible_exercises": ["stability_training", "balance_exercises"],
+      "maintenance": "surface_cleaning",
+      "cost_category": "medium"
+    },
+    "EQ_213": {
+      "name": "Proprioception Training Ball",
+      "category": "proprioceptive",
+      "subcategory": "sensory_training",
+      "description": "Textured ball for wrist position sense training",
+      "specifications": {
+        "size": "tennis_ball_size",
+        "texture": "varied_surface",
+        "firmness": "medium_density",
+        "material": "therapeutic_rubber"
+      },
+      "primary_use": ["position_sense_training", "proprioceptive_exercises"],
+      "compatible_exercises": ["proprioception", "sensory_training"],
+      "maintenance": "regular_cleaning",
+      "cost_category": "low"
+    },
+    "EQ_214": {
+      "name": "Wrist Strengthening System",
+      "category": "strengthening",
+      "subcategory": "resistance_device",
+      "description": "Multi-directional wrist strengthening system",
+      "specifications": {
+        "resistance_range": "1-20_lbs",
+        "movements": "all_wrist_planes",
+        "adjustment": "incremental_resistance",
+        "base": "stable_platform"
+      },
+      "primary_use": ["wrist_strengthening", "advanced_rehabilitation"],
+      "compatible_exercises": ["multi_planar_strengthening", "power_training"],
+      "maintenance": "lubrication_required",
+      "cost_category": "high"
+    },
+    "EQ_215": {
+      "name": "Sport-Specific Training Equipment",
+      "category": "sport_specific",
+      "subcategory": "activity_simulation",
+      "description": "Equipment for sport-specific wrist training",
+      "specifications": {
+        "components": "racquet_club_bat_implements",
+        "weight_options": "light_to_regulation",
+        "grips": "various_sizes",
+        "storage": "equipment_rack"
+      },
+      "primary_use": ["sport_preparation", "activity_specific_training"],
+      "compatible_exercises": ["sport_simulation", "return_to_play"],
+      "maintenance": "equipment_inspection",
+      "cost_category": "high"
+    },
+    "EQ_216": {
+      "name": "Ergonomic Hand Tools",
+      "category": "ergonomic",
+      "subcategory": "adaptive_equipment",
+      "description": "Ergonomically designed tools for joint protection",
+      "specifications": {
+        "handles": "padded_enlarged_grips",
+        "tools": "writing_kitchen_garden_implements",
+        "design": "joint_protection_principles",
+        "material": "non_slip_surfaces"
+      },
+      "primary_use": ["joint_protection", "ergonomic_training"],
+      "compatible_exercises": ["ergonomic_education", "activity_modification"],
+      "maintenance": "regular_cleaning",
+      "cost_category": "medium"
+    },
+    "EQ_217": {
+      "name": "Graduated Cylinder Grips",
+      "category": "strengthening",
+      "subcategory": "grip_training",
+      "description": "Various sized cylinders for grip training",
+      "specifications": {
+        "sizes": "1_to_4_inch_diameter",
+        "material": "foam_rubber",
+        "textures": "smooth_to_textured",
+        "set": "6_piece_progression"
+      },
+      "primary_use": ["grip_training", "functional_strengthening"],
+      "compatible_exercises": ["grip_exercises", "functional_training"],
+      "maintenance": "washable_surfaces",
+      "cost_category": "low"
+    },
+    "EQ_218": {
+      "name": "Advanced Dexterity Trainer",
+      "category": "functional",
+      "subcategory": "fine_motor_skills",
+      "description": "Complex fine motor skill training system",
+      "specifications": {
+        "activities": "threading_sorting_manipulation",
+        "difficulty": "progressive_complexity",
+        "timing": "built_in_timer",
+        "scoring": "performance_tracking"
+      },
+      "primary_use": ["advanced_dexterity", "performance_training"],
+      "compatible_exercises": ["complex_fine_motor", "coordination_training"],
+      "maintenance": "component_replacement",
+      "cost_category": "high"
+    },
+    "EQ_219": {
+      "name": "Finger Extension Splints",
+      "category": "orthotic",
+      "subcategory": "static_splinting",
+      "description": "Static splints for finger contracture management",
+      "specifications": {
+        "material": "low_temperature_thermoplastic",
+        "design": "individual_finger_fitting",
+        "padding": "pressure_relief_areas",
+        "adjustment": "custom_moldable"
+      },
+      "primary_use": ["contracture_management", "positioning"],
+      "compatible_exercises": ["stretching", "positioning"],
+      "maintenance": "fit_adjustments",
+      "cost_category": "medium"
+    },
+    "EQ_220": {
+      "name": "Adaptive Daily Living Aids",
+      "category": "adaptive",
+      "subcategory": "ADL_equipment",
+      "description": "Adaptive equipment for daily activities with hand limitations",
+      "specifications": {
+        "items": "button_hooks_zipper_pulls_jar_openers",
+        "design": "large_handles_easy_grip",
+        "material": "lightweight_durable",
+        "storage": "organized_kit"
+      },
+      "primary_use": ["ADL_assistance", "functional_independence"],
+      "compatible_exercises": ["functional_training", "independence_training"],
+      "maintenance": "periodic_replacement",
+      "cost_category": "medium"
+    },
+    "EQ_221": {
+      "name": "Dynamic Extension Splint",
+      "category": "orthotic",
+      "subcategory": "dynamic_splinting",
+      "description": "Dynamic splint providing constant extension force",
+      "specifications": {
+        "force": "adjustable_tension",
+        "material": "spring_wire_components",
+        "fit": "custom_fabricated",
+        "adjustment": "tension_modification"
+      },
+      "primary_use": ["contracture_correction", "post_surgical_management"],
+      "compatible_exercises": ["aggressive_stretching", "scar_management"],
+      "maintenance": "spring_tension_checks",
+      "cost_category": "high"
+    }
+  }
+}

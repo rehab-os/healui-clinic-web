@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { Plus, Edit, Trash2, Calendar, Clock, AlertCircle, Stethoscope, TrendingUp, CheckCircle } from 'lucide-react'
 import { Button } from '../ui/button'
 import { Badge } from '../ui/badge'
@@ -11,6 +12,9 @@ import { Textarea } from '../ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 import { Skeleton } from '../ui/skeleton'
 import ConditionSelector from './ConditionSelector'
+import ConditionScreeningModal from './ConditionScreeningModal'
+import SmartScreeningModal from './SmartScreeningModal'
+import PhysioAssessmentChatbot from './PhysioAssessmentChatbot'
 import ApiManager from '../../services/api'
 import { format } from 'date-fns'
 import type {
@@ -56,6 +60,9 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
     const [newConditionType, setNewConditionType] = useState<ConditionType>('ACUTE')
     const [newConditionOnsetDate, setNewConditionOnsetDate] = useState('')
     const [addingCondition, setAddingCondition] = useState(false)
+    const [showScreeningModal, setShowScreeningModal] = useState(false)
+    const [showSmartScreeningModal, setShowSmartScreeningModal] = useState(false)
+    const [showPhysioAssessment, setShowPhysioAssessment] = useState(false)
 
     // Edit condition state
     const [editingCondition, setEditingCondition] = useState(false)
@@ -130,7 +137,7 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
         }
     }
 
-    // Add new condition
+    // Add new condition (legacy method for basic condition creation)
     const handleAddCondition = async () => {
         if (selectedNewConditions.length === 0) return
 
@@ -169,6 +176,55 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
         } finally {
             setAddingCondition(false)
         }
+    }
+
+    // Handle screening-based condition creation
+    const handleScreeningConditionSubmit = async (conditionData: CreatePatientConditionDto) => {
+        setAddingCondition(true)
+        setError(null)
+
+        try {
+            const response = await ApiManager.createPatientCondition(patientId, conditionData)
+            
+            if (!response.success) {
+                throw new Error(response.message || 'Failed to create condition')
+            }
+
+            setShowScreeningModal(false)
+            setSelectedNewConditions([])
+            await loadConditions()
+        } catch (err: any) {
+            console.error('Error creating condition with screening:', err)
+            setError(err.message || 'Failed to create condition')
+        } finally {
+            setAddingCondition(false)
+        }
+    }
+
+    // Handle opening screening modal
+    const handleOpenScreeningModal = () => {
+        if (selectedNewConditions.length === 0) {
+            setError('Please select a condition first')
+            return
+        }
+        
+        setShowAddDialog(false)
+        setShowScreeningModal(true)
+    }
+
+    // Handle physio assessment completion
+    const handlePhysioAssessmentComplete = async (summary: any) => {
+        console.log('Physio assessment completed:', summary)
+        
+        // Here you can process the assessment results
+        // For example, automatically create conditions based on the assessment
+        if (summary.provisionalDiagnosis && summary.provisionalDiagnosis.length > 0) {
+            // You could automatically add suggested conditions or store the assessment data
+            console.log('Provisional diagnoses:', summary.provisionalDiagnosis)
+        }
+        
+        // Reload conditions in case any were added
+        await loadConditions()
     }
 
     // Unified update condition function
@@ -330,25 +386,41 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
     }
 
     return (
-        <Card>
-            <CardHeader>
-                <div className="flex items-center justify-between">
-                    <div>
-                        <CardTitle className="flex items-center gap-2">
-                            <Stethoscope className="w-5 h-5" />
-                            Medical Conditions
-                        </CardTitle>
-                        <CardDescription>
-                            Manage {patientName ? `${patientName}'s` : 'patient'} active and historical conditions
-                        </CardDescription>
-                    </div>
-                    <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
-                        <DialogTrigger asChild>
-                            <Button>
-                                <Plus className="w-4 h-4 mr-2" />
-                                Add Condition
-                            </Button>
-                        </DialogTrigger>
+        <>
+            <Card>
+                <CardHeader>
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <CardTitle className="flex items-center gap-2">
+                                <Stethoscope className="w-5 h-5" />
+                                Medical Conditions
+                            </CardTitle>
+                            <CardDescription>
+                                Manage {patientName ? `${patientName}'s` : 'patient'} active and historical conditions
+                            </CardDescription>
+                        </div>
+                    <div className="flex gap-2">
+                        <Button
+                            onClick={() => setShowPhysioAssessment(true)}
+                            className="bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700"
+                        >
+                            <Stethoscope className="w-4 h-4 mr-2" />
+                            Initial Screening
+                        </Button>
+                        <Button
+                            onClick={() => setShowSmartScreeningModal(true)}
+                            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                        >
+                            <Plus className="w-4 h-4 mr-2" />
+                            Start Screening
+                        </Button>
+                        <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
+                            <DialogTrigger asChild>
+                                <Button variant="outline">
+                                    <Plus className="w-4 h-4 mr-2" />
+                                    Add Condition
+                                </Button>
+                            </DialogTrigger>
                         <DialogContent className="max-w-2xl">
                             <DialogHeader>
                                 <DialogTitle>Add New Condition</DialogTitle>
@@ -412,7 +484,7 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
                                     </>
                                 )}
 
-                                <div className="flex justify-end gap-2">
+                                <div className="flex justify-between gap-2">
                                     <Button
                                         type="button"
                                         variant="outline"
@@ -420,17 +492,29 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
                                     >
                                         Cancel
                                     </Button>
-                                    <Button
-                                        type="button"
-                                        onClick={handleAddCondition}
-                                        disabled={selectedNewConditions.length === 0 || addingCondition}
-                                    >
-                                        {addingCondition ? 'Adding...' : `Add ${selectedNewConditions.length} Condition(s)`}
-                                    </Button>
+                                    <div className="flex gap-2">
+                                        <Button
+                                            type="button"
+                                            variant="outline"
+                                            onClick={handleAddCondition}
+                                            disabled={selectedNewConditions.length === 0 || addingCondition}
+                                        >
+                                            {addingCondition ? 'Adding...' : 'Quick Add'}
+                                        </Button>
+                                        <Button
+                                            type="button"
+                                            onClick={handleOpenScreeningModal}
+                                            disabled={selectedNewConditions.length === 0 || addingCondition}
+                                            className="bg-brand-teal hover:bg-brand-teal/90"
+                                        >
+                                            Add with Screening
+                                        </Button>
+                                    </div>
                                 </div>
                             </div>
                         </DialogContent>
                     </Dialog>
+                    </div>
                 </div>
             </CardHeader>
             
@@ -715,7 +799,45 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
                     )}
                 </DialogContent>
             </Dialog>
+
+            {/* Condition Screening Modal */}
+            <ConditionScreeningModal
+                open={showScreeningModal}
+                onClose={() => {
+                    setShowScreeningModal(false)
+                    setSelectedNewConditions([])
+                }}
+                onSubmit={handleScreeningConditionSubmit}
+                selectedConditions={selectedNewConditions}
+                loading={addingCondition}
+            />
+
+            {/* Smart Screening Modal */}
+            <SmartScreeningModal
+                open={showSmartScreeningModal}
+                onClose={() => setShowSmartScreeningModal(false)}
+                onSubmit={handleScreeningConditionSubmit}
+                loading={addingCondition}
+            />
+
         </Card>
+        
+        {showPhysioAssessment && typeof document !== 'undefined' && createPortal(
+            <div className="fixed inset-0 z-[99999] bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 overflow-hidden" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, width: '100vw', height: '100vh' }}>
+                <div className="absolute inset-0 bg-medical-grid opacity-10"></div>
+                <div className="absolute top-0 left-0 w-96 h-96 bg-blue-200/20 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-0 right-0 w-96 h-96 bg-teal-200/20 rounded-full blur-3xl"></div>
+                
+                <PhysioAssessmentChatbot
+                    patientId={patientId}
+                    patientName={patientName}
+                    onComplete={handlePhysioAssessmentComplete}
+                    onClose={() => setShowPhysioAssessment(false)}
+                />
+            </div>,
+            document.body
+        )}
+        </>
     )
 }
 

@@ -8,6 +8,7 @@ import {
 import ApiManager from '../../services/api';
 import { format, parseISO } from 'date-fns';
 import EditPatientModal from './EditPatientModal';
+import PatientConditionManagement from './PatientConditionManagement';
 
 interface Patient {
   id: string;
@@ -104,7 +105,7 @@ const EnhancedPatientDetailsModal: React.FC<EnhancedPatientDetailsModalProps> = 
   const [loading, setLoading] = useState(true);
   const [patientLoading, setPatientLoading] = useState(false);
   const [fullPatientData, setFullPatientData] = useState<Patient | null>(null);
-  const [activeTab, setActiveTab] = useState<'overview' | 'visits' | 'notes' | 'history'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'visits' | 'notes' | 'conditions' | 'history'>('overview');
   const [expandedVisit, setExpandedVisit] = useState<string | null>(null);
   const [showNewNote, setShowNewNote] = useState(false);
   const [selectedVisitForNote, setSelectedVisitForNote] = useState<string | null>(null);
@@ -350,6 +351,7 @@ const EnhancedPatientDetailsModal: React.FC<EnhancedPatientDetailsModalProps> = 
               { id: 'overview', label: 'Overview', icon: User },
               { id: 'visits', label: 'Visits', icon: Calendar },
               { id: 'notes', label: 'Clinical Notes', icon: FileText },
+              { id: 'conditions', label: 'Conditions', icon: Stethoscope },
               { id: 'history', label: 'Medical History', icon: Heart }
             ].map((tab) => (
               <button
@@ -653,6 +655,17 @@ const EnhancedPatientDetailsModal: React.FC<EnhancedPatientDetailsModalProps> = 
             </div>
           )}
 
+          {activeTab === 'conditions' && (
+            <div className="p-6">
+              <PatientConditionManagement
+                patientId={displayPatient.id}
+                patientName={displayPatient.full_name}
+                onConditionsChange={(conditions) => {
+                  console.log('Patient conditions updated in modal:', conditions);
+                }}
+              />
+            </div>
+          )}
           {activeTab === 'history' && (
             <div className="p-6 space-y-6">
               {/* Medical History */}

@@ -1,0 +1,236 @@
+{
+  "clinical_reasoning_engine": {
+    "description": "Bayesian inference engine for physiotherapy differential diagnosis",
+    "version": "1.0",
+    "probability_models": {
+      "bayesian_inference": {
+        "description": "Calculates posterior probabilities based on symptoms and test findings",
+        "formula": "P(Condition|Symptoms) = P(Symptoms|Condition) * P(Condition) / P(Symptoms)",
+        "components": {
+          "prior_probabilities": {
+            "source": "condition_prevalence_data",
+            "age_adjusted": true,
+            "gender_adjusted": true,
+            "activity_adjusted": true
+          },
+          "likelihood_ratios": {
+            "positive_lr": "probability_symptom_present_given_condition / probability_symptom_present_given_not_condition",
+            "negative_lr": "probability_symptom_absent_given_condition / probability_symptom_absent_given_not_condition"
+          }
+        }
+      }
+    },
+    "decision_thresholds": {
+      "diagnostic_confidence": {
+        "high_confidence": {
+          "threshold": 0.85,
+          "action": "proceed_with_treatment",
+          "additional_testing": "minimal"
+        },
+        "moderate_confidence": {
+          "threshold": 0.65,
+          "action": "confirm_with_additional_tests",
+          "additional_testing": "targeted"
+        },
+        "low_confidence": {
+          "threshold": 0.45,
+          "action": "broaden_assessment",
+          "additional_testing": "comprehensive"
+        },
+        "inconclusive": {
+          "threshold": 0.30,
+          "action": "refer_for_specialist_opinion",
+          "additional_testing": "advanced_imaging"
+        }
+      },
+      "treatment_thresholds": {
+        "conservative_treatment": {
+          "threshold": 0.70,
+          "red_flags_absent": true,
+          "patient_consent": true
+        },
+        "refer_for_imaging": {
+          "threshold": 0.75,
+          "clinical_indicators": ["trauma", "neurological_symptoms", "treatment_failure"]
+        },
+        "specialist_referral": {
+          "threshold": 0.80,
+          "conditions": ["surgical_candidates", "complex_diagnoses", "red_flags_present"]
+        }
+      }
+    },
+    "symptom_weighting_system": {
+      "pathognomonic_symptoms": {
+        "weight": 0.9,
+        "description": "Symptoms highly specific to a particular condition",
+        "confidence_boost": "high",
+        "examples": ["audible_pop_acl", "morning_stiffness_inflammatory"]
+      },
+      "characteristic_symptoms": {
+        "weight": 0.75,
+        "description": "Symptoms commonly associated with condition",
+        "confidence_boost": "moderate",
+        "examples": ["overhead_pain_impingement", "night_pain_adhesive_capsulitis"]
+      },
+      "common_symptoms": {
+        "weight": 0.5,
+        "description": "Symptoms frequently present but less specific",
+        "confidence_boost": "low",
+        "examples": ["general_pain", "stiffness"]
+      },
+      "possible_symptoms": {
+        "weight": 0.3,
+        "description": "Symptoms that may be present but variable",
+        "confidence_boost": "minimal",
+        "examples": ["fatigue", "mild_weakness"]
+      }
+    },
+    "reasoning_algorithms": {
+      "adaptive_questioning": {
+        "description": "Selects next best question based on information gain",
+        "methodology": "entropy_reduction",
+        "factors": [
+          "current_probability_distribution",
+          "diagnostic_yield_of_potential_questions",
+          "patient_burden_of_questioning"
+        ]
+      },
+      "hypothesis_generation": {
+        "initial_hypotheses": {
+          "method": "body_region_prevalence",
+          "number_generated": 5,
+          "minimum_probability": 0.05
+        },
+        "hypothesis_refinement": {
+          "add_condition": "if_probability_exceeds_0.10",
+          "remove_condition": "if_probability_below_0.02",
+          "maximum_active": 8
+        }
+      },
+      "evidence_accumulation": {
+        "positive_evidence": {
+          "symptom_present": "multiply_by_positive_lr",
+          "test_positive": "apply_test_sensitivity_specificity",
+          "risk_factor_present": "apply_risk_factor_weight"
+        },
+        "negative_evidence": {
+          "symptom_absent": "multiply_by_negative_lr",
+          "test_negative": "apply_negative_predictive_value",
+          "absence_of_red_flags": "mild_confidence_boost"
+        }
+      }
+    },
+    "question_prioritization": {
+      "rules": {
+        "safety_first": {
+          "priority": 1,
+          "categories": ["red_flag_screening"],
+          "mandatory": true,
+          "skip_conditions": "none"
+        },
+        "diagnostic_yield": {
+          "priority": 2,
+          "logic": "information_gain_calculation",
+          "adaptive": true,
+          "factors": ["current_uncertainty", "symptom_diagnostic_value"]
+        },
+        "efficiency": {
+          "priority": 3,
+          "target_questions": "minimum_for_threshold",
+          "target_probability": 0.85,
+          "maximum_questions": 20
+        },
+        "patient_comfort": {
+          "priority": 4,
+          "considerations": ["question_sensitivity", "patient_fatigue"],
+          "adaptive_pacing": true
+        }
+      }
+    },
+    "integration_framework": {
+      "symptom_to_assessment_mapping": {
+        "description": "Links symptoms to appropriate clinical tests",
+        "methodology": "evidence_based_recommendations",
+        "examples": {
+          "shoulder_pain_overhead": ["hawkins_test", "neer_test"],
+          "knee_giving_way": ["lachman_test", "anterior_drawer"],
+          "back_pain_leg_radiation": ["slr_test", "neurological_screen"]
+        }
+      },
+      "progressive_assessment": {
+        "stage_1_screening": {
+          "focus": "red_flags_and_safety",
+          "questions": 3-5,
+          "time_estimate": "2_minutes"
+        },
+        "stage_2_hypothesis": {
+          "focus": "primary_condition_identification",
+          "questions": 8-12,
+          "time_estimate": "5_minutes"
+        },
+        "stage_3_confirmation": {
+          "focus": "differential_diagnosis_refinement",
+          "questions": 5-8,
+          "time_estimate": "3_minutes"
+        },
+        "stage_4_planning": {
+          "focus": "treatment_planning_factors",
+          "questions": 3-5,
+          "time_estimate": "2_minutes"
+        }
+      }
+    },
+    "outcome_prediction": {
+      "factors": {
+        "diagnostic_confidence": {
+          "weight": 0.3,
+          "high_confidence_better_outcomes": true
+        },
+        "symptom_severity": {
+          "weight": 0.25,
+          "mild_symptoms_better_prognosis": true
+        },
+        "patient_factors": {
+          "weight": 0.2,
+          "factors": ["age", "comorbidities", "activity_level"]
+        },
+        "condition_specific": {
+          "weight": 0.15,
+          "acute_vs_chronic": "acute_better_prognosis",
+          "inflammatory_vs_mechanical": "mechanical_better_prognosis"
+        },
+        "treatment_factors": {
+          "weight": 0.1,
+          "early_intervention": "better_outcomes",
+          "patient_compliance": "critical_factor"
+        }
+      },
+      "prediction_models": {
+        "recovery_timeline": {
+          "acute_conditions": "2-6_weeks",
+          "subacute_conditions": "6-12_weeks",
+          "chronic_conditions": "3-6_months"
+        },
+        "treatment_response": {
+          "excellent": ">90%_improvement",
+          "good": "70-90%_improvement",
+          "fair": "50-70%_improvement",
+          "poor": "<50%_improvement"
+        }
+      }
+    },
+    "validation_metrics": {
+      "diagnostic_accuracy": {
+        "sensitivity": "true_positives / (true_positives + false_negatives)",
+        "specificity": "true_negatives / (true_negatives + false_positives)",
+        "positive_predictive_value": "true_positives / (true_positives + false_positives)",
+        "negative_predictive_value": "true_negatives / (true_negatives + false_negatives)"
+      },
+      "efficiency_metrics": {
+        "average_questions_to_diagnosis": "target_less_than_15",
+        "time_to_diagnosis": "target_less_than_10_minutes",
+        "diagnostic_confidence_achieved": "target_greater_than_85%"
+      }
+    }
+  }
+}

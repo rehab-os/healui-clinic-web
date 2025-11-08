@@ -1,0 +1,61 @@
+{
+  "enhanced_conditions": {
+    "COND_001": {
+      "name": "Adhesive Capsulitis (Frozen Shoulder)",
+      "base_probability": 0.08,
+      "demographic_modifiers": {
+        "age": {
+          "40-60": 2.5,
+          "60+": 1.8,
+          "20-40": 0.3
+        },
+        "gender": {
+          "female": 2.0,
+          "male": 1.0
+        }
+      },
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_003", "weight": 0.9, "name": "Progressive loss of ROM"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_002", "weight": 0.8, "name": "Night pain disturbing sleep"},
+          {"id": "SYMPTOM_012", "weight": 0.75, "name": "Pain reaching behind back"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_001", "weight": 0.5, "name": "Sharp pain overhead"},
+          {"id": "SYMPTOM_025", "weight": 0.45, "name": "Morning stiffness"}
+        ]
+      }
+    },
+    "COND_002": {
+      "name": "Rotator Cuff Tear",
+      "base_probability": 0.12,
+      "demographic_modifiers": {
+        "age": {
+          "45-65": 2.0,
+          "65+": 3.5,
+          "20-45": 0.4
+        },
+        "gender": {
+          "male": 1.5,
+          "female": 1.0
+        }
+      },
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_018", "weight": 0.95, "name": "Audible pop with injury"},
+          {"id": "SYMPTOM_019", "weight": 0.9, "name": "Unable to lift arm"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_001", "weight": 0.8, "name": "Sharp pain overhead"},
+          {"id": "SYMPTOM_020", "weight": 0.75, "name": "Weakness with rotation"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_002", "weight": 0.6, "name": "Night pain"},
+          {"id": "SYMPTOM_021", "weight": 0.55, "name": "Pain with lying on side"}
+        ]
+      }
+    }
+  }
+}

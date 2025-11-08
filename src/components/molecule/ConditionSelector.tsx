@@ -21,6 +21,7 @@ import {
 } from '../ui/card'
 import { Skeleton } from '../ui/skeleton'
 import ApiManager from '../../services/api'
+import localConditionService from '../../services/localConditionService'
 import type {
     Neo4jConditionResponseDto,
     PatientConditionResponseDto,
@@ -105,19 +106,18 @@ export const ConditionSelector: React.FC<ConditionSelectorProps> = ({
         setError(null)
 
         try {
-            // Get all conditions from Neo4j
-            const params = selectedBodyRegion && selectedBodyRegion !== 'all' ? { body_region: selectedBodyRegion } : {}
-            if (searchTerm) {
-                params.search = searchTerm
-            }
-
-            const conditionsResponse = await ApiManager.getAllConditions(params)
+            let conditions: ConditionWithDetails[] = []
             
-            if (!conditionsResponse.success) {
-                throw new Error(conditionsResponse.message || 'Failed to load conditions')
+            console.log('Loading conditions from local conditions.json')
+            
+            // Use only local ontology data from conditions.json
+            if (selectedBodyRegion && selectedBodyRegion !== 'all') {
+                conditions = localConditionService.getConditionsByBodyRegion(selectedBodyRegion)
+                console.log(`Loaded ${conditions.length} conditions for body region: ${selectedBodyRegion}`)
+            } else {
+                conditions = localConditionService.getAllConditions()
+                console.log(`Loaded ${conditions.length} total conditions from local ontology`)
             }
-
-            let conditions: ConditionWithDetails[] = conditionsResponse.data || []
 
             // If patient ID provided, mark already assigned conditions
             if (patientId) {
@@ -161,27 +161,20 @@ export const ConditionSelector: React.FC<ConditionSelectorProps> = ({
         }
     }
 
-    // Effects
+    // Effects - only reload when body region, patient, or exclude list changes
     useEffect(() => {
         loadConditions()
-    }, [selectedBodyRegion, patientId, excludeConditionIds])
+    }, [selectedBodyRegion, patientId, excludeConditionIds.join(',')])
 
-    useEffect(() => {
-        if (!showSearch) return
+    // No need for search effect since we filter locally now
 
-        const debounceTimer = setTimeout(() => {
-            loadConditions()
-        }, 300)
-
-        return () => clearTimeout(debounceTimer)
-    }, [searchTerm])
-
-    // Filter conditions based on search
+    // Filter conditions based on search (only filter locally, don't trigger API calls)
     const filteredConditions = useMemo(() => {
+        if (!showSearch) return availableConditions
+        if (!searchTerm.trim()) return availableConditions
+        
+        const searchLower = searchTerm.toLowerCase()
         return availableConditions.filter(condition => {
-            if (!showSearch || !searchTerm) return true
-            
-            const searchLower = searchTerm.toLowerCase()
             return (
                 condition.condition_name.toLowerCase().includes(searchLower) ||
                 condition.description.toLowerCase().includes(searchLower) ||

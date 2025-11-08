@@ -1,0 +1,268 @@
+{
+  "medical_history_framework": {
+    "description": "Comprehensive medical history assessment for physiotherapy differential diagnosis",
+    "version": "1.0",
+    "categories": {
+      "past_medical_history": {
+        "relevant_conditions": {
+          "musculoskeletal": {
+            "conditions": ["previous_fractures", "joint_replacements", "arthritis", "osteoporosis"],
+            "impact_on_assessment": {
+              "previous_fractures": {
+                "considerations": ["fracture_site", "healing_complications", "residual_limitations"],
+                "conditions_influenced": ["COND_091", "COND_195", "COND_196"],
+                "diagnostic_weight": 0.7
+              },
+              "joint_replacements": {
+                "considerations": ["type_of_prosthesis", "time_since_surgery", "complications"],
+                "conditions_influenced": ["COND_016", "COND_195"],
+                "contraindications": ["manual_therapy_restrictions", "specific_movements"]
+              },
+              "osteoporosis": {
+                "considerations": ["bone_density", "fracture_risk", "medication_use"],
+                "conditions_influenced": ["COND_091", "fracture_risk"],
+                "treatment_modifications": ["gentle_techniques", "weight_bearing_restrictions"]
+              }
+            }
+          },
+          "cardiovascular": {
+            "conditions": ["hypertension", "heart_disease", "previous_mi", "arrhythmias"],
+            "impact_on_assessment": {
+              "heart_disease": {
+                "considerations": ["exercise_tolerance", "medication_effects", "activity_restrictions"],
+                "conditions_influenced": ["COND_100", "COND_099", "COND_027"],
+                "red_flags": ["chest_pain", "excessive_dyspnea", "palpitations"]
+              },
+              "hypertension": {
+                "considerations": ["medication_control", "exercise_response"],
+                "treatment_modifications": ["blood_pressure_monitoring", "graded_exercise"]
+              }
+            }
+          },
+          "neurological": {
+            "conditions": ["stroke", "seizures", "neuropathy", "traumatic_brain_injury"],
+            "impact_on_assessment": {
+              "stroke": {
+                "considerations": ["residual_deficits", "affected_side", "time_since_event"],
+                "conditions_influenced": ["COND_020", "COND_136", "COND_140"],
+                "assessment_modifications": ["cognitive_status", "communication_ability"]
+              },
+              "neuropathy": {
+                "considerations": ["type", "distribution", "progression"],
+                "conditions_influenced": ["COND_093", "COND_198", "COND_199"],
+                "safety_concerns": ["fall_risk", "protective_sensation"]
+              }
+            }
+          },
+          "endocrine": {
+            "conditions": ["diabetes", "thyroid_disorders", "hormonal_changes"],
+            "impact_on_assessment": {
+              "diabetes": {
+                "considerations": ["blood_sugar_control", "complications", "neuropathy"],
+                "conditions_influenced": ["COND_093", "wound_healing"],
+                "precautions": ["foot_care", "blood_sugar_monitoring"]
+              }
+            }
+          },
+          "respiratory": {
+            "conditions": ["asthma", "copd", "pulmonary_embolism"],
+            "impact_on_assessment": {
+              "asthma": {
+                "considerations": ["triggers", "medication_use", "exercise_tolerance"],
+                "conditions_influenced": ["COND_098", "COND_026"],
+                "precautions": ["bronchodilator_availability", "activity_monitoring"]
+              }
+            }
+          }
+        },
+        "surgeries": {
+          "orthopedic_surgeries": {
+            "types": ["joint_replacement", "arthroscopy", "fusion", "fracture_repair"],
+            "assessment_considerations": {
+              "time_since_surgery": {
+                "acute": "<6_weeks",
+                "subacute": "6_weeks_to_6_months", 
+                "chronic": ">6_months"
+              },
+              "surgical_approach": ["minimally_invasive", "open", "revision"],
+              "complications": ["infection", "hardware_failure", "non_union"],
+              "rehabilitation_phase": ["protection", "mobilization", "strengthening", "return_to_function"]
+            }
+          },
+          "spine_surgeries": {
+            "types": ["discectomy", "laminectomy", "fusion", "disc_replacement"],
+            "contraindications": ["spinal_precautions", "lifting_restrictions", "bending_limitations"],
+            "red_flags": ["new_neurological_symptoms", "hardware_complications"]
+          }
+        },
+        "medications": {
+          "categories": {
+            "pain_medications": {
+              "types": ["nsaids", "opioids", "acetaminophen", "topical_analgesics"],
+              "assessment_impact": {
+                "pain_masking": "may_reduce_symptom_clarity",
+                "side_effects": ["drowsiness", "cognitive_effects", "bleeding_risk"]
+              }
+            },
+            "cardiovascular_medications": {
+              "types": ["beta_blockers", "ace_inhibitors", "diuretics", "anticoagulants"],
+              "exercise_considerations": {
+                "beta_blockers": "blunted_heart_rate_response",
+                "anticoagulants": "bleeding_risk_with_trauma"
+              }
+            },
+            "neurological_medications": {
+              "types": ["anticonvulsants", "muscle_relaxants", "antidepressants"],
+              "side_effects": ["dizziness", "balance_issues", "sedation"]
+            },
+            "steroids": {
+              "types": ["oral", "injectable", "topical"],
+              "considerations": ["anti_inflammatory_effects", "tissue_healing_impact", "infection_risk"]
+            }
+          }
+        }
+      },
+      "family_history": {
+        "genetic_predispositions": {
+          "autoimmune_conditions": {
+            "conditions": ["rheumatoid_arthritis", "ankylosing_spondylitis", "lupus"],
+            "risk_implications": ["increased_inflammatory_condition_risk"],
+            "screening_considerations": ["early_onset_symptoms", "systemic_involvement"]
+          },
+          "degenerative_conditions": {
+            "conditions": ["osteoarthritis", "osteoporosis", "disc_disease"],
+            "risk_factors": ["age_of_onset", "pattern_of_involvement"],
+            "preventive_considerations": ["lifestyle_modifications", "early_intervention"]
+          },
+          "cardiovascular_disease": {
+            "conditions": ["heart_disease", "stroke", "hypertension"],
+            "exercise_implications": ["cardiac_screening", "graduated_exercise_progression"]
+          }
+        }
+      },
+      "social_history": {
+        "occupational_factors": {
+          "physical_demands": {
+            "categories": {
+              "sedentary": {
+                "description": "Desk work, minimal physical activity",
+                "risk_factors": ["postural_dysfunction", "deconditioning"],
+                "conditions_associated": ["COND_044", "COND_011", "COND_042"]
+              },
+              "light_physical": {
+                "description": "Standing, walking, light lifting <20lbs",
+                "risk_factors": ["repetitive_strain", "prolonged_standing"],
+                "conditions_associated": ["COND_054", "COND_048"]
+              },
+              "moderate_physical": {
+                "description": "Lifting 20-50lbs, frequent bending",
+                "risk_factors": ["back_injury", "overuse_syndromes"],
+                "conditions_associated": ["COND_008", "COND_009"]
+              },
+              "heavy_physical": {
+                "description": "Lifting >50lbs, manual labor",
+                "risk_factors": ["acute_injury", "degenerative_changes"],
+                "conditions_associated": ["COND_008", "COND_016", "COND_013"]
+              }
+            }
+          },
+          "ergonomic_factors": {
+            "workstation_setup": ["computer_height", "chair_support", "keyboard_position"],
+            "repetitive_motions": ["typing", "mouse_use", "assembly_work"],
+            "environmental_hazards": ["vibration", "awkward_positions", "time_pressures"]
+          },
+          "work_related_injuries": {
+            "workers_compensation": "may_affect_treatment_approach",
+            "return_to_work_considerations": ["job_demands", "accommodation_needs"]
+          }
+        },
+        "recreational_activities": {
+          "sports_participation": {
+            "contact_sports": {
+              "types": ["football", "hockey", "martial_arts"],
+              "injury_patterns": ["acute_trauma", "concussion", "joint_injuries"],
+              "conditions_associated": ["COND_013", "COND_183", "COND_182"]
+            },
+            "overhead_sports": {
+              "types": ["tennis", "swimming", "volleyball"],
+              "injury_patterns": ["impingement", "instability", "overuse"],
+              "conditions_associated": ["COND_001", "COND_002", "COND_054"]
+            },
+            "running_sports": {
+              "types": ["marathon", "track", "soccer"],
+              "injury_patterns": ["overuse", "stress_fractures", "tendinopathy"],
+              "conditions_associated": ["COND_049", "COND_079", "COND_015"]
+            }
+          },
+          "exercise_habits": {
+            "frequency": ["sedentary", "occasional", "regular", "intense"],
+            "type": ["cardiovascular", "strength", "flexibility", "sport_specific"],
+            "injury_history": ["previous_injuries", "recurrent_problems"]
+          }
+        },
+        "lifestyle_factors": {
+          "smoking": {
+            "impact": ["tissue_healing", "cardiovascular_function", "bone_health"],
+            "conditions_affected": ["wound_healing", "fracture_healing", "cardiovascular_conditions"]
+          },
+          "alcohol_use": {
+            "considerations": ["balance_issues", "medication_interactions", "bone_health"],
+            "screening_thresholds": ["social", "moderate", "heavy", "dependency"]
+          },
+          "sleep_patterns": {
+            "quality": ["good", "fair", "poor"],
+            "duration": ["adequate", "insufficient"],
+            "disorders": ["sleep_apnea", "insomnia", "restless_leg"]
+          },
+          "stress_levels": {
+            "sources": ["work", "family", "financial", "health"],
+            "coping_mechanisms": ["exercise", "relaxation", "social_support"],
+            "physical_manifestations": ["muscle_tension", "headaches", "fatigue"]
+          }
+        }
+      }
+    },
+    "assessment_protocols": {
+      "screening_questions": {
+        "general_health": [
+          {
+            "question": "Do you have any ongoing medical conditions?",
+            "follow_up": "Are they well controlled? What medications do you take?",
+            "red_flag_conditions": ["uncontrolled_diabetes", "unstable_angina", "active_cancer"]
+          },
+          {
+            "question": "Have you had any surgeries?",
+            "follow_up": "When? Any complications? Current restrictions?",
+            "relevance": "surgical_history_impacts_treatment_approach"
+          }
+        ],
+        "specific_conditions": [
+          {
+            "question": "Do you have diabetes?",
+            "follow_up": "Type? How long? Any complications like neuropathy?",
+            "conditions_influenced": ["COND_093", "wound_healing", "infection_risk"]
+          },
+          {
+            "question": "Any heart problems or high blood pressure?",
+            "follow_up": "Medications? Exercise restrictions?",
+            "conditions_influenced": ["COND_099", "COND_100", "exercise_limitations"]
+          }
+        ]
+      },
+      "risk_stratification": {
+        "low_risk": {
+          "criteria": ["no_significant_medical_history", "young_healthy", "acute_mechanical_problem"],
+          "treatment_approach": "standard_protocols"
+        },
+        "moderate_risk": {
+          "criteria": ["controlled_medical_conditions", "previous_similar_injury", "age_40_65"],
+          "treatment_approach": "modified_protocols_with_monitoring"
+        },
+        "high_risk": {
+          "criteria": ["multiple_comorbidities", "uncontrolled_conditions", "age_>65", "complex_presentations"],
+          "treatment_approach": "cautious_approach_with_medical_consultation"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,878 @@
+{
+  "assessments": {
+    "ASSESS_001": {
+      "name": "Lachman Test",
+      "type": "ligament_stability",
+      "body_regions": ["knee"],
+      "purpose": "Assess ACL integrity",
+      "description": "Most reliable test for ACL rupture. Examiner stabilizes femur and translates tibia anteriorly with knee at 20-30° flexion.",
+      "technique": {
+        "position": "Patient supine, knee flexed 20-30°",
+        "procedure": "Stabilize femur with one hand, grasp proximal tibia with other hand, pull tibia anteriorly",
+        "positive_finding": "Soft/absent endpoint, excessive anterior translation compared to unaffected side"
+      },
+      "diagnostic_accuracy": {
+        "sensitivity": 0.86,
+        "specificity": 0.91,
+        "likelihood_ratio_positive": 9.6,
+        "likelihood_ratio_negative": 0.15
+      },
+      "grading": {
+        "grade_1": "<5mm translation, firm endpoint",
+        "grade_2": "5-10mm translation, soft endpoint",
+        "grade_3": ">10mm translation, no endpoint"
+      }
+    },
+    "ASSESS_002": {
+      "name": "McMurray Test",
+      "type": "meniscal_assessment",
+      "body_regions": ["knee"],
+      "purpose": "Detect meniscal tears",
+      "description": "Provocative test for meniscal tears. Combines flexion/extension with rotation to trap damaged meniscus.",
+      "technique": {
+        "position": "Patient supine, examiner holds knee and foot",
+        "procedure": "Flex knee fully, apply varus/valgus stress with rotation, extend knee while maintaining stress",
+        "positive_finding": "Click, pop, or pain along joint line during movement"
+      },
+      "diagnostic_accuracy": {
+        "sensitivity": 0.55,
+        "specificity": 0.77,
+        "likelihood_ratio_positive": 2.4,
+        "likelihood_ratio_negative": 0.58
+      }
+    },
+    "ASSESS_003": {
+      "name": "Anterior Drawer Test",
+      "type": "ligament_stability",
+      "body_regions": ["knee"],
+      "purpose": "Assess ACL integrity",
+      "description": "Tests ACL stability with knee at 90°. Less sensitive than Lachman for acute injuries due to hamstring guarding.",
+      "technique": {
+        "position": "Patient supine, hip 45° flexed, knee 90° flexed",
+        "procedure": "Sit on patient's foot, grasp proximal tibia, pull anteriorly",
+        "positive_finding": "Excessive anterior tibial translation"
+      },
+      "diagnostic_accuracy": {
+        "sensitivity": 0.48,
+        "specificity": 0.87
+      }
+    },
+    "ASSESS_004": {
+      "name": "Pivot Shift Test",
+      "type": "ligament_stability",
+      "body_regions": ["knee"],
+      "purpose": "Assess rotational instability from ACL deficiency",
+      "description": "Reproduces giving way sensation in ACL-deficient knee. Most specific test for ACL rupture.",
+      "technique": {
+        "position": "Patient supine, hip slightly abducted",
+        "procedure": "Apply valgus stress and internal rotation while flexing knee from extension",
+        "positive_finding": "Sudden reduction/clunk at 20-30° flexion as tibia reduces"
+      },
+      "diagnostic_accuracy": {
+        "sensitivity": 0.24,
+        "specificity": 0.98,
+        "likelihood_ratio_positive": 12
+      }
+    },
+    "ASSESS_005": {
+      "name": "Empty Can Test (Jobe's Test)",
+      "type": "muscle_strength",
+      "body_regions": ["shoulder"],
+      "purpose": "Assess supraspinatus strength/tear",
+      "description": "Isolates supraspinatus muscle. Positive for weakness or pain suggesting tear or tendinopathy.",
+      "technique": {
+        "position": "Shoulder 90° abduction, 30° horizontal adduction, internal rotation (thumb down)",
+        "procedure": "Apply downward pressure while patient resists",
+        "positive_finding": "Pain or weakness compared to unaffected side"
+      },
+      "diagnostic_accuracy": {
+        "sensitivity": 0.63,
+        "specificity": 0.65
+      }
+    },
+    "ASSESS_006": {
+      "name": "Hawkins-Kennedy Test",
+      "type": "impingement",
+      "body_regions": ["shoulder"],
+      "purpose": "Detect subacromial impingement",
+      "description": "Compresses subacromial structures. High sensitivity for impingement syndrome.",
+      "technique": {
+        "position": "Shoulder and elbow 90° flexed",
+        "procedure": "Forcibly internally rotate shoulder",
+        "positive_finding": "Pain in subacromial region"
+      },
+      "diagnostic_accuracy": {
+        "sensitivity": 0.80,
+        "specificity": 0.56,
+        "likelihood_ratio_positive": 1.8
+      }
+    },
+    "ASSESS_007": {
+      "name": "Neer Impingement Test",
+      "type": "impingement",
+      "body_regions": ["shoulder"],
+      "purpose": "Detect subacromial impingement",
+      "description": "Compresses structures under acromion. Often combined with Hawkins-Kennedy test.",
+      "technique": {
+        "position": "Patient seated or standing",
+        "procedure": "Stabilize scapula, forcibly flex shoulder through full range",
+        "positive_finding": "Pain with overhead motion"
+      },
+      "diagnostic_accuracy": {
+        "sensitivity": 0.72,
+        "specificity": 0.60
+      }
+    },
+    "ASSESS_008": {
+      "name": "Drop Arm Test",
+      "type": "muscle_function",
+      "body_regions": ["shoulder"],
+      "purpose": "Detect complete rotator cuff tear",
+      "description": "Tests ability to control arm descent. Highly specific for large rotator cuff tears.",
+      "technique": {
+        "position": "Shoulder abducted to 90°",
+        "procedure": "Ask patient to slowly lower arm to side",
+        "positive_finding": "Inability to control descent or arm drops suddenly"
+      },
+      "diagnostic_accuracy": {
+        "sensitivity": 0.21,
+        "specificity": 0.92,
+        "likelihood_ratio_positive": 2.6
+      }
+    },
+    "ASSESS_009": {
+      "name": "Speed's Test",
+      "type": "tendon_assessment",
+      "body_regions": ["shoulder"],
+      "purpose": "Assess biceps tendon pathology",
+      "description": "Stresses long head of biceps. Positive for bicipital tendinitis or SLAP lesions.",
+      "technique": {
+        "position": "Shoulder flexed 90°, elbow extended, forearm supinated",
+        "procedure": "Apply downward pressure while patient resists",
+        "positive_finding": "Pain in bicipital groove"
+      },
+      "diagnostic_accuracy": {
+        "sensitivity": 0.54,
+        "specificity": 0.81
+      }
+    },
+    "ASSESS_010": {
+      "name": "Straight Leg Raise (SLR/Lasègue)",
+      "type": "neurological",
+      "body_regions": ["lumbar_spine", "lower_extremity"],
+      "purpose": "Detect lumbar nerve root compression",
+      "description": "Tensions sciatic nerve. Gold standard for lumbar radiculopathy, especially L4-S1.",
+      "technique": {
+        "position": "Patient supine",
+        "procedure": "Passively flex hip with knee extended until symptoms reproduced",
+        "positive_finding": "Radiating pain below knee at <70° hip flexion"
+      },
+      "diagnostic_accuracy": {
+        "sensitivity": 0.91,
+        "specificity": 0.26,
+        "likelihood_ratio_positive": 1.2
+      },
+      "modifications": {
+        "crossed_SLR": "Lift unaffected leg, positive if symptoms on affected side (high specificity)",
+        "bowstring_sign": "Flex knee slightly then press popliteal fossa"
+      }
+    },
+    "ASSESS_011": {
+      "name": "Slump Test",
+      "type": "neurological",
+      "body_regions": ["spine", "neurological"],
+      "purpose": "Assess neural tension/mechanosensitivity",
+      "description": "Combines spinal flexion with SLR to maximize neural tension. More sensitive than SLR alone.",
+      "technique": {
+        "position": "Patient seated at edge of table",
+        "procedure": "Sequential: thoracic slump → cervical flexion → knee extension → ankle dorsiflexion",
+        "positive_finding": "Reproduction of symptoms, relieved by cervical extension"
+      },
+      "diagnostic_accuracy": {
+        "sensitivity": 0.84,
+        "specificity": 0.83
+      }
+    },
+    "ASSESS_012": {
+      "name": "Spurling's Test",
+      "type": "neurological",
+      "body_regions": ["cervical_spine"],
+      "purpose": "Detect cervical radiculopathy",
+      "description": "Narrows intervertebral foramen to compress nerve root. Highly specific when positive.",
+      "technique": {
+        "position": "Patient seated",
+        "procedure": "Extend, laterally flex, and rotate neck to affected side, apply axial compression",
+        "positive_finding": "Radiating pain into arm on tested side"
+      },
+      "diagnostic_accuracy": {
+        "sensitivity": 0.50,
+        "specificity": 0.93,
+        "likelihood_ratio_positive": 7.1
+      }
+    },
+    "ASSESS_013": {
+      "name": "FABER Test (Patrick's Test)",
+      "type": "joint_provocation",
+      "body_regions": ["hip", "sacroiliac"],
+      "purpose": "Differentiate hip vs SI joint pathology",
+      "description": "Figure-4 position stresses hip and SI joint. Pain location indicates source.",
+      "technique": {
+        "position": "Supine, tested leg in figure-4 (flexion, abduction, external rotation)",
+        "procedure": "Stabilize opposite ASIS, apply gentle downward pressure on flexed knee",
+        "positive_finding": "Groin pain suggests hip pathology, posterior pain suggests SI joint"
+      },
+      "diagnostic_accuracy": {
+        "sensitivity": 0.60,
+        "specificity": 0.18
+      }
+    },
+    "ASSESS_014": {
+      "name": "FADIR Test",
+      "type": "joint_provocation",
+      "body_regions": ["hip"],
+      "purpose": "Detect femoroacetabular impingement",
+      "description": "Provokes impingement between femoral neck and acetabular rim.",
+      "technique": {
+        "position": "Patient supine",
+        "procedure": "Flex hip to 90°, then adduct and internally rotate",
+        "positive_finding": "Groin pain or clicking"
+      },
+      "diagnostic_accuracy": {
+        "sensitivity": 0.99,
+        "specificity": 0.09
+      }
+    },
+    "ASSESS_015": {
+      "name": "Thomas Test",
+      "type": "muscle_length",
+      "body_regions": ["hip"],
+      "purpose": "Assess hip flexor tightness",
+      "description": "Identifies iliopsoas and rectus femoris tightness. Modified version more specific.",
+      "technique": {
+        "position": "Patient supine at edge of table",
+        "procedure": "Flex one hip to chest, observe position of opposite hip",
+        "positive_finding": "Tested hip rises off table (hip flexor tightness) or knee extends (rectus femoris)"
+      },
+      "interpretation": {
+        "hip_flexion": "Iliopsoas tightness",
+        "knee_extension": "Rectus femoris tightness",
+        "hip_abduction": "IT band tightness"
+      }
+    },
+    "ASSESS_016": {
+      "name": "Ober's Test",
+      "type": "muscle_length",
+      "body_regions": ["hip", "knee"],
+      "purpose": "Assess IT band flexibility",
+      "description": "Tests iliotibial band and tensor fascia lata tightness.",
+      "technique": {
+        "position": "Side-lying, bottom leg flexed",
+        "procedure": "Abduct and extend top hip, then slowly lower",
+        "positive_finding": "Leg remains abducted or patient feels lateral knee/thigh tightness"
+      }
+    },
+    "ASSESS_017": {
+      "name": "Tinel's Sign (Carpal Tunnel)",
+      "type": "nerve_provocation",
+      "body_regions": ["wrist", "hand"],
+      "purpose": "Detect median nerve irritation",
+      "description": "Percusses over median nerve at wrist. Positive in carpal tunnel syndrome.",
+      "technique": {
+        "position": "Wrist in neutral",
+        "procedure": "Tap over carpal tunnel (volar wrist)",
+        "positive_finding": "Tingling/paresthesias in median nerve distribution"
+      },
+      "diagnostic_accuracy": {
+        "sensitivity": 0.50,
+        "specificity": 0.77
+      }
+    },
+    "ASSESS_018": {
+      "name": "Phalen's Test",
+      "type": "nerve_provocation",
+      "body_regions": ["wrist", "hand"],
+      "purpose": "Detect carpal tunnel syndrome",
+      "description": "Sustained wrist flexion compresses median nerve. More sensitive than Tinel's.",
+      "technique": {
+        "position": "Elbows on table, forearms vertical",
+        "procedure": "Allow wrists to fall into maximum flexion for 60 seconds",
+        "positive_finding": "Paresthesias in median nerve distribution"
+      },
+      "diagnostic_accuracy": {
+        "sensitivity": 0.68,
+        "specificity": 0.73
+      }
+    },
+    "ASSESS_019": {
+      "name": "Finkelstein's Test",
+      "type": "tendon_assessment",
+      "body_regions": ["wrist", "thumb"],
+      "purpose": "Detect De Quervain's tenosynovitis",
+      "description": "Stresses tendons of first dorsal compartment. Highly sensitive for De Quervain's.",
+      "technique": {
+        "position": "Thumb flexed into palm",
+        "procedure": "Ulnar deviate wrist while maintaining thumb position",
+        "positive_finding": "Sharp pain over radial styloid"
+      },
+      "diagnostic_accuracy": {
+        "sensitivity": 0.88,
+        "specificity": 0.29
+      }
+    },
+    "ASSESS_020": {
+      "name": "Thompson Test",
+      "type": "muscle_function",
+      "body_regions": ["ankle"],
+      "purpose": "Detect Achilles tendon rupture",
+      "description": "Tests continuity of Achilles tendon. Absence of plantar flexion indicates complete rupture.",
+      "technique": {
+        "position": "Patient prone, feet hanging off table",
+        "procedure": "Squeeze calf muscle",
+        "positive_finding": "Absence of plantar flexion"
+      },
+      "diagnostic_accuracy": {
+        "sensitivity": 0.96,
+        "specificity": 0.93
+      }
+    },
+    "ASSESS_021": {
+      "name": "Anterior Drawer Test (Ankle)",
+      "type": "ligament_stability",
+      "body_regions": ["ankle"],
+      "purpose": "Assess anterior talofibular ligament",
+      "description": "Tests ATFL integrity, most commonly injured ankle ligament.",
+      "technique": {
+        "position": "Foot in 20° plantar flexion",
+        "procedure": "Stabilize tibia, pull talus anteriorly",
+        "positive_finding": "Excessive anterior translation, soft endpoint"
+      },
+      "diagnostic_accuracy": {
+        "sensitivity": 0.73,
+        "specificity": 0.97
+      }
+    },
+    "ASSESS_022": {
+      "name": "Babinski Sign",
+      "type": "neurological_reflex",
+      "body_regions": ["neurological", "foot"],
+      "purpose": "Detect upper motor neuron lesion",
+      "description": "Pathological reflex indicating corticospinal tract damage. Normal in infants <1 year.",
+      "technique": {
+        "position": "Patient relaxed, leg extended",
+        "procedure": "Stroke lateral sole from heel to ball of foot with blunt object",
+        "positive_finding": "Extension of great toe with fanning of other toes"
+      },
+      "interpretation": {
+        "normal": "Flexion of all toes",
+        "pathological": "Extension of great toe (upgoing plantar)",
+        "significance": "Upper motor neuron lesion above L5 level"
+      }
+    },
+    "ASSESS_023": {
+      "name": "Hoffman's Sign",
+      "type": "neurological_reflex",
+      "body_regions": ["neurological", "hand"],
+      "purpose": "Detect cervical myelopathy/upper motor neuron lesion",
+      "description": "Upper extremity equivalent of Babinski. Indicates cervical cord compression.",
+      "technique": {
+        "position": "Wrist in neutral, fingers relaxed",
+        "procedure": "Flick distal phalanx of middle finger into flexion",
+        "positive_finding": "Thumb and index finger flex/adduct"
+      },
+      "clinical_significance": {
+        "bilateral_positive": "May be normal variant",
+        "unilateral_positive": "More concerning for pathology",
+        "with_other_signs": "Suggests myelopathy when combined with hyperreflexia"
+      }
+    },
+    "ASSESS_024": {
+      "name": "Dermatome Testing",
+      "type": "sensory_assessment",
+      "body_regions": ["neurological"],
+      "purpose": "Map sensory deficits to nerve root levels",
+      "description": "Tests light touch and pinprick sensation in specific skin areas innervated by single nerve roots.",
+      "key_landmarks": {
+        "C5": "Lateral arm (deltoid area)",
+        "C6": "Thumb and lateral forearm",
+        "C7": "Middle finger",
+        "C8": "Little finger",
+        "T4": "Nipple line",
+        "T10": "Umbilicus",
+        "L3": "Medial knee",
+        "L4": "Medial ankle",
+        "L5": "Dorsal foot between 1st-2nd toe",
+        "S1": "Lateral foot/heel"
+      },
+      "technique": {
+        "procedure": "Test bilaterally with cotton/pin, compare sides",
+        "grading": "Normal/diminished/absent"
+      }
+    },
+    "ASSESS_025": {
+      "name": "Myotome Testing",
+      "type": "motor_assessment",
+      "body_regions": ["neurological"],
+      "purpose": "Identify motor weakness by nerve root level",
+      "description": "Manual muscle testing of movements innervated by specific nerve roots.",
+      "key_movements": {
+        "C5": "Shoulder abduction (deltoid)",
+        "C6": "Elbow flexion (biceps), wrist extension",
+        "C7": "Elbow extension (triceps), wrist flexion",
+        "C8": "Finger flexion, thumb opposition",
+        "L2": "Hip flexion",
+        "L3": "Knee extension",
+        "L4": "Ankle dorsiflexion",
+        "L5": "Great toe extension",
+        "S1": "Ankle plantar flexion, hip extension"
+      },
+      "grading": "0-5 MRC scale"
+    },
+    "ASSESS_026": {
+      "name": "Deep Tendon Reflexes",
+      "type": "neurological_reflex",
+      "body_regions": ["neurological"],
+      "purpose": "Assess reflex arc integrity",
+      "description": "Tests monosynaptic reflex arcs. Hyperreflexia suggests upper motor neuron lesion, hyporeflexia suggests lower motor neuron or peripheral nerve lesion.",
+      "major_reflexes": {
+        "biceps": "C5-C6",
+        "brachioradialis": "C5-C6",
+        "triceps": "C7-C8",
+        "patellar": "L3-L4",
+        "achilles": "S1-S2"
+      },
+      "grading": {
+        "0": "Absent",
+        "1+": "Diminished",
+        "2+": "Normal",
+        "3+": "Increased",
+        "4+": "Clonus"
+      }
+    },
+    "ASSESS_027": {
+      "name": "Romberg Test",
+      "type": "balance_proprioception",
+      "body_regions": ["neurological", "vestibular"],
+      "purpose": "Assess proprioception and balance",
+      "description": "Tests proprioceptive function. Positive suggests posterior column or vestibular dysfunction.",
+      "technique": {
+        "position": "Standing, feet together",
+        "procedure": "Eyes open for 30 seconds, then eyes closed",
+        "positive_finding": "Significant sway or loss of balance with eyes closed"
+      },
+      "variations": {
+        "sharpened_romberg": "Heel-to-toe stance",
+        "single_leg": "More challenging variant"
+      }
+    },
+    "ASSESS_028": {
+      "name": "Dix-Hallpike Test",
+      "type": "vestibular",
+      "body_regions": ["vestibular", "neurological"],
+      "purpose": "Diagnose BPPV (posterior canal)",
+      "description": "Provokes vertigo and nystagmus in benign paroxysmal positional vertigo.",
+      "technique": {
+        "position": "Sitting on exam table",
+        "procedure": "Turn head 45°, quickly lie back with head extended 30° below horizontal",
+        "positive_finding": "Rotatory nystagmus and vertigo after latency period"
+      },
+      "diagnostic_accuracy": {
+        "sensitivity": 0.79,
+        "specificity": 0.75
+      }
+    },
+    "ASSESS_029": {
+      "name": "Apprehension Test (Shoulder)",
+      "type": "joint_stability",
+      "body_regions": ["shoulder"],
+      "purpose": "Detect anterior shoulder instability",
+      "description": "Reproduces feeling of instability in patients with recurrent dislocations.",
+      "technique": {
+        "position": "Supine, shoulder at edge of table",
+        "procedure": "Abduct 90°, externally rotate slowly",
+        "positive_finding": "Apprehension or guarding before end range"
+      },
+      "relocation_test": {
+        "procedure": "Apply posterior force to humeral head",
+        "interpretation": "Relief of apprehension confirms anterior instability"
+      }
+    },
+    "ASSESS_030": {
+      "name": "Sacroiliac Joint Compression Test",
+      "type": "joint_provocation",
+      "body_regions": ["sacroiliac", "pelvis"],
+      "purpose": "Detect SI joint dysfunction",
+      "description": "Compresses SI joints to provoke pain. Part of SI joint test cluster.",
+      "technique": {
+        "position": "Side-lying",
+        "procedure": "Apply downward pressure on lateral pelvis",
+        "positive_finding": "Pain in SI joint region"
+      },
+      "cluster_interpretation": "3+ positive tests in cluster increase diagnostic accuracy"
+    },
+    "ASSESS_031": {
+      "name": "Gaenslen's Test",
+      "type": "joint_provocation",
+      "body_regions": ["sacroiliac", "hip"],
+      "purpose": "Stress SI joint",
+      "description": "Simultaneously flexes one hip and extends the other to stress SI joint.",
+      "technique": {
+        "position": "Supine at edge of table",
+        "procedure": "Flex one hip to chest, let other leg hang off table",
+        "positive_finding": "Pain in SI joint on extended side"
+      }
+    },
+    "ASSESS_032": {
+      "name": "Trendelenburg Test",
+      "type": "muscle_function",
+      "body_regions": ["hip", "pelvis"],
+      "purpose": "Assess hip abductor strength",
+      "description": "Identifies gluteus medius weakness. Positive in hip pathology or L5 radiculopathy.",
+      "technique": {
+        "position": "Standing",
+        "procedure": "Stand on one leg for 30 seconds",
+        "positive_finding": "Pelvis drops on unsupported side"
+      },
+      "causes": {
+        "weakness": "Gluteus medius dysfunction",
+        "pain_inhibition": "Hip arthritis",
+        "neurological": "L5 nerve root, superior gluteal nerve"
+      }
+    },
+    "ASSESS_033": {
+      "name": "Adson's Test",
+      "type": "vascular_neurological",
+      "body_regions": ["cervical", "shoulder"],
+      "purpose": "Detect thoracic outlet syndrome",
+      "description": "Assesses vascular compromise in thoracic outlet. Multiple variations exist.",
+      "technique": {
+        "position": "Seated, arm abducted 30°",
+        "procedure": "Extend and rotate head toward tested side, deep breath, hold",
+        "positive_finding": "Diminished radial pulse or reproduction of symptoms"
+      },
+      "diagnostic_accuracy": {
+        "sensitivity": 0.79,
+        "specificity": 0.74
+      }
+    },
+    "ASSESS_034": {
+      "name": "Lift-Off Test",
+      "type": "muscle_function",
+      "body_regions": ["shoulder"],
+      "purpose": "Assess subscapularis integrity",
+      "description": "Isolates subscapularis function. Positive indicates tear or weakness.",
+      "technique": {
+        "position": "Hand behind back at lumbar level",
+        "procedure": "Lift hand away from back against resistance",
+        "positive_finding": "Inability to lift hand or maintain position"
+      },
+      "alternative": {
+        "belly_press": "For patients with limited internal rotation",
+        "bear_hug": "Another subscapularis test variant"
+      }
+    },
+    "ASSESS_035": {
+      "name": "Noble Compression Test",
+      "type": "soft_tissue_assessment",
+      "body_regions": ["knee", "hip"],
+      "purpose": "Diagnose IT band syndrome",
+      "description": "Compresses IT band over lateral femoral epicondyle during knee motion.",
+      "technique": {
+        "position": "Supine or side-lying",
+        "procedure": "Apply pressure over lateral epicondyle while flexing/extending knee",
+        "positive_finding": "Pain at 30° flexion as IT band passes over epicondyle"
+      }
+    },
+    "ASSESS_036": {
+      "name": "Patellar Apprehension Test",
+      "type": "joint_stability",
+      "body_regions": ["knee"],
+      "purpose": "Detect patellar instability",
+      "description": "Assesses for history of patellar dislocation/subluxation.",
+      "technique": {
+        "position": "Supine, knee extended and relaxed",
+        "procedure": "Apply lateral force to patella",
+        "positive_finding": "Apprehension or quadriceps contraction"
+      }
+    },
+    "ASSESS_037": {
+      "name": "Varus/Valgus Stress Test",
+      "type": "ligament_stability",
+      "body_regions": ["knee", "elbow"],
+      "purpose": "Assess collateral ligament integrity",
+      "description": "Tests MCL (valgus) and LCL (varus) stability at knee, or collaterals at elbow.",
+      "technique": {
+        "position": "Knee: 0° and 30° flexion, Elbow: 20-30° flexion",
+        "procedure": "Apply varus or valgus force",
+        "positive_finding": "Excessive gapping or lack of endpoint"
+      },
+      "interpretation": {
+        "pain_only": "Grade 1 sprain",
+        "laxity_with_endpoint": "Grade 2 sprain",
+        "no_endpoint": "Grade 3 (complete tear)"
+      }
+    },
+    "ASSESS_038": {
+      "name": "Ottawa Ankle Rules",
+      "type": "clinical_decision_rule",
+      "body_regions": ["ankle", "foot"],
+      "purpose": "Determine need for X-ray after ankle injury",
+      "description": "Validated rules to identify fractures. High sensitivity reduces unnecessary imaging.",
+      "criteria": {
+        "ankle_xray": "Pain at posterior edge/tip of either malleolus OR inability to bear weight",
+        "foot_xray": "Pain at navicular/5th metatarsal base OR inability to bear weight"
+      },
+      "diagnostic_accuracy": {
+        "sensitivity": 0.98,
+        "specificity": 0.40
+      }
+    },
+    "ASSESS_039": {
+      "name": "Canadian C-Spine Rules",
+      "type": "clinical_decision_rule",
+      "body_regions": ["cervical_spine"],
+      "purpose": "Determine need for cervical imaging after trauma",
+      "description": "Evidence-based tool to safely rule out cervical spine injury.",
+      "high_risk_factors": ["Age ≥65", "Dangerous mechanism", "Paresthesias"],
+      "low_risk_factors": ["Simple rear-end MVC", "Sitting position in ED", "Ambulatory", "Delayed onset pain", "No midline tenderness"],
+      "range_of_motion": "If low risk present and no high risk, test 45° rotation each way"
+    },
+    "ASSESS_040": {
+      "name": "Cranial Nerve Screen",
+      "type": "neurological",
+      "body_regions": ["neurological", "head"],
+      "purpose": "Assess cranial nerve function",
+      "description": "Systematic evaluation of 12 cranial nerves for neurological dysfunction.",
+      "tests": {
+        "CN_I": "Smell identification",
+        "CN_II": "Visual acuity, fields, pupillary response",
+        "CN_III_IV_VI": "Eye movements, pupil size",
+        "CN_V": "Facial sensation, jaw strength",
+        "CN_VII": "Facial movement, taste",
+        "CN_VIII": "Hearing, balance",
+        "CN_IX_X": "Gag reflex, voice quality",
+        "CN_XI": "Shoulder shrug, head turn",
+        "CN_XII": "Tongue movement"
+      }
+    },
+    "ASSESS_041": {
+      "name": "Watson's Test (Scaphoid Shift)",
+      "type": "ligament_stability",
+      "body_regions": ["wrist", "hand"],
+      "purpose": "Detect scapholunate instability",
+      "description": "Assesses scapholunate ligament integrity. Positive in SLAC wrist development.",
+      "technique": {
+        "position": "Wrist in neutral, elbow flexed",
+        "procedure": "Apply pressure to scaphoid tubercle while moving wrist from ulnar to radial deviation",
+        "positive_finding": "Painful clunk or excessive translation of scaphoid"
+      },
+      "diagnostic_accuracy": {
+        "sensitivity": 0.69,
+        "specificity": 0.66
+      }
+    },
+    "ASSESS_042": {
+      "name": "Froment's Sign",
+      "type": "nerve_function",
+      "body_regions": ["hand", "neurological"],
+      "purpose": "Detect ulnar nerve palsy",
+      "description": "Tests adductor pollicis strength. Positive indicates ulnar nerve dysfunction.",
+      "technique": {
+        "position": "Patient holds paper between thumb and index finger",
+        "procedure": "Examiner attempts to pull paper away",
+        "positive_finding": "Thumb IP joint flexes (substitution with FPL due to adductor pollicis weakness)"
+      },
+      "associated_conditions": ["cubital_tunnel_syndrome", "ulnar_nerve_injury", "C8-T1_radiculopathy"]
+    },
+    "ASSESS_043": {
+      "name": "Allen's Test",
+      "type": "vascular",
+      "body_regions": ["hand", "wrist"],
+      "purpose": "Assess arterial patency to hand",
+      "description": "Evaluates collateral circulation before arterial puncture or surgery. Essential safety test.",
+      "technique": {
+        "position": "Fist clenched to empty veins",
+        "procedure": "Occlude both radial and ulnar arteries, release one at a time",
+        "positive_finding": "Normal: hand reperfuses in <6 seconds. Abnormal: >10 seconds indicates poor collateral flow"
+      },
+      "clinical_significance": "Abnormal test contraindicates radial artery procedures"
+    },
+    "ASSESS_044": {
+      "name": "Prone Instability Test",
+      "type": "joint_stability",
+      "body_regions": ["lumbar_spine"],
+      "purpose": "Identify lumbar instability",
+      "description": "Detects segmental instability. Part of clinical prediction rule for stabilization exercises.",
+      "technique": {
+        "position": "Prone with legs off table, toes on floor",
+        "procedure": "Apply PA pressure to spinous processes, then repeat with patient lifting legs",
+        "positive_finding": "Pain with pressure that resolves when legs lifted (muscles stabilize)"
+      },
+      "diagnostic_accuracy": {
+        "sensitivity": 0.72,
+        "specificity": 0.58
+      }
+    },
+    "ASSESS_045": {
+      "name": "Stork Test (Spondylolysis)",
+      "type": "bone_stress",
+      "body_regions": ["lumbar_spine"],
+      "purpose": "Detect pars interarticularis stress",
+      "description": "Single leg hyperextension test. Sensitive for spondylolysis in young athletes.",
+      "technique": {
+        "position": "Standing on one leg",
+        "procedure": "Hyperextend and rotate spine toward stance leg",
+        "positive_finding": "Reproduction of pain on ipsilateral side"
+      },
+      "clinical_correlation": "High suspicion warrants advanced imaging (MRI/SPECT)"
+    },
+    "ASSESS_046": {
+      "name": "Quadrant Test (Kemp's Test)",
+      "type": "joint_provocation",
+      "body_regions": ["lumbar_spine", "cervical_spine"],
+      "purpose": "Stress facet joints and foramina",
+      "description": "Combined extension-rotation-sidebending loads posterior elements.",
+      "technique": {
+        "position": "Standing or seated",
+        "procedure": "Guide into extension, lateral flexion, and rotation to same side",
+        "positive_finding": "Local back pain suggests facet joint, radiating pain suggests nerve root compression"
+      },
+      "variations": {
+        "cervical": "Similar technique for neck",
+        "lumbar": "Can perform in standing or seated"
+      }
+    },
+    "ASSESS_047": {
+      "name": "Barlow Test",
+      "type": "joint_stability",
+      "body_regions": ["hip", "pediatric"],
+      "purpose": "Detect hip instability in infants",
+      "description": "Provocative test for developmental dysplasia of hip (DDH). Performed with Ortolani test.",
+      "technique": {
+        "position": "Infant supine, hips flexed 90°",
+        "procedure": "Adduct hip while applying posterior force",
+        "positive_finding": "Palpable clunk as femoral head dislocates posteriorly"
+      },
+      "age_range": "Birth to 3 months",
+      "diagnostic_accuracy": {
+        "sensitivity": 0.84,
+        "specificity": 0.98
+      }
+    },
+    "ASSESS_048": {
+      "name": "Ortolani Test",
+      "type": "joint_stability",
+      "body_regions": ["hip", "pediatric"],
+      "purpose": "Reduce dislocated hip in infants",
+      "description": "Relocation test for DDH. Companion to Barlow test.",
+      "technique": {
+        "position": "Infant supine, hips flexed 90°",
+        "procedure": "Abduct hip while lifting greater trochanter anteriorly",
+        "positive_finding": "Palpable clunk as femoral head reduces into acetabulum"
+      },
+      "clinical_note": "Positive after 3 months suggests fixed dislocation"
+    },
+    "ASSESS_049": {
+      "name": "Galeazzi Sign (Allis Test)",
+      "type": "alignment_assessment",
+      "body_regions": ["hip", "pediatric"],
+      "purpose": "Detect leg length discrepancy or DDH",
+      "description": "Compares knee heights to identify femoral shortening or hip dislocation.",
+      "technique": {
+        "position": "Infant supine, hips and knees flexed, feet flat",
+        "procedure": "Observe knee heights from foot of table",
+        "positive_finding": "Unequal knee heights (affected side lower)"
+      },
+      "differential": ["DDH", "femoral_shortening", "proximal_focal_femoral_deficiency"]
+    },
+    "ASSESS_050": {
+      "name": "Rib Spring Test",
+      "type": "joint_mobility",
+      "body_regions": ["thoracic", "ribs"],
+      "purpose": "Assess rib cage mobility",
+      "description": "Evaluates costovertebral and costotransverse joint mobility. Important for breathing dysfunction.",
+      "technique": {
+        "position": "Prone or seated",
+        "procedure": "Apply anterolateral pressure to rib angles",
+        "positive_finding": "Restricted movement or pain reproduction"
+      },
+      "clinical_relevance": "Affects breathing patterns and thoracic spine mobility"
+    },
+    "ASSESS_051": {
+      "name": "Breathing Pattern Assessment",
+      "type": "functional_assessment",
+      "body_regions": ["respiratory", "thoracic"],
+      "purpose": "Evaluate respiratory mechanics",
+      "description": "Identifies dysfunctional breathing patterns affecting musculoskeletal system.",
+      "components": {
+        "observation": "Upper chest vs diaphragmatic breathing",
+        "rate": "Normal 12-20 breaths/minute",
+        "ratio": "Inspiration:expiration (normal 1:2)",
+        "accessory_muscles": "SCM, scalene, upper trap overuse"
+      },
+      "clinical_patterns": {
+        "paradoxical": "Abdomen draws in on inspiration",
+        "apical": "Excessive upper chest movement",
+        "breath_holding": "During movement or exertion"
+      }
+    },
+    "ASSESS_052": {
+      "name": "TMJ Compression Test",
+      "type": "joint_provocation",
+      "body_regions": ["TMJ", "jaw"],
+      "purpose": "Assess TMJ disc and joint irritability",
+      "description": "Compresses TMJ to reproduce symptoms. Part of comprehensive TMJ evaluation.",
+      "technique": {
+        "position": "Patient seated, jaw relaxed",
+        "procedure": "Apply posterior force to chin bilaterally",
+        "positive_finding": "Pain reproduction in TMJ"
+      },
+      "associated_tests": ["lateral_deviation", "joint_sounds", "muscle_palpation"]
+    },
+    "ASSESS_053": {
+      "name": "TMJ Lateral Deviation Test",
+      "type": "movement_assessment",
+      "body_regions": ["TMJ", "jaw"],
+      "purpose": "Assess TMJ movement symmetry",
+      "description": "Identifies unilateral TMJ restrictions or muscle imbalances.",
+      "technique": {
+        "position": "Seated, mouth slightly open",
+        "procedure": "Patient moves jaw side to side",
+        "positive_finding": "Asymmetry >10mm difference or deviation during opening"
+      },
+      "normal_values": {
+        "lateral_excursion": "10-12mm bilaterally",
+        "opening": "40-55mm",
+        "protrusion": "5-10mm"
+      }
+    },
+    "ASSESS_054": {
+      "name": "Scapular Assistance Test",
+      "type": "muscle_function",
+      "body_regions": ["shoulder", "scapula"],
+      "purpose": "Assess scapular contribution to shoulder dysfunction",
+      "description": "Manually assists scapular upward rotation to determine if it improves shoulder symptoms.",
+      "technique": {
+        "position": "Standing",
+        "procedure": "Manually assist scapular upward rotation during arm elevation",
+        "positive_finding": "Decreased pain or increased ROM with assistance"
+      },
+      "clinical_implication": "Positive suggests scapular dyskinesis contributing to symptoms"
+    },
+    "ASSESS_055": {
+      "name": "Scour Test (Hip)",
+      "type": "joint_provocation",
+      "body_regions": ["hip"],
+      "purpose": "Detect intra-articular hip pathology",
+      "description": "Combines compression with circumduction to stress entire hip joint.",
+      "technique": {
+        "position": "Supine, hip flexed to 90°",
+        "procedure": "Apply axial compression while moving hip through full ROM",
+        "positive_finding": "Pain, clicking, or catching sensation"
+      },
+      "diagnostic_accuracy": {
+        "sensitivity": 0.62,
+        "specificity": 0.75
+      }
+    }
+  }
+}

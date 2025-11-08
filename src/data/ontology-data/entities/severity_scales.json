@@ -1,0 +1,274 @@
+{
+  "severity_scales": {
+    "description": "Standardized severity assessment scales for physiotherapy differential diagnosis",
+    "version": "1.0",
+    "pain_scales": {
+      "numeric_rating_scale": {
+        "name": "Numeric Pain Rating Scale (NPRS)",
+        "range": "0-10",
+        "anchors": {
+          "0": {
+            "label": "No pain",
+            "description": "Complete absence of pain"
+          },
+          "1-3": {
+            "label": "Mild pain",
+            "description": "Pain present but not interfering with activities"
+          },
+          "4-6": {
+            "label": "Moderate pain", 
+            "description": "Pain interfering with some activities"
+          },
+          "7-9": {
+            "label": "Severe pain",
+            "description": "Pain significantly limiting activities"
+          },
+          "10": {
+            "label": "Worst possible pain",
+            "description": "Unbearable pain"
+          }
+        },
+        "clinical_interpretation": {
+          "minimal_clinically_important_difference": 2,
+          "substantial_clinical_benefit": 3,
+          "red_flag_threshold": 8
+        }
+      },
+      "visual_analog_scale": {
+        "name": "Visual Analog Scale (VAS)",
+        "format": "100mm_line",
+        "anchors": {
+          "left_end": "No pain",
+          "right_end": "Worst pain imaginable"
+        },
+        "scoring": "distance_in_mm",
+        "interpretation": {
+          "mild": "0-30mm",
+          "moderate": "31-70mm", 
+          "severe": "71-100mm"
+        }
+      },
+      "pain_quality_descriptors": {
+        "mechanical_pain": {
+          "descriptors": ["aching", "stiff", "cramping", "gnawing"],
+          "conditions_suggested": ["osteoarthritis", "muscle_strain", "mechanical_dysfunction"]
+        },
+        "neuropathic_pain": {
+          "descriptors": ["burning", "shooting", "electric", "tingling", "pins_needles"],
+          "conditions_suggested": ["nerve_entrapment", "radiculopathy", "neuropathy"]
+        },
+        "inflammatory_pain": {
+          "descriptors": ["throbbing", "hot", "swollen", "tender"],
+          "conditions_suggested": ["rheumatoid_arthritis", "acute_injury", "infection"]
+        },
+        "vascular_pain": {
+          "descriptors": ["cramping", "tight", "aching", "heavy"],
+          "conditions_suggested": ["claudication", "venous_insufficiency"]
+        }
+      }
+    },
+    "functional_impact_scales": {
+      "disability_levels": {
+        "none": {
+          "score": 0,
+          "description": "No limitation in activities",
+          "examples": ["full_work_capacity", "all_sports_activities", "no_restrictions"]
+        },
+        "mild": {
+          "score": 1,
+          "description": "Some limitation but can perform most activities",
+          "examples": ["occasional_discomfort", "minor_modifications_needed"],
+          "percentage_limitation": "0-25%"
+        },
+        "moderate": {
+          "score": 2,
+          "description": "Significant limitation in activities",
+          "examples": ["difficulty_with_overhead_work", "limited_sports_participation"],
+          "percentage_limitation": "26-50%"
+        },
+        "severe": {
+          "score": 3,
+          "description": "Major limitation in most activities",
+          "examples": ["unable_to_work", "requires_assistance", "significant_modifications"],
+          "percentage_limitation": "51-75%"
+        },
+        "complete": {
+          "score": 4,
+          "description": "Unable to perform activities",
+          "examples": ["bed_bound", "complete_work_disability"],
+          "percentage_limitation": "76-100%"
+        }
+      },
+      "activity_categories": {
+        "self_care": {
+          "activities": ["bathing", "dressing", "grooming", "toileting", "feeding"],
+          "scoring": "independent_modified_dependent"
+        },
+        "mobility": {
+          "activities": ["walking", "stairs", "transfers", "balance", "endurance"],
+          "distance_measures": ["unlimited", "1_mile", "1_block", "household_only", "wheelchair"]
+        },
+        "work_tasks": {
+          "categories": ["desk_work", "manual_labor", "overhead_activities", "lifting", "standing"],
+          "modifications": ["none", "minor", "major", "unable"]
+        },
+        "recreational_activities": {
+          "categories": ["sports", "hobbies", "exercise", "social_activities"],
+          "participation_level": ["full", "modified", "limited", "unable"]
+        }
+      }
+    },
+    "symptom_specific_scales": {
+      "stiffness_assessment": {
+        "morning_stiffness": {
+          "duration_categories": {
+            "none": "0_minutes",
+            "brief": "1-15_minutes",
+            "moderate": "16-60_minutes", 
+            "prolonged": "60-120_minutes",
+            "persistent": ">120_minutes"
+          },
+          "clinical_significance": {
+            ">60_minutes": "suggests_inflammatory_condition",
+            "<30_minutes": "suggests_mechanical_condition"
+          }
+        },
+        "movement_stiffness": {
+          "onset": ["immediate", "after_rest", "with_activity"],
+          "relief": ["with_movement", "with_rest", "with_heat", "no_relief"],
+          "severity": ["mild_restriction", "moderate_restriction", "severe_restriction"]
+        }
+      },
+      "weakness_assessment": {
+        "manual_muscle_testing": {
+          "grades": {
+            "5": "Normal - complete range against gravity with maximal resistance",
+            "4": "Good - complete range against gravity with moderate resistance", 
+            "3": "Fair - complete range against gravity",
+            "2": "Poor - complete range with gravity eliminated",
+            "1": "Trace - evidence of slight contractility",
+            "0": "Zero - no evidence of contractility"
+          }
+        },
+        "functional_strength": {
+          "grip_strength": {
+            "measurement": "dynamometer_pounds_or_kilograms",
+            "normative_values": "age_gender_adjusted"
+          },
+          "lifting_capacity": {
+            "categories": ["sedentary_10lbs", "light_20lbs", "medium_50lbs", "heavy_100lbs", "very_heavy_100plus_lbs"]
+          }
+        }
+      },
+      "neurological_symptoms": {
+        "numbness_tingling": {
+          "distribution": ["dermatomal", "peripheral_nerve", "stocking_glove", "patchy"],
+          "intensity": ["mild_awareness", "moderate_interference", "severe_loss"],
+          "pattern": ["constant", "intermittent", "position_dependent"]
+        },
+        "coordination_assessment": {
+          "fine_motor": ["writing", "buttoning", "picking_up_coins"],
+          "gross_motor": ["walking_heel_toe", "standing_one_foot", "finger_to_nose"],
+          "scoring": ["normal", "mild_impairment", "moderate_impairment", "severe_impairment"]
+        }
+      }
+    },
+    "condition_specific_scales": {
+      "shoulder_conditions": {
+        "shoulder_pain_disability_index": {
+          "domains": ["pain", "disability"],
+          "scoring": "0-100_scale",
+          "interpretation": {
+            "minimal_disability": "0-30",
+            "moderate_disability": "31-60",
+            "severe_disability": "61-100"
+          }
+        },
+        "overhead_activity_scale": {
+          "levels": {
+            "0": "Unable to lift arm above head",
+            "1": "Can lift but with severe pain",
+            "2": "Can lift with moderate pain",
+            "3": "Can lift with mild pain",
+            "4": "Can lift without pain"
+          }
+        }
+      },
+      "back_conditions": {
+        "oswestry_disability_index": {
+          "domains": ["pain", "lifting", "walking", "sitting", "standing", "sleeping", "social", "travel", "employment"],
+          "scoring": "percentage_disability",
+          "interpretation": {
+            "minimal_disability": "0-20%",
+            "moderate_disability": "21-40%",
+            "severe_disability": "41-60%",
+            "crippled": "61-80%",
+            "bed_bound": "81-100%"
+          }
+        },
+        "walking_tolerance": {
+          "distances": ["unlimited", "1_mile", "half_mile", "quarter_mile", "100_yards", "household_only"],
+          "limiting_factors": ["pain", "numbness", "weakness", "balance", "endurance"]
+        }
+      },
+      "knee_conditions": {
+        "knee_injury_osteoarthritis_outcome_score": {
+          "domains": ["symptoms", "pain", "adl", "sport_recreation", "qol"],
+          "scoring": "0-100_scale_per_domain"
+        },
+        "instability_rating": {
+          "frequency": ["never", "rarely", "sometimes", "often", "always"],
+          "severity": ["no_giving_way", "mild_catch", "moderate_buckle", "severe_fall"],
+          "confidence": ["complete", "mostly", "somewhat", "little", "none"]
+        }
+      }
+    },
+    "assessment_protocols": {
+      "initial_screening": {
+        "mandatory_scales": ["numeric_pain_rating", "functional_disability"],
+        "time_estimate": "3_minutes",
+        "red_flag_thresholds": {
+          "pain_level": 8,
+          "disability_level": 3,
+          "neurological_symptoms": "any_present"
+        }
+      },
+      "comprehensive_assessment": {
+        "pain_assessment": ["numeric_rating", "quality_descriptors", "modifying_factors"],
+        "functional_assessment": ["disability_rating", "activity_limitations", "work_impact"],
+        "symptom_specific": ["condition_dependent"],
+        "time_estimate": "8_minutes"
+      },
+      "progress_monitoring": {
+        "minimum_scales": ["pain_rating", "functional_status"],
+        "frequency": "weekly_initial_monthly_maintenance",
+        "clinically_significant_change": {
+          "pain": 2,
+          "function": 25,
+          "condition_specific": "scale_dependent"
+        }
+      }
+    },
+    "scoring_algorithms": {
+      "composite_severity": {
+        "formula": "(pain_score * 0.4) + (disability_score * 0.4) + (symptom_specific * 0.2)",
+        "interpretation": {
+          "mild": "0-3",
+          "moderate": "4-6", 
+          "severe": "7-10"
+        }
+      },
+      "treatment_urgency": {
+        "emergency": "red_flags_present",
+        "urgent": "severe_pain_AND_high_disability",
+        "routine": "moderate_symptoms",
+        "maintenance": "mild_symptoms"
+      },
+      "prognosis_indicators": {
+        "favorable": ["acute_onset", "mild_disability", "no_red_flags", "good_response_to_initial_treatment"],
+        "guarded": ["chronic_symptoms", "moderate_disability", "multiple_conditions"],
+        "poor": ["severe_disability", "chronic_pain", "poor_treatment_response", "multiple_comorbidities"]
+      }
+    }
+  }
+}

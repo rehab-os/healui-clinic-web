@@ -1,0 +1,287 @@
+{
+  "modifying_factors": {
+    "description": "Systematic assessment of aggravating and relieving factors for physiotherapy conditions",
+    "version": "1.0",
+    "categories": {
+      "aggravating_factors": {
+        "mechanical": {
+          "positions": {
+            "overhead_activities": {
+              "description": "Activities with arms above shoulder height",
+              "conditions_indicated": ["COND_001", "COND_158", "COND_159"],
+              "diagnostic_weight": 0.9,
+              "examples": ["reaching_high_shelf", "hanging_laundry", "painting_ceiling"]
+            },
+            "behind_back_reaching": {
+              "description": "Internal rotation and extension movements",
+              "conditions_indicated": ["COND_003", "COND_159"],
+              "diagnostic_weight": 0.8,
+              "examples": ["fastening_bra", "reaching_back_pocket", "tucking_shirt"]
+            },
+            "prolonged_sitting": {
+              "description": "Sitting for >30 minutes",
+              "conditions_indicated": ["COND_008", "COND_009", "COND_044"],
+              "diagnostic_weight": 0.7,
+              "examples": ["desk_work", "driving", "watching_movies"]
+            },
+            "lying_on_affected_side": {
+              "description": "Side-lying position on painful side",
+              "conditions_indicated": ["COND_002", "COND_016", "COND_159"],
+              "diagnostic_weight": 0.8,
+              "examples": ["sleeping", "resting_on_couch"]
+            },
+            "forward_bending": {
+              "description": "Lumbar flexion activities",
+              "conditions_indicated": ["COND_008", "COND_009"],
+              "diagnostic_weight": 0.8,
+              "examples": ["picking_up_objects", "tying_shoes", "gardening"]
+            },
+            "extension_activities": {
+              "description": "Lumbar extension movements",
+              "conditions_indicated": ["COND_010", "COND_035"],
+              "diagnostic_weight": 0.8,
+              "examples": ["walking_downhill", "standing_prolonged", "arching_back"]
+            }
+          },
+          "activities": {
+            "weight_bearing": {
+              "description": "Activities requiring body weight support",
+              "conditions_indicated": ["COND_013", "COND_014", "COND_016"],
+              "diagnostic_weight": 0.7,
+              "examples": ["walking", "stairs", "jumping", "running"]
+            },
+            "gripping_activities": {
+              "description": "Hand and forearm muscle activation",
+              "conditions_indicated": ["COND_054", "COND_160", "COND_019"],
+              "diagnostic_weight": 0.9,
+              "examples": ["opening_jars", "shaking_hands", "using_tools"]
+            },
+            "repetitive_movements": {
+              "description": "Repeated motions of affected area",
+              "conditions_indicated": ["COND_048", "COND_054", "COND_072"],
+              "diagnostic_weight": 0.7,
+              "examples": ["typing", "throwing", "running", "swimming"]
+            },
+            "impact_activities": {
+              "description": "High-impact loading activities",
+              "conditions_indicated": ["COND_049", "COND_079", "COND_162"],
+              "diagnostic_weight": 0.8,
+              "examples": ["running", "jumping", "sports", "dancing"]
+            }
+          },
+          "times": {
+            "morning_stiffness": {
+              "description": "Symptoms worse upon waking, >30 minutes",
+              "conditions_indicated": ["COND_035", "COND_036", "COND_074"],
+              "diagnostic_weight": 0.9,
+              "duration": ">30_minutes",
+              "improvement": "with_movement"
+            },
+            "end_of_day": {
+              "description": "Symptoms accumulate throughout day",
+              "conditions_indicated": ["COND_016", "COND_195", "COND_196"],
+              "diagnostic_weight": 0.7,
+              "pattern": "progressive_worsening"
+            },
+            "night_pain": {
+              "description": "Pain disrupting sleep",
+              "conditions_indicated": ["COND_002", "COND_159", "COND_036"],
+              "diagnostic_weight": 0.8,
+              "red_flag_potential": true
+            },
+            "weather_changes": {
+              "description": "Barometric pressure sensitivity",
+              "conditions_indicated": ["COND_036", "COND_195", "COND_030"],
+              "diagnostic_weight": 0.5,
+              "pattern": "before_storms"
+            }
+          }
+        },
+        "environmental": {
+          "cold_exposure": {
+            "description": "Symptoms worsen in cold conditions",
+            "conditions_indicated": ["COND_036", "COND_030", "COND_031"],
+            "diagnostic_weight": 0.6,
+            "mechanism": "vasoconstriction_muscle_tension"
+          },
+          "humidity_changes": {
+            "description": "High humidity worsening symptoms",
+            "conditions_indicated": ["COND_030", "COND_036"],
+            "diagnostic_weight": 0.4,
+            "mechanism": "barometric_pressure"
+          },
+          "stress": {
+            "description": "Emotional or psychological stress",
+            "conditions_indicated": ["COND_030", "COND_042", "COND_074"],
+            "diagnostic_weight": 0.6,
+            "mechanism": "muscle_tension_inflammation"
+          }
+        }
+      },
+      "relieving_factors": {
+        "interventions": {
+          "rest": {
+            "description": "Cessation of aggravating activities",
+            "conditions_indicated": ["most_mechanical_conditions"],
+            "diagnostic_weight": 0.6,
+            "timeframe": "immediate_to_hours"
+          },
+          "heat_application": {
+            "description": "Warmth improves symptoms",
+            "conditions_indicated": ["COND_030", "COND_035", "COND_042"],
+            "diagnostic_weight": 0.7,
+            "mechanism": "muscle_relaxation_circulation"
+          },
+          "ice_application": {
+            "description": "Cold reduces symptoms",
+            "conditions_indicated": ["acute_inflammatory_conditions"],
+            "diagnostic_weight": 0.6,
+            "mechanism": "anti_inflammatory_pain_reduction"
+          },
+          "movement": {
+            "description": "Gentle movement improves symptoms",
+            "conditions_indicated": ["COND_035", "COND_030", "COND_008"],
+            "diagnostic_weight": 0.7,
+            "examples": ["walking", "gentle_stretching"]
+          },
+          "specific_positions": {
+            "forward_flexion": {
+              "description": "Leaning forward relieves symptoms",
+              "conditions_indicated": ["COND_010"],
+              "diagnostic_weight": 0.9,
+              "examples": ["shopping_cart_position", "leaning_on_walker"]
+            },
+            "sitting": {
+              "description": "Sitting relieves standing symptoms",
+              "conditions_indicated": ["COND_010", "COND_082"],
+              "diagnostic_weight": 0.8,
+              "mechanism": "reduces_lumbar_extension"
+            },
+            "elevation": {
+              "description": "Elevating affected limb",
+              "conditions_indicated": ["COND_128", "vascular_conditions"],
+              "diagnostic_weight": 0.7,
+              "mechanism": "reduces_swelling"
+            }
+          }
+        },
+        "medications": {
+          "anti_inflammatory": {
+            "description": "NSAIDs provide relief",
+            "conditions_indicated": ["inflammatory_conditions"],
+            "diagnostic_weight": 0.7,
+            "examples": ["ibuprofen", "naproxen", "diclofenac"]
+          },
+          "analgesics": {
+            "description": "Pain medications provide relief",
+            "conditions_indicated": ["most_pain_conditions"],
+            "diagnostic_weight": 0.5,
+            "examples": ["acetaminophen", "tramadol"]
+          },
+          "muscle_relaxants": {
+            "description": "Muscle relaxants improve symptoms",
+            "conditions_indicated": ["COND_027", "COND_042", "COND_008"],
+            "diagnostic_weight": 0.6,
+            "mechanism": "reduces_muscle_tension"
+          }
+        },
+        "activities": {
+          "gentle_exercise": {
+            "description": "Low-intensity movement helps",
+            "conditions_indicated": ["COND_030", "COND_035", "COND_029"],
+            "diagnostic_weight": 0.6,
+            "examples": ["walking", "swimming", "yoga"]
+          },
+          "stretching": {
+            "description": "Stretching improves symptoms",
+            "conditions_indicated": ["COND_048", "COND_072", "COND_035"],
+            "diagnostic_weight": 0.7,
+            "mechanism": "improves_flexibility_reduces_tension"
+          },
+          "massage": {
+            "description": "Manual therapy techniques help",
+            "conditions_indicated": ["COND_027", "COND_030", "COND_042"],
+            "diagnostic_weight": 0.6,
+            "mechanism": "muscle_relaxation_circulation"
+          }
+        }
+      }
+    },
+    "assessment_questions": {
+      "aggravating_factors": [
+        {
+          "question": "What activities or positions make your pain worse?",
+          "follow_up": "How quickly does the pain come on with these activities?",
+          "scoring": "multiple_selection_with_severity"
+        },
+        {
+          "question": "Is your pain worse at any particular time of day?",
+          "follow_up": "How long does it take to improve?",
+          "scoring": "time_based_pattern"
+        },
+        {
+          "question": "Does weather affect your symptoms?",
+          "follow_up": "What type of weather changes affect you most?",
+          "scoring": "environmental_correlation"
+        }
+      ],
+      "relieving_factors": [
+        {
+          "question": "What helps reduce your pain or symptoms?",
+          "follow_up": "How much relief do you get? How quickly?",
+          "scoring": "effectiveness_scale_0_10"
+        },
+        {
+          "question": "Do you find certain positions more comfortable?",
+          "follow_up": "Can you describe these positions?",
+          "scoring": "positional_preference"
+        },
+        {
+          "question": "Have you tried any medications or treatments? What worked?",
+          "follow_up": "How much improvement did you notice?",
+          "scoring": "treatment_response_history"
+        }
+      ]
+    },
+    "diagnostic_algorithms": {
+      "pattern_recognition": {
+        "mechanical_pattern": {
+          "characteristics": [
+            "worse_with_activity",
+            "better_with_rest",
+            "position_dependent",
+            "movement_related"
+          ],
+          "conditions_suggested": ["degenerative", "overuse", "structural"]
+        },
+        "inflammatory_pattern": {
+          "characteristics": [
+            "morning_stiffness",
+            "improves_with_movement",
+            "responds_to_anti_inflammatory",
+            "weather_sensitive"
+          ],
+          "conditions_suggested": ["rheumatoid_arthritis", "ankylosing_spondylitis"]
+        },
+        "neurogenic_pattern": {
+          "characteristics": [
+            "position_dependent_relief",
+            "distance_limited_walking",
+            "forward_flexion_relief",
+            "bilateral_symptoms"
+          ],
+          "conditions_suggested": ["spinal_stenosis", "neurogenic_claudication"]
+        },
+        "vascular_pattern": {
+          "characteristics": [
+            "exercise_induced",
+            "predictable_distance",
+            "cramping_quality",
+            "elevation_relief"
+          ],
+          "conditions_suggested": ["vascular_claudication", "venous_insufficiency"]
+        }
+      }
+    }
+  }
+}
