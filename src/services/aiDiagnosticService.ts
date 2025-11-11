@@ -236,5 +236,164 @@ Return only an array of condition IDs (e.g., ["COND_001", "COND_025"]) that are 
   }
 }
 
+// AI Assessment Recommendation Service
+export const getAIAssessmentRecommendations = async (screeningData: any) => {
+  try {
+    console.log('🤖 Starting AI assessment recommendation process...');
+    
+    // Import clinical assessments data
+    const assessmentsData = await import('../data/ontology-data/entities/clinical_assessments.json');
+    const assessments = assessmentsData.assessments;
+    
+    // Filter to only assessments with input_schema (functional forms)
+    // Now dynamically check for input_schema presence instead of hardcoded list
+    
+    // Prepare assessment list for AI - only include assessments with working forms
+    const availableAssessments = Object.entries(assessments)
+      .filter(([id, assessment]: [string, any]) => assessment.input_schema && assessment.input_schema.primary_fields)
+      .map(([id, assessment]: [string, any]) => ({
+        id,
+        name: assessment.name,
+        type: assessment.type,
+        body_regions: assessment.body_regions,
+        purpose: assessment.purpose
+      }));
+    
+    console.log(`📋 Found ${availableAssessments.length} assessments with input_schema (from ${Object.keys(assessments).length} total)`);
+    
+    // Prepare screening data
+    const clinicalFindings = {
+      chief_complaint: screeningData?.responses?.chief_complaint || 'Not specified',
+      pain_details: {
+        location: screeningData?.responses?.pain_location,
+        intensity: screeningData?.responses?.vas_score,
+        nature: screeningData?.responses?.pain_nature,
+        timing: screeningData?.responses?.pain_timing
+      },
+      functional_limitations: {
+        activities_affected: screeningData?.responses?.activities_affected,
+        adl_scores: screeningData?.responses?.adl_scoring
+      },
+      physical_findings: {
+        swelling: screeningData?.responses?.swelling_assessment,
+        tenderness: screeningData?.responses?.tenderness_assessment,
+        special_tests: screeningData?.responses?.special_tests,
+        gait: screeningData?.responses?.gait_analysis
+      },
+      completion_percentage: screeningData?.completionPercentage || 0
+    };
+
+    const prompt = `As a physiotherapy expert, recommend relevant clinical assessment tests based on the patient's screening responses.
+
+PATIENT SCREENING DATA:
+${JSON.stringify(clinicalFindings, null, 2)}
+
+AVAILABLE CLINICAL ASSESSMENTS:
+${JSON.stringify(availableAssessments, null, 2)}
+
+INSTRUCTIONS:
+1. Analyze the patient's screening responses
+2. Recommend ONLY the most relevant clinical assessment tests (no minimum, no maximum - just what's truly needed)
+3. Provide relevance score (0-100%) and clinical reasoning for each recommendation
+4. Consider body region, symptoms, and functional limitations
+
+Return a JSON response in this exact format:
+{
+  "recommended_assessments": [
+    {
+      "assessment_id": "ASSESS_XXX",
+      "name": "Test Name",
+      "relevance_score": 85,
+      "reasoning": "Clinical reasoning for why this test is needed",
+      "estimated_priority": "high|medium|low"
+    }
+  ],
+  "total_recommended": 3,
+  "assessment_rationale": "Overall reasoning for the recommended assessment strategy"
+}
+
+Focus on quality over quantity - only recommend tests that will provide actionable clinical information.`;
+
+    console.log('📤 Sending request to OpenAI for assessment recommendations...');
+    
+    const response = await openai.chat.completions.create({
+      model: 'gpt-3.5-turbo', // Using same model as differential diagnosis
+      messages: [
+        {
+          role: 'system',
+          content: 'You are an expert physiotherapist AI specializing in clinical assessment selection. Provide evidence-based recommendations for relevant assessment tests.'
+        },
+        {
+          role: 'user',
+          content: prompt
+        }
+      ],
+      temperature: 0.3,
+      max_tokens: 2000
+      // Removed response_format to match differential diagnosis approach
+    });
+
+    console.log('📥 Received response from OpenAI for assessments');
+
+    const aiContent = response.choices[0]?.message?.content;
+    if (!aiContent) {
+      throw new Error('No content in AI response');
+    }
+
+    // Parse AI response - handle potential JSON parsing errors
+    let aiResponse;
+    try {
+      aiResponse = JSON.parse(aiContent);
+      console.log('🎯 Parsed AI Assessment Recommendations:', aiResponse);
+    } catch (parseError) {
+      console.log('⚠️ JSON parsing failed, attempting to extract JSON from response...');
+      // Try to extract JSON from response if it's wrapped in text
+      const jsonMatch = aiContent.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        aiResponse = JSON.parse(jsonMatch[0]);
+      } else {
+        throw new Error('Could not parse AI response as JSON');
+      }
+    }
+
+    // Transform to our format
+    const recommendations = aiResponse.recommended_assessments.map((rec: any) => ({
+      assessment_id: rec.assessment_id,
+      name: rec.name,
+      relevance_score: rec.relevance_score,
+      reasoning: rec.reasoning,
+      category: availableAssessments.find(a => a.id === rec.assessment_id)?.type?.replace('_', ' ') || 'Clinical Assessment',
+      estimated_time: estimateTestTime(rec.assessment_id)
+    }));
+
+    return {
+      success: true,
+      recommendations,
+      total_recommended: aiResponse.total_recommended,
+      rationale: aiResponse.assessment_rationale
+    };
+
+  } catch (error) {
+    console.error('❌ Error in AI assessment recommendation:', error);
+    return {
+      success: false,
+      error: error.message,
+      recommendations: []
+    };
+  }
+};
+
+// Helper function to estimate test time
+const estimateTestTime = (assessmentId: string): string => {
+  const timeMap: { [key: string]: string } = {
+    'ASSESS_001': '3-5 minutes', // Lachman Test
+    'ASSESS_010': '2-3 minutes', // Straight Leg Raise
+    'ASSESS_056': '5-7 minutes', // Range of Motion
+    'ASSESS_025': '3-4 minutes', // Hawkins-Kennedy
+    'ASSESS_020': '4-6 minutes'  // Deep Tendon Reflexes
+  };
+  return timeMap[assessmentId] || '3-5 minutes';
+};
+
 // Export singleton instance
 export const aiDiagnosticService = AIDiagnosticService.getInstance();

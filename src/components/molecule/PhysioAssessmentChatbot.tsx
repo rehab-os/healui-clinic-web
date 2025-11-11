@@ -7,6 +7,9 @@ import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { MessageCircle, Send, Brain, AlertTriangle } from 'lucide-react';
 import { PhysioDecisionEngine, QuestionTemplate, AssessmentSession } from '@/services/physioDecisionEngine';
+import AssessmentRecommendationHub from './AssessmentRecommendationHub';
+import AssessmentQueue from './AssessmentQueue';
+import CustomAssessmentSelector from './CustomAssessmentSelector';
 
 interface ChatMessage {
   id: string;
@@ -36,6 +39,11 @@ const PhysioAssessmentChatbot: React.FC<PhysioAssessmentChatbotProps> = ({
   const [currentResponse, setCurrentResponse] = useState<any>('');
   const [session, setSession] = useState<AssessmentSession | null>(null);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [showAssessmentHub, setShowAssessmentHub] = useState(false);
+  const [showAssessmentQueue, setShowAssessmentQueue] = useState(false);
+  const [showCustomSelector, setShowCustomSelector] = useState(false);
+  const [selectedAssessments, setSelectedAssessments] = useState<any[]>([]);
+  const [completedAssessments, setCompletedAssessments] = useState<any[]>([]);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -248,10 +256,10 @@ const PhysioAssessmentChatbot: React.FC<PhysioAssessmentChatbotProps> = ({
   };
 
   const completeAssessment = () => {
-    setIsCompleted(true);
+    console.log('🎯🎯🎯 NEW VERSION - CompleteAssessment called - showing Assessment Hub');
     const summary = engine.generateSummary();
     
-    addBotMessage("🎯 Assessment Complete! Generating comprehensive clinical summary with all captured parameters...", 'summary');
+    addBotMessage("🎯 Screening Complete! Now let's enhance your assessment with targeted clinical tests...", 'summary');
     
     // Smooth scroll to show completion message
     setTimeout(() => {
@@ -263,11 +271,109 @@ const PhysioAssessmentChatbot: React.FC<PhysioAssessmentChatbotProps> = ({
       }
     }, 100);
     
+    // Show Assessment Recommendation Hub after brief delay
     setTimeout(() => {
-      const summaryText = formatSummary(summary);
-      addBotMessage(summaryText, 'summary');
+      console.log('🔧 Setting showAssessmentHub to true');
+      setShowAssessmentHub(true);
+    }, 1500);
       
-      // Smooth scroll to show summary
+  };
+
+  // Assessment Hub Handler Functions
+  const handleStartRecommended = (assessments: any[]) => {
+    console.log('🎯 Starting recommended assessments:', assessments);
+    console.log('🔧 Assessments received:', JSON.stringify(assessments, null, 2));
+    
+    if (!assessments || assessments.length === 0) {
+      console.error('❌ No assessments provided to handleStartRecommended');
+      addBotMessage('⚠️ No assessments were selected. Please try again.', 'error');
+      return;
+    }
+    
+    console.log('🔧 Setting selectedAssessments to:', assessments);
+    setSelectedAssessments(assessments);
+    
+    // Use setTimeout to ensure state updates complete before opening modal
+    setTimeout(() => {
+      console.log('🔧 Closing Assessment Hub (setShowAssessmentHub: false)');
+      setShowAssessmentHub(false);
+      
+      setTimeout(() => {
+        console.log('🔧 Opening Assessment Queue (setShowAssessmentQueue: true)');
+        setShowAssessmentQueue(true);
+        addBotMessage(`🚀 Starting ${assessments.length} recommended clinical assessments. These will provide objective data to enhance diagnostic accuracy.`, 'summary');
+      }, 100);
+    }, 100);
+  };
+  
+  const handleChooseCustom = () => {
+    console.log('Opening custom assessment selector');
+    setShowAssessmentHub(false);
+    setShowCustomSelector(true);
+  };
+  
+  const handleSkipAllAssessments = () => {
+    console.log('Skipping all assessments, proceeding to enhanced diagnosis');
+    setShowAssessmentHub(false);
+    proceedToFinalDiagnosis();
+  };
+  
+  const handleCustomAssessmentSelection = (assessments: any[]) => {
+    console.log('Selected custom assessments:', assessments);
+    const formattedAssessments = assessments.map(assessment => ({
+      assessment_id: assessment.id,
+      name: assessment.name,
+      category: assessment.type,
+      relevance_score: 85 // Default for custom selected
+    }));
+    
+    setSelectedAssessments(formattedAssessments);
+    setShowCustomSelector(false);
+    setShowAssessmentQueue(true);
+    
+    addBotMessage(`🔍 Selected ${assessments.length} custom assessments. Proceeding with clinical evaluation.`, 'summary');
+  };
+  
+  const handleAssessmentQueueComplete = (assessmentsData: any[]) => {
+    console.log('Assessment queue completed:', assessmentsData);
+    setCompletedAssessments(assessmentsData);
+    setShowAssessmentQueue(false);
+    
+    addBotMessage(`✅ Clinical assessments completed! ${assessmentsData.length} tests documented. Generating enhanced AI diagnosis with assessment data...`, 'summary');
+    
+    setTimeout(() => {
+      proceedToFinalDiagnosis();
+    }, 1500);
+  };
+  
+  const proceedToFinalDiagnosis = async () => {
+    setIsCompleted(true);
+    const summary = engine.generateSummary();
+    
+    // Add assessment data to summary if available
+    if (completedAssessments.length > 0) {
+      summary.clinicalAssessments = completedAssessments;
+    }
+    
+    const summaryText = formatSummary(summary);
+    addBotMessage(summaryText, 'summary');
+    
+    // Smooth scroll to show summary
+    setTimeout(() => {
+      if (scrollAreaRef.current) {
+        scrollAreaRef.current.scrollTo({
+          top: scrollAreaRef.current.scrollHeight,
+          behavior: 'smooth'
+        });
+      }
+    }, 200);
+    
+    // Add technical clinical summary
+    setTimeout(() => {
+      const technicalSummary = formatTechnicalSummary(summary);
+      addBotMessage(technicalSummary, 'summary');
+      
+      // Smooth scroll to show technical summary
       setTimeout(() => {
         if (scrollAreaRef.current) {
           scrollAreaRef.current.scrollTo({
@@ -276,82 +382,66 @@ const PhysioAssessmentChatbot: React.FC<PhysioAssessmentChatbotProps> = ({
           });
         }
       }, 200);
-      
-      // Add technical clinical summary
-      setTimeout(() => {
-        const technicalSummary = formatTechnicalSummary(summary);
-        addBotMessage(technicalSummary, 'summary');
+    }, 1000);
+    
+    // Complete assessment and get AI diagnosis
+    setTimeout(async () => {
+      // Generate AI differential diagnosis
+      try {
+        console.log('🔬 Preparing Enhanced AI differential diagnosis...');
         
-        // Smooth scroll to show technical summary
-        setTimeout(() => {
-          if (scrollAreaRef.current) {
-            scrollAreaRef.current.scrollTo({
-              top: scrollAreaRef.current.scrollHeight,
-              behavior: 'smooth'
-            });
-          }
-        }, 200);
-      }, 1000);
-      
-      // Complete assessment and get AI diagnosis
-      setTimeout(async () => {
-        // Generate AI differential diagnosis
-        try {
-          console.log('🔬 Preparing AI differential diagnosis...');
+        // Call AI diagnostic service
+        const aiResult = await engine.getAIDifferentialDiagnosis();
+        
+        if (aiResult.success) {
+          // Format and display AI diagnosis
+          const { aiDiagnosticService } = await import('../../services/aiDiagnosticService');
+          const aiSummary = aiDiagnosticService.formatDiagnosticSummary(aiResult.aiDiagnosis);
           
-          // Call AI diagnostic service
-          const aiResult = await engine.getAIDifferentialDiagnosis();
-          
-          if (aiResult.success) {
-            // Format and display AI diagnosis
-            const { aiDiagnosticService } = await import('../../services/aiDiagnosticService');
-            const aiSummary = aiDiagnosticService.formatDiagnosticSummary(aiResult.aiDiagnosis);
-            
-            // Add AI diagnosis as a message
-            setTimeout(() => {
-              addBotMessage(aiSummary, 'summary');
-              
-              // Smooth scroll to show AI diagnosis
-              setTimeout(() => {
-                if (scrollAreaRef.current) {
-                  scrollAreaRef.current.scrollTo({
-                    top: scrollAreaRef.current.scrollHeight,
-                    behavior: 'smooth'
-                  });
-                }
-              }, 200);
-              
-              console.log('✅ AI Differential Diagnosis displayed successfully!');
-              
-            }, 1000);
-            
-          } else {
-            console.log('⚠️ AI diagnosis failed, showing fallback message');
-            setTimeout(() => {
-              addBotMessage(`⚠️ **AI Analysis Unavailable**\n\n${aiResult.fallback}\n\nPlease proceed with clinical assessment findings and manual differential diagnosis.`, 'warning');
-              
-              setTimeout(() => {
-                if (scrollAreaRef.current) {
-                  scrollAreaRef.current.scrollTo({
-                    top: scrollAreaRef.current.scrollHeight,
-                    behavior: 'smooth'
-                  });
-                }
-              }, 200);
-            }, 1000);
-          }
-          
-        } catch (error) {
-          console.error('❌ Error in AI diagnosis process:', error);
+          // Add AI diagnosis as a message
           setTimeout(() => {
-            addBotMessage('⚠️ **AI Analysis Error**\n\nDifferential diagnosis service temporarily unavailable. Please proceed with clinical assessment findings.', 'warning');
+            addBotMessage(aiSummary, 'summary');
+            
+            // Smooth scroll to show AI diagnosis
+            setTimeout(() => {
+              if (scrollAreaRef.current) {
+                scrollAreaRef.current.scrollTo({
+                  top: scrollAreaRef.current.scrollHeight,
+                  behavior: 'smooth'
+                });
+              }
+            }, 200);
+            
+            console.log('✅ Enhanced AI Differential Diagnosis displayed successfully!');
+            
+          }, 1000);
+          
+        } else {
+          console.log('⚠️ AI diagnosis failed, showing fallback message');
+          setTimeout(() => {
+            addBotMessage(`⚠️ **AI Analysis Unavailable**\n\n${aiResult.fallback}\n\nPlease proceed with clinical assessment findings and manual differential diagnosis.`, 'warning');
+            
+            setTimeout(() => {
+              if (scrollAreaRef.current) {
+                scrollAreaRef.current.scrollTo({
+                  top: scrollAreaRef.current.scrollHeight,
+                  behavior: 'smooth'
+                });
+              }
+            }, 200);
           }, 1000);
         }
         
-        if (onComplete) {
-          onComplete(summary);
-        }
-      }, 1500);
+      } catch (error) {
+        console.error('❌ Error in AI diagnosis process:', error);
+        setTimeout(() => {
+          addBotMessage('⚠️ **AI Analysis Error**\n\nDifferential diagnosis service temporarily unavailable. Please proceed with clinical assessment findings.', 'warning');
+        }, 1000);
+      }
+      
+      if (onComplete) {
+        onComplete(summary);
+      }
     }, 1500);
   };
 
@@ -360,6 +450,21 @@ const PhysioAssessmentChatbot: React.FC<PhysioAssessmentChatbotProps> = ({
     
     const responses = summary.responses || {};
     let hasData = false;
+    
+    // Clinical Assessment Results
+    if (summary.clinicalAssessments && summary.clinicalAssessments.length > 0) {
+      technicalText += "**🔬 CLINICAL ASSESSMENTS:**\n";
+      summary.clinicalAssessments.forEach((assessment: any) => {
+        technicalText += `• ${assessment.assessment_name}: Completed\n`;
+        if (assessment.form_data) {
+          Object.entries(assessment.form_data).forEach(([key, value]) => {
+            if (value) technicalText += `  ${key}: ${value}\n`;
+          });
+        }
+      });
+      technicalText += "\n";
+      hasData = true;
+    }
     
     // Pain Assessment Values
     if (responses.pain_screening === 'yes' || responses.vas_score !== undefined) {
@@ -547,6 +652,25 @@ const PhysioAssessmentChatbot: React.FC<PhysioAssessmentChatbotProps> = ({
         summaryText += `• Sensation Type: ${Array.isArray(summary.subjective.sensory.sensationType) ? summary.subjective.sensory.sensationType.join(', ') : summary.subjective.sensory.sensationType}\n`;
       }
       summaryText += "\n";
+    }
+    
+    // Clinical Assessment Results
+    if (summary.clinicalAssessments && summary.clinicalAssessments.length > 0) {
+      summaryText += "## 🔬 **CLINICAL ASSESSMENT RESULTS**\n";
+      summary.clinicalAssessments.forEach((assessment: any, index: number) => {
+        summaryText += `### ${index + 1}. ${assessment.assessment_name}:\n`;
+        summaryText += `**Completion Time:** ${new Date(assessment.timestamp).toLocaleTimeString()}\n`;
+        if (assessment.form_data && Object.keys(assessment.form_data).length > 0) {
+          summaryText += `**Results:**\n`;
+          Object.entries(assessment.form_data).forEach(([key, value]) => {
+            if (value) {
+              const formattedKey = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+              summaryText += `• ${formattedKey}: ${value}\n`;
+            }
+          });
+        }
+        summaryText += "\n";
+      });
     }
     
     // Objective Findings
@@ -1336,6 +1460,43 @@ const PhysioAssessmentChatbot: React.FC<PhysioAssessmentChatbotProps> = ({
           )}
         </div>
       </div>
+      
+      {/* Assessment Hub Modal */}
+      <AssessmentRecommendationHub
+        isOpen={showAssessmentHub}
+        onClose={() => {
+          console.log('🔧 Assessment Hub closed');
+          setShowAssessmentHub(false);
+        }}
+        screeningData={session}
+        onStartRecommended={handleStartRecommended}
+        onChooseCustom={handleChooseCustom}
+        onSkipAll={handleSkipAllAssessments}
+      />
+      
+      {/* Assessment Queue Modal */}
+      {console.log('🔧 PhysioAssessmentChatbot: Rendering AssessmentQueue with state:', {
+        showAssessmentQueue,
+        selectedAssessmentsCount: selectedAssessments.length,
+        selectedAssessments: selectedAssessments
+      })}
+      <AssessmentQueue
+        isOpen={showAssessmentQueue}
+        onClose={() => {
+          console.log('🔧 AssessmentQueue: onClose called');
+          setShowAssessmentQueue(false);
+        }}
+        initialAssessments={selectedAssessments}
+        onAllComplete={handleAssessmentQueueComplete}
+        screeningData={session}
+      />
+      
+      {/* Custom Assessment Selector Modal */}
+      <CustomAssessmentSelector
+        isOpen={showCustomSelector}
+        onClose={() => setShowCustomSelector(false)}
+        onSelectAssessments={handleCustomAssessmentSelection}
+      />
     </div>
   );
 };
