@@ -197,40 +197,52 @@ Return only an array of condition IDs (e.g., ["COND_001", "COND_025"]) that are 
   }
 
   formatDiagnosticSummary(diagnosis: DiagnosticResponse): string {
-    let summary = "🤖 **AI DIFFERENTIAL DIAGNOSIS**\n\n";
+    let summary = "DIFFERENTIAL DIAGNOSIS\n\n";
     
-    summary += "**Top Probable Conditions:**\n";
+    // Treatment priority
+    summary += `Treatment Priority: ${diagnosis.treatment_urgency.toUpperCase()}\n\n`;
+    
+    // Primary conditions - Top 5
+    summary += "Primary Considerations:\n\n";
     diagnosis.differential_diagnosis
       .sort((a, b) => b.confidence_score - a.confidence_score)
       .slice(0, 5)
       .forEach((condition, index) => {
         const confidence = Math.round(condition.confidence_score * 100);
-        summary += `${index + 1}. **${condition.condition_name}** (${confidence}% confidence)\n`;
-        summary += `   Clinical Reasoning: ${condition.clinical_reasoning}\n`;
-        if (condition.supporting_evidence.length > 0) {
-          summary += `   Supporting Evidence: ${condition.supporting_evidence.join(', ')}\n`;
-        }
-        summary += "\n";
+        summary += `${index + 1}. ${condition.condition_name} (${confidence}% likelihood)\n`;
+        summary += `${condition.clinical_reasoning}\n\n`;
       });
 
+    // Supporting evidence
+    if (diagnosis.differential_diagnosis.length > 0 && diagnosis.differential_diagnosis[0].supporting_evidence.length > 0) {
+      summary += "Key Clinical Findings:\n";
+      diagnosis.differential_diagnosis[0].supporting_evidence.forEach(evidence => {
+        summary += `• ${evidence}\n`;
+      });
+      summary += "\n";
+    }
+
+    // Red flags
     if (diagnosis.red_flags_identified.length > 0) {
-      summary += "⚠️ **RED FLAGS IDENTIFIED:**\n";
+      summary += "RED FLAGS - IMMEDIATE ATTENTION REQUIRED:\n";
       diagnosis.red_flags_identified.forEach(flag => {
         summary += `• ${flag}\n`;
       });
       summary += "\n";
     }
 
+    // Additional testing
     if (diagnosis.additional_testing_needed.length > 0) {
-      summary += "🔬 **ADDITIONAL TESTING RECOMMENDED:**\n";
+      summary += "Recommended Further Assessment:\n";
       diagnosis.additional_testing_needed.forEach(test => {
         summary += `• ${test}\n`;
       });
       summary += "\n";
     }
 
-    summary += `**Treatment Urgency:** ${diagnosis.treatment_urgency.toUpperCase()}\n\n`;
-    summary += "*AI analysis for clinical decision support. Final diagnosis requires clinical judgment.*";
+    // Footer
+    summary += "________________\n\n";
+    summary += "AI-assisted clinical decision support. Clinical correlation and professional judgment required for final diagnosis and treatment planning.";
 
     return summary;
   }

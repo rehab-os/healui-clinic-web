@@ -172,19 +172,19 @@ const AssessmentQueue: React.FC<AssessmentQueueProps> = ({
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
             
             {/* Header */}
-            <div className="bg-gradient-to-r from-purple-500 to-pink-600 text-white p-6">
+            <div className="bg-gray-800 text-white p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-2xl font-bold flex items-center gap-2">
-                    🔬 Clinical Assessment Queue
+                  <h2 className="text-2xl font-bold">
+                    Clinical Assessment Queue
                   </h2>
-                  <p className="text-purple-100 mt-2">
+                  <p className="text-gray-300 mt-2">
                     {totalCount} assessment{totalCount !== 1 ? 's' : ''} ready to execute
                   </p>
                 </div>
                 <button
                   onClick={onClose}
-                  className="text-white hover:text-purple-200 transition-colors"
+                  className="text-white hover:text-gray-300 transition-colors"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -198,9 +198,9 @@ const AssessmentQueue: React.FC<AssessmentQueueProps> = ({
                   <span>Progress</span>
                   <span>{completedCount}/{totalCount} completed</span>
                 </div>
-                <div className="w-full bg-white bg-opacity-20 rounded-full h-2">
+                <div className="w-full bg-gray-600 rounded-full h-2">
                   <div 
-                    className="bg-white h-2 rounded-full transition-all duration-500"
+                    className="bg-gray-300 h-2 rounded-full transition-all duration-500"
                     style={{ width: `${(completedCount / totalCount) * 100}%` }}
                   ></div>
                 </div>
@@ -263,18 +263,18 @@ const AssessmentQueue: React.FC<AssessmentQueueProps> = ({
                   className={`flex-1 px-6 py-4 rounded-xl font-semibold text-lg transition-all ${
                     completedCount === totalCount
                       ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                      : 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700 shadow-lg hover:shadow-xl'
+                      : 'bg-gray-700 text-white hover:bg-gray-800'
                   }`}
                 >
-                  {completedCount === totalCount ? '🎉 All Assessments Complete' : '▶️ Start Assessment Queue'}
+                  {completedCount === totalCount ? 'All Assessments Complete' : 'Start Assessment Queue'}
                 </button>
                 
                 {completedCount === totalCount && (
                   <button
                     onClick={handleAllComplete}
-                    className="flex-1 bg-green-600 text-white px-6 py-4 rounded-xl font-semibold text-lg hover:bg-green-700 transition-all shadow-lg hover:shadow-xl"
+                    className="flex-1 bg-gray-700 text-white px-6 py-4 rounded-xl font-semibold text-lg hover:bg-gray-800 transition-all"
                   >
-                    🔬 View Enhanced Diagnosis
+                    View Enhanced Diagnosis
                   </button>
                 )}
                 
@@ -282,7 +282,7 @@ const AssessmentQueue: React.FC<AssessmentQueueProps> = ({
                   onClick={() => handleAllComplete()}
                   className="flex-1 bg-gray-200 text-gray-700 px-6 py-4 rounded-xl font-semibold text-lg hover:bg-gray-300 transition-all"
                 >
-                  ⏭️ Skip Remaining & Proceed
+                  Skip Remaining & Proceed
                 </button>
               </div>
 

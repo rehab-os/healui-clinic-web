@@ -428,26 +428,36 @@ const AssessmentFormBuilder: React.FC<AssessmentFormBuilderProps> = ({
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[99999] p-4">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
         
-        {/* Header */}
-        <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6">
+        {/* Clean Professional Header */}
+        <div className="bg-white border-b border-gray-200 p-6">
           <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-2xl font-bold flex items-center gap-2">
-                🔬 {assessment.name}
-              </h2>
-              <p className="text-blue-100 mt-1">{assessment.purpose}</p>
-              <div className="flex items-center gap-4 mt-2 text-sm">
-                <span className="bg-white bg-opacity-20 px-3 py-1 rounded-full">
-                  Assessment {currentIndex + 1} of {totalAssessments}
+            <div className="flex-1">
+              <div className="flex items-center gap-3 mb-2">
+                <h2 className="text-xl font-bold text-gray-900">
+                  {assessment.name}
+                </h2>
+                <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm font-medium">
+                  {currentIndex + 1} of {totalAssessments}
                 </span>
-                <span className="bg-white bg-opacity-20 px-3 py-1 rounded-full">
-                  {currentSection === 'primary' ? 'Primary' : 'Additional'} Fields
+              </div>
+              <p className="text-gray-600 mb-3">{assessment.purpose}</p>
+              
+              {/* Progress Bar */}
+              <div className="flex items-center gap-4">
+                <div className="flex-1 bg-gray-200 rounded-full h-2">
+                  <div 
+                    className="bg-blue-600 h-2 rounded-full transition-all duration-500"
+                    style={{ width: `${((currentIndex + 1) / totalAssessments) * 100}%` }}
+                  ></div>
+                </div>
+                <span className="text-sm text-gray-600 font-medium">
+                  {Math.round(((currentIndex + 1) / totalAssessments) * 100)}%
                 </span>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="text-white hover:text-blue-200 transition-colors"
+              className="text-gray-400 hover:text-gray-600 transition-colors ml-4"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -461,7 +471,7 @@ const AssessmentFormBuilder: React.FC<AssessmentFormBuilderProps> = ({
           <p className="text-gray-700">{assessment.description}</p>
           <div className="flex flex-wrap gap-2 mt-3">
             {assessment.body_regions.map(region => (
-              <span key={region} className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+              <span key={region} className="px-3 py-1 bg-gray-200 text-gray-700 rounded text-sm">
                 {region.replace('_', ' ').toUpperCase()}
               </span>
             ))}
@@ -481,51 +491,60 @@ const AssessmentFormBuilder: React.FC<AssessmentFormBuilderProps> = ({
           )}
         </div>
 
-        {/* Action Buttons */}
-        <div className="p-6 border-t border-gray-200 bg-gray-50">
-          <div className="flex flex-col sm:flex-row gap-3 justify-between">
+        {/* Professional Action Bar */}
+        <div className="p-6 border-t border-gray-200 bg-white">
+          {/* Next Assessment Preview */}
+          {currentIndex < totalAssessments - 1 && (
+            <div className="mb-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+              <p className="text-sm text-blue-800">
+                <span className="font-medium">Next:</span> Assessment {currentIndex + 2} of {totalAssessments}
+              </p>
+            </div>
+          )}
+          
+          <div className="flex flex-col sm:flex-row gap-4">
+            {/* Secondary Actions */}
             <div className="flex gap-3">
               <button
                 onClick={onSkip}
-                className="px-6 py-3 text-gray-600 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors"
+                className="px-4 py-2 text-gray-600 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 transition-colors text-sm"
               >
-                ⏭️ Skip Test
+                Skip This Test
               </button>
-            </div>
-
-            <div className="flex gap-3">
+              
               {currentSection === 'secondary' && (
                 <button
                   onClick={() => setCurrentSection('primary')}
-                  className="px-6 py-3 text-blue-600 bg-blue-100 rounded-lg hover:bg-blue-200 transition-colors"
+                  className="px-4 py-2 text-gray-600 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 transition-colors text-sm"
                 >
-                  ← Back to Primary
+                  Back to Primary
                 </button>
               )}
-              
-              <button
-                onClick={handleSubmit}
-                disabled={isSubmitting}
-                className={`px-8 py-3 text-white rounded-lg font-semibold transition-all ${
-                  isSubmitting
-                    ? 'bg-gray-400 cursor-not-allowed'
-                    : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl'
-                }`}
-              >
-                {isSubmitting ? (
-                  <>
-                    <span className="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2"></span>
-                    Submitting...
-                  </>
-                ) : currentSection === 'primary' && secondary_fields.length > 0 ? (
-                  'Continue to Additional Fields →'
-                ) : currentIndex < totalAssessments - 1 ? (
-                  'Complete & Next Assessment →'
-                ) : (
-                  'Complete Assessment ✓'
-                )}
-              </button>
             </div>
+
+            {/* Primary Action */}
+            <button
+              onClick={handleSubmit}
+              disabled={isSubmitting}
+              className={`flex-1 sm:flex-none px-8 py-3 text-white rounded-lg font-medium transition-all ${
+                isSubmitting
+                  ? 'bg-gray-400 cursor-not-allowed'
+                  : 'bg-blue-600 hover:bg-blue-700'
+              }`}
+            >
+              {isSubmitting ? (
+                <>
+                  <span className="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2"></span>
+                  Processing...
+                </>
+              ) : currentSection === 'primary' && secondary_fields.length > 0 ? (
+                'Continue to Additional Fields'
+              ) : currentIndex < totalAssessments - 1 ? (
+                `Complete & Continue (${totalAssessments - currentIndex - 1} remaining)`
+              ) : (
+                'Complete Final Assessment'
+              )}
+            </button>
           </div>
         </div>
       </div>

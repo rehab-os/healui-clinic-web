@@ -89,18 +89,6 @@ const AssessmentRecommendationHub: React.FC<AssessmentRecommendationHubProps> = 
     }
   };
 
-  const getRelevanceColor = (score: number) => {
-    if (score >= 90) return 'text-green-600 bg-green-100';
-    if (score >= 80) return 'text-blue-600 bg-blue-100';
-    if (score >= 70) return 'text-yellow-600 bg-yellow-100';
-    return 'text-gray-600 bg-gray-100';
-  };
-
-  const getRelevanceIcon = (score: number) => {
-    if (score >= 90) return '🎯';
-    if (score >= 80) return '💡';
-    return '📋';
-  };
 
   if (!isOpen) {
     console.log('🔧 AssessmentRecommendationHub: isOpen is false, returning null');
@@ -124,20 +112,20 @@ const AssessmentRecommendationHub: React.FC<AssessmentRecommendationHubProps> = 
     >
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
         
-        {/* Header */}
-        <div className="bg-gradient-to-r from-teal-500 to-blue-600 text-white p-6">
+        {/* Clean Professional Header */}
+        <div className="bg-white border-b border-gray-200 p-6">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-bold flex items-center gap-2">
-                📊 Screening Complete!
+              <h2 className="text-2xl font-bold text-gray-900">
+                Screening Complete
               </h2>
-              <p className="text-teal-100 mt-2">
-                Based on your responses, we recommend these clinical assessments
+              <p className="text-gray-600 mt-1">
+                Recommended clinical assessments based on patient responses
               </p>
             </div>
             <button
               onClick={onClose}
-              className="text-white hover:text-teal-200 transition-colors"
+              className="text-gray-400 hover:text-gray-600 transition-colors"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -150,97 +138,99 @@ const AssessmentRecommendationHub: React.FC<AssessmentRecommendationHubProps> = 
           {isLoading ? (
             <div className="flex items-center justify-center py-12">
               <div className="text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 mx-auto mb-4"></div>
-                <p className="text-gray-600">🤖 AI analyzing your screening responses...</p>
-                <p className="text-sm text-gray-500 mt-2">Generating personalized assessment recommendations</p>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                <p className="text-gray-600">Analyzing screening responses...</p>
+                <p className="text-sm text-gray-500 mt-2">Generating assessment recommendations</p>
               </div>
             </div>
           ) : error ? (
             <div className="text-center py-12">
-              <div className="text-red-500 text-lg mb-4">❌ {error}</div>
+              <div className="text-red-500 text-lg mb-4">{error}</div>
               <button 
                 onClick={generateRecommendations}
-                className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               >
                 Try Again
               </button>
             </div>
           ) : (
             <>
-              {/* AI Recommendations Section */}
+              {/* Clean Recommendations Section */}
               <div className="mb-8">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                  🤖 AI RECOMMENDED ({recommendations.length})
-                </h3>
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    Recommended Clinical Assessments
+                  </h3>
+                  <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                    {recommendations.length} tests
+                  </span>
+                </div>
                 
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {recommendations.map((assessment, index) => (
                     <div 
                       key={assessment.assessment_id}
-                      className="border border-gray-200 rounded-xl p-4 hover:shadow-md transition-all duration-200 bg-gradient-to-r from-white to-gray-50"
+                      className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition-colors bg-white"
                     >
-                      <div className="flex items-center justify-between mb-3">
-                        <div className="flex items-center gap-3">
-                          <span className="text-2xl">{getRelevanceIcon(assessment.relevance_score)}</span>
-                          <div>
-                            <h4 className="font-semibold text-gray-800 text-lg">
-                              {assessment.name}
-                            </h4>
-                            <p className="text-sm text-gray-600">{assessment.category}</p>
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <h4 className="font-medium text-gray-900 text-base mb-1">
+                            {assessment.name}
+                          </h4>
+                          <div className="flex items-center gap-4 text-sm text-gray-600 mb-2">
+                            <span>{assessment.category}</span>
+                            <span>{assessment.estimated_time}</span>
+                            <span className="text-blue-600 font-medium">{assessment.relevance_score}% match</span>
                           </div>
-                        </div>
-                        
-                        <div className="text-right">
-                          <span className={`px-3 py-1 rounded-full text-sm font-medium ${getRelevanceColor(assessment.relevance_score)}`}>
-                            {assessment.relevance_score}% relevance
-                          </span>
-                          <p className="text-xs text-gray-500 mt-1">{assessment.estimated_time}</p>
+                          <p className="text-sm text-gray-700 leading-relaxed">
+                            {assessment.reasoning}
+                          </p>
                         </div>
                       </div>
-                      
-                      <p className="text-gray-700 text-sm bg-blue-50 p-3 rounded-lg border-l-4 border-blue-400">
-                        <span className="font-medium">Clinical Reasoning:</span> {assessment.reasoning}
-                      </p>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
+              {/* Clear Action Hierarchy */}
+              <div className="space-y-4 pt-6 border-t border-gray-200">
+                {/* Primary Action */}
                 <button
                   onClick={() => onStartRecommended(recommendations)}
-                  className="flex-1 bg-gradient-to-r from-teal-600 to-blue-600 text-white px-6 py-4 rounded-xl font-semibold text-lg hover:from-teal-700 hover:to-blue-700 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+                  className="w-full bg-blue-600 text-white px-6 py-4 rounded-lg font-medium text-base hover:bg-blue-700 transition-colors flex items-center justify-center gap-3"
                 >
-                  ▶️ Start Recommended Assessments
-                  <span className="text-sm bg-white bg-opacity-20 px-2 py-1 rounded-full">
+                  Start Recommended Assessments
+                  <span className="bg-blue-500 px-2 py-1 rounded text-sm">
                     {recommendations.reduce((total, assessment) => {
                       const timeMatch = assessment.estimated_time.match(/(\d+)/);
                       return total + (timeMatch ? parseInt(timeMatch[1]) : 5);
-                    }, 0)} min total
+                    }, 0)} min
                   </span>
                 </button>
                 
-                <button
-                  onClick={onChooseCustom}
-                  className="flex-1 bg-white text-teal-600 px-6 py-4 rounded-xl font-semibold text-lg border-2 border-teal-600 hover:bg-teal-50 transition-all duration-200 flex items-center justify-center gap-2"
-                >
-                  🔍 Choose Custom Assessments
-                </button>
-                
-                <button
-                  onClick={onSkipAll}
-                  className="flex-1 bg-gray-100 text-gray-700 px-6 py-4 rounded-xl font-semibold text-lg hover:bg-gray-200 transition-all duration-200 flex items-center justify-center gap-2"
-                >
-                  ⏭️ Skip to Diagnosis
-                </button>
+                {/* Secondary Actions */}
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    onClick={onChooseCustom}
+                    className="bg-white text-gray-700 px-4 py-3 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors text-sm font-medium"
+                  >
+                    Choose Different Tests
+                  </button>
+                  
+                  <button
+                    onClick={onSkipAll}
+                    className="bg-white text-gray-700 px-4 py-3 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors text-sm font-medium"
+                  >
+                    Skip to Diagnosis
+                  </button>
+                </div>
               </div>
 
-              {/* Additional Info */}
-              <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                <p className="text-sm text-blue-800">
-                  💡 <strong>Tip:</strong> These assessments will provide objective data to enhance the AI diagnosis accuracy. 
-                  You can always add more assessments during the process or skip any that seem unnecessary.
+              {/* Professional Note */}
+              <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                <p className="text-sm text-gray-700">
+                  <strong>Note:</strong> These assessments provide objective data to enhance diagnostic accuracy. 
+                  Additional tests can be added during the assessment process if needed.
                 </p>
               </div>
             </>
