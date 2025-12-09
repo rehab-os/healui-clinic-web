@@ -2,7 +2,7 @@
 // This file provides easy access to all the local ontology data
 
 export { default as conditions } from './entities/conditions.json'
-export { default as symptoms } from './entities/symptoms.json'
+// export { default as symptoms } from './entities/symptoms.json' // Temporarily disabled due to JSON parse error
 export { default as redFlags } from './clinical-safety/red-flags.json'
 export { default as contraindications } from './clinical-safety/contraindications.json'
 export { default as exercises } from './entities/exercises.json'

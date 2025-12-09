@@ -360,7 +360,7 @@ export enum TreatmentFocus {
 
 // Patient Condition Types
 export interface CreatePatientConditionDto {
-    neo4j_condition_id: string
+    neo4j_condition_id: string // Backend expects this field (can contain ontology IDs)
     description?: string
     condition_type?: ConditionType
     onset_date?: string
@@ -489,7 +489,7 @@ export interface PatientConditionResponseDto {
     id: string
     patient_id?: string
     patient_user_id?: string
-    neo4j_condition_id: string
+    neo4j_condition_id: string // Contains ontology ID (backend field name)
     condition_name: string
     description?: string
     condition_type: ConditionType
@@ -573,7 +573,7 @@ export interface VisitConditionResponseDto {
     id: string
     visit_id: string
     patient_condition_id: string
-    neo4j_condition_id: string
+    neo4j_condition_id: string // Contains ontology ID (backend field name)
     condition_name: string
     body_region?: string
     treatment_focus: TreatmentFocus

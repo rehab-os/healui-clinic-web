@@ -491,6 +491,18 @@ export class PhysioDecisionEngine {
           { value: 'falls_risk', label: 'High falls risk' },
           { value: 'romberg_positive', label: 'Romberg test positive' }
         ]
+      },
+
+      condition_classification: {
+        id: 'condition_classification',
+        type: 'single_choice',
+        question: "Based on the assessment, how would you classify this condition?",
+        options: [
+          { value: 'ACUTE', label: 'Acute (< 6 weeks duration)' },
+          { value: 'CHRONIC', label: 'Chronic (> 12 weeks duration)' },
+          { value: 'RECURRING', label: 'Recurring/Episodic condition' }
+        ],
+        validation: (input: string) => ['ACUTE', 'CHRONIC', 'RECURRING'].includes(input)
       }
     };
   }
@@ -1034,6 +1046,9 @@ export class PhysioDecisionEngine {
 
     // Always include these objective assessments
     mandatoryAssessments.push('posture_assessment', 'adl_scoring');
+    
+    // Add condition classification as final mandatory question
+    mandatoryAssessments.push('condition_classification');
 
     // Check if all mandatory assessments are completed
     return mandatoryAssessments.every(assessment => 
@@ -1131,6 +1146,9 @@ export class PhysioDecisionEngine {
     if (this.needsSpecialTests()) {
       sequence.push('special_tests');
     }
+    
+    // Add condition classification as the final question
+    sequence.push('condition_classification');
     
     return sequence;
   }
