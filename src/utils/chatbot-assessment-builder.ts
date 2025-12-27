@@ -53,6 +53,36 @@ export interface FrontendAssessmentData {
 
 export class ChatbotAssessmentBuilder {
   /**
+   * Derive condition type from onset date
+   */
+  static deriveConditionTypeFromOnset(onsetDate: string): 'ACUTE' | 'SUBACUTE' | 'CHRONIC' {
+    if (!onsetDate) return 'ACUTE';
+    
+    const daysSinceOnset = Math.floor((Date.now() - new Date(onsetDate).getTime()) / (1000 * 60 * 60 * 24));
+    
+    if (daysSinceOnset <= 42) return 'ACUTE';        // 0-6 weeks
+    if (daysSinceOnset <= 84) return 'SUBACUTE';     // 6-12 weeks  
+    return 'CHRONIC';                                 // >12 weeks
+  }
+
+  /**
+   * Get condition duration description
+   */
+  static getConditionDurationDescription(onsetDate: string): string {
+    if (!onsetDate) return 'Duration unknown';
+    
+    const daysSinceOnset = Math.floor((Date.now() - new Date(onsetDate).getTime()) / (1000 * 60 * 60 * 24));
+    
+    if (daysSinceOnset === 0) return 'Started today';
+    if (daysSinceOnset === 1) return '1 day ago';
+    if (daysSinceOnset < 7) return `${daysSinceOnset} days ago`;
+    if (daysSinceOnset < 14) return '1 week ago';
+    if (daysSinceOnset < 42) return `${Math.floor(daysSinceOnset / 7)} weeks ago`;
+    if (daysSinceOnset < 84) return `${Math.floor(daysSinceOnset / 30)} months ago`;
+    return `${Math.floor(daysSinceOnset / 365)} year(s) ago`;
+  }
+
+  /**
    * Build comprehensive assessment data from chatbot session
    */
   static buildFromChatbotSession(
@@ -259,17 +289,38 @@ export class ChatbotAssessmentBuilder {
     selectedCondition: any,
     assessmentData: FrontendAssessmentData
   ) {
-    // Get condition_type from chatbot classification response
-    const conditionType = assessmentData.raw_responses?.chatbot_session?.responses?.condition_classification || 'ACUTE';
+    // Get onset date from assessment responses
+    const onsetDate = assessmentData.raw_responses?.chatbot_session?.responses?.symptom_onset;
+    
+    // Derive condition type from onset date
+    const conditionType = onsetDate ? 
+      this.deriveConditionTypeFromOnset(onsetDate) : 
+      'ACUTE';
     
     // Map ontology_condition_id to neo4j_condition_id for backend compatibility
     const ontologyId = selectedCondition.condition_id || selectedCondition.id;
     
+    // Create enhanced description with onset information
+    const durationDescription = onsetDate ? this.getConditionDurationDescription(onsetDate) : '';
+    const onsetNature = assessmentData.raw_responses?.chatbot_session?.responses?.onset_nature || '';
+    const progression = assessmentData.raw_responses?.chatbot_session?.responses?.symptom_progression || '';
+    
+    let description = `AI-assisted diagnosis: ${selectedCondition.clinical_reasoning || selectedCondition.name}`;
+    if (durationDescription) {
+      description += ` (${durationDescription})`;
+    }
+    if (onsetNature && onsetNature !== 'unknown') {
+      description += ` - ${onsetNature.replace('_', ' ')} onset`;
+    }
+    if (progression) {
+      description += `, symptoms ${progression.replace('_', ' ')}`;
+    }
+    
     return {
       neo4j_condition_id: ontologyId, // Backend expects this field name
-      description: `AI-assisted diagnosis: ${selectedCondition.clinical_reasoning || selectedCondition.name}`,
-      condition_type: conditionType as 'ACUTE' | 'CHRONIC' | 'RECURRING',
-      onset_date: new Date().toISOString(),
+      description,
+      condition_type: conditionType,
+      onset_date: onsetDate || new Date().toISOString(),
       
       // Assessment data
       initial_assessment_data: assessmentData,

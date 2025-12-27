@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
-import { MessageCircle, Send, Brain, AlertTriangle } from 'lucide-react';
+import { MessageCircle, Send, Brain, AlertTriangle, Calendar } from 'lucide-react';
 import { PhysioDecisionEngine, QuestionTemplate, AssessmentSession } from '@/services/physioDecisionEngine';
 import AssessmentRecommendationHub from './AssessmentRecommendationHub';
 import AssessmentQueue from './AssessmentQueue';
@@ -486,6 +486,16 @@ const PhysioAssessmentChatbot: React.FC<PhysioAssessmentChatbotProps> = ({
         return response;
       case 'body_map':
         return Array.isArray(response) ? response.join(', ') : response;
+      case 'date':
+        if (response) {
+          const date = new Date(response);
+          return date.toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+          });
+        }
+        return response;
       case 'tenderness_map':
         if (typeof response === 'object') {
           return Object.entries(response)
@@ -1476,6 +1486,38 @@ const PhysioAssessmentChatbot: React.FC<PhysioAssessmentChatbotProps> = ({
               placeholder={currentQuestion.placeholder}
               className="min-h-[80px] bg-white border-gray-300 text-gray-800 placeholder:text-gray-500 focus:border-blue-500 focus:ring-blue-200"
             />
+          </div>
+        );
+
+      case 'date':
+        return (
+          <div className="space-y-2">
+            <div className="relative">
+              <input
+                type="date"
+                value={currentResponse}
+                onChange={(e) => setCurrentResponse(e.target.value)}
+                max={new Date().toISOString().split('T')[0]}
+                className="w-full px-4 py-3 bg-white border-2 border-gray-300 rounded-xl text-gray-800 placeholder:text-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200"
+                placeholder={currentQuestion.placeholder}
+              />
+              <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                <Calendar className="h-5 w-5 text-gray-400" />
+              </div>
+            </div>
+            {currentResponse && (
+              <div className="text-sm text-gray-600 bg-blue-50 border border-blue-200 rounded-lg p-3">
+                <div className="font-medium text-blue-800">Selected: {formatUserResponse(currentResponse, currentQuestion)}</div>
+                <div className="text-xs text-blue-600 mt-1">
+                  {(() => {
+                    const daysSince = Math.floor((Date.now() - new Date(currentResponse).getTime()) / (1000 * 60 * 60 * 24));
+                    if (daysSince <= 42) return "Acute condition (≤6 weeks)";
+                    if (daysSince <= 84) return "Subacute condition (6-12 weeks)";
+                    return "Chronic condition (>12 weeks)";
+                  })()}
+                </div>
+              </div>
+            )}
           </div>
         );
 

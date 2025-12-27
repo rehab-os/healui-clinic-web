@@ -79,6 +79,49 @@ export class PhysioDecisionEngine {
         validation: (input: string) => input.length > 2
       },
 
+      symptom_onset: {
+        id: 'symptom_onset',
+        type: 'date',
+        question: "When did your symptoms first start? This helps us understand if this is an acute, subacute, or chronic condition.",
+        placeholder: "Select the date when symptoms began",
+        validation: (input: string) => {
+          if (!input) return false;
+          const selectedDate = new Date(input);
+          const today = new Date();
+          return selectedDate <= today;
+        }
+      },
+
+      onset_nature: {
+        id: 'onset_nature',
+        type: 'single_choice',
+        question: "How did your symptoms begin?",
+        options: [
+          { value: 'sudden', label: 'Sudden onset (immediate)' },
+          { value: 'gradual', label: 'Gradual onset (over days/weeks)' },
+          { value: 'after_injury', label: 'After a specific injury or event' },
+          { value: 'unknown', label: 'Not sure/Cannot remember' }
+        ]
+      },
+
+      symptom_progression: {
+        id: 'symptom_progression',
+        type: 'single_choice',
+        question: "Since symptoms started, are they:",
+        options: [
+          { value: 'getting_worse', label: 'Getting worse' },
+          { value: 'getting_better', label: 'Getting better' },
+          { value: 'staying_same', label: 'Staying about the same' },
+          { value: 'fluctuating', label: 'Going up and down' }
+        ]
+      },
+
+      previous_episodes: {
+        id: 'previous_episodes',
+        type: 'yes_no',
+        question: "Have you experienced this problem before?"
+      },
+
       pain_screening: {
         id: 'pain_screening',
         type: 'yes_no',
@@ -646,8 +689,11 @@ export class PhysioDecisionEngine {
     
     switch (questionId) {
       case 'chief_complaint':
+        // After chief complaint, first get onset information (critical for condition classification)
+        steps.push('symptom_onset', 'onset_nature', 'symptom_progression', 'previous_episodes');
+        
         const chiefComplaintSteps = this.analyzeChiefComplaint(response);
-        // After chief complaint, always proceed to relevant assessments
+        // Then proceed to relevant assessments
         steps.push(...chiefComplaintSteps);
         // Add objective assessments that should follow
         steps.push(...this.getInitialObjectiveAssessments());
