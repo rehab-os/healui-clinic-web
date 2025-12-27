@@ -14,7 +14,8 @@ import {
   MoreVertical,
   Eye,
   Edit,
-  Download
+  Download,
+  Sparkles
 } from 'lucide-react';
 import { ConditionProtocol, VisitCondition } from '../../types/condition-types';
 
@@ -26,6 +27,7 @@ interface ConditionProtocolCardProps {
   onViewProtocol?: (protocolId: string) => void;
   onEditProtocol?: (protocolId: string) => void;
   onDownloadProtocol?: (protocolId: string) => void;
+  onGenerateProtocol?: (conditionId: string, conditionName: string) => void;
   className?: string;
 }
 
@@ -37,6 +39,7 @@ const ConditionProtocolCard: React.FC<ConditionProtocolCardProps> = ({
   onViewProtocol,
   onEditProtocol,
   onDownloadProtocol,
+  onGenerateProtocol,
   className = ''
 }) => {
   const [isExpanded, setIsExpanded] = React.useState(false);
@@ -146,6 +149,16 @@ const ConditionProtocolCard: React.FC<ConditionProtocolCardProps> = ({
                   >
                     <Download className="h-3 w-3 mr-2" />
                     Download PDF
+                  </button>
+                  <button
+                    onClick={() => {
+                      onGenerateProtocol?.(visitCondition.neo4j_condition_id, visitCondition.condition_name);
+                      setShowActions(false);
+                    }}
+                    className="w-full text-left px-3 py-1.5 text-xs text-healui-primary hover:bg-blue-50 flex items-center font-medium"
+                  >
+                    <Sparkles className="h-3 w-3 mr-2" />
+                    Generate AI Protocol
                   </button>
                 </div>
               )}

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
-import { Plus, Edit, Trash2, Calendar, Clock, AlertCircle, Stethoscope, TrendingUp, CheckCircle } from 'lucide-react'
+import { Plus, Edit, Trash2, Calendar, Clock, AlertCircle, Stethoscope, TrendingUp, CheckCircle, Sparkles } from 'lucide-react'
 import { Button } from '../ui/button'
 import { Badge } from '../ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
@@ -15,6 +15,7 @@ import ConditionSelector from './ConditionSelector'
 import ConditionScreeningModal from './ConditionScreeningModal'
 import SmartScreeningModal from './SmartScreeningModal'
 import PhysioAssessmentChatbot from './PhysioAssessmentChatbot'
+import ProtocolGeneratorModal from '../conditions/ProtocolGeneratorModal'
 import ApiManager from '../../services/api'
 import { format } from 'date-fns'
 import type {
@@ -71,6 +72,13 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
     const [editStatus, setEditStatus] = useState<ConditionStatus>('ACTIVE')
     const [editDescription, setEditDescription] = useState('')
     const [editSeverityLevel, setEditSeverityLevel] = useState<SeverityLevel | undefined>(undefined)
+
+    // Protocol Generator Modal State
+    const [showProtocolGenerator, setShowProtocolGenerator] = useState(false)
+    const [selectedConditionForProtocol, setSelectedConditionForProtocol] = useState<{
+        conditionId: string;
+        conditionName: string;
+    } | null>(null)
     const [editCurrentProtocolId, setEditCurrentProtocolId] = useState('')
     const [editDischargeSummary, setEditDischargeSummary] = useState('')
 
@@ -236,6 +244,20 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
         // Now it's safe to reload conditions since the chatbot is closed
         await loadConditions();
     }
+
+    // Protocol Generator Modal Handlers
+    const handleGenerateProtocol = (condition: ConditionWithHistory) => {
+        setSelectedConditionForProtocol({
+            conditionId: condition.id,
+            conditionName: condition.condition_name
+        });
+        setShowProtocolGenerator(true);
+    };
+
+    const handleCloseProtocolGenerator = () => {
+        setShowProtocolGenerator(false);
+        setSelectedConditionForProtocol(null);
+    };
 
     // Unified update condition function
     const handleUpdateCondition = async () => {
@@ -677,6 +699,16 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
                                                             type="button"
                                                             variant="outline"
                                                             size="sm"
+                                                            onClick={() => handleGenerateProtocol(condition)}
+                                                            className="text-healui-primary hover:text-healui-primary/80 hover:bg-healui-primary/10"
+                                                            title="Generate AI Protocol"
+                                                        >
+                                                            <Sparkles className="w-4 h-4" />
+                                                        </Button>
+                                                        <Button
+                                                            type="button"
+                                                            variant="outline"
+                                                            size="sm"
                                                             onClick={() => handleDeleteCondition(condition)}
                                                             className="text-red-600 hover:text-red-700 hover:bg-red-50"
                                                         >
@@ -733,12 +765,12 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
                                 <label className="block text-sm font-medium text-gray-700 mb-2">
                                     Severity Level
                                 </label>
-                                <Select value={editSeverityLevel || ''} onValueChange={(value) => setEditSeverityLevel(value as SeverityLevel || undefined)}>
+                                <Select value={editSeverityLevel || 'UNSPECIFIED'} onValueChange={(value) => setEditSeverityLevel(value === 'UNSPECIFIED' ? undefined : value as SeverityLevel)}>
                                     <SelectTrigger>
                                         <SelectValue placeholder="Select severity level" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="">Not specified</SelectItem>
+                                        <SelectItem value="UNSPECIFIED">Not specified</SelectItem>
                                         <SelectItem value="MILD">Mild</SelectItem>
                                         <SelectItem value="MODERATE">Moderate</SelectItem>
                                         <SelectItem value="SEVERE">Severe</SelectItem>
@@ -831,6 +863,18 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
             />
 
         </Card>
+
+        {/* Protocol Generator Modal */}
+        {selectedConditionForProtocol && (
+            <ProtocolGeneratorModal
+                isOpen={showProtocolGenerator}
+                onClose={handleCloseProtocolGenerator}
+                patientId={patientId}
+                conditionId={selectedConditionForProtocol.conditionId}
+                conditionName={selectedConditionForProtocol.conditionName}
+                patientName={patientName}
+            />
+        )}
         
         {showPhysioAssessment && typeof document !== 'undefined' && createPortal(
             <div className="fixed inset-0 z-[99999] bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 overflow-hidden" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, width: '100vw', height: '100vh' }}>

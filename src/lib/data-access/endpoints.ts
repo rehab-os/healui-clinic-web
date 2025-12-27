@@ -296,4 +296,9 @@ export const ENDPOINTS = {
     FINALIZE_TREATMENT_PROTOCOL: (id: string) => `treatment-protocols/${id}/finalize`,
     SEND_TREATMENT_PROTOCOL: (id: string) => `treatment-protocols/${id}/send-to-patient`,
     GENERATE_TREATMENT_PROTOCOL_PDF: (id: string) => `treatment-protocols/${id}/pdf`,
+
+    // Protocol Generator (AI)
+    GENERATE_PROTOCOL: () => 'protocol-generator/generate',
+    GENERATE_PROTOCOL_DIRECT: () => 'protocol-generator/generate-direct',
+    VALIDATE_PROTOCOL_SAFETY: () => 'protocol-generator/validate-safety',
 }

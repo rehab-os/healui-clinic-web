@@ -18,6 +18,7 @@ import VisitConditionContext from '../../../../../components/conditions/VisitCon
 import ConditionProtocolCard from '../../../../../components/conditions/ConditionProtocolCard';
 import ConditionNotesTab from '../../../../../components/conditions/ConditionNotesTab';
 import ConditionProgressIndicator from '../../../../../components/conditions/ConditionProgressIndicator';
+import ProtocolGeneratorModal from '../../../../../components/conditions/ProtocolGeneratorModal';
 import { VisitCondition, ConditionProtocol, ConditionGoal } from '../../../../../types/condition-types';
 import {
   SlidePopup,
@@ -135,6 +136,13 @@ export default function AppointmentDetailsPage() {
   const [showContactDetails, setShowContactDetails] = useState(false);
   const [showVisitNotes, setShowVisitNotes] = useState(false);
   const [isCreatingNote, setIsCreatingNote] = useState(false);
+  
+  // Protocol Generator Modal State
+  const [showProtocolGenerator, setShowProtocolGenerator] = useState(false);
+  const [selectedConditionForProtocol, setSelectedConditionForProtocol] = useState<{
+    conditionId: string;
+    conditionName: string;
+  } | null>(null);
   const [noteType, setNoteType] = useState<'SOAP' | 'DAP' | 'PROGRESS'>('SOAP');
   const [noteData, setNoteData] = useState({
     soap: { subjective: '', objective: '', assessment: '', plan: '' },
@@ -410,6 +418,17 @@ export default function AppointmentDetailsPage() {
 
   const handleJoinVideoCall = (visitId: string) => {
     router.push(`/dashboard/video-call/${visitId}`);
+  };
+
+  // Protocol Generator Modal Handler
+  const handleGenerateProtocol = (conditionId: string, conditionName: string) => {
+    setSelectedConditionForProtocol({ conditionId, conditionName });
+    setShowProtocolGenerator(true);
+  };
+
+  const handleCloseProtocolGenerator = () => {
+    setShowProtocolGenerator(false);
+    setSelectedConditionForProtocol(null);
   };
 
   const calculateAge = (dob: string) => {
@@ -901,6 +920,7 @@ export default function AppointmentDetailsPage() {
                       // Handle download protocol
                       console.log('Download protocol:', protocolId);
                     }}
+                    onGenerateProtocol={handleGenerateProtocol}
                   />
                 ))}
               </div>
@@ -1556,6 +1576,18 @@ export default function AppointmentDetailsPage() {
               currentComplaint={appointment?.chief_complaint || ''}
               nutritionData={nutritionData}
             />
+
+            {/* Protocol Generator Modal */}
+            {selectedConditionForProtocol && (
+              <ProtocolGeneratorModal
+                isOpen={showProtocolGenerator}
+                onClose={handleCloseProtocolGenerator}
+                patientId={params.patientId as string}
+                conditionId={selectedConditionForProtocol.conditionId}
+                conditionName={selectedConditionForProtocol.conditionName}
+                patientName={patient?.full_name}
+              />
+            )}
             
             {/* Contact Details Popup - Centered and Mobile Responsive */}
             <SlidePopup open={showContactDetails} onOpenChange={setShowContactDetails}>

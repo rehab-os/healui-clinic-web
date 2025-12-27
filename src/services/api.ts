@@ -830,6 +830,22 @@ class ApiManager {
         const url = BASE_URL + 'specialty-pricing/setup-guide'
         return ApiMethods.get(url)
     }
+
+    // Protocol Generator (AI)
+    static generateProtocol = (data: any) => {
+        const url = BASE_URL + ENDPOINTS.GENERATE_PROTOCOL()
+        return ApiMethods.post(url, data)
+    }
+
+    static generateProtocolDirect = (data: any) => {
+        const url = BASE_URL + ENDPOINTS.GENERATE_PROTOCOL_DIRECT()
+        return ApiMethods.post(url, data)
+    }
+
+    static validateProtocolSafety = (data: { patientId: string; conditionId: string }) => {
+        const url = BASE_URL + ENDPOINTS.VALIDATE_PROTOCOL_SAFETY()
+        return ApiMethods.post(url, data)
+    }
 }
 
 export default ApiManager
