@@ -139,6 +139,25 @@ export const ENDPOINTS = {
     UPDATE_NOTE: (id: string) => `patients/notes/${id}`,
     SIGN_NOTE: (id: string) => `patients/notes/${id}/sign`,
 
+    // Static Data - Conditions
+    GET_ALL_STATIC_CONDITIONS: () => 'static-data/conditions',
+    SEARCH_CONDITIONS: (params?: Record<string, any>) => {
+        let url = 'static-data/conditions/search'
+        if (params) {
+            const searchParams = new URLSearchParams()
+            Object.keys(params).forEach(key => {
+                if (params[key] !== undefined && params[key] !== null) {
+                    searchParams.append(key, params[key].toString())
+                }
+            })
+            if (searchParams.toString()) {
+                url += '?' + searchParams.toString()
+            }
+        }
+        return url
+    },
+    GET_CONDITION_BY_IDENTIFIER: (identifier: string) => `static-data/conditions/${identifier}`,
+
     // Neo4j Conditions (Knowledge Graph)
     GET_ALL_CONDITIONS: (params?: Record<string, any>) => {
         let url = 'neo4j/conditions'

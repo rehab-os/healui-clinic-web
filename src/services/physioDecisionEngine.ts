@@ -1790,18 +1790,17 @@ export class PhysioDecisionEngine {
 
   async loadAvailableConditions(): Promise<any[]> {
     try {
-      // Import conditions data
-      const conditionsData = await import('../data/ontology-data/entities/conditions.json');
+      // Import conditions data from new agent-optimized file
+      const conditionsData = await import('../../database/conditions_for_agent.json');
       const conditions = conditionsData.conditions;
       
-      // Extract only ID and name for AI processing (lightweight)
-      const conditionsList = Object.entries(conditions).map(([id, condition]: [string, any]) => ({
-        id,
+      // Extract condition data for AI processing - conditions is now an array
+      const conditionsList = conditions.map((condition: any) => ({
+        id: condition.id,
         name: condition.name,
         body_region: condition.body_region,
         specialty: condition.specialty,
         prevalence_rank: condition.prevalence_rank || 999,
-        typical_age_range: condition.typical_age_range,
         chronicity: condition.chronicity
       }));
       

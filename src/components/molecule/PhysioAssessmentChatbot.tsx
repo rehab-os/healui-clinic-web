@@ -90,6 +90,7 @@ const PhysioAssessmentChatbot: React.FC<PhysioAssessmentChatbotProps> = ({
   const diagnosisTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const componentMountId = useRef(`mount_${Date.now()}_${Math.random()}`);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const chatInitializedRef = useRef(false);
   
   console.log('🏗️ PhysioAssessmentChatbot component render:', {
     mountId: componentMountId.current,
@@ -98,7 +99,10 @@ const PhysioAssessmentChatbot: React.FC<PhysioAssessmentChatbotProps> = ({
   });
 
   useEffect(() => {
-    initializeChat();
+    if (!chatInitializedRef.current) {
+      chatInitializedRef.current = true;
+      initializeChat();
+    }
   }, []);
 
   // Only auto-scroll on initial setup, manual control elsewhere
@@ -153,7 +157,7 @@ const PhysioAssessmentChatbot: React.FC<PhysioAssessmentChatbotProps> = ({
     const welcomeMessage: ChatMessage = {
       id: generateMessageId(),
       sender: 'bot',
-      message: "Welcome to the Physiotherapy Assessment Assistant. I'll guide you through a comprehensive assessment covering all 29 physiotherapy parameters. We'll start with the chief complaint and progress through objective testing based on findings. Let's begin with the patient's main concern.",
+      message: "Welcome to the Physiotherapy Assessment Assistant. I'll guide you through a comprehensive assessment covering all 29 physiotherapy parameters. We'll start with the chief complaint and progress through objective testing based on findings.",
       timestamp: new Date(),
       type: 'question'
     };
@@ -231,6 +235,23 @@ const PhysioAssessmentChatbot: React.FC<PhysioAssessmentChatbotProps> = ({
     if (selectedCondition && session) {
       addUserMessage(`Selected: ${selectedCondition.condition_name}`);
       
+      // 🔥 FETCH DETAILED CONDITION DATA FROM BACKEND API
+      try {
+        console.log('🎯 Fetching detailed condition data from StaticDataController API...');
+        const conditionDetailResponse = await ApiManager.getConditionByIdentifier(conditionId);
+        console.log('📋 CONDITION DETAILS FROM BACKEND API:', {
+          conditionId: conditionId,
+          conditionName: selectedCondition.condition_name,
+          apiResponse: conditionDetailResponse,
+          success: conditionDetailResponse?.success,
+          dataKeys: Object.keys(conditionDetailResponse?.data || {}),
+          fullData: conditionDetailResponse?.data
+        });
+      } catch (conditionError) {
+        console.error('❌ Error fetching condition details from API:', conditionError);
+        console.log('⚠️ Could not fetch detailed condition data, proceeding with AI data only');
+      }
+      
       try {
         // Build comprehensive assessment data from chatbot session
         const assessmentData = ChatbotAssessmentBuilder.buildFromChatbotSession(
@@ -271,6 +292,23 @@ const PhysioAssessmentChatbot: React.FC<PhysioAssessmentChatbotProps> = ({
     setShowDiagnosisSearch(false);
     
     if (session) {
+      // 🔥 FETCH DETAILED CONDITION DATA FROM BACKEND API FOR MANUAL SELECTION
+      try {
+        console.log('🎯 Fetching detailed condition data from StaticDataController API (Manual Selection)...');
+        const conditionDetailResponse = await ApiManager.getConditionByIdentifier(condition.condition_id);
+        console.log('📋 MANUAL SELECTION - CONDITION DETAILS FROM BACKEND API:', {
+          conditionId: condition.condition_id,
+          conditionName: condition.name,
+          apiResponse: conditionDetailResponse,
+          success: conditionDetailResponse?.success,
+          dataKeys: Object.keys(conditionDetailResponse?.data || {}),
+          fullData: conditionDetailResponse?.data
+        });
+      } catch (conditionError) {
+        console.error('❌ Error fetching condition details from API (Manual Selection):', conditionError);
+        console.log('⚠️ Could not fetch detailed condition data for manual selection, proceeding with basic data only');
+      }
+      
       try {
         // Build assessment data for manually selected condition
         const assessmentData = ChatbotAssessmentBuilder.buildFromChatbotSession(

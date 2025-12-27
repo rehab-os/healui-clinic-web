@@ -1,0 +1,2764 @@
+{
+  "conditions": [
+    {
+      "id": "COND_001",
+      "name": "Adhesive Capsulitis (Frozen Shoulder)",
+      "body_region": "shoulder",
+      "specialty": "orthopedic",
+      "prevalence_rank": 28,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_002",
+      "name": "Rotator Cuff Tendinopathy",
+      "body_region": "shoulder",
+      "specialty": "orthopedic",
+      "prevalence_rank": 8,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_003",
+      "name": "Lateral Epicondylitis (Tennis Elbow)",
+      "body_region": "elbow",
+      "specialty": "orthopedic",
+      "prevalence_rank": 12,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_004",
+      "name": "Patellofemoral Pain Syndrome",
+      "body_region": "knee",
+      "specialty": "sports",
+      "prevalence_rank": 7,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_005",
+      "name": "Achilles Tendinopathy",
+      "body_region": "ankle",
+      "specialty": "sports",
+      "prevalence_rank": 18,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_006",
+      "name": "Plantar Fasciitis",
+      "body_region": "foot",
+      "specialty": "orthopedic",
+      "prevalence_rank": 3,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_007",
+      "name": "Lumbar Disc Herniation",
+      "body_region": "lumbar_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 6,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_008",
+      "name": "Cervical Radiculopathy",
+      "body_region": "cervical_spine",
+      "specialty": "neurological",
+      "prevalence_rank": 22,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_009",
+      "name": "Ankle Sprain (Lateral)",
+      "body_region": "ankle",
+      "specialty": "sports",
+      "prevalence_rank": 2,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_010",
+      "name": "Knee Osteoarthritis",
+      "body_region": "knee",
+      "specialty": "geriatric",
+      "prevalence_rank": 4,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_011",
+      "name": "Shoulder Impingement Syndrome",
+      "body_region": "shoulder",
+      "specialty": "orthopedic",
+      "prevalence_rank": 5,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_012",
+      "name": "Carpal Tunnel Syndrome",
+      "body_region": "wrist",
+      "specialty": "orthopedic",
+      "prevalence_rank": 9,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_013",
+      "name": "Hip Osteoarthritis",
+      "body_region": "hip",
+      "specialty": "geriatric",
+      "prevalence_rank": 11,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_014",
+      "name": "Chronic Low Back Pain",
+      "body_region": "lumbar_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 1,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_015",
+      "name": "Meniscal Tear (Knee)",
+      "body_region": "knee",
+      "specialty": "sports",
+      "prevalence_rank": 13,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_016",
+      "name": "IT Band Syndrome",
+      "body_region": "knee",
+      "specialty": "sports",
+      "prevalence_rank": 19,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_017",
+      "name": "Temporomandibular Joint Disorder (TMJ)",
+      "body_region": "general",
+      "specialty": "orthopedic",
+      "prevalence_rank": 24,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_018",
+      "name": "Thoracic Outlet Syndrome",
+      "body_region": "thoracic_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 54,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_019",
+      "name": "Piriformis Syndrome",
+      "body_region": "hip",
+      "specialty": "orthopedic",
+      "prevalence_rank": 32,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_020",
+      "name": "Biceps Tendinopathy",
+      "body_region": "shoulder",
+      "specialty": "sports",
+      "prevalence_rank": 26,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_021",
+      "name": "Chronic Ankle Instability",
+      "body_region": "ankle",
+      "specialty": "sports",
+      "prevalence_rank": 29,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_022",
+      "name": "Medial Epicondylitis (Golfer's Elbow)",
+      "body_region": "elbow",
+      "specialty": "sports",
+      "prevalence_rank": 35,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_023",
+      "name": "Fibromyalgia",
+      "body_region": "systemic",
+      "specialty": "rheumatology",
+      "prevalence_rank": 20,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_024",
+      "name": "Scoliosis (Adolescent Idiopathic)",
+      "body_region": "thoracic_spine",
+      "specialty": "pediatric",
+      "prevalence_rank": 37,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_025",
+      "name": "Chronic Fatigue Syndrome",
+      "body_region": "systemic",
+      "specialty": "rheumatology",
+      "prevalence_rank": 45,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_026",
+      "name": "Rheumatoid Arthritis",
+      "body_region": "systemic",
+      "specialty": "rheumatology",
+      "prevalence_rank": 25,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_027",
+      "name": "Osteoporosis",
+      "body_region": "systemic",
+      "specialty": "geriatric",
+      "prevalence_rank": 14,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_028",
+      "name": "Multiple Sclerosis",
+      "body_region": "systemic",
+      "specialty": "neurological",
+      "prevalence_rank": 48,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_029",
+      "name": "Parkinson's Disease",
+      "body_region": "systemic",
+      "specialty": "neurological",
+      "prevalence_rank": 42,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_030",
+      "name": "Stroke (Hemiplegia)",
+      "body_region": "systemic",
+      "specialty": "neurological",
+      "prevalence_rank": 21,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_031",
+      "name": "Spinal Cord Injury (Incomplete)",
+      "body_region": "systemic",
+      "specialty": "neurological",
+      "prevalence_rank": 68,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_032",
+      "name": "Cerebral Palsy (Adult)",
+      "body_region": "systemic",
+      "specialty": "neurological",
+      "prevalence_rank": 55,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_033",
+      "name": "Traumatic Brain Injury",
+      "body_region": "systemic",
+      "specialty": "neurological",
+      "prevalence_rank": 44,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_034",
+      "name": "Chronic Obstructive Pulmonary Disease (COPD)",
+      "body_region": "systemic",
+      "specialty": "cardiopulmonary",
+      "prevalence_rank": 15,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_035",
+      "name": "Cardiac Rehabilitation (Post-MI)",
+      "body_region": "systemic",
+      "specialty": "cardiopulmonary",
+      "prevalence_rank": 23,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_036",
+      "name": "Peripheral Arterial Disease",
+      "body_region": "systemic",
+      "specialty": "cardiopulmonary",
+      "prevalence_rank": 38,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_037",
+      "name": "Chronic Kidney Disease",
+      "body_region": "systemic",
+      "specialty": "cardiopulmonary",
+      "prevalence_rank": 34,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_038",
+      "name": "Diabetes Mellitus Type 2",
+      "body_region": "systemic",
+      "specialty": "cardiopulmonary",
+      "prevalence_rank": 10,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_039",
+      "name": "Lymphedema",
+      "body_region": "systemic",
+      "specialty": "orthopedic",
+      "prevalence_rank": 47,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_040",
+      "name": "Chronic Pain Syndrome",
+      "body_region": "systemic",
+      "specialty": "orthopedic",
+      "prevalence_rank": 16,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_041",
+      "name": "ACL Reconstruction (Post-Surgical)",
+      "body_region": "knee",
+      "specialty": "sports",
+      "prevalence_rank": 17,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_042",
+      "name": "Total Hip Replacement (Post-Surgical)",
+      "body_region": "hip",
+      "specialty": "orthopedic",
+      "prevalence_rank": 27,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_043",
+      "name": "Total Knee Replacement (Post-Surgical)",
+      "body_region": "knee",
+      "specialty": "orthopedic",
+      "prevalence_rank": 30,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_044",
+      "name": "Rotator Cuff Repair (Post-Surgical)",
+      "body_region": "shoulder",
+      "specialty": "orthopedic",
+      "prevalence_rank": 31,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_045",
+      "name": "Lumbar Spinal Fusion (Post-Surgical)",
+      "body_region": "lumbar_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 40,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_046",
+      "name": "Meniscus Repair (Post-Surgical)",
+      "body_region": "knee",
+      "specialty": "sports",
+      "prevalence_rank": 36,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_047",
+      "name": "Ankle Fracture (Post-Surgical)",
+      "body_region": "ankle",
+      "specialty": "orthopedic",
+      "prevalence_rank": 33,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_048",
+      "name": "Mastectomy (Post-Surgical)",
+      "body_region": "systemic",
+      "specialty": "orthopedic",
+      "prevalence_rank": 46,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_049",
+      "name": "Amputation (Lower Limb)",
+      "body_region": "systemic",
+      "specialty": "orthopedic",
+      "prevalence_rank": 58,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_050",
+      "name": "Amputation (Upper Limb)",
+      "body_region": "systemic",
+      "specialty": "orthopedic",
+      "prevalence_rank": 72,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_051",
+      "name": "Vestibular Disorders",
+      "body_region": "general",
+      "specialty": "neurological",
+      "prevalence_rank": 39,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_052",
+      "name": "Bell's Palsy (Facial Paralysis)",
+      "body_region": "general",
+      "specialty": "neurological",
+      "prevalence_rank": 52,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_053",
+      "name": "Chronic Obstructive Sleep Apnea",
+      "body_region": "systemic",
+      "specialty": "cardiopulmonary",
+      "prevalence_rank": 41,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_054",
+      "name": "Thoracic Compression Fracture",
+      "body_region": "thoracic_spine",
+      "specialty": "geriatric",
+      "prevalence_rank": 43,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_055",
+      "name": "Guillain-Barr\u00e9 Syndrome",
+      "body_region": "systemic",
+      "specialty": "neurological",
+      "prevalence_rank": 78,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_056",
+      "name": "Myasthenia Gravis",
+      "body_region": "systemic",
+      "specialty": "neurological",
+      "prevalence_rank": 85,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_057",
+      "name": "Huntington's Disease",
+      "body_region": "systemic",
+      "specialty": "neurological",
+      "prevalence_rank": 94,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_058",
+      "name": "Amyotrophic Lateral Sclerosis (ALS)",
+      "body_region": "systemic",
+      "specialty": "neurological",
+      "prevalence_rank": 88,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_059",
+      "name": "Muscular Dystrophy",
+      "body_region": "systemic",
+      "specialty": "neurological",
+      "prevalence_rank": 82,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_060",
+      "name": "Post-Polio Syndrome",
+      "body_region": "systemic",
+      "specialty": "neurological",
+      "prevalence_rank": 89,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_061",
+      "name": "Patellar Tendinopathy (Jumper's Knee)",
+      "body_region": "knee",
+      "specialty": "sports",
+      "prevalence_rank": 49,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_062",
+      "name": "De Quervain's Tenosynovitis",
+      "body_region": "wrist",
+      "specialty": "orthopedic",
+      "prevalence_rank": 50,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_063",
+      "name": "Trigger Finger (Stenosing Tenosynovitis)",
+      "body_region": "hand",
+      "specialty": "orthopedic",
+      "prevalence_rank": 51,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_064",
+      "name": "Dupuytren's Contracture",
+      "body_region": "hand",
+      "specialty": "orthopedic",
+      "prevalence_rank": 63,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_065",
+      "name": "Chronic Fatigue Syndrome (ME/CFS)",
+      "body_region": "systemic",
+      "specialty": "rheumatology",
+      "prevalence_rank": 53,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_066",
+      "name": "Complex Regional Pain Syndrome (CRPS)",
+      "body_region": "systemic",
+      "specialty": "neurological",
+      "prevalence_rank": 71,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_067",
+      "name": "Hypermobility Spectrum Disorder",
+      "body_region": "systemic",
+      "specialty": "rheumatology",
+      "prevalence_rank": 56,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_068",
+      "name": "Ehlers-Danlos Syndrome",
+      "body_region": "systemic",
+      "specialty": "rheumatology",
+      "prevalence_rank": 76,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_069",
+      "name": "Chronic Venous Insufficiency",
+      "body_region": "systemic",
+      "specialty": "cardiopulmonary",
+      "prevalence_rank": 57,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_070",
+      "name": "Postural Orthostatic Tachycardia Syndrome (POTS)",
+      "body_region": "systemic",
+      "specialty": "cardiopulmonary",
+      "prevalence_rank": 74,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_071",
+      "name": "Chronic Migraine",
+      "body_region": "general",
+      "specialty": "neurological",
+      "prevalence_rank": 59,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_072",
+      "name": "Chronic Tension-Type Headache",
+      "body_region": "cervical_spine",
+      "specialty": "neurological",
+      "prevalence_rank": 60,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_073",
+      "name": "Frozen Shoulder (Idiopathic)",
+      "body_region": "shoulder",
+      "specialty": "orthopedic",
+      "prevalence_rank": 61,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_074",
+      "name": "Posterior Tibial Tendon Dysfunction",
+      "body_region": "ankle",
+      "specialty": "orthopedic",
+      "prevalence_rank": 62,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_075",
+      "name": "Metatarsalgia",
+      "body_region": "foot",
+      "specialty": "orthopedic",
+      "prevalence_rank": 64,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_076",
+      "name": "Morton's Neuroma",
+      "body_region": "foot",
+      "specialty": "orthopedic",
+      "prevalence_rank": 65,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_077",
+      "name": "Hallux Valgus (Bunion)",
+      "body_region": "foot",
+      "specialty": "orthopedic",
+      "prevalence_rank": 66,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_078",
+      "name": "Hallux Rigidus",
+      "body_region": "foot",
+      "specialty": "orthopedic",
+      "prevalence_rank": 73,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_079",
+      "name": "Hammer Toe/Claw Toe",
+      "body_region": "foot",
+      "specialty": "orthopedic",
+      "prevalence_rank": 67,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_080",
+      "name": "Chronic Ankle Pain",
+      "body_region": "ankle",
+      "specialty": "orthopedic",
+      "prevalence_rank": 69,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_081",
+      "name": "Chronic Compartment Syndrome",
+      "body_region": "general",
+      "specialty": "sports",
+      "prevalence_rank": 83,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_082",
+      "name": "Thoracic Kyphosis (Postural)",
+      "body_region": "thoracic_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 70,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_083",
+      "name": "Cervical Stenosis",
+      "body_region": "cervical_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 75,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_084",
+      "name": "Lumbar Stenosis",
+      "body_region": "lumbar_spine",
+      "specialty": "geriatric",
+      "prevalence_rank": 77,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_085",
+      "name": "Spondylolisthesis",
+      "body_region": "lumbar_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 79,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_086",
+      "name": "Ankylosing Spondylitis",
+      "body_region": "lumbar_spine",
+      "specialty": "rheumatology",
+      "prevalence_rank": 80,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_087",
+      "name": "Psoriatic Arthritis",
+      "body_region": "systemic",
+      "specialty": "rheumatology",
+      "prevalence_rank": 81,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_088",
+      "name": "Juvenile Idiopathic Arthritis",
+      "body_region": "systemic",
+      "specialty": "pediatric",
+      "prevalence_rank": 84,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_089",
+      "name": "Spina Bifida",
+      "body_region": "lumbar_spine",
+      "specialty": "pediatric",
+      "prevalence_rank": 91,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_090",
+      "name": "Down Syndrome",
+      "body_region": "systemic",
+      "specialty": "pediatric",
+      "prevalence_rank": 86,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_091",
+      "name": "Autism Spectrum Disorder (Motor Issues)",
+      "body_region": "systemic",
+      "specialty": "pediatric",
+      "prevalence_rank": 87,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_092",
+      "name": "Developmental Coordination Disorder",
+      "body_region": "systemic",
+      "specialty": "pediatric",
+      "prevalence_rank": 90,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_093",
+      "name": "Brachial Plexus Injury (Erb's Palsy)",
+      "body_region": "shoulder",
+      "specialty": "neurological",
+      "prevalence_rank": 92,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_094",
+      "name": "Osteogenesis Imperfecta",
+      "body_region": "systemic",
+      "specialty": "pediatric",
+      "prevalence_rank": 97,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_095",
+      "name": "Marfan Syndrome",
+      "body_region": "systemic",
+      "specialty": "rheumatology",
+      "prevalence_rank": 96,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_096",
+      "name": "Charcot-Marie-Tooth Disease",
+      "body_region": "systemic",
+      "specialty": "neurological",
+      "prevalence_rank": 93,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_097",
+      "name": "Polymyositis/Dermatomyositis",
+      "body_region": "systemic",
+      "specialty": "rheumatology",
+      "prevalence_rank": 98,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_098",
+      "name": "Inclusion Body Myositis",
+      "body_region": "systemic",
+      "specialty": "rheumatology",
+      "prevalence_rank": 99,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_099",
+      "name": "Myofascial Pain Syndrome",
+      "body_region": "systemic",
+      "specialty": "orthopedic",
+      "prevalence_rank": 95,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_100",
+      "name": "Chronic Pelvic Pain Syndrome",
+      "body_region": "general",
+      "specialty": "orthopedic",
+      "prevalence_rank": 100,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_101",
+      "name": "Subacromial Bursitis",
+      "body_region": "shoulder",
+      "specialty": "orthopedic",
+      "prevalence_rank": 101,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_102",
+      "name": "Calcific Tendinitis (Shoulder)",
+      "body_region": "shoulder",
+      "specialty": "orthopedic",
+      "prevalence_rank": 118,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_103",
+      "name": "Labral Tear (Shoulder)",
+      "body_region": "shoulder",
+      "specialty": "sports",
+      "prevalence_rank": 112,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_104",
+      "name": "Anterior Cruciate Ligament (ACL) Tear",
+      "body_region": "knee",
+      "specialty": "sports",
+      "prevalence_rank": 102,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_105",
+      "name": "Posterior Cruciate Ligament (PCL) Tear",
+      "body_region": "knee",
+      "specialty": "sports",
+      "prevalence_rank": 135,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_106",
+      "name": "Medial Collateral Ligament (MCL) Sprain",
+      "body_region": "knee",
+      "specialty": "sports",
+      "prevalence_rank": 108,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_107",
+      "name": "Lateral Collateral Ligament (LCL) Sprain",
+      "body_region": "knee",
+      "specialty": "sports",
+      "prevalence_rank": 138,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_108",
+      "name": "Chondromalacia Patella",
+      "body_region": "knee",
+      "specialty": "orthopedic",
+      "prevalence_rank": 109,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_109",
+      "name": "Osgood-Schlatter Disease",
+      "body_region": "knee",
+      "specialty": "pediatric",
+      "prevalence_rank": 115,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_110",
+      "name": "Baker's Cyst (Popliteal Cyst)",
+      "body_region": "knee",
+      "specialty": "orthopedic",
+      "prevalence_rank": 120,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_111",
+      "name": "Shin Splints (Medial Tibial Stress Syndrome)",
+      "body_region": "ankle",
+      "specialty": "sports",
+      "prevalence_rank": 103,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_112",
+      "name": "Stress Fracture (Tibia)",
+      "body_region": "ankle",
+      "specialty": "sports",
+      "prevalence_rank": 116,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_113",
+      "name": "Compartment Syndrome (Acute)",
+      "body_region": "general",
+      "specialty": "emergency",
+      "prevalence_rank": 145,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_114",
+      "name": "Peroneal Tendinopathy",
+      "body_region": "ankle",
+      "specialty": "sports",
+      "prevalence_rank": 125,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_115",
+      "name": "Sever's Disease (Calcaneal Apophysitis)",
+      "body_region": "foot",
+      "specialty": "pediatric",
+      "prevalence_rank": 119,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_116",
+      "name": "Turf Toe",
+      "body_region": "foot",
+      "specialty": "sports",
+      "prevalence_rank": 132,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_117",
+      "name": "Sesamoiditis",
+      "body_region": "foot",
+      "specialty": "sports",
+      "prevalence_rank": 142,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_118",
+      "name": "Cuboid Syndrome",
+      "body_region": "foot",
+      "specialty": "sports",
+      "prevalence_rank": 148,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_119",
+      "name": "Tarsal Tunnel Syndrome",
+      "body_region": "ankle",
+      "specialty": "orthopedic",
+      "prevalence_rank": 140,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_120",
+      "name": "Lisfranc Injury",
+      "body_region": "foot",
+      "specialty": "orthopedic",
+      "prevalence_rank": 147,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_121",
+      "name": "Greater Trochanteric Pain Syndrome",
+      "body_region": "hip",
+      "specialty": "orthopedic",
+      "prevalence_rank": 104,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_122",
+      "name": "Hip Labral Tear",
+      "body_region": "hip",
+      "specialty": "sports",
+      "prevalence_rank": 117,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_123",
+      "name": "Femoroacetabular Impingement (FAI)",
+      "body_region": "hip",
+      "specialty": "sports",
+      "prevalence_rank": 121,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_124",
+      "name": "Snapping Hip Syndrome",
+      "body_region": "hip",
+      "specialty": "sports",
+      "prevalence_rank": 126,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_125",
+      "name": "Hip Dysplasia (Adult)",
+      "body_region": "hip",
+      "specialty": "orthopedic",
+      "prevalence_rank": 143,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_126",
+      "name": "Avascular Necrosis (Hip)",
+      "body_region": "hip",
+      "specialty": "orthopedic",
+      "prevalence_rank": 144,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_127",
+      "name": "Sacroiliac Joint Dysfunction",
+      "body_region": "lumbar_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 105,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_128",
+      "name": "Coccydynia (Tailbone Pain)",
+      "body_region": "lumbar_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 128,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_129",
+      "name": "Facet Joint Syndrome",
+      "body_region": "lumbar_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 106,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_130",
+      "name": "Scheuermann's Disease",
+      "body_region": "thoracic_spine",
+      "specialty": "pediatric",
+      "prevalence_rank": 139,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_131",
+      "name": "Torticollis (Wry Neck)",
+      "body_region": "cervical_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 122,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_132",
+      "name": "Whiplash Associated Disorder",
+      "body_region": "cervical_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 107,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_133",
+      "name": "Cervicogenic Headache",
+      "body_region": "cervical_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 110,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_134",
+      "name": "Occipital Neuralgia",
+      "body_region": "cervical_spine",
+      "specialty": "neurological",
+      "prevalence_rank": 134,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_135",
+      "name": "Eagle Syndrome",
+      "body_region": "cervical_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 150,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_136",
+      "name": "Dystonia (Focal)",
+      "body_region": "systemic",
+      "specialty": "neurological",
+      "prevalence_rank": 141,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_137",
+      "name": "Essential Tremor",
+      "body_region": "systemic",
+      "specialty": "neurological",
+      "prevalence_rank": 123,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_138",
+      "name": "Restless Leg Syndrome",
+      "body_region": "systemic",
+      "specialty": "neurological",
+      "prevalence_rank": 114,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_139",
+      "name": "Peripheral Neuropathy (Diabetic)",
+      "body_region": "systemic",
+      "specialty": "neurological",
+      "prevalence_rank": 111,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_140",
+      "name": "Chemotherapy-Induced Peripheral Neuropathy",
+      "body_region": "systemic",
+      "specialty": "neurological",
+      "prevalence_rank": 129,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_141",
+      "name": "Post-Herpetic Neuralgia",
+      "body_region": "systemic",
+      "specialty": "neurological",
+      "prevalence_rank": 130,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_142",
+      "name": "Trigeminal Neuralgia",
+      "body_region": "general",
+      "specialty": "neurological",
+      "prevalence_rank": 136,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_143",
+      "name": "Pudendal Neuralgia",
+      "body_region": "general",
+      "specialty": "neurological",
+      "prevalence_rank": 146,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_144",
+      "name": "Meralgia Paresthetica",
+      "body_region": "hip",
+      "specialty": "neurological",
+      "prevalence_rank": 131,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_145",
+      "name": "Cubital Tunnel Syndrome",
+      "body_region": "elbow",
+      "specialty": "orthopedic",
+      "prevalence_rank": 113,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_146",
+      "name": "Radial Tunnel Syndrome",
+      "body_region": "elbow",
+      "specialty": "orthopedic",
+      "prevalence_rank": 137,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_147",
+      "name": "Pronator Syndrome",
+      "body_region": "elbow",
+      "specialty": "orthopedic",
+      "prevalence_rank": 149,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_148",
+      "name": "Intersection Syndrome",
+      "body_region": "wrist",
+      "specialty": "sports",
+      "prevalence_rank": 144,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_149",
+      "name": "Gamekeeper's Thumb",
+      "body_region": "hand",
+      "specialty": "sports",
+      "prevalence_rank": 133,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_150",
+      "name": "Mallet Finger",
+      "body_region": "hand",
+      "specialty": "orthopedic",
+      "prevalence_rank": 127,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_151",
+      "name": "Jersey Finger",
+      "body_region": "hand",
+      "specialty": "sports",
+      "prevalence_rank": 168,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_152",
+      "name": "Boutonniere Deformity",
+      "body_region": "hand",
+      "specialty": "orthopedic",
+      "prevalence_rank": 185,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_153",
+      "name": "Swan Neck Deformity",
+      "body_region": "hand",
+      "specialty": "rheumatology",
+      "prevalence_rank": 186,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_154",
+      "name": "Kienbock's Disease",
+      "body_region": "wrist",
+      "specialty": "orthopedic",
+      "prevalence_rank": 220,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_155",
+      "name": "Preiser's Disease",
+      "body_region": "wrist",
+      "specialty": "orthopedic",
+      "prevalence_rank": 280,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_156",
+      "name": "TFCC (Triangular Fibrocartilage Complex) Tear",
+      "body_region": "wrist",
+      "specialty": "orthopedic",
+      "prevalence_rank": 175,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_157",
+      "name": "Ganglion Cyst (Wrist)",
+      "body_region": "wrist",
+      "specialty": "orthopedic",
+      "prevalence_rank": 152,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_158",
+      "name": "Pulmonary Fibrosis",
+      "body_region": "systemic",
+      "specialty": "cardiopulmonary",
+      "prevalence_rank": 195,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_159",
+      "name": "Bronchiectasis",
+      "body_region": "systemic",
+      "specialty": "cardiopulmonary",
+      "prevalence_rank": 198,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_160",
+      "name": "Interstitial Lung Disease",
+      "body_region": "systemic",
+      "specialty": "cardiopulmonary",
+      "prevalence_rank": 205,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_161",
+      "name": "Pulmonary Hypertension",
+      "body_region": "systemic",
+      "specialty": "cardiopulmonary",
+      "prevalence_rank": 210,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_162",
+      "name": "Cystic Fibrosis (Adult)",
+      "body_region": "systemic",
+      "specialty": "cardiopulmonary",
+      "prevalence_rank": 225,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_163",
+      "name": "Post-COVID-19 Syndrome (Long COVID)",
+      "body_region": "systemic",
+      "specialty": "cardiopulmonary",
+      "prevalence_rank": 151,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_164",
+      "name": "Chronic Heart Failure",
+      "body_region": "systemic",
+      "specialty": "cardiopulmonary",
+      "prevalence_rank": 155,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_165",
+      "name": "Atrial Fibrillation",
+      "body_region": "systemic",
+      "specialty": "cardiopulmonary",
+      "prevalence_rank": 160,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_166",
+      "name": "Deep Vein Thrombosis (Post-Acute)",
+      "body_region": "systemic",
+      "specialty": "cardiopulmonary",
+      "prevalence_rank": 178,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_167",
+      "name": "Varicose Veins",
+      "body_region": "systemic",
+      "specialty": "cardiopulmonary",
+      "prevalence_rank": 156,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_168",
+      "name": "Lipedema",
+      "body_region": "systemic",
+      "specialty": "orthopedic",
+      "prevalence_rank": 188,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_169",
+      "name": "Diastasis Recti",
+      "body_region": "general",
+      "specialty": "orthopedic",
+      "prevalence_rank": 162,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_170",
+      "name": "Pelvic Organ Prolapse",
+      "body_region": "general",
+      "specialty": "orthopedic",
+      "prevalence_rank": 170,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_171",
+      "name": "Stress Urinary Incontinence",
+      "body_region": "general",
+      "specialty": "orthopedic",
+      "prevalence_rank": 158,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_172",
+      "name": "Overactive Bladder",
+      "body_region": "general",
+      "specialty": "orthopedic",
+      "prevalence_rank": 165,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_173",
+      "name": "Dyspareunia",
+      "body_region": "general",
+      "specialty": "orthopedic",
+      "prevalence_rank": 190,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_174",
+      "name": "Endometriosis",
+      "body_region": "general",
+      "specialty": "orthopedic",
+      "prevalence_rank": 172,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_175",
+      "name": "Vulvodynia",
+      "body_region": "general",
+      "specialty": "orthopedic",
+      "prevalence_rank": 200,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_176",
+      "name": "Prostatitis (Chronic)",
+      "body_region": "general",
+      "specialty": "orthopedic",
+      "prevalence_rank": 182,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_177",
+      "name": "Erectile Dysfunction (Pelvic Floor Related)",
+      "body_region": "general",
+      "specialty": "orthopedic",
+      "prevalence_rank": 192,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_178",
+      "name": "Post-Prostatectomy Syndrome",
+      "body_region": "general",
+      "specialty": "orthopedic",
+      "prevalence_rank": 202,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_179",
+      "name": "Pregnancy-Related Pelvic Girdle Pain",
+      "body_region": "hip",
+      "specialty": "orthopedic",
+      "prevalence_rank": 153,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_180",
+      "name": "Postpartum Recovery",
+      "body_region": "general",
+      "specialty": "orthopedic",
+      "prevalence_rank": 154,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_181",
+      "name": "Hyperemesis Gravidarum",
+      "body_region": "systemic",
+      "specialty": "orthopedic",
+      "prevalence_rank": 230,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_182",
+      "name": "Gestational Diabetes",
+      "body_region": "systemic",
+      "specialty": "cardiopulmonary",
+      "prevalence_rank": 180,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_183",
+      "name": "Pre-eclampsia (Post-acute Management)",
+      "body_region": "systemic",
+      "specialty": "cardiopulmonary",
+      "prevalence_rank": 215,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_184",
+      "name": "Cesarean Section Recovery",
+      "body_region": "general",
+      "specialty": "orthopedic",
+      "prevalence_rank": 157,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_185",
+      "name": "Episiotomy Recovery",
+      "body_region": "general",
+      "specialty": "orthopedic",
+      "prevalence_rank": 167,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_186",
+      "name": "Burn Injury Rehabilitation",
+      "body_region": "systemic",
+      "specialty": "orthopedic",
+      "prevalence_rank": 208,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_187",
+      "name": "Scar Tissue Management",
+      "body_region": "systemic",
+      "specialty": "orthopedic",
+      "prevalence_rank": 173,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_188",
+      "name": "Keloid and Hypertrophic Scars",
+      "body_region": "systemic",
+      "specialty": "orthopedic",
+      "prevalence_rank": 193,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_189",
+      "name": "Pressure Ulcer Management",
+      "body_region": "systemic",
+      "specialty": "geriatric",
+      "prevalence_rank": 183,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_190",
+      "name": "Diabetic Foot Ulcer",
+      "body_region": "foot",
+      "specialty": "orthopedic",
+      "prevalence_rank": 176,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_191",
+      "name": "Cancer-Related Fatigue",
+      "body_region": "systemic",
+      "specialty": "orthopedic",
+      "prevalence_rank": 169,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_192",
+      "name": "Radiation Fibrosis Syndrome",
+      "body_region": "systemic",
+      "specialty": "orthopedic",
+      "prevalence_rank": 212,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_193",
+      "name": "Bone Metastases",
+      "body_region": "systemic",
+      "specialty": "orthopedic",
+      "prevalence_rank": 218,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_194",
+      "name": "Brain Tumor (Post-Surgical)",
+      "body_region": "systemic",
+      "specialty": "neurological",
+      "prevalence_rank": 235,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_195",
+      "name": "Head and Neck Cancer Rehabilitation",
+      "body_region": "general",
+      "specialty": "orthopedic",
+      "prevalence_rank": 222,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_196",
+      "name": "Lung Cancer Rehabilitation",
+      "body_region": "systemic",
+      "specialty": "cardiopulmonary",
+      "prevalence_rank": 213,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_197",
+      "name": "Breast Cancer-Related Lymphedema",
+      "body_region": "systemic",
+      "specialty": "orthopedic",
+      "prevalence_rank": 187,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_198",
+      "name": "Prostate Cancer Rehabilitation",
+      "body_region": "general",
+      "specialty": "orthopedic",
+      "prevalence_rank": 196,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_199",
+      "name": "Colorectal Cancer Rehabilitation",
+      "body_region": "systemic",
+      "specialty": "orthopedic",
+      "prevalence_rank": 207,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_200",
+      "name": "Palliative Care Physical Therapy",
+      "body_region": "systemic",
+      "specialty": "geriatric",
+      "prevalence_rank": 197,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_201",
+      "name": "Acute Hamstring Strain",
+      "body_region": "hip",
+      "specialty": "sports",
+      "prevalence_rank": 159,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_202",
+      "name": "Acute Quadriceps Strain",
+      "body_region": "knee",
+      "specialty": "sports",
+      "prevalence_rank": 164,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_203",
+      "name": "Acute Calf Strain (Gastrocnemius)",
+      "body_region": "ankle",
+      "specialty": "sports",
+      "prevalence_rank": 161,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_204",
+      "name": "Acute Soleus Strain",
+      "body_region": "ankle",
+      "specialty": "sports",
+      "prevalence_rank": 179,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_205",
+      "name": "Acute Adductor Strain (Groin)",
+      "body_region": "hip",
+      "specialty": "sports",
+      "prevalence_rank": 166,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_206",
+      "name": "Acute Hip Flexor Strain",
+      "body_region": "hip",
+      "specialty": "sports",
+      "prevalence_rank": 171,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_207",
+      "name": "High Ankle Sprain (Syndesmosis)",
+      "body_region": "ankle",
+      "specialty": "sports",
+      "prevalence_rank": 181,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_208",
+      "name": "Medial Ankle Sprain (Deltoid Ligament)",
+      "body_region": "ankle",
+      "specialty": "sports",
+      "prevalence_rank": 189,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_209",
+      "name": "Concussion/Post-Concussion Syndrome",
+      "body_region": "general",
+      "specialty": "neurological",
+      "prevalence_rank": 163,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_210",
+      "name": "Athletic Pubalgia (Sports Hernia)",
+      "body_region": "hip",
+      "specialty": "sports",
+      "prevalence_rank": 199,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_211",
+      "name": "Muscle Contusion (Quadriceps/Charley Horse)",
+      "body_region": "knee",
+      "specialty": "sports",
+      "prevalence_rank": 174,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_212",
+      "name": "Proximal Hamstring Tendinopathy",
+      "body_region": "hip",
+      "specialty": "sports",
+      "prevalence_rank": 191,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_213",
+      "name": "Gluteal Tendinopathy",
+      "body_region": "hip",
+      "specialty": "orthopedic",
+      "prevalence_rank": 177,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_214",
+      "name": "Rectus Femoris Strain",
+      "body_region": "hip",
+      "specialty": "sports",
+      "prevalence_rank": 184,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_215",
+      "name": "Iliopsoas Strain/Tendinopathy",
+      "body_region": "hip",
+      "specialty": "sports",
+      "prevalence_rank": 194,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_216",
+      "name": "Oblique Strain (Side Strain)",
+      "body_region": "thoracic_spine",
+      "specialty": "sports",
+      "prevalence_rank": 203,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_217",
+      "name": "Pectoralis Major Strain/Tear",
+      "body_region": "shoulder",
+      "specialty": "sports",
+      "prevalence_rank": 211,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_218",
+      "name": "Latissimus Dorsi Strain",
+      "body_region": "thoracic_spine",
+      "specialty": "sports",
+      "prevalence_rank": 219,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_219",
+      "name": "AC Joint Sprain (Acromioclavicular)",
+      "body_region": "shoulder",
+      "specialty": "sports",
+      "prevalence_rank": 201,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_220",
+      "name": "SLAP Tear (Superior Labrum)",
+      "body_region": "shoulder",
+      "specialty": "sports",
+      "prevalence_rank": 206,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_221",
+      "name": "Scapular Dyskinesis",
+      "body_region": "shoulder",
+      "specialty": "orthopedic",
+      "prevalence_rank": 204,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_222",
+      "name": "Winged Scapula (Long Thoracic Nerve)",
+      "body_region": "shoulder",
+      "specialty": "neurological",
+      "prevalence_rank": 238,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_223",
+      "name": "Sternoclavicular Joint Dysfunction",
+      "body_region": "shoulder",
+      "specialty": "orthopedic",
+      "prevalence_rank": 245,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_224",
+      "name": "Pectoralis Minor Syndrome",
+      "body_region": "shoulder",
+      "specialty": "orthopedic",
+      "prevalence_rank": 250,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_225",
+      "name": "Biceps Tendon Rupture (Proximal/Distal)",
+      "body_region": "shoulder",
+      "specialty": "orthopedic",
+      "prevalence_rank": 223,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_226",
+      "name": "Triceps Tendinopathy",
+      "body_region": "elbow",
+      "specialty": "sports",
+      "prevalence_rank": 228,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_227",
+      "name": "Olecranon Bursitis",
+      "body_region": "elbow",
+      "specialty": "orthopedic",
+      "prevalence_rank": 214,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_228",
+      "name": "Elbow Dislocation (Post-Reduction)",
+      "body_region": "elbow",
+      "specialty": "orthopedic",
+      "prevalence_rank": 240,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_229",
+      "name": "Elbow Fracture (Post-Surgical/Post-Immobilization)",
+      "body_region": "elbow",
+      "specialty": "orthopedic",
+      "prevalence_rank": 226,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_230",
+      "name": "Distal Radius Fracture (Colles/Smith - Post-Immobilization)",
+      "body_region": "wrist",
+      "specialty": "orthopedic",
+      "prevalence_rank": 209,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_231",
+      "name": "Non-Specific Low Back Pain (Acute)",
+      "body_region": "lumbar_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 216,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_232",
+      "name": "Non-Specific Low Back Pain (Chronic)",
+      "body_region": "lumbar_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 217,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_233",
+      "name": "Non-Specific Neck Pain (Acute)",
+      "body_region": "cervical_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 221,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_234",
+      "name": "Non-Specific Neck Pain (Chronic)",
+      "body_region": "cervical_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 224,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_235",
+      "name": "Degenerative Disc Disease (Lumbar)",
+      "body_region": "lumbar_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 227,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_236",
+      "name": "Degenerative Disc Disease (Cervical)",
+      "body_region": "cervical_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 229,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_237",
+      "name": "Lumbar Radiculopathy",
+      "body_region": "lumbar_spine",
+      "specialty": "neurological",
+      "prevalence_rank": 231,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_238",
+      "name": "Thoracic Disc Herniation",
+      "body_region": "thoracic_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 265,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_239",
+      "name": "Thoracic Facet Joint Syndrome",
+      "body_region": "thoracic_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 255,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_240",
+      "name": "Rib Dysfunction/Costovertebral Joint",
+      "body_region": "thoracic_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 232,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_241",
+      "name": "Costochondritis",
+      "body_region": "thoracic_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 233,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_242",
+      "name": "Tietze Syndrome",
+      "body_region": "thoracic_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 270,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_243",
+      "name": "Failed Back Surgery Syndrome",
+      "body_region": "lumbar_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 242,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_244",
+      "name": "Post-Laminectomy Syndrome",
+      "body_region": "lumbar_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 248,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_245",
+      "name": "Cervical Myelopathy",
+      "body_region": "cervical_spine",
+      "specialty": "neurological",
+      "prevalence_rank": 252,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_246",
+      "name": "Spinal Instability (Lumbar)",
+      "body_region": "lumbar_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 254,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_247",
+      "name": "Baastrup's Disease (Kissing Spine)",
+      "body_region": "lumbar_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 285,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_248",
+      "name": "SI Joint Sprain (Acute)",
+      "body_region": "lumbar_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 234,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_249",
+      "name": "Coccyx Fracture",
+      "body_region": "lumbar_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 260,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_250",
+      "name": "Transitional Vertebra Syndrome (LSTV)",
+      "body_region": "lumbar_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 275,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_251",
+      "name": "Patella Dislocation/Subluxation",
+      "body_region": "knee",
+      "specialty": "sports",
+      "prevalence_rank": 236,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_252",
+      "name": "Plica Syndrome",
+      "body_region": "knee",
+      "specialty": "orthopedic",
+      "prevalence_rank": 256,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_253",
+      "name": "Hoffa's Fat Pad Impingement",
+      "body_region": "knee",
+      "specialty": "orthopedic",
+      "prevalence_rank": 262,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_254",
+      "name": "Pes Anserine Bursitis",
+      "body_region": "knee",
+      "specialty": "orthopedic",
+      "prevalence_rank": 237,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_255",
+      "name": "Prepatellar Bursitis",
+      "body_region": "knee",
+      "specialty": "orthopedic",
+      "prevalence_rank": 239,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_256",
+      "name": "Infrapatellar Bursitis",
+      "body_region": "knee",
+      "specialty": "orthopedic",
+      "prevalence_rank": 243,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_257",
+      "name": "Quadriceps Tendon Rupture (Post-Surgical)",
+      "body_region": "knee",
+      "specialty": "orthopedic",
+      "prevalence_rank": 278,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_258",
+      "name": "Patellar Tendon Rupture (Post-Surgical)",
+      "body_region": "knee",
+      "specialty": "orthopedic",
+      "prevalence_rank": 282,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_259",
+      "name": "Knee Arthrofibrosis",
+      "body_region": "knee",
+      "specialty": "orthopedic",
+      "prevalence_rank": 268,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_260",
+      "name": "Multi-Ligament Knee Injury (Post-Surgical)",
+      "body_region": "knee",
+      "specialty": "orthopedic",
+      "prevalence_rank": 290,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_261",
+      "name": "Pes Planus (Flat Foot)",
+      "body_region": "foot",
+      "specialty": "orthopedic",
+      "prevalence_rank": 241,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_262",
+      "name": "Pes Cavus (High Arch)",
+      "body_region": "foot",
+      "specialty": "orthopedic",
+      "prevalence_rank": 258,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_263",
+      "name": "Haglund's Deformity",
+      "body_region": "ankle",
+      "specialty": "orthopedic",
+      "prevalence_rank": 263,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_264",
+      "name": "Retrocalcaneal Bursitis",
+      "body_region": "ankle",
+      "specialty": "orthopedic",
+      "prevalence_rank": 257,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_265",
+      "name": "Calcaneal Stress Fracture",
+      "body_region": "foot",
+      "specialty": "sports",
+      "prevalence_rank": 272,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_266",
+      "name": "Congenital Muscular Torticollis (Infant)",
+      "body_region": "cervical_spine",
+      "specialty": "pediatric",
+      "prevalence_rank": 244,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_267",
+      "name": "Plagiocephaly",
+      "body_region": "general",
+      "specialty": "pediatric",
+      "prevalence_rank": 246,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_268",
+      "name": "Developmental Delay (Gross Motor)",
+      "body_region": "systemic",
+      "specialty": "pediatric",
+      "prevalence_rank": 247,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_269",
+      "name": "Toe Walking (Idiopathic)",
+      "body_region": "ankle",
+      "specialty": "pediatric",
+      "prevalence_rank": 253,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_270",
+      "name": "Legg-Calv\u00e9-Perthes Disease",
+      "body_region": "hip",
+      "specialty": "pediatric",
+      "prevalence_rank": 287,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_271",
+      "name": "Slipped Capital Femoral Epiphysis (SCFE)",
+      "body_region": "hip",
+      "specialty": "pediatric",
+      "prevalence_rank": 295,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_272",
+      "name": "Developmental Dysplasia of Hip (Pediatric - Post-Treatment)",
+      "body_region": "hip",
+      "specialty": "pediatric",
+      "prevalence_rank": 288,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_273",
+      "name": "Clubfoot (Post-Casting/Post-Surgical)",
+      "body_region": "foot",
+      "specialty": "pediatric",
+      "prevalence_rank": 292,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_274",
+      "name": "Metatarsus Adductus",
+      "body_region": "foot",
+      "specialty": "pediatric",
+      "prevalence_rank": 283,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_275",
+      "name": "Growing Pains (Pediatric)",
+      "body_region": "systemic",
+      "specialty": "pediatric",
+      "prevalence_rank": 249,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_276",
+      "name": "Little League Elbow",
+      "body_region": "elbow",
+      "specialty": "pediatric",
+      "prevalence_rank": 273,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_277",
+      "name": "Little League Shoulder",
+      "body_region": "shoulder",
+      "specialty": "pediatric",
+      "prevalence_rank": 276,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_278",
+      "name": "Sinding-Larsen-Johansson Syndrome",
+      "body_region": "knee",
+      "specialty": "pediatric",
+      "prevalence_rank": 269,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_279",
+      "name": "Iselin Disease (5th Metatarsal Apophysitis)",
+      "body_region": "foot",
+      "specialty": "pediatric",
+      "prevalence_rank": 298,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_280",
+      "name": "Kohler's Disease (Navicular AVN)",
+      "body_region": "foot",
+      "specialty": "pediatric",
+      "prevalence_rank": 305,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_281",
+      "name": "Frailty Syndrome",
+      "body_region": "systemic",
+      "specialty": "geriatric",
+      "prevalence_rank": 251,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_282",
+      "name": "Sarcopenia",
+      "body_region": "systemic",
+      "specialty": "geriatric",
+      "prevalence_rank": 259,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_283",
+      "name": "Deconditioning (Hospital-Acquired)",
+      "body_region": "systemic",
+      "specialty": "geriatric",
+      "prevalence_rank": 261,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_284",
+      "name": "Fall Risk/History of Falls",
+      "body_region": "systemic",
+      "specialty": "geriatric",
+      "prevalence_rank": 264,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_285",
+      "name": "Osteoarthritis (Generalized/Polyarticular)",
+      "body_region": "systemic",
+      "specialty": "geriatric",
+      "prevalence_rank": 266,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_286",
+      "name": "Polymyalgia Rheumatica",
+      "body_region": "systemic",
+      "specialty": "rheumatology",
+      "prevalence_rank": 274,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_287",
+      "name": "Systemic Lupus Erythematosus",
+      "body_region": "systemic",
+      "specialty": "rheumatology",
+      "prevalence_rank": 279,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_288",
+      "name": "Scleroderma/Systemic Sclerosis",
+      "body_region": "systemic",
+      "specialty": "rheumatology",
+      "prevalence_rank": 300,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_289",
+      "name": "Obesity (Exercise Prescription)",
+      "body_region": "systemic",
+      "specialty": "cardiopulmonary",
+      "prevalence_rank": 267,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_290",
+      "name": "ICU-Acquired Weakness",
+      "body_region": "systemic",
+      "specialty": "cardiopulmonary",
+      "prevalence_rank": 277,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_291",
+      "name": "Ankle Fracture (Bimalleolar/Trimalleolar - Post-Surgical)",
+      "body_region": "ankle",
+      "specialty": "orthopedic",
+      "prevalence_rank": 271,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_292",
+      "name": "Wrist Fracture (Scaphoid - Post-Immobilization)",
+      "body_region": "wrist",
+      "specialty": "orthopedic",
+      "prevalence_rank": 281,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_293",
+      "name": "Humeral Shaft Fracture (Post-Immobilization/Post-Surgical)",
+      "body_region": "shoulder",
+      "specialty": "orthopedic",
+      "prevalence_rank": 286,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_294",
+      "name": "Tibial Plateau Fracture (Post-Surgical)",
+      "body_region": "knee",
+      "specialty": "orthopedic",
+      "prevalence_rank": 289,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_295",
+      "name": "Femoral Shaft Fracture (Post-Surgical)",
+      "body_region": "hip",
+      "specialty": "orthopedic",
+      "prevalence_rank": 291,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_296",
+      "name": "Pelvic Fracture (Stable - Post-Injury)",
+      "body_region": "hip",
+      "specialty": "orthopedic",
+      "prevalence_rank": 293,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_297",
+      "name": "Clavicle Fracture (Post-Healing/Post-Surgical)",
+      "body_region": "shoulder",
+      "specialty": "orthopedic",
+      "prevalence_rank": 284,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_298",
+      "name": "Rib Fracture (Post-Injury)",
+      "body_region": "thoracic_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 294,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_299",
+      "name": "Proximal Humerus Fracture (Post-Immobilization/Post-Surgical)",
+      "body_region": "shoulder",
+      "specialty": "orthopedic",
+      "prevalence_rank": 296,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_300",
+      "name": "Hip Fracture (Post-Surgical - Hemiarthroplasty/ORIF)",
+      "body_region": "hip",
+      "specialty": "geriatric",
+      "prevalence_rank": 297,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_301",
+      "name": "ATFL Ligament Tear (Anterior Talofibular)",
+      "body_region": "ankle",
+      "specialty": "sports",
+      "prevalence_rank": 299,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_302",
+      "name": "CFL Ligament Tear (Calcaneofibular)",
+      "body_region": "ankle",
+      "specialty": "sports",
+      "prevalence_rank": 302,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_303",
+      "name": "UCL Elbow Tear (Ulnar Collateral Ligament)",
+      "body_region": "elbow",
+      "specialty": "sports",
+      "prevalence_rank": 301,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_304",
+      "name": "RCL Elbow Sprain (Radial Collateral Ligament)",
+      "body_region": "elbow",
+      "specialty": "sports",
+      "prevalence_rank": 315,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_305",
+      "name": "Coracoclavicular Ligament Tear",
+      "body_region": "shoulder",
+      "specialty": "sports",
+      "prevalence_rank": 310,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_306",
+      "name": "Post-Cardiac Surgery Rehabilitation",
+      "body_region": "systemic",
+      "specialty": "cardiopulmonary",
+      "prevalence_rank": 303,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_307",
+      "name": "Myocardial Infarction Recovery",
+      "body_region": "systemic",
+      "specialty": "cardiopulmonary",
+      "prevalence_rank": 304,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_308",
+      "name": "Lymphedema - Primary",
+      "body_region": "systemic",
+      "specialty": "orthopedic",
+      "prevalence_rank": 320,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_309",
+      "name": "Lymphedema - Secondary",
+      "body_region": "systemic",
+      "specialty": "orthopedic",
+      "prevalence_rank": 306,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_310",
+      "name": "Vestibular Neuritis",
+      "body_region": "general",
+      "specialty": "neurological",
+      "prevalence_rank": 307,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_311",
+      "name": "Benign Paroxysmal Positional Vertigo (BPPV)",
+      "body_region": "general",
+      "specialty": "neurological",
+      "prevalence_rank": 308,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_312",
+      "name": "Meniere's Disease",
+      "body_region": "general",
+      "specialty": "neurological",
+      "prevalence_rank": 312,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_313",
+      "name": "Cerebral Palsy - Spastic",
+      "body_region": "systemic",
+      "specialty": "pediatric",
+      "prevalence_rank": 309,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_314",
+      "name": "Down Syndrome - Motor Delays",
+      "body_region": "systemic",
+      "specialty": "pediatric",
+      "prevalence_rank": 311,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_315",
+      "name": "Spinal Muscular Atrophy",
+      "body_region": "systemic",
+      "specialty": "neurological",
+      "prevalence_rank": 330,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_316",
+      "name": "Charcot-Marie-Tooth Disease",
+      "body_region": "systemic",
+      "specialty": "neurological",
+      "prevalence_rank": 313,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_317",
+      "name": "Phantom Limb Pain",
+      "body_region": "systemic",
+      "specialty": "neurological",
+      "prevalence_rank": 318,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_318",
+      "name": "Osteoporotic Fracture",
+      "body_region": "systemic",
+      "specialty": "geriatric",
+      "prevalence_rank": 314,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_319",
+      "name": "Cancer Cachexia",
+      "body_region": "systemic",
+      "specialty": "orthopedic",
+      "prevalence_rank": 322,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_320",
+      "name": "Industrial Back Injury",
+      "body_region": "lumbar_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 316,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_321",
+      "name": "Cervical Spondylosis",
+      "body_region": "cervical_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 317,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_322",
+      "name": "Bicipital Tendinopathy",
+      "body_region": "shoulder",
+      "specialty": "orthopedic",
+      "prevalence_rank": 319,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_323",
+      "name": "Morton's Neuroma",
+      "body_region": "foot",
+      "specialty": "orthopedic",
+      "prevalence_rank": 321,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_324",
+      "name": "Forward Head Posture",
+      "body_region": "cervical_spine",
+      "specialty": "orthopedic",
+      "prevalence_rank": 323,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_325",
+      "name": "Extensor Tendinopathy (Wrist)",
+      "body_region": "wrist",
+      "specialty": "orthopedic",
+      "prevalence_rank": 324,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_326",
+      "name": "Flexor Tendinopathy (Wrist)",
+      "body_region": "wrist",
+      "specialty": "orthopedic",
+      "prevalence_rank": 325,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_327",
+      "name": "Quadriceps Tendinopathy",
+      "body_region": "knee",
+      "specialty": "sports",
+      "prevalence_rank": 326,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_328",
+      "name": "Colles Fracture Recovery",
+      "body_region": "wrist",
+      "specialty": "orthopedic",
+      "prevalence_rank": 327,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_329",
+      "name": "Elbow Osteoarthritis",
+      "body_region": "elbow",
+      "specialty": "orthopedic",
+      "prevalence_rank": 328,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_330",
+      "name": "Wrist Osteoarthritis",
+      "body_region": "wrist",
+      "specialty": "orthopedic",
+      "prevalence_rank": 329,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_331",
+      "name": "Ankle Osteoarthritis",
+      "body_region": "ankle",
+      "specialty": "orthopedic",
+      "prevalence_rank": 331,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_332",
+      "name": "Radial Nerve Entrapment",
+      "body_region": "elbow",
+      "specialty": "neurological",
+      "prevalence_rank": 332,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_333",
+      "name": "Peroneal Nerve Entrapment",
+      "body_region": "knee",
+      "specialty": "neurological",
+      "prevalence_rank": 333,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_334",
+      "name": "Sternoclavicular Joint Sprain",
+      "body_region": "shoulder",
+      "specialty": "sports",
+      "prevalence_rank": 334,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_335",
+      "name": "Burn Injury - 2nd/3rd Degree",
+      "body_region": "systemic",
+      "specialty": "orthopedic",
+      "prevalence_rank": 335,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_336",
+      "name": "Pressure Ulcer",
+      "body_region": "systemic",
+      "specialty": "geriatric",
+      "prevalence_rank": 336,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_337",
+      "name": "Post-Concussion Syndrome",
+      "body_region": "general",
+      "specialty": "neurological",
+      "prevalence_rank": 337,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_338",
+      "name": "Muscular Dystrophy - Duchenne",
+      "body_region": "systemic",
+      "specialty": "pediatric",
+      "prevalence_rank": 338,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_339",
+      "name": "Radiation Fibrosis",
+      "body_region": "systemic",
+      "specialty": "orthopedic",
+      "prevalence_rank": 339,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_340",
+      "name": "Ulnar Nerve Entrapment (Cubital Tunnel)",
+      "body_region": "elbow",
+      "specialty": "neurological",
+      "prevalence_rank": 340,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_341",
+      "name": "Iliotibial Band Syndrome (ITBS)",
+      "body_region": "knee",
+      "specialty": "sports",
+      "prevalence_rank": 341,
+      "chronicity": "chronic"
+    },
+    {
+      "id": "COND_342",
+      "name": "Quadriceps Strain",
+      "body_region": "knee",
+      "specialty": "sports",
+      "prevalence_rank": 342,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_343",
+      "name": "Pectoralis Major Strain",
+      "body_region": "shoulder",
+      "specialty": "sports",
+      "prevalence_rank": 343,
+      "chronicity": "acute"
+    },
+    {
+      "id": "COND_344",
+      "name": "Hip Fracture Recovery",
+      "body_region": "hip",
+      "specialty": "geriatric",
+      "prevalence_rank": 344,
+      "chronicity": "subacute"
+    },
+    {
+      "id": "COND_345",
+      "name": "Tibial Stress Fracture",
+      "body_region": "ankle",
+      "specialty": "sports",
+      "prevalence_rank": 345,
+      "chronicity": "acute"
+    }
+  ]
+}

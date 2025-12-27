@@ -297,6 +297,22 @@ class ApiManager {
         return ApiMethods.get(url)
     }
 
+    // Static Data - Conditions
+    static getAllStaticConditions = () => {
+        const url = BASE_URL + ENDPOINTS.GET_ALL_STATIC_CONDITIONS()
+        return ApiMethods.get(url)
+    }
+
+    static searchConditions = (params?: any) => {
+        const url = BASE_URL + ENDPOINTS.SEARCH_CONDITIONS(params)
+        return ApiMethods.get(url)
+    }
+
+    static getConditionByIdentifier = (identifier: string) => {
+        const url = BASE_URL + ENDPOINTS.GET_CONDITION_BY_IDENTIFIER(identifier)
+        return ApiMethods.get(url)
+    }
+
     // Neo4j Conditions (Knowledge Graph)
     static getAllConditions = (params?: any) => {
         const url = BASE_URL + ENDPOINTS.GET_ALL_CONDITIONS(params)
