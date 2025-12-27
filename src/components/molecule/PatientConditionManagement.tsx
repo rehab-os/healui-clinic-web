@@ -223,8 +223,18 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
             console.log('Provisional diagnoses:', summary.provisionalDiagnosis)
         }
         
-        // Reload conditions in case any were added
-        await loadConditions()
+        // 🔒 CRITICAL FIX: DO NOT reload conditions automatically
+        // Let the chatbot handle its own completion state without parent interference
+        // Conditions will be reloaded only when the chatbot actually closes after diagnosis selection
+        console.log('✅ Assessment completed - waiting for diagnosis selection before reloading conditions');
+    }
+
+    // Handle chatbot closing (with or without diagnosis selection)
+    const handlePhysioAssessmentClose = async () => {
+        console.log('🔄 Chatbot closed - reloading conditions now to reflect any new diagnoses');
+        setShowPhysioAssessment(false);
+        // Now it's safe to reload conditions since the chatbot is closed
+        await loadConditions();
     }
 
     // Unified update condition function
@@ -832,7 +842,8 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
                     patientId={patientId}
                     patientName={patientName}
                     onComplete={handlePhysioAssessmentComplete}
-                    onClose={() => setShowPhysioAssessment(false)}
+                    onClose={handlePhysioAssessmentClose}
+                    persistentKey={`assessment-${patientId}`}
                 />
             </div>,
             document.body

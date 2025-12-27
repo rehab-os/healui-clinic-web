@@ -29,13 +29,15 @@ interface PhysioAssessmentChatbotProps {
   patientName?: string;
   onComplete?: (summary: any) => void;
   onClose?: () => void;
+  persistentKey?: string; // Add stable key prop
 }
 
 const PhysioAssessmentChatbot: React.FC<PhysioAssessmentChatbotProps> = ({
   patientId,
   patientName,
   onComplete,
-  onClose
+  onClose,
+  persistentKey
 }) => {
   const [engine] = useState(() => new PhysioDecisionEngine(patientId));
   const [chatHistory, _setChatHistory] = useState<ChatMessage[]>([]);
@@ -88,20 +90,28 @@ const PhysioAssessmentChatbot: React.FC<PhysioAssessmentChatbotProps> = ({
   const diagnosisProcessedRef = useRef(false);
   const diagnosisTimestampRef = useRef(0);
   const diagnosisTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const componentMountId = useRef(`mount_${Date.now()}_${Math.random()}`);
+  const componentMountId = useRef(persistentKey || `mount_${Date.now()}_${Math.random()}`);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const chatInitializedRef = useRef(false);
+  const assessmentCompletedRef = useRef(false);
   
   console.log('🏗️ PhysioAssessmentChatbot component render:', {
     mountId: componentMountId.current,
     diagnosisProcessed: diagnosisProcessedRef.current,
+    assessmentCompleted: assessmentCompletedRef.current,
     patientId
   });
 
   useEffect(() => {
-    if (!chatInitializedRef.current) {
+    // 🔒 CRITICAL: Prevent re-initialization if assessment already completed
+    if (!chatInitializedRef.current && !assessmentCompletedRef.current) {
+      console.log('🚀 Initializing chat for the first time...');
       chatInitializedRef.current = true;
       initializeChat();
+    } else if (assessmentCompletedRef.current) {
+      console.log('⚠️ Skipping chat initialization - assessment already completed');
+    } else if (chatInitializedRef.current) {
+      console.log('⚠️ Skipping chat initialization - already initialized');
     }
   }, []);
 
@@ -283,6 +293,9 @@ const PhysioAssessmentChatbot: React.FC<PhysioAssessmentChatbotProps> = ({
         addBotMessage("I've recorded your diagnosis selection, but there was an issue saving the assessment data to the patient's records. Please review the patient's condition manually.", 'response');
       }
       
+      // 🔒 CRITICAL: Mark assessment as permanently completed
+      assessmentCompletedRef.current = true;
+      console.log('🏁 Assessment marked as completed - preventing future re-initialization');
       setIsCompleted(true);
     }
   };
@@ -364,6 +377,9 @@ const PhysioAssessmentChatbot: React.FC<PhysioAssessmentChatbotProps> = ({
       }
     }
     
+    // 🔒 CRITICAL: Mark assessment as permanently completed (manual selection)
+    assessmentCompletedRef.current = true;
+    console.log('🏁 Manual diagnosis selection assessment marked as completed - preventing future re-initialization');
     setIsCompleted(true);
   };
 
