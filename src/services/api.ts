@@ -842,6 +842,16 @@ class ApiManager {
         return ApiMethods.post(url, data)
     }
 
+    static generateProtocolStructured = (data: any) => {
+        const url = BASE_URL + ENDPOINTS.GENERATE_PROTOCOL_STRUCTURED()
+        return ApiMethods.post(url, data)
+    }
+
+    static generateProtocolStructuredDirect = (data: any) => {
+        const url = BASE_URL + ENDPOINTS.GENERATE_PROTOCOL_STRUCTURED_DIRECT()
+        return ApiMethods.post(url, data)
+    }
+
     static validateProtocolSafety = (data: { patientId: string; conditionId: string }) => {
         const url = BASE_URL + ENDPOINTS.VALIDATE_PROTOCOL_SAFETY()
         return ApiMethods.post(url, data)

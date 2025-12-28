@@ -4,11 +4,7 @@ export interface ProtocolGenerationRequest {
   conditionId: string;
   planType: 'home' | 'clinical';
   visitId?: string;
-  preferences?: {
-    duration?: number; // weeks
-    intensity?: 'low' | 'moderate' | 'high';
-    frequency?: number; // sessions per week
-  };
+  preferences?: ProtocolPreferences;
 }
 
 // New direct request format - with all data included
@@ -51,13 +47,10 @@ export interface DirectProtocolGenerationRequest {
     cptCodes?: string[];
   };
   planType: 'home' | 'clinical';
-  preferences?: {
-    duration?: number; // weeks
-    intensity?: 'low' | 'moderate' | 'high';
-    frequency?: number; // sessions per week
-  };
+  preferences?: ProtocolPreferences;
 }
 
+// Legacy interface for backward compatibility
 export interface ExerciseProtocol {
   exerciseName: string;
   instructions: string;
@@ -70,6 +63,35 @@ export interface ExerciseProtocol {
   safetyNotes: string;
 }
 
+// New editable exercise structure
+export interface EditableExercise {
+  exerciseId: string;
+  name: string;
+  category: string; // 'strength' | 'mobility' | 'endurance' | 'balance'
+  bodyRegion: string;
+  parameters: {
+    sets: number;
+    reps: string; // "12-15" or "10"
+    hold?: number; // seconds
+    rest?: number; // seconds between sets
+    frequency: number; // sessions per week
+    intensity: 'low' | 'moderate' | 'high';
+    progression: string; // "increase weight weekly"
+  };
+  equipment: string[];
+  isEnabled: boolean;
+  reasoning: {
+    indication: string;
+    biomechanics: string;
+    evidence: string;
+    clinicalRationale: string;
+  };
+  contraindications: string[];
+  modifications: string[];
+  progressions: string[];
+}
+
+// Legacy interface for backward compatibility
 export interface ModalityProtocol {
   modalityName: string;
   parameters: string;
@@ -77,6 +99,29 @@ export interface ModalityProtocol {
   frequency: string;
   applicationMethod: string;
   clinicalSupervisionRequired: boolean;
+}
+
+// New editable modality structure
+export interface EditableModality {
+  modalityId: string;
+  name: string;
+  category: string; // 'thermal' | 'electrical' | 'mechanical' | 'manual'
+  parameters: {
+    intensity: string;
+    duration: number; // minutes
+    frequency: number; // per week
+    progression: string;
+  };
+  isEnabled: boolean;
+  clinicalSupervisionRequired: boolean;
+  reasoning: {
+    indication: string;
+    mechanism: string;
+    evidence: string;
+    expectedOutcome: string;
+  };
+  contraindications: string[];
+  precautions: string[];
 }
 
 export interface ManualTherapyProtocol {
@@ -87,6 +132,7 @@ export interface ManualTherapyProtocol {
   expectedOutcome: string;
 }
 
+// Legacy interface for backward compatibility
 export interface TreatmentPhase {
   phaseName: string;
   durationWeeks: number;
@@ -94,6 +140,47 @@ export interface TreatmentPhase {
   exercises: ExerciseProtocol[];
   modalities: ModalityProtocol[];
   manualTherapy: ManualTherapyProtocol[];
+}
+
+// New editable treatment phase structure
+export interface EditableTreatmentPhase {
+  phaseId: string;
+  phaseNumber: number;
+  name: string;
+  duration: number; // weeks
+  goals: string[];
+  exercises: EditableExercise[];
+  modalities: EditableModality[];
+  manualTherapy: EditableManualTherapy[];
+  isExpanded: boolean;
+  reasoning: {
+    clinicalRationale: string;
+    expectedOutcomes: string[];
+    progressionCriteria: string[];
+  };
+}
+
+// New manual therapy structure
+export interface EditableManualTherapy {
+  techniqueId: string;
+  name: string;
+  category: string; // 'mobilization' | 'manipulation' | 'soft_tissue' | 'neural'
+  parameters: {
+    frequency: number; // per week
+    sessionDuration: number; // minutes
+    intensity: 'gentle' | 'moderate' | 'aggressive';
+    progression: string;
+  };
+  isEnabled: boolean;
+  clinicalSupervisionRequired: boolean;
+  reasoning: {
+    indication: string;
+    biomechanics: string;
+    evidence: string;
+    expectedOutcome: string;
+  };
+  contraindications: string[];
+  precautions: string[];
 }
 
 export interface ProgressionMilestone {
@@ -159,6 +246,12 @@ export interface ProtocolGenerationResponse {
   message: string;
 }
 
+export interface StructuredProtocolGenerationResponse {
+  success: boolean;
+  data: EditableProtocol;
+  message: string;
+}
+
 export type ProtocolGenerationStep = 'selection' | 'generating' | 'results';
 
 export interface ProtocolGeneratorState {
@@ -172,4 +265,95 @@ export interface ProtocolGeneratorState {
   patientId?: string;
   conditionId?: string;
   conditionName?: string;
+}
+
+// Simplified protocol preferences - only what clinicians actually need to specify
+export interface ProtocolPreferences {
+  // Treatment Parameters
+  duration: number; // weeks (4-12)
+  frequency: number; // sessions per week (2-5)
+  
+  // Delivery Method
+  setting: 'home' | 'clinic' | 'hybrid';
+  
+  // Equipment Constraints (for home plans)
+  availableEquipment?: string[]; // ['resistance_bands', 'weights', 'balance_pad', etc.]
+  
+  // Special Focus Areas (optional - if different from standard condition protocol)
+  specialFocus?: {
+    workplaceReadiness?: boolean; // return to work considerations
+    sportSpecific?: string; // specific sport demands
+    dailyLivingTasks?: string[]; // specific ADL priorities
+  };
+  
+  // Clinical Approach
+  progressionStyle: 'conservative' | 'standard' | 'accelerated';
+  
+  // Patient Education Emphasis
+  educationPriorities?: string[]; // ['self_management', 'ergonomics', 'prevention', etc.]
+}
+
+// Safety warning interfaces
+export interface RedFlag {
+  flag: string;
+  severity: 'immediate' | 'urgent' | 'moderate';
+  action: string;
+  educationText: string; // for patient education
+  clinicalGuidance: string; // for clinician guidance
+}
+
+export interface ContraindicationWarning {
+  intervention: string;
+  reason: string;
+  severity: 'absolute' | 'relative';
+  alternatives: string[];
+  educationText: string;
+}
+
+export interface SafetyAssessmentEnhanced extends SafetyAssessment {
+  redFlagDetails: RedFlag[];
+  contraindicationDetails: ContraindicationWarning[];
+  educationalContent: {
+    homeManagement: string[];
+    warningSignsHome: string[];
+    warningSignsClinical: string[];
+    emergencyContacts: string[];
+  };
+}
+
+// Essential preference options - only what affects protocol generation
+export const PREFERENCE_OPTIONS = {
+  EQUIPMENT: [
+    { value: 'resistance_bands', label: 'Resistance Bands', category: 'strength' },
+    { value: 'dumbbells', label: 'Dumbbells/Weights', category: 'strength' },
+    { value: 'exercise_ball', label: 'Exercise Ball', category: 'stability' },
+    { value: 'balance_pad', label: 'Balance Pad', category: 'balance' },
+    { value: 'foam_roller', label: 'Foam Roller', category: 'mobility' },
+    { value: 'none', label: 'No Equipment Available', category: 'bodyweight' }
+  ],
+  
+  PROGRESSION_STYLES: [
+    { value: 'conservative', label: 'Conservative', description: 'Slower progression, prioritizing safety and comfort' },
+    { value: 'standard', label: 'Standard', description: 'Evidence-based progression following normal timelines' },
+    { value: 'accelerated', label: 'Accelerated', description: 'Faster progression for motivated, low-risk patients' }
+  ],
+  
+  EDUCATION_PRIORITIES: [
+    { value: 'self_management', label: 'Self-Management', description: 'Focus on independent pain/symptom management' },
+    { value: 'ergonomics', label: 'Ergonomics', description: 'Workplace and daily activity positioning' },
+    { value: 'prevention', label: 'Prevention', description: 'Strategies to prevent re-injury' },
+    { value: 'exercise_adherence', label: 'Exercise Adherence', description: 'Building consistent exercise habits' }
+  ]
+} as const;
+
+// New editable protocol structure
+export interface EditableProtocol {
+  protocolMetadata: ProtocolMetadata;
+  safetyAssessment: SafetyAssessmentEnhanced;
+  treatmentPhases: EditableTreatmentPhase[];
+  preferences: ProtocolPreferences;
+  clinicalNotes?: string;
+  patientEducation: PatientEducation;
+  progressionPlan: ProgressionMilestone[];
+  occupationalConsiderations: OccupationalConsiderations;
 }

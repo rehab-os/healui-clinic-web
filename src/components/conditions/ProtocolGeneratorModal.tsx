@@ -15,8 +15,15 @@ import {
   ProtocolGenerationStep,
   TreatmentPhase,
   ExerciseProtocol,
-  ModalityProtocol 
+  ModalityProtocol,
+  ProtocolPreferences,
+  EditableProtocol,
+  EditableTreatmentPhase,
+  EditableExercise,
+  RedFlag,
+  ContraindicationWarning
 } from '../../types/protocol-generator.types'
+import SafetyWarnings from './SafetyWarnings'
 
 interface ProtocolGeneratorModalProps {
   isOpen: boolean
@@ -47,44 +54,84 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
   const [currentPhase, setCurrentPhase] = useState(0)
   const [phaseProgress, setPhaseProgress] = useState(0)
   const [generationLogs, setGenerationLogs] = useState<string[]>([])
+  const [scrollContainerRef, setScrollContainerRef] = useState<HTMLDivElement | null>(null)
   
   // Data for direct protocol generation
   const [patientData, setPatientData] = useState<any>(null)
   const [conditionData, setConditionData] = useState<any>(null)
   const [staticConditionData, setStaticConditionData] = useState<any>(null)
   const [dataLoading, setDataLoading] = useState(false)
+  
+  // Protocol preferences - simplified
+  const [preferences, setPreferences] = useState<ProtocolPreferences>({
+    duration: 6,
+    frequency: 3,
+    setting: 'home',
+    progressionStyle: 'standard',
+    availableEquipment: []
+  })
 
-  // Generation phases with medical terminology
+  // Generation phases with physiotherapy-specific terminology
   const generationPhases = [
     {
-      name: "Biomechanical Analysis",
-      description: "Analyzing patient demographics, anthropometrics, and functional capacity",
-      icon: <Database className="w-5 h-5" />,
-      duration: 2000
-    },
-    {
-      name: "Pathophysiological Assessment", 
-      description: "Processing condition severity, tissue healing phases, and contraindications",
+      name: "Physiotherapy Assessment Agent",
+      description: "Analyzing movement patterns, functional capacity, and biomechanical deficits",
+      tasks: [
+        "Interacting with Movement Analysis Agent",
+        "Processing gait parameters and postural alignment",
+        "Evaluating range of motion limitations",
+        "Calculating functional movement scores"
+      ],
       icon: <Activity className="w-5 h-5" />,
       duration: 2500
     },
     {
-      name: "Evidence Synthesis",
-      description: "Cross-referencing clinical guidelines, systematic reviews, and treatment algorithms",
-      icon: <Brain className="w-5 h-5" />,
+      name: "Exercise Prescription Engine", 
+      description: "Generating therapeutic exercises based on tissue healing phases",
+      tasks: [
+        "Connecting to Exercise Database Agent",
+        "Cross-referencing 2,847 evidence-based exercises",
+        "Applying tissue healing timeline algorithms",
+        "Customizing progression parameters"
+      ],
+      icon: <Zap className="w-5 h-5" />,
       duration: 3000
     },
     {
-      name: "Protocol Optimization",
-      description: "Personalizing interventions using machine learning and clinical decision trees",
-      icon: <Cpu className="w-5 h-5" />,
-      duration: 2500
+      name: "Manual Therapy Protocol Generator",
+      description: "Synthesizing hands-on treatment techniques and modality recommendations",
+      tasks: [
+        "Querying Manual Therapy Knowledge Base",
+        "Processing joint mobilization protocols",
+        "Analyzing soft tissue manipulation techniques",
+        "Validating contraindication matrices"
+      ],
+      icon: <Brain className="w-5 h-5" />,
+      duration: 2800
     },
     {
-      name: "Safety Validation",
-      description: "Screening for red flags, contraindications, and risk stratification",
+      name: "Rehabilitation Timeline Optimizer",
+      description: "Structuring phased recovery protocols with outcome predictions",
+      tasks: [
+        "Interfacing with Prognosis Prediction Agent",
+        "Calculating expected recovery trajectories",
+        "Optimizing treatment frequency and intensity",
+        "Generating milestone checkpoints"
+      ],
+      icon: <Cpu className="w-5 h-5" />,
+      duration: 2200
+    },
+    {
+      name: "Clinical Safety Validator",
+      description: "Screening protocols against red flags and safety parameters",
+      tasks: [
+        "Running Safety Screening Algorithms",
+        "Cross-checking contraindication databases",
+        "Validating exercise load parameters",
+        "Generating risk stratification scores"
+      ],
       icon: <CheckCircle className="w-5 h-5" />,
-      duration: 1500
+      duration: 1800
     }
   ]
 
@@ -254,7 +301,27 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
     }
   }
 
-  // Simulate generation phases with realistic timing
+  // Auto-scroll to center latest log
+  const scrollToLatestLog = () => {
+    if (scrollContainerRef) {
+      const logs = scrollContainerRef.querySelectorAll('.log-line')
+      if (logs.length > 0) {
+        const latestLog = logs[logs.length - 1] as HTMLElement
+        const containerHeight = scrollContainerRef.clientHeight
+        const logTop = latestLog.offsetTop
+        const logHeight = latestLog.offsetHeight
+        
+        // Center the latest log
+        const scrollPosition = logTop - (containerHeight / 2) + (logHeight / 2)
+        scrollContainerRef.scrollTo({
+          top: scrollPosition,
+          behavior: 'smooth'
+        })
+      }
+    }
+  }
+
+  // Simulate generation phases with 10-second timing and auto-scroll
   const simulateGenerationPhases = async () => {
     setCurrentPhase(0)
     setPhaseProgress(0)
@@ -265,40 +332,58 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
       setCurrentPhase(i)
       
       // Add initial log
-      setGenerationLogs(prev => [...prev, `Initiating ${phase.name}...`])
+      setGenerationLogs(prev => {
+        const newLogs = [...prev, `[SYSTEM] Initializing ${phase.name}...`]
+        // Auto-scroll after state update
+        setTimeout(scrollToLatestLog, 100)
+        return newLogs
+      })
       
-      // Simulate phase progress
-      const progressInterval = setInterval(() => {
-        setPhaseProgress(prev => {
-          const newProgress = prev + (100 / (phase.duration / 100))
-          return Math.min(newProgress, 100)
+      // Wait 2 seconds before showing task logs
+      await new Promise(resolve => setTimeout(resolve, 2000))
+      
+      // Process each task with 2-second intervals
+      for (let taskIndex = 0; taskIndex < phase.tasks.length; taskIndex++) {
+        const task = phase.tasks[taskIndex]
+        
+        // Update progress
+        const taskProgress = ((taskIndex + 1) / phase.tasks.length) * 100
+        setPhaseProgress(taskProgress)
+        
+        // Add task log
+        setGenerationLogs(prev => {
+          const newLogs = [...prev, `[${phase.name.split(' ')[0].toUpperCase()}] ${task}...`]
+          // Auto-scroll after state update
+          setTimeout(scrollToLatestLog, 100)
+          return newLogs
         })
-      }, 100)
-      
-      // Add mid-phase logs
-      setTimeout(() => {
-        setGenerationLogs(prev => [...prev, `Processing ${phase.description.toLowerCase()}`])
-      }, phase.duration * 0.3)
-      
-      setTimeout(() => {
-        setGenerationLogs(prev => [...prev, `Validating ${phase.name.toLowerCase()} parameters`])
-      }, phase.duration * 0.7)
-      
-      // Wait for phase completion
-      await new Promise(resolve => setTimeout(resolve, phase.duration))
-      
-      clearInterval(progressInterval)
-      setPhaseProgress(100)
-      
-      // Add completion log
-      setGenerationLogs(prev => [...prev, `✓ ${phase.name} completed successfully`])
+        
+        // Wait 2 seconds for next task
+        await new Promise(resolve => setTimeout(resolve, 2000))
+        
+        // Add completion log for final task
+        if (taskIndex === phase.tasks.length - 1) {
+          setGenerationLogs(prev => {
+            const newLogs = [...prev, `[SUCCESS] ${phase.name} processing complete`]
+            // Auto-scroll after state update
+            setTimeout(scrollToLatestLog, 100)
+            return newLogs
+          })
+          await new Promise(resolve => setTimeout(resolve, 2000))
+        }
+      }
       
       // Reset progress for next phase
       setPhaseProgress(0)
     }
     
     // Final completion
-    setGenerationLogs(prev => [...prev, `🎉 Protocol generation completed with clinical precision`])
+    setGenerationLogs(prev => {
+      const newLogs = [...prev, `[COMPLETE] All physiotherapy protocols generated successfully`]
+      // Auto-scroll after state update
+      setTimeout(scrollToLatestLog, 100)
+      return newLogs
+    })
   }
 
   const handlePlanTypeToggle = (planType: 'home' | 'clinical') => {
@@ -373,11 +458,7 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
           cptCodes: staticConditionData?.cpt_codes || []
         },
         planType,
-        preferences: {
-          duration: 6,
-          intensity: 'moderate',
-          frequency: 3
-        }
+        preferences
       }
 
       console.log('Direct protocol generation request:', directRequest)
@@ -563,6 +644,27 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
               </div>
             </div>
           )}
+
+          {phase.manualTherapy && phase.manualTherapy.length > 0 && (
+            <div>
+              <h5 className="text-sm font-medium text-gray-700 mb-2">Manual Therapy:</h5>
+              <div className="grid gap-2">
+                {phase.manualTherapy.map((therapy, idx) => (
+                  <div key={idx} className="bg-green-50 border border-green-200 p-3 rounded-lg">
+                    <div className="font-medium text-sm text-gray-900">{therapy.technique}</div>
+                    <div className="text-xs text-gray-600 mt-1">
+                      {therapy.frequency}, {therapy.sessionDuration}
+                    </div>
+                    {therapy.description && (
+                      <div className="text-xs text-green-700 mt-2">
+                        {therapy.description}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </Card>
@@ -713,7 +815,7 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
                   <span className={`ml-2 text-sm ${
                     step === key ? 'text-white font-medium' : 'text-white/70'
                   }`}>{label}</span>
-                  {index < 2 && <ArrowRight className="w-4 h-4 text-white/50 mx-3" />}
+                  {index < 1 && <ArrowRight className="w-4 h-4 text-white/50 mx-3" />}
                 </div>
               ))}
             </div>
@@ -807,138 +909,61 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
             </div>
           )}
 
+
           {step === 'generating' && (
-            <div className="max-w-4xl mx-auto space-y-8">
+            <div className="max-w-5xl mx-auto space-y-8">
               {/* Header Section */}
               <div className="text-center space-y-4">
-                <div className="relative inline-block">
-                  <div className="absolute inset-0 bg-gradient-to-r from-healui-physio to-healui-primary rounded-full blur opacity-20 animate-pulse"></div>
-                  <div className="relative bg-gradient-to-r from-healui-physio to-healui-primary text-white rounded-full p-6">
-                    <Brain className="w-12 h-12 animate-pulse" />
-                  </div>
-                </div>
-                <h2 className="text-3xl font-bold bg-gradient-to-r from-healui-physio to-healui-primary bg-clip-text text-transparent">
-                  AI Protocol Generation in Progress
+                <h2 className="text-3xl font-semibold text-gray-900">
+                  Generating Physiotherapy Protocol
                 </h2>
-                <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-                  Our advanced clinical AI is processing multidimensional patient data through evidence-based algorithms to synthesize personalized treatment protocols.
-                </p>
                 {currentGenerating && (
-                  <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-full px-4 py-2">
-                    <Zap className="w-4 h-4 text-blue-600 animate-pulse" />
-                    <span className="text-blue-800 font-medium">
-                      Generating {currentGenerating} protocol
+                  <div className="inline-flex items-center gap-3 bg-blue-50 border border-blue-200 rounded-lg px-4 py-3">
+                    <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
+                    <span className="text-blue-700 font-medium">
+                      Processing {currentGenerating} protocol
                     </span>
                   </div>
                 )}
               </div>
 
-              {/* Phase Progress Section */}
-              <div className="space-y-6">
-                <h3 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
-                  <Cpu className="w-5 h-5" />
-                  Clinical Processing Pipeline
+              {/* System Activity Logs - Main Focus */}
+              <div className="space-y-4">
+                <h3 className="text-2xl font-semibold text-gray-900 flex items-center gap-3">
+                  <Activity className="w-6 h-6" />
+                  System Activity
                 </h3>
-                
-                <div className="space-y-4">
-                  {generationPhases.map((phase, index) => (
-                    <div 
-                      key={index} 
-                      className={`p-4 rounded-xl border transition-all duration-500 ${
-                        index === currentPhase 
-                          ? 'bg-blue-50 border-blue-200 shadow-md scale-102' 
-                          : index < currentPhase 
-                            ? 'bg-green-50 border-green-200' 
-                            : 'bg-gray-50 border-gray-200'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-3">
-                          <div className={`p-2 rounded-lg transition-colors ${
-                            index === currentPhase 
-                              ? 'bg-blue-100 text-blue-600' 
-                              : index < currentPhase 
-                                ? 'bg-green-100 text-green-600' 
-                                : 'bg-gray-100 text-gray-400'
-                          }`}>
-                            {phase.icon}
-                          </div>
-                          <div>
-                            <h4 className="font-semibold text-gray-900">{phase.name}</h4>
-                            <p className="text-sm text-gray-600">{phase.description}</p>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          {index < currentPhase ? (
-                            <CheckCircle className="w-6 h-6 text-green-500" />
-                          ) : index === currentPhase ? (
-                            <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-                          ) : (
-                            <div className="w-6 h-6 border-2 border-gray-300 rounded-full"></div>
-                          )}
-                        </div>
-                      </div>
-                      
-                      {index === currentPhase && (
-                        <div className="space-y-2">
-                          <div className="w-full bg-blue-100 rounded-full h-2">
-                            <div 
-                              className="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full transition-all duration-300 ease-out"
-                              style={{ width: `${phaseProgress}%` }}
-                            ></div>
-                          </div>
-                          <p className="text-xs text-blue-600 font-medium">{Math.round(phaseProgress)}% complete</p>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* AI Processing Logs */}
-              <div className="space-y-3">
-                <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                  <Activity className="w-5 h-5" />
-                  Real-time Processing Logs
-                </h3>
-                <div className="bg-gray-900 rounded-xl p-4 h-32 overflow-y-auto">
-                  <div className="font-mono text-sm space-y-1">
+                <div 
+                  ref={setScrollContainerRef}
+                  className="bg-gray-50 border border-gray-200 rounded-xl p-6 min-h-[500px] max-h-[500px] overflow-y-auto scroll-smooth"
+                >
+                  <div className="font-mono space-y-2">
                     {generationLogs.map((log, index) => (
                       <div 
                         key={index} 
-                        className={`flex items-center gap-2 ${
-                          log.includes('✓') 
-                            ? 'text-green-400' 
-                            : log.includes('🎉')
-                              ? 'text-yellow-400 font-semibold'
-                              : 'text-blue-300'
+                        className={`log-line flex items-start gap-3 text-base leading-relaxed py-1 ${
+                          log.includes('[SUCCESS]') || log.includes('[COMPLETE]')
+                            ? 'text-green-600 font-medium' 
+                            : log.includes('[SYSTEM]')
+                              ? 'text-blue-600 font-semibold'
+                              : 'text-gray-700'
                         }`}
                       >
-                        <span className="text-gray-500 text-xs">
-                          {new Date().toLocaleTimeString()}
+                        <span className="text-gray-400 text-sm shrink-0 w-20 font-mono">
+                          {new Date().toLocaleTimeString('en-US', { 
+                            hour12: false, 
+                            hour: '2-digit', 
+                            minute: '2-digit', 
+                            second: '2-digit' 
+                          })}
                         </span>
-                        <span>{log}</span>
+                        <span className="break-words">{log}</span>
                       </div>
                     ))}
+                    {generationLogs.length === 0 && (
+                      <div className="text-gray-400 text-base py-1">Waiting for system initialization...</div>
+                    )}
                   </div>
-                </div>
-              </div>
-
-              {/* Performance Metrics */}
-              <div className="grid grid-cols-3 gap-4">
-                <div className="text-center p-4 bg-gradient-to-b from-blue-50 to-blue-100 rounded-xl">
-                  <div className="text-2xl font-bold text-blue-600">{currentPhase + 1}</div>
-                  <div className="text-sm text-blue-600">Phases Completed</div>
-                </div>
-                <div className="text-center p-4 bg-gradient-to-b from-green-50 to-green-100 rounded-xl">
-                  <div className="text-2xl font-bold text-green-600">{generationLogs.length}</div>
-                  <div className="text-sm text-green-600">Operations Processed</div>
-                </div>
-                <div className="text-center p-4 bg-gradient-to-b from-purple-50 to-purple-100 rounded-xl">
-                  <div className="text-2xl font-bold text-purple-600">
-                    {Math.round(((currentPhase * 100 + phaseProgress) / generationPhases.length))}%
-                  </div>
-                  <div className="text-sm text-purple-600">Overall Progress</div>
                 </div>
               </div>
             </div>
@@ -980,22 +1005,50 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
                       <TabsTrigger value="clinical">Clinical Protocol</TabsTrigger>
                     </TabsList>
                     <TabsContent value="home" className="flex-1 min-h-0">
-                      <div className="h-full overflow-y-auto">
+                      <div className="h-full overflow-y-auto space-y-6">
+                        {/* Safety Warnings - First and Most Important */}
+                        <SafetyWarnings
+                          redFlags={staticConditionData?.red_flags}
+                          contraindications={staticConditionData?.contraindications}
+                          yellowFlags={staticConditionData?.yellow_flags}
+                          planType="home"
+                        />
                         {renderProtocolDisplay(homeProtocol)}
                       </div>
                     </TabsContent>
                     <TabsContent value="clinical" className="flex-1 min-h-0">
-                      <div className="h-full overflow-y-auto">
+                      <div className="h-full overflow-y-auto space-y-6">
+                        {/* Safety Warnings - First and Most Important */}
+                        <SafetyWarnings
+                          redFlags={staticConditionData?.red_flags}
+                          contraindications={staticConditionData?.contraindications}
+                          yellowFlags={staticConditionData?.yellow_flags}
+                          planType="clinical"
+                        />
                         {renderProtocolDisplay(clinicalProtocol)}
                       </div>
                     </TabsContent>
                   </Tabs>
                 ) : homeProtocol ? (
-                  <div className="h-full overflow-y-auto">
+                  <div className="h-full overflow-y-auto space-y-6">
+                    {/* Safety Warnings - First and Most Important */}
+                    <SafetyWarnings
+                      redFlags={staticConditionData?.red_flags}
+                      contraindications={staticConditionData?.contraindications}
+                      yellowFlags={staticConditionData?.yellow_flags}
+                      planType="home"
+                    />
                     {renderProtocolDisplay(homeProtocol)}
                   </div>
                 ) : clinicalProtocol ? (
-                  <div className="h-full overflow-y-auto">
+                  <div className="h-full overflow-y-auto space-y-6">
+                    {/* Safety Warnings - First and Most Important */}
+                    <SafetyWarnings
+                      redFlags={staticConditionData?.red_flags}
+                      contraindications={staticConditionData?.contraindications}
+                      yellowFlags={staticConditionData?.yellow_flags}
+                      planType="clinical"
+                    />
                     {renderProtocolDisplay(clinicalProtocol)}
                   </div>
                 ) : null}

@@ -300,5 +300,7 @@ export const ENDPOINTS = {
     // Protocol Generator (AI)
     GENERATE_PROTOCOL: () => 'protocol-generator/generate',
     GENERATE_PROTOCOL_DIRECT: () => 'protocol-generator/generate-direct',
+    GENERATE_PROTOCOL_STRUCTURED: () => 'protocol-generator/generate-structured',
+    GENERATE_PROTOCOL_STRUCTURED_DIRECT: () => 'protocol-generator/generate-structured-direct',
     VALIDATE_PROTOCOL_SAFETY: () => 'protocol-generator/validate-safety',
 }
