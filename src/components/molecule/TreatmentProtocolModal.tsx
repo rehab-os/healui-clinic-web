@@ -26,7 +26,7 @@ import {
 } from '../../lib/types';
 
 // Import database JSON files
-import neckExercisesData from '../../../database/excercises/neck_excercise.json';
+import neckExercisesData from '../../data/anatomy-database/excercises/neck_excercise.json';
 
 // Simple UUID generator
 const generateUUID = () => {

@@ -29,7 +29,7 @@ import { setUser } from '../../../store/slices/auth.slice';
 import ProfilePhotoUpload from '../../../components/molecule/ProfilePhotoUpload';
 
 // Import database data
-import machinesData from '../../../../database/machines/machines.json';
+import machinesData from '../../../data/anatomy-database/machines/machines.json';
 
 // Constants for dropdowns
 const SPECIALIZATIONS = [
