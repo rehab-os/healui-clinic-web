@@ -24,6 +24,7 @@ import {
   ContraindicationWarning
 } from '../../types/protocol-generator.types'
 import SafetyWarnings from './SafetyWarnings'
+import ProtocolConfigurationStep from './ProtocolConfigurationStep'
 
 interface ProtocolGeneratorModalProps {
   isOpen: boolean
@@ -62,13 +63,13 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
   const [staticConditionData, setStaticConditionData] = useState<any>(null)
   const [dataLoading, setDataLoading] = useState(false)
   
-  // Protocol preferences - simplified
+  // Clinical configuration for protocol generation
   const [preferences, setPreferences] = useState<ProtocolPreferences>({
-    duration: 6,
-    frequency: 3,
-    setting: 'home',
-    progressionStyle: 'standard',
-    availableEquipment: []
+    primaryFocus: 'function',
+    progressionApproach: 'standard',
+    patientEngagement: 'moderate',
+    programDuration: 6,
+    setting: 'home'
   })
 
   // Generation phases with physiotherapy-specific terminology
@@ -388,11 +389,18 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
 
   const handlePlanTypeToggle = (planType: 'home' | 'clinical') => {
     setSelectedPlanTypes(prev => {
-      if (prev.includes(planType)) {
-        return prev.filter(type => type !== planType)
-      } else {
-        return [...prev, planType]
+      const newPlanTypes = prev.includes(planType)
+        ? prev.filter(type => type !== planType)
+        : [...prev, planType]
+      
+      // Update preferences setting based on selected plan types
+      if (newPlanTypes.length === 1) {
+        setPreferences(prevPrefs => ({ ...prevPrefs, setting: newPlanTypes[0] }))
+      } else if (newPlanTypes.length > 1) {
+        setPreferences(prevPrefs => ({ ...prevPrefs, setting: 'home' })) // Default to home when both selected
       }
+      
+      return newPlanTypes
     })
   }
 
@@ -801,13 +809,14 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
             <div className="flex items-center space-x-4">
               {[
                 { key: 'selection', label: 'Plan Selection', icon: Users },
+                { key: 'configuration', label: 'Configuration', icon: Cpu },
                 { key: 'generating', label: 'Generating', icon: Clock },
                 { key: 'results', label: 'Results', icon: FileText }
               ].map(({ key, label, icon: Icon }, index) => (
                 <div key={key} className="flex items-center">
                   <div className={`flex items-center justify-center w-8 h-8 rounded-full border-2 ${
                     step === key ? 'bg-white text-healui-primary border-white' :
-                    ['selection', 'generating', 'results'].indexOf(step) > index ? 'bg-white/20 text-white border-white/20' :
+                    ['selection', 'configuration', 'generating', 'results'].indexOf(step) > index ? 'bg-white/20 text-white border-white/20' :
                     'bg-transparent text-white/70 border-white/50'
                   }`}>
                     <Icon className="w-4 h-4" />
@@ -815,7 +824,7 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
                   <span className={`ml-2 text-sm ${
                     step === key ? 'text-white font-medium' : 'text-white/70'
                   }`}>{label}</span>
-                  {index < 1 && <ArrowRight className="w-4 h-4 text-white/50 mx-3" />}
+                  {index < 3 && <ArrowRight className="w-4 h-4 text-white/50 mx-3" />}
                 </div>
               ))}
             </div>
@@ -896,11 +905,11 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
                       Cancel
                     </Button>
                     <Button 
-                      onClick={handleGenerate}
+                      onClick={() => setStep('configuration')}
                       disabled={selectedPlanTypes.length === 0 || dataLoading}
                       className="bg-healui-primary hover:bg-healui-primary-dark"
                     >
-                      Generate Protocol{selectedPlanTypes.length > 1 ? 's' : ''}
+                      Configure Protocol{selectedPlanTypes.length > 1 ? 's' : ''}
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
                   </div>
@@ -909,6 +918,30 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
             </div>
           )}
 
+          {step === 'configuration' && (
+            <div className="space-y-6">
+              <ProtocolConfigurationStep
+                preferences={preferences}
+                onPreferencesChange={setPreferences}
+                planType={selectedPlanTypes.length === 1 ? selectedPlanTypes[0] : 'home'}
+              />
+
+              <div className="flex justify-between pt-6">
+                <Button variant="outline" onClick={() => setStep('selection')}>
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Back to Selection
+                </Button>
+                <Button 
+                  onClick={handleGenerate}
+                  disabled={!preferences.primaryFocus || !preferences.progressionApproach || !preferences.patientEngagement || !preferences.programDuration}
+                  className="bg-healui-primary hover:bg-healui-primary-dark"
+                >
+                  Generate Protocol{selectedPlanTypes.length > 1 ? 's' : ''}
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </div>
+            </div>
+          )}
 
           {step === 'generating' && (
             <div className="max-w-5xl mx-auto space-y-8">

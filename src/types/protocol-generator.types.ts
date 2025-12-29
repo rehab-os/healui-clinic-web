@@ -252,7 +252,7 @@ export interface StructuredProtocolGenerationResponse {
   message: string;
 }
 
-export type ProtocolGenerationStep = 'selection' | 'generating' | 'results';
+export type ProtocolGenerationStep = 'selection' | 'configuration' | 'generating' | 'results';
 
 export interface ProtocolGeneratorState {
   isOpen: boolean;
@@ -267,30 +267,16 @@ export interface ProtocolGeneratorState {
   conditionName?: string;
 }
 
-// Simplified protocol preferences - only what clinicians actually need to specify
+// Clinical configuration for protocol generation
 export interface ProtocolPreferences {
-  // Treatment Parameters
-  duration: number; // weeks (4-12)
-  frequency: number; // sessions per week (2-5)
+  // Essential Clinical Configuration
+  primaryFocus: 'pain_relief' | 'function' | 'performance';
+  progressionApproach: 'conservative' | 'standard' | 'aggressive';
+  patientEngagement: 'high_motivation' | 'moderate' | 'needs_simple';
+  programDuration: 4 | 6 | 8 | 12; // weeks
   
   // Delivery Method
-  setting: 'home' | 'clinic' | 'hybrid';
-  
-  // Equipment Constraints (for home plans)
-  availableEquipment?: string[]; // ['resistance_bands', 'weights', 'balance_pad', etc.]
-  
-  // Special Focus Areas (optional - if different from standard condition protocol)
-  specialFocus?: {
-    workplaceReadiness?: boolean; // return to work considerations
-    sportSpecific?: string; // specific sport demands
-    dailyLivingTasks?: string[]; // specific ADL priorities
-  };
-  
-  // Clinical Approach
-  progressionStyle: 'conservative' | 'standard' | 'accelerated';
-  
-  // Patient Education Emphasis
-  educationPriorities?: string[]; // ['self_management', 'ergonomics', 'prevention', etc.]
+  setting: 'home' | 'clinic';
 }
 
 // Safety warning interfaces
