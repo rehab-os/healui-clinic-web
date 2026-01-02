@@ -50,6 +50,73 @@ export interface DirectProtocolGenerationRequest {
   preferences?: ProtocolPreferences;
 }
 
+// Extended static condition data for customization
+export interface StaticConditionForCustomization {
+  conditionName: string;
+  allExercises: StaticExercise[];
+  allModalities: StaticModality[];
+  allManualTherapy: StaticManualTherapy[];
+  contraindications: any;
+  redFlags: any;
+  yellowFlags: string[];
+  specialTests: any;
+  outcomeMeasures: any;
+  prognosisTimeline?: any;
+  icd10Codes?: any;
+  cptCodes?: string[];
+}
+
+// Static data structures for customization
+export interface StaticExercise {
+  id: string;
+  name: string;
+  category: string;
+  bodyRegion: string;
+  description: string;
+  instructions: string[];
+  equipment: string[];
+  difficulty: 'beginner' | 'intermediate' | 'advanced';
+  contraindications: string[];
+  indications: string[];
+  evidenceLevel: string;
+  isUsedByAI?: boolean;
+}
+
+export interface StaticModality {
+  id: string;
+  name: string;
+  category: string;
+  description: string;
+  indications: string[];
+  contraindications: string[];
+  parameters: {
+    intensity?: string;
+    duration?: string;
+    frequency?: string;
+  };
+  clinicalSupervisionRequired: boolean;
+  evidenceLevel: string;
+  isUsedByAI?: boolean;
+}
+
+export interface StaticManualTherapy {
+  id: string;
+  name: string;
+  technique: string;
+  category: string;
+  description: string;
+  indications: string[];
+  contraindications: string[];
+  parameters: {
+    frequency?: string;
+    sessionDuration?: string;
+    intensity?: string;
+  };
+  clinicalSupervisionRequired: boolean;
+  evidenceLevel: string;
+  isUsedByAI?: boolean;
+}
+
 // Legacy interface for backward compatibility
 export interface ExerciseProtocol {
   exerciseName: string;
@@ -252,7 +319,7 @@ export interface StructuredProtocolGenerationResponse {
   message: string;
 }
 
-export type ProtocolGenerationStep = 'selection' | 'configuration' | 'generating' | 'results';
+export type ProtocolGenerationStep = 'selection' | 'configuration' | 'generating' | 'results' | 'customization';
 
 export interface ProtocolGeneratorState {
   isOpen: boolean;

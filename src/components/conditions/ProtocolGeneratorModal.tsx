@@ -25,6 +25,7 @@ import {
 } from '../../types/protocol-generator.types'
 import SafetyWarnings from './SafetyWarnings'
 import ProtocolConfigurationStep from './ProtocolConfigurationStep'
+import ProtocolCustomizationStep from './ProtocolCustomizationStep'
 
 interface ProtocolGeneratorModalProps {
   isOpen: boolean
@@ -62,6 +63,10 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
   const [conditionData, setConditionData] = useState<any>(null)
   const [staticConditionData, setStaticConditionData] = useState<any>(null)
   const [dataLoading, setDataLoading] = useState(false)
+  
+  // Customization state
+  const [customizedHomeProtocol, setCustomizedHomeProtocol] = useState<GeneratedProtocol | null>(null)
+  const [customizedClinicalProtocol, setCustomizedClinicalProtocol] = useState<GeneratedProtocol | null>(null)
   
   // Clinical configuration for protocol generation
   const [preferences, setPreferences] = useState<ProtocolPreferences>({
@@ -153,6 +158,8 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
       setConditionData(null)
       setStaticConditionData(null)
       setDataLoading(false)
+      setCustomizedHomeProtocol(null)
+      setCustomizedClinicalProtocol(null)
     }
   }, [isOpen])
 
@@ -546,6 +553,36 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
     }
   }
 
+  const handleCustomizeProtocol = () => {
+    // Initialize customized protocols with current AI protocols
+    if (homeProtocol && !customizedHomeProtocol) {
+      setCustomizedHomeProtocol(homeProtocol)
+    }
+    if (clinicalProtocol && !customizedClinicalProtocol) {
+      setCustomizedClinicalProtocol(clinicalProtocol)
+    }
+    setStep('customization')
+  }
+
+  const handleProtocolUpdate = (updatedProtocol: GeneratedProtocol, planType: 'home' | 'clinical') => {
+    if (planType === 'home') {
+      setCustomizedHomeProtocol(updatedProtocol)
+    } else {
+      setCustomizedClinicalProtocol(updatedProtocol)
+    }
+  }
+
+  const handleFinishCustomization = () => {
+    // Update the main protocol state with customized versions
+    if (customizedHomeProtocol) {
+      setHomeProtocol(customizedHomeProtocol)
+    }
+    if (customizedClinicalProtocol) {
+      setClinicalProtocol(customizedClinicalProtocol)
+    }
+    setStep('results')
+  }
+
   const handleExport = (protocol: GeneratedProtocol, format: 'pdf' | 'json') => {
     if (format === 'json') {
       const dataStr = JSON.stringify(protocol, null, 2)
@@ -811,12 +848,13 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
                 { key: 'selection', label: 'Plan Selection', icon: Users },
                 { key: 'configuration', label: 'Configuration', icon: Cpu },
                 { key: 'generating', label: 'Generating', icon: Clock },
-                { key: 'results', label: 'Results', icon: FileText }
+                { key: 'results', label: 'Results', icon: FileText },
+                { key: 'customization', label: 'Customize', icon: Sparkles }
               ].map(({ key, label, icon: Icon }, index) => (
                 <div key={key} className="flex items-center">
                   <div className={`flex items-center justify-center w-8 h-8 rounded-full border-2 ${
                     step === key ? 'bg-white text-healui-primary border-white' :
-                    ['selection', 'configuration', 'generating', 'results'].indexOf(step) > index ? 'bg-white/20 text-white border-white/20' :
+                    ['selection', 'configuration', 'generating', 'results', 'customization'].indexOf(step) > index ? 'bg-white/20 text-white border-white/20' :
                     'bg-transparent text-white/70 border-white/50'
                   }`}>
                     <Icon className="w-4 h-4" />
@@ -824,7 +862,7 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
                   <span className={`ml-2 text-sm ${
                     step === key ? 'text-white font-medium' : 'text-white/70'
                   }`}>{label}</span>
-                  {index < 3 && <ArrowRight className="w-4 h-4 text-white/50 mx-3" />}
+                  {index < 4 && <ArrowRight className="w-4 h-4 text-white/50 mx-3" />}
                 </div>
               ))}
             </div>
@@ -1092,8 +1130,265 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Generate More
                 </Button>
-                <Button onClick={onClose}>
-                  Done
+                <div className="flex gap-3">
+                  {staticConditionData && (
+                    <Button 
+                      variant="outline" 
+                      onClick={handleCustomizeProtocol}
+                      className="border-healui-primary text-healui-primary hover:bg-healui-primary hover:text-white"
+                    >
+                      <Sparkles className="w-4 h-4 mr-2" />
+                      Customize Protocol
+                    </Button>
+                  )}
+                  <Button onClick={onClose}>
+                    Done
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {step === 'customization' && staticConditionData && (homeProtocol || clinicalProtocol) && (
+            <div className="space-y-6 h-full flex flex-col">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-gray-900">Customize Protocols</h3>
+              </div>
+
+              <div className="flex-1 min-h-0">
+                {homeProtocol && clinicalProtocol ? (
+                  <Tabs defaultValue="home" className="w-full h-full flex flex-col">
+                    <TabsList className="grid w-full grid-cols-2 flex-shrink-0">
+                      <TabsTrigger value="home">Customize Home Protocol</TabsTrigger>
+                      <TabsTrigger value="clinical">Customize Clinical Protocol</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="home" className="flex-1 min-h-0">
+                      <div className="h-full overflow-y-auto">
+                        <ProtocolCustomizationStep
+                          protocol={customizedHomeProtocol || homeProtocol}
+                          staticConditionData={staticConditionData ? {
+                            ...staticConditionData,
+                            allExercises: staticConditionData?.exercise_prescriptions?.map((exerciseName: string, index: number) => {
+                              console.log(`Mapping exercise ${index}:`, exerciseName)
+                              return {
+                                id: `ex_${index}`,
+                                name: exerciseName || `Exercise ${index + 1}`,
+                                category: 'therapeutic',
+                                bodyRegion: 'lumbar',
+                                description: '',
+                                instructions: [],
+                                equipment: [],
+                                difficulty: 'intermediate',
+                                contraindications: [],
+                                indications: [],
+                                evidenceLevel: 'moderate'
+                              }
+                            }) || [],
+                            allModalities: staticConditionData?.modalities?.map((modalityName: string, index: number) => ({
+                              id: `mod_${index}`,
+                              name: modalityName,
+                              category: 'thermal',
+                              description: '',
+                              indications: [],
+                              contraindications: [],
+                              parameters: {
+                                intensity: 'moderate',
+                                duration: '15 minutes',
+                                frequency: '3x per week'
+                              },
+                              clinicalSupervisionRequired: false,
+                              evidenceLevel: 'moderate'
+                            })) || [],
+                            allManualTherapy: staticConditionData?.manual_therapy?.map((therapyName: string, index: number) => ({
+                              id: `mt_${index}`,
+                              name: therapyName,
+                              technique: therapyName,
+                              category: 'mobilization',
+                              description: '',
+                              indications: [],
+                              contraindications: [],
+                              parameters: {
+                                frequency: '2x per week',
+                                sessionDuration: '30 minutes',
+                                intensity: 'moderate'
+                              },
+                              clinicalSupervisionRequired: true,
+                              evidenceLevel: 'moderate'
+                            })) || []
+                          } : null}
+                          onProtocolUpdate={(updatedProtocol) => handleProtocolUpdate(updatedProtocol, 'home')}
+                          planType="home"
+                        />
+                      </div>
+                    </TabsContent>
+                    <TabsContent value="clinical" className="flex-1 min-h-0">
+                      <div className="h-full overflow-y-auto">
+                        <ProtocolCustomizationStep
+                          protocol={customizedClinicalProtocol || clinicalProtocol}
+                          staticConditionData={staticConditionData ? {
+                            ...staticConditionData,
+                            allExercises: staticConditionData?.exercise_prescriptions?.map((exerciseName: string, index: number) => {
+                              console.log(`Mapping exercise ${index}:`, exerciseName)
+                              return {
+                                id: `ex_${index}`,
+                                name: exerciseName || `Exercise ${index + 1}`,
+                                category: 'therapeutic',
+                                bodyRegion: 'lumbar',
+                                description: '',
+                                instructions: [],
+                                equipment: [],
+                                difficulty: 'intermediate',
+                                contraindications: [],
+                                indications: [],
+                                evidenceLevel: 'moderate'
+                              }
+                            }) || [],
+                            allModalities: staticConditionData?.modalities?.map((modalityName: string, index: number) => ({
+                              id: `mod_${index}`,
+                              name: modalityName,
+                              category: 'thermal',
+                              description: '',
+                              indications: [],
+                              contraindications: [],
+                              parameters: {
+                                intensity: 'moderate',
+                                duration: '15 minutes',
+                                frequency: '3x per week'
+                              },
+                              clinicalSupervisionRequired: false,
+                              evidenceLevel: 'moderate'
+                            })) || [],
+                            allManualTherapy: staticConditionData?.manual_therapy?.map((therapyName: string, index: number) => ({
+                              id: `mt_${index}`,
+                              name: therapyName,
+                              technique: therapyName,
+                              category: 'mobilization',
+                              description: '',
+                              indications: [],
+                              contraindications: [],
+                              parameters: {
+                                frequency: '2x per week',
+                                sessionDuration: '30 minutes',
+                                intensity: 'moderate'
+                              },
+                              clinicalSupervisionRequired: true,
+                              evidenceLevel: 'moderate'
+                            })) || []
+                          } : null}
+                          onProtocolUpdate={(updatedProtocol) => handleProtocolUpdate(updatedProtocol, 'clinical')}
+                          planType="clinical"
+                        />
+                      </div>
+                    </TabsContent>
+                  </Tabs>
+                ) : homeProtocol ? (
+                  <div className="h-full overflow-y-auto">
+                    <ProtocolCustomizationStep
+                      protocol={customizedHomeProtocol || homeProtocol}
+                      staticConditionData={staticConditionData ? {
+                        ...staticConditionData,
+                        allExercises: staticConditionData?.exercise_prescriptions?.map((exerciseName: string, index: number) => ({
+                          id: `ex_${index}`,
+                          name: exerciseName || `Exercise ${index + 1}`,
+                          category: 'therapeutic',
+                          bodyRegion: 'lumbar',
+                          description: '',
+                          instructions: [],
+                          equipment: [],
+                          difficulty: 'intermediate',
+                          contraindications: [],
+                          indications: [],
+                          evidenceLevel: 'moderate'
+                        })) || [],
+                        allModalities: staticConditionData?.modalities?.map((modalityName: string, index: number) => ({
+                          id: `mod_${index}`,
+                          name: modalityName,
+                          category: 'thermal',
+                          description: '',
+                          indications: [],
+                          contraindications: [],
+                          parameters: {
+                            intensity: 'moderate',
+                            duration: '15 minutes',
+                            frequency: '3x per week'
+                          },
+                          clinicalSupervisionRequired: false,
+                          evidenceLevel: 'moderate'
+                        })) || [],
+                        allManualTherapy: []
+                      } : null}
+                      onProtocolUpdate={(updatedProtocol) => handleProtocolUpdate(updatedProtocol, 'home')}
+                      planType="home"
+                    />
+                  </div>
+                ) : clinicalProtocol ? (
+                  <div className="h-full overflow-y-auto">
+                    <ProtocolCustomizationStep
+                      protocol={customizedClinicalProtocol || clinicalProtocol}
+                      staticConditionData={staticConditionData ? {
+                        ...staticConditionData,
+                        allExercises: staticConditionData?.exercise_prescriptions?.map((exerciseName: string, index: number) => ({
+                          id: `ex_${index}`,
+                          name: exerciseName || `Exercise ${index + 1}`,
+                          category: 'therapeutic',
+                          bodyRegion: 'lumbar',
+                          description: '',
+                          instructions: [],
+                          equipment: [],
+                          difficulty: 'intermediate',
+                          contraindications: [],
+                          indications: [],
+                          evidenceLevel: 'moderate'
+                        })) || [],
+                        allModalities: staticConditionData?.modalities?.map((modalityName: string, index: number) => ({
+                          id: `mod_${index}`,
+                          name: modalityName,
+                          category: 'thermal',
+                          description: '',
+                          indications: [],
+                          contraindications: [],
+                          parameters: {
+                            intensity: 'moderate',
+                            duration: '15 minutes',
+                            frequency: '3x per week'
+                          },
+                          clinicalSupervisionRequired: false,
+                          evidenceLevel: 'moderate'
+                        })) || [],
+                        allManualTherapy: staticConditionData?.manual_therapy?.map((therapyName: string, index: number) => ({
+                          id: `mt_${index}`,
+                          name: therapyName,
+                          technique: therapyName,
+                          category: 'mobilization',
+                          description: '',
+                          indications: [],
+                          contraindications: [],
+                          parameters: {
+                            frequency: '2x per week',
+                            sessionDuration: '30 minutes',
+                            intensity: 'moderate'
+                          },
+                          clinicalSupervisionRequired: true,
+                          evidenceLevel: 'moderate'
+                        })) || []
+                      } : null}
+                      onProtocolUpdate={(updatedProtocol) => handleProtocolUpdate(updatedProtocol, 'clinical')}
+                      planType="clinical"
+                    />
+                  </div>
+                ) : null}
+              </div>
+
+              <div className="flex justify-between pt-6 flex-shrink-0">
+                <Button variant="outline" onClick={() => setStep('results')}>
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Back to Results
+                </Button>
+                <Button 
+                  onClick={handleFinishCustomization}
+                  className="bg-healui-primary hover:bg-healui-primary-dark"
+                >
+                  Apply Customizations
                 </Button>
               </div>
             </div>
