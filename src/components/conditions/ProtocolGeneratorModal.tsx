@@ -24,7 +24,6 @@ import {
   ContraindicationWarning
 } from '../../types/protocol-generator.types'
 import SafetyWarnings from './SafetyWarnings'
-import ProtocolConfigurationStep from './ProtocolConfigurationStep'
 import ProtocolCustomizationStep from './ProtocolCustomizationStep'
 
 interface ProtocolGeneratorModalProps {
@@ -67,6 +66,7 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
   // Customization state
   const [customizedHomeProtocol, setCustomizedHomeProtocol] = useState<GeneratedProtocol | null>(null)
   const [customizedClinicalProtocol, setCustomizedClinicalProtocol] = useState<GeneratedProtocol | null>(null)
+  const [selectedPhaseIndex, setSelectedPhaseIndex] = useState(0)
   
   // Clinical configuration for protocol generation
   const [preferences, setPreferences] = useState<ProtocolPreferences>({
@@ -483,13 +483,15 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
       if (response.success && response.data) {
         if (planType === 'home') {
           setHomeProtocol(response.data)
+          setCustomizedHomeProtocol(response.data) // Initialize customized version
         } else {
           setClinicalProtocol(response.data)
+          setCustomizedClinicalProtocol(response.data) // Initialize customized version
         }
         
         showNotification({
           title: 'Protocol Generated!',
-          message: `${planType.charAt(0).toUpperCase() + planType.slice(1)} protocol successfully generated using direct flow`,
+          message: `${planType.charAt(0).toUpperCase() + planType.slice(1)} protocol successfully generated`,
           color: 'green'
         })
       } else {
@@ -553,34 +555,12 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
     }
   }
 
-  const handleCustomizeProtocol = () => {
-    // Initialize customized protocols with current AI protocols
-    if (homeProtocol && !customizedHomeProtocol) {
-      setCustomizedHomeProtocol(homeProtocol)
-    }
-    if (clinicalProtocol && !customizedClinicalProtocol) {
-      setCustomizedClinicalProtocol(clinicalProtocol)
-    }
-    setStep('customization')
-  }
-
   const handleProtocolUpdate = (updatedProtocol: GeneratedProtocol, planType: 'home' | 'clinical') => {
     if (planType === 'home') {
       setCustomizedHomeProtocol(updatedProtocol)
     } else {
       setCustomizedClinicalProtocol(updatedProtocol)
     }
-  }
-
-  const handleFinishCustomization = () => {
-    // Update the main protocol state with customized versions
-    if (customizedHomeProtocol) {
-      setHomeProtocol(customizedHomeProtocol)
-    }
-    if (customizedClinicalProtocol) {
-      setClinicalProtocol(customizedClinicalProtocol)
-    }
-    setStep('results')
   }
 
   const handleExport = (protocol: GeneratedProtocol, format: 'pdf' | 'json') => {
@@ -636,38 +616,45 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
   }
 
   const renderProtocolPhase = (phase: TreatmentPhase, index: number) => (
-    <Card key={index} className="mb-4">
-      <div className="p-4">
-        <div className="flex items-center justify-between mb-3">
-          <h4 className="font-semibold text-gray-900">{phase.phaseName}</h4>
-          <Badge variant="outline">{phase.durationWeeks} weeks</Badge>
+    <Card key={index} className="mb-3">
+      <div className="p-3">
+        <div className="flex items-center justify-between mb-2">
+          <h4 className="font-medium text-gray-900 text-sm">{phase.phaseName}</h4>
+          <Badge variant="outline" className="text-xs">{phase.durationWeeks}w</Badge>
         </div>
         
-        <div className="space-y-3">
-          <div>
-            <h5 className="text-sm font-medium text-gray-700 mb-2">Goals:</h5>
-            <ul className="text-sm text-gray-600 list-disc list-inside">
-              {phase.primaryGoals.map((goal, idx) => (
-                <li key={idx}>{goal}</li>
-              ))}
-            </ul>
-          </div>
-
+        <div className="space-y-2">
           {phase.exercises.length > 0 && (
             <div>
-              <h5 className="text-sm font-medium text-gray-700 mb-2">Exercises:</h5>
-              <div className="grid gap-2">
+              <div className="space-y-1">
                 {phase.exercises.map((exercise, idx) => (
-                  <div key={idx} className="bg-gray-50 p-3 rounded-lg">
-                    <div className="font-medium text-sm text-gray-900">{exercise.exerciseName}</div>
-                    <div className="text-xs text-gray-600 mt-1">
-                      {exercise.sets} sets × {exercise.repetitions} reps, {exercise.frequency}
-                    </div>
-                    {exercise.equipment.length > 0 && (
-                      <div className="text-xs text-blue-600 mt-1">
-                        Equipment: {exercise.equipment.join(', ')}
+                  <div key={idx} className="bg-blue-50 p-2 rounded text-sm group hover:bg-blue-100 transition-colors">
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1">
+                        <div className="font-medium text-gray-900">{exercise.exerciseName}</div>
+                        <div className="text-xs text-gray-600">
+                          {exercise.sets} sets × {exercise.repetitions}, {exercise.frequency}
+                        </div>
                       </div>
-                    )}
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => {
+                          const updatedProtocol = {
+                            ...(customizedHomeProtocol || customizedClinicalProtocol || homeProtocol || clinicalProtocol),
+                            treatmentPhases: (customizedHomeProtocol || customizedClinicalProtocol || homeProtocol || clinicalProtocol).treatmentPhases.map((p, pIndex) => 
+                              pIndex === index 
+                                ? { ...p, exercises: p.exercises.filter((_, eIndex) => eIndex !== idx) }
+                                : p
+                            )
+                          };
+                          handleProtocolUpdate(updatedProtocol, homeProtocol ? 'home' : 'clinical');
+                        }}
+                        className="text-red-600 hover:bg-red-50 ml-2"
+                      >
+                        <X className="w-4 h-4" />
+                      </Button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -676,13 +663,32 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
 
           {phase.modalities.length > 0 && (
             <div>
-              <h5 className="text-sm font-medium text-gray-700 mb-2">Modalities:</h5>
-              <div className="grid gap-2">
+              <div className="space-y-1">
                 {phase.modalities.map((modality, idx) => (
-                  <div key={idx} className="bg-amber-50 p-3 rounded-lg">
-                    <div className="font-medium text-sm text-gray-900">{modality.modalityName}</div>
-                    <div className="text-xs text-gray-600 mt-1">
-                      {modality.duration}, {modality.frequency}
+                  <div key={idx} className="bg-amber-50 p-2 rounded text-sm group hover:bg-amber-100 transition-colors">
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1">
+                        <div className="font-medium text-gray-900">{modality.modalityName}</div>
+                        <div className="text-xs text-gray-600">{modality.duration}, {modality.frequency}</div>
+                      </div>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => {
+                          const updatedProtocol = {
+                            ...(customizedHomeProtocol || customizedClinicalProtocol || homeProtocol || clinicalProtocol),
+                            treatmentPhases: (customizedHomeProtocol || customizedClinicalProtocol || homeProtocol || clinicalProtocol).treatmentPhases.map((p, pIndex) => 
+                              pIndex === index 
+                                ? { ...p, modalities: p.modalities.filter((_, mIndex) => mIndex !== idx) }
+                                : p
+                            )
+                          };
+                          handleProtocolUpdate(updatedProtocol, homeProtocol ? 'home' : 'clinical');
+                        }}
+                        className="text-red-600 hover:bg-red-50 ml-2"
+                      >
+                        <X className="w-4 h-4" />
+                      </Button>
                     </div>
                   </div>
                 ))}
@@ -692,19 +698,33 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
 
           {phase.manualTherapy && phase.manualTherapy.length > 0 && (
             <div>
-              <h5 className="text-sm font-medium text-gray-700 mb-2">Manual Therapy:</h5>
-              <div className="grid gap-2">
+              <div className="space-y-1">
                 {phase.manualTherapy.map((therapy, idx) => (
-                  <div key={idx} className="bg-green-50 border border-green-200 p-3 rounded-lg">
-                    <div className="font-medium text-sm text-gray-900">{therapy.technique}</div>
-                    <div className="text-xs text-gray-600 mt-1">
-                      {therapy.frequency}, {therapy.sessionDuration}
-                    </div>
-                    {therapy.description && (
-                      <div className="text-xs text-green-700 mt-2">
-                        {therapy.description}
+                  <div key={idx} className="bg-green-50 p-2 rounded text-sm group hover:bg-green-100 transition-colors">
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1">
+                        <div className="font-medium text-gray-900">{therapy.technique}</div>
+                        <div className="text-xs text-gray-600">{therapy.frequency}, {therapy.sessionDuration}</div>
                       </div>
-                    )}
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => {
+                          const updatedProtocol = {
+                            ...(customizedHomeProtocol || customizedClinicalProtocol || homeProtocol || clinicalProtocol),
+                            treatmentPhases: (customizedHomeProtocol || customizedClinicalProtocol || homeProtocol || clinicalProtocol).treatmentPhases.map((p, pIndex) => 
+                              pIndex === index 
+                                ? { ...p, manualTherapy: (p.manualTherapy || []).filter((_, tIndex) => tIndex !== idx) }
+                                : p
+                            )
+                          };
+                          handleProtocolUpdate(updatedProtocol, homeProtocol ? 'home' : 'clinical');
+                        }}
+                        className="text-red-600 hover:bg-red-50 ml-2"
+                      >
+                        <X className="w-4 h-4" />
+                      </Button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -716,101 +736,11 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
   )
 
   const renderProtocolDisplay = (protocol: GeneratedProtocol) => (
-    <div className="space-y-4 pr-2">
-      {/* Protocol Header */}
-      <Card>
-        <div className="p-4">
-          <div className="flex items-center justify-between mb-3">
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900">
-                {protocol.protocolMetadata.planType.charAt(0).toUpperCase() + protocol.protocolMetadata.planType.slice(1)} Protocol
-              </h3>
-              <p className="text-sm text-gray-600">{protocol.protocolMetadata.conditionName}</p>
-            </div>
-            <Badge 
-              variant={protocol.safetyAssessment.emergencyReferralNeeded ? "destructive" : "default"}
-              className="flex items-center gap-1"
-            >
-              {protocol.safetyAssessment.emergencyReferralNeeded ? (
-                <><AlertTriangle className="w-3 h-3" /> Referral Needed</>
-              ) : (
-                <><CheckCircle className="w-3 h-3" /> Safe</>
-              )}
-            </Badge>
-          </div>
-          
-          <div className="grid grid-cols-3 gap-4 text-sm">
-            <div>
-              <span className="text-gray-500">Duration:</span>
-              <div className="font-medium">{protocol.protocolMetadata.totalDurationWeeks} weeks</div>
-            </div>
-            <div>
-              <span className="text-gray-500">Generated:</span>
-              <div className="font-medium">{new Date(protocol.protocolMetadata.generatedDateTime).toLocaleDateString()}</div>
-            </div>
-            <div>
-              <span className="text-gray-500">Confidence:</span>
-              <div className="font-medium">{Math.round(protocol.protocolMetadata.aiConfidenceScore * 100)}%</div>
-            </div>
-          </div>
-        </div>
-      </Card>
-
-      {/* Safety Assessment */}
-      {(protocol.safetyAssessment.redFlagsIdentified.length > 0 || protocol.safetyAssessment.contraindications.length > 0) && (
-        <Card className="border-red-200 bg-red-50">
-          <div className="p-4">
-            <h4 className="font-semibold text-red-900 flex items-center gap-2 mb-2">
-              <AlertTriangle className="w-4 h-4" />
-              Safety Considerations
-            </h4>
-            {protocol.safetyAssessment.redFlagsIdentified.length > 0 && (
-              <div className="mb-2">
-                <p className="text-sm font-medium text-red-800">Red Flags:</p>
-                <ul className="text-sm text-red-700 list-disc list-inside">
-                  {protocol.safetyAssessment.redFlagsIdentified.map((flag, idx) => (
-                    <li key={idx}>{flag}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            {protocol.safetyAssessment.contraindications.length > 0 && (
-              <div>
-                <p className="text-sm font-medium text-red-800">Contraindications:</p>
-                <ul className="text-sm text-red-700 list-disc list-inside">
-                  {protocol.safetyAssessment.contraindications.map((contra, idx) => (
-                    <li key={idx}>{contra}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-        </Card>
-      )}
-
+    <div className="space-y-3">
       {/* Treatment Phases */}
       <div>
-        <h4 className="font-semibold text-gray-900 mb-3">Treatment Phases</h4>
         {protocol.treatmentPhases.map((phase, index) => renderProtocolPhase(phase, index))}
       </div>
-
-      {/* Patient Education */}
-      <Card>
-        <div className="p-4">
-          <h4 className="font-semibold text-gray-900 mb-3">Patient Education</h4>
-          <div className="space-y-2 text-sm text-gray-700">
-            <div>
-              <span className="font-medium">Condition:</span> {protocol.patientEducation.conditionExplanation}
-            </div>
-            <div>
-              <span className="font-medium">Expected Timeline:</span> {protocol.patientEducation.healingTimeline}
-            </div>
-            <div>
-              <span className="font-medium">Lifestyle Factors:</span> {protocol.patientEducation.lifestyleFactors}
-            </div>
-          </div>
-        </div>
-      </Card>
     </div>
   )
 
@@ -821,52 +751,65 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
       <div className="bg-white w-full h-full overflow-hidden shadow-xl flex flex-col">
         {/* Header */}
         <div className="bg-gradient-to-r from-healui-physio to-healui-primary text-white">
-          <div className="px-6 py-4 flex items-center justify-between">
-            <div>
-              <h2 className="text-xl font-semibold flex items-center gap-2">
-                <Sparkles className="w-5 h-5" />
-                AI Protocol Generator
-              </h2>
-              <p className="text-blue-100 text-sm">
-                {patientName} • {conditionName}
-              </p>
-            </div>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              onClick={onClose}
-              className="text-white hover:bg-white/20"
-            >
-              <X className="w-5 h-5" />
-            </Button>
-          </div>
-
-          {/* Progress Steps */}
-          <div className="px-6 pb-4">
-            <div className="flex items-center space-x-4">
-              {[
-                { key: 'selection', label: 'Plan Selection', icon: Users },
-                { key: 'configuration', label: 'Configuration', icon: Cpu },
-                { key: 'generating', label: 'Generating', icon: Clock },
-                { key: 'results', label: 'Results', icon: FileText },
-                { key: 'customization', label: 'Customize', icon: Sparkles }
-              ].map(({ key, label, icon: Icon }, index) => (
-                <div key={key} className="flex items-center">
-                  <div className={`flex items-center justify-center w-8 h-8 rounded-full border-2 ${
-                    step === key ? 'bg-white text-healui-primary border-white' :
-                    ['selection', 'configuration', 'generating', 'results', 'customization'].indexOf(step) > index ? 'bg-white/20 text-white border-white/20' :
-                    'bg-transparent text-white/70 border-white/50'
-                  }`}>
-                    <Icon className="w-4 h-4" />
+          <div className="px-4 py-2 flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <Brain className="w-4 h-4" />
+                <span className="font-medium text-sm">AI</span>
+              </div>
+              <div className="text-white/80">•</div>
+              <div>
+                <div className="font-medium text-sm truncate max-w-[200px]">{patientName}</div>
+                <div className="text-blue-100 text-xs truncate max-w-[200px]">{conditionName}</div>
+              </div>
+              
+              {/* Compact Phase Selection in Header */}
+              {(step === 'results' || step === 'customization') && (homeProtocol || clinicalProtocol) && (
+                <>
+                  <div className="text-white/80">•</div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-blue-100">Phase:</span>
+                    <div className="flex bg-white/20 rounded-md gap-1 p-1">
+                      {(customizedHomeProtocol || customizedClinicalProtocol || homeProtocol || clinicalProtocol)?.treatmentPhases?.map((phase, index) => (
+                        <button
+                          key={index}
+                          onClick={() => setSelectedPhaseIndex(index)}
+                          className={`px-2 py-0.5 rounded text-xs font-medium transition-all ${
+                            index === selectedPhaseIndex 
+                              ? 'bg-white text-healui-primary' 
+                              : 'text-white hover:bg-white/20'
+                          }`}
+                        >
+                          {phase.phaseName.replace('Phase ', '').replace(':', '')}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                  <span className={`ml-2 text-sm ${
-                    step === key ? 'text-white font-medium' : 'text-white/70'
-                  }`}>{label}</span>
-                  {index < 4 && <ArrowRight className="w-4 h-4 text-white/50 mx-3" />}
-                </div>
-              ))}
+                </>
+              )}
+            </div>
+            
+            <div className="flex items-center gap-3">
+              {/* Current Stage Indicator */}
+              <div className="bg-white/20 rounded-full px-3 py-1">
+                <span className="text-xs font-medium">
+                  {(step === 'selection' || step === 'configuration') && 'Setup'}
+                  {step === 'generating' && 'Generating...'}
+                  {(step === 'results' || step === 'customization') && 'Review'}
+                </span>
+              </div>
+              
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={onClose}
+                className="text-white hover:bg-white/20 p-1"
+              >
+                <X className="w-4 h-4" />
+              </Button>
             </div>
           </div>
+          
         </div>
 
         {/* Content */}
@@ -886,513 +829,394 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
                   </p>
                 </div>
               ) : (
-                <>
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Select Protocol Types</h3>
-                    <p className="text-gray-600">Choose the type(s) of treatment protocols you want to generate.</p>
-                    {/* Data loading status */}
-                    <div className="mt-2 space-y-1">
-                      <div className="text-sm text-blue-600">
-                        ✓ Patient data loaded: {patientData?.full_name || 'Unknown'}
-                      </div>
-                      <div className="text-sm text-blue-600">
-                        ✓ Condition data loaded: {conditionData?.condition_name || 'Unknown'}
-                      </div>
-                      {conditionData?.condition_id && (
-                        <div className="text-sm text-blue-600">
-                          ✓ Condition ID: {conditionData.condition_id}
-                        </div>
+                <div className="grid lg:grid-cols-2 gap-6">
+                  {/* Left Side - Protocol Types */}
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold text-gray-900">Protocol Types</h3>
+                    <div className="space-y-3">
+                      {renderPlanTypeCard(
+                        'home',
+                        'Home Protocol',
+                        'Self-guided treatment plan',
+                        <Home className="w-4 h-4" />,
+                        ['Portable equipment', 'Self-administered', 'Patient education']
                       )}
-                      {!conditionData?.condition_id && (
-                        <div className="text-sm text-orange-600">
-                          ⚠ No condition_id found - will search by name
-                        </div>
-                      )}
-                      {staticConditionData ? (
-                        <div className="text-sm text-green-600">
-                          ✓ Static data loaded: {staticConditionData.exercise_prescriptions?.length || 0} exercises, {staticConditionData.modalities?.length || 0} modalities
-                        </div>
-                      ) : (
-                        <div className="text-sm text-red-600">
-                          ✗ No static condition data found
-                        </div>
+                      {renderPlanTypeCard(
+                        'clinical',
+                        'Clinical Protocol', 
+                        'Professional treatment plan',
+                        <Building2 className="w-4 h-4" />,
+                        ['Advanced equipment', 'Manual therapy', 'Clinical supervision']
                       )}
                     </div>
                   </div>
 
-                  <div className="grid md:grid-cols-2 gap-6">
-                {renderPlanTypeCard(
-                  'home',
-                  'Home Protocol',
-                  'Self-guided treatment plan for patients to follow at home',
-                  <Home className="w-5 h-5" />,
-                  ['Portable equipment only', 'Self-administered exercises', 'Patient education focus', 'Progress tracking guidance']
-                )}
-                
-                {renderPlanTypeCard(
-                  'clinical',
-                  'Clinical Protocol',
-                  'Professional treatment plan for clinic-based therapy',
-                  <Building2 className="w-5 h-5" />,
-                  ['Advanced equipment usage', 'Manual therapy techniques', 'Clinical supervision', 'Professional modalities']
-                )}
-                  </div>
+                  {/* Right Side - Configuration */}
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold text-gray-900">Treatment Preferences</h3>
+                    
+                    {/* Primary Focus */}
+                    <Card className="p-4">
+                      <h4 className="font-medium text-gray-900 mb-3 text-sm">Primary Focus</h4>
+                      <div className="grid grid-cols-3 gap-2">
+                        {[
+                          { value: 'pain_relief', label: 'Pain Relief', color: 'bg-red-100 text-red-700 border-red-200' },
+                          { value: 'function', label: 'Function', color: 'bg-blue-100 text-blue-700 border-blue-200' },
+                          { value: 'performance', label: 'Performance', color: 'bg-green-100 text-green-700 border-green-200' }
+                        ].map((focus) => (
+                          <button
+                            key={focus.value}
+                            onClick={() => setPreferences(prev => ({ ...prev, primaryFocus: focus.value as any }))}
+                            className={`p-2 rounded-lg border-2 text-xs font-medium transition-colors ${
+                              preferences.primaryFocus === focus.value 
+                                ? focus.color
+                                : 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100'
+                            }`}
+                          >
+                            {focus.label}
+                          </button>
+                        ))}
+                      </div>
+                    </Card>
 
-                  <div className="flex justify-between pt-6">
-                    <Button variant="outline" onClick={onClose}>
-                      Cancel
-                    </Button>
-                    <Button 
-                      onClick={() => setStep('configuration')}
-                      disabled={selectedPlanTypes.length === 0 || dataLoading}
-                      className="bg-healui-primary hover:bg-healui-primary-dark"
-                    >
-                      Configure Protocol{selectedPlanTypes.length > 1 ? 's' : ''}
-                      <ArrowRight className="w-4 h-4 ml-2" />
-                    </Button>
+                    {/* Duration */}
+                    <Card className="p-4">
+                      <h4 className="font-medium text-gray-900 mb-3 text-sm">Duration</h4>
+                      <div className="grid grid-cols-4 gap-2">
+                        {[
+                          { value: 4, label: '4w' },
+                          { value: 6, label: '6w' },
+                          { value: 8, label: '8w' },
+                          { value: 12, label: '12w' }
+                        ].map((duration) => (
+                          <button
+                            key={duration.value}
+                            onClick={() => setPreferences(prev => ({ ...prev, programDuration: duration.value }))}
+                            className={`p-2 rounded-lg border text-xs font-medium transition-colors ${
+                              preferences.programDuration === duration.value
+                                ? 'bg-healui-primary text-white border-healui-primary'
+                                : 'bg-gray-50 text-gray-600 border-gray-300 hover:bg-gray-100'
+                            }`}
+                          >
+                            {duration.label}
+                          </button>
+                        ))}
+                      </div>
+                    </Card>
+
+                    {/* Progression */}
+                    <Card className="p-4">
+                      <h4 className="font-medium text-gray-900 mb-3 text-sm">Progression Approach</h4>
+                      <div className="grid grid-cols-3 gap-2">
+                        {[
+                          { value: 'conservative', label: 'Conservative' },
+                          { value: 'standard', label: 'Standard' },
+                          { value: 'aggressive', label: 'Aggressive' }
+                        ].map((approach) => (
+                          <button
+                            key={approach.value}
+                            onClick={() => setPreferences(prev => ({ ...prev, progressionApproach: approach.value as any }))}
+                            className={`p-2 rounded-lg border text-xs font-medium transition-colors ${
+                              preferences.progressionApproach === approach.value
+                                ? 'bg-healui-primary text-white border-healui-primary'
+                                : 'bg-gray-50 text-gray-600 border-gray-300 hover:bg-gray-100'
+                            }`}
+                          >
+                            {approach.label}
+                          </button>
+                        ))}
+                      </div>
+                    </Card>
+
+                    {/* Patient Engagement */}
+                    <Card className="p-4">
+                      <h4 className="font-medium text-gray-900 mb-3 text-sm">Patient Engagement</h4>
+                      <div className="grid grid-cols-3 gap-2">
+                        {[
+                          { value: 'low', label: 'Low' },
+                          { value: 'moderate', label: 'Moderate' },
+                          { value: 'high', label: 'High' }
+                        ].map((engagement) => (
+                          <button
+                            key={engagement.value}
+                            onClick={() => setPreferences(prev => ({ ...prev, patientEngagement: engagement.value as any }))}
+                            className={`p-2 rounded-lg border text-xs font-medium transition-colors ${
+                              preferences.patientEngagement === engagement.value
+                                ? 'bg-healui-primary text-white border-healui-primary'
+                                : 'bg-gray-50 text-gray-600 border-gray-300 hover:bg-gray-100'
+                            }`}
+                          >
+                            {engagement.label}
+                          </button>
+                        ))}
+                      </div>
+                    </Card>
                   </div>
-                </>
+                </div>
+              )}
+
+              {!dataLoading && (
+                <div className="flex justify-between pt-6">
+                  <Button variant="outline" onClick={onClose}>
+                    Cancel
+                  </Button>
+                  <Button 
+                    onClick={handleGenerate}
+                    disabled={selectedPlanTypes.length === 0 || !preferences.primaryFocus || !preferences.progressionApproach || !preferences.patientEngagement}
+                    className="bg-healui-primary hover:bg-healui-primary-dark"
+                  >
+                    Generate Protocol{selectedPlanTypes.length > 1 ? 's' : ''}
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </div>
               )}
             </div>
           )}
 
-          {step === 'configuration' && (
-            <div className="space-y-6">
-              <ProtocolConfigurationStep
-                preferences={preferences}
-                onPreferencesChange={setPreferences}
-                planType={selectedPlanTypes.length === 1 ? selectedPlanTypes[0] : 'home'}
-              />
-
-              <div className="flex justify-between pt-6">
-                <Button variant="outline" onClick={() => setStep('selection')}>
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back to Selection
-                </Button>
-                <Button 
-                  onClick={handleGenerate}
-                  disabled={!preferences.primaryFocus || !preferences.progressionApproach || !preferences.patientEngagement || !preferences.programDuration}
-                  className="bg-healui-primary hover:bg-healui-primary-dark"
-                >
-                  Generate Protocol{selectedPlanTypes.length > 1 ? 's' : ''}
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </div>
-            </div>
-          )}
 
           {step === 'generating' && (
-            <div className="max-w-5xl mx-auto space-y-8">
-              {/* Header Section */}
-              <div className="text-center space-y-4">
-                <h2 className="text-3xl font-semibold text-gray-900">
-                  Generating Physiotherapy Protocol
+            <div className="max-w-4xl mx-auto space-y-6">
+              {/* Clinical Protocol Development Header */}
+              <div className="text-center space-y-3">
+                <h2 className="text-2xl font-medium text-gray-900">
+                  Clinical Protocol Development
                 </h2>
-                {currentGenerating && (
-                  <div className="inline-flex items-center gap-3 bg-blue-50 border border-blue-200 rounded-lg px-4 py-3">
-                    <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
-                    <span className="text-blue-700 font-medium">
-                      Processing {currentGenerating} protocol
-                    </span>
-                  </div>
-                )}
+                <p className="text-gray-600">
+                  Evidence-based analysis in progress for {conditionName}
+                </p>
               </div>
 
-              {/* System Activity Logs - Main Focus */}
-              <div className="space-y-4">
-                <h3 className="text-2xl font-semibold text-gray-900 flex items-center gap-3">
-                  <Activity className="w-6 h-6" />
-                  System Activity
+              {/* Clinical Assessment Progress */}
+              <div className="bg-white border border-gray-200 rounded-lg p-6 space-y-6">
+                <h3 className="text-lg font-medium text-gray-900 border-b border-gray-100 pb-3">
+                  Clinical Assessment & Protocol Synthesis
                 </h3>
-                <div 
-                  ref={setScrollContainerRef}
-                  className="bg-gray-50 border border-gray-200 rounded-xl p-6 min-h-[500px] max-h-[500px] overflow-y-auto scroll-smooth"
-                >
-                  <div className="font-mono space-y-2">
-                    {generationLogs.map((log, index) => (
-                      <div 
-                        key={index} 
-                        className={`log-line flex items-start gap-3 text-base leading-relaxed py-1 ${
-                          log.includes('[SUCCESS]') || log.includes('[COMPLETE]')
-                            ? 'text-green-600 font-medium' 
-                            : log.includes('[SYSTEM]')
-                              ? 'text-blue-600 font-semibold'
-                              : 'text-gray-700'
-                        }`}
-                      >
-                        <span className="text-gray-400 text-sm shrink-0 w-20 font-mono">
-                          {new Date().toLocaleTimeString('en-US', { 
-                            hour12: false, 
-                            hour: '2-digit', 
-                            minute: '2-digit', 
-                            second: '2-digit' 
-                          })}
-                        </span>
-                        <span className="break-words">{log}</span>
+                
+                {/* Progress Phases */}
+                <div className="space-y-4">
+                  {generationPhases.map((phase, index) => {
+                    const isActive = currentPhase === index
+                    const isCompleted = currentPhase > index
+                    const isUpcoming = currentPhase < index
+                    
+                    return (
+                      <div key={index} className={`flex items-start gap-4 p-4 rounded-lg border-l-4 ${
+                        isActive ? 'bg-blue-50 border-l-blue-500' :
+                        isCompleted ? 'bg-green-50 border-l-green-500' :
+                        'bg-gray-50 border-l-gray-300'
+                      }`}>
+                        <div className={`flex items-center justify-center w-8 h-8 rounded-full ${
+                          isActive ? 'bg-blue-500 text-white' :
+                          isCompleted ? 'bg-green-500 text-white' :
+                          'bg-gray-300 text-gray-600'
+                        }`}>
+                          {isCompleted ? (
+                            <CheckCircle className="w-5 h-5" />
+                          ) : (
+                            <span className="text-sm font-medium">{index + 1}</span>
+                          )}
+                        </div>
+                        
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-2">
+                            <h4 className={`font-medium ${
+                              isActive ? 'text-blue-900' : 
+                              isCompleted ? 'text-green-900' : 
+                              'text-gray-700'
+                            }`}>
+                              {phase.name}
+                            </h4>
+                            {isActive && (
+                              <div className="flex items-center gap-2">
+                                <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                                <span className="text-xs text-blue-600 font-medium">Processing</span>
+                              </div>
+                            )}
+                          </div>
+                          
+                          <p className={`text-sm mb-3 ${
+                            isActive ? 'text-blue-700' : 
+                            isCompleted ? 'text-green-700' : 
+                            'text-gray-600'
+                          }`}>
+                            {phase.description}
+                          </p>
+                          
+                          {/* Current Task Indicator */}
+                          {isActive && (
+                            <div className="space-y-1">
+                              {phase.tasks.map((task, taskIndex) => {
+                                const currentTaskProgress = Math.floor((phaseProgress / 100) * phase.tasks.length)
+                                const isCurrentTask = taskIndex === currentTaskProgress
+                                const isTaskComplete = taskIndex < currentTaskProgress
+                                
+                                return (
+                                  <div key={taskIndex} className={`text-xs flex items-center gap-2 ${
+                                    isCurrentTask ? 'text-blue-700 font-medium' :
+                                    isTaskComplete ? 'text-green-600' :
+                                    'text-gray-500'
+                                  }`}>
+                                    {isTaskComplete ? (
+                                      <CheckCircle className="w-3 h-3 text-green-500" />
+                                    ) : isCurrentTask ? (
+                                      <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
+                                    ) : (
+                                      <div className="w-3 h-3 bg-gray-300 rounded-full"></div>
+                                    )}
+                                    {task}
+                                  </div>
+                                )
+                              })}
+                              
+                              {/* Progress Bar */}
+                              <div className="mt-3 bg-gray-200 rounded-full h-1.5">
+                                <div 
+                                  className="bg-blue-500 h-1.5 rounded-full transition-all duration-500"
+                                  style={{ width: `${phaseProgress}%` }}
+                                ></div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    ))}
-                    {generationLogs.length === 0 && (
-                      <div className="text-gray-400 text-base py-1">Waiting for system initialization...</div>
-                    )}
+                    )
+                  })}
+                </div>
+
+                {/* Evidence Base Reference */}
+                <div className="bg-gray-50 rounded-lg p-4 border">
+                  <h4 className="text-sm font-medium text-gray-900 mb-2">Evidence Sources</h4>
+                  <div className="grid grid-cols-2 gap-3 text-xs text-gray-600">
+                    <div>• Clinical Practice Guidelines</div>
+                    <div>• Cochrane Reviews</div>
+                    <div>• PEDro Database</div>
+                    <div>• Systematic Reviews</div>
                   </div>
                 </div>
               </div>
             </div>
           )}
 
-          {step === 'results' && (homeProtocol || clinicalProtocol) && (
-            <div className="space-y-6 h-full flex flex-col">
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-gray-900">Generated Protocols</h3>
-                <div className="flex gap-2">
-                  {homeProtocol && (
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => handleExport(homeProtocol, 'json')}
-                    >
-                      <Download className="w-4 h-4 mr-1" />
-                      Export Home
-                    </Button>
-                  )}
-                  {clinicalProtocol && (
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => handleExport(clinicalProtocol, 'json')}
-                    >
-                      <Download className="w-4 h-4 mr-1" />
-                      Export Clinical
-                    </Button>
-                  )}
-                </div>
-              </div>
+          {(step === 'results' || step === 'customization') && (homeProtocol || clinicalProtocol) && (
+            <div className="h-full flex flex-col">
 
-              <div className="flex-1 min-h-0">
-                {homeProtocol && clinicalProtocol ? (
-                  <Tabs defaultValue="home" className="w-full h-full flex flex-col">
-                    <TabsList className="grid w-full grid-cols-2 flex-shrink-0">
-                      <TabsTrigger value="home">Home Protocol</TabsTrigger>
-                      <TabsTrigger value="clinical">Clinical Protocol</TabsTrigger>
-                    </TabsList>
-                    <TabsContent value="home" className="flex-1 min-h-0">
-                      <div className="h-full overflow-y-auto space-y-6">
-                        {/* Safety Warnings - First and Most Important */}
-                        <SafetyWarnings
-                          redFlags={staticConditionData?.red_flags}
-                          contraindications={staticConditionData?.contraindications}
-                          yellowFlags={staticConditionData?.yellow_flags}
-                          planType="home"
-                        />
-                        {renderProtocolDisplay(homeProtocol)}
-                      </div>
-                    </TabsContent>
-                    <TabsContent value="clinical" className="flex-1 min-h-0">
-                      <div className="h-full overflow-y-auto space-y-6">
-                        {/* Safety Warnings - First and Most Important */}
-                        <SafetyWarnings
-                          redFlags={staticConditionData?.red_flags}
-                          contraindications={staticConditionData?.contraindications}
-                          yellowFlags={staticConditionData?.yellow_flags}
-                          planType="clinical"
-                        />
-                        {renderProtocolDisplay(clinicalProtocol)}
-                      </div>
-                    </TabsContent>
-                  </Tabs>
-                ) : homeProtocol ? (
-                  <div className="h-full overflow-y-auto space-y-6">
-                    {/* Safety Warnings - First and Most Important */}
-                    <SafetyWarnings
-                      redFlags={staticConditionData?.red_flags}
-                      contraindications={staticConditionData?.contraindications}
-                      yellowFlags={staticConditionData?.yellow_flags}
-                      planType="home"
-                    />
-                    {renderProtocolDisplay(homeProtocol)}
-                  </div>
-                ) : clinicalProtocol ? (
-                  <div className="h-full overflow-y-auto space-y-6">
-                    {/* Safety Warnings - First and Most Important */}
-                    <SafetyWarnings
-                      redFlags={staticConditionData?.red_flags}
-                      contraindications={staticConditionData?.contraindications}
-                      yellowFlags={staticConditionData?.yellow_flags}
-                      planType="clinical"
-                    />
-                    {renderProtocolDisplay(clinicalProtocol)}
-                  </div>
-                ) : null}
-              </div>
+              {/* Simplified Control Bar */}
+              <div className="h-8 px-6 border-b border-gray-200 bg-white flex items-center justify-between">
+                <SafetyWarnings
+                  redFlags={staticConditionData?.red_flags}
+                  contraindications={staticConditionData?.contraindications}
+                  yellowFlags={staticConditionData?.yellow_flags}
+                  planType={homeProtocol ? "home" : "clinical"}
+                />
 
-              <div className="flex justify-between pt-6 flex-shrink-0">
-                <Button variant="outline" onClick={() => setStep('selection')}>
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Generate More
-                </Button>
-                <div className="flex gap-3">
-                  {staticConditionData && (
-                    <Button 
-                      variant="outline" 
-                      onClick={handleCustomizeProtocol}
-                      className="border-healui-primary text-healui-primary hover:bg-healui-primary hover:text-white"
-                    >
-                      <Sparkles className="w-4 h-4 mr-2" />
-                      Customize Protocol
-                    </Button>
-                  )}
-                  <Button onClick={onClose}>
-                    Done
-                  </Button>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {step === 'customization' && staticConditionData && (homeProtocol || clinicalProtocol) && (
-            <div className="space-y-6 h-full flex flex-col">
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-gray-900">Customize Protocols</h3>
-              </div>
-
-              <div className="flex-1 min-h-0">
-                {homeProtocol && clinicalProtocol ? (
-                  <Tabs defaultValue="home" className="w-full h-full flex flex-col">
-                    <TabsList className="grid w-full grid-cols-2 flex-shrink-0">
-                      <TabsTrigger value="home">Customize Home Protocol</TabsTrigger>
-                      <TabsTrigger value="clinical">Customize Clinical Protocol</TabsTrigger>
-                    </TabsList>
-                    <TabsContent value="home" className="flex-1 min-h-0">
-                      <div className="h-full overflow-y-auto">
-                        <ProtocolCustomizationStep
-                          protocol={customizedHomeProtocol || homeProtocol}
-                          staticConditionData={staticConditionData ? {
-                            ...staticConditionData,
-                            allExercises: staticConditionData?.exercise_prescriptions?.map((exerciseName: string, index: number) => {
-                              console.log(`Mapping exercise ${index}:`, exerciseName)
-                              return {
-                                id: `ex_${index}`,
-                                name: exerciseName || `Exercise ${index + 1}`,
-                                category: 'therapeutic',
-                                bodyRegion: 'lumbar',
-                                description: '',
-                                instructions: [],
-                                equipment: [],
-                                difficulty: 'intermediate',
-                                contraindications: [],
-                                indications: [],
-                                evidenceLevel: 'moderate'
-                              }
-                            }) || [],
-                            allModalities: staticConditionData?.modalities?.map((modalityName: string, index: number) => ({
-                              id: `mod_${index}`,
-                              name: modalityName,
-                              category: 'thermal',
-                              description: '',
-                              indications: [],
-                              contraindications: [],
-                              parameters: {
-                                intensity: 'moderate',
-                                duration: '15 minutes',
-                                frequency: '3x per week'
-                              },
-                              clinicalSupervisionRequired: false,
-                              evidenceLevel: 'moderate'
-                            })) || [],
-                            allManualTherapy: staticConditionData?.manual_therapy?.map((therapyName: string, index: number) => ({
-                              id: `mt_${index}`,
-                              name: therapyName,
-                              technique: therapyName,
-                              category: 'mobilization',
-                              description: '',
-                              indications: [],
-                              contraindications: [],
-                              parameters: {
-                                frequency: '2x per week',
-                                sessionDuration: '30 minutes',
-                                intensity: 'moderate'
-                              },
-                              clinicalSupervisionRequired: true,
-                              evidenceLevel: 'moderate'
-                            })) || []
-                          } : null}
-                          onProtocolUpdate={(updatedProtocol) => handleProtocolUpdate(updatedProtocol, 'home')}
-                          planType="home"
-                        />
-                      </div>
-                    </TabsContent>
-                    <TabsContent value="clinical" className="flex-1 min-h-0">
-                      <div className="h-full overflow-y-auto">
-                        <ProtocolCustomizationStep
-                          protocol={customizedClinicalProtocol || clinicalProtocol}
-                          staticConditionData={staticConditionData ? {
-                            ...staticConditionData,
-                            allExercises: staticConditionData?.exercise_prescriptions?.map((exerciseName: string, index: number) => {
-                              console.log(`Mapping exercise ${index}:`, exerciseName)
-                              return {
-                                id: `ex_${index}`,
-                                name: exerciseName || `Exercise ${index + 1}`,
-                                category: 'therapeutic',
-                                bodyRegion: 'lumbar',
-                                description: '',
-                                instructions: [],
-                                equipment: [],
-                                difficulty: 'intermediate',
-                                contraindications: [],
-                                indications: [],
-                                evidenceLevel: 'moderate'
-                              }
-                            }) || [],
-                            allModalities: staticConditionData?.modalities?.map((modalityName: string, index: number) => ({
-                              id: `mod_${index}`,
-                              name: modalityName,
-                              category: 'thermal',
-                              description: '',
-                              indications: [],
-                              contraindications: [],
-                              parameters: {
-                                intensity: 'moderate',
-                                duration: '15 minutes',
-                                frequency: '3x per week'
-                              },
-                              clinicalSupervisionRequired: false,
-                              evidenceLevel: 'moderate'
-                            })) || [],
-                            allManualTherapy: staticConditionData?.manual_therapy?.map((therapyName: string, index: number) => ({
-                              id: `mt_${index}`,
-                              name: therapyName,
-                              technique: therapyName,
-                              category: 'mobilization',
-                              description: '',
-                              indications: [],
-                              contraindications: [],
-                              parameters: {
-                                frequency: '2x per week',
-                                sessionDuration: '30 minutes',
-                                intensity: 'moderate'
-                              },
-                              clinicalSupervisionRequired: true,
-                              evidenceLevel: 'moderate'
-                            })) || []
-                          } : null}
-                          onProtocolUpdate={(updatedProtocol) => handleProtocolUpdate(updatedProtocol, 'clinical')}
-                          planType="clinical"
-                        />
-                      </div>
-                    </TabsContent>
-                  </Tabs>
-                ) : homeProtocol ? (
-                  <div className="h-full overflow-y-auto">
-                    <ProtocolCustomizationStep
-                      protocol={customizedHomeProtocol || homeProtocol}
-                      staticConditionData={staticConditionData ? {
-                        ...staticConditionData,
-                        allExercises: staticConditionData?.exercise_prescriptions?.map((exerciseName: string, index: number) => ({
-                          id: `ex_${index}`,
-                          name: exerciseName || `Exercise ${index + 1}`,
-                          category: 'therapeutic',
-                          bodyRegion: 'lumbar',
-                          description: '',
-                          instructions: [],
-                          equipment: [],
-                          difficulty: 'intermediate',
-                          contraindications: [],
-                          indications: [],
-                          evidenceLevel: 'moderate'
-                        })) || [],
-                        allModalities: staticConditionData?.modalities?.map((modalityName: string, index: number) => ({
-                          id: `mod_${index}`,
-                          name: modalityName,
-                          category: 'thermal',
-                          description: '',
-                          indications: [],
-                          contraindications: [],
-                          parameters: {
-                            intensity: 'moderate',
-                            duration: '15 minutes',
-                            frequency: '3x per week'
-                          },
-                          clinicalSupervisionRequired: false,
-                          evidenceLevel: 'moderate'
-                        })) || [],
-                        allManualTherapy: []
-                      } : null}
-                      onProtocolUpdate={(updatedProtocol) => handleProtocolUpdate(updatedProtocol, 'home')}
-                      planType="home"
-                    />
-                  </div>
-                ) : clinicalProtocol ? (
-                  <div className="h-full overflow-y-auto">
-                    <ProtocolCustomizationStep
-                      protocol={customizedClinicalProtocol || clinicalProtocol}
-                      staticConditionData={staticConditionData ? {
-                        ...staticConditionData,
-                        allExercises: staticConditionData?.exercise_prescriptions?.map((exerciseName: string, index: number) => ({
-                          id: `ex_${index}`,
-                          name: exerciseName || `Exercise ${index + 1}`,
-                          category: 'therapeutic',
-                          bodyRegion: 'lumbar',
-                          description: '',
-                          instructions: [],
-                          equipment: [],
-                          difficulty: 'intermediate',
-                          contraindications: [],
-                          indications: [],
-                          evidenceLevel: 'moderate'
-                        })) || [],
-                        allModalities: staticConditionData?.modalities?.map((modalityName: string, index: number) => ({
-                          id: `mod_${index}`,
-                          name: modalityName,
-                          category: 'thermal',
-                          description: '',
-                          indications: [],
-                          contraindications: [],
-                          parameters: {
-                            intensity: 'moderate',
-                            duration: '15 minutes',
-                            frequency: '3x per week'
-                          },
-                          clinicalSupervisionRequired: false,
-                          evidenceLevel: 'moderate'
-                        })) || [],
-                        allManualTherapy: staticConditionData?.manual_therapy?.map((therapyName: string, index: number) => ({
-                          id: `mt_${index}`,
-                          name: therapyName,
-                          technique: therapyName,
-                          category: 'mobilization',
-                          description: '',
-                          indications: [],
-                          contraindications: [],
-                          parameters: {
-                            frequency: '2x per week',
-                            sessionDuration: '30 minutes',
-                            intensity: 'moderate'
-                          },
-                          clinicalSupervisionRequired: true,
-                          evidenceLevel: 'moderate'
-                        })) || []
-                      } : null}
-                      onProtocolUpdate={(updatedProtocol) => handleProtocolUpdate(updatedProtocol, 'clinical')}
-                      planType="clinical"
-                    />
-                  </div>
-                ) : null}
-              </div>
-
-              <div className="flex justify-between pt-6 flex-shrink-0">
-                <Button variant="outline" onClick={() => setStep('results')}>
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back to Results
-                </Button>
                 <Button 
-                  onClick={handleFinishCustomization}
-                  className="bg-healui-primary hover:bg-healui-primary-dark"
+                  onClick={onClose}
+                  className="bg-healui-primary hover:bg-healui-primary-dark text-white px-4 py-1.5 text-sm font-semibold rounded-lg shadow-md hover:shadow-lg transition-all"
                 >
-                  Apply Customizations
+                  Save Protocol
                 </Button>
               </div>
+
+              {/* Main Content */}
+              <div className="flex-1 overflow-hidden">
+                <div className="grid grid-cols-2 h-full">
+                  {/* Left: Customization Panel */}
+                  {staticConditionData && (
+                    <div className="h-full overflow-y-auto p-4 border-r border-gray-200">
+                      <ProtocolCustomizationStep
+                        protocol={customizedHomeProtocol || customizedClinicalProtocol || homeProtocol || clinicalProtocol}
+                        staticConditionData={staticConditionData ? {
+                          ...staticConditionData,
+                          allExercises: staticConditionData?.exercise_prescriptions?.map((exerciseName: string, index: number) => ({
+                            id: `ex_${index}`,
+                            name: exerciseName || `Exercise ${index + 1}`,
+                            category: 'therapeutic',
+                            bodyRegion: 'lumbar',
+                            description: '',
+                            instructions: [],
+                            equipment: [],
+                            difficulty: 'intermediate',
+                            contraindications: [],
+                            indications: [],
+                            evidenceLevel: 'moderate'
+                          })) || [],
+                          allModalities: staticConditionData?.modalities?.raw?.map((modalityName: string, index: number) => {
+                            // Determine category from the categorized data
+                            let modalityCategory = 'other';
+                            let categoryColor = 'gray';
+                            
+                            if (staticConditionData.modalities.categorized) {
+                              for (const [category, modalities] of Object.entries(staticConditionData.modalities.categorized)) {
+                                if (modalities.includes(modalityName)) {
+                                  modalityCategory = category;
+                                  break;
+                                }
+                              }
+                            }
+                            
+                            // Set category colors for visual distinction
+                            const categoryColors = {
+                              electrotherapy: 'blue',
+                              cryotherapy: 'cyan',
+                              laser_phototherapy: 'red',
+                              ultrasound: 'purple',
+                              other: 'gray'
+                            };
+                            categoryColor = categoryColors[modalityCategory] || 'gray';
+                            
+                            return {
+                              id: `mod_${index}`,
+                              name: modalityName,
+                              category: modalityCategory,
+                              categoryColor: categoryColor,
+                              description: '',
+                              indications: [],
+                              contraindications: [],
+                              parameters: {
+                                intensity: 'moderate',
+                                duration: '15 minutes',
+                                frequency: '3x per week'
+                              },
+                              clinicalSupervisionRequired: modalityCategory === 'electrotherapy',
+                              evidenceLevel: 'moderate'
+                            }
+                          }) || [],
+                          allManualTherapy: (homeProtocol && !clinicalProtocol) ? [] : staticConditionData?.manual_therapy?.map((therapyName: string, index: number) => ({
+                            id: `mt_${index}`,
+                            name: therapyName,
+                            technique: therapyName,
+                            category: 'mobilization',
+                            description: '',
+                            indications: [],
+                            contraindications: [],
+                            parameters: {
+                              frequency: '2x per week',
+                              sessionDuration: '30 minutes',
+                              intensity: 'moderate'
+                            },
+                            clinicalSupervisionRequired: true,
+                            evidenceLevel: 'moderate'
+                          })) || []
+                        } : null}
+                        onProtocolUpdate={(updatedProtocol) => handleProtocolUpdate(updatedProtocol, homeProtocol ? 'home' : 'clinical')}
+                        planType={homeProtocol ? "home" : "clinical"}
+                        selectedPhaseIndex={selectedPhaseIndex}
+                        onPhaseChange={setSelectedPhaseIndex}
+                      />
+                    </div>
+                  )}
+                  
+                  {/* Right: Protocol Preview */}
+                  <div className="h-full overflow-y-auto p-4">
+                    <div className="text-xs text-gray-500 mb-2">Protocol Preview</div>
+                    {renderProtocolDisplay(customizedHomeProtocol || customizedClinicalProtocol || homeProtocol || clinicalProtocol)}
+                  </div>
+                </div>
+              </div>
+
             </div>
           )}
+
 
           {error && (
             <div className="bg-red-50 border border-red-200 rounded-lg p-4 mt-4">

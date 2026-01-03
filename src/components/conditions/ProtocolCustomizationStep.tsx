@@ -1,11 +1,10 @@
 'use client'
 
 import React, { useState, useMemo } from 'react'
-import { Plus, Minus, Info, AlertTriangle, CheckCircle, Search, Filter, X } from 'lucide-react'
+import { Plus, Minus, Info, AlertTriangle, CheckCircle, X, Activity, Zap, Target } from 'lucide-react'
 import { Button } from '../ui/button'
 import { Card } from '../ui/card'
 import { Badge } from '../ui/badge'
-import { Input } from '../ui/input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs'
 import { 
   GeneratedProtocol, 
@@ -23,17 +22,18 @@ interface ProtocolCustomizationStepProps {
   staticConditionData: StaticConditionForCustomization | null
   onProtocolUpdate: (updatedProtocol: GeneratedProtocol) => void
   planType: 'home' | 'clinical'
+  selectedPhaseIndex?: number
+  onPhaseChange?: (index: number) => void
 }
 
 const ProtocolCustomizationStep: React.FC<ProtocolCustomizationStepProps> = ({
   protocol,
   staticConditionData,
   onProtocolUpdate,
-  planType
+  planType,
+  selectedPhaseIndex = 0,
+  onPhaseChange
 }) => {
-  const [searchTerm, setSearchTerm] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState<string>('all')
-  const [selectedPhaseIndex, setSelectedPhaseIndex] = useState(0)
 
   // Filter available exercises/modalities that aren't already used by AI
   const getUsedExerciseNames = useMemo(() => {
@@ -83,9 +83,6 @@ const ProtocolCustomizationStep: React.FC<ProtocolCustomizationStepProps> = ({
     console.log('All available exercises:', staticConditionData.allExercises.map(ex => ex.name))
     
     const filtered = staticConditionData.allExercises.filter(exercise => {
-      const matchesSearch = exercise.name.toLowerCase().includes(searchTerm.toLowerCase())
-      const matchesCategory = selectedCategory === 'all' || exercise.category === selectedCategory
-      
       // Check if exercise is already used (with flexible matching)
       const exerciseNameLower = exercise.name.toLowerCase()
       const simplifiedExerciseName = exerciseNameLower.replace(/[()]/g, '').replace(/\s+/g, ' ').trim()
@@ -95,37 +92,35 @@ const ProtocolCustomizationStep: React.FC<ProtocolCustomizationStepProps> = ({
         eq.toLowerCase().includes('clinical') || eq.toLowerCase().includes('professional')
       )
       
-      console.log(`Exercise: ${exercise.name}, notUsed: ${notUsed}, matchesSearch: ${matchesSearch}`)
+      console.log(`Exercise: ${exercise.name}, notUsed: ${notUsed}`)
       
-      return matchesSearch && matchesCategory && notUsed && suitableForPlan
+      return notUsed && suitableForPlan
     })
     
     console.log('Filtered exercises:', filtered.map(ex => ex.name))
     return filtered
-  }, [staticConditionData, searchTerm, selectedCategory, getUsedExerciseNames, planType])
+  }, [staticConditionData, getUsedExerciseNames, planType])
 
   const availableModalities = useMemo(() => {
     if (!staticConditionData?.allModalities) return []
     
     return staticConditionData.allModalities.filter(modality => {
-      const matchesSearch = modality.name.toLowerCase().includes(searchTerm.toLowerCase())
       const notUsed = !getUsedModalityNames.has(modality.name.toLowerCase())
       const suitableForPlan = planType === 'clinical' || !modality.clinicalSupervisionRequired
       
-      return matchesSearch && notUsed && suitableForPlan
+      return notUsed && suitableForPlan
     })
-  }, [staticConditionData, searchTerm, getUsedModalityNames, planType])
+  }, [staticConditionData, getUsedModalityNames, planType])
 
   const availableManualTherapy = useMemo(() => {
     if (!staticConditionData?.allManualTherapy || planType === 'home') return []
     
     return staticConditionData.allManualTherapy.filter(therapy => {
-      const matchesSearch = therapy.name.toLowerCase().includes(searchTerm.toLowerCase())
       const notUsed = !getUsedManualTherapyNames.has(therapy.technique.toLowerCase())
       
-      return matchesSearch && notUsed
+      return notUsed
     })
-  }, [staticConditionData, searchTerm, getUsedManualTherapyNames, planType])
+  }, [staticConditionData, getUsedManualTherapyNames, planType])
 
   const addExerciseToPhase = (exercise: StaticExercise, phaseIndex: number) => {
     const newExercise: ExerciseProtocol = {
@@ -243,11 +238,6 @@ const ProtocolCustomizationStep: React.FC<ProtocolCustomizationStepProps> = ({
     onProtocolUpdate(updatedProtocol)
   }
 
-  const categories = useMemo(() => {
-    const cats = new Set(['all'])
-    staticConditionData?.allExercises.forEach(ex => cats.add(ex.category))
-    return Array.from(cats)
-  }, [staticConditionData])
 
   const checkSafetyContraindications = (item: StaticExercise | StaticModality | StaticManualTherapy) => {
     const hasContraindications = item.contraindications.length > 0
@@ -257,118 +247,90 @@ const ProtocolCustomizationStep: React.FC<ProtocolCustomizationStepProps> = ({
   const renderExerciseCard = (exercise: StaticExercise) => (
     <Card 
       key={exercise.id} 
-      className="p-3 hover:shadow-md transition-shadow cursor-move"
-      draggable
-      onDragStart={(e) => {
-        e.dataTransfer.setData('application/json', JSON.stringify({
-          type: 'exercise',
-          data: exercise
-        }))
-      }}
+      className="p-3 hover:shadow-sm transition-all border border-gray-200 hover:border-healui-primary/30"
     >
-      <div className="flex justify-between items-center">
-        <div className="flex-1">
-          <h4 className="font-medium text-gray-900 text-sm">{exercise.name}</h4>
-          <div className="flex gap-1 mt-1">
-            <Badge variant="outline" className="text-xs">{exercise.category}</Badge>
-            <Badge variant="outline" className="text-xs">{exercise.evidenceLevel}</Badge>
-          </div>
+      <div className="flex items-center justify-between">
+        <div className="flex-1 min-w-0">
+          <h4 className="font-medium text-gray-900 text-sm leading-tight">{exercise.name}</h4>
         </div>
         <Button
           size="sm"
           onClick={() => addExerciseToPhase(exercise, selectedPhaseIndex)}
-          className="bg-healui-primary hover:bg-healui-primary-dark ml-2"
+          className="bg-healui-primary hover:bg-healui-primary-dark ml-3 flex-shrink-0"
         >
           <Plus className="w-4 h-4" />
         </Button>
       </div>
-
-      {checkSafetyContraindications(exercise) && (
-        <div className="flex items-center gap-1 text-xs text-red-600 mt-2">
-          <AlertTriangle className="w-3 h-3" />
-          Contraindications present
-        </div>
-      )}
     </Card>
   )
 
-  const renderModalityCard = (modality: StaticModality) => (
-    <Card 
-      key={modality.id} 
-      className="p-3 hover:shadow-md transition-shadow cursor-move"
-      draggable
-      onDragStart={(e) => {
-        e.dataTransfer.setData('application/json', JSON.stringify({
-          type: 'modality',
-          data: modality
-        }))
-      }}
-    >
-      <div className="flex justify-between items-center">
-        <div className="flex-1">
-          <h4 className="font-medium text-gray-900 text-sm">{modality.name}</h4>
-          <div className="flex gap-1 mt-1">
-            <Badge variant="outline" className="text-xs">{modality.category}</Badge>
-            <Badge variant="outline" className="text-xs">{modality.evidenceLevel}</Badge>
-            {modality.clinicalSupervisionRequired && (
-              <Badge variant="outline" className="text-xs">Clinical Only</Badge>
-            )}
+  const renderModalityCard = (modality: StaticModality) => {
+    // Get category colors for clean badge display
+    const getCategoryBadgeColors = (category: string) => {
+      const colorMap = {
+        electrotherapy: 'bg-blue-100 text-blue-700',
+        cryotherapy: 'bg-cyan-100 text-cyan-700',
+        laser_phototherapy: 'bg-red-100 text-red-700',
+        ultrasound: 'bg-purple-100 text-purple-700',
+        other: 'bg-gray-100 text-gray-700'
+      };
+      return colorMap[category] || colorMap.other;
+    };
+
+    const getCategoryDisplayName = (category: string) => {
+      const nameMap = {
+        electrotherapy: 'Electrotherapy',
+        cryotherapy: 'Cryotherapy',
+        laser_phototherapy: 'Laser',
+        ultrasound: 'Ultrasound',
+        other: 'Other'
+      };
+      return nameMap[category] || 'Other';
+    };
+
+    return (
+      <Card 
+        key={modality.id} 
+        className="p-3 hover:shadow-sm transition-all border border-gray-200 hover:border-healui-primary/30"
+      >
+        <div className="flex items-center justify-between">
+          <div className="flex-1 min-w-0">
+            <h4 className="font-medium text-gray-900 text-sm leading-tight truncate">{modality.name}</h4>
+            <Badge 
+              className={`text-xs mt-1 font-medium ${getCategoryBadgeColors(modality.category)}`}
+            >
+              {getCategoryDisplayName(modality.category)}
+            </Badge>
           </div>
+          <Button
+            size="sm"
+            onClick={() => addModalityToPhase(modality, selectedPhaseIndex)}
+            className="bg-healui-primary hover:bg-healui-primary-dark ml-3 flex-shrink-0"
+          >
+            <Plus className="w-4 h-4" />
+          </Button>
         </div>
-        <Button
-          size="sm"
-          onClick={() => addModalityToPhase(modality, selectedPhaseIndex)}
-          className="bg-healui-primary hover:bg-healui-primary-dark ml-2"
-        >
-          <Plus className="w-4 h-4" />
-        </Button>
-      </div>
-
-      {checkSafetyContraindications(modality) && (
-        <div className="flex items-center gap-1 text-xs text-red-600 mt-2">
-          <AlertTriangle className="w-3 h-3" />
-          Contraindications present
-        </div>
-      )}
-    </Card>
-  )
+      </Card>
+    )
+  }
 
   const renderManualTherapyCard = (therapy: StaticManualTherapy) => (
     <Card 
       key={therapy.id} 
-      className="p-3 hover:shadow-md transition-shadow cursor-move"
-      draggable
-      onDragStart={(e) => {
-        e.dataTransfer.setData('application/json', JSON.stringify({
-          type: 'manual-therapy',
-          data: therapy
-        }))
-      }}
+      className="p-3 hover:shadow-sm transition-all border border-gray-200 hover:border-healui-primary/30"
     >
-      <div className="flex justify-between items-center">
-        <div className="flex-1">
-          <h4 className="font-medium text-gray-900 text-sm">{therapy.name}</h4>
-          <div className="flex gap-1 mt-1">
-            <Badge variant="outline" className="text-xs">{therapy.category}</Badge>
-            <Badge variant="outline" className="text-xs">{therapy.evidenceLevel}</Badge>
-            <Badge variant="outline" className="text-xs">Clinical Only</Badge>
-          </div>
+      <div className="flex items-center justify-between">
+        <div className="flex-1 min-w-0">
+          <h4 className="font-medium text-gray-900 text-sm leading-tight">{therapy.name}</h4>
         </div>
         <Button
           size="sm"
           onClick={() => addManualTherapyToPhase(therapy, selectedPhaseIndex)}
-          className="bg-healui-primary hover:bg-healui-primary-dark ml-2"
+          className="bg-healui-primary hover:bg-healui-primary-dark ml-3 flex-shrink-0"
         >
           <Plus className="w-4 h-4" />
         </Button>
       </div>
-
-      {checkSafetyContraindications(therapy) && (
-        <div className="flex items-center gap-1 text-xs text-red-600 mt-2">
-          <AlertTriangle className="w-3 h-3" />
-          Contraindications present
-        </div>
-      )}
     </Card>
   )
 
@@ -486,153 +448,76 @@ const ProtocolCustomizationStep: React.FC<ProtocolCustomizationStepProps> = ({
   console.log('Protocol Treatment Phases:', protocol.treatmentPhases)
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">Customize Protocol</h3>
-        <p className="text-gray-600">
-          Add exercises, modalities, or manual therapy from the static condition database to enhance the AI-generated protocol.
-        </p>
-      </div>
-
-      {/* Phase Selection */}
-      <Card className="p-4">
-        <h4 className="font-medium text-gray-900 mb-3">Select Phase to Customize</h4>
-        <div className="flex gap-2 flex-wrap">
-          {protocol.treatmentPhases.map((phase, index) => (
-            <Button
-              key={index}
-              variant={index === selectedPhaseIndex ? "default" : "outline"}
-              onClick={() => setSelectedPhaseIndex(index)}
-              className={index === selectedPhaseIndex ? "bg-healui-primary hover:bg-healui-primary-dark" : ""}
-            >
-              {phase.phaseName} ({phase.durationWeeks}w)
-            </Button>
-          ))}
-        </div>
-      </Card>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Current Protocol - Left Side */}
-        <div className="space-y-4">
-          <h4 className="font-semibold text-gray-900">Current Protocol - {protocol.treatmentPhases[selectedPhaseIndex]?.phaseName}</h4>
-          
-          <Tabs defaultValue="exercises" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="exercises">Exercises</TabsTrigger>
-              <TabsTrigger value="modalities">Modalities</TabsTrigger>
-              <TabsTrigger value="manual">Manual Therapy</TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="exercises" className="space-y-4">
-              {renderCurrentPhaseExercises()}
-            </TabsContent>
-            
-            <TabsContent value="modalities" className="space-y-4">
-              {renderCurrentPhaseModalities()}
-            </TabsContent>
-            
-            <TabsContent value="manual" className="space-y-4">
-              <div className="space-y-3">
-                <h4 className="font-medium text-gray-900">Current Manual Therapy</h4>
-                {protocol.treatmentPhases[selectedPhaseIndex]?.manualTherapy?.map((therapy, index) => (
-                  <Card key={index} className="p-3 bg-green-50 border-green-200">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h5 className="font-medium text-gray-900">{therapy.technique}</h5>
-                        <p className="text-sm text-gray-600">
-                          {therapy.frequency}, {therapy.sessionDuration}
-                        </p>
-                      </div>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => removeManualTherapyFromPhase(index, selectedPhaseIndex)}
-                        className="text-red-600 hover:bg-red-50"
-                      >
-                        <X className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            </TabsContent>
-          </Tabs>
-        </div>
-
-        {/* Available Options - Right Side */}
-        <div className="space-y-4">
-          <div className="flex justify-between items-center">
-            <h4 className="font-semibold text-gray-900">Available Options</h4>
-            <div className="flex gap-2">
-              <Input
-                placeholder="Search..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-48"
-              />
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-md"
-              >
-                {categories.map(cat => (
-                  <option key={cat} value={cat}>
-                    {cat === 'all' ? 'All Categories' : cat}
-                  </option>
-                ))}
-              </select>
+    <div className="space-y-4">
+      {/* Clean Treatment Options */}
+      <Tabs defaultValue="exercises" className="w-full">
+        <TabsList className="grid w-full grid-cols-3 bg-gray-100 p-1 rounded-lg">
+          <TabsTrigger 
+            value="exercises" 
+            className="data-[state=active]:bg-white data-[state=active]:text-healui-primary data-[state=active]:shadow-sm text-sm font-medium"
+          >
+            <div className="flex items-center gap-2">
+              <Activity className="w-4 h-4" />
+              <span>Exercises</span>
+              <span className="text-xs bg-white/20 px-1.5 py-0.5 rounded-full">{availableExercises.length}</span>
             </div>
-          </div>
-
-          <Tabs defaultValue="exercises" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="exercises">
-                Exercises ({availableExercises.length})
-              </TabsTrigger>
-              <TabsTrigger value="modalities">
-                Modalities ({availableModalities.length})
-              </TabsTrigger>
-              <TabsTrigger value="manual">
-                Manual Therapy ({availableManualTherapy.length})
-              </TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="exercises" className="space-y-3 max-h-96 overflow-y-auto">
-              {availableExercises.length > 0 ? (
-                availableExercises.map(renderExerciseCard)
-              ) : (
-                <p className="text-gray-500 text-center py-4">
-                  No additional exercises available for this phase type.
-                </p>
-              )}
-            </TabsContent>
-            
-            <TabsContent value="modalities" className="space-y-3 max-h-96 overflow-y-auto">
-              {availableModalities.length > 0 ? (
-                availableModalities.map(renderModalityCard)
-              ) : (
-                <p className="text-gray-500 text-center py-4">
-                  No additional modalities available for this phase type.
-                </p>
-              )}
-            </TabsContent>
-            
-            <TabsContent value="manual" className="space-y-3 max-h-96 overflow-y-auto">
-              {planType === 'home' ? (
-                <p className="text-gray-500 text-center py-4">
-                  Manual therapy is only available for clinical protocols.
-                </p>
-              ) : availableManualTherapy.length > 0 ? (
-                availableManualTherapy.map(renderManualTherapyCard)
-              ) : (
-                <p className="text-gray-500 text-center py-4">
-                  No additional manual therapy techniques available.
-                </p>
-              )}
-            </TabsContent>
-          </Tabs>
-        </div>
-      </div>
+          </TabsTrigger>
+          <TabsTrigger 
+            value="modalities" 
+            className="data-[state=active]:bg-white data-[state=active]:text-healui-primary data-[state=active]:shadow-sm text-sm font-medium"
+          >
+            <div className="flex items-center gap-2">
+              <Zap className="w-4 h-4" />
+              <span>Modalities</span>
+              <span className="text-xs bg-white/20 px-1.5 py-0.5 rounded-full">{availableModalities.length}</span>
+            </div>
+          </TabsTrigger>
+          <TabsTrigger 
+            value="manual" 
+            className="data-[state=active]:bg-white data-[state=active]:text-healui-primary data-[state=active]:shadow-sm text-sm font-medium"
+          >
+            <div className="flex items-center gap-2">
+              <Target className="w-4 h-4" />
+              <span>Manual</span>
+              <span className="text-xs bg-white/20 px-1.5 py-0.5 rounded-full">{availableManualTherapy.length}</span>
+            </div>
+          </TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="exercises" className="space-y-2 max-h-96 overflow-y-auto mt-3">
+          {availableExercises.length > 0 ? (
+            availableExercises.map(renderExerciseCard)
+          ) : (
+            <p className="text-gray-500 text-center py-4 text-sm">
+              No additional exercises available.
+            </p>
+          )}
+        </TabsContent>
+        
+        <TabsContent value="modalities" className="space-y-2 max-h-96 overflow-y-auto mt-3">
+          {availableModalities.length > 0 ? (
+            availableModalities.map(renderModalityCard)
+          ) : (
+            <p className="text-gray-500 text-center py-4 text-sm">
+              No additional modalities available.
+            </p>
+          )}
+        </TabsContent>
+        
+        <TabsContent value="manual" className="space-y-2 max-h-96 overflow-y-auto mt-3">
+          {planType === 'home' ? (
+            <p className="text-gray-500 text-center py-4 text-sm">
+              Manual therapy only available for clinical protocols.
+            </p>
+          ) : availableManualTherapy.length > 0 ? (
+            availableManualTherapy.map(renderManualTherapyCard)
+          ) : (
+            <p className="text-gray-500 text-center py-4 text-sm">
+              No additional manual therapy techniques available.
+            </p>
+          )}
+        </TabsContent>
+      </Tabs>
     </div>
   )
 }

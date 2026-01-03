@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { AlertTriangle, Shield, Info, Eye, EyeOff, ChevronDown, ChevronRight } from 'lucide-react'
+import { AlertTriangle, Shield, Users, ChevronDown, ChevronUp, FileWarning } from 'lucide-react'
 import { Card } from '../ui/card'
 import { Badge } from '../ui/badge'
 
@@ -18,15 +18,15 @@ const SafetyWarnings: React.FC<SafetyWarningsProps> = ({
   yellowFlags,
   planType
 }) => {
-  const [isExpanded, setIsExpanded] = useState(true)
-  const [showDetails, setShowDetails] = useState(false)
+  const [expandedSections, setExpandedSections] = useState<{[key: string]: boolean}>({
+    redFlags: false,
+    contraindications: false,
+    yellowFlags: false
+  })
 
-  // Debug logging for development
-  React.useEffect(() => {
-    if (process.env.NODE_ENV === 'development') {
-      console.log('SafetyWarnings - Raw data:', { redFlags, contraindications, yellowFlags })
-    }
-  }, [redFlags, contraindications, yellowFlags])
+  const toggleSection = (section: string) => {
+    setExpandedSections(prev => ({ ...prev, [section]: !prev[section] }))
+  }
 
   // Parse red flags - handle complex objects
   const redFlagsList = React.useMemo(() => {
@@ -106,250 +106,126 @@ const SafetyWarnings: React.FC<SafetyWarningsProps> = ({
   // Check if we have any safety data to display
   const hasAnyWarnings = redFlagsList.length > 0 || contraindicationsList.length > 0 || yellowFlagsList.length > 0
 
+  // Count warnings for summary
+  const warningCounts = {
+    redFlags: redFlagsList.length,
+    contraindications: contraindicationsList.length,
+    yellowFlags: yellowFlagsList.length,
+    total: redFlagsList.length + contraindicationsList.length + yellowFlagsList.length
+  }
+
   if (!hasAnyWarnings) {
-    return (
-      <Card className="border-green-200 bg-green-50">
-        <div className="p-4">
-          <div className="flex items-center gap-2">
-            <Shield className="w-5 h-5 text-green-600" />
-            <h4 className="font-semibold text-green-800">Safety Assessment</h4>
-            <Badge className="bg-green-100 text-green-800 text-xs">CLEAR</Badge>
-          </div>
-          <p className="text-green-700 text-sm mt-2">
-            No red flags or contraindications identified for this condition.
-          </p>
-        </div>
-      </Card>
-    )
+    return null // No safety indicators needed
   }
 
   return (
-    <div className="space-y-3">
-      {/* Red Flags - Highest Priority */}
+    <div className="flex items-center gap-1 mb-2">
+      {/* Critical Safety Icon */}
       {redFlagsList.length > 0 && (
-        <Card className="border-red-200 bg-red-50">
-          <div className="p-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <AlertTriangle className="w-5 h-5 text-red-600" />
-                <h4 className="font-semibold text-red-800">Red Flags</h4>
-                <Badge className="bg-red-100 text-red-800 text-xs">URGENT</Badge>
-              </div>
-              <button
-                onClick={() => setIsExpanded(!isExpanded)}
-                className="text-red-600 hover:text-red-800 transition-colors"
-              >
-                {isExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
-              </button>
-            </div>
-            
-            <p className="text-red-700 text-sm mt-2 font-medium">
-              Immediate medical evaluation required before treatment
-            </p>
-            
-            {isExpanded && (
-              <div className="mt-3 space-y-3">
-                {redFlags && Array.isArray(redFlags) ? 
-                  redFlags.map((flagObj, index) => (
-                    <div key={index} className="border border-red-200 bg-red-100 rounded-lg p-3">
-                      <div className="flex items-start gap-2">
-                        <div className="w-2 h-2 bg-red-500 rounded-full mt-2 shrink-0"></div>
-                        <div className="flex-1">
-                          <div className="font-medium text-red-900">
-                            {typeof flagObj === 'object' ? (flagObj.name || flagObj.flag || 'Red Flag') : String(flagObj)}
-                          </div>
-                          {typeof flagObj === 'object' && flagObj.action && (
-                            <div className="text-sm text-red-700 mt-1">
-                              <strong>Action:</strong> {flagObj.action}
-                            </div>
-                          )}
-                          {typeof flagObj === 'object' && flagObj.rationale && (
-                            <div className="text-sm text-red-700 mt-1">
-                              <strong>Rationale:</strong> {flagObj.rationale}
-                            </div>
-                          )}
-                          {typeof flagObj === 'object' && flagObj.urgency && (
-                            <div className="text-xs text-red-600 mt-1">
-                              <span className="bg-red-200 px-2 py-1 rounded">Urgency: {flagObj.urgency}</span>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  )) :
-                  redFlagsList.map((flag, index) => (
-                    <div key={index} className="flex items-start gap-2 text-sm">
-                      <div className="w-2 h-2 bg-red-500 rounded-full mt-2 shrink-0"></div>
-                      <span className="text-red-800">{flag}</span>
-                    </div>
-                  ))
-                }
-                
-                <div className="mt-3 p-3 bg-red-100 rounded-lg">
-                  <p className="text-red-800 text-sm font-medium">
-                    {planType === 'home' ? '🏠 Patient Action:' : '🏥 Clinical Action:'}
-                  </p>
-                  <p className="text-red-700 text-xs mt-1">
-                    {planType === 'home' 
-                      ? 'Stop exercises immediately and contact your healthcare provider or emergency services if symptoms worsen.'
-                      : 'Refer for immediate medical evaluation. Do not proceed with physiotherapy until medical clearance obtained.'
-                    }
-                  </p>
+        <div 
+          className="group relative cursor-help"
+          title="Critical safety alerts - click for details"
+        >
+          <button
+            onClick={() => toggleSection('redFlags')}
+            className="w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
+          >
+            <AlertTriangle className="w-3 h-3" />
+          </button>
+          
+          {expandedSections.redFlags && (
+            <div className="absolute top-7 left-0 z-10 bg-white border border-red-200 rounded-lg shadow-lg p-3 min-w-72">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 mb-2">
+                  <AlertTriangle className="w-4 h-4 text-red-600" />
+                  <span className="font-medium text-red-800 text-sm">Critical Safety Alerts</span>
                 </div>
-              </div>
-            )}
-          </div>
-        </Card>
-      )}
-
-      {/* Contraindications - High Priority */}
-      {contraindicationsList.length > 0 && (
-        <Card className="border-orange-200 bg-orange-50">
-          <div className="p-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Shield className="w-5 h-5 text-orange-600" />
-                <h4 className="font-semibold text-orange-800">Contraindications</h4>
-                <Badge className="bg-orange-100 text-orange-800 text-xs">CAUTION</Badge>
-              </div>
-              <button
-                onClick={() => setShowDetails(!showDetails)}
-                className="text-orange-600 hover:text-orange-800 transition-colors"
-              >
-                {showDetails ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-              </button>
-            </div>
-            
-            <p className="text-orange-700 text-sm mt-2">
-              Certain treatments or exercises should be avoided
-            </p>
-            
-            {showDetails && (
-              <div className="mt-3 space-y-3">
-                {contraindications && Array.isArray(contraindications) ? 
-                  contraindications.map((contraindicationObj, index) => (
-                    <div key={index} className="border border-orange-200 bg-orange-100 rounded-lg p-3">
-                      <div className="flex items-start gap-2">
-                        <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 shrink-0"></div>
-                        <div className="flex-1">
-                          <div className="font-medium text-orange-900">
-                            {typeof contraindicationObj === 'object' ? 
-                              (contraindicationObj.name || contraindicationObj.intervention || contraindicationObj.description || 'Contraindication') : 
-                              String(contraindicationObj)
-                            }
-                          </div>
-                          {typeof contraindicationObj === 'object' && contraindicationObj.reason && (
-                            <div className="text-sm text-orange-700 mt-1">
-                              <strong>Reason:</strong> {contraindicationObj.reason}
-                            </div>
-                          )}
-                          {typeof contraindicationObj === 'object' && contraindicationObj.alternatives && (
-                            <div className="text-sm text-orange-700 mt-1">
-                              <strong>Alternatives:</strong> {Array.isArray(contraindicationObj.alternatives) ? 
-                                contraindicationObj.alternatives.join(', ') : 
-                                contraindicationObj.alternatives
-                              }
-                            </div>
-                          )}
-                          {typeof contraindicationObj === 'object' && contraindicationObj.severity && (
-                            <div className="text-xs text-orange-600 mt-1">
-                              <span className="bg-orange-200 px-2 py-1 rounded">Severity: {contraindicationObj.severity}</span>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  )) :
-                  contraindicationsList.map((contraindication, index) => (
-                    <div key={index} className="flex items-start gap-2 text-sm">
-                      <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 shrink-0"></div>
-                      <span className="text-orange-800">{contraindication}</span>
-                    </div>
-                  ))
-                }
-                
-                <div className="mt-3 p-3 bg-orange-100 rounded-lg">
-                  <p className="text-orange-800 text-sm font-medium">
-                    📋 Treatment Modifications:
-                  </p>
-                  <p className="text-orange-700 text-xs mt-1">
-                    The protocol has been adjusted to avoid contraindicated treatments. Alternative approaches have been selected.
-                  </p>
-                </div>
-              </div>
-            )}
-          </div>
-        </Card>
-      )}
-
-      {/* Yellow Flags - Patient Education */}
-      {yellowFlagsList.length > 0 && (
-        <Card className="border-yellow-200 bg-yellow-50">
-          <div className="p-4">
-            <div className="flex items-center gap-2">
-              <Info className="w-5 h-5 text-yellow-600" />
-              <h4 className="font-semibold text-yellow-800">Yellow Flags</h4>
-              <Badge className="bg-yellow-100 text-yellow-800 text-xs">EDUCATION</Badge>
-            </div>
-            
-            <p className="text-yellow-700 text-sm mt-2">
-              Psychosocial factors to be aware of during recovery
-            </p>
-            
-            <div className="mt-3 space-y-3">
-              {yellowFlags && Array.isArray(yellowFlags) ? 
-                yellowFlags.map((flagObj, index) => (
-                  <div key={index} className="border border-yellow-200 bg-yellow-100 rounded-lg p-3">
-                    <div className="flex items-start gap-2">
-                      <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2 shrink-0"></div>
-                      <div className="flex-1">
-                        <div className="font-medium text-yellow-900">
-                          {typeof flagObj === 'object' ? 
-                            (flagObj.name || flagObj.factor || flagObj.description || 'Yellow Flag') : 
-                            String(flagObj)
-                          }
-                        </div>
-                        {typeof flagObj === 'object' && flagObj.description && flagObj.description !== (flagObj.name || flagObj.factor) && (
-                          <div className="text-sm text-yellow-700 mt-1">
-                            {flagObj.description}
-                          </div>
-                        )}
-                        {typeof flagObj === 'object' && flagObj.impact && (
-                          <div className="text-sm text-yellow-700 mt-1">
-                            <strong>Impact:</strong> {flagObj.impact}
-                          </div>
-                        )}
-                        {typeof flagObj === 'object' && flagObj.management && (
-                          <div className="text-sm text-yellow-700 mt-1">
-                            <strong>Management:</strong> {flagObj.management}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                )) :
-                yellowFlagsList.map((flag, index) => (
-                  <div key={index} className="flex items-start gap-2 text-sm">
-                    <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2 shrink-0"></div>
-                    <span className="text-yellow-800">{flag}</span>
-                  </div>
-                ))
-              }
-              
-              <div className="mt-3 p-3 bg-yellow-100 rounded-lg">
-                <p className="text-yellow-800 text-sm font-medium">
-                  {planType === 'home' ? '🧠 Patient Support:' : '💭 Clinical Considerations:'}
-                </p>
-                <p className="text-yellow-700 text-xs mt-1">
+                <div className="text-xs text-red-700 mb-2">
                   {planType === 'home' 
-                    ? 'Discuss any concerns with your therapist. Mental health support may be beneficial for optimal recovery.'
-                    : 'Address psychosocial factors in treatment planning. Consider referral to psychology/counseling if needed.'
+                    ? 'Stop all exercises. Contact healthcare provider immediately.'
+                    : 'Refer for urgent medical assessment. Do not proceed with treatment.'
                   }
-                </p>
+                </div>
+                <div className="space-y-1">
+                  {redFlagsList.map((flag, index) => (
+                    <div key={index} className="text-xs text-red-700">• {flag}</div>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        </Card>
+          )}
+        </div>
+      )}
+
+      {/* Precaution Icon */}
+      {contraindicationsList.length > 0 && (
+        <div 
+          className="group relative cursor-help"
+          title="Treatment precautions - click for details"
+        >
+          <button
+            onClick={() => toggleSection('contraindications')}
+            className="w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center hover:bg-orange-600 transition-colors"
+          >
+            <Shield className="w-3 h-3" />
+          </button>
+          
+          {expandedSections.contraindications && (
+            <div className="absolute top-7 left-0 z-10 bg-white border border-orange-200 rounded-lg shadow-lg p-3 min-w-72">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 mb-2">
+                  <Shield className="w-4 h-4 text-orange-600" />
+                  <span className="font-medium text-orange-800 text-sm">Treatment Precautions</span>
+                </div>
+                <div className="text-xs text-orange-700 mb-2">
+                  Protocol modified to exclude contraindicated interventions.
+                </div>
+                <div className="space-y-1">
+                  {contraindicationsList.map((contraindication, index) => (
+                    <div key={index} className="text-xs text-orange-700">• {contraindication}</div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Psychosocial Icon */}
+      {yellowFlagsList.length > 0 && (
+        <div 
+          className="group relative cursor-help"
+          title="Psychosocial considerations - click for details"
+        >
+          <button
+            onClick={() => toggleSection('yellowFlags')}
+            className="w-6 h-6 bg-yellow-500 text-white rounded-full flex items-center justify-center hover:bg-yellow-600 transition-colors"
+          >
+            <Users className="w-3 h-3" />
+          </button>
+          
+          {expandedSections.yellowFlags && (
+            <div className="absolute top-7 left-0 z-10 bg-white border border-yellow-200 rounded-lg shadow-lg p-3 min-w-72">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 mb-2">
+                  <Users className="w-4 h-4 text-yellow-600" />
+                  <span className="font-medium text-yellow-800 text-sm">Psychosocial Considerations</span>
+                </div>
+                <div className="text-xs text-yellow-700 mb-2">
+                  {planType === 'home' 
+                    ? 'Discuss concerns with your therapist. Psychological support may help.'
+                    : 'Address psychosocial barriers. Consider psychology referral if needed.'
+                  }
+                </div>
+                <div className="space-y-1">
+                  {yellowFlagsList.map((flag, index) => (
+                    <div key={index} className="text-xs text-yellow-700">• {flag}</div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       )}
     </div>
   )
