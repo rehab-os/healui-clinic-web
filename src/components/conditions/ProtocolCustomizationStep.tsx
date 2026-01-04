@@ -34,6 +34,26 @@ const ProtocolCustomizationStep: React.FC<ProtocolCustomizationStepProps> = ({
   selectedPhaseIndex = 0,
   onPhaseChange
 }) => {
+  const [selectedStaticPhases, setSelectedStaticPhases] = useState<string[]>([])
+  const [selectedGoals, setSelectedGoals] = useState<string[]>([])
+
+  // Handle phase selection from static data
+  const toggleStaticPhase = (phase: string) => {
+    setSelectedStaticPhases(prev => 
+      prev.includes(phase) 
+        ? prev.filter(p => p !== phase)
+        : [...prev, phase]
+    )
+  }
+
+  // Handle goal selection from static data
+  const toggleGoal = (goal: string) => {
+    setSelectedGoals(prev => 
+      prev.includes(goal) 
+        ? prev.filter(g => g !== goal)
+        : [...prev, goal]
+    )
+  }
 
   // Filter available exercises/modalities that aren't already used by AI
   const getUsedExerciseNames = useMemo(() => {
@@ -441,6 +461,8 @@ const ProtocolCustomizationStep: React.FC<ProtocolCustomizationStepProps> = ({
 
   // Debug: Log the structure of static condition data
   console.log('Static Condition Data Structure:', staticConditionData)
+  console.log('Phases from static data:', staticConditionData?.phases)
+  console.log('Goals from static data:', staticConditionData?.goals)
   console.log('All Exercises:', staticConditionData?.allExercises)
   console.log('All Modalities:', staticConditionData?.allModalities)
   console.log('All Manual Therapy:', staticConditionData?.allManualTherapy)
@@ -449,6 +471,93 @@ const ProtocolCustomizationStep: React.FC<ProtocolCustomizationStepProps> = ({
 
   return (
     <div className="space-y-4">
+      {/* Phase & Goals Selection */}
+      {staticConditionData && (
+        <div className="space-y-3">
+          {/* Phase Selection from Static Data */}
+          {staticConditionData.phases && staticConditionData.phases.length > 0 && (
+            <div className="space-y-2">
+              <h4 className="text-sm font-semibold text-gray-800">Treatment Phases</h4>
+              <div className="flex flex-wrap gap-1.5">
+                {staticConditionData.phases.map((phase: string, index: number) => (
+                  <button
+                    key={index}
+                    onClick={() => toggleStaticPhase(phase)}
+                    className={`px-2 py-1 text-xs border rounded-full transition-colors ${
+                      selectedStaticPhases.includes(phase)
+                        ? 'bg-blue-500 text-white border-blue-500'
+                        : 'bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100'
+                    }`}
+                  >
+                    {phase}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Goals Selection from Static Data */}
+          {staticConditionData.goals && staticConditionData.goals.length > 0 && (
+            <div className="space-y-2">
+              <h4 className="text-sm font-semibold text-gray-800">Treatment Goals</h4>
+              <div className="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto">
+                {staticConditionData.goals.map((goal: string, index: number) => (
+                  <button
+                    key={index}
+                    onClick={() => toggleGoal(goal)}
+                    className={`px-2 py-1 text-xs border rounded-full transition-colors ${
+                      selectedGoals.includes(goal)
+                        ? 'bg-green-500 text-white border-green-500'
+                        : 'bg-green-50 text-green-700 border-green-200 hover:bg-green-100'
+                    }`}
+                  >
+                    {goal}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Selected Summary */}
+          {(selectedStaticPhases.length > 0 || selectedGoals.length > 0) && (
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 space-y-2">
+              <h4 className="text-sm font-semibold text-gray-800">Selected for Protocol</h4>
+              
+              {selectedStaticPhases.length > 0 && (
+                <div>
+                  <span className="text-xs text-gray-600">Phases: </span>
+                  <span className="text-xs font-medium text-blue-700">
+                    {selectedStaticPhases.join(', ')}
+                  </span>
+                </div>
+              )}
+              
+              {selectedGoals.length > 0 && (
+                <div>
+                  <span className="text-xs text-gray-600">Goals: </span>
+                  <span className="text-xs font-medium text-green-700">
+                    {selectedGoals.slice(0, 3).join(', ')}
+                    {selectedGoals.length > 3 && ` +${selectedGoals.length - 3} more`}
+                  </span>
+                </div>
+              )}
+              
+              <Button
+                size="sm"
+                onClick={() => {
+                  // Here you could add logic to update the protocol with selected phases/goals
+                  console.log('Selected phases:', selectedStaticPhases)
+                  console.log('Selected goals:', selectedGoals)
+                }}
+                className="bg-healui-primary hover:bg-healui-primary-dark text-white mt-2"
+              >
+                Apply to Protocol
+              </Button>
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Clean Treatment Options */}
       <Tabs defaultValue="exercises" className="w-full">
         <TabsList className="grid w-full grid-cols-3 bg-gray-100 p-1 rounded-lg">

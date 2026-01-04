@@ -1127,6 +1127,8 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
                         protocol={customizedHomeProtocol || customizedClinicalProtocol || homeProtocol || clinicalProtocol}
                         staticConditionData={staticConditionData ? {
                           ...staticConditionData,
+                          phases: staticConditionData?.phases || [],
+                          goals: staticConditionData?.goals || [],
                           allExercises: staticConditionData?.exercise_prescriptions?.map((exerciseName: string, index: number) => ({
                             id: `ex_${index}`,
                             name: exerciseName || `Exercise ${index + 1}`,
