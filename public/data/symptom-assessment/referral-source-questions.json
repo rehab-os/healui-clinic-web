@@ -1,0 +1,2901 @@
+{
+  "referral_questions": {
+
+"_comment_shoulder": "========== SHOULDER QUESTIONS (50+) - SCREEN REFERRED FIRST! ==========",
+
+    "_comment_cardiac": "===== CARDIAC RED FLAGS (Priority 1) =====",
+
+    "RSRC_SHOULDER_001": {
+      "id": "RSRC_SHOULDER_001",
+      "phase": "source_identification",
+      "text": "Does your shoulder pain come on with physical exertion, climbing stairs, or emotional stress?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_EXERTION_RELATED_PAIN"],
+      "diagnostic_weight": 1.0,
+      "information_gain_potential": 0.98,
+      "red_flag": true,
+      "clinical_note": "CARDIAC RED FLAG - exertion-related pain is classic angina"
+    },
+
+    "RSRC_SHOULDER_002": {
+      "id": "RSRC_SHOULDER_002",
+      "phase": "source_identification",
+      "text": "Do you have chest tightness, pressure, or heaviness along with your shoulder pain?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_CHEST_TIGHTNESS"],
+      "diagnostic_weight": 1.0,
+      "information_gain_potential": 0.98,
+      "red_flag": true,
+      "clinical_note": "CARDIAC RED FLAG - chest symptoms with shoulder pain = urgent"
+    },
+
+    "RSRC_SHOULDER_003": {
+      "id": "RSRC_SHOULDER_003",
+      "phase": "source_identification",
+      "text": "Do you experience shortness of breath, sweating, or nausea with your shoulder pain?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_SHORTNESS_OF_BREATH", "RSYM_DIAPHORESIS_SWEATING", "RSYM_NAUSEA"],
+      "diagnostic_weight": 1.0,
+      "information_gain_potential": 0.95,
+      "red_flag": true,
+      "clinical_note": "CARDIAC RED FLAG - autonomic symptoms suggest MI"
+    },
+
+    "RSRC_SHOULDER_004": {
+      "id": "RSRC_SHOULDER_004",
+      "phase": "source_identification",
+      "text": "Does your pain spread to your jaw, inner arm, or across your chest?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_JAW_PAIN", "RSYM_LEFT_ARM_RADIATION"],
+      "diagnostic_weight": 0.98,
+      "information_gain_potential": 0.95,
+      "red_flag": true,
+      "clinical_note": "CARDIAC RED FLAG - radiation pattern of cardiac pain"
+    },
+
+    "RSRC_SHOULDER_005": {
+      "id": "RSRC_SHOULDER_005",
+      "phase": "source_identification",
+      "text": "When you press firmly on the painful area, does it reproduce your exact symptoms?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_POINT_TENDERNESS_SHOULDER"],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.88,
+      "clinical_note": "Palpation reproducing pain = LOCAL; NOT reproducing = think cardiac/visceral"
+    },
+
+    "RSRC_SHOULDER_006": {
+      "id": "RSRC_SHOULDER_006",
+      "phase": "source_identification",
+      "text": "Do you have a history of heart disease, high blood pressure, diabetes, or high cholesterol?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_CARDIAC_RISK_FACTORS"],
+      "diagnostic_weight": 0.82,
+      "information_gain_potential": 0.80,
+      "clinical_note": "Cardiac risk factors increase suspicion for referred cardiac pain"
+    },
+
+    "_comment_cancer": "===== CANCER/PANCOAST RED FLAGS =====",
+
+    "RSRC_SHOULDER_007": {
+      "id": "RSRC_SHOULDER_007",
+      "phase": "source_identification",
+      "text": "Is your pain constant and progressively getting worse over weeks/months, even at rest?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_CONSTANT_PROGRESSIVE_PAIN"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "red_flag": true,
+      "clinical_note": "RED FLAG - constant progressive pain = think malignancy"
+    },
+
+    "RSRC_SHOULDER_008": {
+      "id": "RSRC_SHOULDER_008",
+      "phase": "source_identification",
+      "text": "Do you have severe night pain that wakes you and is NOT relieved by changing position?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_NIGHT_PAIN_UNRELENTING"],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.90,
+      "red_flag": true,
+      "clinical_note": "RED FLAG - unrelenting night pain = think malignancy/infection"
+    },
+
+    "RSRC_SHOULDER_009": {
+      "id": "RSRC_SHOULDER_009",
+      "phase": "source_identification",
+      "text": "Have you had unexplained weight loss (>10 lbs) in the past few months?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_UNEXPLAINED_WEIGHT_LOSS"],
+      "diagnostic_weight": 0.98,
+      "information_gain_potential": 0.95,
+      "red_flag": true,
+      "clinical_note": "RED FLAG - unexplained weight loss = malignancy screen"
+    },
+
+    "RSRC_SHOULDER_010": {
+      "id": "RSRC_SHOULDER_010",
+      "phase": "source_identification",
+      "text": "Do you have a history of smoking or are you a current smoker?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_SMOKING_HISTORY"],
+      "diagnostic_weight": 0.78,
+      "information_gain_potential": 0.75,
+      "clinical_note": "Smoking history + shoulder pain = screen for Pancoast tumor"
+    },
+
+    "RSRC_SHOULDER_011": {
+      "id": "RSRC_SHOULDER_011",
+      "phase": "source_identification",
+      "text": "Do you have weakness in your hand muscles (difficulty with grip) or drooping eyelid on the same side?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_HAND_WEAKNESS_INTRINSIC", "RSYM_HORNER_SYNDROME"],
+      "diagnostic_weight": 0.98,
+      "information_gain_potential": 0.95,
+      "red_flag": true,
+      "clinical_note": "RED FLAG - Horner syndrome or T1 weakness = Pancoast tumor"
+    },
+
+    "_comment_cervical": "===== CERVICAL SPINE SCREENING (Priority 2 - 50% of shoulder pain!) =====",
+
+    "RSRC_SHOULDER_012": {
+      "id": "RSRC_SHOULDER_012",
+      "phase": "source_identification",
+      "text": "Does moving your neck (looking up, down, or turning) change or worsen your shoulder symptoms?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_NECK_MOVEMENT_AFFECTS_SHOULDER"],
+      "diagnostic_weight": 1.0,
+      "information_gain_potential": 0.98,
+      "clinical_note": "PATHOGNOMONIC for cervical referral - neck movement affecting shoulder = cervical source"
+    },
+
+    "RSRC_SHOULDER_013": {
+      "id": "RSRC_SHOULDER_013",
+      "phase": "source_identification",
+      "text": "Does raising your arm above your head actually RELIEVE your shoulder/arm pain?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_ARM_ABDUCTION_RELIEVES"],
+      "diagnostic_weight": 0.98,
+      "information_gain_potential": 0.95,
+      "clinical_note": "PATHOGNOMONIC - Shoulder Abduction Sign = cervical radiculopathy (reduces nerve root tension)"
+    },
+
+    "RSRC_SHOULDER_014": {
+      "id": "RSRC_SHOULDER_014",
+      "phase": "source_identification",
+      "text": "Do your symptoms travel below your elbow into your forearm or hand?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_SYMPTOMS_BELOW_ELBOW"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "Symptoms below elbow = likely cervical radiculopathy (dermatomal distribution)"
+    },
+
+    "RSRC_SHOULDER_015": {
+      "id": "RSRC_SHOULDER_015",
+      "phase": "source_identification",
+      "text": "Do you have numbness or tingling in your fingers?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_FINGER_NUMBNESS_TINGLING"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "Finger paresthesia = cervical radiculopathy"
+    },
+
+    "RSRC_SHOULDER_015B": {
+      "id": "RSRC_SHOULDER_015B",
+      "phase": "source_identification",
+      "text": "Which fingers have the numbness or tingling?",
+      "type": "multiple_choice",
+      "options": [
+        {"id": "thumb_index", "text": "Thumb and/or index finger"},
+        {"id": "middle", "text": "Middle finger"},
+        {"id": "ring_little", "text": "Ring and/or little finger"},
+        {"id": "all_hand", "text": "Whole hand or variable pattern"}
+      ],
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_THUMB_INDEX_NUMBNESS", "RSYM_MIDDLE_FINGER_NUMBNESS", "RSYM_ULNAR_DISTRIBUTION"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditional_on": {"question": "RSRC_SHOULDER_015", "answer": true},
+      "clinical_note": "Dermatomal: Thumb/Index=C6; Middle=C7; Ring/Little=C8 or TOS"
+    },
+
+    "RSRC_SHOULDER_016": {
+      "id": "RSRC_SHOULDER_016",
+      "phase": "source_identification",
+      "text": "Do you have neck stiffness or pain?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_NECK_STIFFNESS"],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "clinical_note": "Associated neck symptoms increase cervical probability"
+    },
+
+    "RSRC_SHOULDER_017": {
+      "id": "RSRC_SHOULDER_017",
+      "phase": "source_identification",
+      "text": "Does keeping your neck in one position (e.g., at computer) make your symptoms worse?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_SUSTAINED_NECK_POSITION_WORSENS"],
+      "diagnostic_weight": 0.82,
+      "information_gain_potential": 0.80,
+      "clinical_note": "Sustained cervical posture worsening = cervical source"
+    },
+
+    "RSRC_SHOULDER_018": {
+      "id": "RSRC_SHOULDER_018",
+      "phase": "source_identification",
+      "text": "Does tilting your head away from the painful shoulder give you relief?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_HEAD_TILT_AWAY_RELIEVES"],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "clinical_note": "Head tilt relief = reduces nerve root tension = cervical"
+    },
+
+    "RSRC_SHOULDER_019": {
+      "id": "RSRC_SHOULDER_019",
+      "phase": "source_identification",
+      "text": "Do you have burning or electric/shooting pain down your arm?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_BURNING_ELECTRIC_PAIN"],
+      "diagnostic_weight": 0.90,
+      "information_gain_potential": 0.88,
+      "clinical_note": "Burning/electric pain = neurogenic (cervical radiculopathy)"
+    },
+
+    "_comment_tos": "===== THORACIC OUTLET SYNDROME =====",
+
+    "RSRC_SHOULDER_020": {
+      "id": "RSRC_SHOULDER_020",
+      "phase": "source_identification",
+      "text": "Does keeping your arm raised overhead for a while (like blow-drying hair) cause arm fatigue, numbness, or color changes?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_ARM_FATIGUE_OVERHEAD", "RSYM_OVERHEAD_WORSENS"],
+      "diagnostic_weight": 0.90,
+      "information_gain_potential": 0.88,
+      "clinical_note": "Arm fatigue/symptoms with sustained overhead = Thoracic Outlet Syndrome"
+    },
+
+    "RSRC_SHOULDER_021": {
+      "id": "RSRC_SHOULDER_021",
+      "phase": "source_identification",
+      "text": "Do you notice your hand or arm changing color (pale, blue) or feeling cold?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_ARM_COLOR_CHANGES", "RSYM_ARM_COLDNESS"],
+      "diagnostic_weight": 0.88,
+      "information_gain_potential": 0.85,
+      "clinical_note": "Vascular symptoms = TOS (vascular type)"
+    },
+
+    "RSRC_SHOULDER_022": {
+      "id": "RSRC_SHOULDER_022",
+      "phase": "source_identification",
+      "text": "Do you have swelling in your hand or arm?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_HAND_SWELLING"],
+      "diagnostic_weight": 0.82,
+      "information_gain_potential": 0.80,
+      "clinical_note": "Hand/arm swelling = venous TOS or lymphatic obstruction"
+    },
+
+    "_comment_visceral": "===== VISCERAL REFERRED PAIN =====",
+
+    "RSRC_SHOULDER_023": {
+      "id": "RSRC_SHOULDER_023",
+      "phase": "source_identification",
+      "text": "Which shoulder is affected?",
+      "type": "multiple_choice",
+      "options": [
+        {"id": "left", "text": "Left shoulder"},
+        {"id": "right", "text": "Right shoulder"},
+        {"id": "both", "text": "Both shoulders"}
+      ],
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_LEFT_SHOULDER", "RSYM_RIGHT_SHOULDER"],
+      "diagnostic_weight": 0.75,
+      "information_gain_potential": 0.72,
+      "clinical_note": "Left=cardiac concern; Right=gallbladder concern"
+    },
+
+    "RSRC_SHOULDER_024": {
+      "id": "RSRC_SHOULDER_024",
+      "phase": "source_identification",
+      "text": "Does eating fatty or greasy foods make your pain worse?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_WORSE_AFTER_FATTY_FOOD"],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.90,
+      "conditional_on": {"question": "RSRC_SHOULDER_023", "answer": "right"},
+      "clinical_note": "Right shoulder + worse with fatty food = gallbladder referral"
+    },
+
+    "RSRC_SHOULDER_025": {
+      "id": "RSRC_SHOULDER_025",
+      "phase": "source_identification",
+      "text": "Do you have pain in your upper right abdomen (under ribs on the right)?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_RUQ_ABDOMINAL_PAIN"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditional_on": {"question": "RSRC_SHOULDER_023", "answer": "right"},
+      "clinical_note": "RUQ pain with right shoulder = gallbladder referral"
+    },
+
+    "_comment_thoracic": "===== THORACIC SPINE REFERRAL =====",
+
+    "RSRC_SHOULDER_026": {
+      "id": "RSRC_SHOULDER_026",
+      "phase": "source_identification",
+      "text": "Do you have stiffness or pain between your shoulder blades or upper back?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_UPPER_BACK_STIFFNESS", "RSYM_SCAPULAR_PAIN", "RSYM_INTERSCAPULAR_PAIN"],
+      "diagnostic_weight": 0.88,
+      "information_gain_potential": 0.85,
+      "clinical_note": "Interscapular stiffness = thoracic spine contribution"
+    },
+
+    "RSRC_SHOULDER_027": {
+      "id": "RSRC_SHOULDER_027",
+      "phase": "source_identification",
+      "text": "Do you have difficulty or pain when twisting your upper body (like looking over your shoulder while driving)?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_THORACIC_ROTATION_LIMITED"],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "clinical_note": "Limited thoracic rotation = thoracic spine referral"
+    },
+
+    "_comment_local": "===== LOCAL SHOULDER DIFFERENTIATION =====",
+
+    "_comment_frozen": "=== FROZEN SHOULDER (PATHOGNOMONIC: Global restriction) ===",
+
+    "RSRC_SHOULDER_028": {
+      "id": "RSRC_SHOULDER_028",
+      "phase": "source_identification",
+      "text": "Can you reach your arm behind your back (like tucking in a shirt or doing up a bra)?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_DIFFICULTY_REACHING_BEHIND"],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.90,
+      "clinical_note": "Difficulty reaching behind = frozen shoulder or rotator cuff"
+    },
+
+    "RSRC_SHOULDER_029": {
+      "id": "RSRC_SHOULDER_029",
+      "phase": "source_identification",
+      "text": "Even when someone else tries to move your arm for you (completely relaxed), is the movement still very limited?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_PASSIVE_ROM_RESTRICTED", "RSYM_GLOBAL_ROM_RESTRICTION"],
+      "diagnostic_weight": 0.98,
+      "information_gain_potential": 0.95,
+      "clinical_note": "PATHOGNOMONIC - Passive ROM restricted = FROZEN SHOULDER (not rotator cuff)"
+    },
+
+    "RSRC_SHOULDER_030": {
+      "id": "RSRC_SHOULDER_030",
+      "phase": "source_identification",
+      "text": "Is turning your arm outward (like showing your palm facing forward) particularly difficult?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_EXTERNAL_ROTATION_MOST_LIMITED"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditional_on": {"question": "RSRC_SHOULDER_029", "answer": true},
+      "clinical_note": "External rotation most limited = classic frozen shoulder pattern"
+    },
+
+    "RSRC_SHOULDER_031": {
+      "id": "RSRC_SHOULDER_031",
+      "phase": "source_identification",
+      "text": "Do you have diabetes?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_DIABETES"],
+      "diagnostic_weight": 0.75,
+      "information_gain_potential": 0.72,
+      "clinical_note": "Diabetes is major risk factor for frozen shoulder (5x risk)"
+    },
+
+    "_comment_impingement": "=== IMPINGEMENT/TENDINOPATHY ===",
+
+    "RSRC_SHOULDER_032": {
+      "id": "RSRC_SHOULDER_032",
+      "phase": "source_identification",
+      "text": "Does your shoulder pain occur in a specific arc when raising your arm (roughly between waist and shoulder height)?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_PAINFUL_ARC", "RSYM_PAINFUL_ARC_60_120"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "PATHOGNOMONIC - Painful arc 60-120° = impingement syndrome"
+    },
+
+    "RSRC_SHOULDER_033": {
+      "id": "RSRC_SHOULDER_033",
+      "phase": "source_identification",
+      "text": "Does overhead activity (reaching up, washing hair) make your pain worse?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_OVERHEAD_WORSENS"],
+      "diagnostic_weight": 0.88,
+      "information_gain_potential": 0.85,
+      "clinical_note": "Overhead worsening = impingement or rotator cuff"
+    },
+
+    "RSRC_SHOULDER_034": {
+      "id": "RSRC_SHOULDER_034",
+      "phase": "source_identification",
+      "text": "Is your pain mainly at the front or side of your shoulder (not top or back)?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_ANTERIOR_SHOULDER_PAIN"],
+      "diagnostic_weight": 0.82,
+      "information_gain_potential": 0.80,
+      "clinical_note": "Anterior/lateral pain = impingement, rotator cuff, or biceps"
+    },
+
+    "_comment_cuff_tear": "=== ROTATOR CUFF TEAR ===",
+
+    "RSRC_SHOULDER_035": {
+      "id": "RSRC_SHOULDER_035",
+      "phase": "source_identification",
+      "text": "Do you have weakness when lifting your arm up or out to the side?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_WEAKNESS_ARM_ELEVATION"],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.90,
+      "clinical_note": "True weakness with elevation = rotator cuff tear (vs C5 radiculopathy)"
+    },
+
+    "RSRC_SHOULDER_036": {
+      "id": "RSRC_SHOULDER_036",
+      "phase": "source_identification",
+      "text": "Can you hold your arm out to the side (at shoulder height) without it dropping down?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_DROP_ARM_POSITIVE"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "Positive Drop Arm test (arm falls) = rotator cuff tear"
+    },
+
+    "RSRC_SHOULDER_037": {
+      "id": "RSRC_SHOULDER_037",
+      "phase": "source_identification",
+      "text": "Do you have weakness when rotating your arm outward (external rotation)?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_EXTERNAL_ROTATION_WEAKNESS"],
+      "diagnostic_weight": 0.88,
+      "information_gain_potential": 0.85,
+      "clinical_note": "External rotation weakness = infraspinatus/teres minor involvement"
+    },
+
+    "RSRC_SHOULDER_038": {
+      "id": "RSRC_SHOULDER_038",
+      "phase": "source_identification",
+      "text": "Does your shoulder pain wake you at night, especially when lying on that side?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_NIGHT_PAIN_SHOULDER", "RSYM_PAIN_LYING_ON_SHOULDER"],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "clinical_note": "Night pain lying on shoulder = rotator cuff tear common feature"
+    },
+
+    "RSRC_SHOULDER_039": {
+      "id": "RSRC_SHOULDER_039",
+      "phase": "source_identification",
+      "text": "Did your shoulder problem start after a specific injury or fall?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_HISTORY_TRAUMA"],
+      "diagnostic_weight": 0.78,
+      "information_gain_potential": 0.75,
+      "clinical_note": "Traumatic onset = acute tear, fracture, or dislocation"
+    },
+
+    "_comment_ac_joint": "=== AC JOINT ===",
+
+    "RSRC_SHOULDER_040": {
+      "id": "RSRC_SHOULDER_040",
+      "phase": "source_identification",
+      "text": "Is your pain right at the TOP of your shoulder (at the bony point where shoulder meets collarbone)?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_TOP_OF_SHOULDER_PAIN", "RSYM_AC_JOINT_TENDERNESS"],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.90,
+      "clinical_note": "Top of shoulder pain = AC joint"
+    },
+
+    "RSRC_SHOULDER_041": {
+      "id": "RSRC_SHOULDER_041",
+      "phase": "source_identification",
+      "text": "Does reaching across your body (like scratching opposite shoulder) cause pain at the top of your shoulder?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_CROSS_BODY_ADDUCTION_PAIN"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "PATHOGNOMONIC - Cross-body pain = AC joint pathology"
+    },
+
+    "_comment_labral": "=== LABRAL TEAR/INSTABILITY ===",
+
+    "RSRC_SHOULDER_042": {
+      "id": "RSRC_SHOULDER_042",
+      "phase": "source_identification",
+      "text": "Do you feel clicking, catching, or popping in your shoulder?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_CLICKING_CATCHING"],
+      "diagnostic_weight": 0.90,
+      "information_gain_potential": 0.88,
+      "clinical_note": "Clicking/catching = labral tear or SLAP lesion"
+    },
+
+    "RSRC_SHOULDER_043": {
+      "id": "RSRC_SHOULDER_043",
+      "phase": "source_identification",
+      "text": "Does your shoulder feel like it might slip out of place or feel unstable?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_FEELING_OF_INSTABILITY"],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.90,
+      "clinical_note": "Instability feeling = labral tear or shoulder instability"
+    },
+
+    "RSRC_SHOULDER_044": {
+      "id": "RSRC_SHOULDER_044",
+      "phase": "source_identification",
+      "text": "Have you ever had your shoulder dislocate (come out of joint)?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_HISTORY_DISLOCATION"],
+      "diagnostic_weight": 0.98,
+      "information_gain_potential": 0.95,
+      "clinical_note": "History of dislocation = instability, likely Bankart lesion"
+    },
+
+    "RSRC_SHOULDER_045": {
+      "id": "RSRC_SHOULDER_045",
+      "phase": "source_identification",
+      "text": "Do you participate in overhead throwing sports (baseball, tennis, volleyball)?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_OVERHEAD_THROWING_SPORT"],
+      "diagnostic_weight": 0.75,
+      "information_gain_potential": 0.72,
+      "clinical_note": "Overhead athlete = higher risk for SLAP tears"
+    },
+
+    "RSRC_SHOULDER_046": {
+      "id": "RSRC_SHOULDER_046",
+      "phase": "source_identification",
+      "text": "Do you have a 'dead arm' feeling after certain movements?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_DEAD_ARM_FEELING"],
+      "diagnostic_weight": 0.88,
+      "information_gain_potential": 0.85,
+      "clinical_note": "Dead arm = instability or SLAP lesion in athletes"
+    },
+
+    "_comment_biceps": "=== BICEPS TENDINOPATHY ===",
+
+    "RSRC_SHOULDER_047": {
+      "id": "RSRC_SHOULDER_047",
+      "phase": "source_identification",
+      "text": "Is there tenderness at the front of your shoulder in the groove where biceps tendon runs?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_BICIPITAL_GROOVE_TENDERNESS"],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.90,
+      "clinical_note": "Bicipital groove tenderness = biceps tendinopathy"
+    },
+
+    "RSRC_SHOULDER_048": {
+      "id": "RSRC_SHOULDER_048",
+      "phase": "source_identification",
+      "text": "Does resisting elbow bending (bicep curl motion) cause shoulder pain?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_PAIN_RESISTED_ELBOW_FLEXION"],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "clinical_note": "Pain with resisted elbow flexion = biceps tendinopathy"
+    },
+
+    "_comment_oa": "=== OSTEOARTHRITIS ===",
+
+    "RSRC_SHOULDER_049": {
+      "id": "RSRC_SHOULDER_049",
+      "phase": "source_identification",
+      "text": "Did your shoulder pain come on gradually over months/years?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_GRADUAL_ONSET"],
+      "diagnostic_weight": 0.80,
+      "information_gain_potential": 0.78,
+      "clinical_note": "Gradual onset = degenerative (OA, tendinopathy)"
+    },
+
+    "RSRC_SHOULDER_050": {
+      "id": "RSRC_SHOULDER_050",
+      "phase": "source_identification",
+      "text": "Do you feel grinding or crunching (crepitus) when moving your shoulder?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_CREPITUS"],
+      "diagnostic_weight": 0.90,
+      "information_gain_potential": 0.88,
+      "clinical_note": "Crepitus = glenohumeral OA or AC joint arthritis"
+    },
+
+    "RSRC_SHOULDER_051": {
+      "id": "RSRC_SHOULDER_051",
+      "phase": "source_identification",
+      "text": "Have you had a previous significant shoulder injury?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_PREVIOUS_SHOULDER_INJURY"],
+      "diagnostic_weight": 0.75,
+      "information_gain_potential": 0.72,
+      "clinical_note": "Previous injury = post-traumatic OA risk"
+    },
+
+    "_comment_demographics": "=== DEMOGRAPHICS/RISK FACTORS ===",
+
+    "RSRC_SHOULDER_052": {
+      "id": "RSRC_SHOULDER_052",
+      "phase": "source_identification",
+      "text": "What is your age?",
+      "type": "multiple_choice",
+      "options": [
+        {"id": "under_30", "text": "Under 30 years"},
+        {"id": "30_50", "text": "30-50 years"},
+        {"id": "50_70", "text": "50-70 years"},
+        {"id": "over_70", "text": "Over 70 years"}
+      ],
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_YOUNG_AGE", "RSYM_AGE_40_60", "RSYM_AGE_OVER_50"],
+      "diagnostic_weight": 0.72,
+      "information_gain_potential": 0.70,
+      "clinical_note": "<30=instability; 40-60=frozen shoulder; >50=OA, cuff tears"
+    },
+
+    "RSRC_SHOULDER_053": {
+      "id": "RSRC_SHOULDER_053",
+      "phase": "source_identification",
+      "text": "What is your biological sex?",
+      "type": "multiple_choice",
+      "options": [
+        {"id": "male", "text": "Male"},
+        {"id": "female", "text": "Female"}
+      ],
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_MALE", "RSYM_FEMALE"],
+      "diagnostic_weight": 0.65,
+      "information_gain_potential": 0.62,
+      "clinical_note": "Female = higher risk frozen shoulder"
+    },
+
+    "RSRC_SHOULDER_054": {
+      "id": "RSRC_SHOULDER_054",
+      "phase": "source_identification",
+      "text": "Is your dominant arm the one affected?",
+      "type": "yes_no",
+      "body_regions": ["shoulder"],
+      "tests_symptoms": ["RSYM_DOMINANT_ARM"],
+      "diagnostic_weight": 0.65,
+      "information_gain_potential": 0.62,
+      "clinical_note": "Dominant arm = overuse/rotator cuff; Non-dominant = consider other causes"
+    },
+
+    "RSRC_KNEE_001": {
+      "id": "RSRC_KNEE_001",
+      "phase": "source_identification",
+      "text": "Do you have any pain or discomfort in your groin area or front of your hip?",
+      "type": "yes_no",
+      "body_regions": ["knee"],
+      "tests_symptoms": ["RSYM_GROIN_PAIN"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "Pathognomonic for hip referral to knee"
+    },
+
+    "RSRC_KNEE_002": {
+      "id": "RSRC_KNEE_002",
+      "phase": "source_identification",
+      "text": "Do you have stiffness or difficulty with activities like putting on socks/shoes or getting in/out of a car?",
+      "type": "yes_no",
+      "body_regions": ["knee"],
+      "tests_symptoms": ["RSYM_HIP_STIFFNESS", "RSYM_DIFFICULTY_SOCKS_SHOES", "RSYM_PAIN_GETTING_IN_CAR"],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.85
+    },
+
+    "RSRC_KNEE_003": {
+      "id": "RSRC_KNEE_003",
+      "phase": "source_identification",
+      "text": "Do you have any lower back pain, or does bending your back affect your knee symptoms?",
+      "type": "yes_no",
+      "body_regions": ["knee"],
+      "tests_symptoms": ["RSYM_BACK_PAIN_PRESENT", "RSYM_BACK_MOVEMENT_AFFECTS_KNEE"],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88
+    },
+
+    "RSRC_KNEE_004": {
+      "id": "RSRC_KNEE_004",
+      "phase": "source_identification",
+      "text": "Does your knee lock, catch, or give way?",
+      "type": "yes_no",
+      "body_regions": ["knee"],
+      "tests_symptoms": ["RSYM_LOCKING_CATCHING_KNEE", "RSYM_GIVING_WAY_KNEE"],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "clinical_note": "Pathognomonic for local knee pathology"
+    },
+
+    "RSRC_KNEE_005": {
+      "id": "RSRC_KNEE_005",
+      "phase": "source_identification",
+      "text": "Is there visible swelling in your knee?",
+      "type": "yes_no",
+      "body_regions": ["knee"],
+      "tests_symptoms": ["RSYM_KNEE_SWELLING"],
+      "diagnostic_weight": 0.75,
+      "information_gain_potential": 0.72
+    },
+
+    "RSRC_HIP_001": {
+      "id": "RSRC_HIP_001",
+      "phase": "source_identification",
+      "text": "Is your pain located in your groin or the front of your hip (not the side or back)?",
+      "type": "yes_no",
+      "body_regions": ["hip"],
+      "tests_symptoms": ["RSYM_GROIN_PAIN"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "Groin pain = true hip joint. Side/back pain often referred."
+    },
+
+    "RSRC_HIP_002": {
+      "id": "RSRC_HIP_002",
+      "phase": "source_identification",
+      "text": "Does bending forward or backward at your lower back change your hip symptoms?",
+      "type": "yes_no",
+      "body_regions": ["hip"],
+      "tests_symptoms": ["RSYM_BACK_MOVEMENT_AFFECTS_HIP"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.9,
+      "clinical_note": "Pathognomonic for lumbar referral"
+    },
+
+    "RSRC_HIP_003": {
+      "id": "RSRC_HIP_003",
+      "phase": "source_identification",
+      "text": "Do you have lower back pain or stiffness along with your hip symptoms?",
+      "type": "yes_no",
+      "body_regions": ["hip"],
+      "tests_symptoms": ["RSYM_BACK_PAIN_PRESENT"],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.85
+    },
+
+    "RSRC_HIP_004": {
+      "id": "RSRC_HIP_004",
+      "phase": "source_identification",
+      "text": "Does your pain extend below your knee into your lower leg or foot?",
+      "type": "yes_no",
+      "body_regions": ["hip"],
+      "tests_symptoms": ["RSYM_PAIN_BELOW_KNEE"],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82
+    },
+
+    "RSRC_HIP_005": {
+      "id": "RSRC_HIP_005",
+      "phase": "source_identification",
+      "text": "Is your pain located just below your belt line on one side (near the dimple of your lower back)?",
+      "type": "yes_no",
+      "body_regions": ["hip"],
+      "tests_symptoms": ["RSYM_PAIN_BELOW_PSIS"],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.85,
+      "clinical_note": "Suggests SI joint involvement"
+    },
+
+    "RSRC_LBP_001": {
+      "id": "RSRC_LBP_001",
+      "phase": "source_identification",
+      "text": "Do you have any numbness, tingling, or weakness in your SADDLE AREA (inner thighs, buttocks, genitals)?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_SADDLE_ANESTHESIA"],
+      "diagnostic_weight": 1.0,
+      "information_gain_potential": 0.99,
+      "red_flag": true,
+      "clinical_note": "CAUDA EQUINA RED FLAG - Surgical emergency if positive"
+    },
+
+    "RSRC_LBP_002": {
+      "id": "RSRC_LBP_002",
+      "phase": "source_identification",
+      "text": "Have you had any NEW problems with bladder control (inability to urinate, incontinence, or not knowing when you need to go)?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_BLADDER_DYSFUNCTION", "RSYM_URINARY_RETENTION"],
+      "diagnostic_weight": 1.0,
+      "information_gain_potential": 0.99,
+      "red_flag": true,
+      "clinical_note": "CAUDA EQUINA RED FLAG - Surgical emergency if positive"
+    },
+
+    "RSRC_LBP_003": {
+      "id": "RSRC_LBP_003",
+      "phase": "source_identification",
+      "text": "Have you had any NEW problems with bowel control (incontinence or not feeling when you need to go)?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_BOWEL_DYSFUNCTION"],
+      "diagnostic_weight": 1.0,
+      "information_gain_potential": 0.98,
+      "red_flag": true,
+      "clinical_note": "CAUDA EQUINA RED FLAG - Surgical emergency if positive"
+    },
+
+    "RSRC_LBP_004": {
+      "id": "RSRC_LBP_004",
+      "phase": "source_identification",
+      "text": "Do you have weakness in BOTH legs, or progressive weakness getting worse over days?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_BILATERAL_LEG_WEAKNESS", "RSYM_PROGRESSIVE_NEUROLOGICAL"],
+      "diagnostic_weight": 1.0,
+      "information_gain_potential": 0.97,
+      "red_flag": true,
+      "clinical_note": "CAUDA EQUINA RED FLAG - Bilateral motor deficit"
+    },
+
+    "RSRC_LBP_005": {
+      "id": "RSRC_LBP_005",
+      "phase": "source_identification",
+      "text": "Have you ever been diagnosed with cancer?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_HISTORY_OF_CANCER"],
+      "diagnostic_weight": 1.0,
+      "information_gain_potential": 0.95,
+      "red_flag": true,
+      "clinical_note": "MALIGNANCY RED FLAG - History of cancer + back pain"
+    },
+
+    "RSRC_LBP_006": {
+      "id": "RSRC_LBP_006",
+      "phase": "source_identification",
+      "text": "Have you had unexplained weight loss recently (more than 10 lbs / 5kg without trying)?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_UNEXPLAINED_WEIGHT_LOSS"],
+      "diagnostic_weight": 0.98,
+      "information_gain_potential": 0.95,
+      "red_flag": true,
+      "clinical_note": "MALIGNANCY RED FLAG - Unexplained weight loss"
+    },
+
+    "RSRC_LBP_007": {
+      "id": "RSRC_LBP_007",
+      "phase": "source_identification",
+      "text": "Do you have fever, chills, or night sweats along with your back pain?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_FEVER_CHILLS"],
+      "diagnostic_weight": 1.0,
+      "information_gain_potential": 0.95,
+      "red_flag": true,
+      "clinical_note": "INFECTION RED FLAG - Fever + back pain = possible spinal infection"
+    },
+
+    "RSRC_LBP_008": {
+      "id": "RSRC_LBP_008",
+      "phase": "source_identification",
+      "text": "Have you had a recent spinal injection, surgery, or procedure?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_RECENT_SPINAL_PROCEDURE"],
+      "diagnostic_weight": 0.90,
+      "information_gain_potential": 0.88,
+      "red_flag": true,
+      "clinical_note": "INFECTION risk factor - post-procedure discitis/osteomyelitis"
+    },
+
+    "RSRC_LBP_009": {
+      "id": "RSRC_LBP_009",
+      "phase": "source_identification",
+      "text": "Do you use intravenous drugs, or have a weakened immune system (HIV, chemotherapy, immunosuppressants)?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_IV_DRUG_USE", "RSYM_IMMUNOSUPPRESSION"],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.90,
+      "red_flag": true,
+      "clinical_note": "INFECTION risk factor - IV drug use/immunosuppression"
+    },
+
+    "RSRC_LBP_010": {
+      "id": "RSRC_LBP_010",
+      "phase": "source_identification",
+      "text": "Did your back pain start after a significant trauma (fall, car accident)?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_HISTORY_TRAUMA"],
+      "diagnostic_weight": 0.90,
+      "information_gain_potential": 0.88,
+      "clinical_note": "FRACTURE risk factor - significant trauma"
+    },
+
+    "RSRC_LBP_011": {
+      "id": "RSRC_LBP_011",
+      "phase": "source_identification",
+      "text": "Do you have osteoporosis, or have you taken steroid medications (like prednisone) for more than 3 months?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_HISTORY_OSTEOPOROSIS", "RSYM_STEROID_USE"],
+      "diagnostic_weight": 0.90,
+      "information_gain_potential": 0.88,
+      "red_flag": true,
+      "clinical_note": "FRACTURE risk factor - osteoporosis/steroids"
+    },
+
+    "RSRC_LBP_012": {
+      "id": "RSRC_LBP_012",
+      "phase": "source_identification",
+      "text": "Is the pain constant, severe at night, and NOT relieved by rest or position change?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_NIGHT_PAIN_SEVERE", "RSYM_NO_RELIEF_WITH_REST", "RSYM_CONSTANT_PROGRESSIVE_PAIN"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "red_flag": true,
+      "clinical_note": "RED FLAG - Night pain unrelieved by rest suggests malignancy/infection"
+    },
+
+    "RSRC_LBP_013": {
+      "id": "RSRC_LBP_013",
+      "phase": "source_identification",
+      "text": "Is your leg pain WORSE than your back pain?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_LEG_PAIN_WORSE_THAN_BACK"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "Pathognomonic for radiculopathy - leg > back pain"
+    },
+
+    "RSRC_LBP_014": {
+      "id": "RSRC_LBP_014",
+      "phase": "source_identification",
+      "text": "Does your pain travel down your leg in a specific pattern (e.g., back of thigh to calf, or side of leg to foot)?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_DERMATOMAL_LEG_PAIN", "RSYM_PAIN_BELOW_KNEE"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "Dermatomal pattern suggests disc herniation/radiculopathy"
+    },
+
+    "RSRC_LBP_015": {
+      "id": "RSRC_LBP_015",
+      "phase": "source_identification",
+      "text": "Do you have numbness, tingling, or pins and needles in your leg or foot?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_NUMBNESS_TINGLING_LEG"],
+      "diagnostic_weight": 0.90,
+      "information_gain_potential": 0.88,
+      "clinical_note": "Neurological symptoms suggest nerve root involvement"
+    },
+
+    "RSRC_LBP_016": {
+      "id": "RSRC_LBP_016",
+      "phase": "source_identification",
+      "text": "Is your pain worse when sitting, bending forward, or lifting?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_WORSE_SITTING_FLEXION", "RSYM_PAIN_WITH_FLEXION"],
+      "diagnostic_weight": 0.88,
+      "information_gain_potential": 0.85,
+      "clinical_note": "Flexion-aggravated = disc, muscle. Extension-relieved = disc"
+    },
+
+    "RSRC_LBP_017": {
+      "id": "RSRC_LBP_017",
+      "phase": "source_identification",
+      "text": "Is your pain worse when coughing, sneezing, or straining?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_WORSE_COUGHING_SNEEZING"],
+      "diagnostic_weight": 0.90,
+      "information_gain_potential": 0.88,
+      "clinical_note": "Valsalva maneuver increases disc pressure - suggests disc pathology"
+    },
+
+    "RSRC_LBP_018": {
+      "id": "RSRC_LBP_018",
+      "phase": "source_identification",
+      "text": "Is your pain worse when standing up straight, arching backward, or walking?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_PAIN_WITH_EXTENSION", "RSYM_WORSE_EXTENSION_STANDING"],
+      "diagnostic_weight": 0.90,
+      "information_gain_potential": 0.88,
+      "clinical_note": "Extension-aggravated = facet joint, stenosis, spondylolisthesis"
+    },
+
+    "RSRC_LBP_019": {
+      "id": "RSRC_LBP_019",
+      "phase": "source_identification",
+      "text": "Do you get leg pain, heaviness, or weakness when WALKING that is relieved when you SIT DOWN or lean forward?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_NEUROGENIC_CLAUDICATION", "RSYM_WORSE_WALKING_STANDING", "RSYM_RELIEVED_SITTING_FLEXION"],
+      "diagnostic_weight": 0.98,
+      "information_gain_potential": 0.95,
+      "clinical_note": "PATHOGNOMONIC for spinal stenosis (neurogenic claudication)"
+    },
+
+    "RSRC_LBP_020": {
+      "id": "RSRC_LBP_020",
+      "phase": "source_identification",
+      "text": "Can you walk further when leaning on a shopping cart or walking uphill than on flat ground?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_SHOPPING_CART_SIGN", "RSYM_BETTER_WITH_FLEXION"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "Shopping cart sign = spinal stenosis (flexion opens spinal canal)"
+    },
+
+    "RSRC_LBP_021": {
+      "id": "RSRC_LBP_021",
+      "phase": "source_identification",
+      "text": "Do you have symptoms in BOTH legs when walking (not just one)?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_BILATERAL_LEG_SYMPTOMS", "RSYM_BILATERAL_SCIATICA"],
+      "diagnostic_weight": 0.88,
+      "information_gain_potential": 0.85,
+      "clinical_note": "Bilateral symptoms = stenosis or central disc. Unilateral = radiculopathy"
+    },
+
+    "RSRC_LBP_022": {
+      "id": "RSRC_LBP_022",
+      "phase": "source_identification",
+      "text": "Is your pain mainly on ONE SIDE of your lower back (not central)?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_UNILATERAL_BACK_PAIN"],
+      "diagnostic_weight": 0.82,
+      "information_gain_potential": 0.80,
+      "clinical_note": "Unilateral = facet, SI joint, or unilateral muscle. Central = disc, stenosis"
+    },
+
+    "RSRC_LBP_023": {
+      "id": "RSRC_LBP_023",
+      "phase": "source_identification",
+      "text": "Do you have pain that refers to your buttock or back of thigh but does NOT go below the knee?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_PAIN_REFERRED_BUTTOCK_THIGH", "RSYM_NO_PAIN_BELOW_KNEE"],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "clinical_note": "Referred pain stopping above knee = facet, SI, muscle (not true radiculopathy)"
+    },
+
+    "RSRC_LBP_024": {
+      "id": "RSRC_LBP_024",
+      "phase": "source_identification",
+      "text": "Can you point to a specific tender spot in your lower back just beside the spine?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_PARASPINAL_TENDERNESS", "RSYM_LOCALIZED_MUSCLE_PAIN"],
+      "diagnostic_weight": 0.82,
+      "information_gain_potential": 0.80,
+      "clinical_note": "Paraspinal tenderness = muscle strain or facet"
+    },
+
+    "RSRC_LBP_025": {
+      "id": "RSRC_LBP_025",
+      "phase": "source_identification",
+      "text": "Do you have muscle spasm or tightness in your lower back that you can feel?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_MUSCLE_SPASM"],
+      "diagnostic_weight": 0.80,
+      "information_gain_potential": 0.78,
+      "clinical_note": "Muscle spasm common with strain but also protective in disc/facet"
+    },
+
+    "RSRC_LBP_026": {
+      "id": "RSRC_LBP_026",
+      "phase": "source_identification",
+      "text": "Did your pain start suddenly after lifting, twisting, or a specific activity?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_HISTORY_LIFTING_STRAIN", "RSYM_ACUTE_SUDDEN_ONSET"],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "clinical_note": "Sudden onset with activity = disc, muscle strain"
+    },
+
+    "RSRC_LBP_027": {
+      "id": "RSRC_LBP_027",
+      "phase": "source_identification",
+      "text": "Can you point with ONE FINGER to where your pain is located (just below the dimple of your back)?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_PAIN_BELOW_PSIS", "RSYM_FORTIN_FINGER_TEST"],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.90,
+      "clinical_note": "Fortin finger test - pointing below PSIS = SI joint dysfunction"
+    },
+
+    "RSRC_LBP_028": {
+      "id": "RSRC_LBP_028",
+      "phase": "source_identification",
+      "text": "Is your pain worse when going from sitting to standing, or with single-leg activities (stairs, getting in car)?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_PAIN_SIT_TO_STAND", "RSYM_PAIN_SINGLE_LEG_STANCE"],
+      "diagnostic_weight": 0.88,
+      "information_gain_potential": 0.85,
+      "clinical_note": "SI joint aggravated by asymmetric loading"
+    },
+
+    "RSRC_LBP_029": {
+      "id": "RSRC_LBP_029",
+      "phase": "source_identification",
+      "text": "Is your pain worse when rolling over in bed or lying on the affected side?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_PAIN_ROLLING_IN_BED"],
+      "diagnostic_weight": 0.82,
+      "information_gain_potential": 0.80,
+      "clinical_note": "Rolling in bed pain = SI joint"
+    },
+
+    "RSRC_LBP_030": {
+      "id": "RSRC_LBP_030",
+      "phase": "source_identification",
+      "text": "Are you pregnant, recently given birth, or experiencing pelvic/hip changes?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_PREGNANCY_POSTPARTUM"],
+      "diagnostic_weight": 0.80,
+      "information_gain_potential": 0.78,
+      "clinical_note": "Pregnancy/postpartum = high risk for SI joint dysfunction"
+    },
+
+    "RSRC_LBP_031": {
+      "id": "RSRC_LBP_031",
+      "phase": "source_identification",
+      "text": "Do you have pain or stiffness in your GROIN?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_GROIN_PAIN"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "PATHOGNOMONIC for hip joint - groin pain = hip not spine"
+    },
+
+    "RSRC_LBP_032": {
+      "id": "RSRC_LBP_032",
+      "phase": "source_identification",
+      "text": "Do you have difficulty putting on socks/shoes or tying shoelaces due to hip stiffness (not back pain)?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_DIFFICULTY_SOCKS_SHOES", "RSYM_HIP_STIFFNESS"],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.90,
+      "clinical_note": "Hip-spine syndrome - hip OA presenting as LBP"
+    },
+
+    "RSRC_LBP_033": {
+      "id": "RSRC_LBP_033",
+      "phase": "source_identification",
+      "text": "Do you limp when walking, or have difficulty getting in/out of a car?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_LIMP_WITH_WALKING", "RSYM_PAIN_GETTING_IN_CAR"],
+      "diagnostic_weight": 0.88,
+      "information_gain_potential": 0.85,
+      "clinical_note": "Hip symptoms masquerading as back pain"
+    },
+
+    "RSRC_LBP_034": {
+      "id": "RSRC_LBP_034",
+      "phase": "source_identification",
+      "text": "How long does your morning stiffness last?",
+      "type": "multiple_choice",
+      "options": [
+        {"id": "none", "text": "No morning stiffness"},
+        {"id": "short", "text": "Less than 30 minutes"},
+        {"id": "long", "text": "30 minutes to 1 hour"},
+        {"id": "very_long", "text": "More than 1 hour"}
+      ],
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_MORNING_STIFFNESS_SHORT", "RSYM_MORNING_STIFFNESS_LONG"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "CRITICAL: <30min = mechanical; >30min = INFLAMMATORY back pain"
+    },
+
+    "RSRC_LBP_035": {
+      "id": "RSRC_LBP_035",
+      "phase": "source_identification",
+      "text": "Does your pain IMPROVE with exercise and movement (rather than rest)?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_IMPROVES_WITH_EXERCISE"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "PATHOGNOMONIC for inflammatory back pain (AS/axial SpA)"
+    },
+
+    "RSRC_LBP_036": {
+      "id": "RSRC_LBP_036",
+      "phase": "source_identification",
+      "text": "Does your pain get WORSE with rest (not better)?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_NO_IMPROVEMENT_WITH_REST", "RSYM_WORSE_AFTER_REST"],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.90,
+      "clinical_note": "Pain worse with rest = inflammatory back pain"
+    },
+
+    "RSRC_LBP_037": {
+      "id": "RSRC_LBP_037",
+      "phase": "source_identification",
+      "text": "Does your pain wake you up in the SECOND HALF of the night (not just trouble falling asleep)?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_NIGHT_PAIN_SECOND_HALF"],
+      "diagnostic_weight": 0.90,
+      "information_gain_potential": 0.88,
+      "clinical_note": "2nd half of night waking = inflammatory back pain (AS criterion)"
+    },
+
+    "RSRC_LBP_038": {
+      "id": "RSRC_LBP_038",
+      "phase": "source_identification",
+      "text": "Do you have ALTERNATING buttock pain (sometimes left, sometimes right)?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_ALTERNATING_BUTTOCK_PAIN"],
+      "diagnostic_weight": 0.88,
+      "information_gain_potential": 0.85,
+      "clinical_note": "Alternating buttock pain = inflammatory SI joint involvement (AS)"
+    },
+
+    "RSRC_LBP_039": {
+      "id": "RSRC_LBP_039",
+      "phase": "source_identification",
+      "text": "How old were you when your back pain FIRST started?",
+      "type": "multiple_choice",
+      "options": [
+        {"id": "under_20", "text": "Under 20 years"},
+        {"id": "20_45", "text": "20-45 years"},
+        {"id": "over_45", "text": "Over 45 years"}
+      ],
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_AGE_UNDER_45_ONSET", "RSYM_AGE_OVER_50"],
+      "diagnostic_weight": 0.88,
+      "information_gain_potential": 0.85,
+      "clinical_note": "Onset <45 = inflammatory SpA criteria; >50 = cancer/OA risk"
+    },
+
+    "RSRC_LBP_040": {
+      "id": "RSRC_LBP_040",
+      "phase": "source_identification",
+      "text": "Has your back pain been present for more than 3 months?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_DURATION_OVER_3_MONTHS", "RSYM_CHRONIC_GRADUAL_ONSET"],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "clinical_note": ">3 months = chronic; also inflammatory SpA criterion"
+    },
+
+    "RSRC_LBP_041": {
+      "id": "RSRC_LBP_041",
+      "phase": "source_identification",
+      "text": "Did your back pain come on gradually (insidious onset) rather than suddenly?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_INSIDIOUS_ONSET", "RSYM_GRADUAL_ONSET"],
+      "diagnostic_weight": 0.82,
+      "information_gain_potential": 0.80,
+      "clinical_note": "Insidious onset = inflammatory SpA; sudden = disc, fracture"
+    },
+
+    "RSRC_LBP_042": {
+      "id": "RSRC_LBP_042",
+      "phase": "source_identification",
+      "text": "Do you have a family history of ankylosing spondylitis, psoriasis, or inflammatory bowel disease?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_FAMILY_HISTORY_AS"],
+      "diagnostic_weight": 0.78,
+      "information_gain_potential": 0.75,
+      "clinical_note": "Family history increases inflammatory SpA likelihood"
+    },
+
+    "RSRC_LBP_043": {
+      "id": "RSRC_LBP_043",
+      "phase": "source_identification",
+      "text": "Do you have pain in your FLANK (side of your back below the ribs)?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_FLANK_PAIN", "RSYM_CVA_TENDERNESS"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "red_flag": true,
+      "clinical_note": "Flank pain = kidney (renal colic, infection, stone)"
+    },
+
+    "RSRC_LBP_044": {
+      "id": "RSRC_LBP_044",
+      "phase": "source_identification",
+      "text": "Do you have urinary symptoms (burning, frequency, blood in urine, difficulty urinating)?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_URINARY_SYMPTOMS"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "red_flag": true,
+      "clinical_note": "Urinary symptoms + back pain = renal pathology"
+    },
+
+    "RSRC_LBP_045": {
+      "id": "RSRC_LBP_045",
+      "phase": "source_identification",
+      "text": "Is your pain colicky (comes and goes in waves of severe pain)?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_COLICKY_PAIN"],
+      "diagnostic_weight": 0.90,
+      "information_gain_potential": 0.88,
+      "clinical_note": "Colicky pain = visceral (kidney stone, bowel)"
+    },
+
+    "RSRC_LBP_046": {
+      "id": "RSRC_LBP_046",
+      "phase": "source_identification",
+      "text": "Do you have abdominal pain, especially in the upper abdomen/stomach area that radiates to your back?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_EPIGASTRIC_PAIN", "RSYM_ABDOMINAL_PAIN", "RSYM_PAIN_RADIATES_TO_BACK"],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.90,
+      "red_flag": true,
+      "clinical_note": "Epigastric pain radiating to back = pancreatitis, AAA, ulcer"
+    },
+
+    "RSRC_LBP_047": {
+      "id": "RSRC_LBP_047",
+      "phase": "source_identification",
+      "text": "Do you have nausea, vomiting, or is your pain worse after eating?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_NAUSEA_VOMITING", "RSYM_WORSE_WITH_EATING"],
+      "diagnostic_weight": 0.88,
+      "information_gain_potential": 0.85,
+      "red_flag": true,
+      "clinical_note": "GI symptoms with back pain = visceral cause"
+    },
+
+    "RSRC_LBP_048": {
+      "id": "RSRC_LBP_048",
+      "phase": "source_identification",
+      "text": "Can you feel a pulsating mass in your abdomen, or have you been told you have an enlarged aorta?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_PULSATING_ABDOMINAL_MASS"],
+      "diagnostic_weight": 1.0,
+      "information_gain_potential": 0.98,
+      "red_flag": true,
+      "clinical_note": "AAA RED FLAG - Pulsating abdominal mass is emergency"
+    },
+
+    "RSRC_LBP_049": {
+      "id": "RSRC_LBP_049",
+      "phase": "source_identification",
+      "text": "Do you have cardiovascular risk factors (smoking, high blood pressure, high cholesterol, diabetes)?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_VASCULAR_RISK_FACTORS", "RSYM_SMOKING_HISTORY"],
+      "diagnostic_weight": 0.80,
+      "information_gain_potential": 0.78,
+      "clinical_note": "Vascular risk factors increase AAA likelihood"
+    },
+
+    "RSRC_LBP_050": {
+      "id": "RSRC_LBP_050",
+      "phase": "source_identification",
+      "text": "What is your age?",
+      "type": "multiple_choice",
+      "options": [
+        {"id": "under_50", "text": "Under 50 years"},
+        {"id": "50_70", "text": "50-70 years"},
+        {"id": "over_70", "text": "Over 70 years"}
+      ],
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_AGE_OVER_50", "RSYM_AGE_OVER_70", "RSYM_AGE_OVER_65_MALE"],
+      "diagnostic_weight": 0.78,
+      "information_gain_potential": 0.75,
+      "clinical_note": ">50 = cancer risk; >70 = fracture risk; >65 male = AAA risk"
+    },
+
+    "RSRC_LBP_051": {
+      "id": "RSRC_LBP_051",
+      "phase": "source_identification",
+      "text": "Is there a tender spot directly over your spine when pressing on the bones (spinous processes)?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_POINT_TENDERNESS_SPINE"],
+      "diagnostic_weight": 0.90,
+      "information_gain_potential": 0.88,
+      "clinical_note": "Midline bony tenderness = fracture or infection"
+    },
+
+    "RSRC_LBP_052": {
+      "id": "RSRC_LBP_052",
+      "phase": "source_identification",
+      "text": "Have conservative treatments (rest, medication, physio) failed to help after 6+ weeks?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_FAILURE_CONSERVATIVE"],
+      "diagnostic_weight": 0.82,
+      "information_gain_potential": 0.80,
+      "clinical_note": "Failure of conservative treatment = needs further investigation"
+    },
+
+    "RSRC_LBP_053": {
+      "id": "RSRC_LBP_053",
+      "phase": "source_identification",
+      "text": "Do you feel generally unwell, tired, or have had a recent infection elsewhere in your body?",
+      "type": "yes_no",
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_FATIGUE_GENERAL", "RSYM_RECENT_INFECTION", "RSYM_UNWELL_SYSTEMICALLY"],
+      "diagnostic_weight": 0.82,
+      "information_gain_potential": 0.80,
+      "red_flag": true,
+      "clinical_note": "Systemic symptoms suggest infection or malignancy"
+    },
+
+    "RSRC_LBP_054": {
+      "id": "RSRC_LBP_054",
+      "phase": "source_identification",
+      "text": "What is your biological sex?",
+      "type": "multiple_choice",
+      "options": [
+        {"id": "male", "text": "Male"},
+        {"id": "female", "text": "Female"}
+      ],
+      "body_regions": ["lumbar_spine"],
+      "tests_symptoms": ["RSYM_MALE", "RSYM_FEMALE"],
+      "diagnostic_weight": 0.65,
+      "information_gain_potential": 0.62,
+      "clinical_note": "Female = osteoporosis/fracture risk; Male >65 = AAA risk"
+    },
+
+    "RSRC_NECK_001": {
+      "id": "RSRC_NECK_001",
+      "phase": "source_identification",
+      "text": "Do you have stiffness or pain between your shoulder blades or upper back?",
+      "type": "yes_no",
+      "body_regions": ["cervical_spine"],
+      "tests_symptoms": ["RSYM_UPPER_BACK_STIFFNESS", "RSYM_SCAPULAR_PAIN"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.9,
+      "clinical_note": "Thoracic spine major contributor to neck pain"
+    },
+
+    "RSRC_NECK_002": {
+      "id": "RSRC_NECK_002",
+      "phase": "source_identification",
+      "text": "Do you have any jaw pain, clicking, or do you grind your teeth?",
+      "type": "yes_no",
+      "body_regions": ["cervical_spine"],
+      "tests_symptoms": ["RSYM_JAW_PAIN_CLICKING", "RSYM_TEETH_GRINDING"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.88,
+      "clinical_note": "TMJ dysfunction contributes to neck pain"
+    },
+
+    "RSRC_NECK_003": {
+      "id": "RSRC_NECK_003",
+      "phase": "source_identification",
+      "text": "Is your neck pain worse after prolonged sitting or computer work?",
+      "type": "yes_no",
+      "body_regions": ["cervical_spine"],
+      "tests_symptoms": ["RSYM_WORSE_PROLONGED_SITTING"],
+      "diagnostic_weight": 0.8,
+      "information_gain_potential": 0.75
+    },
+
+    "RSRC_NECK_004": {
+      "id": "RSRC_NECK_004",
+      "phase": "source_identification",
+      "text": "Do you experience dizziness, visual disturbances, or difficulty speaking when moving your neck?",
+      "type": "yes_no",
+      "body_regions": ["cervical_spine"],
+      "tests_symptoms": ["RSYM_DIZZINESS_NECK_MOVEMENT", "RSYM_VISUAL_DISTURBANCE", "RSYM_DYSARTHRIA"],
+      "diagnostic_weight": 1.0,
+      "information_gain_potential": 0.98,
+      "red_flag": true,
+      "clinical_note": "VERTEBRAL ARTERY RED FLAG - Do not manipulate neck"
+    },
+
+    "RSRC_ELBOW_001": {
+      "id": "RSRC_ELBOW_001",
+      "phase": "source_identification",
+      "text": "Does moving your neck change your elbow symptoms?",
+      "type": "yes_no",
+      "body_regions": ["elbow"],
+      "tests_symptoms": ["RSYM_NECK_MOVEMENT_AFFECTS_ELBOW"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "Pathognomonic for cervical referral"
+    },
+
+    "RSRC_ELBOW_002": {
+      "id": "RSRC_ELBOW_002",
+      "phase": "source_identification",
+      "text": "Do you have tingling in your thumb or index finger?",
+      "type": "yes_no",
+      "body_regions": ["elbow"],
+      "tests_symptoms": ["RSYM_THUMB_INDEX_TINGLING"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.9,
+      "clinical_note": "C6 dermatomal pattern - cervical radiculopathy"
+    },
+
+    "RSRC_ELBOW_003": {
+      "id": "RSRC_ELBOW_003",
+      "phase": "source_identification",
+      "text": "Is there a specific tender spot on the outside or inside of your elbow?",
+      "type": "yes_no",
+      "body_regions": ["elbow"],
+      "tests_symptoms": ["RSYM_LATERAL_EPICONDYLE_TENDERNESS", "RSYM_MEDIAL_EPICONDYLE_TENDERNESS"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.9,
+      "clinical_note": "Pathognomonic for lateral/medial epicondylalgia"
+    },
+
+    "RSRC_ELBOW_004": {
+      "id": "RSRC_ELBOW_004",
+      "phase": "source_identification",
+      "text": "Does your elbow pain increase with gripping or twisting (like opening a jar)?",
+      "type": "yes_no",
+      "body_regions": ["elbow"],
+      "tests_symptoms": ["RSYM_PAIN_WITH_GRIPPING"],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.85
+    },
+
+    "RSRC_ELBOW_005": {
+      "id": "RSRC_ELBOW_005",
+      "phase": "source_identification",
+      "text": "Do you have tingling in your ring finger or little finger?",
+      "type": "yes_no",
+      "body_regions": ["elbow"],
+      "tests_symptoms": ["RSYM_TINGLING_RING_LITTLE", "RSYM_ULNAR_DISTRIBUTION"],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "clinical_note": "Ulnar nerve entrapment at elbow"
+    },
+
+    "RSRC_ANKLE_001": {
+      "id": "RSRC_ANKLE_001",
+      "phase": "source_identification",
+      "text": "Do you have any lower back pain, or pain traveling down your buttock or leg?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_BACK_PAIN_PRESENT", "RSYM_BUTTOCK_LEG_PAIN"],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.90,
+      "clinical_note": "Key discriminator for lumbar referral vs local ankle"
+    },
+
+    "RSRC_ANKLE_002": {
+      "id": "RSRC_ANKLE_002",
+      "phase": "source_identification",
+      "text": "How did your ankle pain start?",
+      "type": "multiple_choice",
+      "options": [
+        {"id": "inversion", "text": "Twisted inward / rolled over outside of foot"},
+        {"id": "eversion", "text": "Twisted outward / rolled over inside of foot"},
+        {"id": "external_rotation", "text": "Foot was planted and leg/body rotated outward"},
+        {"id": "other_trauma", "text": "Other injury (fall, direct impact)"},
+        {"id": "gradual", "text": "Came on gradually without injury"}
+      ],
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_INVERSION_INJURY", "RSYM_EVERSION_INJURY", "RSYM_EXTERNAL_ROTATION_INJURY", "RSYM_HISTORY_TRAUMA", "RSYM_GRADUAL_ONSET", "RSYM_NO_TRAUMA_HISTORY"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.94,
+      "clinical_note": "Critical: Inversion=ATFL/CFL, External rotation=High ankle (syndesmosis), Eversion=medial, Gradual=tendinopathy/referred"
+    },
+
+    "RSRC_ANKLE_003": {
+      "id": "RSRC_ANKLE_003",
+      "phase": "source_identification",
+      "text": "Where exactly is your ankle pain located?",
+      "type": "multiple_choice",
+      "options": [
+        {"id": "lateral", "text": "Outside of the ankle (lateral side)"},
+        {"id": "medial", "text": "Inside of the ankle (medial side)"},
+        {"id": "posterior", "text": "Back of the ankle / Achilles area"},
+        {"id": "above", "text": "Above the ankle, between the two leg bones"},
+        {"id": "diffuse", "text": "All around / hard to pinpoint"}
+      ],
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_LATERAL_ANKLE_TENDERNESS", "RSYM_MEDIAL_ANKLE_TENDERNESS", "RSYM_POSTERIOR_ANKLE_PAIN", "RSYM_ACHILLES_TENDERNESS", "RSYM_PAIN_ABOVE_ANKLE", "RSYM_PAIN_BETWEEN_TIBIA_FIBULA"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.95,
+      "clinical_note": "Critical first-level discriminator for ankle region"
+    },
+
+    "RSRC_ANKLE_003B": {
+      "id": "RSRC_ANKLE_003B",
+      "phase": "source_identification",
+      "text": "You said the outside of your ankle - where exactly on the outside is most tender?",
+      "type": "multiple_choice",
+      "options": [
+        {"id": "anterior", "text": "In FRONT of the ankle bone (towards toes)"},
+        {"id": "inferior", "text": "BELOW the ankle bone (towards heel)"},
+        {"id": "posterior", "text": "BEHIND the ankle bone (towards Achilles)"},
+        {"id": "on_bone", "text": "Directly ON the ankle bone itself"}
+      ],
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_PAIN_ANTERIOR_LAT_MALLEOLUS", "RSYM_PAIN_INFERIOR_LAT_MALLEOLUS", "RSYM_PAIN_POSTERIOR_LAT_MALLEOLUS", "RSYM_BONE_TENDERNESS_LAT_MALLEOLUS"],
+      "conditional_on": {"question": "RSRC_ANKLE_003", "answer": "lateral"},
+      "diagnostic_weight": 0.98,
+      "information_gain_potential": 0.96,
+      "clinical_note": "CRITICAL: Anterior=ATFL, Inferior=CFL, Posterior=Peroneal, On bone=Fracture (Ottawa)"
+    },
+
+    "RSRC_ANKLE_004": {
+      "id": "RSRC_ANKLE_004",
+      "phase": "source_identification",
+      "text": "Is your pain worse when pushing off (like going up on your toes or climbing stairs)?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_PAIN_WITH_PUSH_OFF", "RSYM_ACHILLES_TENDERNESS"],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.90,
+      "clinical_note": "Pathognomonic for Achilles tendinopathy"
+    },
+
+    "RSRC_ANKLE_005": {
+      "id": "RSRC_ANKLE_005",
+      "phase": "source_identification",
+      "text": "Is your ankle stiff and painful first thing in the morning, then improves as you walk?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_MORNING_STIFFNESS_ANKLE", "RSYM_PAIN_WORSE_START_ACTIVITY"],
+      "diagnostic_weight": 0.88,
+      "information_gain_potential": 0.85,
+      "clinical_note": "Classic for Achilles tendinopathy - distinguishes from acute injury"
+    },
+
+    "RSRC_ANKLE_006": {
+      "id": "RSRC_ANKLE_006",
+      "phase": "source_identification",
+      "text": "Do you have numbness or tingling mainly on the sole/bottom of your foot?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_SOLE_NUMBNESS_TINGLING", "RSYM_MEDIAL_ANKLE_SYMPTOMS"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "Pathognomonic for tarsal tunnel syndrome - distinguish from L5/S1 radiculopathy"
+    },
+
+    "RSRC_ANKLE_007": {
+      "id": "RSRC_ANKLE_007",
+      "phase": "source_identification",
+      "text": "Do you have numbness or tingling on the top of your foot or in your toes following a specific pattern? (e.g., big toe area vs outer small toes)",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_NUMBNESS_TINGLING_FOOT", "RSYM_DERMATOMAL_PATTERN_ANKLE"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "Dermatomal patterns: Big toe/dorsum = L5; Lateral foot/small toes = S1"
+    },
+
+    "RSRC_ANKLE_008": {
+      "id": "RSRC_ANKLE_008",
+      "phase": "source_identification",
+      "text": "Are your symptoms worse at night or do they wake you from sleep?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_NIGHT_SYMPTOMS_ANKLE", "RSYM_BURNING_PAIN_ANKLE"],
+      "diagnostic_weight": 0.88,
+      "information_gain_potential": 0.85,
+      "clinical_note": "Night symptoms suggest tarsal tunnel or peripheral neuropathy"
+    },
+
+    "RSRC_ANKLE_009": {
+      "id": "RSRC_ANKLE_009",
+      "phase": "source_identification",
+      "text": "Does your calf or ankle pain come on when walking and go away when you stop and rest?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_CLAUDICATION", "RSYM_PAIN_WALKING_RELIEVED_REST"],
+      "diagnostic_weight": 1.0,
+      "information_gain_potential": 0.95,
+      "red_flag": true,
+      "clinical_note": "PAD RED FLAG - Claudication pattern requires vascular assessment"
+    },
+
+    "RSRC_ANKLE_010": {
+      "id": "RSRC_ANKLE_010",
+      "phase": "source_identification",
+      "text": "Are your feet often cold, or have you noticed hair loss on your lower legs?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_COLD_FEET", "RSYM_HAIR_LOSS_LEGS"],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "clinical_note": "Peripheral vascular disease screening"
+    },
+
+    "RSRC_ANKLE_011": {
+      "id": "RSRC_ANKLE_011",
+      "phase": "source_identification",
+      "text": "Is your calf swollen, warm, or red compared to the other side?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_CALF_SWELLING_UNILATERAL", "RSYM_WARMTH_REDNESS", "RSYM_CALF_TENDERNESS"],
+      "diagnostic_weight": 1.0,
+      "information_gain_potential": 0.98,
+      "red_flag": true,
+      "clinical_note": "DVT RED FLAG - Urgent vascular assessment required"
+    },
+
+    "RSRC_ANKLE_012": {
+      "id": "RSRC_ANKLE_012",
+      "phase": "source_identification",
+      "text": "Have you had recent prolonged travel (flight/car), surgery, or been immobile for an extended period?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_RECENT_IMMOBILITY"],
+      "diagnostic_weight": 0.90,
+      "information_gain_potential": 0.88,
+      "red_flag": true,
+      "clinical_note": "DVT risk factor - combined with calf symptoms increases suspicion"
+    },
+
+    "RSRC_ANKLE_013": {
+      "id": "RSRC_ANKLE_013",
+      "phase": "source_identification",
+      "text": "Do you also have knee pain or have you changed the way you walk recently?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_KNEE_PAIN_PRESENT", "RSYM_ALTERED_GAIT"],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "clinical_note": "Proximal compensation - ankle pain secondary to knee pathology"
+    },
+
+    "RSRC_ANKLE_014": {
+      "id": "RSRC_ANKLE_014",
+      "phase": "source_identification",
+      "text": "Does your ankle feel unstable or like it might give way?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_ANKLE_INSTABILITY"],
+      "diagnostic_weight": 0.88,
+      "information_gain_potential": 0.85,
+      "clinical_note": "Ligamentous laxity - suggests lateral sprain with instability"
+    },
+
+    "RSRC_ANKLE_015": {
+      "id": "RSRC_ANKLE_015",
+      "phase": "source_identification",
+      "text": "Is your ankle visibly swollen?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_ANKLE_SWELLING"],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "clinical_note": "Swelling indicates acute injury (sprain) vs chronic/referred pain"
+    },
+
+    "RSRC_ANKLE_016": {
+      "id": "RSRC_ANKLE_016",
+      "phase": "source_identification",
+      "text": "Do you feel a burning or electric sensation in your foot?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_BURNING_PAIN_ANKLE"],
+      "diagnostic_weight": 0.88,
+      "information_gain_potential": 0.85,
+      "clinical_note": "Burning/electric = nerve involvement (tarsal tunnel or radiculopathy)"
+    },
+
+    "RSRC_ANKLE_017": {
+      "id": "RSRC_ANKLE_017",
+      "phase": "source_identification",
+      "text": "Is your ankle/foot pain worse after sitting for a long time?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_PAIN_SITTING_PROLONGED"],
+      "diagnostic_weight": 0.82,
+      "information_gain_potential": 0.80,
+      "clinical_note": "Prolonged sitting worsening = lumbar discogenic referral"
+    },
+
+    "RSRC_ANKLE_018": {
+      "id": "RSRC_ANKLE_018",
+      "phase": "source_identification",
+      "text": "Is it painful to put weight on your ankle when walking?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_PAIN_WEIGHT_BEARING"],
+      "diagnostic_weight": 0.80,
+      "information_gain_potential": 0.78,
+      "clinical_note": "Weight bearing pain = structural ankle pathology (sprain, fracture)"
+    },
+
+    "RSRC_ANKLE_019": {
+      "id": "RSRC_ANKLE_019",
+      "phase": "source_identification",
+      "text": "When you twisted your ankle, was your foot pointed downward (like on tiptoes) or was it flat/bent upward?",
+      "type": "multiple_choice",
+      "options": [
+        {"id": "plantarflexed", "text": "Pointed downward (like on tiptoes)"},
+        {"id": "dorsiflexed", "text": "Flat or bent upward"},
+        {"id": "unsure", "text": "Not sure / can't remember"}
+      ],
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_PLANTARFLEXION_AT_INJURY", "RSYM_DORSIFLEXION_AT_INJURY"],
+      "conditional_on": {"question": "RSRC_ANKLE_002", "answer": "inversion"},
+      "diagnostic_weight": 0.88,
+      "information_gain_potential": 0.85,
+      "clinical_note": "ATFL injured in plantarflexion + inversion; CFL injured in dorsiflexion + inversion"
+    },
+
+    "RSRC_ANKLE_020": {
+      "id": "RSRC_ANKLE_020",
+      "phase": "source_identification",
+      "text": "Can you take 4 steps on your injured ankle, even if you have to limp?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_CAN_WEIGHT_BEAR_4_STEPS", "RSYM_CANNOT_WEIGHT_BEAR_4_STEPS"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "OTTAWA ANKLE RULE: Inability to weight bear 4 steps = X-ray indicated"
+    },
+
+    "RSRC_ANKLE_021": {
+      "id": "RSRC_ANKLE_021",
+      "phase": "source_identification",
+      "text": "Is the most tender spot directly ON the ankle bone itself (not beside it)?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_BONE_TENDERNESS_LAT_MALLEOLUS"],
+      "diagnostic_weight": 0.98,
+      "information_gain_potential": 0.95,
+      "red_flag": true,
+      "clinical_note": "OTTAWA ANKLE RULE: Bone tenderness at posterior edge of lateral malleolus = X-ray indicated"
+    },
+
+    "RSRC_ANKLE_022": {
+      "id": "RSRC_ANKLE_022",
+      "phase": "source_identification",
+      "text": "Does it hurt when you try to turn your foot outward against resistance?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_PAIN_RESISTED_EVERSION", "RSYM_RETROMALLEOLAR_TENDERNESS"],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.88,
+      "clinical_note": "Pathognomonic for peroneal tendon involvement"
+    },
+
+    "RSRC_ANKLE_023": {
+      "id": "RSRC_ANKLE_023",
+      "phase": "source_identification",
+      "text": "Does squeezing your lower leg (calf area) cause pain in your ankle?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_SQUEEZE_TEST_POSITIVE"],
+      "conditional_on": {"question": "RSRC_ANKLE_003", "answer": "above"},
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "Squeeze test positive = High ankle sprain (syndesmosis)"
+    },
+
+    "RSRC_ANKLE_024": {
+      "id": "RSRC_ANKLE_024",
+      "phase": "source_identification",
+      "text": "What is your approximate weight category?",
+      "type": "multiple_choice",
+      "options": [
+        {"id": "underweight", "text": "Underweight / Very slim"},
+        {"id": "normal", "text": "Normal weight"},
+        {"id": "overweight", "text": "Overweight"},
+        {"id": "obese", "text": "Significantly overweight / Obese"}
+      ],
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_LOW_BMI", "RSYM_OVERWEIGHT"],
+      "diagnostic_weight": 0.75,
+      "information_gain_potential": 0.72,
+      "clinical_note": "Underweight=stress fracture risk; Overweight=PTTD, OA risk"
+    },
+
+    "RSRC_ANKLE_025": {
+      "id": "RSRC_ANKLE_025",
+      "phase": "source_identification",
+      "text": "What is your age range?",
+      "type": "multiple_choice",
+      "options": [
+        {"id": "under_30", "text": "Under 30 years"},
+        {"id": "30_50", "text": "30-50 years"},
+        {"id": "50_65", "text": "50-65 years"},
+        {"id": "over_65", "text": "Over 65 years"}
+      ],
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_AGE_40_60", "RSYM_AGE_OVER_50"],
+      "diagnostic_weight": 0.70,
+      "information_gain_potential": 0.68,
+      "clinical_note": "Age affects OA, PTTD, fracture healing, stress fracture risk"
+    },
+
+    "RSRC_ANKLE_026": {
+      "id": "RSRC_ANKLE_026",
+      "phase": "source_identification",
+      "text": "What is your activity level?",
+      "type": "multiple_choice",
+      "options": [
+        {"id": "sedentary", "text": "Sedentary / Low activity"},
+        {"id": "moderate", "text": "Moderate (walk regularly, some exercise)"},
+        {"id": "active", "text": "Active (exercise 3-5x/week)"},
+        {"id": "very_active", "text": "Very active / Athlete / Runner"}
+      ],
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_RUNNER_HIGH_ACTIVITY"],
+      "diagnostic_weight": 0.75,
+      "information_gain_potential": 0.72,
+      "clinical_note": "High activity = stress fracture, tendinopathy risk"
+    },
+
+    "RSRC_ANKLE_027": {
+      "id": "RSRC_ANKLE_027",
+      "phase": "source_identification",
+      "text": "Have you recently increased your activity level significantly (new exercise program, increased running distance, etc.)?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_RECENT_ACTIVITY_INCREASE"],
+      "diagnostic_weight": 0.88,
+      "information_gain_potential": 0.85,
+      "clinical_note": "Recent increase = high stress fracture risk"
+    },
+
+    "RSRC_ANKLE_028": {
+      "id": "RSRC_ANKLE_028",
+      "phase": "source_identification",
+      "text": "Is there tenderness on the INSIDE ankle bone itself (medial malleolus)?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_BONE_TENDERNESS_MED_MALLEOLUS"],
+      "conditional_on": {"question": "RSRC_ANKLE_003", "answer": "medial"},
+      "diagnostic_weight": 0.98,
+      "information_gain_potential": 0.95,
+      "red_flag": true,
+      "clinical_note": "OTTAWA RULE: Medial malleolus bone tenderness = X-ray required"
+    },
+
+    "RSRC_ANKLE_029": {
+      "id": "RSRC_ANKLE_029",
+      "phase": "source_identification",
+      "text": "Is there tenderness on the outside of your foot (base of 5th metatarsal - bony bump halfway down outer foot)?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_BONE_TENDERNESS_5TH_MT", "RSYM_LATERAL_FOOT_PAIN"],
+      "diagnostic_weight": 0.98,
+      "information_gain_potential": 0.95,
+      "red_flag": true,
+      "clinical_note": "OTTAWA RULE: 5th metatarsal tenderness = X-ray required (Jones fracture)"
+    },
+
+    "RSRC_ANKLE_030": {
+      "id": "RSRC_ANKLE_030",
+      "phase": "source_identification",
+      "text": "Is there tenderness on the top inner part of your midfoot (navicular bone)?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_BONE_TENDERNESS_NAVICULAR"],
+      "diagnostic_weight": 0.98,
+      "information_gain_potential": 0.95,
+      "red_flag": true,
+      "clinical_note": "OTTAWA RULE: Navicular tenderness = X-ray required (navicular fracture)"
+    },
+
+    "RSRC_ANKLE_031": {
+      "id": "RSRC_ANKLE_031",
+      "phase": "source_identification",
+      "text": "Did you notice bruising appear within the first 24 hours?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_BRUISING_IMMEDIATE"],
+      "diagnostic_weight": 0.82,
+      "information_gain_potential": 0.80,
+      "clinical_note": "Early bruising suggests more significant soft tissue or bone injury"
+    },
+
+    "RSRC_ANKLE_032": {
+      "id": "RSRC_ANKLE_032",
+      "phase": "source_identification",
+      "text": "Have you had previous ankle injuries or sprains?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_PREVIOUS_ANKLE_INJURY", "RSYM_PREVIOUS_ANKLE_SPRAIN"],
+      "diagnostic_weight": 0.80,
+      "information_gain_potential": 0.78,
+      "clinical_note": "Previous injury = OA, OCD, chronic instability, sinus tarsi syndrome risk"
+    },
+
+    "RSRC_ANKLE_033": {
+      "id": "RSRC_ANKLE_033",
+      "phase": "source_identification",
+      "text": "Has your pain persisted longer than expected after an ankle sprain (more than 6-8 weeks)?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_PERSISTENT_PAIN_AFTER_SPRAIN"],
+      "diagnostic_weight": 0.88,
+      "information_gain_potential": 0.85,
+      "clinical_note": "Persistent pain post-sprain = OCD, sinus tarsi, chronic instability"
+    },
+
+    "RSRC_ANKLE_034": {
+      "id": "RSRC_ANKLE_034",
+      "phase": "source_identification",
+      "text": "Does your ankle lock, catch, or click?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_LOCKING_CATCHING", "RSYM_CLICKING_ANKLE"],
+      "diagnostic_weight": 0.90,
+      "information_gain_potential": 0.88,
+      "clinical_note": "Pathognomonic for OCD (osteochondral lesion) or loose body"
+    },
+
+    "RSRC_ANKLE_035": {
+      "id": "RSRC_ANKLE_035",
+      "phase": "source_identification",
+      "text": "Does your pain feel deep inside the ankle joint?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_DEEP_ANKLE_PAIN"],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "clinical_note": "Deep pain suggests OCD, OA, or intra-articular pathology"
+    },
+
+    "RSRC_ANKLE_036": {
+      "id": "RSRC_ANKLE_036",
+      "phase": "source_identification",
+      "text": "Is your pain worse when pointing your toes downward (like a ballet dancer)?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_PAIN_WITH_PLANTARFLEXION", "RSYM_PAIN_POINTING_TOES"],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.90,
+      "clinical_note": "Pathognomonic for posterior impingement"
+    },
+
+    "RSRC_ANKLE_037": {
+      "id": "RSRC_ANKLE_037",
+      "phase": "source_identification",
+      "text": "Is your pain worse when bending your ankle upward (dorsiflexion) or squatting deeply?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_PAIN_WITH_DORSIFLEXION", "RSYM_PAIN_SQUATTING"],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.90,
+      "clinical_note": "Pathognomonic for anterior impingement"
+    },
+
+    "RSRC_ANKLE_038": {
+      "id": "RSRC_ANKLE_038",
+      "phase": "source_identification",
+      "text": "Do you notice stiffness after sitting that loosens up after a few minutes of walking (less than 30 minutes)?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_STIFFNESS_AFTER_REST", "RSYM_MORNING_STIFFNESS_SHORT"],
+      "diagnostic_weight": 0.88,
+      "information_gain_potential": 0.85,
+      "clinical_note": "Short-duration stiffness = Osteoarthritis pattern"
+    },
+
+    "RSRC_ANKLE_039": {
+      "id": "RSRC_ANKLE_039",
+      "phase": "source_identification",
+      "text": "Is your morning stiffness lasting MORE than 30-60 minutes?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_MORNING_STIFFNESS_LONG"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "Prolonged morning stiffness = Inflammatory arthritis (RA, psoriatic)"
+    },
+
+    "RSRC_ANKLE_040": {
+      "id": "RSRC_ANKLE_040",
+      "phase": "source_identification",
+      "text": "Do you have similar symptoms in both ankles or other joints?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_BILATERAL_SYMPTOMS", "RSYM_MULTIPLE_JOINTS_AFFECTED"],
+      "diagnostic_weight": 0.90,
+      "information_gain_potential": 0.88,
+      "clinical_note": "Bilateral/multiple joints = Inflammatory or systemic arthritis"
+    },
+
+    "RSRC_ANKLE_041": {
+      "id": "RSRC_ANKLE_041",
+      "phase": "source_identification",
+      "text": "Did your pain come on SUDDENLY and SEVERELY (within hours)?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_SUDDEN_SEVERE_ONSET", "RSYM_RAPID_ONSET"],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.90,
+      "clinical_note": "Sudden severe onset = Gout or septic arthritis"
+    },
+
+    "RSRC_ANKLE_042": {
+      "id": "RSRC_ANKLE_042",
+      "phase": "source_identification",
+      "text": "Is your ankle red, hot to touch, and significantly swollen?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_RED_HOT_SWOLLEN"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "Red/hot/swollen = Gout, septic arthritis, or acute inflammation"
+    },
+
+    "RSRC_ANKLE_043": {
+      "id": "RSRC_ANKLE_043",
+      "phase": "source_identification",
+      "text": "Is the pain so severe you cannot tolerate even light touch (like bedsheets)?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_CANNOT_TOLERATE_TOUCH"],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.90,
+      "clinical_note": "Exquisite tenderness = Gout classic presentation"
+    },
+
+    "RSRC_ANKLE_044": {
+      "id": "RSRC_ANKLE_044",
+      "phase": "source_identification",
+      "text": "Do you have a fever, chills, or feel generally unwell?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_FEVER_CHILLS", "RSYM_UNWELL_SYSTEMICALLY"],
+      "diagnostic_weight": 1.0,
+      "information_gain_potential": 0.98,
+      "red_flag": true,
+      "clinical_note": "SEPTIC ARTHRITIS RED FLAG - Urgent medical attention required"
+    },
+
+    "RSRC_ANKLE_045": {
+      "id": "RSRC_ANKLE_045",
+      "phase": "source_identification",
+      "text": "Have you had similar episodes before that resolved on their own?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_PREVIOUS_SIMILAR_EPISODE", "RSYM_HISTORY_GOUT"],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "clinical_note": "Recurrent episodes = Gout pattern"
+    },
+
+    "RSRC_ANKLE_046": {
+      "id": "RSRC_ANKLE_046",
+      "phase": "source_identification",
+      "text": "Is your pain worse with high-impact activities (running, jumping) but better with rest?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_PAIN_WITH_IMPACT", "RSYM_PAIN_WORSE_WITH_ACTIVITY", "RSYM_PAIN_RELIEVED_REST"],
+      "diagnostic_weight": 0.90,
+      "information_gain_potential": 0.88,
+      "clinical_note": "Impact-related pain = Stress fracture pattern"
+    },
+
+    "RSRC_ANKLE_047": {
+      "id": "RSRC_ANKLE_047",
+      "phase": "source_identification",
+      "text": "Can you point to one specific spot that is tender to press on (localized bone tenderness)?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_LOCALIZED_BONE_TENDERNESS"],
+      "diagnostic_weight": 0.90,
+      "information_gain_potential": 0.88,
+      "clinical_note": "Focal bone tenderness = Stress fracture or bone pathology"
+    },
+
+    "RSRC_ANKLE_048": {
+      "id": "RSRC_ANKLE_048",
+      "phase": "source_identification",
+      "text": "Do you have pain along the inner arch of your foot?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_PAIN_MEDIAL_ARCH"],
+      "conditional_on": {"question": "RSRC_ANKLE_003", "answer": "medial"},
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.90,
+      "clinical_note": "Medial arch pain = PTTD (posterior tibial tendon dysfunction)"
+    },
+
+    "RSRC_ANKLE_049": {
+      "id": "RSRC_ANKLE_049",
+      "phase": "source_identification",
+      "text": "Have you noticed your foot becoming flatter over time (acquired flat foot)?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_FLAT_FOOT_ACQUIRED"],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.90,
+      "clinical_note": "Acquired flatfoot = PTTD progression"
+    },
+
+    "RSRC_ANKLE_050": {
+      "id": "RSRC_ANKLE_050",
+      "phase": "source_identification",
+      "text": "Is it difficult or painful to stand on one leg and rise up onto your toes on the affected side?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_SINGLE_LEG_HEEL_RAISE_WEAK"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "Weak single leg heel raise = PTTD confirmation test"
+    },
+
+    "RSRC_ANKLE_051": {
+      "id": "RSRC_ANKLE_051",
+      "phase": "source_identification",
+      "text": "Do you feel grinding or crunching (crepitus) when moving your ankle?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_CREPITUS"],
+      "diagnostic_weight": 0.82,
+      "information_gain_potential": 0.80,
+      "clinical_note": "Crepitus = Osteoarthritis or cartilage damage"
+    },
+
+    "RSRC_ANKLE_052": {
+      "id": "RSRC_ANKLE_052",
+      "phase": "source_identification",
+      "text": "Is your ankle movement range reduced compared to the other side?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_DECREASED_ROM", "RSYM_LIMITED_DORSIFLEXION"],
+      "diagnostic_weight": 0.80,
+      "information_gain_potential": 0.78,
+      "clinical_note": "Reduced ROM = OA, impingement, or post-traumatic stiffness"
+    },
+
+    "RSRC_ANKLE_053": {
+      "id": "RSRC_ANKLE_053",
+      "phase": "source_identification",
+      "text": "Is there pain in the outer part of your hindfoot/heel area (not the ankle joint itself)?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_LATERAL_HINDFOOT_PAIN", "RSYM_SINUS_TARSI_TENDERNESS"],
+      "diagnostic_weight": 0.90,
+      "information_gain_potential": 0.88,
+      "clinical_note": "Lateral hindfoot pain = Sinus tarsi syndrome"
+    },
+
+    "RSRC_ANKLE_054": {
+      "id": "RSRC_ANKLE_054",
+      "phase": "source_identification",
+      "text": "Is your pain worse on uneven ground or when your foot is angled inward/outward?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_PAIN_UNEVEN_GROUND", "RSYM_FEELING_OF_INSTABILITY"],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "clinical_note": "Uneven ground pain = Sinus tarsi or subtalar pathology"
+    },
+
+    "RSRC_ANKLE_055": {
+      "id": "RSRC_ANKLE_055",
+      "phase": "source_identification",
+      "text": "Are you a dancer, footballer, or do activities requiring pointing your toes frequently?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_DANCER_FOOTBALLER"],
+      "diagnostic_weight": 0.75,
+      "information_gain_potential": 0.72,
+      "clinical_note": "Dancers/footballers = Higher risk of posterior impingement"
+    },
+
+    "RSRC_ANKLE_056": {
+      "id": "RSRC_ANKLE_056",
+      "phase": "source_identification",
+      "text": "Do you have any family history of arthritis or autoimmune conditions?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_FAMILY_HISTORY_ARTHRITIS"],
+      "diagnostic_weight": 0.65,
+      "information_gain_potential": 0.62,
+      "clinical_note": "Family history increases inflammatory arthritis risk"
+    },
+
+    "RSRC_ANKLE_057": {
+      "id": "RSRC_ANKLE_057",
+      "phase": "source_identification",
+      "text": "What is your biological sex?",
+      "type": "multiple_choice",
+      "options": [
+        {"id": "male", "text": "Male"},
+        {"id": "female", "text": "Female"}
+      ],
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_MALE", "RSYM_FEMALE"],
+      "diagnostic_weight": 0.60,
+      "information_gain_potential": 0.58,
+      "clinical_note": "Male=gout risk; Female=stress fracture, PTTD risk"
+    },
+
+    "RSRC_ANKLE_058": {
+      "id": "RSRC_ANKLE_058",
+      "phase": "source_identification",
+      "text": "Do you have severe pain at night or pain that wakes you even when not moving?",
+      "type": "yes_no",
+      "body_regions": ["ankle"],
+      "tests_symptoms": ["RSYM_SEVERE_PAIN_AT_REST", "RSYM_NIGHT_SYMPTOMS_ANKLE"],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.90,
+      "red_flag": true,
+      "clinical_note": "Severe rest/night pain = Red flag for infection, tumor, or vascular"
+    },
+
+    "RSRC_WRIST_001": {
+      "id": "RSRC_WRIST_001",
+      "phase": "source_identification",
+      "text": "Does neck position or movement affect your wrist/hand symptoms?",
+      "type": "yes_no",
+      "body_regions": ["wrist"],
+      "tests_symptoms": ["RSYM_NECK_MOVEMENT_AFFECTS_HAND"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "Pathognomonic for cervical referral"
+    },
+
+    "RSRC_WRIST_002": {
+      "id": "RSRC_WRIST_002",
+      "phase": "source_identification",
+      "text": "Do you have numbness/tingling mainly in your thumb, index, and middle fingers?",
+      "type": "yes_no",
+      "body_regions": ["wrist"],
+      "tests_symptoms": ["RSYM_THUMB_INDEX_MIDDLE_NUMBNESS"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "Pathognomonic for carpal tunnel syndrome"
+    },
+
+    "RSRC_WRIST_003": {
+      "id": "RSRC_WRIST_003",
+      "phase": "source_identification",
+      "text": "Are your symptoms worse at night or do they wake you from sleep?",
+      "type": "yes_no",
+      "body_regions": ["wrist"],
+      "tests_symptoms": ["RSYM_NIGHT_SYMPTOMS"],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "clinical_note": "Classic carpal tunnel presentation"
+    },
+
+    "RSRC_WRIST_004": {
+      "id": "RSRC_WRIST_004",
+      "phase": "source_identification",
+      "text": "Do you have neck, shoulder, or arm symptoms along with your wrist/hand symptoms?",
+      "type": "yes_no",
+      "body_regions": ["wrist"],
+      "tests_symptoms": ["RSYM_NECK_PAIN_PRESENT", "RSYM_ARM_SYMPTOMS_PRESENT"],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.85
+    },
+
+    "RSRC_WRIST_005": {
+      "id": "RSRC_WRIST_005",
+      "phase": "source_identification",
+      "text": "Are your symptoms worse with arms overhead or carrying heavy bags on your shoulder?",
+      "type": "yes_no",
+      "body_regions": ["wrist"],
+      "tests_symptoms": ["RSYM_OVERHEAD_WORSENS", "RSYM_CARRYING_BAGS_WORSENS"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.9,
+      "clinical_note": "Thoracic outlet syndrome"
+    },
+
+    "RSRC_FOOT_001": {
+      "id": "RSRC_FOOT_001",
+      "phase": "source_identification",
+      "text": "Do you have any lower back or leg pain?",
+      "type": "yes_no",
+      "body_regions": ["foot"],
+      "tests_symptoms": ["RSYM_BACK_PAIN_PRESENT", "RSYM_LEG_PAIN_PRESENT"],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88
+    },
+
+    "RSRC_FOOT_002": {
+      "id": "RSRC_FOOT_002",
+      "phase": "source_identification",
+      "text": "Do you have numbness or tingling in your foot following a specific pattern (big toe vs outer foot)?",
+      "type": "yes_no",
+      "body_regions": ["foot"],
+      "tests_symptoms": ["RSYM_NUMBNESS_TINGLING_FOOT", "RSYM_DERMATOMAL_PATTERN"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "Big toe = L5, Outer foot = S1"
+    },
+
+    "RSRC_FOOT_003": {
+      "id": "RSRC_FOOT_003",
+      "phase": "source_identification",
+      "text": "Is your pain worst with the first few steps in the morning?",
+      "type": "yes_no",
+      "body_regions": ["foot"],
+      "tests_symptoms": ["RSYM_FIRST_STEP_PAIN"],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "clinical_note": "Pathognomonic for plantar fasciitis"
+    },
+
+    "RSRC_FOOT_004": {
+      "id": "RSRC_FOOT_004",
+      "phase": "source_identification",
+      "text": "Do you have numbness or tingling mainly in the sole of your foot?",
+      "type": "yes_no",
+      "body_regions": ["foot"],
+      "tests_symptoms": ["RSYM_SOLE_NUMBNESS_TINGLING"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.9,
+      "clinical_note": "Tarsal tunnel syndrome"
+    },
+
+    "_comment_knee_enhanced": "========== ENHANCED KNEE SCREENING - HIP AND LUMBAR REFERRAL ==========",
+
+    "RSRC_KNEE_006": {
+      "id": "RSRC_KNEE_006",
+      "phase": "source_identification",
+      "text": "Is your knee disability WORSE than X-rays suggest? (Using walker/wheelchair despite minor findings)",
+      "type": "yes_no",
+      "body_regions": ["knee"],
+      "tests_symptoms": ["RSYM_DISABILITY_DISPROPORTIONATE"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "CRITICAL: Disability > X-ray findings = think HIP referral"
+    },
+
+    "RSRC_KNEE_007": {
+      "id": "RSRC_KNEE_007",
+      "phase": "source_identification",
+      "text": "Does rotating your hip inward cause pain in your groin or hip?",
+      "type": "yes_no",
+      "body_regions": ["knee"],
+      "tests_symptoms": ["RSYM_LIMITED_HIP_INTERNAL_ROTATION", "RSYM_GROIN_PAIN"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "PATHOGNOMONIC for hip OA referring to knee"
+    },
+
+    "RSRC_KNEE_008": {
+      "id": "RSRC_KNEE_008",
+      "phase": "source_identification",
+      "text": "Do you have thigh pain (front or inner thigh) with your knee pain?",
+      "type": "yes_no",
+      "body_regions": ["knee"],
+      "tests_symptoms": ["RSYM_ANTERIOR_THIGH_SYMPTOMS"],
+      "diagnostic_weight": 0.88,
+      "information_gain_potential": 0.85,
+      "clinical_note": "Thigh + knee pain = hip referral or L3-L4"
+    },
+
+    "RSRC_KNEE_009": {
+      "id": "RSRC_KNEE_009",
+      "phase": "source_identification",
+      "text": "Did knee treatment (injections, therapy, surgery) fail to help?",
+      "type": "yes_no",
+      "body_regions": ["knee"],
+      "tests_symptoms": ["RSYM_KNEE_TREATMENT_FAILED"],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.90,
+      "clinical_note": "Failed knee treatment = reconsider hip as source"
+    },
+
+    "RSRC_KNEE_010": {
+      "id": "RSRC_KNEE_010",
+      "phase": "source_identification",
+      "text": "Does your knee exam seem normal despite significant pain?",
+      "type": "yes_no",
+      "body_regions": ["knee"],
+      "tests_symptoms": ["RSYM_KNEE_EXAM_NORMAL"],
+      "diagnostic_weight": 0.90,
+      "information_gain_potential": 0.88,
+      "clinical_note": "Normal knee exam = REFERRED (hip or lumbar)"
+    },
+
+    "_comment_hip_enhanced": "========== ENHANCED HIP SCREENING - LUMBAR AND VISCERAL ==========",
+
+    "RSRC_HIP_006": {
+      "id": "RSRC_HIP_006",
+      "phase": "source_identification",
+      "text": "Does raising your straight leg while lying down cause leg pain?",
+      "type": "yes_no",
+      "body_regions": ["hip"],
+      "tests_symptoms": ["RSYM_SLR_POSITIVE", "RSYM_SLUMP_POSITIVE"],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.90,
+      "clinical_note": "Positive SLR = lumbar radiculopathy, not hip"
+    },
+
+    "RSRC_HIP_007": {
+      "id": "RSRC_HIP_007",
+      "phase": "source_identification",
+      "text": "Can you move your hip fully without pain when relaxed?",
+      "type": "yes_no",
+      "body_regions": ["hip"],
+      "tests_symptoms": ["RSYM_HIP_ROM_FULL_PAINLESS"],
+      "diagnostic_weight": 0.90,
+      "information_gain_potential": 0.88,
+      "clinical_note": "Full painless hip ROM = REFERRED (lumbar or SI)"
+    },
+
+    "RSRC_HIP_008": {
+      "id": "RSRC_HIP_008",
+      "phase": "source_identification",
+      "text": "Do you have numbness or tingling in your leg or foot?",
+      "type": "yes_no",
+      "body_regions": ["hip"],
+      "tests_symptoms": ["RSYM_NUMBNESS_TINGLING_LEG"],
+      "diagnostic_weight": 0.88,
+      "information_gain_potential": 0.85,
+      "clinical_note": "Neurological symptoms = lumbar radiculopathy"
+    },
+
+    "RSRC_HIP_009": {
+      "id": "RSRC_HIP_009",
+      "phase": "source_identification",
+      "text": "Is your pain on the SIDE of your hip (over the bony point)?",
+      "type": "yes_no",
+      "body_regions": ["hip"],
+      "tests_symptoms": ["RSYM_LATERAL_HIP_PAIN"],
+      "diagnostic_weight": 0.88,
+      "information_gain_potential": 0.85,
+      "clinical_note": "Lateral hip pain = bursitis/gluteal tendinopathy (NOT hip joint)"
+    },
+
+    "RSRC_HIP_010": {
+      "id": "RSRC_HIP_010",
+      "phase": "source_identification",
+      "text": "Do you have abdominal or pelvic symptoms with your hip pain?",
+      "type": "yes_no",
+      "body_regions": ["hip"],
+      "tests_symptoms": ["RSYM_ABDOMINAL_PAIN", "RSYM_SYSTEMIC_SYMPTOMS"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "red_flag": true,
+      "clinical_note": "RED FLAG: Visceral symptoms = possible referred pain"
+    },
+
+    "_comment_neck_enhanced": "========== ENHANCED CERVICAL SCREENING - CARDIAC, TMJ ==========",
+
+    "RSRC_NECK_006": {
+      "id": "RSRC_NECK_006",
+      "phase": "source_identification",
+      "text": "Does your neck pain come on with physical exertion or stress?",
+      "type": "yes_no",
+      "body_regions": ["cervical_spine"],
+      "tests_symptoms": ["RSYM_EXERTION_RELATED_PAIN"],
+      "diagnostic_weight": 1.0,
+      "information_gain_potential": 0.98,
+      "red_flag": true,
+      "clinical_note": "CARDIAC RED FLAG - exertion-related neck pain"
+    },
+
+    "RSRC_NECK_007": {
+      "id": "RSRC_NECK_007",
+      "phase": "source_identification",
+      "text": "Do you have chest tightness or shortness of breath with neck pain?",
+      "type": "yes_no",
+      "body_regions": ["cervical_spine"],
+      "tests_symptoms": ["RSYM_CHEST_TIGHTNESS", "RSYM_SHORTNESS_OF_BREATH"],
+      "diagnostic_weight": 1.0,
+      "information_gain_potential": 0.98,
+      "red_flag": true,
+      "clinical_note": "CARDIAC RED FLAG - chest symptoms with neck pain"
+    },
+
+    "RSRC_NECK_008": {
+      "id": "RSRC_NECK_008",
+      "phase": "source_identification",
+      "text": "Do you have jaw pain, teeth clenching, or jaw clicking?",
+      "type": "yes_no",
+      "body_regions": ["cervical_spine"],
+      "tests_symptoms": ["RSYM_JAW_PAIN_CLICKING", "RSYM_TEETH_GRINDING"],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.90,
+      "clinical_note": "TMJ dysfunction can refer to neck"
+    },
+
+    "RSRC_NECK_009": {
+      "id": "RSRC_NECK_009",
+      "phase": "source_identification",
+      "text": "Do you have dizziness when turning your head?",
+      "type": "yes_no",
+      "body_regions": ["cervical_spine"],
+      "tests_symptoms": ["RSYM_DIZZINESS_NECK_MOVEMENT"],
+      "diagnostic_weight": 1.0,
+      "information_gain_potential": 0.98,
+      "red_flag": true,
+      "clinical_note": "VERTEBRAL ARTERY RED FLAG"
+    },
+
+    "RSRC_NECK_010": {
+      "id": "RSRC_NECK_010",
+      "phase": "source_identification",
+      "text": "Do you have arm numbness or tingling from your neck?",
+      "type": "yes_no",
+      "body_regions": ["cervical_spine"],
+      "tests_symptoms": ["RSYM_ARM_SYMPTOMS", "RSYM_NUMBNESS_TINGLING_ARM"],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.90,
+      "clinical_note": "Radicular symptoms = cervical radiculopathy"
+    },
+
+    "_comment_elbow_enhanced": "========== ENHANCED ELBOW SCREENING - CERVICAL REFERRAL ==========",
+
+    "RSRC_ELBOW_006": {
+      "id": "RSRC_ELBOW_006",
+      "phase": "source_identification",
+      "text": "Does moving your neck affect your elbow pain?",
+      "type": "yes_no",
+      "body_regions": ["elbow"],
+      "tests_symptoms": ["RSYM_NECK_MOVEMENT_AFFECTS_ELBOW"],
+      "diagnostic_weight": 0.98,
+      "information_gain_potential": 0.95,
+      "clinical_note": "PATHOGNOMONIC - Neck affecting elbow = cervical"
+    },
+
+    "RSRC_ELBOW_007": {
+      "id": "RSRC_ELBOW_007",
+      "phase": "source_identification",
+      "text": "Do you have thumb/index finger numbness?",
+      "type": "yes_no",
+      "body_regions": ["elbow"],
+      "tests_symptoms": ["RSYM_THUMB_INDEX_TINGLING"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "C6 radiculopathy (82% have bilateral epicondylitis)"
+    },
+
+    "RSRC_ELBOW_008": {
+      "id": "RSRC_ELBOW_008",
+      "phase": "source_identification",
+      "text": "Did elbow treatment fail after weeks?",
+      "type": "yes_no",
+      "body_regions": ["elbow"],
+      "tests_symptoms": ["RSYM_ELBOW_TREATMENT_FAILED"],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.90,
+      "clinical_note": "86% improved with cervical treatment"
+    },
+
+    "RSRC_ELBOW_009": {
+      "id": "RSRC_ELBOW_009",
+      "phase": "source_identification",
+      "text": "Is your elbow pain bilateral (both sides)?",
+      "type": "yes_no",
+      "body_regions": ["elbow"],
+      "tests_symptoms": ["RSYM_BILATERAL_ELBOW_PAIN"],
+      "diagnostic_weight": 0.90,
+      "information_gain_potential": 0.88,
+      "clinical_note": "Bilateral = 82% cervical involvement"
+    },
+
+    "RSRC_ELBOW_010": {
+      "id": "RSRC_ELBOW_010",
+      "phase": "source_identification",
+      "text": "Do you have ring/little finger numbness?",
+      "type": "yes_no",
+      "body_regions": ["elbow"],
+      "tests_symptoms": ["RSYM_TINGLING_RING_LITTLE", "RSYM_ULNAR_DISTRIBUTION"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "Ulnar nerve (cubital tunnel)"
+    },
+
+    "_comment_wrist_enhanced": "========== ENHANCED WRIST SCREENING - CERVICAL/TOS ==========",
+
+    "RSRC_WRIST_006": {
+      "id": "RSRC_WRIST_006",
+      "phase": "source_identification",
+      "text": "Does moving your neck affect your wrist/hand symptoms?",
+      "type": "yes_no",
+      "body_regions": ["wrist"],
+      "tests_symptoms": ["RSYM_NECK_MOVEMENT_AFFECTS_WRIST"],
+      "diagnostic_weight": 0.98,
+      "information_gain_potential": 0.95,
+      "clinical_note": "PATHOGNOMONIC - cervical referral"
+    },
+
+    "RSRC_WRIST_007": {
+      "id": "RSRC_WRIST_007",
+      "phase": "source_identification",
+      "text": "Does raising your arm overhead worsen hand symptoms?",
+      "type": "yes_no",
+      "body_regions": ["wrist"],
+      "tests_symptoms": ["RSYM_OVERHEAD_WORSENS"],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.90,
+      "clinical_note": "Thoracic Outlet Syndrome"
+    },
+
+    "RSRC_WRIST_008": {
+      "id": "RSRC_WRIST_008",
+      "phase": "source_identification",
+      "text": "Do symptoms wake you at night and improve by shaking your hand?",
+      "type": "yes_no",
+      "body_regions": ["wrist"],
+      "tests_symptoms": ["RSYM_NIGHT_SYMPTOMS_WRIST", "RSYM_FLICK_SIGN"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "Carpal tunnel syndrome"
+    },
+
+    "RSRC_WRIST_009": {
+      "id": "RSRC_WRIST_009",
+      "phase": "source_identification",
+      "text": "Is numbness in your first 3 fingers (thumb, index, middle)?",
+      "type": "yes_no",
+      "body_regions": ["wrist"],
+      "tests_symptoms": ["RSYM_MEDIAN_DISTRIBUTION"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "Median nerve = carpal tunnel"
+    },
+
+    "RSRC_WRIST_010": {
+      "id": "RSRC_WRIST_010",
+      "phase": "source_identification",
+      "text": "Is numbness in your last 2 fingers (ring, little)?",
+      "type": "yes_no",
+      "body_regions": ["wrist"],
+      "tests_symptoms": ["RSYM_ULNAR_DISTRIBUTION"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "Ulnar nerve - check elbow too"
+    },
+
+    "_comment_foot_enhanced": "========== ENHANCED FOOT SCREENING - LUMBAR/VASCULAR ==========",
+
+    "RSRC_FOOT_005": {
+      "id": "RSRC_FOOT_005",
+      "phase": "source_identification",
+      "text": "Do you have lower back pain with your foot symptoms?",
+      "type": "yes_no",
+      "body_regions": ["foot"],
+      "tests_symptoms": ["RSYM_BACK_PAIN_PRESENT"],
+      "diagnostic_weight": 0.90,
+      "information_gain_potential": 0.88,
+      "clinical_note": "Back + foot = lumbar radiculopathy"
+    },
+
+    "RSRC_FOOT_006": {
+      "id": "RSRC_FOOT_006",
+      "phase": "source_identification",
+      "text": "Do you have difficulty lifting your foot up (foot drop)?",
+      "type": "yes_no",
+      "body_regions": ["foot"],
+      "tests_symptoms": ["RSYM_FOOT_DROP"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "clinical_note": "Foot drop = L5 or peroneal neuropathy"
+    },
+
+    "RSRC_FOOT_007": {
+      "id": "RSRC_FOOT_007",
+      "phase": "source_identification",
+      "text": "Is your ankle reflex diminished?",
+      "type": "yes_no",
+      "body_regions": ["foot"],
+      "tests_symptoms": ["RSYM_ANKLE_REFLEX_DIMINISHED"],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.90,
+      "clinical_note": "Diminished ankle reflex = S1"
+    },
+
+    "RSRC_FOOT_008": {
+      "id": "RSRC_FOOT_008",
+      "phase": "source_identification",
+      "text": "Do you have calf pain when walking that goes away with rest?",
+      "type": "yes_no",
+      "body_regions": ["foot"],
+      "tests_symptoms": ["RSYM_CLAUDICATION_VASCULAR"],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "red_flag": true,
+      "clinical_note": "RED FLAG - peripheral arterial disease"
+    },
+
+    "RSRC_FOOT_009": {
+      "id": "RSRC_FOOT_009",
+      "phase": "source_identification",
+      "text": "Is your foot cold, pale, or has color changes?",
+      "type": "yes_no",
+      "body_regions": ["foot"],
+      "tests_symptoms": ["RSYM_FOOT_COLD_PALE"],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.90,
+      "red_flag": true,
+      "clinical_note": "RED FLAG - vascular insufficiency"
+    },
+
+    "RSRC_FOOT_010": {
+      "id": "RSRC_FOOT_010",
+      "phase": "source_identification",
+      "text": "Do you have burning/tingling in BOTH feet (stocking pattern)?",
+      "type": "yes_no",
+      "body_regions": ["foot"],
+      "tests_symptoms": ["RSYM_STOCKING_DISTRIBUTION", "RSYM_BILATERAL_FOOT_SYMPTOMS"],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 0.90,
+      "clinical_note": "Bilateral stocking = peripheral neuropathy"
+    }
+  }
+}

@@ -1,0 +1,3401 @@
+{
+  "version": "2.0",
+  "total_questions": 250,
+  "questions": {
+    "SAFETY_001": {
+      "id": "SAFETY_001",
+      "phase": "safety",
+      "priority": 1,
+      "text": "Do you have any of these symptoms that need immediate medical attention?",
+      "type": "multiple_choice",
+      "options": [
+        {
+          "value": "bowel_bladder",
+          "text": "Numbness in groin/buttocks area or loss of bladder/bowel control"
+        },
+        {
+          "value": "bilateral_weakness",
+          "text": "Severe weakness in both legs or spreading numbness"
+        },
+        {
+          "value": "cardiac",
+          "text": "Chest pain, severe shortness of breath, or heart palpitations"
+        },
+        {
+          "value": "none",
+          "text": "None of these symptoms"
+        }
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_CAUDA_EQUINA",
+        "SYMPTOM_CARDIAC_RED_FLAG"
+      ],
+      "diagnostic_weight": 1.0,
+      "red_flag": true,
+      "body_regions": [
+        "all"
+      ]
+    },
+    "SAFETY_002": {
+      "id": "SAFETY_002",
+      "phase": "safety",
+      "priority": 1,
+      "text": "Have you experienced any unexplained weight loss, fever, or night sweats recently?",
+      "type": "yes_no",
+      "tests_symptoms": [
+        "SYMPTOM_SYSTEMIC_RED_FLAG"
+      ],
+      "diagnostic_weight": 1.0,
+      "red_flag": true,
+      "body_regions": [
+        "all"
+      ]
+    },
+    "SAFETY_003": {
+      "id": "SAFETY_003",
+      "phase": "safety",
+      "priority": 1,
+      "text": "Have you had a recent significant trauma, fall, or accident?",
+      "type": "yes_no",
+      "tests_symptoms": [
+        "SYMPTOM_TRAUMA"
+      ],
+      "diagnostic_weight": 0.9,
+      "body_regions": [
+        "all"
+      ]
+    },
+    "CONTEXT_001": {
+      "id": "CONTEXT_001",
+      "phase": "context",
+      "priority": 2,
+      "text": "How did this problem start?",
+      "type": "multiple_choice",
+      "options": [
+        {
+          "value": "sudden_trauma",
+          "text": "Sudden injury, fall, or accident"
+        },
+        {
+          "value": "sudden_activity",
+          "text": "Suddenly during exercise or activity"
+        },
+        {
+          "value": "gradual_weeks",
+          "text": "Gradually over days or weeks"
+        },
+        {
+          "value": "gradual_months",
+          "text": "Gradually over months"
+        },
+        {
+          "value": "woke_up",
+          "text": "Woke up with it one morning"
+        }
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_ONSET_ACUTE",
+        "SYMPTOM_ONSET_GRADUAL"
+      ],
+      "diagnostic_weight": 0.8,
+      "body_regions": [
+        "all"
+      ]
+    },
+    "CONTEXT_002": {
+      "id": "CONTEXT_002",
+      "phase": "context",
+      "priority": 2,
+      "text": "How long have you had this problem?",
+      "type": "multiple_choice",
+      "options": [
+        {
+          "value": "days",
+          "text": "Less than 1 week"
+        },
+        {
+          "value": "weeks",
+          "text": "1-6 weeks"
+        },
+        {
+          "value": "months",
+          "text": "6 weeks to 3 months"
+        },
+        {
+          "value": "chronic",
+          "text": "More than 3 months"
+        }
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_DURATION_ACUTE",
+        "SYMPTOM_DURATION_CHRONIC"
+      ],
+      "diagnostic_weight": 0.75,
+      "body_regions": [
+        "all"
+      ]
+    },
+    "CONTEXT_003": {
+      "id": "CONTEXT_003",
+      "phase": "context",
+      "priority": 2,
+      "text": "On a scale of 0-10, how severe is your pain at its worst?",
+      "type": "multiple_choice",
+      "options": [
+        {
+          "value": "mild",
+          "text": "Mild (1-3)"
+        },
+        {
+          "value": "moderate",
+          "text": "Moderate (4-6)"
+        },
+        {
+          "value": "severe",
+          "text": "Severe (7-10)"
+        }
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PAIN_SEVERITY"
+      ],
+      "diagnostic_weight": 0.7,
+      "body_regions": [
+        "all"
+      ]
+    },
+    "REGION_001": {
+      "id": "REGION_001",
+      "phase": "region",
+      "priority": 3,
+      "text": "What is your main problem area?",
+      "type": "body_selection",
+      "options": [
+        {
+          "value": "shoulder",
+          "text": "Shoulder"
+        },
+        {
+          "value": "elbow",
+          "text": "Elbow"
+        },
+        {
+          "value": "wrist_hand",
+          "text": "Wrist/Hand"
+        },
+        {
+          "value": "hip",
+          "text": "Hip"
+        },
+        {
+          "value": "knee",
+          "text": "Knee"
+        },
+        {
+          "value": "lower_leg",
+          "text": "Lower Leg (Calf/Shin)"
+        },
+        {
+          "value": "ankle",
+          "text": "Ankle"
+        },
+        {
+          "value": "foot",
+          "text": "Foot"
+        },
+        {
+          "value": "lumbar_spine",
+          "text": "Lower Back"
+        },
+        {
+          "value": "cervical_spine",
+          "text": "Neck"
+        },
+        {
+          "value": "thoracic_spine",
+          "text": "Mid-Back/Ribs"
+        },
+        {
+          "value": "head_face",
+          "text": "Head/Face/Jaw"
+        },
+        {
+          "value": "pelvis_groin",
+          "text": "Pelvis/Groin"
+        },
+        {
+          "value": "systemic",
+          "text": "Widespread/Multiple Areas"
+        },
+        {
+          "value": "neurological",
+          "text": "Neurological (Balance/Coordination)"
+        },
+        {
+          "value": "cardiopulmonary",
+          "text": "Breathing/Heart-related"
+        }
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_BODY_REGION"
+      ],
+      "diagnostic_weight": 0.95,
+      "body_regions": [
+        "all"
+      ]
+    },
+    "SHOULDER_001": {
+      "id": "SHOULDER_001",
+      "phase": "differential",
+      "text": "Do you have sharp pain when reaching overhead?",
+      "type": "yes_no",
+      "body_regions": [
+        "shoulder"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_OVERHEAD_PAIN"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.85,
+      "conditions_influenced": [
+        "COND_001",
+        "COND_002",
+        "COND_011"
+      ]
+    },
+    "SHOULDER_002": {
+      "id": "SHOULDER_002",
+      "phase": "differential",
+      "text": "Does pain wake you up at night when lying on that shoulder?",
+      "type": "yes_no",
+      "body_regions": [
+        "shoulder"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_NIGHT_PAIN"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.8,
+      "conditions_influenced": [
+        "COND_001",
+        "COND_002"
+      ]
+    },
+    "SHOULDER_003": {
+      "id": "SHOULDER_003",
+      "phase": "differential",
+      "text": "Are you gradually losing range of motion in your shoulder?",
+      "type": "yes_no",
+      "body_regions": [
+        "shoulder"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PROGRESSIVE_ROM_LOSS"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_001",
+        "COND_073"
+      ]
+    },
+    "SHOULDER_004": {
+      "id": "SHOULDER_004",
+      "phase": "differential",
+      "text": "Is your shoulder stiff, especially in the morning?",
+      "type": "yes_no",
+      "body_regions": [
+        "shoulder"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_STIFFNESS"
+      ],
+      "diagnostic_weight": 0.8,
+      "information_gain_potential": 0.75,
+      "conditions_influenced": [
+        "COND_001",
+        "COND_073"
+      ]
+    },
+    "SHOULDER_005": {
+      "id": "SHOULDER_005",
+      "phase": "differential",
+      "text": "Do you have a painful arc of motion between 60-120 degrees?",
+      "type": "yes_no",
+      "body_regions": [
+        "shoulder"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PAINFUL_ARC"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_002",
+        "COND_011"
+      ]
+    },
+    "SHOULDER_006": {
+      "id": "SHOULDER_006",
+      "phase": "differential",
+      "text": "Do you feel weakness when lifting your arm?",
+      "type": "yes_no",
+      "body_regions": [
+        "shoulder"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_WEAKNESS_SHOULDER"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_002",
+        "COND_044"
+      ]
+    },
+    "SHOULDER_007": {
+      "id": "SHOULDER_007",
+      "phase": "differential",
+      "text": "Does your pain improve after a few minutes of movement (warming up)?",
+      "type": "yes_no",
+      "body_regions": [
+        "shoulder"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_WARMUP_IMPROVEMENT"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.8,
+      "conditions_influenced": [
+        "COND_002",
+        "COND_020"
+      ]
+    },
+    "SHOULDER_008": {
+      "id": "SHOULDER_008",
+      "phase": "differential",
+      "text": "Do you feel clicking or catching in your shoulder?",
+      "type": "yes_no",
+      "body_regions": [
+        "shoulder"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_CATCHING_LOCKING"
+      ],
+      "diagnostic_weight": 0.8,
+      "information_gain_potential": 0.78,
+      "conditions_influenced": [
+        "COND_103",
+        "COND_220"
+      ]
+    },
+    "SHOULDER_009": {
+      "id": "SHOULDER_009",
+      "phase": "differential",
+      "text": "Is your pain mainly at the front of your shoulder?",
+      "type": "yes_no",
+      "body_regions": [
+        "shoulder"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_ANTERIOR_SHOULDER_PAIN"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.8,
+      "conditions_influenced": [
+        "COND_020",
+        "COND_322"
+      ]
+    },
+    "SHOULDER_010": {
+      "id": "SHOULDER_010",
+      "phase": "differential",
+      "text": "Did you hear or feel a pop when the injury occurred?",
+      "type": "yes_no",
+      "body_regions": [
+        "shoulder"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_AUDIBLE_POP"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_002",
+        "COND_103",
+        "COND_225"
+      ]
+    },
+    "ELBOW_001": {
+      "id": "ELBOW_001",
+      "phase": "differential",
+      "text": "Is your pain on the outside of your elbow?",
+      "type": "yes_no",
+      "body_regions": [
+        "elbow"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_LATERAL_ELBOW_PAIN"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_003"
+      ]
+    },
+    "ELBOW_002": {
+      "id": "ELBOW_002",
+      "phase": "differential",
+      "text": "Is your pain on the inside of your elbow?",
+      "type": "yes_no",
+      "body_regions": [
+        "elbow"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_MEDIAL_ELBOW_PAIN"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_022",
+        "COND_145"
+      ]
+    },
+    "ELBOW_003": {
+      "id": "ELBOW_003",
+      "phase": "differential",
+      "text": "Does gripping objects or shaking hands cause pain?",
+      "type": "yes_no",
+      "body_regions": [
+        "elbow"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_GRIP_WEAKNESS"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_003",
+        "COND_022"
+      ]
+    },
+    "ELBOW_004": {
+      "id": "ELBOW_004",
+      "phase": "differential",
+      "text": "Does pain occur when you extend your wrist against resistance?",
+      "type": "yes_no",
+      "body_regions": [
+        "elbow"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PAIN_RESISTED_WRIST_EXT"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_003"
+      ]
+    },
+    "ELBOW_005": {
+      "id": "ELBOW_005",
+      "phase": "differential",
+      "text": "Do you have numbness or tingling in your ring and little fingers?",
+      "type": "yes_no",
+      "body_regions": [
+        "elbow"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_ULNAR_NERVE_NUMBNESS"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.9,
+      "conditions_influenced": [
+        "COND_145"
+      ]
+    },
+    "ELBOW_006": {
+      "id": "ELBOW_006",
+      "phase": "differential",
+      "text": "Are your symptoms worse when your elbow is bent for long periods?",
+      "type": "yes_no",
+      "body_regions": [
+        "elbow"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_WORSE_ELBOW_FLEXION"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_145"
+      ]
+    },
+    "WRIST_001": {
+      "id": "WRIST_001",
+      "phase": "differential",
+      "text": "Do you have numbness or tingling in your thumb, index, or middle fingers?",
+      "type": "yes_no",
+      "body_regions": [
+        "wrist_hand"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_MEDIAN_NERVE_DISTRIBUTION"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_012"
+      ]
+    },
+    "WRIST_002": {
+      "id": "WRIST_002",
+      "phase": "differential",
+      "text": "Are your symptoms worse at night or wake you from sleep?",
+      "type": "yes_no",
+      "body_regions": [
+        "wrist_hand"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_NIGHT_SYMPTOMS"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_012"
+      ]
+    },
+    "WRIST_003": {
+      "id": "WRIST_003",
+      "phase": "differential",
+      "text": "Is your pain on the thumb side of your wrist?",
+      "type": "yes_no",
+      "body_regions": [
+        "wrist_hand"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_RADIAL_WRIST_PAIN"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_062"
+      ]
+    },
+    "WRIST_004": {
+      "id": "WRIST_004",
+      "phase": "differential",
+      "text": "Does moving your thumb or making a fist cause pain?",
+      "type": "yes_no",
+      "body_regions": [
+        "wrist_hand"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_THUMB_PAIN"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_062"
+      ]
+    },
+    "WRIST_005": {
+      "id": "WRIST_005",
+      "phase": "differential",
+      "text": "Does one of your fingers catch or lock when bending?",
+      "type": "yes_no",
+      "body_regions": [
+        "wrist_hand"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_FINGER_CATCHING"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_063"
+      ]
+    },
+    "WRIST_006": {
+      "id": "WRIST_006",
+      "phase": "differential",
+      "text": "Can you feel a nodule or bump in your palm?",
+      "type": "yes_no",
+      "body_regions": [
+        "wrist_hand"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_NODULE_PALM"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.8,
+      "conditions_influenced": [
+        "COND_063",
+        "COND_064"
+      ]
+    },
+    "KNEE_001": {
+      "id": "KNEE_001",
+      "phase": "differential",
+      "text": "Does your knee give way or feel unstable?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_KNEE_GIVING_WAY"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_104",
+        "COND_015"
+      ]
+    },
+    "KNEE_002": {
+      "id": "KNEE_002",
+      "phase": "differential",
+      "text": "Do you have catching or locking sensations in your knee?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_CATCHING_LOCKING"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_015"
+      ]
+    },
+    "KNEE_003": {
+      "id": "KNEE_003",
+      "phase": "differential",
+      "text": "Did your knee swell rapidly after the injury?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_IMMEDIATE_SWELLING"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_104",
+        "COND_015"
+      ]
+    },
+    "KNEE_004": {
+      "id": "KNEE_004",
+      "phase": "differential",
+      "text": "Did you hear or feel a pop when the injury occurred?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_AUDIBLE_POP"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.9,
+      "conditions_influenced": [
+        "COND_104"
+      ]
+    },
+    "KNEE_005": {
+      "id": "KNEE_005",
+      "phase": "differential",
+      "text": "Is your pain at the front of your knee around the kneecap?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_ANTERIOR_KNEE_PAIN"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_004",
+        "COND_061"
+      ]
+    },
+    "KNEE_006": {
+      "id": "KNEE_006",
+      "phase": "differential",
+      "text": "Is your pain worse going up or down stairs?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PAIN_STAIRS"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_004",
+        "COND_010"
+      ]
+    },
+    "KNEE_007": {
+      "id": "KNEE_007",
+      "phase": "differential",
+      "text": "Do you feel grinding or crepitus when moving your knee?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_CREPITUS"
+      ],
+      "diagnostic_weight": 0.8,
+      "information_gain_potential": 0.78,
+      "conditions_influenced": [
+        "COND_010",
+        "COND_108"
+      ]
+    },
+    "KNEE_008": {
+      "id": "KNEE_008",
+      "phase": "differential",
+      "text": "Is your pain on the outside of your knee?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_LATERAL_KNEE_PAIN"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_016",
+        "COND_341"
+      ]
+    },
+    "KNEE_009": {
+      "id": "KNEE_009",
+      "phase": "differential",
+      "text": "Is your pain worse when running, especially at a certain distance?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PAIN_RUNNING"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_016",
+        "COND_341"
+      ]
+    },
+    "KNEE_010": {
+      "id": "KNEE_010",
+      "phase": "differential",
+      "text": "Is your pain on the inside of your knee?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_MEDIAL_KNEE_PAIN"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_106",
+        "COND_015"
+      ]
+    },
+    "KNEE_011": {
+      "id": "KNEE_011",
+      "phase": "differential",
+      "text": "Is your pain just below your kneecap at the patellar tendon?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PAIN_INFERIOR_PATELLA"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_061"
+      ]
+    },
+    "KNEE_012": {
+      "id": "KNEE_012",
+      "phase": "differential",
+      "text": "Is your pain worse with jumping activities?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PAIN_JUMPING"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_061"
+      ]
+    },
+    "ANKLE_001": {
+      "id": "ANKLE_001",
+      "phase": "differential",
+      "text": "Is your pain on the outside of your ankle?",
+      "type": "yes_no",
+      "body_regions": [
+        "ankle"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_LATERAL_ANKLE_PAIN"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_009",
+        "COND_021",
+        "COND_301"
+      ]
+    },
+    "ANKLE_002": {
+      "id": "ANKLE_002",
+      "phase": "differential",
+      "text": "Did you roll your ankle inward (inversion injury)?",
+      "type": "yes_no",
+      "body_regions": [
+        "ankle"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_INVERSION_INJURY"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_009",
+        "COND_301",
+        "COND_302"
+      ]
+    },
+    "ANKLE_003": {
+      "id": "ANKLE_003",
+      "phase": "differential",
+      "text": "Does your ankle frequently give way or feel unstable?",
+      "type": "yes_no",
+      "body_regions": [
+        "ankle"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_ANKLE_GIVING_WAY"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_021"
+      ]
+    },
+    "ANKLE_004": {
+      "id": "ANKLE_004",
+      "phase": "differential",
+      "text": "Is your pain at the back of your heel/Achilles area?",
+      "type": "yes_no",
+      "body_regions": [
+        "ankle"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_POSTERIOR_HEEL_PAIN"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_005",
+        "COND_264"
+      ]
+    },
+    "ANKLE_005": {
+      "id": "ANKLE_005",
+      "phase": "differential",
+      "text": "Is your pain worse when you first start moving but improves with activity?",
+      "type": "yes_no",
+      "body_regions": [
+        "ankle"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_WARMUP_IMPROVEMENT"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_005"
+      ]
+    },
+    "ANKLE_006": {
+      "id": "ANKLE_006",
+      "phase": "differential",
+      "text": "Is your pain on the inside of your ankle?",
+      "type": "yes_no",
+      "body_regions": [
+        "ankle"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_MEDIAL_ANKLE_PAIN"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_074",
+        "COND_208"
+      ]
+    },
+    "ANKLE_007": {
+      "id": "ANKLE_007",
+      "phase": "differential",
+      "text": "Did you twist your ankle outward (external rotation)?",
+      "type": "yes_no",
+      "body_regions": [
+        "ankle"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_EXTERNAL_ROTATION_INJURY"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_207"
+      ]
+    },
+    "ANKLE_008": {
+      "id": "ANKLE_008",
+      "phase": "differential",
+      "text": "Is your pain above the ankle joint (between shin and ankle)?",
+      "type": "yes_no",
+      "body_regions": [
+        "ankle"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PAIN_ABOVE_ANKLE"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_207"
+      ]
+    },
+    "FOOT_001": {
+      "id": "FOOT_001",
+      "phase": "differential",
+      "text": "Is your pain at the bottom of your heel?",
+      "type": "yes_no",
+      "body_regions": [
+        "foot"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_HEEL_PAIN"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_006"
+      ]
+    },
+    "FOOT_002": {
+      "id": "FOOT_002",
+      "phase": "differential",
+      "text": "Is your pain worst with the first steps in the morning?",
+      "type": "yes_no",
+      "body_regions": [
+        "foot"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_FIRST_STEP_PAIN"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_006"
+      ]
+    },
+    "FOOT_003": {
+      "id": "FOOT_003",
+      "phase": "differential",
+      "text": "Is your pain in the ball of your foot (forefoot)?",
+      "type": "yes_no",
+      "body_regions": [
+        "foot"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_FOREFOOT_PAIN"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_075",
+        "COND_076"
+      ]
+    },
+    "FOOT_004": {
+      "id": "FOOT_004",
+      "phase": "differential",
+      "text": "Do you have burning, tingling, or numbness in your toes?",
+      "type": "yes_no",
+      "body_regions": [
+        "foot"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_BURNING_TINGLING_TOES"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_076",
+        "COND_119"
+      ]
+    },
+    "FOOT_005": {
+      "id": "FOOT_005",
+      "phase": "differential",
+      "text": "Is your pain worse when wearing tight shoes?",
+      "type": "yes_no",
+      "body_regions": [
+        "foot"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PAIN_TIGHT_SHOES"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_076",
+        "COND_077"
+      ]
+    },
+    "FOOT_006": {
+      "id": "FOOT_006",
+      "phase": "differential",
+      "text": "Is your arch collapsing or becoming flatter?",
+      "type": "yes_no",
+      "body_regions": [
+        "foot"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_FLAT_FOOT_PROGRESSIVE"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_074",
+        "COND_261"
+      ]
+    },
+    "LUMBAR_001": {
+      "id": "LUMBAR_001",
+      "phase": "differential",
+      "text": "Does your pain radiate down your leg below the knee?",
+      "type": "yes_no",
+      "body_regions": [
+        "lumbar_spine"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_LEG_PAIN_BELOW_KNEE"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_007",
+        "COND_237"
+      ]
+    },
+    "LUMBAR_002": {
+      "id": "LUMBAR_002",
+      "phase": "differential",
+      "text": "Do you have numbness or tingling in your leg?",
+      "type": "yes_no",
+      "body_regions": [
+        "lumbar_spine"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_NUMBNESS_TINGLING_LEG"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_007",
+        "COND_237",
+        "COND_084"
+      ]
+    },
+    "LUMBAR_003": {
+      "id": "LUMBAR_003",
+      "phase": "differential",
+      "text": "Is your pain worse when sitting?",
+      "type": "yes_no",
+      "body_regions": [
+        "lumbar_spine"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PAIN_WORSE_SITTING"
+      ],
+      "diagnostic_weight": 0.8,
+      "information_gain_potential": 0.78,
+      "conditions_influenced": [
+        "COND_007",
+        "COND_019"
+      ]
+    },
+    "LUMBAR_004": {
+      "id": "LUMBAR_004",
+      "phase": "differential",
+      "text": "Is your pain worse when bending forward?",
+      "type": "yes_no",
+      "body_regions": [
+        "lumbar_spine"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PAIN_WORSE_BENDING"
+      ],
+      "diagnostic_weight": 0.8,
+      "information_gain_potential": 0.78,
+      "conditions_influenced": [
+        "COND_007"
+      ]
+    },
+    "LUMBAR_005": {
+      "id": "LUMBAR_005",
+      "phase": "differential",
+      "text": "Is your pain worse when walking but relieved by sitting?",
+      "type": "yes_no",
+      "body_regions": [
+        "lumbar_spine"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_NEUROGENIC_CLAUDICATION"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.9,
+      "conditions_influenced": [
+        "COND_084"
+      ]
+    },
+    "LUMBAR_006": {
+      "id": "LUMBAR_006",
+      "phase": "differential",
+      "text": "Does leaning forward or bending at the waist relieve your symptoms?",
+      "type": "yes_no",
+      "body_regions": [
+        "lumbar_spine"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_RELIEF_LEANING_FORWARD"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_084"
+      ]
+    },
+    "LUMBAR_007": {
+      "id": "LUMBAR_007",
+      "phase": "differential",
+      "text": "Is your pain worse when arching your back backward?",
+      "type": "yes_no",
+      "body_regions": [
+        "lumbar_spine"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PAIN_WORSE_EXTENSION"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_085",
+        "COND_129"
+      ]
+    },
+    "LUMBAR_008": {
+      "id": "LUMBAR_008",
+      "phase": "differential",
+      "text": "Is your pain mainly in your buttock?",
+      "type": "yes_no",
+      "body_regions": [
+        "lumbar_spine"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_BUTTOCK_PAIN"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_019",
+        "COND_127"
+      ]
+    },
+    "LUMBAR_009": {
+      "id": "LUMBAR_009",
+      "phase": "differential",
+      "text": "Is your pain predominantly on one side?",
+      "type": "yes_no",
+      "body_regions": [
+        "lumbar_spine"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PAIN_ONE_SIDED"
+      ],
+      "diagnostic_weight": 0.8,
+      "information_gain_potential": 0.78,
+      "conditions_influenced": [
+        "COND_127"
+      ]
+    },
+    "CERVICAL_001": {
+      "id": "CERVICAL_001",
+      "phase": "differential",
+      "text": "Does your pain radiate down your arm?",
+      "type": "yes_no",
+      "body_regions": [
+        "cervical_spine"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_ARM_PAIN_RADIATING"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_008"
+      ]
+    },
+    "CERVICAL_002": {
+      "id": "CERVICAL_002",
+      "phase": "differential",
+      "text": "Do you have numbness or tingling in your arm or hand?",
+      "type": "yes_no",
+      "body_regions": [
+        "cervical_spine"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_NUMBNESS_TINGLING_ARM"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_008",
+        "COND_018"
+      ]
+    },
+    "CERVICAL_003": {
+      "id": "CERVICAL_003",
+      "phase": "differential",
+      "text": "Is your head tilted to one side and difficult to straighten?",
+      "type": "yes_no",
+      "body_regions": [
+        "cervical_spine"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_HEAD_TILTED"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_131"
+      ]
+    },
+    "CERVICAL_004": {
+      "id": "CERVICAL_004",
+      "phase": "differential",
+      "text": "Were you in a car accident or had a whiplash-type injury?",
+      "type": "yes_no",
+      "body_regions": [
+        "cervical_spine"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_ACCELERATION_DECELERATION_INJURY"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_132"
+      ]
+    },
+    "CERVICAL_005": {
+      "id": "CERVICAL_005",
+      "phase": "differential",
+      "text": "Do you have headaches that start from your neck?",
+      "type": "yes_no",
+      "body_regions": [
+        "cervical_spine"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_HEADACHE_FROM_NECK_MOVEMENT"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_133"
+      ]
+    },
+    "CERVICAL_006": {
+      "id": "CERVICAL_006",
+      "phase": "differential",
+      "text": "Are your symptoms worse when holding your arms overhead?",
+      "type": "yes_no",
+      "body_regions": [
+        "cervical_spine"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_SYMPTOMS_WORSE_ARMS_OVERHEAD"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_018"
+      ]
+    },
+    "HIP_001": {
+      "id": "HIP_001",
+      "phase": "differential",
+      "text": "Is your pain in your groin area?",
+      "type": "yes_no",
+      "body_regions": [
+        "hip"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_GROIN_PAIN"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_013",
+        "COND_122",
+        "COND_123"
+      ]
+    },
+    "HIP_002": {
+      "id": "HIP_002",
+      "phase": "differential",
+      "text": "Is your pain on the outside of your hip?",
+      "type": "yes_no",
+      "body_regions": [
+        "hip"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_LATERAL_HIP_PAIN"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_121",
+        "COND_213"
+      ]
+    },
+    "HIP_003": {
+      "id": "HIP_003",
+      "phase": "differential",
+      "text": "Is your pain worse when lying on the affected side?",
+      "type": "yes_no",
+      "body_regions": [
+        "hip"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PAIN_LYING_ON_SIDE"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_121"
+      ]
+    },
+    "HIP_004": {
+      "id": "HIP_004",
+      "phase": "differential",
+      "text": "Do you feel clicking or catching in your hip?",
+      "type": "yes_no",
+      "body_regions": [
+        "hip"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_CLICKING_HIP"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_122",
+        "COND_124"
+      ]
+    },
+    "HIP_005": {
+      "id": "HIP_005",
+      "phase": "differential",
+      "text": "Is your pain worse with deep hip flexion (like bringing knee to chest)?",
+      "type": "yes_no",
+      "body_regions": [
+        "hip"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PAIN_DEEP_FLEXION"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_122",
+        "COND_123"
+      ]
+    },
+    "HIP_006": {
+      "id": "HIP_006",
+      "phase": "differential",
+      "text": "Is your hip stiff, especially in the morning?",
+      "type": "yes_no",
+      "body_regions": [
+        "hip"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_STIFFNESS"
+      ],
+      "diagnostic_weight": 0.8,
+      "information_gain_potential": 0.78,
+      "conditions_influenced": [
+        "COND_013"
+      ]
+    },
+    "THORACIC_001": {
+      "id": "THORACIC_001",
+      "phase": "differential",
+      "text": "Is your pain in the chest wall area?",
+      "type": "yes_no",
+      "body_regions": [
+        "thoracic_spine"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_CHEST_WALL_PAIN"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_241",
+        "COND_242"
+      ]
+    },
+    "THORACIC_002": {
+      "id": "THORACIC_002",
+      "phase": "differential",
+      "text": "Can you reproduce the pain by pressing on your ribs?",
+      "type": "yes_no",
+      "body_regions": [
+        "thoracic_spine"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_REPRODUCIBLE_TENDERNESS"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_241"
+      ]
+    },
+    "THORACIC_003": {
+      "id": "THORACIC_003",
+      "phase": "differential",
+      "text": "Is your pain worse with deep breathing?",
+      "type": "yes_no",
+      "body_regions": [
+        "thoracic_spine"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PAIN_WITH_DEEP_BREATH"
+      ],
+      "diagnostic_weight": 0.8,
+      "information_gain_potential": 0.78,
+      "conditions_influenced": [
+        "COND_241",
+        "COND_240"
+      ]
+    },
+    "THORACIC_004": {
+      "id": "THORACIC_004",
+      "phase": "differential",
+      "text": "Do you notice a visible curve in your spine?",
+      "type": "yes_no",
+      "body_regions": [
+        "thoracic_spine"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_SPINAL_CURVATURE"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_024",
+        "COND_082"
+      ]
+    },
+    "HEAD_001": {
+      "id": "HEAD_001",
+      "phase": "differential",
+      "text": "Do you have jaw pain or clicking?",
+      "type": "yes_no",
+      "body_regions": [
+        "head_face"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_JAW_PAIN"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_017"
+      ]
+    },
+    "HEAD_002": {
+      "id": "HEAD_002",
+      "phase": "differential",
+      "text": "Do you experience spinning sensations (vertigo)?",
+      "type": "yes_no",
+      "body_regions": [
+        "head_face"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_VERTIGO"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_311",
+        "COND_310",
+        "COND_312"
+      ]
+    },
+    "HEAD_003": {
+      "id": "HEAD_003",
+      "phase": "differential",
+      "text": "Are your vertigo episodes brief (less than 1 minute)?",
+      "type": "yes_no",
+      "body_regions": [
+        "head_face"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_BRIEF_EPISODES"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_311"
+      ]
+    },
+    "HEAD_004": {
+      "id": "HEAD_004",
+      "phase": "differential",
+      "text": "Is your vertigo triggered by head movements (like looking up or rolling over)?",
+      "type": "yes_no",
+      "body_regions": [
+        "head_face"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_TRIGGERED_HEAD_MOVEMENT"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_311"
+      ]
+    },
+    "HEAD_005": {
+      "id": "HEAD_005",
+      "phase": "differential",
+      "text": "Do you have frequent headaches?",
+      "type": "yes_no",
+      "body_regions": [
+        "head_face"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_HEADACHE"
+      ],
+      "diagnostic_weight": 0.8,
+      "information_gain_potential": 0.75,
+      "conditions_influenced": [
+        "COND_071",
+        "COND_072",
+        "COND_133"
+      ]
+    },
+    "SYSTEMIC_001": {
+      "id": "SYSTEMIC_001",
+      "phase": "differential",
+      "text": "Do you have widespread pain in multiple areas of your body?",
+      "type": "yes_no",
+      "body_regions": [
+        "systemic"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_WIDESPREAD_PAIN"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_023",
+        "COND_026"
+      ]
+    },
+    "SYSTEMIC_002": {
+      "id": "SYSTEMIC_002",
+      "phase": "differential",
+      "text": "Do you experience significant fatigue?",
+      "type": "yes_no",
+      "body_regions": [
+        "systemic"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_FATIGUE"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_023",
+        "COND_025",
+        "COND_026"
+      ]
+    },
+    "SYSTEMIC_003": {
+      "id": "SYSTEMIC_003",
+      "phase": "differential",
+      "text": "Is your morning stiffness lasting more than 60 minutes?",
+      "type": "yes_no",
+      "body_regions": [
+        "systemic"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_MORNING_STIFFNESS_LONG"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_026",
+        "COND_086"
+      ]
+    },
+    "SYSTEMIC_004": {
+      "id": "SYSTEMIC_004",
+      "phase": "differential",
+      "text": "Are your joint symptoms symmetric (affecting both sides equally)?",
+      "type": "yes_no",
+      "body_regions": [
+        "systemic"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_SYMMETRIC_INVOLVEMENT"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_026"
+      ]
+    },
+    "SYSTEMIC_005": {
+      "id": "SYSTEMIC_005",
+      "phase": "differential",
+      "text": "Do you have trouble sleeping or unrefreshing sleep?",
+      "type": "yes_no",
+      "body_regions": [
+        "systemic"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_SLEEP_DISTURBANCE"
+      ],
+      "diagnostic_weight": 0.8,
+      "information_gain_potential": 0.78,
+      "conditions_influenced": [
+        "COND_023"
+      ]
+    },
+    "NEURO_001": {
+      "id": "NEURO_001",
+      "phase": "differential",
+      "text": "Do you have problems with balance or coordination?",
+      "type": "yes_no",
+      "body_regions": [
+        "neurological"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_BALANCE_PROBLEMS"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_028",
+        "COND_029",
+        "COND_030"
+      ]
+    },
+    "NEURO_002": {
+      "id": "NEURO_002",
+      "phase": "differential",
+      "text": "Do you have a tremor, especially when your hands are at rest?",
+      "type": "yes_no",
+      "body_regions": [
+        "neurological"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_TREMOR_RESTING"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_029"
+      ]
+    },
+    "NEURO_003": {
+      "id": "NEURO_003",
+      "phase": "differential",
+      "text": "Have your movements become slower than before?",
+      "type": "yes_no",
+      "body_regions": [
+        "neurological"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_BRADYKINESIA"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_029"
+      ]
+    },
+    "NEURO_004": {
+      "id": "NEURO_004",
+      "phase": "differential",
+      "text": "Did your symptoms start suddenly?",
+      "type": "yes_no",
+      "body_regions": [
+        "neurological"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_SUDDEN_ONSET"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_030"
+      ]
+    },
+    "NEURO_005": {
+      "id": "NEURO_005",
+      "phase": "differential",
+      "text": "Are your symptoms only on one side of your body?",
+      "type": "yes_no",
+      "body_regions": [
+        "neurological"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_ONE_SIDED_SYMPTOMS"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_030"
+      ]
+    },
+    "NEURO_006": {
+      "id": "NEURO_006",
+      "phase": "differential",
+      "text": "Do your symptoms come and go (relapsing and remitting)?",
+      "type": "yes_no",
+      "body_regions": [
+        "neurological"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_RELAPSING_REMITTING"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_028"
+      ]
+    },
+    "NEURO_007": {
+      "id": "NEURO_007",
+      "phase": "differential",
+      "text": "Have you noticed any vision problems?",
+      "type": "yes_no",
+      "body_regions": [
+        "neurological"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_VISION_PROBLEMS"
+      ],
+      "diagnostic_weight": 0.8,
+      "information_gain_potential": 0.78,
+      "conditions_influenced": [
+        "COND_028",
+        "COND_030"
+      ]
+    },
+    "GENERAL_PAIN_001": {
+      "id": "GENERAL_PAIN_001",
+      "phase": "differential",
+      "text": "Is your pain worse at night?",
+      "type": "yes_no",
+      "body_regions": [
+        "all"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_NIGHT_PAIN"
+      ],
+      "diagnostic_weight": 0.75,
+      "information_gain_potential": 0.7
+    },
+    "GENERAL_PAIN_002": {
+      "id": "GENERAL_PAIN_002",
+      "phase": "differential",
+      "text": "Does your pain improve with rest?",
+      "type": "yes_no",
+      "body_regions": [
+        "all"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_RELIEF_REST"
+      ],
+      "diagnostic_weight": 0.7,
+      "information_gain_potential": 0.65
+    },
+    "GENERAL_PAIN_003": {
+      "id": "GENERAL_PAIN_003",
+      "phase": "differential",
+      "text": "Have you had similar episodes before?",
+      "type": "yes_no",
+      "body_regions": [
+        "all"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_RECURRENT"
+      ],
+      "diagnostic_weight": 0.7,
+      "information_gain_potential": 0.65
+    },
+    "PELVIS_001": {
+      "id": "PELVIS_001",
+      "phase": "differential",
+      "text": "Is your pain in the pubic area or lower abdomen?",
+      "type": "yes_no",
+      "body_regions": [
+        "pelvis_groin"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PUBIC_PAIN"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_169",
+        "COND_170"
+      ]
+    },
+    "PELVIS_002": {
+      "id": "PELVIS_002",
+      "phase": "differential",
+      "text": "Do you have pain in your buttock that radiates down your leg?",
+      "type": "yes_no",
+      "body_regions": [
+        "pelvis_groin"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_BUTTOCK_RADIATING_PAIN"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_171",
+        "COND_179"
+      ]
+    },
+    "PELVIS_003": {
+      "id": "PELVIS_003",
+      "phase": "differential",
+      "text": "Is your pain related to your menstrual cycle?",
+      "type": "yes_no",
+      "body_regions": [
+        "pelvis_groin"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_MENSTRUAL_RELATED"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_172",
+        "COND_173"
+      ]
+    },
+    "PELVIS_004": {
+      "id": "PELVIS_004",
+      "phase": "differential",
+      "text": "Do you have pain or difficulty with urination?",
+      "type": "yes_no",
+      "body_regions": [
+        "pelvis_groin"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_URINARY_SYMPTOMS"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_174",
+        "COND_175"
+      ]
+    },
+    "PELVIS_005": {
+      "id": "PELVIS_005",
+      "phase": "differential",
+      "text": "Do you feel heaviness or pressure in your pelvic area?",
+      "type": "yes_no",
+      "body_regions": [
+        "pelvis_groin"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PELVIC_HEAVINESS"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_176",
+        "COND_205"
+      ]
+    },
+    "PELVIS_006": {
+      "id": "PELVIS_006",
+      "phase": "differential",
+      "text": "Is your pain worse when sitting for long periods?",
+      "type": "yes_no",
+      "body_regions": [
+        "pelvis_groin"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PAIN_WORSE_SITTING"
+      ],
+      "diagnostic_weight": 0.8,
+      "information_gain_potential": 0.78,
+      "conditions_influenced": [
+        "COND_179",
+        "COND_206"
+      ]
+    },
+    "LOWER_LEG_001": {
+      "id": "LOWER_LEG_001",
+      "phase": "differential",
+      "text": "Is your pain in your calf muscle?",
+      "type": "yes_no",
+      "body_regions": [
+        "lower_leg"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_CALF_PAIN"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_081",
+        "COND_201"
+      ]
+    },
+    "LOWER_LEG_002": {
+      "id": "LOWER_LEG_002",
+      "phase": "differential",
+      "text": "Is your pain along the front of your shin?",
+      "type": "yes_no",
+      "body_regions": [
+        "lower_leg"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_SHIN_PAIN"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_111",
+        "COND_112"
+      ]
+    },
+    "LOWER_LEG_003": {
+      "id": "LOWER_LEG_003",
+      "phase": "differential",
+      "text": "Did your pain start during running or exercise?",
+      "type": "yes_no",
+      "body_regions": [
+        "lower_leg"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_EXERCISE_ONSET"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_111",
+        "COND_113"
+      ]
+    },
+    "LOWER_LEG_004": {
+      "id": "LOWER_LEG_004",
+      "phase": "differential",
+      "text": "Do you have cramping or tightness in your calf during walking?",
+      "type": "yes_no",
+      "body_regions": [
+        "lower_leg"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_CLAUDICATION"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.9,
+      "conditions_influenced": [
+        "COND_203",
+        "COND_204"
+      ]
+    },
+    "LOWER_LEG_005": {
+      "id": "LOWER_LEG_005",
+      "phase": "differential",
+      "text": "Is there swelling, redness, or warmth in your calf?",
+      "type": "yes_no",
+      "body_regions": [
+        "lower_leg"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_CALF_SWELLING"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_201",
+        "COND_345"
+      ]
+    },
+    "LOWER_LEG_006": {
+      "id": "LOWER_LEG_006",
+      "phase": "differential",
+      "text": "Does your pain get worse with activity and improve with rest?",
+      "type": "yes_no",
+      "body_regions": [
+        "lower_leg"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_ACTIVITY_DEPENDENT"
+      ],
+      "diagnostic_weight": 0.8,
+      "information_gain_potential": 0.78,
+      "conditions_influenced": [
+        "COND_111",
+        "COND_114"
+      ]
+    },
+    "CARDIO_001": {
+      "id": "CARDIO_001",
+      "phase": "differential",
+      "text": "Do you get short of breath with activities that didn't used to bother you?",
+      "type": "yes_no",
+      "body_regions": [
+        "cardiopulmonary"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_EXERTIONAL_DYSPNEA"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_034",
+        "COND_035",
+        "COND_163"
+      ]
+    },
+    "CARDIO_002": {
+      "id": "CARDIO_002",
+      "phase": "differential",
+      "text": "Do you have a chronic cough or wheeze?",
+      "type": "yes_no",
+      "body_regions": [
+        "cardiopulmonary"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_CHRONIC_COUGH"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_034",
+        "COND_158"
+      ]
+    },
+    "CARDIO_003": {
+      "id": "CARDIO_003",
+      "phase": "differential",
+      "text": "Do you have swelling in your ankles or legs?",
+      "type": "yes_no",
+      "body_regions": [
+        "cardiopulmonary"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PERIPHERAL_EDEMA"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_163",
+        "COND_164"
+      ]
+    },
+    "CARDIO_004": {
+      "id": "CARDIO_004",
+      "phase": "differential",
+      "text": "Have you had a recent heart attack or heart surgery?",
+      "type": "yes_no",
+      "body_regions": [
+        "cardiopulmonary"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_CARDIAC_HISTORY"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_035"
+      ]
+    },
+    "CARDIO_005": {
+      "id": "CARDIO_005",
+      "phase": "differential",
+      "text": "Do you get leg pain when walking that goes away with rest?",
+      "type": "yes_no",
+      "body_regions": [
+        "cardiopulmonary"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_INTERMITTENT_CLAUDICATION"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.9,
+      "conditions_influenced": [
+        "COND_036"
+      ]
+    },
+    "CARDIO_006": {
+      "id": "CARDIO_006",
+      "phase": "differential",
+      "text": "Do you feel unusually tired even after rest?",
+      "type": "yes_no",
+      "body_regions": [
+        "cardiopulmonary"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PERSISTENT_FATIGUE"
+      ],
+      "diagnostic_weight": 0.8,
+      "information_gain_potential": 0.78,
+      "conditions_influenced": [
+        "COND_034",
+        "COND_163",
+        "COND_164"
+      ]
+    },
+    "SHOULDER_011": {
+      "id": "SHOULDER_011",
+      "phase": "differential",
+      "text": "Is your pain on the very top of your shoulder (where shoulder meets collarbone)?",
+      "type": "yes_no",
+      "body_regions": [
+        "shoulder"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_TOP_SHOULDER_PAIN"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_219"
+      ]
+    },
+    "SHOULDER_012": {
+      "id": "SHOULDER_012",
+      "phase": "differential",
+      "text": "Does reaching across your body (like touching opposite shoulder) cause pain?",
+      "type": "yes_no",
+      "body_regions": [
+        "shoulder"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PAIN_CROSS_BODY"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_219"
+      ]
+    },
+    "SHOULDER_013": {
+      "id": "SHOULDER_013",
+      "phase": "differential",
+      "text": "Is your pain worse when lying on the affected shoulder at night?",
+      "type": "yes_no",
+      "body_regions": [
+        "shoulder"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PAIN_LYING_ON_SIDE"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_101",
+        "COND_001"
+      ]
+    },
+    "SHOULDER_014": {
+      "id": "SHOULDER_014",
+      "phase": "differential",
+      "text": "Can you see or feel your shoulder blade sticking out abnormally?",
+      "type": "yes_no",
+      "body_regions": [
+        "shoulder"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_SCAPULAR_WINGING"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_221",
+        "COND_222"
+      ]
+    },
+    "SHOULDER_015": {
+      "id": "SHOULDER_015",
+      "phase": "differential",
+      "text": "Is your pain in your chest/front of shoulder near the armpit?",
+      "type": "yes_no",
+      "body_regions": [
+        "shoulder"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_CHEST_SHOULDER_PAIN"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_217"
+      ]
+    },
+    "SHOULDER_016": {
+      "id": "SHOULDER_016",
+      "phase": "differential",
+      "text": "Do you have weakness when pushing (like doing a push-up)?",
+      "type": "yes_no",
+      "body_regions": [
+        "shoulder"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_WEAKNESS_PUSHING"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_217",
+        "COND_222"
+      ]
+    },
+    "SHOULDER_017": {
+      "id": "SHOULDER_017",
+      "phase": "differential",
+      "text": "Did your pain come on suddenly and severely?",
+      "type": "yes_no",
+      "body_regions": [
+        "shoulder"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_SUDDEN_SEVERE_PAIN"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_102",
+        "COND_219"
+      ]
+    },
+    "CERVICAL_007": {
+      "id": "CERVICAL_007",
+      "phase": "differential",
+      "text": "Do your symptoms affect BOTH arms (not just one side)?",
+      "type": "yes_no",
+      "body_regions": [
+        "cervical_spine"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_BILATERAL_SYMPTOMS"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_083",
+        "COND_245"
+      ]
+    },
+    "CERVICAL_008": {
+      "id": "CERVICAL_008",
+      "phase": "differential",
+      "text": "Have you noticed problems with walking, balance, or coordination?",
+      "type": "yes_no",
+      "body_regions": [
+        "cervical_spine"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_GAIT_DISTURBANCE"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_245",
+        "COND_083"
+      ]
+    },
+    "CERVICAL_009": {
+      "id": "CERVICAL_009",
+      "phase": "differential",
+      "text": "Have you noticed clumsiness with your hands (dropping things, difficulty with buttons)?",
+      "type": "yes_no",
+      "body_regions": [
+        "cervical_spine"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_HAND_CLUMSINESS"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_245"
+      ]
+    },
+    "CERVICAL_010": {
+      "id": "CERVICAL_010",
+      "phase": "differential",
+      "text": "Is your pain at the back of your head (base of skull)?",
+      "type": "yes_no",
+      "body_regions": [
+        "cervical_spine"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_OCCIPITAL_PAIN"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_134",
+        "COND_133"
+      ]
+    },
+    "CERVICAL_011": {
+      "id": "CERVICAL_011",
+      "phase": "differential",
+      "text": "Do you have shooting or electric shock-like pain?",
+      "type": "yes_no",
+      "body_regions": [
+        "cervical_spine"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_SHOOTING_PAIN"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_134",
+        "COND_008"
+      ]
+    },
+    "CERVICAL_012": {
+      "id": "CERVICAL_012",
+      "phase": "differential",
+      "text": "Do you feel grinding or crunching when moving your neck?",
+      "type": "yes_no",
+      "body_regions": [
+        "cervical_spine"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_CREPITUS"
+      ],
+      "diagnostic_weight": 0.8,
+      "information_gain_potential": 0.78,
+      "conditions_influenced": [
+        "COND_321",
+        "COND_236"
+      ]
+    },
+    "CERVICAL_013": {
+      "id": "CERVICAL_013",
+      "phase": "differential",
+      "text": "Has your neck problem lasted more than 3 months?",
+      "type": "yes_no",
+      "body_regions": [
+        "cervical_spine"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_CHRONIC_DURATION"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_234",
+        "COND_321",
+        "COND_236"
+      ]
+    },
+    "CERVICAL_014": {
+      "id": "CERVICAL_014",
+      "phase": "differential",
+      "text": "Is your pain just in your neck WITHOUT arm symptoms?",
+      "type": "yes_no",
+      "body_regions": [
+        "cervical_spine"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_NO_ARM_SYMPTOMS"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_233",
+        "COND_234",
+        "COND_131"
+      ]
+    },
+    "NEURO_008": {
+      "id": "NEURO_008",
+      "phase": "differential",
+      "text": "Did your symptoms start in childhood?",
+      "type": "yes_no",
+      "body_regions": [
+        "neurological"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_CHILDHOOD_ONSET"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_032",
+        "COND_313"
+      ]
+    },
+    "NEURO_009": {
+      "id": "NEURO_009",
+      "phase": "differential",
+      "text": "Do you have muscle stiffness or spasticity (tight, hard to move)?",
+      "type": "yes_no",
+      "body_regions": [
+        "neurological"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_SPASTICITY"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_032",
+        "COND_313"
+      ]
+    },
+    "NEURO_010": {
+      "id": "NEURO_010",
+      "phase": "differential",
+      "text": "Is your weakness getting progressively worse over months?",
+      "type": "yes_no",
+      "body_regions": [
+        "neurological"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PROGRESSIVE_WEAKNESS"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_058",
+        "COND_315"
+      ]
+    },
+    "NEURO_011": {
+      "id": "NEURO_011",
+      "phase": "differential",
+      "text": "Do you have involuntary jerky or dance-like movements (chorea)?",
+      "type": "yes_no",
+      "body_regions": [
+        "neurological"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_CHOREA"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_057"
+      ]
+    },
+    "NEURO_012": {
+      "id": "NEURO_012",
+      "phase": "differential",
+      "text": "Does your weakness get worse with repeated activity and improve with rest?",
+      "type": "yes_no",
+      "body_regions": [
+        "neurological"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_FATIGABLE_WEAKNESS"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_056"
+      ]
+    },
+    "NEURO_013": {
+      "id": "NEURO_013",
+      "phase": "differential",
+      "text": "Do you have drooping eyelids or double vision?",
+      "type": "yes_no",
+      "body_regions": [
+        "neurological"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PTOSIS",
+        "SYMPTOM_DIPLOPIA"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_056"
+      ]
+    },
+    "NEURO_014": {
+      "id": "NEURO_014",
+      "phase": "differential",
+      "text": "Did your weakness start in your legs and spread upward over days/weeks?",
+      "type": "yes_no",
+      "body_regions": [
+        "neurological"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_ASCENDING_WEAKNESS"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_055"
+      ]
+    },
+    "NEURO_015": {
+      "id": "NEURO_015",
+      "phase": "differential",
+      "text": "Do you have muscle twitching (fasciculations)?",
+      "type": "yes_no",
+      "body_regions": [
+        "neurological"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_MUSCLE_TWITCHING"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_058"
+      ]
+    },
+    "NEURO_016": {
+      "id": "NEURO_016",
+      "phase": "differential",
+      "text": "Do you have a tremor mainly when reaching for objects (not at rest)?",
+      "type": "yes_no",
+      "body_regions": [
+        "neurological"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_ACTION_TREMOR"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_137"
+      ]
+    },
+    "NEURO_017": {
+      "id": "NEURO_017",
+      "phase": "differential",
+      "text": "Did you have a recent head injury or trauma?",
+      "type": "yes_no",
+      "body_regions": [
+        "neurological"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_HEAD_TRAUMA"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_033"
+      ]
+    },
+    "NEURO_018": {
+      "id": "NEURO_018",
+      "phase": "differential",
+      "text": "Do you have involuntary sustained muscle contractions causing abnormal postures?",
+      "type": "yes_no",
+      "body_regions": [
+        "neurological"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_INVOLUNTARY_MUSCLE_CONTRACTION"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_136"
+      ]
+    },
+    "NEURO_019": {
+      "id": "NEURO_019",
+      "phase": "differential",
+      "text": "Did you have a spinal cord injury (trauma, accident)?",
+      "type": "yes_no",
+      "body_regions": [
+        "neurological"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_TRAUMA_HISTORY"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_031"
+      ]
+    },
+    "ELBOW_007": {
+      "id": "ELBOW_007",
+      "phase": "differential",
+      "text": "Do you have swelling at the back of your elbow (pointy part)?",
+      "type": "yes_no",
+      "body_regions": [
+        "elbow"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_POSTERIOR_ELBOW_SWELLING"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_227"
+      ]
+    },
+    "ELBOW_008": {
+      "id": "ELBOW_008",
+      "phase": "differential",
+      "text": "Is your pain worse with throwing or overhead sports?",
+      "type": "yes_no",
+      "body_regions": [
+        "elbow"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PAIN_WITH_THROWING"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_303"
+      ]
+    },
+    "ELBOW_009": {
+      "id": "ELBOW_009",
+      "phase": "differential",
+      "text": "Is your pain in your forearm (between elbow and wrist)?",
+      "type": "yes_no",
+      "body_regions": [
+        "elbow"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_FOREARM_PAIN"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_146",
+        "COND_147"
+      ]
+    },
+    "ELBOW_010": {
+      "id": "ELBOW_010",
+      "phase": "differential",
+      "text": "Is your pain worse when rotating your forearm palm-down (pronation)?",
+      "type": "yes_no",
+      "body_regions": [
+        "elbow"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PAIN_WITH_PRONATION"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_147"
+      ]
+    },
+    "ELBOW_011": {
+      "id": "ELBOW_011",
+      "phase": "differential",
+      "text": "Do you feel grinding or crunching when moving your elbow?",
+      "type": "yes_no",
+      "body_regions": [
+        "elbow"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_CREPITUS"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_329"
+      ]
+    },
+    "ELBOW_012": {
+      "id": "ELBOW_012",
+      "phase": "differential",
+      "text": "Do you have difficulty fully straightening your elbow?",
+      "type": "yes_no",
+      "body_regions": [
+        "elbow"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_LIMITED_EXTENSION"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 0.82,
+      "conditions_influenced": [
+        "COND_329",
+        "COND_228",
+        "COND_229"
+      ]
+    },
+    "ELBOW_013": {
+      "id": "ELBOW_013",
+      "phase": "differential",
+      "text": "Have you had recent elbow surgery or fracture?",
+      "type": "yes_no",
+      "body_regions": [
+        "elbow"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_POST_OP_PAIN"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_229",
+        "COND_228"
+      ]
+    },
+    "WRIST_007": {
+      "id": "WRIST_007",
+      "phase": "differential",
+      "text": "Is the pain on the back (top) of your wrist?",
+      "type": "yes_no",
+      "body_regions": [
+        "wrist_hand"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_DORSAL_WRIST_PAIN"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_325",
+        "COND_157"
+      ]
+    },
+    "WRIST_008": {
+      "id": "WRIST_008",
+      "phase": "differential",
+      "text": "Is the pain on the palm side of your wrist?",
+      "type": "yes_no",
+      "body_regions": [
+        "wrist_hand"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PALMAR_WRIST_PAIN"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_326",
+        "COND_012"
+      ]
+    },
+    "WRIST_009": {
+      "id": "WRIST_009",
+      "phase": "differential",
+      "text": "Is your pain on the pinky side of your wrist?",
+      "type": "yes_no",
+      "body_regions": [
+        "wrist_hand"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_ULNAR_WRIST_PAIN"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_156"
+      ]
+    },
+    "WRIST_010": {
+      "id": "WRIST_010",
+      "phase": "differential",
+      "text": "Can you see or feel a bump or lump on your wrist?",
+      "type": "yes_no",
+      "body_regions": [
+        "wrist_hand"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_VISIBLE_LUMP_WRIST"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_157"
+      ]
+    },
+    "WRIST_011": {
+      "id": "WRIST_011",
+      "phase": "differential",
+      "text": "Can you NOT fully straighten the tip of one of your fingers?",
+      "type": "yes_no",
+      "body_regions": [
+        "wrist_hand"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_FINGER_TIP_DROOP",
+        "SYMPTOM_CANNOT_STRAIGHTEN_FINGER_TIP"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_150"
+      ]
+    },
+    "WRIST_012": {
+      "id": "WRIST_012",
+      "phase": "differential",
+      "text": "Can you NOT bend/curl the tip of one of your fingers?",
+      "type": "yes_no",
+      "body_regions": [
+        "wrist_hand"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_CANNOT_BEND_FINGER_TIP"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_151"
+      ]
+    },
+    "WRIST_013": {
+      "id": "WRIST_013",
+      "phase": "differential",
+      "text": "Is your pain at the base of your thumb?",
+      "type": "yes_no",
+      "body_regions": [
+        "wrist_hand"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_THUMB_BASE_PAIN"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_149",
+        "COND_062"
+      ]
+    },
+    "WRIST_014": {
+      "id": "WRIST_014",
+      "phase": "differential",
+      "text": "Does your thumb feel unstable or give way?",
+      "type": "yes_no",
+      "body_regions": [
+        "wrist_hand"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_THUMB_INSTABILITY"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_149"
+      ]
+    },
+    "WRIST_015": {
+      "id": "WRIST_015",
+      "phase": "differential",
+      "text": "Is one of your fingers progressively curling towards your palm?",
+      "type": "yes_no",
+      "body_regions": [
+        "wrist_hand"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_FINGER_CONTRACTURE",
+        "SYMPTOM_PROGRESSIVE_FINGER_CURL"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_064"
+      ]
+    },
+    "WRIST_016": {
+      "id": "WRIST_016",
+      "phase": "differential",
+      "text": "Have you had a wrist fracture or been in a cast recently?",
+      "type": "yes_no",
+      "body_regions": [
+        "wrist_hand"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_POST_FRACTURE",
+        "SYMPTOM_CAST_HISTORY"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_230",
+        "COND_292"
+      ]
+    },
+    "WRIST_017": {
+      "id": "WRIST_017",
+      "phase": "differential",
+      "text": "Is your pain in the snuffbox area (hollow at base of thumb on back of hand)?",
+      "type": "yes_no",
+      "body_regions": [
+        "wrist_hand"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_SNUFFBOX_TENDERNESS"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_292"
+      ]
+    },
+    "SYSTEMIC_006": {
+      "id": "SYSTEMIC_006",
+      "phase": "differential",
+      "text": "Do you feel significantly worse after physical or mental exertion (post-exertional malaise)?",
+      "type": "yes_no",
+      "body_regions": [
+        "systemic"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_POST_EXERTIONAL_MALAISE"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_065",
+        "COND_025"
+      ]
+    },
+    "SYSTEMIC_007": {
+      "id": "SYSTEMIC_007",
+      "phase": "differential",
+      "text": "Do you have burning or shooting pain that seems out of proportion to the injury?",
+      "type": "yes_no",
+      "body_regions": [
+        "systemic"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_BURNING_PAIN",
+        "SYMPTOM_DISPROPORTIONATE_PAIN"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_066"
+      ]
+    },
+    "SYSTEMIC_008": {
+      "id": "SYSTEMIC_008",
+      "phase": "differential",
+      "text": "Does even light touch cause pain (allodynia)?",
+      "type": "yes_no",
+      "body_regions": [
+        "systemic"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_ALLODYNIA"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_066"
+      ]
+    },
+    "SYSTEMIC_009": {
+      "id": "SYSTEMIC_009",
+      "phase": "differential",
+      "text": "Do you notice color or temperature changes in the affected limb?",
+      "type": "yes_no",
+      "body_regions": [
+        "systemic"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_LIMB_COLOR_CHANGES",
+        "SYMPTOM_LIMB_TEMPERATURE_CHANGES"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_066"
+      ]
+    },
+    "SYSTEMIC_010": {
+      "id": "SYSTEMIC_010",
+      "phase": "differential",
+      "text": "Are your joints unusually flexible (can you touch your thumb to your forearm)?",
+      "type": "yes_no",
+      "body_regions": [
+        "systemic"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_JOINT_HYPERMOBILITY"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_067",
+        "COND_068"
+      ]
+    },
+    "SYSTEMIC_011": {
+      "id": "SYSTEMIC_011",
+      "phase": "differential",
+      "text": "Do you have a history of frequent joint dislocations or sprains?",
+      "type": "yes_no",
+      "body_regions": [
+        "systemic"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_FREQUENT_DISLOCATIONS",
+        "SYMPTOM_FREQUENT_SPRAINS"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_067",
+        "COND_068"
+      ]
+    },
+    "SYSTEMIC_012": {
+      "id": "SYSTEMIC_012",
+      "phase": "differential",
+      "text": "Do you have very stretchy or fragile skin that bruises easily?",
+      "type": "yes_no",
+      "body_regions": [
+        "systemic"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_SKIN_HYPEREXTENSIBILITY",
+        "SYMPTOM_EASY_BRUISING"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_068"
+      ]
+    },
+    "SYSTEMIC_013": {
+      "id": "SYSTEMIC_013",
+      "phase": "differential",
+      "text": "Does your back stiffness improve with exercise but worsen with rest?",
+      "type": "yes_no",
+      "body_regions": [
+        "systemic"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_IMPROVES_WITH_EXERCISE",
+        "SYMPTOM_WORSE_WITH_REST"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_086"
+      ]
+    },
+    "SYSTEMIC_014": {
+      "id": "SYSTEMIC_014",
+      "phase": "differential",
+      "text": "Do you have psoriasis (skin condition with red, scaly patches)?",
+      "type": "yes_no",
+      "body_regions": [
+        "systemic"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PSORIASIS_HISTORY"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_087"
+      ]
+    },
+    "SYSTEMIC_015": {
+      "id": "SYSTEMIC_015",
+      "phase": "differential",
+      "text": "Do you have swollen, sausage-like fingers or toes (dactylitis)?",
+      "type": "yes_no",
+      "body_regions": [
+        "systemic"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_DACTYLITIS"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_087"
+      ]
+    },
+    "SYSTEMIC_016": {
+      "id": "SYSTEMIC_016",
+      "phase": "differential",
+      "text": "Have you had fractures from minor trauma or noticed you are getting shorter?",
+      "type": "yes_no",
+      "body_regions": [
+        "systemic"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_FRACTURE_HISTORY",
+        "SYMPTOM_HEIGHT_LOSS"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_027"
+      ]
+    },
+    "FOOT_007": {
+      "id": "FOOT_007",
+      "phase": "differential",
+      "text": "Is your big toe drifting towards your other toes with a bony bump on the side?",
+      "type": "yes_no",
+      "body_regions": [
+        "foot"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_BIG_TOE_DEVIATION",
+        "SYMPTOM_MEDIAL_BUMP_BIG_TOE"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_077"
+      ]
+    },
+    "FOOT_008": {
+      "id": "FOOT_008",
+      "phase": "differential",
+      "text": "Is your big toe stiff and painful when you try to bend it upward?",
+      "type": "yes_no",
+      "body_regions": [
+        "foot"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_BIG_TOE_STIFFNESS",
+        "SYMPTOM_LIMITED_BIG_TOE_EXTENSION"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_078"
+      ]
+    },
+    "FOOT_009": {
+      "id": "FOOT_009",
+      "phase": "differential",
+      "text": "Do you have one or more toes that are permanently bent in a claw-like position?",
+      "type": "yes_no",
+      "body_regions": [
+        "foot"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_BENT_TOE_DEFORMITY"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_079"
+      ]
+    },
+    "FOOT_010": {
+      "id": "FOOT_010",
+      "phase": "differential",
+      "text": "Are you a child or teenager with heel pain after sports?",
+      "type": "yes_no",
+      "body_regions": [
+        "foot"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PEDIATRIC_AGE",
+        "SYMPTOM_BACK_OF_HEEL_PAIN"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_115"
+      ]
+    },
+    "FOOT_011": {
+      "id": "FOOT_011",
+      "phase": "differential",
+      "text": "Did you injure your big toe by jamming it or bending it back too far?",
+      "type": "yes_no",
+      "body_regions": [
+        "foot"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_HYPEREXTENSION_INJURY",
+        "SYMPTOM_BIG_TOE_MTP_PAIN"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_116"
+      ]
+    },
+    "FOOT_012": {
+      "id": "FOOT_012",
+      "phase": "differential",
+      "text": "Is your pain under the ball of your foot at the base of your big toe?",
+      "type": "yes_no",
+      "body_regions": [
+        "foot"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PAIN_UNDER_BIG_TOE"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_117"
+      ]
+    },
+    "FOOT_013": {
+      "id": "FOOT_013",
+      "phase": "differential",
+      "text": "Is your pain on the outer (lateral) side of your midfoot?",
+      "type": "yes_no",
+      "body_regions": [
+        "foot"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_LATERAL_MIDFOOT_PAIN",
+        "SYMPTOM_PAIN_OUTER_FOOT"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_118"
+      ]
+    },
+    "FOOT_014": {
+      "id": "FOOT_014",
+      "phase": "differential",
+      "text": "Do you have burning, tingling, or numbness on the bottom of your foot?",
+      "type": "yes_no",
+      "body_regions": [
+        "foot"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_BURNING_TINGLING_SOLE",
+        "SYMPTOM_NUMBNESS_SOLE"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_119"
+      ]
+    },
+    "FOOT_015": {
+      "id": "FOOT_015",
+      "phase": "differential",
+      "text": "Did you have a twisting injury and now cannot put weight on your midfoot?",
+      "type": "yes_no",
+      "body_regions": [
+        "foot"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_MIDFOOT_PAIN",
+        "SYMPTOM_UNABLE_TO_BEAR_WEIGHT"
+      ],
+      "diagnostic_weight": 0.95,
+      "information_gain_potential": 0.92,
+      "conditions_influenced": [
+        "COND_120"
+      ]
+    },
+    "FOOT_016": {
+      "id": "FOOT_016",
+      "phase": "differential",
+      "text": "Do you have a flat arch that has developed or gotten worse over time?",
+      "type": "yes_no",
+      "body_regions": [
+        "foot"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_FLAT_ARCH",
+        "SYMPTOM_FLAT_FOOT_PROGRESSIVE"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 0.88,
+      "conditions_influenced": [
+        "COND_261",
+        "COND_074"
+      ]
+    }
+  },
+  "question_count_by_region": {
+    "shoulder": 17,
+    "elbow": 13,
+    "wrist_hand": 17,
+    "knee": 12,
+    "ankle": 8,
+    "foot": 16,
+    "hip": 6,
+    "lumbar_spine": 9,
+    "cervical_spine": 14,
+    "thoracic_spine": 4,
+    "head_face": 5,
+    "systemic": 16,
+    "neurological": 19,
+    "general": 3,
+    "safety": 3,
+    "context": 3,
+    "region": 1
+  },
+  "phase_order": [
+    "safety",
+    "context",
+    "region",
+    "differential"
+  ],
+  "stopping_criteria": {
+    "max_questions": 15,
+    "confidence_threshold": 0.85,
+    "probability_gap_threshold": 0.4,
+    "min_questions_before_stop": 8
+  }
+}

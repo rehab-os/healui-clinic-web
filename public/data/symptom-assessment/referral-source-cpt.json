@@ -1,0 +1,1245 @@
+{
+  "source_cpt_tables": {
+
+    "shoulder": {
+      "sources": {
+
+        "_comment_referred": "========== REFERRED SOURCES - SCREEN FIRST! ==========",
+
+        "SRC_CARDIAC": {
+          "name": "Cardiac Referral (Angina/MI)",
+          "base_probability": 0.02,
+          "is_local": false,
+          "is_red_flag": true,
+          "clinical_info": "EMERGENCY! Left shoulder 68.7% of MI. Dull, deep, pressure, squeezing. Exertion-related. Palpation does NOT reproduce",
+          "symptom_probabilities": {
+            "RSYM_EXERTION_RELATED_PAIN": {"present": 0.95, "absent": 0.05, "weight": 1.0, "category": "pathognomonic"},
+            "RSYM_CHEST_TIGHTNESS": {"present": 0.95, "absent": 0.05, "weight": 1.0, "category": "pathognomonic"},
+            "RSYM_SHORTNESS_OF_BREATH": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_LEFT_ARM_RADIATION": {"present": 0.90, "absent": 0.10, "weight": 1.0, "category": "pathognomonic"},
+            "RSYM_JAW_PAIN": {"present": 0.70, "absent": 0.30, "weight": 0.85, "category": "screening"},
+            "RSYM_DIAPHORESIS_SWEATING": {"present": 0.85, "absent": 0.15, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_NAUSEA": {"present": 0.70, "absent": 0.30, "weight": 0.8, "category": "screening"},
+            "RSYM_PALPATION_NOT_REPRODUCE": {"present": 0.95, "absent": 0.05, "weight": 0.9, "category": "screening"},
+            "RSYM_LEFT_SHOULDER": {"present": 0.85, "absent": 0.15, "weight": 0.7, "category": "screening"},
+            "RSYM_CARDIAC_RISK_FACTORS": {"present": 0.80, "absent": 0.20, "weight": 0.8, "category": "screening"},
+            "RSYM_HISTORY_CARDIAC": {"present": 0.75, "absent": 0.25, "weight": 0.85, "category": "screening"}
+          }
+        },
+
+        "SRC_CERVICAL_C5": {
+          "name": "C5 Radiculopathy (Cervical)",
+          "base_probability": 0.08,
+          "is_local": false,
+          "refers_to_region": "cervical_spine",
+          "clinical_info": "Mimics rotator cuff! Deltoid weakness, lateral arm pain. NO shoulder tenderness with passive movement",
+          "symptom_probabilities": {
+            "RSYM_NECK_MOVEMENT_AFFECTS_SHOULDER": {"present": 0.95, "absent": 0.05, "weight": 1.0, "category": "pathognomonic"},
+            "RSYM_ARM_ABDUCTION_RELIEVES": {"present": 0.85, "absent": 0.15, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_DELTOID_WEAKNESS": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_LATERAL_ARM_PAIN": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_BICEPS_REFLEX_DIMINISHED": {"present": 0.80, "absent": 0.20, "weight": 0.9, "category": "confirmation"},
+            "RSYM_NO_PAIN_PASSIVE_SHOULDER": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_SPURLING_POSITIVE": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "confirmation"},
+            "RSYM_NECK_STIFFNESS": {"present": 0.80, "absent": 0.20, "weight": 0.75, "category": "screening"},
+            "RSYM_HEAD_TILT_AWAY_RELIEVES": {"present": 0.75, "absent": 0.25, "weight": 0.8, "category": "screening"}
+          }
+        },
+
+        "SRC_CERVICAL_C6": {
+          "name": "C6 Radiculopathy (Cervical)",
+          "base_probability": 0.10,
+          "is_local": false,
+          "refers_to_region": "cervical_spine",
+          "clinical_info": "Most common! Biceps weakness, thumb/index numbness, lateral forearm",
+          "symptom_probabilities": {
+            "RSYM_NECK_MOVEMENT_AFFECTS_SHOULDER": {"present": 0.95, "absent": 0.05, "weight": 1.0, "category": "pathognomonic"},
+            "RSYM_ARM_ABDUCTION_RELIEVES": {"present": 0.85, "absent": 0.15, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_SYMPTOMS_BELOW_ELBOW": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_THUMB_INDEX_NUMBNESS": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_BICEPS_WEAKNESS": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_LATERAL_FOREARM_PAIN": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_BICEPS_REFLEX_DIMINISHED": {"present": 0.85, "absent": 0.15, "weight": 0.9, "category": "confirmation"},
+            "RSYM_SPURLING_POSITIVE": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "confirmation"},
+            "RSYM_NO_PAIN_PASSIVE_SHOULDER": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"}
+          }
+        },
+
+        "SRC_CERVICAL_C7": {
+          "name": "C7 Radiculopathy (Cervical)",
+          "base_probability": 0.08,
+          "is_local": false,
+          "refers_to_region": "cervical_spine",
+          "clinical_info": "Triceps weakness, middle finger numbness, posterior arm/forearm",
+          "symptom_probabilities": {
+            "RSYM_NECK_MOVEMENT_AFFECTS_SHOULDER": {"present": 0.90, "absent": 0.10, "weight": 1.0, "category": "pathognomonic"},
+            "RSYM_ARM_ABDUCTION_RELIEVES": {"present": 0.80, "absent": 0.20, "weight": 0.9, "category": "pathognomonic"},
+            "RSYM_SYMPTOMS_BELOW_ELBOW": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_MIDDLE_FINGER_NUMBNESS": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_TRICEPS_WEAKNESS": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_POSTERIOR_ARM_PAIN": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_TRICEPS_REFLEX_DIMINISHED": {"present": 0.85, "absent": 0.15, "weight": 0.9, "category": "confirmation"},
+            "RSYM_SPURLING_POSITIVE": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "confirmation"}
+          }
+        },
+
+        "SRC_TOS": {
+          "name": "Thoracic Outlet Syndrome",
+          "base_probability": 0.03,
+          "is_local": false,
+          "refers_to_region": "thoracic_outlet",
+          "clinical_info": "Vascular/neural compression. Arm symptoms with overhead, ulnar distribution, vascular changes",
+          "symptom_probabilities": {
+            "RSYM_OVERHEAD_WORSENS": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "pathognomonic"},
+            "RSYM_ULNAR_DISTRIBUTION": {"present": 0.85, "absent": 0.15, "weight": 0.9, "category": "pathognomonic"},
+            "RSYM_ARM_FATIGUE_OVERHEAD": {"present": 0.90, "absent": 0.10, "weight": 0.85, "category": "screening"},
+            "RSYM_ARM_COLOR_CHANGES": {"present": 0.75, "absent": 0.25, "weight": 0.9, "category": "screening"},
+            "RSYM_ARM_COLDNESS": {"present": 0.70, "absent": 0.30, "weight": 0.8, "category": "screening"},
+            "RSYM_HAND_SWELLING": {"present": 0.65, "absent": 0.35, "weight": 0.75, "category": "screening"},
+            "RSYM_ROOS_TEST_POSITIVE": {"present": 0.85, "absent": 0.15, "weight": 0.9, "category": "confirmation"},
+            "RSYM_ADSON_TEST_POSITIVE": {"present": 0.70, "absent": 0.30, "weight": 0.8, "category": "confirmation"}
+          }
+        },
+
+        "SRC_THORACIC": {
+          "name": "Thoracic Spine Referral",
+          "base_probability": 0.05,
+          "is_local": false,
+          "refers_to_region": "thoracic_spine",
+          "clinical_info": "Upper back stiffness, scapular pain. Thoracic rotation limitation",
+          "symptom_probabilities": {
+            "RSYM_UPPER_BACK_STIFFNESS": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_SCAPULAR_PAIN": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_INTERSCAPULAR_PAIN": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_THORACIC_ROTATION_LIMITED": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "confirmation"},
+            "RSYM_THORACIC_EXTENSION_LIMITED": {"present": 0.80, "absent": 0.20, "weight": 0.8, "category": "screening"},
+            "RSYM_PAIN_WITH_DEEP_BREATH": {"present": 0.70, "absent": 0.30, "weight": 0.75, "category": "screening"}
+          }
+        },
+
+        "SRC_VISCERAL_GALLBLADDER": {
+          "name": "Gallbladder Referral",
+          "base_probability": 0.01,
+          "is_local": false,
+          "is_red_flag": true,
+          "clinical_info": "RIGHT shoulder blade/tip. Worse after fatty foods. Colicky, RUQ pain",
+          "symptom_probabilities": {
+            "RSYM_RIGHT_SHOULDER": {"present": 0.95, "absent": 0.05, "weight": 0.9, "category": "pathognomonic"},
+            "RSYM_RIGHT_SCAPULA_TIP": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_WORSE_AFTER_FATTY_FOOD": {"present": 0.85, "absent": 0.15, "weight": 0.9, "category": "pathognomonic"},
+            "RSYM_RUQ_ABDOMINAL_PAIN": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_NAUSEA": {"present": 0.75, "absent": 0.25, "weight": 0.75, "category": "screening"},
+            "RSYM_PALPATION_NOT_REPRODUCE": {"present": 0.90, "absent": 0.10, "weight": 0.85, "category": "screening"}
+          }
+        },
+
+        "SRC_PANCOAST_TUMOR": {
+          "name": "Pancoast Tumor (Lung Apex)",
+          "base_probability": 0.005,
+          "is_local": false,
+          "is_red_flag": true,
+          "clinical_info": "CANCER RED FLAG! Shoulder pain + Horner syndrome, arm weakness, weight loss",
+          "symptom_probabilities": {
+            "RSYM_CONSTANT_PROGRESSIVE_PAIN": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_NIGHT_PAIN_UNRELENTING": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_MEDIAL_ARM_PAIN": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_HORNER_SYNDROME": {"present": 0.70, "absent": 0.30, "weight": 1.0, "category": "pathognomonic"},
+            "RSYM_UNEXPLAINED_WEIGHT_LOSS": {"present": 0.75, "absent": 0.25, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_SMOKING_HISTORY": {"present": 0.80, "absent": 0.20, "weight": 0.85, "category": "screening"},
+            "RSYM_HAND_WEAKNESS_INTRINSIC": {"present": 0.70, "absent": 0.30, "weight": 0.85, "category": "screening"},
+            "RSYM_AGE_OVER_50": {"present": 0.70, "absent": 0.30, "weight": 0.7, "category": "screening"}
+          }
+        },
+
+        "_comment_local": "========== LOCAL SHOULDER CONDITIONS ==========",
+
+        "SRC_ROTATOR_CUFF_TEAR": {
+          "name": "Rotator Cuff Tear",
+          "base_probability": 0.12,
+          "is_local": true,
+          "clinical_info": "Weakness with specific movements. Night pain. Drop arm test. Age >40 risk",
+          "symptom_probabilities": {
+            "RSYM_WEAKNESS_ARM_ELEVATION": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_NIGHT_PAIN_SHOULDER": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_PAIN_LYING_ON_SHOULDER": {"present": 0.90, "absent": 0.10, "weight": 0.85, "category": "screening"},
+            "RSYM_DROP_ARM_POSITIVE": {"present": 0.80, "absent": 0.20, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_EMPTY_CAN_WEAKNESS": {"present": 0.85, "absent": 0.15, "weight": 0.9, "category": "confirmation"},
+            "RSYM_PAINFUL_ARC": {"present": 0.80, "absent": 0.20, "weight": 0.8, "category": "screening"},
+            "RSYM_HISTORY_TRAUMA": {"present": 0.50, "absent": 0.50, "weight": 0.7, "category": "screening"},
+            "RSYM_AGE_OVER_40": {"present": 0.75, "absent": 0.25, "weight": 0.7, "category": "screening"},
+            "RSYM_POINT_TENDERNESS_SHOULDER": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"},
+            "RSYM_EXTERNAL_ROTATION_WEAKNESS": {"present": 0.75, "absent": 0.25, "weight": 0.85, "category": "screening"},
+            "RSYM_FULL_PASSIVE_ROM": {"present": 0.80, "absent": 0.20, "weight": 0.75, "category": "screening"}
+          }
+        },
+
+        "SRC_ROTATOR_CUFF_TENDINOPATHY": {
+          "name": "Rotator Cuff Tendinopathy",
+          "base_probability": 0.15,
+          "is_local": true,
+          "clinical_info": "Gradual onset, overhead activities, painful arc. No significant weakness",
+          "symptom_probabilities": {
+            "RSYM_GRADUAL_ONSET": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"},
+            "RSYM_OVERHEAD_WORSENS": {"present": 0.90, "absent": 0.10, "weight": 0.85, "category": "screening"},
+            "RSYM_PAINFUL_ARC": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "pathognomonic"},
+            "RSYM_PAIN_LYING_ON_SHOULDER": {"present": 0.80, "absent": 0.20, "weight": 0.8, "category": "screening"},
+            "RSYM_POINT_TENDERNESS_SHOULDER": {"present": 0.90, "absent": 0.10, "weight": 0.85, "category": "screening"},
+            "RSYM_MINIMAL_WEAKNESS": {"present": 0.80, "absent": 0.20, "weight": 0.75, "category": "screening"},
+            "RSYM_NEER_POSITIVE": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "confirmation"},
+            "RSYM_HAWKINS_POSITIVE": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "confirmation"},
+            "RSYM_FULL_PASSIVE_ROM": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"}
+          }
+        },
+
+        "SRC_IMPINGEMENT": {
+          "name": "Subacromial Impingement Syndrome",
+          "base_probability": 0.12,
+          "is_local": true,
+          "clinical_info": "Painful arc 60-120°. Neer/Hawkins positive. Pain with overhead. No true weakness",
+          "symptom_probabilities": {
+            "RSYM_PAINFUL_ARC": {"present": 0.95, "absent": 0.05, "weight": 1.0, "category": "pathognomonic"},
+            "RSYM_PAINFUL_ARC_60_120": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_OVERHEAD_WORSENS": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_NEER_POSITIVE": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "confirmation"},
+            "RSYM_HAWKINS_POSITIVE": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "confirmation"},
+            "RSYM_NO_TRUE_WEAKNESS": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"},
+            "RSYM_ANTERIOR_SHOULDER_PAIN": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"},
+            "RSYM_FULL_PASSIVE_ROM": {"present": 0.90, "absent": 0.10, "weight": 0.85, "category": "screening"},
+            "RSYM_PAIN_IMPROVES_REST": {"present": 0.80, "absent": 0.20, "weight": 0.7, "category": "screening"}
+          }
+        },
+
+        "SRC_FROZEN_SHOULDER": {
+          "name": "Frozen Shoulder (Adhesive Capsulitis)",
+          "base_probability": 0.08,
+          "is_local": true,
+          "clinical_info": "PATHOGNOMONIC: Global restriction BOTH active AND passive. ER lost first. Diabetic risk",
+          "symptom_probabilities": {
+            "RSYM_GLOBAL_ROM_RESTRICTION": {"present": 0.98, "absent": 0.02, "weight": 1.0, "category": "pathognomonic"},
+            "RSYM_PASSIVE_ROM_RESTRICTED": {"present": 0.98, "absent": 0.02, "weight": 1.0, "category": "pathognomonic"},
+            "RSYM_EXTERNAL_ROTATION_MOST_LIMITED": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_GRADUAL_ONSET": {"present": 0.85, "absent": 0.15, "weight": 0.75, "category": "screening"},
+            "RSYM_DIFFICULTY_REACHING_BEHIND": {"present": 0.95, "absent": 0.05, "weight": 0.9, "category": "screening"},
+            "RSYM_NIGHT_PAIN_SHOULDER": {"present": 0.75, "absent": 0.25, "weight": 0.7, "category": "screening"},
+            "RSYM_DIABETES": {"present": 0.45, "absent": 0.55, "weight": 0.75, "category": "screening"},
+            "RSYM_AGE_40_60": {"present": 0.80, "absent": 0.20, "weight": 0.65, "category": "screening"},
+            "RSYM_FEMALE": {"present": 0.60, "absent": 0.40, "weight": 0.5, "category": "screening"},
+            "RSYM_ANESTHETIC_NO_IMPROVEMENT": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "confirmation"}
+          }
+        },
+
+        "SRC_AC_JOINT": {
+          "name": "AC Joint Pathology",
+          "base_probability": 0.06,
+          "is_local": true,
+          "clinical_info": "Point tenderness AC joint. Cross-body adduction painful. Pain at end range flexion",
+          "symptom_probabilities": {
+            "RSYM_AC_JOINT_TENDERNESS": {"present": 0.95, "absent": 0.05, "weight": 1.0, "category": "pathognomonic"},
+            "RSYM_CROSS_BODY_ADDUCTION_PAIN": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_END_RANGE_FLEXION_PAIN": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_TOP_OF_SHOULDER_PAIN": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_HISTORY_FALL_DIRECT_IMPACT": {"present": 0.60, "absent": 0.40, "weight": 0.75, "category": "screening"},
+            "RSYM_SCARF_TEST_POSITIVE": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "confirmation"},
+            "RSYM_VISIBLE_AC_PROMINENCE": {"present": 0.50, "absent": 0.50, "weight": 0.8, "category": "screening"}
+          }
+        },
+
+        "SRC_LABRAL_TEAR": {
+          "name": "Labral Tear (SLAP/Bankart)",
+          "base_probability": 0.05,
+          "is_local": true,
+          "clinical_info": "Clicking, catching, instability. Overhead athletes. O'Brien's test for SLAP",
+          "symptom_probabilities": {
+            "RSYM_CLICKING_CATCHING": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_FEELING_OF_INSTABILITY": {"present": 0.85, "absent": 0.15, "weight": 0.9, "category": "screening"},
+            "RSYM_DEEP_SHOULDER_PAIN": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"},
+            "RSYM_OVERHEAD_THROWING_SPORT": {"present": 0.65, "absent": 0.35, "weight": 0.75, "category": "screening"},
+            "RSYM_OBRIEN_TEST_POSITIVE": {"present": 0.85, "absent": 0.15, "weight": 0.9, "category": "confirmation"},
+            "RSYM_APPREHENSION_POSITIVE": {"present": 0.80, "absent": 0.20, "weight": 0.9, "category": "confirmation"},
+            "RSYM_HISTORY_DISLOCATION": {"present": 0.60, "absent": 0.40, "weight": 0.85, "category": "screening"},
+            "RSYM_PAIN_WITH_SPECIFIC_POSITIONS": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"}
+          }
+        },
+
+        "SRC_BICEPS_TENDINOPATHY": {
+          "name": "Biceps Tendinopathy",
+          "base_probability": 0.05,
+          "is_local": true,
+          "clinical_info": "Anterior shoulder pain. Bicipital groove tenderness. Speed's/Yergason's test",
+          "symptom_probabilities": {
+            "RSYM_ANTERIOR_SHOULDER_PAIN": {"present": 0.95, "absent": 0.05, "weight": 0.9, "category": "pathognomonic"},
+            "RSYM_BICIPITAL_GROOVE_TENDERNESS": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_PAIN_RESISTED_ELBOW_FLEXION": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_SPEEDS_TEST_POSITIVE": {"present": 0.85, "absent": 0.15, "weight": 0.9, "category": "confirmation"},
+            "RSYM_YERGASON_TEST_POSITIVE": {"present": 0.80, "absent": 0.20, "weight": 0.85, "category": "confirmation"},
+            "RSYM_OVERHEAD_LIFTING_PAIN": {"present": 0.80, "absent": 0.20, "weight": 0.8, "category": "screening"}
+          }
+        },
+
+        "SRC_GH_OA": {
+          "name": "Glenohumeral Osteoarthritis",
+          "base_probability": 0.04,
+          "is_local": true,
+          "clinical_info": "Gradual onset, crepitus, morning stiffness <30min. Age>50, previous injury",
+          "symptom_probabilities": {
+            "RSYM_GRADUAL_ONSET": {"present": 0.90, "absent": 0.10, "weight": 0.8, "category": "screening"},
+            "RSYM_CREPITUS": {"present": 0.85, "absent": 0.15, "weight": 0.9, "category": "pathognomonic"},
+            "RSYM_MORNING_STIFFNESS_SHORT": {"present": 0.80, "absent": 0.20, "weight": 0.75, "category": "screening"},
+            "RSYM_STIFFNESS_AFTER_REST": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"},
+            "RSYM_AGE_OVER_50": {"present": 0.80, "absent": 0.20, "weight": 0.75, "category": "screening"},
+            "RSYM_PREVIOUS_SHOULDER_INJURY": {"present": 0.55, "absent": 0.45, "weight": 0.7, "category": "screening"},
+            "RSYM_GLOBAL_ROM_RESTRICTION": {"present": 0.70, "absent": 0.30, "weight": 0.75, "category": "screening"},
+            "RSYM_POSTERIOR_SHOULDER_PAIN": {"present": 0.75, "absent": 0.25, "weight": 0.7, "category": "screening"}
+          }
+        },
+
+        "SRC_INSTABILITY": {
+          "name": "Shoulder Instability",
+          "base_probability": 0.04,
+          "is_local": true,
+          "clinical_info": "History of dislocation, feeling of instability, young active patients",
+          "symptom_probabilities": {
+            "RSYM_HISTORY_DISLOCATION": {"present": 0.90, "absent": 0.10, "weight": 1.0, "category": "pathognomonic"},
+            "RSYM_FEELING_OF_INSTABILITY": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_APPREHENSION_POSITIVE": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "confirmation"},
+            "RSYM_RELOCATION_TEST_POSITIVE": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "confirmation"},
+            "RSYM_DEAD_ARM_FEELING": {"present": 0.80, "absent": 0.20, "weight": 0.85, "category": "screening"},
+            "RSYM_FEAR_CERTAIN_POSITIONS": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_YOUNG_AGE": {"present": 0.75, "absent": 0.25, "weight": 0.65, "category": "screening"},
+            "RSYM_CONTACT_SPORT_HISTORY": {"present": 0.60, "absent": 0.40, "weight": 0.6, "category": "screening"}
+          }
+        }
+      }
+    },
+
+    "knee": {
+      "sources": {
+        "SRC_KNEE_LOCAL": {
+          "name": "Local Knee Pathology",
+          "base_probability": 0.55,
+          "is_local": true,
+          "symptom_probabilities": {
+            "RSYM_POINT_TENDERNESS_KNEE": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"},
+            "RSYM_KNEE_SWELLING": {"present": 0.75, "absent": 0.25, "weight": 0.75, "category": "screening"},
+            "RSYM_LOCKING_CATCHING_KNEE": {"present": 0.85, "absent": 0.15, "weight": 0.9, "category": "pathognomonic"},
+            "RSYM_GIVING_WAY_KNEE": {"present": 0.80, "absent": 0.20, "weight": 0.85, "category": "screening"},
+            "RSYM_PAIN_WITH_SQUATTING": {"present": 0.80, "absent": 0.20, "weight": 0.75, "category": "screening"},
+            "RSYM_STAIR_PAIN": {"present": 0.75, "absent": 0.25, "weight": 0.7, "category": "screening"}
+          }
+        },
+        "SRC_HIP_REFERRAL": {
+          "name": "Hip Referral",
+          "base_probability": 0.25,
+          "is_local": false,
+          "refers_to_region": "hip",
+          "symptom_probabilities": {
+            "RSYM_GROIN_PAIN": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_HIP_STIFFNESS": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_DIFFICULTY_SOCKS_SHOES": {"present": 0.80, "absent": 0.20, "weight": 0.85, "category": "screening"},
+            "RSYM_PAIN_GETTING_IN_CAR": {"present": 0.75, "absent": 0.25, "weight": 0.8, "category": "screening"},
+            "RSYM_LIMITED_HIP_INTERNAL_ROTATION": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "confirmation"},
+            "RSYM_KNEE_EXAM_NORMAL": {"present": 0.80, "absent": 0.20, "weight": 0.75, "category": "confirmation"}
+          }
+        },
+        "SRC_LUMBAR_REFERRAL_KNEE": {
+          "name": "Lumbar Spine Referral (L3-L4)",
+          "base_probability": 0.15,
+          "is_local": false,
+          "refers_to_region": "lumbar_spine",
+          "symptom_probabilities": {
+            "RSYM_BACK_PAIN_PRESENT": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_BACK_MOVEMENT_AFFECTS_KNEE": {"present": 0.85, "absent": 0.15, "weight": 0.9, "category": "pathognomonic"},
+            "RSYM_ANTERIOR_THIGH_SYMPTOMS": {"present": 0.80, "absent": 0.20, "weight": 0.85, "category": "screening"},
+            "RSYM_KNEE_REFLEX_DIMINISHED": {"present": 0.75, "absent": 0.25, "weight": 0.9, "category": "confirmation"}
+          }
+        }
+      }
+    },
+
+    "hip": {
+      "sources": {
+        "SRC_HIP_LOCAL": {
+          "name": "Local Hip Pathology",
+          "base_probability": 0.45,
+          "is_local": true,
+          "symptom_probabilities": {
+            "RSYM_GROIN_PAIN": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_C_SIGN_POSITIVE": {"present": 0.85, "absent": 0.15, "weight": 0.9, "category": "screening"},
+            "RSYM_PAIN_HIP_FLEXION": {"present": 0.80, "absent": 0.20, "weight": 0.8, "category": "screening"},
+            "RSYM_LIMITED_HIP_INTERNAL_ROTATION": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "confirmation"},
+            "RSYM_FADIR_POSITIVE": {"present": 0.85, "absent": 0.15, "weight": 0.95, "category": "confirmation"},
+            "RSYM_PAINFUL_WEIGHT_BEARING": {"present": 0.75, "absent": 0.25, "weight": 0.7, "category": "screening"}
+          }
+        },
+        "SRC_LUMBAR_REFERRAL_HIP": {
+          "name": "Lumbar Spine Referral",
+          "base_probability": 0.35,
+          "is_local": false,
+          "refers_to_region": "lumbar_spine",
+          "symptom_probabilities": {
+            "RSYM_BACK_PAIN_PRESENT": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_BACK_MOVEMENT_AFFECTS_HIP": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_BUTTOCK_PAIN": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_PAIN_BELOW_KNEE": {"present": 0.80, "absent": 0.20, "weight": 0.85, "category": "screening"},
+            "RSYM_SLUMP_POSITIVE": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "confirmation"},
+            "RSYM_HIP_ROM_FULL_PAINLESS": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "confirmation"}
+          }
+        },
+        "SRC_SI_JOINT": {
+          "name": "Sacroiliac Joint Referral",
+          "base_probability": 0.12,
+          "is_local": false,
+          "refers_to_region": "si_joint",
+          "symptom_probabilities": {
+            "RSYM_PAIN_BELOW_PSIS": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "pathognomonic"},
+            "RSYM_PAIN_SIT_TO_STAND": {"present": 0.80, "absent": 0.20, "weight": 0.75, "category": "screening"},
+            "RSYM_ONE_LEG_WORSE": {"present": 0.75, "absent": 0.25, "weight": 0.7, "category": "screening"},
+            "RSYM_SI_PROVOCATION_POSITIVE": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "confirmation"}
+          }
+        },
+        "SRC_VISCERAL_HIP": {
+          "name": "Visceral Referral",
+          "base_probability": 0.03,
+          "is_local": false,
+          "is_red_flag": true,
+          "symptom_probabilities": {
+            "RSYM_NO_MECHANICAL_PATTERN": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "screening"},
+            "RSYM_CONSTANT_PAIN_NO_RELIEF": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "screening"},
+            "RSYM_SYSTEMIC_SYMPTOMS": {"present": 0.95, "absent": 0.05, "weight": 1.0, "category": "pathognomonic"}
+          }
+        }
+      }
+    },
+
+    "lumbar_spine": {
+      "sources": {
+        "SRC_DISC_HERNIATION": {
+          "name": "Lumbar Disc Herniation/Radiculopathy",
+          "base_probability": 0.20,
+          "is_local": true,
+          "clinical_info": "Nerve root compression. Dermatomal pain pattern, positive SLR, neurological signs",
+          "symptom_probabilities": {
+            "RSYM_LEG_PAIN_WORSE_THAN_BACK": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_DERMATOMAL_LEG_PAIN": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_PAIN_BELOW_KNEE": {"present": 0.85, "absent": 0.15, "weight": 0.9, "category": "screening"},
+            "RSYM_NUMBNESS_TINGLING_LEG": {"present": 0.80, "absent": 0.20, "weight": 0.85, "category": "screening"},
+            "RSYM_WORSE_SITTING_FLEXION": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_WORSE_COUGHING_SNEEZING": {"present": 0.80, "absent": 0.20, "weight": 0.85, "category": "screening"},
+            "RSYM_SLR_POSITIVE": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "confirmation"},
+            "RSYM_NEUROLOGICAL_DEFICIT": {"present": 0.70, "absent": 0.30, "weight": 0.9, "category": "confirmation"},
+            "RSYM_ACUTE_SUDDEN_ONSET": {"present": 0.70, "absent": 0.30, "weight": 0.7, "category": "screening"},
+            "RSYM_MORNING_STIFFNESS_SHORT": {"present": 0.75, "absent": 0.25, "weight": 0.7, "category": "screening"},
+            "RSYM_MORNING_STIFFNESS_LONG": {"present": 0.15, "absent": 0.85, "weight": 0.7, "category": "screening"}
+          }
+        },
+        "SRC_FACET_JOINT": {
+          "name": "Facet Joint Pain/Syndrome",
+          "base_probability": 0.15,
+          "is_local": true,
+          "clinical_info": "Posterior element pain. Worse with extension, rotation. Referred to buttock/thigh",
+          "symptom_probabilities": {
+            "RSYM_UNILATERAL_BACK_PAIN": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_PAIN_WITH_EXTENSION": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_PAIN_WITH_ROTATION": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_PAIN_REFERRED_BUTTOCK_THIGH": {"present": 0.80, "absent": 0.20, "weight": 0.8, "category": "screening"},
+            "RSYM_NO_PAIN_BELOW_KNEE": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"},
+            "RSYM_NO_NEUROLOGICAL_DEFICIT": {"present": 0.90, "absent": 0.10, "weight": 0.8, "category": "screening"},
+            "RSYM_PARASPINAL_TENDERNESS": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"},
+            "RSYM_WORSE_AFTER_REST": {"present": 0.75, "absent": 0.25, "weight": 0.7, "category": "screening"},
+            "RSYM_SLR_NEGATIVE": {"present": 0.85, "absent": 0.15, "weight": 0.75, "category": "confirmation"},
+            "RSYM_MORNING_STIFFNESS_SHORT": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"},
+            "RSYM_MORNING_STIFFNESS_LONG": {"present": 0.15, "absent": 0.85, "weight": 0.8, "category": "screening"}
+          }
+        },
+        "SRC_SPINAL_STENOSIS": {
+          "name": "Lumbar Spinal Stenosis",
+          "base_probability": 0.08,
+          "is_local": true,
+          "clinical_info": "Neurogenic claudication. Bilateral leg symptoms with walking, relieved by sitting/flexion",
+          "symptom_probabilities": {
+            "RSYM_NEUROGENIC_CLAUDICATION": {"present": 0.95, "absent": 0.05, "weight": 1.0, "category": "pathognomonic"},
+            "RSYM_BILATERAL_LEG_SYMPTOMS": {"present": 0.80, "absent": 0.20, "weight": 0.85, "category": "screening"},
+            "RSYM_WORSE_WALKING_STANDING": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_RELIEVED_SITTING_FLEXION": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_SHOPPING_CART_SIGN": {"present": 0.85, "absent": 0.15, "weight": 0.9, "category": "screening"},
+            "RSYM_AGE_OVER_50": {"present": 0.85, "absent": 0.15, "weight": 0.75, "category": "screening"},
+            "RSYM_AGE_OVER_70": {"present": 0.60, "absent": 0.40, "weight": 0.65, "category": "screening"},
+            "RSYM_WIDE_BASED_GAIT": {"present": 0.70, "absent": 0.30, "weight": 0.75, "category": "screening"},
+            "RSYM_GRADUAL_ONSET": {"present": 0.85, "absent": 0.15, "weight": 0.7, "category": "screening"},
+            "RSYM_MORNING_STIFFNESS_SHORT": {"present": 0.80, "absent": 0.20, "weight": 0.7, "category": "screening"},
+            "RSYM_MORNING_STIFFNESS_LONG": {"present": 0.20, "absent": 0.80, "weight": 0.7, "category": "screening"}
+          }
+        },
+        "SRC_MUSCLE_STRAIN": {
+          "name": "Muscle Strain/Myofascial Pain",
+          "base_probability": 0.20,
+          "is_local": true,
+          "clinical_info": "Most common cause. Localized pain, muscle spasm, usually resolves in weeks",
+          "symptom_probabilities": {
+            "RSYM_LOCALIZED_MUSCLE_PAIN": {"present": 0.95, "absent": 0.05, "weight": 0.9, "category": "screening"},
+            "RSYM_MUSCLE_SPASM": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_PAIN_WITH_MOVEMENT": {"present": 0.90, "absent": 0.10, "weight": 0.8, "category": "screening"},
+            "RSYM_TRIGGER_POINTS": {"present": 0.80, "absent": 0.20, "weight": 0.85, "category": "screening"},
+            "RSYM_HISTORY_LIFTING_STRAIN": {"present": 0.75, "absent": 0.25, "weight": 0.8, "category": "screening"},
+            "RSYM_NO_LEG_PAIN": {"present": 0.85, "absent": 0.15, "weight": 0.75, "category": "screening"},
+            "RSYM_NO_NEUROLOGICAL_DEFICIT": {"present": 0.95, "absent": 0.05, "weight": 0.8, "category": "screening"},
+            "RSYM_RECENT_ONSET": {"present": 0.80, "absent": 0.20, "weight": 0.7, "category": "screening"},
+            "RSYM_MORNING_STIFFNESS_SHORT": {"present": 0.80, "absent": 0.20, "weight": 0.75, "category": "screening"},
+            "RSYM_MORNING_STIFFNESS_LONG": {"present": 0.10, "absent": 0.90, "weight": 0.75, "category": "screening"}
+          }
+        },
+        "SRC_SI_JOINT": {
+          "name": "Sacroiliac Joint Dysfunction",
+          "base_probability": 0.12,
+          "is_local": false,
+          "refers_to_region": "si_joint",
+          "clinical_info": "Pain below PSIS, buttock, may refer to groin/thigh. Worse sit-stand, single leg activities",
+          "symptom_probabilities": {
+            "RSYM_PAIN_BELOW_PSIS": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_UNILATERAL_BUTTOCK_PAIN": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_PAIN_SIT_TO_STAND": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_PAIN_SINGLE_LEG_STANCE": {"present": 0.80, "absent": 0.20, "weight": 0.8, "category": "screening"},
+            "RSYM_PAIN_ROLLING_IN_BED": {"present": 0.75, "absent": 0.25, "weight": 0.75, "category": "screening"},
+            "RSYM_FORTIN_FINGER_TEST": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "confirmation"},
+            "RSYM_PREGNANCY_POSTPARTUM": {"present": 0.60, "absent": 0.40, "weight": 0.7, "category": "screening"},
+            "RSYM_NO_CENTRALIZATION": {"present": 0.80, "absent": 0.20, "weight": 0.75, "category": "screening"}
+          }
+        },
+        "SRC_HIP_SPINE_SYNDROME": {
+          "name": "Hip Referral (Hip-Spine Syndrome)",
+          "base_probability": 0.08,
+          "is_local": false,
+          "refers_to_region": "hip",
+          "clinical_info": "Hip OA can present as LBP. Key: groin pain, difficulty with hip activities",
+          "symptom_probabilities": {
+            "RSYM_GROIN_PAIN": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_C_SIGN_POSITIVE": {"present": 0.85, "absent": 0.15, "weight": 0.9, "category": "screening"},
+            "RSYM_DIFFICULTY_SOCKS_SHOES": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_HIP_STIFFNESS": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_PAIN_GETTING_IN_CAR": {"present": 0.80, "absent": 0.20, "weight": 0.8, "category": "screening"},
+            "RSYM_LIMP_WITH_WALKING": {"present": 0.70, "absent": 0.30, "weight": 0.75, "category": "screening"},
+            "RSYM_LIMITED_HIP_INTERNAL_ROTATION": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "confirmation"},
+            "RSYM_AGE_OVER_50": {"present": 0.70, "absent": 0.30, "weight": 0.6, "category": "screening"}
+          }
+        },
+        "SRC_SPONDYLOLISTHESIS": {
+          "name": "Spondylolisthesis",
+          "base_probability": 0.05,
+          "is_local": true,
+          "clinical_info": "Vertebral slippage. May have radiculopathy. Worse with extension, better with flexion",
+          "symptom_probabilities": {
+            "RSYM_WORSE_EXTENSION_STANDING": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_BETTER_WITH_FLEXION": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_STEP_DEFORMITY_PALPABLE": {"present": 0.70, "absent": 0.30, "weight": 0.9, "category": "pathognomonic"},
+            "RSYM_HAMSTRING_TIGHTNESS": {"present": 0.75, "absent": 0.25, "weight": 0.75, "category": "screening"},
+            "RSYM_LEG_SYMPTOMS_WITH_ACTIVITY": {"present": 0.65, "absent": 0.35, "weight": 0.7, "category": "screening"},
+            "RSYM_HISTORY_GYMNASTICS_SPORTS": {"present": 0.50, "absent": 0.50, "weight": 0.6, "category": "screening"},
+            "RSYM_CHRONIC_GRADUAL_ONSET": {"present": 0.80, "absent": 0.20, "weight": 0.7, "category": "screening"}
+          }
+        },
+        "SRC_CAUDA_EQUINA": {
+          "name": "Cauda Equina Syndrome",
+          "base_probability": 0.005,
+          "is_local": true,
+          "is_red_flag": true,
+          "clinical_info": "SURGICAL EMERGENCY. Saddle anesthesia, bladder/bowel dysfunction, bilateral weakness",
+          "symptom_probabilities": {
+            "RSYM_SADDLE_ANESTHESIA": {"present": 0.95, "absent": 0.05, "weight": 1.0, "category": "pathognomonic"},
+            "RSYM_BLADDER_DYSFUNCTION": {"present": 0.95, "absent": 0.05, "weight": 1.0, "category": "pathognomonic"},
+            "RSYM_BOWEL_DYSFUNCTION": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_BILATERAL_LEG_WEAKNESS": {"present": 0.85, "absent": 0.15, "weight": 0.95, "category": "screening"},
+            "RSYM_BILATERAL_SCIATICA": {"present": 0.80, "absent": 0.20, "weight": 0.9, "category": "screening"},
+            "RSYM_SEXUAL_DYSFUNCTION": {"present": 0.75, "absent": 0.25, "weight": 0.85, "category": "screening"},
+            "RSYM_PROGRESSIVE_NEUROLOGICAL": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "screening"},
+            "RSYM_URINARY_RETENTION": {"present": 0.95, "absent": 0.05, "weight": 1.0, "category": "pathognomonic"}
+          }
+        },
+        "SRC_VERTEBRAL_FRACTURE": {
+          "name": "Vertebral Compression Fracture",
+          "base_probability": 0.03,
+          "is_local": true,
+          "is_red_flag": true,
+          "clinical_info": "Risk: osteoporosis, steroid use, age>70, trauma. Sudden onset, point tenderness",
+          "symptom_probabilities": {
+            "RSYM_SUDDEN_SEVERE_ONSET": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_POINT_TENDERNESS_SPINE": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_WORSE_WITH_MOVEMENT": {"present": 0.90, "absent": 0.10, "weight": 0.85, "category": "screening"},
+            "RSYM_HISTORY_TRAUMA": {"present": 0.60, "absent": 0.40, "weight": 0.8, "category": "screening"},
+            "RSYM_HISTORY_OSTEOPOROSIS": {"present": 0.70, "absent": 0.30, "weight": 0.85, "category": "screening"},
+            "RSYM_STEROID_USE": {"present": 0.50, "absent": 0.50, "weight": 0.8, "category": "screening"},
+            "RSYM_AGE_OVER_70": {"present": 0.65, "absent": 0.35, "weight": 0.75, "category": "screening"},
+            "RSYM_HEIGHT_LOSS": {"present": 0.60, "absent": 0.40, "weight": 0.7, "category": "screening"},
+            "RSYM_FEMALE": {"present": 0.60, "absent": 0.40, "weight": 0.5, "category": "screening"}
+          }
+        },
+        "SRC_SPINAL_MALIGNANCY": {
+          "name": "Spinal Malignancy/Metastases",
+          "base_probability": 0.01,
+          "is_local": false,
+          "is_red_flag": true,
+          "clinical_info": "Red flags: history of cancer, age>50, unexplained weight loss, night pain, no relief with rest",
+          "symptom_probabilities": {
+            "RSYM_HISTORY_OF_CANCER": {"present": 0.85, "absent": 0.15, "weight": 1.0, "category": "pathognomonic"},
+            "RSYM_UNEXPLAINED_WEIGHT_LOSS": {"present": 0.80, "absent": 0.20, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_NIGHT_PAIN_SEVERE": {"present": 0.85, "absent": 0.15, "weight": 0.9, "category": "screening"},
+            "RSYM_NO_RELIEF_WITH_REST": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_CONSTANT_PROGRESSIVE_PAIN": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_AGE_OVER_50": {"present": 0.75, "absent": 0.25, "weight": 0.7, "category": "screening"},
+            "RSYM_FAILURE_CONSERVATIVE": {"present": 0.70, "absent": 0.30, "weight": 0.75, "category": "screening"},
+            "RSYM_FATIGUE_GENERAL": {"present": 0.70, "absent": 0.30, "weight": 0.7, "category": "screening"}
+          }
+        },
+        "SRC_SPINAL_INFECTION": {
+          "name": "Spinal Infection (Discitis/Osteomyelitis)",
+          "base_probability": 0.005,
+          "is_local": false,
+          "is_red_flag": true,
+          "clinical_info": "Risk: IV drug use, recent procedure, immunosuppression. Fever, severe constant pain",
+          "symptom_probabilities": {
+            "RSYM_FEVER_CHILLS": {"present": 0.85, "absent": 0.15, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_SEVERE_CONSTANT_PAIN": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_NIGHT_PAIN_SEVERE": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_IV_DRUG_USE": {"present": 0.60, "absent": 0.40, "weight": 0.9, "category": "screening"},
+            "RSYM_RECENT_SPINAL_PROCEDURE": {"present": 0.50, "absent": 0.50, "weight": 0.85, "category": "screening"},
+            "RSYM_IMMUNOSUPPRESSION": {"present": 0.55, "absent": 0.45, "weight": 0.85, "category": "screening"},
+            "RSYM_RECENT_INFECTION": {"present": 0.60, "absent": 0.40, "weight": 0.8, "category": "screening"},
+            "RSYM_POINT_TENDERNESS_SPINE": {"present": 0.90, "absent": 0.10, "weight": 0.85, "category": "screening"}
+          }
+        },
+        "SRC_AAA": {
+          "name": "Abdominal Aortic Aneurysm (AAA)",
+          "base_probability": 0.005,
+          "is_local": false,
+          "is_red_flag": true,
+          "clinical_info": "EMERGENCY if rupturing. Pulsating abdominal mass, vascular risk factors",
+          "symptom_probabilities": {
+            "RSYM_PULSATING_ABDOMINAL_MASS": {"present": 0.75, "absent": 0.25, "weight": 1.0, "category": "pathognomonic"},
+            "RSYM_ABDOMINAL_PAIN": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_CONSTANT_DEEP_PAIN": {"present": 0.80, "absent": 0.20, "weight": 0.8, "category": "screening"},
+            "RSYM_VASCULAR_RISK_FACTORS": {"present": 0.80, "absent": 0.20, "weight": 0.85, "category": "screening"},
+            "RSYM_AGE_OVER_65_MALE": {"present": 0.75, "absent": 0.25, "weight": 0.8, "category": "screening"},
+            "RSYM_AGE_OVER_50": {"present": 0.70, "absent": 0.30, "weight": 0.6, "category": "screening"},
+            "RSYM_MALE": {"present": 0.80, "absent": 0.20, "weight": 0.7, "category": "screening"},
+            "RSYM_SMOKING_HISTORY": {"present": 0.70, "absent": 0.30, "weight": 0.75, "category": "screening"},
+            "RSYM_NO_MECHANICAL_PATTERN": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"}
+          }
+        },
+        "SRC_INFLAMMATORY_BACK_PAIN": {
+          "name": "Inflammatory Back Pain (Axial Spondyloarthropathy/AS)",
+          "base_probability": 0.03,
+          "is_local": true,
+          "clinical_info": "Age<45, insidious onset, >3 months, morning stiffness>30min, improves with exercise",
+          "symptom_probabilities": {
+            "RSYM_AGE_UNDER_45_ONSET": {"present": 0.95, "absent": 0.05, "weight": 0.9, "category": "screening"},
+            "RSYM_MORNING_STIFFNESS_SHORT": {"present": 0.10, "absent": 0.90, "weight": 0.9, "category": "screening"},
+            "RSYM_MORNING_STIFFNESS_LONG": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_MORNING_STIFFNESS_OVER_1_HOUR": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_IMPROVES_WITH_EXERCISE": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_NO_IMPROVEMENT_WITH_REST": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_WORSE_AFTER_REST": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_INSIDIOUS_ONSET": {"present": 0.90, "absent": 0.10, "weight": 0.85, "category": "screening"},
+            "RSYM_DURATION_OVER_3_MONTHS": {"present": 0.95, "absent": 0.05, "weight": 0.9, "category": "screening"},
+            "RSYM_ALTERNATING_BUTTOCK_PAIN": {"present": 0.80, "absent": 0.20, "weight": 0.85, "category": "screening"},
+            "RSYM_NIGHT_PAIN_SECOND_HALF": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_FAMILY_HISTORY_AS": {"present": 0.50, "absent": 0.50, "weight": 0.75, "category": "screening"},
+            "RSYM_REDUCED_CHEST_EXPANSION": {"present": 0.70, "absent": 0.30, "weight": 0.8, "category": "confirmation"},
+            "RSYM_MALE": {"present": 0.65, "absent": 0.35, "weight": 0.55, "category": "screening"}
+          }
+        },
+        "SRC_VISCERAL_RENAL": {
+          "name": "Renal/Kidney Pathology",
+          "base_probability": 0.02,
+          "is_local": false,
+          "is_red_flag": true,
+          "clinical_info": "Flank pain, colicky, urinary symptoms. May be infection or stones",
+          "symptom_probabilities": {
+            "RSYM_FLANK_PAIN": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_URINARY_SYMPTOMS": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_COLICKY_PAIN": {"present": 0.85, "absent": 0.15, "weight": 0.9, "category": "screening"},
+            "RSYM_CVA_TENDERNESS": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "confirmation"},
+            "RSYM_FEVER_CHILLS": {"present": 0.70, "absent": 0.30, "weight": 0.8, "category": "screening"},
+            "RSYM_NO_MECHANICAL_PATTERN": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"}
+          }
+        },
+        "SRC_VISCERAL_GI": {
+          "name": "GI Pathology (Pancreatitis/Ulcer)",
+          "base_probability": 0.01,
+          "is_local": false,
+          "is_red_flag": true,
+          "clinical_info": "Epigastric pain radiating to back, GI symptoms, worse with eating",
+          "symptom_probabilities": {
+            "RSYM_EPIGASTRIC_PAIN": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_PAIN_RADIATES_TO_BACK": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_NAUSEA_VOMITING": {"present": 0.80, "absent": 0.20, "weight": 0.85, "category": "screening"},
+            "RSYM_WORSE_WITH_EATING": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_BETTER_LEANING_FORWARD": {"present": 0.75, "absent": 0.25, "weight": 0.8, "category": "screening"},
+            "RSYM_NO_MECHANICAL_PATTERN": {"present": 0.90, "absent": 0.10, "weight": 0.85, "category": "screening"},
+            "RSYM_ALCOHOL_HISTORY": {"present": 0.50, "absent": 0.50, "weight": 0.7, "category": "screening"}
+          }
+        }
+      }
+    },
+
+    "cervical_spine": {
+      "sources": {
+        "SRC_CERVICAL_LOCAL": {
+          "name": "Local Cervical Pathology",
+          "base_probability": 0.50,
+          "is_local": true,
+          "symptom_probabilities": {
+            "RSYM_NECK_TENDERNESS": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"},
+            "RSYM_LIMITED_NECK_ROM": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_PAIN_WITH_NECK_MOVEMENT": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"},
+            "RSYM_NO_ARM_SYMPTOMS": {"present": 0.80, "absent": 0.20, "weight": 0.75, "category": "screening"}
+          }
+        },
+        "SRC_THORACIC_REFERRAL_NECK": {
+          "name": "Thoracic Spine Referral",
+          "base_probability": 0.25,
+          "is_local": false,
+          "refers_to_region": "thoracic_spine",
+          "symptom_probabilities": {
+            "RSYM_UPPER_BACK_STIFFNESS": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_SCAPULAR_PAIN": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_WORSE_PROLONGED_SITTING": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"},
+            "RSYM_THORACIC_ROTATION_LIMITED": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "confirmation"}
+          }
+        },
+        "SRC_TMJ": {
+          "name": "TMJ Dysfunction",
+          "base_probability": 0.12,
+          "is_local": false,
+          "refers_to_region": "tmj",
+          "symptom_probabilities": {
+            "RSYM_JAW_PAIN_CLICKING": {"present": 0.95, "absent": 0.05, "weight": 1.0, "category": "pathognomonic"},
+            "RSYM_TEETH_GRINDING": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_HEADACHES_PRESENT": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"},
+            "RSYM_JAW_DEVIATION": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "confirmation"}
+          }
+        },
+        "SRC_VERTEBRAL_ARTERY": {
+          "name": "Vertebral Artery Involvement",
+          "base_probability": 0.02,
+          "is_local": false,
+          "is_red_flag": true,
+          "symptom_probabilities": {
+            "RSYM_DIZZINESS_NECK_MOVEMENT": {"present": 0.98, "absent": 0.02, "weight": 1.0, "category": "pathognomonic"},
+            "RSYM_DROP_ATTACKS": {"present": 0.98, "absent": 0.02, "weight": 1.0, "category": "pathognomonic"},
+            "RSYM_VISUAL_DISTURBANCE": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "screening"},
+            "RSYM_DYSARTHRIA": {"present": 0.98, "absent": 0.02, "weight": 1.0, "category": "pathognomonic"}
+          }
+        },
+        "SRC_CARDIAC_NECK": {
+          "name": "Cardiac Referral",
+          "base_probability": 0.01,
+          "is_local": false,
+          "is_red_flag": true,
+          "clinical_info": "MI can present with neck/jaw pain. Screen for cardiac symptoms",
+          "symptom_probabilities": {
+            "RSYM_EXERTION_RELATED_PAIN": {"present": 0.95, "absent": 0.05, "weight": 1.0, "category": "pathognomonic"},
+            "RSYM_CHEST_TIGHTNESS": {"present": 0.95, "absent": 0.05, "weight": 1.0, "category": "pathognomonic"},
+            "RSYM_JAW_PAIN": {"present": 0.85, "absent": 0.15, "weight": 0.9, "category": "screening"},
+            "RSYM_LEFT_ARM_RADIATION": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_SHORTNESS_OF_BREATH": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "screening"},
+            "RSYM_DIAPHORESIS_SWEATING": {"present": 0.85, "absent": 0.15, "weight": 0.9, "category": "screening"},
+            "RSYM_CARDIAC_RISK_FACTORS": {"present": 0.80, "absent": 0.20, "weight": 0.8, "category": "screening"}
+          }
+        }
+      }
+    },
+
+    "elbow": {
+      "sources": {
+        "SRC_ELBOW_LOCAL": {
+          "name": "Local Elbow Pathology",
+          "base_probability": 0.55,
+          "is_local": true,
+          "symptom_probabilities": {
+            "RSYM_LATERAL_EPICONDYLE_TENDERNESS": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_MEDIAL_EPICONDYLE_TENDERNESS": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "pathognomonic"},
+            "RSYM_PAIN_WITH_GRIPPING": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_RESISTED_WRIST_EXT_PAIN": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "confirmation"},
+            "RSYM_PAIN_LOCALIZED_ELBOW": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"}
+          }
+        },
+        "SRC_CERVICAL_REFERRAL_ELBOW": {
+          "name": "Cervical Spine Referral (C5-C7)",
+          "base_probability": 0.30,
+          "is_local": false,
+          "refers_to_region": "cervical_spine",
+          "symptom_probabilities": {
+            "RSYM_NECK_MOVEMENT_AFFECTS_ELBOW": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_NECK_PAIN_PRESENT": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_THUMB_INDEX_TINGLING": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_SYMPTOMS_ABOVE_BELOW_ELBOW": {"present": 0.85, "absent": 0.15, "weight": 0.9, "category": "screening"},
+            "RSYM_SPURLING_LIKE_RESPONSE": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "confirmation"}
+          }
+        },
+        "SRC_NERVE_ENTRAPMENT_ELBOW": {
+          "name": "Peripheral Nerve Entrapment",
+          "base_probability": 0.08,
+          "is_local": false,
+          "refers_to_region": "nerve",
+          "symptom_probabilities": {
+            "RSYM_ULNAR_DISTRIBUTION": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_TINGLING_RING_LITTLE": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_TINELS_ELBOW_POSITIVE": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "confirmation"}
+          }
+        }
+      }
+    },
+
+    "ankle": {
+      "sources": {
+        "SRC_ATFL_INJURY": {
+          "name": "ATFL (Anterior Talofibular Ligament) Injury",
+          "base_probability": 0.30,
+          "is_local": true,
+          "clinical_info": "Most common ankle ligament injury (85%). Mechanism: inversion + plantarflexion",
+          "symptom_probabilities": {
+            "RSYM_LATERAL_ANKLE_TENDERNESS": {"present": 0.95, "absent": 0.05, "weight": 0.85, "category": "screening"},
+            "RSYM_PAIN_ANTERIOR_LAT_MALLEOLUS": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_INVERSION_INJURY": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_PLANTARFLEXION_AT_INJURY": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_ANKLE_SWELLING": {"present": 0.90, "absent": 0.10, "weight": 0.8, "category": "screening"},
+            "RSYM_HISTORY_TRAUMA": {"present": 0.95, "absent": 0.05, "weight": 0.85, "category": "screening"},
+            "RSYM_ANKLE_INSTABILITY": {"present": 0.80, "absent": 0.20, "weight": 0.85, "category": "screening"},
+            "RSYM_CAN_WEIGHT_BEAR_4_STEPS": {"present": 0.75, "absent": 0.25, "weight": 0.7, "category": "screening"},
+            "RSYM_ANTERIOR_DRAWER_POSITIVE": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "confirmation"}
+          }
+        },
+        "SRC_CFL_INJURY": {
+          "name": "CFL (Calcaneofibular Ligament) Injury",
+          "base_probability": 0.08,
+          "is_local": true,
+          "clinical_info": "Often combined with ATFL. Mechanism: inversion + dorsiflexion",
+          "symptom_probabilities": {
+            "RSYM_LATERAL_ANKLE_TENDERNESS": {"present": 0.95, "absent": 0.05, "weight": 0.85, "category": "screening"},
+            "RSYM_PAIN_INFERIOR_LAT_MALLEOLUS": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_INVERSION_INJURY": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "pathognomonic"},
+            "RSYM_DORSIFLEXION_AT_INJURY": {"present": 0.80, "absent": 0.20, "weight": 0.85, "category": "screening"},
+            "RSYM_ANKLE_SWELLING": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"},
+            "RSYM_HISTORY_TRAUMA": {"present": 0.95, "absent": 0.05, "weight": 0.85, "category": "screening"},
+            "RSYM_TALAR_TILT_POSITIVE": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "confirmation"}
+          }
+        },
+        "SRC_HIGH_ANKLE_SPRAIN": {
+          "name": "High Ankle Sprain (Syndesmosis)",
+          "base_probability": 0.05,
+          "is_local": true,
+          "clinical_info": "Longer recovery. Mechanism: external rotation or dorsiflexion",
+          "symptom_probabilities": {
+            "RSYM_PAIN_ABOVE_ANKLE": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_EXTERNAL_ROTATION_INJURY": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_PAIN_BETWEEN_TIBIA_FIBULA": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "pathognomonic"},
+            "RSYM_HISTORY_TRAUMA": {"present": 0.90, "absent": 0.10, "weight": 0.8, "category": "screening"},
+            "RSYM_PAIN_WALKING_PUSH_OFF": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"},
+            "RSYM_SQUEEZE_TEST_POSITIVE": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "confirmation"},
+            "RSYM_EXTERNAL_ROTATION_TEST_POSITIVE": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "confirmation"}
+          }
+        },
+        "SRC_PERONEAL_TENDON": {
+          "name": "Peroneal Tendon Injury/Tendinopathy",
+          "base_probability": 0.06,
+          "is_local": true,
+          "clinical_info": "Pain posterior to lateral malleolus. Can be acute or chronic",
+          "symptom_probabilities": {
+            "RSYM_LATERAL_ANKLE_TENDERNESS": {"present": 0.90, "absent": 0.10, "weight": 0.8, "category": "screening"},
+            "RSYM_PAIN_POSTERIOR_LAT_MALLEOLUS": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_PAIN_RESISTED_EVERSION": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_RETROMALLEOLAR_TENDERNESS": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_INVERSION_INJURY": {"present": 0.70, "absent": 0.30, "weight": 0.7, "category": "screening"},
+            "RSYM_GRADUAL_ONSET": {"present": 0.50, "absent": 0.50, "weight": 0.5, "category": "screening"},
+            "RSYM_PERONEAL_SUBLUXATION": {"present": 0.75, "absent": 0.25, "weight": 0.9, "category": "confirmation"}
+          }
+        },
+        "SRC_LATERAL_MALLEOLUS_FRACTURE": {
+          "name": "Lateral Malleolus Fracture",
+          "base_probability": 0.04,
+          "is_local": true,
+          "is_red_flag": true,
+          "clinical_info": "Ottawa Ankle Rules: Bone tenderness + inability to weight bear = X-ray",
+          "symptom_probabilities": {
+            "RSYM_LATERAL_ANKLE_TENDERNESS": {"present": 0.95, "absent": 0.05, "weight": 0.8, "category": "screening"},
+            "RSYM_BONE_TENDERNESS_LAT_MALLEOLUS": {"present": 0.95, "absent": 0.05, "weight": 1.0, "category": "pathognomonic"},
+            "RSYM_CANNOT_WEIGHT_BEAR_4_STEPS": {"present": 0.85, "absent": 0.15, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_HISTORY_TRAUMA": {"present": 0.98, "absent": 0.02, "weight": 0.9, "category": "screening"},
+            "RSYM_SIGNIFICANT_SWELLING": {"present": 0.90, "absent": 0.10, "weight": 0.85, "category": "screening"},
+            "RSYM_ANKLE_SWELLING": {"present": 0.95, "absent": 0.05, "weight": 0.85, "category": "screening"},
+            "RSYM_BRUISING_IMMEDIATE": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"},
+            "RSYM_DEFORMITY_VISIBLE": {"present": 0.60, "absent": 0.40, "weight": 0.95, "category": "pathognomonic"}
+          }
+        },
+        "SRC_MEDIAL_MALLEOLUS_FRACTURE": {
+          "name": "Medial Malleolus Fracture",
+          "base_probability": 0.03,
+          "is_local": true,
+          "is_red_flag": true,
+          "clinical_info": "Ottawa Ankle Rules: Medial bone tenderness = X-ray",
+          "symptom_probabilities": {
+            "RSYM_MEDIAL_ANKLE_TENDERNESS": {"present": 0.95, "absent": 0.05, "weight": 0.85, "category": "screening"},
+            "RSYM_BONE_TENDERNESS_MED_MALLEOLUS": {"present": 0.95, "absent": 0.05, "weight": 1.0, "category": "pathognomonic"},
+            "RSYM_CANNOT_WEIGHT_BEAR_4_STEPS": {"present": 0.80, "absent": 0.20, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_HISTORY_TRAUMA": {"present": 0.95, "absent": 0.05, "weight": 0.9, "category": "screening"},
+            "RSYM_EVERSION_INJURY": {"present": 0.75, "absent": 0.25, "weight": 0.8, "category": "screening"},
+            "RSYM_ANKLE_SWELLING": {"present": 0.90, "absent": 0.10, "weight": 0.8, "category": "screening"},
+            "RSYM_BRUISING_IMMEDIATE": {"present": 0.80, "absent": 0.20, "weight": 0.75, "category": "screening"}
+          }
+        },
+        "SRC_5TH_METATARSAL_FRACTURE": {
+          "name": "5th Metatarsal Fracture (Jones/Avulsion)",
+          "base_probability": 0.04,
+          "is_local": true,
+          "is_red_flag": true,
+          "clinical_info": "Ottawa Foot Rules: Base of 5th metatarsal tenderness = X-ray",
+          "symptom_probabilities": {
+            "RSYM_LATERAL_FOOT_PAIN": {"present": 0.95, "absent": 0.05, "weight": 0.9, "category": "screening"},
+            "RSYM_BONE_TENDERNESS_5TH_MT": {"present": 0.98, "absent": 0.02, "weight": 1.0, "category": "pathognomonic"},
+            "RSYM_INVERSION_INJURY": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_HISTORY_TRAUMA": {"present": 0.90, "absent": 0.10, "weight": 0.85, "category": "screening"},
+            "RSYM_CANNOT_WEIGHT_BEAR_4_STEPS": {"present": 0.70, "absent": 0.30, "weight": 0.85, "category": "screening"},
+            "RSYM_LATERAL_ANKLE_TENDERNESS": {"present": 0.40, "absent": 0.60, "weight": 0.3, "category": "screening"}
+          }
+        },
+        "SRC_STRESS_FRACTURE": {
+          "name": "Stress Fracture (Fibula/Tibia/Talus/Navicular)",
+          "base_probability": 0.05,
+          "is_local": true,
+          "clinical_info": "Overuse injury. Risk: recent activity increase, low BMI, female athlete triad",
+          "symptom_probabilities": {
+            "RSYM_GRADUAL_ONSET": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "pathognomonic"},
+            "RSYM_LOCALIZED_BONE_TENDERNESS": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_PAIN_WITH_IMPACT": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_RECENT_ACTIVITY_INCREASE": {"present": 0.85, "absent": 0.15, "weight": 0.9, "category": "screening"},
+            "RSYM_PAIN_WORSE_WITH_ACTIVITY": {"present": 0.90, "absent": 0.10, "weight": 0.85, "category": "screening"},
+            "RSYM_PAIN_RELIEVED_REST": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"},
+            "RSYM_RUNNER_HIGH_ACTIVITY": {"present": 0.75, "absent": 0.25, "weight": 0.7, "category": "screening"},
+            "RSYM_LOW_BMI": {"present": 0.60, "absent": 0.40, "weight": 0.6, "category": "screening"},
+            "RSYM_FEMALE": {"present": 0.55, "absent": 0.45, "weight": 0.5, "category": "screening"},
+            "RSYM_NO_TRAUMA_HISTORY": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"}
+          }
+        },
+        "SRC_PTTD": {
+          "name": "Posterior Tibial Tendon Dysfunction (PTTD)",
+          "base_probability": 0.04,
+          "is_local": true,
+          "clinical_info": "Progressive flatfoot. Risk: overweight, female, 40-60 years",
+          "symptom_probabilities": {
+            "RSYM_MEDIAL_ANKLE_TENDERNESS": {"present": 0.90, "absent": 0.10, "weight": 0.85, "category": "screening"},
+            "RSYM_PAIN_MEDIAL_ARCH": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_FLAT_FOOT_ACQUIRED": {"present": 0.85, "absent": 0.15, "weight": 0.9, "category": "pathognomonic"},
+            "RSYM_SINGLE_LEG_HEEL_RAISE_WEAK": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "confirmation"},
+            "RSYM_GRADUAL_ONSET": {"present": 0.90, "absent": 0.10, "weight": 0.8, "category": "screening"},
+            "RSYM_OVERWEIGHT": {"present": 0.70, "absent": 0.30, "weight": 0.7, "category": "screening"},
+            "RSYM_AGE_40_60": {"present": 0.65, "absent": 0.35, "weight": 0.6, "category": "screening"},
+            "RSYM_PAIN_WORSE_WALKING_STANDING": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"}
+          }
+        },
+        "SRC_ANKLE_OA": {
+          "name": "Ankle Osteoarthritis",
+          "base_probability": 0.04,
+          "is_local": true,
+          "clinical_info": "Post-traumatic most common. Risk: previous fracture/sprain, age, weight",
+          "symptom_probabilities": {
+            "RSYM_PREVIOUS_ANKLE_INJURY": {"present": 0.80, "absent": 0.20, "weight": 0.85, "category": "screening"},
+            "RSYM_GRADUAL_ONSET": {"present": 0.90, "absent": 0.10, "weight": 0.8, "category": "screening"},
+            "RSYM_STIFFNESS_AFTER_REST": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "pathognomonic"},
+            "RSYM_MORNING_STIFFNESS_SHORT": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_CREPITUS": {"present": 0.75, "absent": 0.25, "weight": 0.8, "category": "screening"},
+            "RSYM_PAIN_END_RANGE": {"present": 0.80, "absent": 0.20, "weight": 0.75, "category": "screening"},
+            "RSYM_AGE_OVER_50": {"present": 0.70, "absent": 0.30, "weight": 0.65, "category": "screening"},
+            "RSYM_OVERWEIGHT": {"present": 0.55, "absent": 0.45, "weight": 0.5, "category": "screening"},
+            "RSYM_DECREASED_ROM": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"}
+          }
+        },
+        "SRC_OCD_TALUS": {
+          "name": "Osteochondral Lesion of Talus (OCD)",
+          "base_probability": 0.03,
+          "is_local": true,
+          "clinical_info": "Cartilage/bone lesion. Often post-injury with persistent deep pain",
+          "symptom_probabilities": {
+            "RSYM_DEEP_ANKLE_PAIN": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_LOCKING_CATCHING": {"present": 0.80, "absent": 0.20, "weight": 0.9, "category": "pathognomonic"},
+            "RSYM_CLICKING_ANKLE": {"present": 0.75, "absent": 0.25, "weight": 0.8, "category": "screening"},
+            "RSYM_PREVIOUS_ANKLE_INJURY": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_PERSISTENT_PAIN_AFTER_SPRAIN": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_SWELLING_INTERMITTENT": {"present": 0.70, "absent": 0.30, "weight": 0.7, "category": "screening"},
+            "RSYM_PAIN_WEIGHT_BEARING": {"present": 0.80, "absent": 0.20, "weight": 0.75, "category": "screening"}
+          }
+        },
+        "SRC_ANTERIOR_IMPINGEMENT": {
+          "name": "Anterior Ankle Impingement",
+          "base_probability": 0.03,
+          "is_local": true,
+          "clinical_info": "Bone spurs/soft tissue impingement. Pain with dorsiflexion, squatting",
+          "symptom_probabilities": {
+            "RSYM_ANTERIOR_ANKLE_PAIN": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_PAIN_WITH_DORSIFLEXION": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_PAIN_SQUATTING": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_PAIN_GOING_DOWNSTAIRS": {"present": 0.80, "absent": 0.20, "weight": 0.8, "category": "screening"},
+            "RSYM_PREVIOUS_ANKLE_INJURY": {"present": 0.70, "absent": 0.30, "weight": 0.7, "category": "screening"},
+            "RSYM_LIMITED_DORSIFLEXION": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "confirmation"},
+            "RSYM_GRADUAL_ONSET": {"present": 0.75, "absent": 0.25, "weight": 0.7, "category": "screening"}
+          }
+        },
+        "SRC_POSTERIOR_IMPINGEMENT": {
+          "name": "Posterior Ankle Impingement",
+          "base_probability": 0.02,
+          "is_local": true,
+          "clinical_info": "Os trigonum or soft tissue. Pain with plantarflexion. Common in dancers/footballers",
+          "symptom_probabilities": {
+            "RSYM_POSTERIOR_ANKLE_PAIN": {"present": 0.95, "absent": 0.05, "weight": 0.9, "category": "screening"},
+            "RSYM_PAIN_WITH_PLANTARFLEXION": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_PAIN_POINTING_TOES": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_DANCER_FOOTBALLER": {"present": 0.60, "absent": 0.40, "weight": 0.7, "category": "screening"},
+            "RSYM_PAIN_GOING_DOWNHILL": {"present": 0.75, "absent": 0.25, "weight": 0.75, "category": "screening"},
+            "RSYM_GRADUAL_ONSET": {"present": 0.70, "absent": 0.30, "weight": 0.65, "category": "screening"}
+          }
+        },
+        "SRC_SINUS_TARSI": {
+          "name": "Sinus Tarsi Syndrome",
+          "base_probability": 0.03,
+          "is_local": true,
+          "clinical_info": "Lateral hindfoot pain after sprain. Feeling of instability",
+          "symptom_probabilities": {
+            "RSYM_LATERAL_HINDFOOT_PAIN": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_SINUS_TARSI_TENDERNESS": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_PREVIOUS_ANKLE_SPRAIN": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_FEELING_OF_INSTABILITY": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_PAIN_UNEVEN_GROUND": {"present": 0.80, "absent": 0.20, "weight": 0.8, "category": "screening"},
+            "RSYM_PERSISTENT_PAIN_AFTER_SPRAIN": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"}
+          }
+        },
+        "SRC_GOUT": {
+          "name": "Gout / Crystal Arthropathy",
+          "base_probability": 0.02,
+          "is_local": true,
+          "clinical_info": "Sudden onset, severe pain, red/hot. Risk: male, diet, alcohol, kidney disease",
+          "symptom_probabilities": {
+            "RSYM_SUDDEN_SEVERE_ONSET": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_RED_HOT_SWOLLEN": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_CANNOT_TOLERATE_TOUCH": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_PREVIOUS_SIMILAR_EPISODE": {"present": 0.75, "absent": 0.25, "weight": 0.85, "category": "screening"},
+            "RSYM_MALE": {"present": 0.80, "absent": 0.20, "weight": 0.6, "category": "screening"},
+            "RSYM_HISTORY_GOUT": {"present": 0.70, "absent": 0.30, "weight": 0.9, "category": "screening"},
+            "RSYM_NO_TRAUMA_HISTORY": {"present": 0.90, "absent": 0.10, "weight": 0.8, "category": "screening"}
+          }
+        },
+        "SRC_SEPTIC_ARTHRITIS": {
+          "name": "Septic Arthritis",
+          "base_probability": 0.01,
+          "is_local": false,
+          "is_red_flag": true,
+          "clinical_info": "EMERGENCY: Joint infection. Fever + red/hot/swollen + inability to move",
+          "symptom_probabilities": {
+            "RSYM_FEVER_CHILLS": {"present": 0.90, "absent": 0.10, "weight": 1.0, "category": "pathognomonic"},
+            "RSYM_RED_HOT_SWOLLEN": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_UNABLE_TO_MOVE_JOINT": {"present": 0.85, "absent": 0.15, "weight": 0.9, "category": "pathognomonic"},
+            "RSYM_RAPID_ONSET": {"present": 0.90, "absent": 0.10, "weight": 0.85, "category": "screening"},
+            "RSYM_SEVERE_PAIN_AT_REST": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_UNWELL_SYSTEMICALLY": {"present": 0.85, "absent": 0.15, "weight": 0.9, "category": "screening"}
+          }
+        },
+        "SRC_INFLAMMATORY_ARTHRITIS": {
+          "name": "Inflammatory Arthritis (RA/Psoriatic/Reactive)",
+          "base_probability": 0.02,
+          "is_local": false,
+          "refers_to_region": "rheumatology",
+          "clinical_info": "Morning stiffness >30min, bilateral, multiple joints",
+          "symptom_probabilities": {
+            "RSYM_MORNING_STIFFNESS_LONG": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_BILATERAL_SYMPTOMS": {"present": 0.85, "absent": 0.15, "weight": 0.9, "category": "pathognomonic"},
+            "RSYM_MULTIPLE_JOINTS_AFFECTED": {"present": 0.85, "absent": 0.15, "weight": 0.9, "category": "screening"},
+            "RSYM_SWELLING_PERSISTENT": {"present": 0.80, "absent": 0.20, "weight": 0.8, "category": "screening"},
+            "RSYM_GRADUAL_ONSET": {"present": 0.80, "absent": 0.20, "weight": 0.7, "category": "screening"},
+            "RSYM_FAMILY_HISTORY_ARTHRITIS": {"present": 0.50, "absent": 0.50, "weight": 0.6, "category": "screening"},
+            "RSYM_FATIGUE_GENERAL": {"present": 0.70, "absent": 0.30, "weight": 0.7, "category": "screening"}
+          }
+        },
+        "SRC_ANKLE_ACHILLES": {
+          "name": "Achilles Tendinopathy",
+          "base_probability": 0.15,
+          "is_local": true,
+          "symptom_probabilities": {
+            "RSYM_POSTERIOR_ANKLE_PAIN": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_PAIN_WITH_PUSH_OFF": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "pathognomonic"},
+            "RSYM_MORNING_STIFFNESS_ANKLE": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_ACHILLES_TENDERNESS": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_PAIN_WORSE_START_ACTIVITY": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"},
+            "RSYM_NO_TRAUMA_HISTORY": {"present": 0.80, "absent": 0.20, "weight": 0.7, "category": "screening"}
+          }
+        },
+        "SRC_ANKLE_MEDIAL": {
+          "name": "Medial Ankle/Deltoid Ligament Injury",
+          "base_probability": 0.08,
+          "is_local": true,
+          "symptom_probabilities": {
+            "RSYM_MEDIAL_ANKLE_TENDERNESS": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_EVERSION_INJURY": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "pathognomonic"},
+            "RSYM_ANKLE_SWELLING": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"},
+            "RSYM_HISTORY_TRAUMA": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"}
+          }
+        },
+        "SRC_LUMBAR_REFERRAL_ANKLE": {
+          "name": "Lumbar Spine Referral (L4-S1)",
+          "base_probability": 0.20,
+          "is_local": false,
+          "refers_to_region": "lumbar_spine",
+          "symptom_probabilities": {
+            "RSYM_BACK_PAIN_PRESENT": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_BUTTOCK_LEG_PAIN": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_NUMBNESS_TINGLING_FOOT": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_DERMATOMAL_PATTERN_ANKLE": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_PAIN_SITTING_PROLONGED": {"present": 0.80, "absent": 0.20, "weight": 0.75, "category": "screening"},
+            "RSYM_NO_LOCAL_ANKLE_FINDINGS": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "confirmation"},
+            "RSYM_SLR_POSITIVE": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "confirmation"},
+            "RSYM_ANKLE_REFLEX_DIMINISHED": {"present": 0.85, "absent": 0.15, "weight": 0.9, "category": "confirmation"}
+          }
+        },
+        "SRC_TARSAL_TUNNEL_ANKLE": {
+          "name": "Tarsal Tunnel Syndrome",
+          "base_probability": 0.07,
+          "is_local": true,
+          "symptom_probabilities": {
+            "RSYM_MEDIAL_ANKLE_SYMPTOMS": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_SOLE_NUMBNESS_TINGLING": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_NIGHT_SYMPTOMS_ANKLE": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_BURNING_PAIN_ANKLE": {"present": 0.80, "absent": 0.20, "weight": 0.8, "category": "screening"},
+            "RSYM_TINELS_ANKLE_POSITIVE": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "confirmation"}
+          }
+        },
+        "SRC_DVT_ANKLE": {
+          "name": "Deep Vein Thrombosis (DVT)",
+          "base_probability": 0.04,
+          "is_local": false,
+          "is_red_flag": true,
+          "symptom_probabilities": {
+            "RSYM_CALF_SWELLING_UNILATERAL": {"present": 0.98, "absent": 0.02, "weight": 1.0, "category": "pathognomonic"},
+            "RSYM_WARMTH_REDNESS": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "screening"},
+            "RSYM_CALF_TENDERNESS": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_RECENT_IMMOBILITY": {"present": 0.85, "absent": 0.15, "weight": 0.9, "category": "screening"},
+            "RSYM_NO_TRAUMA_HISTORY": {"present": 0.80, "absent": 0.20, "weight": 0.7, "category": "screening"}
+          }
+        },
+        "SRC_PAD_ANKLE": {
+          "name": "Peripheral Arterial Disease",
+          "base_probability": 0.05,
+          "is_local": false,
+          "is_red_flag": true,
+          "refers_to_region": "vascular",
+          "symptom_probabilities": {
+            "RSYM_CLAUDICATION": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_PAIN_WALKING_RELIEVED_REST": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_COLD_FEET": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_PULSE_DIMINISHED": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "confirmation"},
+            "RSYM_HAIR_LOSS_LEGS": {"present": 0.75, "absent": 0.25, "weight": 0.7, "category": "screening"}
+          }
+        },
+        "SRC_KNEE_COMPENSATION": {
+          "name": "Knee/Proximal Compensation",
+          "base_probability": 0.06,
+          "is_local": false,
+          "refers_to_region": "knee",
+          "symptom_probabilities": {
+            "RSYM_KNEE_PAIN_PRESENT": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_ALTERED_GAIT": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_ANKLE_EXAM_NORMAL": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "confirmation"},
+            "RSYM_GRADUAL_ONSET": {"present": 0.80, "absent": 0.20, "weight": 0.75, "category": "screening"}
+          }
+        }
+      }
+    },
+
+    "wrist": {
+      "sources": {
+        "SRC_WRIST_LOCAL": {
+          "name": "Local Wrist/Hand Pathology",
+          "base_probability": 0.45,
+          "is_local": true,
+          "symptom_probabilities": {
+            "RSYM_POINT_TENDERNESS_WRIST": {"present": 0.90, "absent": 0.10, "weight": 0.85, "category": "screening"},
+            "RSYM_WRIST_SWELLING": {"present": 0.80, "absent": 0.20, "weight": 0.75, "category": "screening"},
+            "RSYM_PAIN_WITH_GRIPPING": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"},
+            "RSYM_SPECIFIC_WRIST_MOVEMENT_PAINFUL": {"present": 0.90, "absent": 0.10, "weight": 0.85, "category": "screening"}
+          }
+        },
+        "SRC_CARPAL_TUNNEL": {
+          "name": "Carpal Tunnel Syndrome",
+          "base_probability": 0.20,
+          "is_local": true,
+          "symptom_probabilities": {
+            "RSYM_THUMB_INDEX_MIDDLE_NUMBNESS": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_NIGHT_SYMPTOMS": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_SHAKING_RELIEVES": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_PHALENS_POSITIVE": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "confirmation"},
+            "RSYM_TINELS_WRIST_POSITIVE": {"present": 0.85, "absent": 0.15, "weight": 0.9, "category": "confirmation"}
+          }
+        },
+        "SRC_CERVICAL_REFERRAL_WRIST": {
+          "name": "Cervical Spine Referral",
+          "base_probability": 0.25,
+          "is_local": false,
+          "refers_to_region": "cervical_spine",
+          "symptom_probabilities": {
+            "RSYM_NECK_MOVEMENT_AFFECTS_HAND": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_NECK_PAIN_PRESENT": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_ARM_SYMPTOMS_PRESENT": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_DERMATOMAL_PATTERN_HAND": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_SPURLING_LIKE_RESPONSE": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "confirmation"}
+          }
+        },
+        "SRC_THORACIC_OUTLET": {
+          "name": "Thoracic Outlet Syndrome",
+          "base_probability": 0.05,
+          "is_local": false,
+          "refers_to_region": "thoracic_outlet",
+          "symptom_probabilities": {
+            "RSYM_OVERHEAD_WORSENS": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_CARRYING_BAGS_WORSENS": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_ULNAR_DISTRIBUTION": {"present": 0.85, "absent": 0.15, "weight": 0.85, "category": "screening"},
+            "RSYM_ROOS_TEST_POSITIVE": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "confirmation"}
+          }
+        }
+      }
+    },
+
+    "foot": {
+      "sources": {
+        "SRC_FOOT_LOCAL": {
+          "name": "Local Foot Pathology",
+          "base_probability": 0.55,
+          "is_local": true,
+          "symptom_probabilities": {
+            "RSYM_POINT_TENDERNESS_FOOT": {"present": 0.90, "absent": 0.10, "weight": 0.85, "category": "screening"},
+            "RSYM_FOOT_SWELLING": {"present": 0.80, "absent": 0.20, "weight": 0.75, "category": "screening"},
+            "RSYM_PAIN_WEIGHT_BEARING_FOOT": {"present": 0.85, "absent": 0.15, "weight": 0.8, "category": "screening"},
+            "RSYM_FIRST_STEP_PAIN": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "pathognomonic"}
+          }
+        },
+        "SRC_LUMBAR_REFERRAL_FOOT": {
+          "name": "Lumbar Spine Referral (L5-S1)",
+          "base_probability": 0.25,
+          "is_local": false,
+          "refers_to_region": "lumbar_spine",
+          "symptom_probabilities": {
+            "RSYM_BACK_PAIN_PRESENT": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_LEG_PAIN_PRESENT": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_NUMBNESS_TINGLING_FOOT": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_DERMATOMAL_PATTERN": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_SLR_POSITIVE": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "confirmation"}
+          }
+        },
+        "SRC_TARSAL_TUNNEL": {
+          "name": "Tarsal Tunnel Syndrome",
+          "base_probability": 0.08,
+          "is_local": true,
+          "symptom_probabilities": {
+            "RSYM_SOLE_NUMBNESS_TINGLING": {"present": 0.95, "absent": 0.05, "weight": 0.95, "category": "pathognomonic"},
+            "RSYM_MEDIAL_ANKLE_SYMPTOMS": {"present": 0.90, "absent": 0.10, "weight": 0.9, "category": "screening"},
+            "RSYM_TINELS_ANKLE_POSITIVE": {"present": 0.90, "absent": 0.10, "weight": 0.95, "category": "confirmation"}
+          }
+        }
+      }
+    }
+  }
+}
