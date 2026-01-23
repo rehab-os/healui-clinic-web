@@ -1,0 +1,11 @@
+export { default as KPICard } from './KPICard';
+export { default as SimpleBarChart } from './SimpleBarChart';
+export { default as AppointmentList } from './AppointmentList';
+export { default as OutstandingList } from './OutstandingList';
+export { default as ClinicComparisonTable } from './ClinicComparisonTable';
+export { default as PatientsAttention } from './PatientsAttention';
+export { default as SessionsEndingSoon } from './SessionsEndingSoon';
+export { default as AgeDistributionChart } from './AgeDistributionChart';
+export { default as TopConditionsChart } from './TopConditionsChart';
+export { default as GenderChart } from './GenderChart';
+export { default as PeakHoursHeatmap } from './PeakHoursHeatmap';

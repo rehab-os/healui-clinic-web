@@ -1,0 +1,324 @@
+{
+  "condition_metrics_mappings": {
+    "COND_001": {
+      "condition_name": "Adhesive Capsulitis (Frozen Shoulder)",
+      "primary_metrics": ["METRIC_003", "METRIC_001"],
+      "secondary_metrics": ["METRIC_013", "METRIC_015", "METRIC_019"],
+      "assessment_schedule": {
+        "baseline": ["METRIC_003", "METRIC_015", "METRIC_013"],
+        "4_weeks": ["METRIC_003", "METRIC_015"],
+        "12_weeks": ["METRIC_003", "METRIC_001", "METRIC_020"],
+        "discharge": ["METRIC_003", "METRIC_015", "METRIC_019", "METRIC_020"]
+      },
+      "cutoff_scores": {
+        "METRIC_003": {"mild": "0-30", "moderate": "31-60", "severe": "61-100"},
+        "METRIC_015": {"normal_flexion": "180", "normal_abduction": "180"}
+      }
+    },
+    "COND_002": {
+      "condition_name": "Rotator Cuff Tendinopathy",
+      "primary_metrics": ["METRIC_003", "METRIC_001"],
+      "secondary_metrics": ["METRIC_013", "METRIC_015", "METRIC_016"],
+      "assessment_schedule": {
+        "baseline": ["METRIC_003", "METRIC_015", "METRIC_016"],
+        "6_weeks": ["METRIC_003", "METRIC_013"],
+        "12_weeks": ["METRIC_001", "METRIC_020"],
+        "discharge": ["METRIC_003", "METRIC_019", "METRIC_020"]
+      },
+      "cutoff_scores": {
+        "METRIC_003": {"functional": "<30", "dysfunctional": ">50"},
+        "METRIC_016": {"normal": "5/5", "weak": "<4/5"}
+      }
+    },
+    "COND_004": {
+      "condition_name": "Anterior Cruciate Ligament Tear",
+      "primary_metrics": ["METRIC_024", "METRIC_005"],
+      "secondary_metrics": ["METRIC_015", "METRIC_016", "METRIC_019", "METRIC_025"],
+      "assessment_schedule": {
+        "pre_surgery": ["METRIC_024", "METRIC_025", "METRIC_015"],
+        "6_weeks": ["METRIC_015", "METRIC_016"],
+        "12_weeks": ["METRIC_024", "METRIC_025"],
+        "return_to_sport": ["METRIC_024", "METRIC_019", "hop_tests"]
+      },
+      "cutoff_scores": {
+        "METRIC_024": {"normal": ">90", "abnormal": "<60"},
+        "METRIC_015": {"full_extension": "0", "full_flexion": "135"}
+      }
+    },
+    "COND_005": {
+      "condition_name": "Patellofemoral Pain Syndrome",
+      "primary_metrics": ["METRIC_005", "METRIC_025"],
+      "secondary_metrics": ["METRIC_013", "METRIC_015", "METRIC_019"],
+      "assessment_schedule": {
+        "baseline": ["METRIC_005", "METRIC_025", "METRIC_013"],
+        "6_weeks": ["METRIC_005", "METRIC_013"],
+        "12_weeks": ["METRIC_005", "METRIC_025", "METRIC_020"],
+        "discharge": ["METRIC_005", "METRIC_019", "METRIC_020"]
+      },
+      "cutoff_scores": {
+        "METRIC_005": {"symptoms": ">75", "severe": "<50"},
+        "METRIC_025": {"normal": ">60", "impaired": "<40"}
+      }
+    },
+    "COND_006": {
+      "condition_name": "Knee Osteoarthritis",
+      "primary_metrics": ["METRIC_004", "METRIC_005"],
+      "secondary_metrics": ["METRIC_013", "METRIC_015", "METRIC_025"],
+      "assessment_schedule": {
+        "baseline": ["METRIC_004", "METRIC_013", "METRIC_015"],
+        "6_weeks": ["METRIC_004", "METRIC_013"],
+        "3_months": ["METRIC_004", "METRIC_005", "METRIC_020"],
+        "6_months": ["METRIC_004", "METRIC_025", "METRIC_020"]
+      },
+      "cutoff_scores": {
+        "METRIC_004": {"mild": "0-25", "severe": "75-96"},
+        "METRIC_013": {"minimal": "0-3", "severe": "7-10"}
+      }
+    },
+    "COND_008": {
+      "condition_name": "Non-specific Low Back Pain",
+      "primary_metrics": ["METRIC_006", "METRIC_007"],
+      "secondary_metrics": ["METRIC_013", "METRIC_017", "METRIC_018"],
+      "assessment_schedule": {
+        "baseline": ["METRIC_006", "METRIC_013", "METRIC_017"],
+        "4_weeks": ["METRIC_006", "METRIC_013"],
+        "8_weeks": ["METRIC_006", "METRIC_018", "METRIC_020"],
+        "discharge": ["METRIC_006", "METRIC_019", "METRIC_020"]
+      },
+      "cutoff_scores": {
+        "METRIC_006": {"minimal": "0-20", "severe": "60-100"},
+        "METRIC_017": {"high_fear": ">15", "low_fear": "<15"}
+      }
+    },
+    "COND_012": {
+      "condition_name": "Lateral Epicondylalgia (Tennis Elbow)",
+      "primary_metrics": ["METRIC_001", "METRIC_002"],
+      "secondary_metrics": ["METRIC_013", "METRIC_016", "METRIC_019"],
+      "assessment_schedule": {
+        "baseline": ["METRIC_001", "METRIC_013", "METRIC_016"],
+        "6_weeks": ["METRIC_002", "METRIC_013"],
+        "12_weeks": ["METRIC_001", "METRIC_020"],
+        "discharge": ["METRIC_001", "METRIC_019", "METRIC_020"]
+      },
+      "cutoff_scores": {
+        "METRIC_001": {"mild": "0-25", "severe": "65-100"},
+        "METRIC_016": {"normal_grip": "reference_values"}
+      }
+    },
+    "COND_013": {
+      "condition_name": "Plantar Fasciitis",
+      "primary_metrics": ["METRIC_009", "METRIC_025"],
+      "secondary_metrics": ["METRIC_013", "METRIC_015", "METRIC_019"],
+      "assessment_schedule": {
+        "baseline": ["METRIC_009", "METRIC_013", "METRIC_015"],
+        "6_weeks": ["METRIC_009", "METRIC_013"],
+        "12_weeks": ["METRIC_009", "METRIC_025", "METRIC_020"],
+        "discharge": ["METRIC_009", "METRIC_019", "METRIC_020"]
+      },
+      "cutoff_scores": {
+        "METRIC_009": {"functional": ">80", "dysfunctional": "<60"},
+        "METRIC_015": {"ankle_DF": "20_degrees"}
+      }
+    },
+    "COND_016": {
+      "condition_name": "Hip Osteoarthritis",
+      "primary_metrics": ["METRIC_004", "METRIC_025"],
+      "secondary_metrics": ["METRIC_013", "METRIC_015", "METRIC_011"],
+      "assessment_schedule": {
+        "baseline": ["METRIC_004", "METRIC_013", "METRIC_015"],
+        "6_weeks": ["METRIC_004", "METRIC_013"],
+        "3_months": ["METRIC_004", "METRIC_025", "METRIC_020"],
+        "6_months": ["METRIC_004", "METRIC_011", "METRIC_020"]
+      },
+      "cutoff_scores": {
+        "METRIC_004": {"mild": "0-25", "severe": "75-96"},
+        "METRIC_011": {"normal": ">400m", "impaired": "<300m"}
+      }
+    },
+    "COND_018": {
+      "condition_name": "Carpal Tunnel Syndrome",
+      "primary_metrics": ["METRIC_001", "METRIC_002"],
+      "secondary_metrics": ["METRIC_013", "METRIC_016", "METRIC_026"],
+      "assessment_schedule": {
+        "baseline": ["METRIC_001", "METRIC_013", "METRIC_016"],
+        "6_weeks": ["METRIC_002", "METRIC_013"],
+        "12_weeks": ["METRIC_001", "METRIC_026", "METRIC_020"],
+        "discharge": ["METRIC_001", "METRIC_019", "METRIC_020"]
+      },
+      "cutoff_scores": {
+        "METRIC_001": {"mild": "0-30", "severe": "70-100"},
+        "METRIC_026": {"normal": ">60", "impaired": "<40"}
+      }
+    },
+    "COND_020": {
+      "condition_name": "Stroke (CVA)",
+      "primary_metrics": ["METRIC_021", "METRIC_022"],
+      "secondary_metrics": ["METRIC_028", "METRIC_010", "METRIC_011", "METRIC_027"],
+      "assessment_schedule": {
+        "admission": ["METRIC_021", "METRIC_022", "METRIC_010"],
+        "weekly": ["METRIC_021", "METRIC_028"],
+        "monthly": ["METRIC_022", "METRIC_010", "METRIC_011"],
+        "discharge": ["METRIC_021", "METRIC_022", "METRIC_020"]
+      },
+      "cutoff_scores": {
+        "METRIC_021": {"independent": "108-126", "dependent": "<108"},
+        "METRIC_010": {"fall_risk": "<45", "low_risk": ">45"}
+      }
+    },
+    "COND_021": {
+      "condition_name": "Parkinson's Disease",
+      "primary_metrics": ["METRIC_029", "METRIC_010"],
+      "secondary_metrics": ["METRIC_011", "METRIC_023", "METRIC_012"],
+      "assessment_schedule": {
+        "baseline": ["METRIC_029", "METRIC_010", "METRIC_011"],
+        "3_months": ["METRIC_029", "METRIC_010"],
+        "6_months": ["METRIC_029", "METRIC_023", "METRIC_012"],
+        "annual": ["METRIC_029", "METRIC_010", "METRIC_011"]
+      },
+      "cutoff_scores": {
+        "METRIC_029": {"mild": "0-30", "severe": "100-199"},
+        "METRIC_010": {"fall_risk": "<45", "safe": ">50"}
+      }
+    },
+    "COND_026": {
+      "condition_name": "Chronic Obstructive Pulmonary Disease",
+      "primary_metrics": ["METRIC_012", "METRIC_013"],
+      "secondary_metrics": ["METRIC_011", "METRIC_010", "dyspnea_scales"],
+      "assessment_schedule": {
+        "baseline": ["METRIC_012", "METRIC_013", "dyspnea"],
+        "4_weeks": ["METRIC_012", "METRIC_013"],
+        "8_weeks": ["METRIC_012", "METRIC_011", "METRIC_020"],
+        "maintenance": ["METRIC_012", "METRIC_013", "METRIC_020"]
+      },
+      "cutoff_scores": {
+        "METRIC_012": {"severe": "<300m", "normal": ">500m"},
+        "METRIC_013": {"severe": ">7", "mild": "<3"}
+      }
+    },
+    "COND_029": {
+      "condition_name": "Post-COVID-19 Syndrome",
+      "primary_metrics": ["METRIC_012", "METRIC_013"],
+      "secondary_metrics": ["METRIC_021", "METRIC_010", "fatigue_scales"],
+      "assessment_schedule": {
+        "baseline": ["METRIC_012", "METRIC_013", "fatigue"],
+        "4_weeks": ["METRIC_012", "METRIC_013"],
+        "8_weeks": ["METRIC_012", "METRIC_021", "METRIC_020"],
+        "3_months": ["METRIC_012", "METRIC_010", "METRIC_020"]
+      },
+      "cutoff_scores": {
+        "METRIC_012": {"normal": ">400m", "impaired": "<300m"},
+        "METRIC_013": {"resolution": "<2", "persistent": ">5"}
+      }
+    },
+    "COND_033": {
+      "condition_name": "Temporomandibular Disorder",
+      "primary_metrics": ["METRIC_013", "METRIC_015"],
+      "secondary_metrics": ["METRIC_008", "jaw_function_scales"],
+      "assessment_schedule": {
+        "baseline": ["METRIC_013", "METRIC_015", "jaw_opening"],
+        "4_weeks": ["METRIC_013", "METRIC_015"],
+        "8_weeks": ["METRIC_013", "METRIC_008", "METRIC_020"],
+        "discharge": ["METRIC_013", "METRIC_019", "METRIC_020"]
+      },
+      "cutoff_scores": {
+        "METRIC_015": {"normal_opening": "40-50mm", "restricted": "<35mm"},
+        "METRIC_013": {"functional": "<3", "dysfunctional": ">6"}
+      }
+    },
+    "COND_037": {
+      "condition_name": "Post-Surgical Rehabilitation (TKR)",
+      "primary_metrics": ["METRIC_005", "METRIC_004"],
+      "secondary_metrics": ["METRIC_015", "METRIC_025", "METRIC_011"],
+      "assessment_schedule": {
+        "2_weeks": ["METRIC_015", "METRIC_013"],
+        "6_weeks": ["METRIC_015", "METRIC_025"],
+        "12_weeks": ["METRIC_005", "METRIC_011"],
+        "6_months": ["METRIC_005", "METRIC_004", "METRIC_020"]
+      },
+      "cutoff_scores": {
+        "METRIC_015": {"goal_extension": "0", "goal_flexion": "120"},
+        "METRIC_005": {"excellent": ">85", "poor": "<60"}
+      }
+    },
+    "COND_038": {
+      "condition_name": "Post-Surgical Rehabilitation (THR)",
+      "primary_metrics": ["METRIC_004", "METRIC_025"],
+      "secondary_metrics": ["METRIC_015", "METRIC_011", "METRIC_010"],
+      "assessment_schedule": {
+        "6_weeks": ["METRIC_015", "METRIC_013"],
+        "12_weeks": ["METRIC_025", "METRIC_011"],
+        "6_months": ["METRIC_004", "METRIC_010"],
+        "1_year": ["METRIC_004", "METRIC_025", "METRIC_020"]
+      },
+      "cutoff_scores": {
+        "METRIC_004": {"excellent": "<20", "poor": ">60"},
+        "METRIC_025": {"normal": ">60", "impaired": "<40"}
+      }
+    },
+    "COND_043": {
+      "condition_name": "Vestibular Disorders",
+      "primary_metrics": ["METRIC_010", "METRIC_023"],
+      "secondary_metrics": ["METRIC_011", "METRIC_013", "DHI"],
+      "assessment_schedule": {
+        "baseline": ["METRIC_010", "METRIC_023", "DHI"],
+        "4_weeks": ["METRIC_010", "METRIC_013"],
+        "8_weeks": ["METRIC_023", "METRIC_011"],
+        "discharge": ["METRIC_010", "METRIC_023", "METRIC_020"]
+      },
+      "cutoff_scores": {
+        "METRIC_010": {"fall_risk": "<45", "safe": ">50"},
+        "METRIC_023": {"confident": ">80", "not_confident": "<67"}
+      }
+    },
+    "COND_045": {
+      "condition_name": "Pelvic Floor Dysfunction",
+      "primary_metrics": ["pelvic_floor_scales", "METRIC_013"],
+      "secondary_metrics": ["METRIC_021", "METRIC_019", "QOL_measures"],
+      "assessment_schedule": {
+        "baseline": ["pelvic_assessment", "METRIC_013"],
+        "6_weeks": ["pelvic_assessment", "METRIC_013"],
+        "12_weeks": ["pelvic_assessment", "METRIC_021", "METRIC_020"],
+        "discharge": ["pelvic_assessment", "METRIC_019", "METRIC_020"]
+      },
+      "cutoff_scores": {
+        "METRIC_013": {"functional": "<3", "problematic": ">6"}
+      }
+    }
+  },
+  "assessment_protocols": {
+    "initial_evaluation": {
+      "required_metrics": ["METRIC_013", "METRIC_015", "METRIC_019"],
+      "optional_metrics": ["METRIC_016", "condition_specific"],
+      "documentation": ["baseline_function", "goals", "prognosis"]
+    },
+    "progress_assessment": {
+      "frequency": "every_2-4_weeks",
+      "required_metrics": ["primary_outcome_measure", "METRIC_013"],
+      "documentation": ["progress_toward_goals", "plan_modifications"]
+    },
+    "discharge_assessment": {
+      "required_metrics": ["primary_outcome_measure", "METRIC_019", "METRIC_020"],
+      "optional_metrics": ["return_to_work", "activity_specific"],
+      "documentation": ["goal_achievement", "home_program", "follow_up"]
+    }
+  },
+  "measurement_guidelines": {
+    "timing": {
+      "avoid_after": ["intense_exercise", "modalities", "manual_therapy"],
+      "optimal_time": ["consistent_time_of_day", "pre_treatment"],
+      "patient_preparation": ["comfortable_position", "clear_instructions"]
+    },
+    "interpretation": {
+      "use_mcid": "for_clinical_significance",
+      "use_mdc": "for_measurement_error",
+      "consider_context": ["age", "comorbidities", "expectations"],
+      "document_factors": ["pain_level", "fatigue", "motivation"]
+    },
+    "quality_assurance": {
+      "standardized_procedures": "follow_published_protocols",
+      "inter_rater_reliability": "train_multiple_assessors",
+      "test_retest": "establish_baseline_stability",
+      "equipment_calibration": "regular_maintenance"
+    }
+  }
+}

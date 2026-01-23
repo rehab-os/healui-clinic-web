@@ -1,0 +1,752 @@
+{
+  "category": "cardiac_respiratory_exercises",
+  "description": "Specialized exercises for cardiac and respiratory rehabilitation",
+  "focus_areas": {
+    "cardiac_rehabilitation": "Heart disease recovery and prevention",
+    "pulmonary_rehabilitation": "Lung disease management and conditioning", 
+    "cardiopulmonary": "Combined heart-lung conditions",
+    "post_covid": "Long COVID and post-acute syndrome recovery"
+  },
+  "exercises": {
+    "EX_301": {
+      "name": "Cardiac Rehabilitation - Phase I (Inpatient)",
+      "type": "cardiac_early",
+      "body_region": "cardiovascular",
+      "difficulty_level": 1,
+      "equipment_required": null,
+      "equipment_optional": ["heart_rate_monitor", "pulse_oximeter"],
+      "position": "supine_sitting",
+      "cardiac_phase": "phase_1_inpatient",
+      "muscle_targets": {
+        "primary": ["cardiovascular_system"],
+        "secondary": ["respiratory_muscles", "circulation"]
+      },
+      "translations": {
+        "en": {
+          "name": "Cardiac Rehabilitation - Phase I (Inpatient)",
+          "description": "Early mobilization for cardiac patients in hospital setting",
+          "instructions": [
+            "Begin with passive range of motion exercises",
+            "Progress to active assisted movements",
+            "Include breathing exercises and coughing techniques",
+            "Monitor heart rate and blood pressure continuously",
+            "Progress from bed rest to sitting to standing"
+          ],
+          "cues": [
+            "Monitor symptoms closely",
+            "Stop if chest pain or shortness of breath occurs", 
+            "Progress very gradually"
+          ],
+          "common_errors": [
+            "Progressing too quickly",
+            "Not monitoring vital signs adequately",
+            "Ignoring patient symptoms"
+          ]
+        }
+      }
+    },
+    "EX_302": {
+      "name": "Cardiac Rehabilitation - Phase II (Outpatient)",
+      "type": "cardiac_supervised", 
+      "body_region": "cardiovascular",
+      "difficulty_level": 3,
+      "equipment_required": ["heart_rate_monitor"],
+      "equipment_optional": ["EQ_032", "stationary_bike"],
+      "position": "standing_walking",
+      "cardiac_phase": "phase_2_outpatient",
+      "muscle_targets": {
+        "primary": ["cardiovascular_endurance"],
+        "secondary": ["peripheral_muscles", "functional_capacity"]
+      },
+      "translations": {
+        "en": {
+          "name": "Cardiac Rehabilitation - Phase II (Outpatient)",
+          "description": "Supervised exercise training for cardiac recovery",
+          "instructions": [
+            "Exercise at 60-80% of maximum heart rate",
+            "Include aerobic training 3-5 times per week",
+            "Add resistance training with light weights",
+            "Monitor ECG and vital signs during exercise",
+            "Progress duration and intensity gradually"
+          ],
+          "cues": [
+            "Stay within target heart rate zone",
+            "Rate of perceived exertion 11-14",
+            "Cool down gradually"
+          ],
+          "common_errors": [
+            "Exceeding target heart rate",
+            "Inadequate warm-up or cool-down",
+            "Not following progressive protocol"
+          ]
+        }
+      }
+    },
+    "EX_303": {
+      "name": "Heart Failure Exercise Training",
+      "type": "heart_failure_specific",
+      "body_region": "cardiovascular",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["heart_rate_monitor", "EQ_032"],
+      "position": "various",
+      "cardiac_condition": "heart_failure",
+      "muscle_targets": {
+        "primary": ["cardiac_function"],
+        "secondary": ["peripheral_blood_flow", "quality_of_life"]
+      },
+      "translations": {
+        "en": {
+          "name": "Heart Failure Exercise Training",
+          "description": "Safe exercise program for chronic heart failure patients",
+          "instructions": [
+            "Start with 10-15 minutes of low intensity exercise",
+            "Include interval training with rest periods",
+            "Focus on activities of daily living simulation",
+            "Monitor for signs of fluid overload",
+            "Coordinate with medication timing"
+          ],
+          "cues": [
+            "Exercise at comfortable intensity",
+            "Stop if unusual shortness of breath",
+            "Weigh daily to monitor fluid status"
+          ],
+          "common_errors": [
+            "Exercising during acute exacerbations",
+            "Not monitoring fluid status",
+            "Ignoring medication effects on exercise"
+          ]
+        }
+      }
+    },
+    "EX_304": {
+      "name": "COPD Pulmonary Rehabilitation",
+      "type": "pulmonary_rehabilitation",
+      "body_region": "respiratory",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["pulse_oximeter", "oxygen_therapy"],
+      "position": "various",
+      "respiratory_condition": "copd",
+      "muscle_targets": {
+        "primary": ["respiratory_muscles"],
+        "secondary": ["peripheral_endurance", "functional_capacity"]
+      },
+      "translations": {
+        "en": {
+          "name": "COPD Pulmonary Rehabilitation",
+          "description": "Comprehensive exercise program for COPD management",
+          "instructions": [
+            "Include breathing exercises and pursed lip breathing",
+            "Perform upper and lower extremity endurance training",
+            "Use oxygen therapy as prescribed during exercise",
+            "Monitor oxygen saturation continuously",
+            "Include inspiratory muscle training"
+          ],
+          "cues": [
+            "Coordinate breathing with movement",
+            "Use pursed lip breathing during exertion",
+            "Pace yourself to avoid breathlessness"
+          ],
+          "common_errors": [
+            "Exercising without oxygen when prescribed",
+            "Holding breath during exertion",
+            "Not monitoring oxygen saturation"
+          ]
+        }
+      }
+    },
+    "EX_305": {
+      "name": "Post-COVID-19 Graduated Exercise Therapy",
+      "type": "post_viral_rehabilitation",
+      "body_region": "systemic",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["heart_rate_monitor", "pulse_oximeter"],
+      "position": "various",
+      "condition_focus": "post_covid_syndrome",
+      "muscle_targets": {
+        "primary": ["exercise_tolerance"],
+        "secondary": ["autonomic_function", "fatigue_management"]
+      },
+      "translations": {
+        "en": {
+          "name": "Post-COVID-19 Graduated Exercise Therapy", 
+          "description": "Gradual exercise progression for long COVID recovery",
+          "instructions": [
+            "Start with very low intensity activities",
+            "Use heart rate-based exercise prescription",
+            "Include pacing strategies to avoid post-exertional malaise",
+            "Monitor symptoms for 24-48 hours after exercise",
+            "Progress only if no symptom worsening"
+          ],
+          "cues": [
+            "Stay well below anaerobic threshold",
+            "Listen to your body signals",
+            "Rest is part of recovery"
+          ],
+          "common_errors": [
+            "Progressing too quickly",
+            "Not monitoring post-exercise symptoms",
+            "Ignoring post-exertional malaise"
+          ]
+        }
+      }
+    },
+    "EX_306": {
+      "name": "Interstitial Lung Disease Exercise Program",
+      "type": "restrictive_lung_disease",
+      "body_region": "respiratory",
+      "difficulty_level": 3,
+      "equipment_required": ["pulse_oximeter"],
+      "equipment_optional": ["oxygen_therapy", "EQ_032"],
+      "position": "various",
+      "respiratory_condition": "interstitial_lung_disease",
+      "muscle_targets": {
+        "primary": ["exercise_capacity"],
+        "secondary": ["respiratory_muscle_strength", "quality_of_life"]
+      },
+      "translations": {
+        "en": {
+          "name": "Interstitial Lung Disease Exercise Program",
+          "description": "Exercise training for patients with restrictive lung disease",
+          "instructions": [
+            "Monitor oxygen saturation closely during exercise",
+            "Use supplemental oxygen as prescribed",
+            "Include both aerobic and strength training components",
+            "Focus on breathing techniques and energy conservation",
+            "Adjust intensity based on oxygen levels"
+          ],
+          "cues": [
+            "Maintain oxygen saturation above 88%",
+            "Use controlled breathing patterns",
+            "Stop if oxygen levels drop significantly"
+          ],
+          "common_errors": [
+            "Exercising with low oxygen saturation",
+            "Not using supplemental oxygen when prescribed",
+            "Ignoring breathing mechanics"
+          ]
+        }
+      }
+    },
+    "EX_307": {
+      "name": "Pulmonary Hypertension Safe Exercise",
+      "type": "pulmonary_vascular",
+      "body_region": "cardiopulmonary",
+      "difficulty_level": 2,
+      "equipment_required": ["heart_rate_monitor", "pulse_oximeter"],
+      "equipment_optional": ["oxygen_therapy"],
+      "position": "low_impact",
+      "cardiovascular_condition": "pulmonary_hypertension",
+      "muscle_targets": {
+        "primary": ["functional_capacity"],
+        "secondary": ["right_heart_function", "exercise_tolerance"]
+      },
+      "translations": {
+        "en": {
+          "name": "Pulmonary Hypertension Safe Exercise",
+          "description": "Carefully monitored exercise for pulmonary hypertension patients",
+          "instructions": [
+            "Avoid high-intensity or resistance exercises",
+            "Focus on low to moderate intensity activities",
+            "Monitor heart rate and oxygen saturation continuously",
+            "Include warm-up and cool-down periods",
+            "Stop exercise if symptoms worsen"
+          ],
+          "cues": [
+            "Keep exercise intensity low to moderate",
+            "Breathe regularly, avoid breath holding",
+            "Stop if chest pain or severe shortness of breath"
+          ],
+          "common_errors": [
+            "Exercising at too high intensity",
+            "Not monitoring vital signs adequately",
+            "Continuing exercise despite symptoms"
+          ]
+        }
+      }
+    },
+    "EX_308": {
+      "name": "Peripheral Arterial Disease Walking Program",
+      "type": "vascular_rehabilitation",
+      "body_region": "vascular",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["walking_aids"],
+      "position": "walking",
+      "vascular_condition": "peripheral_arterial_disease",
+      "muscle_targets": {
+        "primary": ["walking_endurance"],
+        "secondary": ["collateral_circulation", "functional_mobility"]
+      },
+      "translations": {
+        "en": {
+          "name": "Peripheral Arterial Disease Walking Program",
+          "description": "Structured walking program to improve claudication symptoms",
+          "instructions": [
+            "Walk until moderate claudication pain occurs",
+            "Rest until pain subsides, then resume walking",
+            "Gradually increase walking duration over time",
+            "Perform 3 times per week for at least 30 minutes",
+            "Include warm-up and cool-down periods"
+          ],
+          "cues": [
+            "Walk through mild discomfort",
+            "Rest when moderate pain occurs",
+            "Consistency is key for improvement"
+          ],
+          "common_errors": [
+            "Stopping at first sign of discomfort",
+            "Walking through severe pain",
+            "Not being consistent with program"
+          ]
+        }
+      }
+    },
+    "EX_309": {
+      "name": "Respiratory Muscle Training",
+      "type": "inspiratory_muscle_training",
+      "body_region": "respiratory_muscles",
+      "difficulty_level": 2,
+      "equipment_required": ["inspiratory_muscle_trainer"],
+      "equipment_optional": ["pressure_manometer"],
+      "position": "seated",
+      "training_focus": "respiratory_muscle_strength",
+      "muscle_targets": {
+        "primary": ["diaphragm", "inspiratory_muscles"],
+        "secondary": ["accessory_breathing_muscles"]
+      },
+      "translations": {
+        "en": {
+          "name": "Respiratory Muscle Training",
+          "description": "Targeted training to strengthen breathing muscles",
+          "instructions": [
+            "Use inspiratory muscle training device at prescribed resistance",
+            "Perform 30 breaths, 2 times daily",
+            "Increase resistance as strength improves",
+            "Focus on deep, controlled breaths",
+            "Monitor for fatigue and adjust accordingly"
+          ],
+          "cues": [
+            "Breathe slowly and deeply",
+            "Feel the resistance during inspiration",
+            "Maintain steady rhythm"
+          ],
+          "common_errors": [
+            "Using too high resistance initially",
+            "Breathing too fast",
+            "Not progressing resistance appropriately"
+          ]
+        }
+      }
+    },
+    "EX_310": {
+      "name": "Cardiac Transplant Exercise Progression",
+      "type": "post_transplant",
+      "body_region": "cardiovascular",
+      "difficulty_level": 4,
+      "equipment_required": ["heart_rate_monitor"],
+      "equipment_optional": ["EQ_032", "telemetry_monitoring"],
+      "position": "various",
+      "post_surgical": "cardiac_transplant",
+      "muscle_targets": {
+        "primary": ["transplanted_heart_function"],
+        "secondary": ["peripheral_conditioning", "bone_health"]
+      },
+      "translations": {
+        "en": {
+          "name": "Cardiac Transplant Exercise Progression",
+          "description": "Specialized exercise program for cardiac transplant recipients",
+          "instructions": [
+            "Begin with extended warm-up due to denervated heart",
+            "Use rate of perceived exertion rather than target heart rate",
+            "Include resistance training to counteract medication effects",
+            "Monitor for signs of infection or rejection",
+            "Progress gradually with medical supervision"
+          ],
+          "cues": [
+            "Extended warm-up and cool-down needed",
+            "Use perceived exertion scale",
+            "Watch for unusual fatigue or symptoms"
+          ],
+          "common_errors": [
+            "Using heart rate as primary guide",
+            "Inadequate warm-up time",
+            "Not monitoring for complications"
+          ]
+        }
+      }
+    },
+    "EX_311": {
+      "name": "Lung Transplant Rehabilitation",
+      "type": "post_transplant",
+      "body_region": "respiratory",
+      "difficulty_level": 4,
+      "equipment_required": ["pulse_oximeter"],
+      "equipment_optional": ["spirometer", "oxygen_therapy"],
+      "position": "various",
+      "post_surgical": "lung_transplant",
+      "muscle_targets": {
+        "primary": ["transplanted_lung_function"],
+        "secondary": ["respiratory_muscles", "exercise_capacity"]
+      },
+      "translations": {
+        "en": {
+          "name": "Lung Transplant Rehabilitation",
+          "description": "Comprehensive rehabilitation for lung transplant recipients",
+          "instructions": [
+            "Monitor oxygen saturation continuously during exercise",
+            "Include airway clearance techniques",
+            "Focus on breathing pattern normalization",
+            "Address medication side effects on exercise",
+            "Watch for signs of infection or rejection"
+          ],
+          "cues": [
+            "Maintain oxygen saturation above 90%",
+            "Use proper breathing techniques",
+            "Report any change in symptoms"
+          ],
+          "common_errors": [
+            "Not monitoring oxygen levels adequately",
+            "Ignoring changes in exercise tolerance",
+            "Not following infection prevention protocols"
+          ]
+        }
+      }
+    },
+    "EX_312": {
+      "name": "Mechanical Ventilation Weaning Exercises",
+      "type": "ventilator_weaning",
+      "body_region": "respiratory",
+      "difficulty_level": 2,
+      "equipment_required": ["mechanical_ventilator"],
+      "equipment_optional": ["respiratory_monitoring"],
+      "position": "various_positions",
+      "clinical_setting": "intensive_care",
+      "muscle_targets": {
+        "primary": ["respiratory_muscles"],
+        "secondary": ["overall_conditioning"]
+      },
+      "translations": {
+        "en": {
+          "name": "Mechanical Ventilation Weaning Exercises",
+          "description": "Progressive exercises to support ventilator weaning",
+          "instructions": [
+            "Begin with passive range of motion exercises",
+            "Progress to active exercises as tolerated",
+            "Include respiratory muscle strengthening",
+            "Coordinate with respiratory therapy team",
+            "Monitor respiratory parameters closely"
+          ],
+          "cues": [
+            "Work with breathing rhythm",
+            "Progress gradually",
+            "Communicate with medical team"
+          ],
+          "common_errors": [
+            "Progressing too quickly",
+            "Not coordinating with respiratory therapy",
+            "Ignoring respiratory distress signs"
+          ]
+        }
+      }
+    },
+    "EX_313": {
+      "name": "Asthma Exercise Management",
+      "type": "exercise_induced_asthma",
+      "body_region": "respiratory",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["peak_flow_meter", "inhaler"],
+      "position": "various",
+      "respiratory_condition": "asthma",
+      "muscle_targets": {
+        "primary": ["exercise_tolerance"],
+        "secondary": ["respiratory_control", "fitness"]
+      },
+      "translations": {
+        "en": {
+          "name": "Asthma Exercise Management",
+          "description": "Safe exercise strategies for people with asthma",
+          "instructions": [
+            "Use bronchodilator before exercise as prescribed",
+            "Include extended warm-up and cool-down periods",
+            "Choose appropriate exercise types and environments",
+            "Monitor peak flow before and after exercise",
+            "Have rescue inhaler readily available"
+          ],
+          "cues": [
+            "Warm up thoroughly",
+            "Breathe through nose when possible",
+            "Stop if wheezing or severe shortness of breath"
+          ],
+          "common_errors": [
+            "Not using pre-exercise medication",
+            "Exercising in triggering environments",
+            "Inadequate warm-up"
+          ]
+        }
+      }
+    },
+    "EX_314": {
+      "name": "Sleep Apnea Exercise Program",
+      "type": "sleep_disorder_related",
+      "body_region": "upper_airway",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["CPAP_machine"],
+      "position": "various",
+      "sleep_condition": "sleep_apnea",
+      "muscle_targets": {
+        "primary": ["upper_airway_muscles"],
+        "secondary": ["overall_fitness", "weight_management"]
+      },
+      "translations": {
+        "en": {
+          "name": "Sleep Apnea Exercise Program",
+          "description": "Exercise program to support sleep apnea treatment",
+          "instructions": [
+            "Include oropharyngeal exercises to strengthen airway muscles",
+            "Add cardiovascular exercise for weight management",
+            "Consider exercise timing to avoid sleep disruption",
+            "Coordinate with CPAP therapy compliance",
+            "Include throat and tongue strengthening exercises"
+          ],
+          "cues": [
+            "Strengthen throat and tongue muscles",
+            "Exercise regularly for weight control",
+            "Avoid late evening intense exercise"
+          ],
+          "common_errors": [
+            "Not addressing upper airway muscle strength",
+            "Exercising too close to bedtime",
+            "Not considering weight management component"
+          ]
+        }
+      }
+    },
+    "EX_315": {
+      "name": "Cystic Fibrosis Exercise Program",
+      "type": "genetic_respiratory",
+      "body_region": "respiratory",
+      "difficulty_level": 4,
+      "equipment_required": null,
+      "equipment_optional": ["airway_clearance_device"],
+      "position": "various",
+      "genetic_condition": "cystic_fibrosis",
+      "muscle_targets": {
+        "primary": ["respiratory_function"],
+        "secondary": ["overall_fitness", "bone_health"]
+      },
+      "translations": {
+        "en": {
+          "name": "Cystic Fibrosis Exercise Program",
+          "description": "Comprehensive exercise program for cystic fibrosis management",
+          "instructions": [
+            "Include high-intensity aerobic exercise",
+            "Combine with airway clearance techniques",
+            "Maintain adequate nutrition and hydration",
+            "Include resistance training for bone health",
+            "Monitor for exercise-induced bronchospasm"
+          ],
+          "cues": [
+            "Exercise helps clear airways",
+            "Stay well hydrated",
+            "Include variety in exercise types"
+          ],
+          "common_errors": [
+            "Not maintaining adequate intensity",
+            "Inadequate hydration during exercise",
+            "Not combining with airway clearance"
+          ]
+        }
+      }
+    },
+    "EX_316": {
+      "name": "Hypertension Exercise Prescription",
+      "type": "cardiovascular_prevention",
+      "body_region": "cardiovascular",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["blood_pressure_monitor"],
+      "position": "various",
+      "cardiovascular_risk": "hypertension",
+      "muscle_targets": {
+        "primary": ["blood_pressure_control"],
+        "secondary": ["cardiovascular_health", "weight_management"]
+      },
+      "translations": {
+        "en": {
+          "name": "Hypertension Exercise Prescription",
+          "description": "Evidence-based exercise program for blood pressure management",
+          "instructions": [
+            "Include moderate intensity aerobic exercise 150 min/week",
+            "Add resistance training 2-3 times per week",
+            "Monitor blood pressure response to exercise",
+            "Avoid isometric exercises that raise blood pressure",
+            "Include dynamic flexibility and stress reduction"
+          ],
+          "cues": [
+            "Exercise regularly for blood pressure control",
+            "Avoid holding breath during resistance exercises",
+            "Cool down gradually"
+          ],
+          "common_errors": [
+            "Including too many isometric exercises",
+            "Not monitoring blood pressure response",
+            "Inadequate cool-down period"
+          ]
+        }
+      }
+    },
+    "EX_317": {
+      "name": "Atrial Fibrillation Exercise Management",
+      "type": "arrhythmia_management",
+      "body_region": "cardiovascular",
+      "difficulty_level": 3,
+      "equipment_required": ["heart_rate_monitor"],
+      "equipment_optional": ["ECG_monitoring"],
+      "position": "various",
+      "cardiac_arrhythmia": "atrial_fibrillation",
+      "muscle_targets": {
+        "primary": ["cardiovascular_fitness"],
+        "secondary": ["rhythm_management", "anticoagulation_safety"]
+      },
+      "translations": {
+        "en": {
+          "name": "Atrial Fibrillation Exercise Management",
+          "description": "Safe exercise strategies for patients with atrial fibrillation",
+          "instructions": [
+            "Monitor heart rate and rhythm during exercise",
+            "Use rate-based rather than rhythm-based targets",
+            "Be aware of anticoagulation medication effects",
+            "Include activities that minimize fall risk",
+            "Stop exercise if irregular rhythm worsens"
+          ],
+          "cues": [
+            "Focus on rate control during exercise",
+            "Be cautious with contact sports if on anticoagulants",
+            "Monitor for palpitations or dizziness"
+          ],
+          "common_errors": [
+            "Not monitoring heart rate adequately",
+            "Participating in high fall-risk activities while anticoagulated",
+            "Ignoring worsening arrhythmia symptoms"
+          ]
+        }
+      }
+    },
+    "EX_318": {
+      "name": "Diabetes Exercise Prescription",
+      "type": "metabolic_management",
+      "body_region": "metabolic",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["blood_glucose_monitor"],
+      "position": "various",
+      "metabolic_condition": "diabetes",
+      "muscle_targets": {
+        "primary": ["glucose_control"],
+        "secondary": ["cardiovascular_health", "neuropathy_prevention"]
+      },
+      "translations": {
+        "en": {
+          "name": "Diabetes Exercise Prescription",
+          "description": "Comprehensive exercise program for diabetes management",
+          "instructions": [
+            "Include both aerobic and resistance training",
+            "Monitor blood glucose before and after exercise",
+            "Adjust carbohydrate intake or medication as needed",
+            "Include foot care and neuropathy precautions",
+            "Exercise at consistent times when possible"
+          ],
+          "cues": [
+            "Monitor blood sugar levels",
+            "Check feet daily for injuries",
+            "Stay consistent with exercise timing"
+          ],
+          "common_errors": [
+            "Not monitoring blood glucose around exercise",
+            "Ignoring foot care precautions",
+            "Exercising with very high or low blood sugar"
+          ]
+        }
+      }
+    },
+    "EX_319": {
+      "name": "Chronic Kidney Disease Exercise",
+      "type": "renal_rehabilitation",
+      "body_region": "systemic",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["blood_pressure_monitor"],
+      "position": "various",
+      "renal_condition": "chronic_kidney_disease",
+      "muscle_targets": {
+        "primary": ["functional_capacity"],
+        "secondary": ["bone_health", "cardiovascular_protection"]
+      },
+      "translations": {
+        "en": {
+          "name": "Chronic Kidney Disease Exercise",
+          "description": "Exercise program adapted for chronic kidney disease patients",
+          "instructions": [
+            "Start with low to moderate intensity exercise",
+            "Monitor for fluid overload and electrolyte imbalances",
+            "Include bone-loading exercises for renal osteodystrophy",
+            "Coordinate with dialysis schedule if applicable",
+            "Address anemia effects on exercise tolerance"
+          ],
+          "cues": [
+            "Start slowly and progress gradually",
+            "Monitor fluid status",
+            "Include weight-bearing activities"
+          ],
+          "common_errors": [
+            "Not considering dialysis timing",
+            "Ignoring fluid restrictions",
+            "Not addressing bone health needs"
+          ]
+        }
+      }
+    },
+    "EX_320": {
+      "name": "Dialysis Patient Exercise Program",
+      "type": "dialysis_specific",
+      "body_region": "systemic",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["resistance_bands"],
+      "position": "seated_standing",
+      "renal_treatment": "dialysis",
+      "muscle_targets": {
+        "primary": ["muscle_mass_preservation"],
+        "secondary": ["cardiovascular_health", "quality_of_life"]
+      },
+      "translations": {
+        "en": {
+          "name": "Dialysis Patient Exercise Program",
+          "description": "Exercise strategies for patients undergoing dialysis",
+          "instructions": [
+            "Exercise during dialysis when possible",
+            "Focus on maintaining muscle mass and strength",
+            "Include cardiovascular exercise on non-dialysis days",
+            "Monitor fluid status and blood pressure",
+            "Avoid exercising immediately after dialysis"
+          ],
+          "cues": [
+            "Use dialysis time for gentle exercise",
+            "Maintain muscle strength",
+            "Monitor energy levels"
+          ],
+          "common_errors": [
+            "Not exercising during dialysis sessions",
+            "Exercising immediately post-dialysis",
+            "Not addressing protein-energy wasting"
+          ]
+        }
+      }
+    }
+  }
+}

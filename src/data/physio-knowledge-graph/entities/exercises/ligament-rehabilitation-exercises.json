@@ -1,0 +1,1912 @@
+{
+  "category": "ligament_rehabilitation_exercises",
+  "description": "Specialized rehabilitation exercises for ligament injuries following systematic progression: stability→mobility→strengthening",
+  "rehabilitation_phases": {
+    "phase_1_protection": "0-2 weeks: Protection, reduce inflammation, maintain range of motion",
+    "phase_2_mobility": "2-6 weeks: Restore mobility, begin stability training",
+    "phase_3_strengthening": "6-12 weeks: Progressive strengthening, functional training",
+    "phase_4_return_to_activity": "12+ weeks: Sport-specific training, return to full activity"
+  },
+  "exercises": {
+    "EX_251": {
+      "name": "LCL Injury - Lateral Knee Stability Training",
+      "type": "ligament_stability",
+      "body_region": "knee",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_005", "EQ_024"],
+      "position": "standing",
+      "ligament_focus": "lateral_collateral_ligament",
+      "rehabilitation_phase": "phase_2_mobility",
+      "muscle_targets": {
+        "primary": ["vastus_lateralis", "iliotibial_band", "biceps_femoris"],
+        "secondary": ["gluteus_medius", "peroneus_longus"]
+      },
+      "translations": {
+        "en": {
+          "name": "LCL Injury - Lateral Knee Stability Training",
+          "description": "Progressive stability training for lateral collateral ligament recovery",
+          "instructions": [
+            "Begin with partial weight bearing as tolerated",
+            "Practice single-leg balance with lateral perturbations",
+            "Progress to lateral step-downs with control",
+            "Add resistance band for varus/valgus control",
+            "Include proprioceptive training on unstable surfaces"
+          ],
+          "cues": [
+            "Control lateral knee movement",
+            "Engage outer thigh muscles",
+            "Maintain knee alignment"
+          ],
+          "common_errors": [
+            "Allowing knee to collapse inward",
+            "Progressing too quickly to full weight bearing",
+            "Ignoring pain signals"
+          ]
+        }
+      }
+    },
+    "EX_252": {
+      "name": "PCL Tear - Posterior Glide Prevention",
+      "type": "ligament_protection",
+      "body_region": "knee",
+      "difficulty_level": 4,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_021", "quad_strengthening_board"],
+      "position": "supine_sitting",
+      "ligament_focus": "posterior_cruciate_ligament",
+      "rehabilitation_phase": "phase_3_strengthening",
+      "muscle_targets": {
+        "primary": ["quadriceps", "vastus_medialis_oblique"],
+        "secondary": ["hamstrings", "gastrocnemius"]
+      },
+      "translations": {
+        "en": {
+          "name": "PCL Tear - Posterior Glide Prevention",
+          "description": "Quadriceps strengthening to prevent posterior tibial translation",
+          "instructions": [
+            "Avoid hamstring strengthening in early phases",
+            "Focus on quadriceps strengthening in closed chain",
+            "Perform quad sets with posterior support",
+            "Progress to partial squats with anterior weight shift",
+            "Include eccentric quadriceps control training"
+          ],
+          "cues": [
+            "Push knee down and back",
+            "Tighten front thigh muscles",
+            "Avoid pulling heel toward buttocks"
+          ],
+          "common_errors": [
+            "Emphasizing hamstring strengthening too early",
+            "Allowing posterior sag of tibia",
+            "Open chain hamstring exercises"
+          ]
+        }
+      }
+    },
+    "EX_253": {
+      "name": "ATFL Tear - Ankle Inversion Control",
+      "type": "ligament_stability",
+      "body_region": "ankle",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_005", "EQ_024", "ankle_brace"],
+      "position": "standing",
+      "ligament_focus": "anterior_talofibular_ligament",
+      "rehabilitation_phase": "phase_2_mobility",
+      "muscle_targets": {
+        "primary": ["peroneus_longus", "peroneus_brevis"],
+        "secondary": ["tibialis_anterior", "gastrocnemius"]
+      },
+      "translations": {
+        "en": {
+          "name": "ATFL Tear - Ankle Inversion Control",
+          "description": "Progressive stability training for anterior talofibular ligament recovery",
+          "instructions": [
+            "Begin with peroneal strengthening exercises",
+            "Practice single-leg balance with eyes closed",
+            "Progress to balance on unstable surfaces",
+            "Include controlled inversion/eversion movements",
+            "Add sport-specific cutting movements when appropriate"
+          ],
+          "cues": [
+            "Keep ankle neutral, don't let it roll in",
+            "Feel outer calf muscles working",
+            "Control all movements"
+          ],
+          "common_errors": [
+            "Allowing excessive inversion during exercises",
+            "Not addressing proprioceptive deficits",
+            "Rushing return to sport activities"
+          ]
+        }
+      }
+    },
+    "EX_254": {
+      "name": "CFL Tear - Lateral Ankle Stabilization",
+      "type": "ligament_strengthening",
+      "body_region": "ankle",
+      "difficulty_level": 4,
+      "equipment_required": ["EQ_024"],
+      "equipment_optional": ["EQ_005", "proprioceptive_equipment"],
+      "position": "standing",
+      "ligament_focus": "calcaneofibular_ligament",
+      "rehabilitation_phase": "phase_3_strengthening",
+      "muscle_targets": {
+        "primary": ["peroneus_longus", "peroneus_brevis", "peroneus_tertius"],
+        "secondary": ["extensor_digitorum_longus", "gastrocnemius"]
+      },
+      "translations": {
+        "en": {
+          "name": "CFL Tear - Lateral Ankle Stabilization",
+          "description": "Advanced stabilization for calcaneofibular ligament recovery",
+          "instructions": [
+            "Perform resistance band eversion exercises",
+            "Practice multi-planar balance challenges",
+            "Include lateral plyometric movements",
+            "Add agility ladder drills with lateral emphasis",
+            "Progress to sport-specific movement patterns"
+          ],
+          "cues": [
+            "Pull ankle out against resistance",
+            "Land softly on lateral border",
+            "Control all directions of movement"
+          ],
+          "common_errors": [
+            "Not addressing combined ATFL-CFL deficits",
+            "Inadequate progression of difficulty",
+            "Missing functional movement patterns"
+          ]
+        }
+      }
+    },
+    "EX_255": {
+      "name": "UCL Elbow - Valgus Stress Protection",
+      "type": "ligament_protection",
+      "body_region": "elbow",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["elbow_brace", "EQ_024"],
+      "position": "seated",
+      "ligament_focus": "ulnar_collateral_ligament",
+      "rehabilitation_phase": "phase_1_protection",
+      "muscle_targets": {
+        "primary": ["flexor_carpi_ulnaris", "flexor_digitorum_profundus"],
+        "secondary": ["pronator_teres", "flexor_carpi_radialis"]
+      },
+      "translations": {
+        "en": {
+          "name": "UCL Elbow - Valgus Stress Protection",
+          "description": "Protective exercises and strengthening for ulnar collateral ligament",
+          "instructions": [
+            "Avoid overhead throwing motions initially",
+            "Strengthen wrist flexors and pronators",
+            "Perform isometric elbow flexion exercises",
+            "Include grip strengthening activities",
+            "Progress to controlled range of motion exercises"
+          ],
+          "cues": [
+            "No throwing motions",
+            "Strengthen supporting muscles",
+            "Protect the inside of elbow"
+          ],
+          "common_errors": [
+            "Returning to throwing too early",
+            "Not addressing kinetic chain dysfunction",
+            "Inadequate valgus stress protection"
+          ]
+        }
+      }
+    },
+    "EX_256": {
+      "name": "RCL Elbow - Lateral Stability Training",
+      "type": "ligament_stability",
+      "body_region": "elbow",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_024", "grip_strengthening"],
+      "position": "seated_standing",
+      "ligament_focus": "radial_collateral_ligament",
+      "rehabilitation_phase": "phase_2_mobility",
+      "muscle_targets": {
+        "primary": ["extensor_carpi_radialis", "supinator"],
+        "secondary": ["anconeus", "extensor_digitorum"]
+      },
+      "translations": {
+        "en": {
+          "name": "RCL Elbow - Lateral Stability Training",
+          "description": "Lateral elbow stability for radial collateral ligament recovery",
+          "instructions": [
+            "Strengthen wrist extensors and supinators",
+            "Perform elbow stabilization exercises",
+            "Include grip strengthening with emphasis on lateral pinch",
+            "Practice functional reaching and lifting patterns",
+            "Progress to dynamic stability challenges"
+          ],
+          "cues": [
+            "Stabilize outer elbow",
+            "Strengthen back of forearm",
+            "Control elbow during movements"
+          ],
+          "common_errors": [
+            "Neglecting lateral elbow stabilizers",
+            "Not addressing posterolateral rotatory instability",
+            "Inadequate grip strength training"
+          ]
+        }
+      }
+    },
+    "EX_257": {
+      "name": "AC Joint - Superior Translation Control",
+      "type": "ligament_stability",
+      "body_region": "shoulder",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_024", "shoulder_sling"],
+      "position": "standing",
+      "ligament_focus": "acromioclavicular_joint",
+      "rehabilitation_phase": "phase_2_mobility",
+      "muscle_targets": {
+        "primary": ["upper_trapezius", "deltoid"],
+        "secondary": ["serratus_anterior", "pectoralis_minor"]
+      },
+      "translations": {
+        "en": {
+          "name": "AC Joint - Superior Translation Control",
+          "description": "Controlled exercises for acromioclavicular joint recovery",
+          "instructions": [
+            "Avoid overhead lifting in early phases",
+            "Strengthen scapular stabilizers",
+            "Perform pendulum exercises for mobility",
+            "Progress to assisted range of motion",
+            "Include postural correction exercises"
+          ],
+          "cues": [
+            "Keep shoulder down and back",
+            "Avoid lifting arm overhead",
+            "Support the weight of arm"
+          ],
+          "common_errors": [
+            "Lifting overhead too early",
+            "Not using arm support during healing",
+            "Ignoring postural compensations"
+          ]
+        }
+      }
+    },
+    "EX_258": {
+      "name": "SC Joint - Anterior-Posterior Stability",
+      "type": "ligament_mobility",
+      "body_region": "sternum_clavicle",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["postural_support"],
+      "position": "seated_supine",
+      "ligament_focus": "sternoclavicular_joint",
+      "rehabilitation_phase": "phase_1_protection",
+      "muscle_targets": {
+        "primary": ["sternocleidomastoid", "subclavius"],
+        "secondary": ["upper_trapezius", "levator_scapulae"]
+      },
+      "translations": {
+        "en": {
+          "name": "SC Joint - Anterior-Posterior Stability",
+          "description": "Gentle mobility and protection for sternoclavicular joint",
+          "instructions": [
+            "Perform gentle neck and shoulder blade movements",
+            "Avoid forceful arm swinging or lifting",
+            "Include breathing exercises to promote mobility",
+            "Focus on postural awareness and correction",
+            "Progress to gentle strengthening when pain-free"
+          ],
+          "cues": [
+            "Move gently and slowly",
+            "Keep movements small initially",
+            "Focus on good posture"
+          ],
+          "common_errors": [
+            "Forceful movements during acute phase",
+            "Ignoring postural contributions",
+            "Not addressing breathing pattern dysfunction"
+          ]
+        }
+      }
+    },
+    "EX_259": {
+      "name": "Coracoclavicular Ligament - Vertical Stability",
+      "type": "ligament_strengthening",
+      "body_region": "shoulder",
+      "difficulty_level": 4,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_024", "shoulder_stabilization"],
+      "position": "standing",
+      "ligament_focus": "coracoclavicular_ligament",
+      "rehabilitation_phase": "phase_3_strengthening",
+      "muscle_targets": {
+        "primary": ["trapezius", "serratus_anterior"],
+        "secondary": ["rhomboids", "levator_scapulae"]
+      },
+      "translations": {
+        "en": {
+          "name": "Coracoclavicular Ligament - Vertical Stability",
+          "description": "Progressive strengthening for coracoclavicular ligament complex",
+          "instructions": [
+            "Strengthen scapular upward rotators",
+            "Perform controlled clavicular depression exercises",
+            "Include resistance training for shoulder girdle",
+            "Practice functional lifting patterns",
+            "Progress to overhead activities gradually"
+          ],
+          "cues": [
+            "Pull shoulder blades down and together",
+            "Control upward movement of collar bone",
+            "Strengthen shoulder girdle muscles"
+          ],
+          "common_errors": [
+            "Not addressing scapular dyskinesis",
+            "Rushing return to overhead activities",
+            "Inadequate strengthening of stabilizing muscles"
+          ]
+        }
+      }
+    },
+    "EX_260": {
+      "name": "Iliolumbar Ligament - Lumbosacral Stability",
+      "type": "ligament_stability",
+      "body_region": "lumbar_spine",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_034", "lumbar_support"],
+      "position": "various",
+      "ligament_focus": "iliolumbar_ligament",
+      "rehabilitation_phase": "phase_2_mobility",
+      "muscle_targets": {
+        "primary": ["multifidus", "quadratus_lumborum"],
+        "secondary": ["psoas_major", "iliacus"]
+      },
+      "translations": {
+        "en": {
+          "name": "Iliolumbar Ligament - Lumbosacral Stability",
+          "description": "Deep spinal stabilization for iliolumbar ligament support",
+          "instructions": [
+            "Focus on deep spinal stabilizer strengthening",
+            "Perform controlled lumbar mobility exercises",
+            "Include hip flexor and IT band stretching",
+            "Practice neutral spine maintenance",
+            "Progress to functional movement patterns"
+          ],
+          "cues": [
+            "Engage deep abdominal muscles",
+            "Maintain neutral spine curve",
+            "Control pelvic position"
+          ],
+          "common_errors": [
+            "Not addressing hip mobility restrictions",
+            "Compensating with superficial muscles",
+            "Poor movement quality during exercises"
+          ]
+        }
+      }
+    },
+    "EX_261": {
+      "name": "MCL Progressive Loading Protocol",
+      "type": "ligament_strengthening",
+      "body_region": "knee",
+      "difficulty_level": 4,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_024", "knee_brace"],
+      "position": "standing",
+      "ligament_focus": "medial_collateral_ligament",
+      "rehabilitation_phase": "phase_3_strengthening",
+      "muscle_targets": {
+        "primary": ["vastus_medialis", "semimembranosus"],
+        "secondary": ["adductors", "sartorius"]
+      },
+      "translations": {
+        "en": {
+          "name": "MCL Progressive Loading Protocol",
+          "description": "Systematic loading progression for medial collateral ligament",
+          "instructions": [
+            "Begin with isometric quadriceps and hip adductor strengthening",
+            "Progress to controlled valgus stress exercises",
+            "Include lateral movement patterns with progression",
+            "Add plyometric training in later phases",
+            "Integrate sport-specific movement patterns"
+          ],
+          "cues": [
+            "Control inward knee movement",
+            "Strengthen inner thigh muscles",
+            "Progress loading gradually"
+          ],
+          "common_errors": [
+            "Applying excessive valgus stress too early",
+            "Not addressing hip weakness",
+            "Inadequate progression of loading"
+          ]
+        }
+      }
+    },
+    "EX_262": {
+      "name": "Ligament Scar Tissue Management",
+      "type": "mobility",
+      "body_region": "various",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["soft_tissue_tools", "heat_therapy"],
+      "position": "various",
+      "ligament_focus": "general_ligament_healing",
+      "rehabilitation_phase": "phase_2_mobility",
+      "muscle_targets": {
+        "primary": ["connective_tissue_mobility"],
+        "secondary": ["adjacent_muscle_groups"]
+      },
+      "translations": {
+        "en": {
+          "name": "Ligament Scar Tissue Management",
+          "description": "Techniques to optimize ligament healing and prevent adhesions",
+          "instructions": [
+            "Apply gentle cross-friction massage to healing ligament",
+            "Perform controlled stress to promote proper collagen alignment",
+            "Include heat therapy before mobility exercises",
+            "Use gentle stretching within pain-free range",
+            "Progress tissue loading gradually over time"
+          ],
+          "cues": [
+            "Move gently to promote healing",
+            "Apply controlled stress to tissue",
+            "Respect healing timeline"
+          ],
+          "common_errors": [
+            "Aggressive treatment too early in healing",
+            "Not promoting appropriate tissue remodeling",
+            "Ignoring signs of inflammation"
+          ]
+        }
+      }
+    },
+    "EX_263": {
+      "name": "Proprioceptive Ligament Training",
+      "type": "neuromuscular",
+      "body_region": "various",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_005", "proprioceptive_equipment"],
+      "position": "various",
+      "ligament_focus": "mechanoreceptor_training",
+      "rehabilitation_phase": "phase_3_strengthening",
+      "muscle_targets": {
+        "primary": ["proprioceptors", "mechanoreceptors"],
+        "secondary": ["stabilizing_muscles"]
+      },
+      "translations": {
+        "en": {
+          "name": "Proprioceptive Ligament Training",
+          "description": "Restore joint position sense and mechanoreceptor function",
+          "instructions": [
+            "Perform balance training on various surfaces",
+            "Include joint position sense training",
+            "Practice closed-chain stabilization exercises",
+            "Add perturbation training for reactive stability",
+            "Progress to sport-specific proprioceptive challenges"
+          ],
+          "cues": [
+            "Feel joint position without looking",
+            "React quickly to balance challenges",
+            "Train unconscious joint stability"
+          ],
+          "common_errors": [
+            "Not addressing proprioceptive deficits",
+            "Only training in one plane of movement",
+            "Missing functional integration"
+          ]
+        }
+      }
+    },
+    "EX_264": {
+      "name": "Functional Ligament Integration",
+      "type": "functional",
+      "body_region": "various",
+      "difficulty_level": 4,
+      "equipment_required": null,
+      "equipment_optional": ["sport_specific_equipment"],
+      "position": "functional_positions",
+      "ligament_focus": "functional_integration",
+      "rehabilitation_phase": "phase_4_return_to_activity",
+      "muscle_targets": {
+        "primary": ["movement_pattern_integration"],
+        "secondary": ["kinetic_chain_coordination"]
+      },
+      "translations": {
+        "en": {
+          "name": "Functional Ligament Integration",
+          "description": "Integrate ligament stability into functional movement patterns",
+          "instructions": [
+            "Practice activity-specific movement patterns",
+            "Include multi-planar and multi-joint exercises",
+            "Add reactive and unpredictable elements",
+            "Progress speed and complexity gradually",
+            "Test ligament function under sport demands"
+          ],
+          "cues": [
+            "Move naturally and efficiently",
+            "Trust your joint stability",
+            "Integrate all training elements"
+          ],
+          "common_errors": [
+            "Not progressing to functional demands",
+            "Missing sport-specific requirements",
+            "Inadequate testing before return to activity"
+          ]
+        }
+      }
+    },
+    "EX_265": {
+      "name": "ACL Prevention Protocol",
+      "type": "injury_prevention",
+      "body_region": "knee",
+      "difficulty_level": 4,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_005", "plyometric_equipment"],
+      "position": "various",
+      "ligament_focus": "anterior_cruciate_ligament",
+      "rehabilitation_phase": "prevention",
+      "muscle_targets": {
+        "primary": ["hamstrings", "quadriceps"],
+        "secondary": ["gluteals", "core_stabilizers"]
+      },
+      "translations": {
+        "en": {
+          "name": "ACL Prevention Protocol",
+          "description": "Evidence-based protocol for ACL injury prevention",
+          "instructions": [
+            "Include neuromuscular training components",
+            "Perform proper landing and cutting mechanics",
+            "Strengthen posterior chain muscles",
+            "Practice balance and proprioceptive training",
+            "Include plyometric progression with proper form"
+          ],
+          "cues": [
+            "Land softly with knees over toes",
+            "Keep knees behind toes during squatting",
+            "Engage hamstrings and glutes"
+          ],
+          "common_errors": [
+            "Not addressing movement quality",
+            "Missing neuromuscular training components",
+            "Poor technique during high-risk movements"
+          ]
+        }
+      }
+    },
+    "EX_266": {
+      "name": "Ligament Healing Nutrition Support",
+      "type": "recovery_support",
+      "body_region": "systemic",
+      "difficulty_level": 1,
+      "equipment_required": null,
+      "equipment_optional": ["nutritional_supplements"],
+      "position": "various",
+      "ligament_focus": "healing_optimization",
+      "rehabilitation_phase": "all_phases",
+      "muscle_targets": {
+        "primary": ["collagen_synthesis"],
+        "secondary": ["inflammatory_response"]
+      },
+      "translations": {
+        "en": {
+          "name": "Ligament Healing Nutrition Support",
+          "description": "Nutritional strategies to optimize ligament healing",
+          "instructions": [
+            "Ensure adequate protein intake for collagen synthesis",
+            "Include vitamin C for collagen cross-linking",
+            "Add anti-inflammatory foods to diet",
+            "Maintain proper hydration for tissue health",
+            "Consider supplements like glucosamine and omega-3s"
+          ],
+          "cues": [
+            "Feed your healing tissues",
+            "Support collagen production",
+            "Reduce systemic inflammation"
+          ],
+          "common_errors": [
+            "Ignoring nutritional factors in healing",
+            "Not supporting collagen synthesis",
+            "Missing anti-inflammatory nutrition"
+          ]
+        }
+      }
+    },
+    "EX_267": {
+      "name": "Sleep and Recovery for Ligaments",
+      "type": "recovery_protocol",
+      "body_region": "systemic",
+      "difficulty_level": 1,
+      "equipment_required": null,
+      "equipment_optional": ["sleep_tracking", "recovery_tools"],
+      "position": "resting",
+      "ligament_focus": "recovery_optimization",
+      "rehabilitation_phase": "all_phases",
+      "muscle_targets": {
+        "primary": ["tissue_healing"],
+        "secondary": ["hormone_optimization"]
+      },
+      "translations": {
+        "en": {
+          "name": "Sleep and Recovery for Ligaments",
+          "description": "Optimize sleep and recovery for ligament healing",
+          "instructions": [
+            "Maintain 7-9 hours of quality sleep nightly",
+            "Create consistent sleep schedule",
+            "Use proper positioning to support injured area",
+            "Include stress management techniques",
+            "Monitor recovery markers and adjust training"
+          ],
+          "cues": [
+            "Prioritize quality sleep",
+            "Support injured area during rest",
+            "Manage stress for healing"
+          ],
+          "common_errors": [
+            "Not prioritizing sleep during healing",
+            "Poor positioning causing stress on healing tissue",
+            "Not managing stress that impairs healing"
+          ]
+        }
+      }
+    },
+    "EX_268": {
+      "name": "Return to Sport Testing - Ligaments",
+      "type": "performance_testing",
+      "body_region": "various",
+      "difficulty_level": 5,
+      "equipment_required": null,
+      "equipment_optional": ["testing_equipment", "measurement_tools"],
+      "position": "sport_specific",
+      "ligament_focus": "return_to_sport_criteria",
+      "rehabilitation_phase": "phase_4_return_to_activity",
+      "muscle_targets": {
+        "primary": ["functional_performance"],
+        "secondary": ["confidence", "psychological_readiness"]
+      },
+      "translations": {
+        "en": {
+          "name": "Return to Sport Testing - Ligaments",
+          "description": "Comprehensive testing before return to sport after ligament injury",
+          "instructions": [
+            "Test strength symmetry between limbs",
+            "Assess functional movement patterns",
+            "Evaluate sport-specific skills under fatigue",
+            "Check psychological readiness and confidence",
+            "Ensure meeting all return-to-play criteria"
+          ],
+          "cues": [
+            "Demonstrate full function",
+            "Show confidence in movement",
+            "Meet objective criteria"
+          ],
+          "common_errors": [
+            "Returning before meeting criteria",
+            "Not testing under fatigue conditions",
+            "Ignoring psychological readiness"
+          ]
+        }
+      }
+    },
+    "EX_269": {
+      "name": "Chronic Ligament Instability Management",
+      "type": "chronic_management",
+      "body_region": "various",
+      "difficulty_level": 4,
+      "equipment_required": null,
+      "equipment_optional": ["bracing", "taping_supplies"],
+      "position": "various",
+      "ligament_focus": "chronic_instability",
+      "rehabilitation_phase": "long_term_management",
+      "muscle_targets": {
+        "primary": ["compensatory_muscles"],
+        "secondary": ["movement_adaptation"]
+      },
+      "translations": {
+        "en": {
+          "name": "Chronic Ligament Instability Management",
+          "description": "Long-term management strategies for chronic ligament instability",
+          "instructions": [
+            "Develop compensatory muscle strength",
+            "Use external support (bracing/taping) as needed",
+            "Modify activities to reduce instability episodes",
+            "Maintain proprioceptive training long-term",
+            "Consider surgical consultation if conservative management fails"
+          ],
+          "cues": [
+            "Work with your limitations",
+            "Build strong compensatory patterns",
+            "Use support when needed"
+          ],
+          "common_errors": [
+            "Not accepting need for long-term modifications",
+            "Stopping proprioceptive training too early",
+            "Not using appropriate external support"
+          ]
+        }
+      }
+    },
+    "EX_270": {
+      "name": "Multi-Ligament Injury Protocol",
+      "type": "complex_rehabilitation",
+      "body_region": "various",
+      "difficulty_level": 5,
+      "equipment_required": null,
+      "equipment_optional": ["comprehensive_equipment"],
+      "position": "various",
+      "ligament_focus": "multi_ligament_injury",
+      "rehabilitation_phase": "extended_rehabilitation",
+      "muscle_targets": {
+        "primary": ["multiple_stabilizing_systems"],
+        "secondary": ["compensation_patterns"]
+      },
+      "translations": {
+        "en": {
+          "name": "Multi-Ligament Injury Protocol",
+          "description": "Complex rehabilitation for multiple ligament injuries",
+          "instructions": [
+            "Address each ligament according to specific healing timelines",
+            "Coordinate rehabilitation phases for different structures",
+            "Include comprehensive strength and stability training",
+            "Plan extended rehabilitation timeline",
+            "Consider multi-disciplinary approach with surgical team"
+          ],
+          "cues": [
+            "Respect different healing timelines",
+            "Build comprehensive stability",
+            "Plan for longer recovery"
+          ],
+          "common_errors": [
+            "Not coordinating different ligament needs",
+            "Underestimating complexity and timeline",
+            "Missing psychological impact of complex injury"
+          ]
+        }
+      }
+    },
+    "EX_271": {
+      "name": "Pediatric Ligament Injury Adaptations",
+      "type": "pediatric_specific",
+      "body_region": "various",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["child_appropriate_equipment"],
+      "position": "various",
+      "ligament_focus": "pediatric_considerations",
+      "rehabilitation_phase": "age_appropriate_phases",
+      "muscle_targets": {
+        "primary": ["developing_musculature"],
+        "secondary": ["growth_plate_protection"]
+      },
+      "translations": {
+        "en": {
+          "name": "Pediatric Ligament Injury Adaptations",
+          "description": "Age-appropriate modifications for pediatric ligament injuries",
+          "instructions": [
+            "Consider growth plate status and protection",
+            "Use age-appropriate exercise progressions",
+            "Include family education and involvement",
+            "Address psychological impact on young athlete",
+            "Coordinate with pediatric specialists as needed"
+          ],
+          "cues": [
+            "Make exercises fun and engaging",
+            "Protect growing bones",
+            "Include parents in education"
+          ],
+          "common_errors": [
+            "Using adult protocols without modification",
+            "Not considering growth plate implications",
+            "Missing family education component"
+          ]
+        }
+      }
+    },
+    "EX_272": {
+      "name": "Geriatric Ligament Injury Considerations",
+      "type": "geriatric_specific",
+      "body_region": "various",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["assistive_devices"],
+      "position": "safe_positions",
+      "ligament_focus": "age_related_healing",
+      "rehabilitation_phase": "modified_phases",
+      "muscle_targets": {
+        "primary": ["age_appropriate_strengthening"],
+        "secondary": ["fall_prevention"]
+      },
+      "translations": {
+        "en": {
+          "name": "Geriatric Ligament Injury Considerations",
+          "description": "Age-specific modifications for older adult ligament injuries",
+          "instructions": [
+            "Account for slower healing rates in older adults",
+            "Include balance and fall prevention components",
+            "Address comorbidities affecting healing",
+            "Use assistive devices as appropriate",
+            "Focus on functional goals and quality of life"
+          ],
+          "cues": [
+            "Progress more slowly",
+            "Focus on safety and function",
+            "Address whole person health"
+          ],
+          "common_errors": [
+            "Not adjusting timeline for age",
+            "Missing fall prevention focus",
+            "Not addressing comorbidities"
+          ]
+        }
+      }
+    },
+    "EX_273": {
+      "name": "Gender-Specific Ligament Considerations",
+      "type": "gender_specific",
+      "body_region": "various",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["gender_specific_equipment"],
+      "position": "various",
+      "ligament_focus": "gender_differences",
+      "rehabilitation_phase": "all_phases",
+      "muscle_targets": {
+        "primary": ["gender_specific_patterns"],
+        "secondary": ["hormonal_influences"]
+      },
+      "translations": {
+        "en": {
+          "name": "Gender-Specific Ligament Considerations",
+          "description": "Account for gender differences in ligament injury and healing",
+          "instructions": [
+            "Address higher ACL injury rates in female athletes",
+            "Consider hormonal influences on ligament healing",
+            "Include gender-specific movement pattern training",
+            "Address anatomical differences affecting injury risk",
+            "Provide gender-appropriate education and support"
+          ],
+          "cues": [
+            "Address specific risk factors",
+            "Consider hormonal cycles",
+            "Train movement patterns specifically"
+          ],
+          "common_errors": [
+            "Not addressing gender-specific risk factors",
+            "Missing hormonal considerations",
+            "Using one-size-fits-all approach"
+          ]
+        }
+      }
+    },
+    "EX_274": {
+      "name": "Post-Surgical Ligament Reconstruction",
+      "type": "post_surgical",
+      "body_region": "various",
+      "difficulty_level": 5,
+      "equipment_required": null,
+      "equipment_optional": ["post_surgical_equipment", "bracing"],
+      "position": "surgical_protocol_specific",
+      "ligament_focus": "reconstructed_ligament",
+      "rehabilitation_phase": "post_surgical_phases",
+      "muscle_targets": {
+        "primary": ["graft_protection"],
+        "secondary": ["surrounding_musculature"]
+      },
+      "translations": {
+        "en": {
+          "name": "Post-Surgical Ligament Reconstruction",
+          "description": "Specialized protocol for post-surgical ligament reconstruction",
+          "instructions": [
+            "Follow surgeon-specific protocol and restrictions",
+            "Protect graft during healing phases",
+            "Progress according to tissue healing timeline",
+            "Include comprehensive rehabilitation program",
+            "Plan for extended recovery and return to activity"
+          ],
+          "cues": [
+            "Follow surgical restrictions strictly",
+            "Protect the new ligament",
+            "Be patient with healing process"
+          ],
+          "common_errors": [
+            "Not following surgical protocol",
+            "Progressing too quickly",
+            "Not respecting graft healing timeline"
+          ]
+        }
+      }
+    },
+    "EX_275": {
+      "name": "Ligament Injury Prevention Education",
+      "type": "education_program",
+      "body_region": "various",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["educational_materials"],
+      "position": "classroom_field",
+      "ligament_focus": "injury_prevention",
+      "rehabilitation_phase": "prevention",
+      "muscle_targets": {
+        "primary": ["knowledge_application"],
+        "secondary": ["movement_awareness"]
+      },
+      "translations": {
+        "en": {
+          "name": "Ligament Injury Prevention Education",
+          "description": "Comprehensive education program for ligament injury prevention",
+          "instructions": [
+            "Teach anatomy and function of ligaments",
+            "Explain injury mechanisms and risk factors",
+            "Demonstrate proper movement techniques",
+            "Include warm-up and cool-down protocols",
+            "Provide resources for ongoing education"
+          ],
+          "cues": [
+            "Knowledge is power for prevention",
+            "Practice makes perfect movement",
+            "Prevention is better than treatment"
+          ],
+          "common_errors": [
+            "Not providing comprehensive education",
+            "Missing practical application",
+            "Not addressing individual risk factors"
+          ]
+        }
+      }
+    },
+    "EX_276": {
+      "name": "Technology-Assisted Ligament Rehabilitation",
+      "type": "technology_integration",
+      "body_region": "various",
+      "difficulty_level": 4,
+      "equipment_required": ["technology_devices"],
+      "equipment_optional": ["advanced_equipment"],
+      "position": "device_specific",
+      "ligament_focus": "technology_enhanced",
+      "rehabilitation_phase": "all_phases",
+      "muscle_targets": {
+        "primary": ["precise_targeting"],
+        "secondary": ["objective_monitoring"]
+      },
+      "translations": {
+        "en": {
+          "name": "Technology-Assisted Ligament Rehabilitation",
+          "description": "Integration of technology for enhanced ligament rehabilitation",
+          "instructions": [
+            "Use biofeedback for movement quality training",
+            "Include virtual reality for functional training",
+            "Apply electrical stimulation for muscle activation",
+            "Use wearable devices for monitoring progress",
+            "Integrate apps for home exercise compliance"
+          ],
+          "cues": [
+            "Use technology to enhance training",
+            "Monitor progress objectively",
+            "Engage with interactive feedback"
+          ],
+          "common_errors": [
+            "Over-relying on technology without clinical reasoning",
+            "Not teaching patients to exercise without devices",
+            "Missing human interaction and motivation"
+          ]
+        }
+      }
+    },
+    "EX_277": {
+      "name": "Mental Health and Ligament Recovery",
+      "type": "psychological_support",
+      "body_region": "psychological",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["psychological_resources"],
+      "position": "various",
+      "ligament_focus": "psychological_healing",
+      "rehabilitation_phase": "all_phases",
+      "muscle_targets": {
+        "primary": ["mental_resilience"],
+        "secondary": ["confidence_building"]
+      },
+      "translations": {
+        "en": {
+          "name": "Mental Health and Ligament Recovery",
+          "description": "Address psychological aspects of ligament injury and recovery",
+          "instructions": [
+            "Acknowledge emotional impact of injury",
+            "Provide support for fear of re-injury",
+            "Include goal-setting and motivation strategies",
+            "Address body image and identity issues",
+            "Connect with mental health professionals as needed"
+          ],
+          "cues": [
+            "Your mental health matters too",
+            "Fear is normal, work through it",
+            "Focus on what you can control"
+          ],
+          "common_errors": [
+            "Ignoring psychological impact of injury",
+            "Not addressing fear of re-injury",
+            "Missing support for identity changes"
+          ]
+        }
+      }
+    },
+    "EX_278": {
+      "name": "Work-Related Ligament Injury Management",
+      "type": "occupational_specific",
+      "body_region": "work_specific",
+      "difficulty_level": 4,
+      "equipment_required": null,
+      "equipment_optional": ["work_simulation_equipment"],
+      "position": "work_specific",
+      "ligament_focus": "occupational_demands",
+      "rehabilitation_phase": "return_to_work",
+      "muscle_targets": {
+        "primary": ["work_specific_demands"],
+        "secondary": ["ergonomic_adaptation"]
+      },
+      "translations": {
+        "en": {
+          "name": "Work-Related Ligament Injury Management",
+          "description": "Rehabilitation focused on return to work demands",
+          "instructions": [
+            "Analyze work demands and injury relationship",
+            "Include job-specific movement training",
+            "Address ergonomic factors contributing to injury",
+            "Coordinate with employer for accommodation",
+            "Plan graduated return to work schedule"
+          ],
+          "cues": [
+            "Train for your work demands",
+            "Address workplace factors",
+            "Plan gradual return to duties"
+          ],
+          "common_errors": [
+            "Not addressing work-specific demands",
+            "Missing ergonomic assessment",
+            "Not coordinating with employer"
+          ]
+        }
+      }
+    },
+    "EX_279": {
+      "name": "Seasonal Athlete Ligament Periodization",
+      "type": "periodization",
+      "body_region": "sport_specific",
+      "difficulty_level": 5,
+      "equipment_required": null,
+      "equipment_optional": ["sport_specific_equipment"],
+      "position": "sport_specific",
+      "ligament_focus": "seasonal_planning",
+      "rehabilitation_phase": "seasonal_phases",
+      "muscle_targets": {
+        "primary": ["sport_specific_preparation"],
+        "secondary": ["injury_prevention"]
+      },
+      "translations": {
+        "en": {
+          "name": "Seasonal Athlete Ligament Periodization",
+          "description": "Plan ligament health throughout athletic seasons",
+          "instructions": [
+            "Plan pre-season ligament preparation",
+            "Maintain ligament health during season",
+            "Include post-season recovery and healing",
+            "Address sport-specific ligament stresses",
+            "Coordinate with training and competition schedule"
+          ],
+          "cues": [
+            "Plan for the entire athletic year",
+            "Prevent injuries before they happen",
+            "Balance training and recovery"
+          ],
+          "common_errors": [
+            "Not planning for seasonal demands",
+            "Missing pre-season preparation",
+            "Not allowing adequate recovery time"
+          ]
+        }
+      }
+    },
+    "EX_280": {
+      "name": "Environmental Considerations for Ligament Health",
+      "type": "environmental_adaptation",
+      "body_region": "various",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["environmental_equipment"],
+      "position": "environment_specific",
+      "ligament_focus": "environmental_factors",
+      "rehabilitation_phase": "all_phases",
+      "muscle_targets": {
+        "primary": ["environmental_adaptation"],
+        "secondary": ["tissue_health"]
+      },
+      "translations": {
+        "en": {
+          "name": "Environmental Considerations for Ligament Health",
+          "description": "Adapt ligament care for different environmental conditions",
+          "instructions": [
+            "Consider temperature effects on ligament flexibility",
+            "Address altitude and atmospheric pressure changes",
+            "Adapt for humidity and weather conditions",
+            "Include seasonal activity modifications",
+            "Plan for travel and environmental changes"
+          ],
+          "cues": [
+            "Adapt to your environment",
+            "Consider weather and climate",
+            "Prepare for environmental changes"
+          ],
+          "common_errors": [
+            "Not considering environmental factors",
+            "Missing seasonal adaptations",
+            "Not preparing for travel conditions"
+          ]
+        }
+      }
+    },
+    "EX_281": {
+      "name": "Ligament Health Across Lifespan",
+      "type": "lifespan_approach",
+      "body_region": "various",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["age_appropriate_equipment"],
+      "position": "age_appropriate",
+      "ligament_focus": "lifespan_development",
+      "rehabilitation_phase": "all_life_stages",
+      "muscle_targets": {
+        "primary": ["age_appropriate_development"],
+        "secondary": ["lifelong_health"]
+      },
+      "translations": {
+        "en": {
+          "name": "Ligament Health Across Lifespan",
+          "description": "Maintain ligament health throughout all life stages",
+          "instructions": [
+            "Address developmental changes in ligament structure",
+            "Adapt exercises for different life stages",
+            "Consider hormonal influences throughout life",
+            "Plan for aging-related ligament changes",
+            "Promote lifelong ligament health strategies"
+          ],
+          "cues": [
+            "Ligament health is lifelong",
+            "Adapt for your life stage",
+            "Plan for healthy aging"
+          ],
+          "common_errors": [
+            "Not considering lifespan changes",
+            "Using same approach for all ages",
+            "Not planning for aging"
+          ]
+        }
+      }
+    },
+    "EX_282": {
+      "name": "Ligament Injury Epidemiology Application",
+      "type": "epidemiological_application",
+      "body_region": "population_health",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["research_data"],
+      "position": "various",
+      "ligament_focus": "population_approach",
+      "rehabilitation_phase": "prevention_population",
+      "muscle_targets": {
+        "primary": ["population_health"],
+        "secondary": ["risk_reduction"]
+      },
+      "translations": {
+        "en": {
+          "name": "Ligament Injury Epidemiology Application",
+          "description": "Apply epidemiological data to ligament injury prevention",
+          "instructions": [
+            "Use injury data to identify high-risk populations",
+            "Apply evidence-based prevention strategies",
+            "Target interventions to specific risk groups",
+            "Monitor population-level injury rates",
+            "Adapt programs based on epidemiological evidence"
+          ],
+          "cues": [
+            "Use data to guide prevention",
+            "Target high-risk populations",
+            "Apply evidence-based approaches"
+          ],
+          "common_errors": [
+            "Not using available epidemiological data",
+            "Missing high-risk populations",
+            "Not adapting based on evidence"
+          ]
+        }
+      }
+    },
+    "EX_283": {
+      "name": "Biomechanical Analysis for Ligament Health",
+      "type": "biomechanical_assessment",
+      "body_region": "movement_analysis",
+      "difficulty_level": 4,
+      "equipment_required": null,
+      "equipment_optional": ["biomechanical_equipment"],
+      "position": "analysis_specific",
+      "ligament_focus": "movement_optimization",
+      "rehabilitation_phase": "assessment_training",
+      "muscle_targets": {
+        "primary": ["movement_efficiency"],
+        "secondary": ["injury_prevention"]
+      },
+      "translations": {
+        "en": {
+          "name": "Biomechanical Analysis for Ligament Health",
+          "description": "Use biomechanical analysis to optimize ligament loading",
+          "instructions": [
+            "Analyze movement patterns for ligament stress",
+            "Identify biomechanical risk factors",
+            "Modify movement patterns to reduce injury risk",
+            "Use video analysis for movement feedback",
+            "Apply biomechanical principles to exercise design"
+          ],
+          "cues": [
+            "Move efficiently to protect ligaments",
+            "Analyze and improve movement quality",
+            "Use biomechanics to guide training"
+          ],
+          "common_errors": [
+            "Not analyzing movement quality",
+            "Missing biomechanical risk factors",
+            "Not applying analysis to training"
+          ]
+        }
+      }
+    },
+    "EX_284": {
+      "name": "Ligament Research Translation to Practice",
+      "type": "evidence_application",
+      "body_region": "clinical_application",
+      "difficulty_level": 4,
+      "equipment_required": null,
+      "equipment_optional": ["research_resources"],
+      "position": "clinical_practice",
+      "ligament_focus": "evidence_based_practice",
+      "rehabilitation_phase": "clinical_decision_making",
+      "muscle_targets": {
+        "primary": ["evidence_application"],
+        "secondary": ["clinical_reasoning"]
+      },
+      "translations": {
+        "en": {
+          "name": "Ligament Research Translation to Practice",
+          "description": "Apply current ligament research to clinical practice",
+          "instructions": [
+            "Stay current with ligament research findings",
+            "Critically evaluate research quality and applicability",
+            "Integrate research findings into clinical protocols",
+            "Monitor outcomes and adjust based on evidence",
+            "Contribute to research through clinical observation"
+          ],
+          "cues": [
+            "Base practice on best available evidence",
+            "Critically evaluate research",
+            "Integrate evidence into clinical decisions"
+          ],
+          "common_errors": [
+            "Not staying current with research",
+            "Not critically evaluating evidence quality",
+            "Not adapting practice based on new evidence"
+          ]
+        }
+      }
+    },
+    "EX_285": {
+      "name": "Quality Assurance in Ligament Rehabilitation",
+      "type": "quality_improvement",
+      "body_region": "systematic_approach",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["quality_tracking_tools"],
+      "position": "systematic",
+      "ligament_focus": "quality_improvement",
+      "rehabilitation_phase": "continuous_improvement",
+      "muscle_targets": {
+        "primary": ["systematic_excellence"],
+        "secondary": ["outcome_optimization"]
+      },
+      "translations": {
+        "en": {
+          "name": "Quality Assurance in Ligament Rehabilitation",
+          "description": "Maintain high quality standards in ligament rehabilitation",
+          "instructions": [
+            "Establish quality metrics for ligament rehabilitation",
+            "Monitor patient outcomes systematically",
+            "Implement continuous improvement processes",
+            "Provide ongoing staff education and training",
+            "Ensure evidence-based practice standards"
+          ],
+          "cues": [
+            "Strive for excellence in care",
+            "Monitor and improve outcomes",
+            "Maintain high standards"
+          ],
+          "common_errors": [
+            "Not monitoring quality systematically",
+            "Missing opportunities for improvement",
+            "Not maintaining evidence-based standards"
+          ]
+        }
+      }
+    },
+    "EX_286": {
+      "name": "Patient Education for Ligament Health",
+      "type": "patient_education",
+      "body_region": "educational",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["educational_materials"],
+      "position": "educational_setting",
+      "ligament_focus": "patient_empowerment",
+      "rehabilitation_phase": "all_phases",
+      "muscle_targets": {
+        "primary": ["patient_knowledge"],
+        "secondary": ["self_efficacy"]
+      },
+      "translations": {
+        "en": {
+          "name": "Patient Education for Ligament Health",
+          "description": "Comprehensive patient education for ligament injury and prevention",
+          "instructions": [
+            "Explain ligament anatomy and function clearly",
+            "Teach injury mechanisms and risk factors",
+            "Provide clear exercise instructions and progressions",
+            "Address patient questions and concerns",
+            "Empower patients to self-manage their condition"
+          ],
+          "cues": [
+            "Knowledge empowers healing",
+            "Understanding promotes compliance",
+            "Education prevents re-injury"
+          ],
+          "common_errors": [
+            "Not providing adequate education",
+            "Using technical language patients don't understand",
+            "Not addressing patient concerns"
+          ]
+        }
+      }
+    },
+    "EX_287": {
+      "name": "Team-Based Ligament Rehabilitation",
+      "type": "interdisciplinary",
+      "body_region": "team_approach",
+      "difficulty_level": 4,
+      "equipment_required": null,
+      "equipment_optional": ["communication_tools"],
+      "position": "team_collaboration",
+      "ligament_focus": "comprehensive_care",
+      "rehabilitation_phase": "coordinated_care",
+      "muscle_targets": {
+        "primary": ["comprehensive_outcomes"],
+        "secondary": ["team_coordination"]
+      },
+      "translations": {
+        "en": {
+          "name": "Team-Based Ligament Rehabilitation",
+          "description": "Coordinate multi-disciplinary approach to ligament rehabilitation",
+          "instructions": [
+            "Coordinate care with physicians, surgeons, and specialists",
+            "Collaborate with athletic trainers and strength coaches",
+            "Include mental health professionals as appropriate",
+            "Communicate effectively with all team members",
+            "Ensure continuity of care across providers"
+          ],
+          "cues": [
+            "Team approach improves outcomes",
+            "Communication is key to success",
+            "Coordinate care across disciplines"
+          ],
+          "common_errors": [
+            "Working in isolation without team coordination",
+            "Poor communication between team members",
+            "Not including appropriate specialists"
+          ]
+        }
+      }
+    },
+    "EX_288": {
+      "name": "Cultural Considerations in Ligament Care",
+      "type": "cultural_competency",
+      "body_region": "cultural_adaptation",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["cultural_resources"],
+      "position": "culturally_appropriate",
+      "ligament_focus": "cultural_sensitivity",
+      "rehabilitation_phase": "culturally_adapted",
+      "muscle_targets": {
+        "primary": ["cultural_competence"],
+        "secondary": ["patient_engagement"]
+      },
+      "translations": {
+        "en": {
+          "name": "Cultural Considerations in Ligament Care",
+          "description": "Provide culturally competent ligament rehabilitation",
+          "instructions": [
+            "Understand cultural beliefs about injury and healing",
+            "Adapt communication style for cultural preferences",
+            "Include cultural practices that support healing",
+            "Address cultural barriers to treatment",
+            "Provide culturally appropriate education materials"
+          ],
+          "cues": [
+            "Respect cultural differences",
+            "Adapt care to cultural needs",
+            "Include cultural healing practices"
+          ],
+          "common_errors": [
+            "Not considering cultural factors",
+            "Imposing Western medical model only",
+            "Missing cultural barriers to care"
+          ]
+        }
+      }
+    },
+    "EX_289": {
+      "name": "Economic Considerations in Ligament Rehabilitation",
+      "type": "healthcare_economics",
+      "body_region": "economic_factors",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["cost_analysis_tools"],
+      "position": "resource_optimization",
+      "ligament_focus": "cost_effectiveness",
+      "rehabilitation_phase": "resource_planning",
+      "muscle_targets": {
+        "primary": ["resource_optimization"],
+        "secondary": ["outcome_efficiency"]
+      },
+      "translations": {
+        "en": {
+          "name": "Economic Considerations in Ligament Rehabilitation",
+          "description": "Optimize cost-effectiveness in ligament rehabilitation",
+          "instructions": [
+            "Consider cost-effectiveness of treatment approaches",
+            "Optimize resource utilization for best outcomes",
+            "Include prevention programs to reduce overall costs",
+            "Address economic barriers to patient care",
+            "Document economic value of rehabilitation services"
+          ],
+          "cues": [
+            "Optimize value in healthcare delivery",
+            "Prevention saves long-term costs",
+            "Address economic barriers to care"
+          ],
+          "common_errors": [
+            "Not considering cost-effectiveness",
+            "Missing prevention opportunities",
+            "Not addressing economic barriers"
+          ]
+        }
+      }
+    },
+    "EX_290": {
+      "name": "Innovation in Ligament Rehabilitation",
+      "type": "innovation_integration",
+      "body_region": "technological_advancement",
+      "difficulty_level": 5,
+      "equipment_required": ["innovative_equipment"],
+      "equipment_optional": ["research_grade_technology"],
+      "position": "innovation_application",
+      "ligament_focus": "advancing_practice",
+      "rehabilitation_phase": "innovative_approaches",
+      "muscle_targets": {
+        "primary": ["innovation_application"],
+        "secondary": ["outcome_advancement"]
+      },
+      "translations": {
+        "en": {
+          "name": "Innovation in Ligament Rehabilitation",
+          "description": "Integrate innovative approaches in ligament rehabilitation",
+          "instructions": [
+            "Explore emerging technologies for ligament care",
+            "Integrate regenerative medicine approaches",
+            "Use artificial intelligence for treatment optimization",
+            "Apply novel assessment and treatment techniques",
+            "Contribute to innovation through clinical research"
+          ],
+          "cues": [
+            "Embrace beneficial innovations",
+            "Stay at forefront of clinical practice",
+            "Contribute to advancing the field"
+          ],
+          "common_errors": [
+            "Resisting beneficial innovations",
+            "Not staying current with advances",
+            "Not contributing to field advancement"
+          ]
+        }
+      }
+    },
+    "EX_291": {
+      "name": "Global Health Perspectives on Ligament Care",
+      "type": "global_health",
+      "body_region": "global_application",
+      "difficulty_level": 4,
+      "equipment_required": null,
+      "equipment_optional": ["global_resources"],
+      "position": "global_perspective",
+      "ligament_focus": "global_accessibility",
+      "rehabilitation_phase": "resource_adapted",
+      "muscle_targets": {
+        "primary": ["global_health_promotion"],
+        "secondary": ["accessible_care"]
+      },
+      "translations": {
+        "en": {
+          "name": "Global Health Perspectives on Ligament Care",
+          "description": "Adapt ligament care for global health contexts",
+          "instructions": [
+            "Develop resource-appropriate treatment protocols",
+            "Address ligament care in low-resource settings",
+            "Include culturally adapted approaches globally",
+            "Train local providers in ligament care",
+            "Promote accessible ligament health worldwide"
+          ],
+          "cues": [
+            "Adapt care to available resources",
+            "Promote global ligament health",
+            "Train local providers effectively"
+          ],
+          "common_errors": [
+            "Not adapting for resource limitations",
+            "Missing global health perspectives",
+            "Not training local providers"
+          ]
+        }
+      }
+    },
+    "EX_292": {
+      "name": "Sustainability in Ligament Rehabilitation Programs",
+      "type": "program_sustainability",
+      "body_region": "program_development",
+      "difficulty_level": 4,
+      "equipment_required": null,
+      "equipment_optional": ["program_management_tools"],
+      "position": "program_leadership",
+      "ligament_focus": "sustainable_programs",
+      "rehabilitation_phase": "program_sustainability",
+      "muscle_targets": {
+        "primary": ["program_longevity"],
+        "secondary": ["community_impact"]
+      },
+      "translations": {
+        "en": {
+          "name": "Sustainability in Ligament Rehabilitation Programs",
+          "description": "Develop sustainable ligament rehabilitation programs",
+          "instructions": [
+            "Design programs for long-term sustainability",
+            "Secure adequate funding and resources",
+            "Train and retain qualified staff",
+            "Engage community support and participation",
+            "Plan for program growth and adaptation"
+          ],
+          "cues": [
+            "Plan for program longevity",
+            "Engage community stakeholders",
+            "Build sustainable systems"
+          ],
+          "common_errors": [
+            "Not planning for sustainability",
+            "Missing community engagement",
+            "Inadequate resource planning"
+          ]
+        }
+      }
+    },
+    "EX_293": {
+      "name": "Professional Development in Ligament Care",
+      "type": "professional_development",
+      "body_region": "professional_growth",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["professional_resources"],
+      "position": "professional_development",
+      "ligament_focus": "expertise_advancement",
+      "rehabilitation_phase": "career_development",
+      "muscle_targets": {
+        "primary": ["professional_competence"],
+        "secondary": ["clinical_expertise"]
+      },
+      "translations": {
+        "en": {
+          "name": "Professional Development in Ligament Care",
+          "description": "Advance professional expertise in ligament rehabilitation",
+          "instructions": [
+            "Pursue continuing education in ligament care",
+            "Attend professional conferences and workshops",
+            "Engage in professional organizations",
+            "Mentor others in ligament rehabilitation",
+            "Contribute to professional literature and practice"
+          ],
+          "cues": [
+            "Commit to lifelong learning",
+            "Share knowledge with others",
+            "Advance the profession"
+          ],
+          "common_errors": [
+            "Not pursuing continuing education",
+            "Working in isolation from profession",
+            "Not contributing to field advancement"
+          ]
+        }
+      }
+    },
+    "EX_294": {
+      "name": "Leadership in Ligament Rehabilitation",
+      "type": "leadership_development",
+      "body_region": "leadership_skills",
+      "difficulty_level": 5,
+      "equipment_required": null,
+      "equipment_optional": ["leadership_resources"],
+      "position": "leadership_roles",
+      "ligament_focus": "field_leadership",
+      "rehabilitation_phase": "leadership_development",
+      "muscle_targets": {
+        "primary": ["leadership_competence"],
+        "secondary": ["field_advancement"]
+      },
+      "translations": {
+        "en": {
+          "name": "Leadership in Ligament Rehabilitation",
+          "description": "Develop leadership skills in ligament rehabilitation field",
+          "instructions": [
+            "Take leadership roles in professional organizations",
+            "Advocate for improved ligament care policies",
+            "Mentor the next generation of practitioners",
+            "Lead research and innovation initiatives",
+            "Shape the future of ligament rehabilitation"
+          ],
+          "cues": [
+            "Lead by example",
+            "Advocate for better care",
+            "Shape the future of the field"
+          ],
+          "common_errors": [
+            "Not stepping into leadership roles",
+            "Missing advocacy opportunities",
+            "Not developing future leaders"
+          ]
+        }
+      }
+    },
+    "EX_295": {
+      "name": "Ethics in Ligament Rehabilitation",
+      "type": "ethical_practice",
+      "body_region": "ethical_framework",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["ethics_resources"],
+      "position": "ethical_practice",
+      "ligament_focus": "ethical_standards",
+      "rehabilitation_phase": "ethical_decision_making",
+      "muscle_targets": {
+        "primary": ["ethical_competence"],
+        "secondary": ["professional_integrity"]
+      },
+      "translations": {
+        "en": {
+          "name": "Ethics in Ligament Rehabilitation",
+          "description": "Maintain highest ethical standards in ligament care",
+          "instructions": [
+            "Apply ethical principles to clinical decision-making",
+            "Respect patient autonomy and dignity",
+            "Maintain professional boundaries and competence",
+            "Address ethical dilemmas in practice",
+            "Advocate for patient rights and welfare"
+          ],
+          "cues": [
+            "Always act in patient's best interest",
+            "Maintain professional integrity",
+            "Respect patient rights and dignity"
+          ],
+          "common_errors": [
+            "Not considering ethical implications",
+            "Compromising professional standards",
+            "Not advocating for patient welfare"
+          ]
+        }
+      }
+    },
+    "EX_296": {
+      "name": "Communication Excellence in Ligament Care",
+      "type": "communication_skills",
+      "body_region": "communication",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["communication_tools"],
+      "position": "communication_focused",
+      "ligament_focus": "effective_communication",
+      "rehabilitation_phase": "communication_enhancement",
+      "muscle_targets": {
+        "primary": ["communication_effectiveness"],
+        "secondary": ["therapeutic_relationship"]
+      },
+      "translations": {
+        "en": {
+          "name": "Communication Excellence in Ligament Care",
+          "description": "Develop superior communication skills in ligament rehabilitation",
+          "instructions": [
+            "Practice active listening with patients and families",
+            "Explain complex concepts in understandable terms",
+            "Use motivational interviewing techniques",
+            "Provide clear and consistent instructions",
+            "Communicate effectively with healthcare team members"
+          ],
+          "cues": [
+            "Listen first, speak second",
+            "Make complex simple",
+            "Build therapeutic relationships"
+          ],
+          "common_errors": [
+            "Not listening effectively to patients",
+            "Using technical language inappropriately",
+            "Poor communication with team members"
+          ]
+        }
+      }
+    },
+    "EX_297": {
+      "name": "Outcome Measurement in Ligament Rehabilitation",
+      "type": "outcome_assessment",
+      "body_region": "measurement_systems",
+      "difficulty_level": 4,
+      "equipment_required": null,
+      "equipment_optional": ["measurement_tools"],
+      "position": "assessment_focused",
+      "ligament_focus": "outcome_optimization",
+      "rehabilitation_phase": "outcome_measurement",
+      "muscle_targets": {
+        "primary": ["outcome_measurement"],
+        "secondary": ["quality_improvement"]
+      },
+      "translations": {
+        "en": {
+          "name": "Outcome Measurement in Ligament Rehabilitation",
+          "description": "Implement comprehensive outcome measurement systems",
+          "instructions": [
+            "Use validated outcome measures for ligament injuries",
+            "Track patient progress systematically",
+            "Measure functional outcomes and quality of life",
+            "Include patient-reported outcome measures",
+            "Use data to improve clinical decision-making"
+          ],
+          "cues": [
+            "Measure what matters to patients",
+            "Track progress systematically",
+            "Use data to improve care"
+          ],
+          "common_errors": [
+            "Not using validated outcome measures",
+            "Failing to track progress systematically",
+            "Not including patient perspectives"
+          ]
+        }
+      }
+    },
+    "EX_298": {
+      "name": "Risk Management in Ligament Rehabilitation",
+      "type": "risk_management",
+      "body_region": "risk_factors",
+      "difficulty_level": 4,
+      "equipment_required": null,
+      "equipment_optional": ["risk_assessment_tools"],
+      "position": "risk_assessment",
+      "ligament_focus": "risk_mitigation",
+      "rehabilitation_phase": "risk_management",
+      "muscle_targets": {
+        "primary": ["risk_reduction"],
+        "secondary": ["safety_optimization"]
+      },
+      "translations": {
+        "en": {
+          "name": "Risk Management in Ligament Rehabilitation",
+          "description": "Implement comprehensive risk management in ligament care",
+          "instructions": [
+            "Identify and assess clinical and legal risks",
+            "Implement risk reduction strategies",
+            "Maintain appropriate documentation and communication",
+            "Ensure informed consent and shared decision-making",
+            "Have emergency procedures and protocols in place"
+          ],
+          "cues": [
+            "Identify risks before they become problems",
+            "Document thoroughly and communicate clearly",
+            "Prepare for emergency situations"
+          ],
+          "common_errors": [
+            "Not identifying potential risks",
+            "Inadequate documentation",
+            "Poor emergency preparedness"
+          ]
+        }
+      }
+    },
+    "EX_299": {
+      "name": "Future Directions in Ligament Rehabilitation",
+      "type": "future_planning",
+      "body_region": "field_advancement",
+      "difficulty_level": 5,
+      "equipment_required": null,
+      "equipment_optional": ["future_planning_resources"],
+      "position": "visionary_planning",
+      "ligament_focus": "field_evolution",
+      "rehabilitation_phase": "future_development",
+      "muscle_targets": {
+        "primary": ["field_advancement"],
+        "secondary": ["innovation_leadership"]
+      },
+      "translations": {
+        "en": {
+          "name": "Future Directions in Ligament Rehabilitation",
+          "description": "Prepare for and shape the future of ligament rehabilitation",
+          "instructions": [
+            "Stay informed about emerging trends and technologies",
+            "Participate in research and development activities",
+            "Contribute to policy development and advocacy",
+            "Prepare for changing healthcare delivery models",
+            "Lead innovation and advancement in the field"
+          ],
+          "cues": [
+            "Prepare for the future of healthcare",
+            "Lead innovation in ligament care",
+            "Shape the direction of the field"
+          ],
+          "common_errors": [
+            "Not preparing for future changes",
+            "Missing innovation opportunities",
+            "Not contributing to field advancement"
+          ]
+        }
+      }
+    },
+    "EX_300": {
+      "name": "Comprehensive Ligament Health Program",
+      "type": "comprehensive_program",
+      "body_region": "total_body",
+      "difficulty_level": 5,
+      "equipment_required": null,
+      "equipment_optional": ["comprehensive_equipment"],
+      "position": "various",
+      "ligament_focus": "total_ligament_health",
+      "rehabilitation_phase": "comprehensive_approach",
+      "muscle_targets": {
+        "primary": ["comprehensive_ligament_health"],
+        "secondary": ["lifelong_wellness"]
+      },
+      "translations": {
+        "en": {
+          "name": "Comprehensive Ligament Health Program",
+          "description": "Holistic approach to ligament health across all populations and settings",
+          "instructions": [
+            "Integrate all aspects of ligament health and rehabilitation",
+            "Address prevention, treatment, and long-term management",
+            "Include all populations and settings",
+            "Coordinate comprehensive interdisciplinary care",
+            "Promote lifelong ligament health and wellness"
+          ],
+          "cues": [
+            "Think comprehensively about ligament health",
+            "Integrate all aspects of care",
+            "Promote lifelong wellness"
+          ],
+          "common_errors": [
+            "Taking narrow approach to ligament care",
+            "Missing comprehensive integration",
+            "Not promoting lifelong health"
+          ]
+        }
+      }
+    }
+  }
+}

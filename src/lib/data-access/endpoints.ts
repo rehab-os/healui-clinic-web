@@ -1,0 +1,421 @@
+export const ENDPOINTS = {
+    // Auth
+    SEND_OTP: () => 'auth/send-otp',
+    LOGIN: () => 'auth/login',
+    GET_ME: () => 'auth/me',
+
+    // Organizations
+    GET_ORGANIZATIONS: () => 'organizations',
+    GET_ORGANIZATION: (id: string) => `organizations/${id}`,
+    CREATE_ORGANIZATION: () => 'organizations',
+    UPDATE_ORGANIZATION: (id: string) => `organizations/${id}`,
+    DELETE_ORGANIZATION: (id: string) => `organizations/${id}`,
+
+    // Clinics
+    GET_CLINICS: () => 'clinics',
+    GET_CLINIC: (id: string) => `clinics/${id}`,
+    CREATE_CLINIC: () => 'clinics',
+    UPDATE_CLINIC: (id: string) => `clinics/${id}`,
+    DELETE_CLINIC: (id: string) => `clinics/${id}`,
+
+    // Users
+    GET_USERS: () => 'users',
+    GET_USER: (id: string) => `users/${id}`,
+    CREATE_USER: () => 'users',
+    UPDATE_USER: (id: string) => `users/${id}`,
+    DELETE_USER: (id: string) => `users/${id}`,
+    ASSIGN_ROLE: (id: string) => `users/${id}/assign-role`,
+    REMOVE_ROLE: (userId: string, roleId: string) => `users/${userId}/roles/${roleId}`,
+    GET_USER_PERMISSIONS: (id: string) => `users/${id}/permissions`,
+    UPDATE_PROFILE: () => 'users/me',
+
+    // Roles
+    GET_ROLES: () => 'roles',
+    GET_ROLE: (id: string) => `roles/${id}`,
+    CREATE_ROLE: () => 'roles',
+    UPDATE_ROLE: (id: string) => `roles/${id}`,
+    DELETE_ROLE: (id: string) => `roles/${id}`,
+    ASSIGN_PERMISSIONS: (id: string) => `roles/${id}/permissions`,
+    UNASSIGN_PERMISSIONS: (id: string) => `roles/${id}/permissions`,
+
+    // Permissions
+    GET_PERMISSIONS: () => 'permissions',
+    GET_PERMISSION: (id: string) => `permissions/${id}`,
+    CREATE_PERMISSION: () => 'permissions',
+    UPDATE_PERMISSION: (id: string) => `permissions/${id}`,
+    DELETE_PERMISSION: (id: string) => `permissions/${id}`,
+
+    // Team Management
+    GET_TEAM_MEMBERS: () => 'team/members',
+    ADD_TEAM_MEMBER: () => 'team/members',
+    REMOVE_TEAM_MEMBER: (userId: string) => `team/members/${userId}`,
+    UPDATE_TEAM_MEMBER_ROLE: (userId: string) => `team/members/${userId}/role`,
+
+    // Patients
+    GET_PATIENTS: (params?: Record<string, any>) => {
+        let url = 'patients'
+        if (params) {
+            const searchParams = new URLSearchParams()
+            Object.keys(params).forEach(key => {
+                if (params[key] !== undefined && params[key] !== null) {
+                    searchParams.append(key, params[key].toString())
+                }
+            })
+            if (searchParams.toString()) {
+                url += '?' + searchParams.toString()
+            }
+        }
+        return url
+    },
+    GET_PATIENT: (id: string) => `patients/${id}`,
+    CREATE_PATIENT: () => 'patients',
+    UPDATE_PATIENT: (id: string) => `patients/${id}`,
+    DELETE_PATIENT: (id: string) => `patients/${id}`,
+    GET_PATIENT_INTAKE_STATUS: (id: string) => `patients/${id}/intake-status`,
+    GET_PATIENT_VISITS: (id: string) => `patients/${id}/visits`,
+    GET_PATIENT_VISIT_HISTORY: (id: string) => `patients/${id}/visit-history`,
+
+    // Patient Conditions (Multi-Condition Support)
+    GET_PATIENT_CONDITIONS: (patientId: string) => `patients/${patientId}/conditions`,
+    CREATE_PATIENT_CONDITION: (patientId: string) => `patients/${patientId}/conditions`,
+    UPDATE_PATIENT_CONDITION: (patientId: string, conditionId: string) => `patients/${patientId}/conditions/${conditionId}`,
+    UPDATE_PATIENT_CONDITION_STATUS: (patientId: string, conditionId: string) => `patients/${patientId}/conditions/${conditionId}/status`,
+    UPDATE_PATIENT_CONDITION_DESCRIPTION: (patientId: string, conditionId: string) => `patients/${patientId}/conditions/${conditionId}/description`,
+    DELETE_PATIENT_CONDITION: (patientId: string, conditionId: string) => `patients/${patientId}/conditions/${conditionId}`,
+    GET_AVAILABLE_CONDITIONS: (patientId: string, params?: Record<string, any>) => {
+        let url = `patients/${patientId}/available-conditions`
+        if (params) {
+            const searchParams = new URLSearchParams()
+            Object.keys(params).forEach(key => {
+                if (params[key] !== undefined && params[key] !== null) {
+                    searchParams.append(key, params[key].toString())
+                }
+            })
+            if (searchParams.toString()) {
+                url += '?' + searchParams.toString()
+            }
+        }
+        return url
+    },
+    SYNC_PATIENT_CONDITION: (patientId: string, conditionId: string) => `patients/${patientId}/conditions/${conditionId}/sync`,
+
+    // Visits
+    GET_VISITS: () => 'patients/visits',
+    GET_VISIT: (id: string) => `patients/visits/${id}`,
+    CREATE_VISIT: () => 'patients/visits',
+    UPDATE_VISIT: (id: string) => `patients/visits/${id}`,
+    CHECK_IN_VISIT: (id: string) => `patients/visits/${id}/check-in`,
+    START_VISIT: (id: string) => `patients/visits/${id}/start`,
+    COMPLETE_VISIT: (id: string) => `patients/visits/${id}/complete`,
+    CANCEL_VISIT: (id: string) => `patients/visits/${id}/cancel`,
+    RESCHEDULE_VISIT: (id: string) => `patients/visits/${id}/reschedule`,
+    GET_AVAILABLE_PHYSIOTHERAPISTS: () => 'patients/physiotherapists/availability',
+
+    // Visit Conditions (Multi-Condition Support)
+    GET_VISIT_CONDITIONS: (visitId: string) => `visit-conditions/visit/${visitId}`,
+    CREATE_VISIT_CONDITION: () => 'visit-conditions',
+    UPDATE_VISIT_CONDITION: (id: string) => `visit-conditions/${id}`,
+    DELETE_VISIT_CONDITION: (id: string) => `visit-conditions/${id}`,
+    GET_CONDITION_HISTORY: (patientConditionId: string) => `visit-conditions/patient-condition/${patientConditionId}/history`,
+    GET_CONDITION_PROTOCOL: (conditionId: string) => `neo4j/conditions/${conditionId}/protocol`,
+    GET_AVAILABLE_CONDITIONS_FOR_VISIT: (patientId: string, params?: Record<string, any>) => {
+        let url = `visit-conditions/patients/${patientId}/available-conditions`
+        if (params) {
+            const searchParams = new URLSearchParams()
+            Object.keys(params).forEach(key => {
+                if (params[key] !== undefined && params[key] !== null) {
+                    searchParams.append(key, params[key].toString())
+                }
+            })
+            if (searchParams.toString()) {
+                url += '?' + searchParams.toString()
+            }
+        }
+        return url
+    },
+
+    // Notes
+    CREATE_NOTE: () => 'patients/notes',
+    GET_NOTE: (id: string) => `patients/notes/${id}`,
+    UPDATE_NOTE: (id: string) => `patients/notes/${id}`,
+    SIGN_NOTE: (id: string) => `patients/notes/${id}/sign`,
+
+    // Static Data - Conditions
+    GET_ALL_STATIC_CONDITIONS: () => 'static-data/conditions',
+    SEARCH_CONDITIONS: (params?: Record<string, any>) => {
+        let url = 'static-data/conditions/search'
+        if (params) {
+            const searchParams = new URLSearchParams()
+            Object.keys(params).forEach(key => {
+                if (params[key] !== undefined && params[key] !== null) {
+                    searchParams.append(key, params[key].toString())
+                }
+            })
+            if (searchParams.toString()) {
+                url += '?' + searchParams.toString()
+            }
+        }
+        return url
+    },
+    GET_CONDITION_BY_IDENTIFIER: (identifier: string) => `static-data/conditions/${identifier}`,
+
+    // Neo4j Conditions (Knowledge Graph)
+    GET_ALL_CONDITIONS: (params?: Record<string, any>) => {
+        let url = 'neo4j/conditions'
+        if (params) {
+            const searchParams = new URLSearchParams()
+            Object.keys(params).forEach(key => {
+                if (params[key] !== undefined && params[key] !== null) {
+                    searchParams.append(key, params[key].toString())
+                }
+            })
+            if (searchParams.toString()) {
+                url += '?' + searchParams.toString()
+            }
+        }
+        return url
+    },
+    GET_CONDITION_BY_ID: (conditionId: string) => `neo4j/conditions/${conditionId}`,
+    GET_CONDITIONS_BY_BODY_REGION: (bodyRegion: string) => `neo4j/conditions/regions/${bodyRegion}`,
+    GET_CONDITION_PROTOCOLS: (conditionId: string) => `neo4j/conditions/${conditionId}/protocols`,
+
+    // Physiotherapist Profile
+    GET_PHYSIOTHERAPIST_PROFILE: () => 'physiotherapist-profile',
+    CREATE_PHYSIOTHERAPIST_PROFILE: () => 'physiotherapist-profile',
+    UPDATE_PHYSIOTHERAPIST_PROFILE: () => 'physiotherapist-profile',
+    CREATE_COMPLETE_PROFILE: () => 'physiotherapist-profile/complete',
+    ADD_EDUCATION: () => 'physiotherapist-profile/education',
+    ADD_TECHNIQUE: () => 'physiotherapist-profile/technique',
+    ADD_MACHINE: () => 'physiotherapist-profile/machine',
+    ADD_WORKSHOP: () => 'physiotherapist-profile/workshop',
+    DELETE_EDUCATION: (id: string) => `physiotherapist-profile/education/${id}`,
+    DELETE_TECHNIQUE: (id: string) => `physiotherapist-profile/technique/${id}`,
+    DELETE_MACHINE: (id: string) => `physiotherapist-profile/machine/${id}`,
+    DELETE_WORKSHOP: (id: string) => `physiotherapist-profile/workshop/${id}`,
+    
+    // Physiotherapist Profile Photos
+    UPLOAD_PROFILE_PHOTO: () => 'physiotherapist-profile/photos/upload',
+    GET_PROFILE_PHOTOS: () => 'physiotherapist-profile/photos',
+    DELETE_PROFILE_PHOTO: () => 'physiotherapist-profile/photos',
+    GET_PHOTO_CONSTRAINTS: () => 'physiotherapist-profile/photos/constraints',
+
+    // Bank Account
+    UPDATE_BANK_ACCOUNT: () => 'physiotherapist-profile/bank-account',
+    GET_BANK_ACCOUNT: () => 'physiotherapist-profile/bank-account',
+
+    // Audio
+    TRANSCRIBE_AUDIO: () => 'audio/transcribe',
+
+    // Notes Generation
+    GENERATE_NOTE: () => 'notes/generate',
+
+    // Nutrition
+    GENERATE_NUTRITION_PLAN: () => 'nutrition/generate',
+
+    // Analytics - Clinic Admin
+    GET_CLINIC_PATIENT_ANALYTICS: (clinicId: string) => `analytics/clinic/${clinicId}/patients`,
+    GET_CLINIC_APPOINTMENT_ANALYTICS: (clinicId: string) => `analytics/clinic/${clinicId}/appointments`,
+    GET_CLINIC_PATIENT_CATEGORIES: (clinicId: string) => `analytics/clinic/${clinicId}/patient-categories`,
+    GET_CLINIC_CASE_TYPES: (clinicId: string) => `analytics/clinic/${clinicId}/case-types`,
+    GET_CLINIC_UTILIZATION: (clinicId: string) => `analytics/clinic/${clinicId}/utilization`,
+
+    // Analytics - Organization Admin
+    GET_ORGANIZATION_OVERVIEW: (organizationId: string) => `analytics/organization/${organizationId}/overview`,
+    GET_ORGANIZATION_CLINICS_SUMMARY: (organizationId: string) => `analytics/organization/${organizationId}/clinics-summary`,
+
+    // Analytics - Common
+    GET_RECENT_ACTIVITIES: (clinicId?: string) => clinicId ? `analytics/recent-activities?clinicId=${clinicId}` : 'analytics/recent-activities',
+    GET_QUICK_STATS: (clinicId?: string) => clinicId ? `analytics/quick-stats?clinicId=${clinicId}` : 'analytics/quick-stats',
+
+    // Physiotherapist Availability
+    GET_MY_AVAILABILITY: () => 'physiotherapist-availability',
+    GET_PHYSIOTHERAPIST_AVAILABILITY: (id: string) => `physiotherapist-availability/physiotherapist/${id}`,
+    CREATE_AVAILABILITY: () => 'physiotherapist-availability',
+    UPDATE_AVAILABILITY: (id: string) => `physiotherapist-availability/${id}`,
+    DELETE_AVAILABILITY: (id: string) => `physiotherapist-availability/${id}`,
+    SET_DEFAULT_AVAILABILITY: () => 'physiotherapist-availability/set-defaults',
+    GET_AVAILABLE_SLOTS: (params: { date: string; availability_type: string; pincode?: string }) => {
+        const searchParams = new URLSearchParams({
+            date: params.date,
+            availability_type: params.availability_type,
+            ...(params.pincode && { pincode: params.pincode })
+        })
+        return `physiotherapist-availability/slots?${searchParams.toString()}`
+    },
+    GET_PHYSIOTHERAPIST_SLOTS: (physiotherapistId: string, params: { date: string; availability_type: string; pincode?: string }) => {
+        const searchParams = new URLSearchParams({
+            date: params.date,
+            availability_type: params.availability_type,
+            ...(params.pincode && { pincode: params.pincode })
+        })
+        return `physiotherapist-availability/slots/${physiotherapistId}?${searchParams.toString()}`
+    },
+
+    // Physio Service Locations
+    GET_SERVICE_LOCATIONS: (physiotherapistId: string) => `physiotherapists/${physiotherapistId}/service-locations`,
+    CREATE_SERVICE_LOCATION: (physiotherapistId: string) => `physiotherapists/${physiotherapistId}/service-locations`,
+    UPDATE_SERVICE_LOCATION: (physiotherapistId: string, locationId: string) => `physiotherapists/${physiotherapistId}/service-locations/${locationId}`,
+    DELETE_SERVICE_LOCATION: (physiotherapistId: string, locationId: string) => `physiotherapists/${physiotherapistId}/service-locations/${locationId}`,
+    SEARCH_BY_PINCODE: (params: { pincode: string; dayOfWeek?: number }) => {
+        const searchParams = new URLSearchParams({
+            pincode: params.pincode,
+            ...(params.dayOfWeek !== undefined && { dayOfWeek: params.dayOfWeek.toString() })
+        })
+        return `marketplace/service-locations/search?${searchParams.toString()}`
+    },
+    GET_ZONE_INFO: (locationId: string, params: { pincode: string; latitude?: number; longitude?: number }) => {
+        const searchParams = new URLSearchParams({
+            pincode: params.pincode,
+            ...(params.latitude && { latitude: params.latitude.toString() }),
+            ...(params.longitude && { longitude: params.longitude.toString() })
+        })
+        return `marketplace/service-locations/${locationId}/zone-info?${searchParams.toString()}`
+    },
+
+    // Treatment Protocols
+    GET_TREATMENT_PROTOCOLS: (params?: Record<string, any>) => {
+        let url = 'treatment-protocols'
+        if (params) {
+            const searchParams = new URLSearchParams()
+            Object.keys(params).forEach(key => {
+                if (params[key] !== undefined && params[key] !== null) {
+                    searchParams.append(key, params[key].toString())
+                }
+            })
+            if (searchParams.toString()) {
+                url += '?' + searchParams.toString()
+            }
+        }
+        return url
+    },
+    GET_TREATMENT_PROTOCOL: (id: string) => `treatment-protocols/${id}`,
+    CREATE_TREATMENT_PROTOCOL: () => 'treatment-protocols',
+    UPDATE_TREATMENT_PROTOCOL: (id: string) => `treatment-protocols/${id}`,
+    DELETE_TREATMENT_PROTOCOL: (id: string) => `treatment-protocols/${id}`,
+    GET_TREATMENT_PROTOCOL_BY_VISIT: (visitId: string) => `treatment-protocols/visit/${visitId}`,
+    CHECK_TREATMENT_PROTOCOL_EXISTS: (visitId: string) => `treatment-protocols/visit/${visitId}/exists`,
+    FINALIZE_TREATMENT_PROTOCOL: (id: string) => `treatment-protocols/${id}/finalize`,
+    SEND_TREATMENT_PROTOCOL: (id: string) => `treatment-protocols/${id}/send-to-patient`,
+    GENERATE_TREATMENT_PROTOCOL_PDF: (id: string) => `treatment-protocols/${id}/pdf`,
+
+    // Protocol Generator (AI)
+    GENERATE_PROTOCOL: () => 'protocol-generator/generate',
+    GENERATE_PROTOCOL_DIRECT: () => 'protocol-generator/generate-direct',
+    GENERATE_PROTOCOL_STRUCTURED: () => 'protocol-generator/generate-structured',
+    GENERATE_PROTOCOL_STRUCTURED_DIRECT: () => 'protocol-generator/generate-structured-direct',
+    VALIDATE_PROTOCOL_SAFETY: () => 'protocol-generator/validate-safety',
+
+    // Protocol Loggings (Manual Entry Audit)
+    CREATE_PROTOCOL_LOGGING: () => 'protocol-loggings',
+    GET_PROTOCOL_LOGGINGS: (params?: Record<string, any>) => {
+        let url = 'protocol-loggings'
+        if (params) {
+            const searchParams = new URLSearchParams()
+            Object.keys(params).forEach(key => {
+                if (params[key] !== undefined && params[key] !== null) {
+                    searchParams.append(key, params[key].toString())
+                }
+            })
+            if (searchParams.toString()) {
+                url += '?' + searchParams.toString()
+            }
+        }
+        return url
+    },
+
+    // Protocol Generation Logs (AI vs Physio comparison)
+    CREATE_PROTOCOL_GENERATION_LOG: () => 'protocol-generation-logs',
+    GET_PROTOCOL_GENERATION_LOGS: (params?: Record<string, any>) => {
+        let url = 'protocol-generation-logs'
+        if (params) {
+            const searchParams = new URLSearchParams()
+            Object.keys(params).forEach(key => {
+                if (params[key] !== undefined && params[key] !== null) {
+                    searchParams.append(key, params[key].toString())
+                }
+            })
+            if (searchParams.toString()) {
+                url += '?' + searchParams.toString()
+            }
+        }
+        return url
+    },
+
+    // ============ Billing APIs ============
+    // Patient Account
+    GET_PATIENT_ACCOUNT: (patientId: string, clinicId: string) => `billing/patients/${patientId}/account?clinic_id=${clinicId}`,
+    GET_PATIENT_BALANCE: (patientId: string, clinicId: string) => `billing/patients/${patientId}/balance?clinic_id=${clinicId}`,
+    RECORD_PATIENT_PAYMENT: (patientId: string, clinicId: string) => `billing/patients/${patientId}/payments?clinic_id=${clinicId}`,
+    GET_PATIENT_PAYMENTS: (patientId: string, clinicId: string, limit?: number) => {
+        let url = `billing/patients/${patientId}/payments?clinic_id=${clinicId}`
+        if (limit) url += `&limit=${limit}`
+        return url
+    },
+    GET_AVAILABLE_SESSION_PACKS: (patientId: string, clinicId: string, conditionId?: string) => {
+        let url = `billing/patients/${patientId}/available-packs?clinic_id=${clinicId}`
+        if (conditionId) url += `&condition_id=${conditionId}`
+        return url
+    },
+
+    // Session Packs
+    CREATE_SESSION_PACK: () => 'billing/session-packs',
+    GET_SESSION_PACKS: (params: { clinic_id: string; patient_id?: string; status?: string; payment_status?: string; has_remaining?: boolean; page?: number; limit?: number }) => {
+        const searchParams = new URLSearchParams({ clinic_id: params.clinic_id })
+        if (params.patient_id) searchParams.append('patient_id', params.patient_id)
+        if (params.status) searchParams.append('status', params.status)
+        if (params.payment_status) searchParams.append('payment_status', params.payment_status)
+        if (params.has_remaining !== undefined) searchParams.append('has_remaining', params.has_remaining.toString())
+        if (params.page) searchParams.append('page', params.page.toString())
+        if (params.limit) searchParams.append('limit', params.limit.toString())
+        return `billing/session-packs?${searchParams.toString()}`
+    },
+    GET_SESSION_PACK: (id: string) => `billing/session-packs/${id}`,
+    ADD_SESSIONS_TO_PACK: (id: string) => `billing/session-packs/${id}/add-sessions`,
+
+    // Visit Billing
+    BILL_VISIT: (visitId: string) => `billing/visits/${visitId}/bill`,
+    GET_VISIT_BILLING: (visitId: string) => `billing/visits/${visitId}/billing`,
+    UPDATE_VISIT_BILLING: (visitId: string) => `billing/visits/${visitId}/billing`,
+
+    // Invoices
+    CREATE_INVOICE: () => 'billing/invoices',
+    GET_INVOICES: (params: { clinic_id: string; patient_id?: string; invoice_type?: string; status?: string; date_from?: string; date_to?: string; search?: string; page?: number; limit?: number }) => {
+        const searchParams = new URLSearchParams({ clinic_id: params.clinic_id })
+        if (params.patient_id) searchParams.append('patient_id', params.patient_id)
+        if (params.invoice_type) searchParams.append('invoice_type', params.invoice_type)
+        if (params.status) searchParams.append('status', params.status)
+        if (params.date_from) searchParams.append('date_from', params.date_from)
+        if (params.date_to) searchParams.append('date_to', params.date_to)
+        if (params.search) searchParams.append('search', params.search)
+        if (params.page) searchParams.append('page', params.page.toString())
+        if (params.limit) searchParams.append('limit', params.limit.toString())
+        return `billing/invoices?${searchParams.toString()}`
+    },
+    GET_INVOICE: (id: string) => `billing/invoices/${id}`,
+    FINALIZE_INVOICE: (id: string) => `billing/invoices/${id}/finalize`,
+
+    // Billing Reports
+    GET_DAILY_SUMMARY: (clinicId: string, date?: string) => {
+        let url = `billing/reports/daily-summary?clinic_id=${clinicId}`
+        if (date) url += `&date=${date}`
+        return url
+    },
+    GET_OUTSTANDING_REPORT: (params: { clinic_id: string; min_amount?: number; days_overdue?: number; page?: number; limit?: number }) => {
+        const searchParams = new URLSearchParams({ clinic_id: params.clinic_id })
+        if (params.min_amount) searchParams.append('min_amount', params.min_amount.toString())
+        if (params.days_overdue) searchParams.append('days_overdue', params.days_overdue.toString())
+        if (params.page) searchParams.append('page', params.page.toString())
+        if (params.limit) searchParams.append('limit', params.limit.toString())
+        return `billing/reports/outstanding?${searchParams.toString()}`
+    },
+    GET_COLLECTION_REPORT: (params: { clinic_id: string; date_from: string; date_to: string; received_by?: string; method?: string }) => {
+        const searchParams = new URLSearchParams({
+            clinic_id: params.clinic_id,
+            date_from: params.date_from,
+            date_to: params.date_to
+        })
+        if (params.received_by) searchParams.append('received_by', params.received_by)
+        if (params.method) searchParams.append('method', params.method)
+        return `billing/reports/collections?${searchParams.toString()}`
+    },
+}

@@ -1,0 +1,191 @@
+{
+  "red_flag_screening": {
+    "description": "Systematic red flag screening questions for physiotherapy assessment",
+    "screening_categories": {
+      "neurological": {
+        "priority": 1,
+        "urgency_level": "immediate",
+        "questions": [
+          {
+            "id": "RED_001",
+            "question": "Do you have any numbness or tingling in your hands, arms, legs, or feet?",
+            "follow_up": "Where specifically? How long has this been present?",
+            "conditions_indicated": ["COND_009", "COND_021", "COND_022", "COND_088"],
+            "action_if_positive": "detailed_neurological_assessment"
+          },
+          {
+            "id": "RED_002",
+            "question": "Do you have any weakness in your arms or legs?",
+            "follow_up": "Is it getting worse? Does it affect both sides?",
+            "conditions_indicated": ["COND_021", "COND_088", "COND_020"],
+            "action_if_positive": "immediate_medical_referral"
+          },
+          {
+            "id": "RED_003",
+            "question": "Have you had any changes in your bowel or bladder control?",
+            "follow_up": "When did this start? Any loss of sensation in genital/rectal area?",
+            "conditions_indicated": ["COND_021"],
+            "action_if_positive": "emergency_referral",
+            "urgency": "immediate"
+          },
+          {
+            "id": "RED_004",
+            "question": "Have you experienced any sudden, severe headaches or changes in vision?",
+            "follow_up": "Any dizziness, nausea, or balance problems?",
+            "conditions_indicated": ["COND_020", "COND_096"],
+            "action_if_positive": "immediate_medical_referral"
+          },
+          {
+            "id": "RED_005",
+            "question": "Have you had any difficulty speaking or swallowing?",
+            "follow_up": "Any facial drooping or weakness?",
+            "conditions_indicated": ["COND_020", "COND_088", "COND_090"],
+            "action_if_positive": "immediate_medical_referral"
+          }
+        ]
+      },
+      "cardiovascular": {
+        "priority": 1,
+        "urgency_level": "immediate",
+        "questions": [
+          {
+            "id": "RED_006",
+            "question": "Do you have any chest pain or pressure?",
+            "follow_up": "Does it worsen with activity? Any shortness of breath?",
+            "conditions_indicated": ["COND_100", "COND_096"],
+            "action_if_positive": "immediate_medical_referral"
+          },
+          {
+            "id": "RED_007",
+            "question": "Do you have any shortness of breath at rest or with minimal activity?",
+            "follow_up": "Any swelling in your legs or ankles?",
+            "conditions_indicated": ["COND_099", "COND_096", "COND_098"],
+            "action_if_positive": "urgent_medical_referral"
+          },
+          {
+            "id": "RED_008",
+            "question": "Do you have any heart palpitations or irregular heartbeat?",
+            "follow_up": "Any dizziness or fainting with these episodes?",
+            "conditions_indicated": ["COND_100", "COND_099"],
+            "action_if_positive": "medical_referral"
+          },
+          {
+            "id": "RED_009",
+            "question": "Have you had any sudden onset of severe leg pain with swelling?",
+            "follow_up": "Any recent surgery, long flights, or prolonged bed rest?",
+            "conditions_indicated": ["COND_096"],
+            "action_if_positive": "immediate_medical_referral"
+          }
+        ]
+      },
+      "systemic": {
+        "priority": 2,
+        "urgency_level": "urgent",
+        "questions": [
+          {
+            "id": "RED_010",
+            "question": "Have you had any unexplained weight loss (>10 lbs in 6 months)?",
+            "follow_up": "Any changes in appetite? Night sweats?",
+            "conditions_indicated": ["malignancy", "systemic_disease"],
+            "action_if_positive": "medical_referral"
+          },
+          {
+            "id": "RED_011",
+            "question": "Do you have any fevers, chills, or night sweats?",
+            "follow_up": "How long? Any recent infections?",
+            "conditions_indicated": ["infection", "malignancy"],
+            "action_if_positive": "medical_referral"
+          },
+          {
+            "id": "RED_012",
+            "question": "Do you have a history of cancer?",
+            "follow_up": "What type? When? Any current treatment?",
+            "conditions_indicated": ["metastatic_disease"],
+            "action_if_positive": "oncology_clearance_required"
+          },
+          {
+            "id": "RED_013",
+            "question": "Are you taking any blood thinning medications?",
+            "follow_up": "Which medications? Any recent bleeding?",
+            "conditions_indicated": ["bleeding_risk"],
+            "action_if_positive": "modify_treatment_approach"
+          }
+        ]
+      },
+      "fracture_risk": {
+        "priority": 2,
+        "urgency_level": "urgent",
+        "questions": [
+          {
+            "id": "RED_014",
+            "question": "Did your pain start after a significant fall or trauma?",
+            "follow_up": "Describe the mechanism. Any immediate severe pain?",
+            "conditions_indicated": ["fracture"],
+            "action_if_positive": "imaging_required"
+          },
+          {
+            "id": "RED_015",
+            "question": "Are you over 50 with severe pain from minimal trauma?",
+            "follow_up": "Any history of osteoporosis? Previous fractures?",
+            "conditions_indicated": ["osteoporotic_fracture"],
+            "action_if_positive": "imaging_required"
+          },
+          {
+            "id": "RED_016",
+            "question": "Do you have constant, severe pain that doesn't improve with rest?",
+            "follow_up": "Pain level 7-10/10? Worsening at night?",
+            "conditions_indicated": ["fracture", "malignancy"],
+            "action_if_positive": "urgent_investigation"
+          }
+        ]
+      },
+      "infection": {
+        "priority": 1,
+        "urgency_level": "immediate",
+        "questions": [
+          {
+            "id": "RED_017",
+            "question": "Do you have any open wounds, cuts, or skin infections near the painful area?",
+            "follow_up": "Any redness, warmth, or discharge?",
+            "conditions_indicated": ["cellulitis", "osteomyelitis"],
+            "action_if_positive": "medical_referral"
+          },
+          {
+            "id": "RED_018",
+            "question": "Have you had any recent injections or procedures in the area?",
+            "follow_up": "When? Any complications noted?",
+            "conditions_indicated": ["iatrogenic_infection"],
+            "action_if_positive": "medical_referral"
+          }
+        ]
+      }
+    },
+    "screening_algorithms": {
+      "initial_screening": {
+        "mandatory_categories": ["neurological", "cardiovascular"],
+        "conditional_categories": {
+          "if_pain_level_high": ["fracture_risk", "systemic"],
+          "if_recent_procedure": ["infection"],
+          "if_systemic_symptoms": ["systemic", "infection"]
+        }
+      },
+      "severity_matrix": {
+        "emergency": {
+          "timeframe": "immediate",
+          "red_flags": ["RED_003", "RED_006", "RED_009"],
+          "action": "call_emergency_services"
+        },
+        "urgent": {
+          "timeframe": "same_day",
+          "red_flags": ["RED_002", "RED_004", "RED_007", "RED_016"],
+          "action": "immediate_medical_referral"
+        },
+        "non_urgent": {
+          "timeframe": "within_week",
+          "red_flags": ["RED_010", "RED_011", "RED_015"],
+          "action": "medical_referral"
+        }
+      }
+    }
+  }
+}

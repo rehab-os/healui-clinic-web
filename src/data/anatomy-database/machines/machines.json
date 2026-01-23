@@ -1,0 +1,114 @@
+{
+ "machines": [
+   {
+     "name": "TENS units",
+     "usedIn": ["pain management", "acute injuries", "chronic pain", "post-surgical pain"],
+     "type": "Electrotherapy Machine"
+   },
+   {
+     "name": "IFT machines",
+     "usedIn": ["deep tissue pain", "muscle spasms", "edema reduction", "circulation improvement"],
+     "type": "Electrotherapy Machine"
+   },
+   {
+     "name": "Ultrasound therapy units",
+     "usedIn": ["soft tissue injuries", "tendonitis", "bursitis", "scar tissue treatment"],
+     "type": "Electrotherapy Machine"
+   },
+   {
+     "name": "Shortwave diathermy",
+     "usedIn": ["arthritis", "muscle strains", "joint stiffness", "chronic inflammation"],
+     "type": "Electrotherapy Machine"
+   },
+   {
+     "name": "Laser therapy devices",
+     "usedIn": ["wound healing", "tendon injuries", "arthritis", "neuropathy"],
+     "type": "Electrotherapy Machine"
+   },
+   {
+     "name": "Shockwave therapy machines",
+     "usedIn": ["plantar fasciitis", "tennis elbow", "calcific tendonitis", "trigger points"],
+     "type": "Electrotherapy Machine"
+   },
+   {
+     "name": "EMS units",
+     "usedIn": ["muscle weakness", "post-surgery rehabilitation", "muscle atrophy", "sports training"],
+     "type": "Electrotherapy Machine"
+   },
+   {
+     "name": "Treatment tables",
+     "usedIn": ["manual therapy", "patient examination", "exercise therapy", "massage"],
+     "type": "Manual Therapy Equipment"
+   },
+   {
+     "name": "Traction units",
+     "usedIn": ["disc herniation", "neck pain", "back pain", "spinal decompression"],
+     "type": "Manual Therapy Equipment"
+   },
+   {
+     "name": "Treadmills",
+     "usedIn": ["gait training", "cardio rehabilitation", "weight-bearing exercises", "balance training"],
+     "type": "Exercise Equipment"
+   },
+   {
+     "name": "Stationary bikes",
+     "usedIn": ["knee rehabilitation", "cardiovascular fitness", "lower limb strengthening", "warm-up exercises"],
+     "type": "Exercise Equipment"
+   },
+   {
+     "name": "Parallel bars",
+     "usedIn": ["gait training", "balance exercises", "weight-bearing practice", "transfer training"],
+     "type": "Exercise Equipment"
+   },
+   {
+     "name": "Isokinetic machines",
+     "usedIn": ["muscle strength testing", "ACL rehabilitation", "sports injury recovery", "objective assessment"],
+     "type": "Specialized Rehabilitation Equipment"
+   },
+   {
+     "name": "CPM machines",
+     "usedIn": ["post-surgical knee recovery", "joint mobilization", "preventing stiffness", "passive range of motion"],
+     "type": "Specialized Rehabilitation Equipment"
+   },
+   {
+     "name": "Gait trainers",
+     "usedIn": ["neurological rehabilitation", "stroke recovery", "spinal cord injury", "pediatric therapy"],
+     "type": "Specialized Rehabilitation Equipment"
+   },
+   {
+     "name": "Hydrocollator units",
+     "usedIn": ["muscle relaxation", "pain relief", "pre-exercise warming", "chronic pain management"],
+     "type": "Heat and Cold Therapy"
+   },
+   {
+     "name": "Paraffin wax baths",
+     "usedIn": ["hand arthritis", "joint stiffness", "skin conditioning", "finger injuries"],
+     "type": "Heat and Cold Therapy"
+   },
+   {
+     "name": "Ice machines",
+     "usedIn": ["acute injuries", "swelling reduction", "post-exercise recovery", "inflammation control"],
+     "type": "Heat and Cold Therapy"
+   },
+   {
+     "name": "Goniometers",
+     "usedIn": ["range of motion measurement", "progress tracking", "joint angle assessment", "disability evaluation"],
+     "type": "Assessment Tools"
+   },
+   {
+     "name": "Dynamometers",
+     "usedIn": ["grip strength testing", "muscle strength assessment", "progress monitoring", "functional evaluation"],
+     "type": "Assessment Tools"
+   },
+   {
+     "name": "Hydrotherapy pools",
+     "usedIn": ["aquatic therapy", "joint mobility", "post-surgical rehabilitation", "arthritis management"],
+     "type": "Hydrotherapy Equipment"
+   },
+   {
+     "name": "Underwater treadmills",
+     "usedIn": ["low-impact exercise", "sports rehabilitation", "weight-bearing progression", "gait retraining"],
+     "type": "Hydrotherapy Equipment"
+   }
+ ]
+}

@@ -1,0 +1,268 @@
+{
+  "red_flags_by_condition": {
+    "COND_008": {
+      "condition_name": "Non-specific Low Back Pain",
+      "red_flags": [
+        {
+          "flag": "cauda_equina_syndrome",
+          "symptoms": ["bilateral_leg_weakness", "saddle_anesthesia", "bowel_bladder_dysfunction", "progressive_neurological_deficit"],
+          "action": "immediate_emergency_referral",
+          "urgency": "immediate"
+        },
+        {
+          "flag": "spinal_fracture",
+          "symptoms": ["significant_trauma", "osteoporosis_risk", "prolonged_corticosteroid_use", "age_over_70"],
+          "action": "imaging_referral",
+          "urgency": "24_hours"
+        },
+        {
+          "flag": "spinal_infection",
+          "symptoms": ["fever", "IV_drug_use", "recent_infection", "immunocompromised", "night_pain"],
+          "action": "medical_referral",
+          "urgency": "same_day"
+        },
+        {
+          "flag": "spinal_malignancy",
+          "symptoms": ["unexplained_weight_loss", "cancer_history", "age_over_50_new_onset", "night_pain", "no_relief_rest"],
+          "action": "medical_referral",
+          "urgency": "within_48_hours"
+        }
+      ]
+    },
+    "COND_011": {
+      "condition_name": "Cervical Radiculopathy",
+      "red_flags": [
+        {
+          "flag": "cervical_myelopathy",
+          "symptoms": ["bilateral_symptoms", "gait_disturbance", "bowel_bladder_changes", "hyperreflexia", "clonus"],
+          "action": "immediate_medical_referral",
+          "urgency": "immediate"
+        },
+        {
+          "flag": "vertebral_artery_insufficiency",
+          "symptoms": ["dizziness_neck_movement", "drop_attacks", "diplopia", "dysarthria", "nausea"],
+          "action": "discontinue_treatment_refer",
+          "urgency": "immediate"
+        },
+        {
+          "flag": "upper_cervical_instability",
+          "symptoms": ["occipital_headache", "nausea", "dizziness", "facial_numbness", "rheumatoid_arthritis"],
+          "action": "imaging_referral",
+          "urgency": "24_hours"
+        }
+      ]
+    },
+    "COND_004": {
+      "condition_name": "Anterior Cruciate Ligament Tear",
+      "red_flags": [
+        {
+          "flag": "compartment_syndrome",
+          "symptoms": ["severe_pain", "numbness", "weakness", "tight_swollen_leg", "pain_passive_stretch"],
+          "action": "immediate_emergency_referral",
+          "urgency": "immediate"
+        },
+        {
+          "flag": "vascular_injury",
+          "symptoms": ["absent_pulse", "cold_foot", "prolonged_capillary_refill", "severe_pain"],
+          "action": "immediate_emergency_referral",
+          "urgency": "immediate"
+        },
+        {
+          "flag": "infection_post_surgical",
+          "symptoms": ["fever", "increasing_pain", "redness", "warmth", "purulent_drainage"],
+          "action": "surgeon_referral",
+          "urgency": "same_day"
+        }
+      ]
+    },
+    "COND_020": {
+      "condition_name": "Stroke (CVA)",
+      "red_flags": [
+        {
+          "flag": "recurrent_stroke",
+          "symptoms": ["sudden_weakness", "speech_changes", "facial_droop", "severe_headache", "confusion"],
+          "action": "call_911_immediate",
+          "urgency": "immediate"
+        },
+        {
+          "flag": "hemorrhagic_conversion",
+          "symptoms": ["sudden_severe_headache", "decreased_consciousness", "vomiting", "seizure"],
+          "action": "call_911_immediate",
+          "urgency": "immediate"
+        },
+        {
+          "flag": "increased_intracranial_pressure",
+          "symptoms": ["progressive_headache", "nausea_vomiting", "vision_changes", "altered_consciousness"],
+          "action": "immediate_medical_referral",
+          "urgency": "immediate"
+        }
+      ]
+    },
+    "COND_026": {
+      "condition_name": "Chronic Obstructive Pulmonary Disease",
+      "red_flags": [
+        {
+          "flag": "acute_exacerbation",
+          "symptoms": ["increased_dyspnea", "increased_sputum", "sputum_color_change", "fever", "confusion"],
+          "action": "medical_referral",
+          "urgency": "same_day"
+        },
+        {
+          "flag": "respiratory_failure",
+          "symptoms": ["severe_dyspnea_rest", "cyanosis", "use_accessory_muscles", "altered_mental_state"],
+          "action": "call_911_immediate",
+          "urgency": "immediate"
+        },
+        {
+          "flag": "pneumothorax",
+          "symptoms": ["sudden_chest_pain", "severe_dyspnea", "decreased_breath_sounds", "chest_asymmetry"],
+          "action": "call_911_immediate",
+          "urgency": "immediate"
+        }
+      ]
+    },
+    "COND_001": {
+      "condition_name": "Adhesive Capsulitis (Frozen Shoulder)",
+      "red_flags": [
+        {
+          "flag": "underlying_malignancy",
+          "symptoms": ["unexplained_weight_loss", "night_pain_severe", "cancer_history", "rapid_onset"],
+          "action": "medical_referral",
+          "urgency": "within_week"
+        },
+        {
+          "flag": "infection",
+          "symptoms": ["fever", "severe_pain", "redness", "warmth", "systemic_illness"],
+          "action": "medical_referral",
+          "urgency": "same_day"
+        }
+      ]
+    },
+    "COND_018": {
+      "condition_name": "Carpal Tunnel Syndrome",
+      "red_flags": [
+        {
+          "flag": "acute_carpal_tunnel",
+          "symptoms": ["sudden_severe_symptoms", "trauma_history", "severe_weakness", "complete_numbness"],
+          "action": "urgent_surgical_referral",
+          "urgency": "24_hours"
+        },
+        {
+          "flag": "cervical_radiculopathy",
+          "symptoms": ["neck_pain", "proximal_radiation", "multiple_nerve_distribution", "reflex_changes"],
+          "action": "medical_referral",
+          "urgency": "within_week"
+        }
+      ]
+    },
+    "COND_021": {
+      "condition_name": "Parkinson's Disease",
+      "red_flags": [
+        {
+          "flag": "medication_emergency",
+          "symptoms": ["rigidity_hyperthermia", "altered_consciousness", "autonomic_instability", "severe_tremor"],
+          "action": "call_911_immediate",
+          "urgency": "immediate"
+        },
+        {
+          "flag": "falls_with_injury",
+          "symptoms": ["head_injury", "fracture_suspected", "loss_consciousness", "severe_pain"],
+          "action": "emergency_assessment",
+          "urgency": "immediate"
+        }
+      ]
+    }
+  },
+  "systemic_red_flags": {
+    "cardiovascular": [
+      {
+        "flag": "cardiac_emergency",
+        "symptoms": ["chest_pain_exertion", "severe_dyspnea", "palpitations", "dizziness", "syncope"],
+        "action": "stop_exercise_call_911",
+        "urgency": "immediate"
+      },
+      {
+        "flag": "deep_vein_thrombosis",
+        "symptoms": ["calf_pain_swelling", "warmth", "positive_homans", "recent_surgery", "prolonged_immobility"],
+        "action": "medical_referral",
+        "urgency": "same_day"
+      }
+    ],
+    "neurological": [
+      {
+        "flag": "meningitis",
+        "symptoms": ["severe_headache", "neck_stiffness", "fever", "photophobia", "altered_consciousness"],
+        "action": "call_911_immediate",
+        "urgency": "immediate"
+      },
+      {
+        "flag": "transient_ischemic_attack",
+        "symptoms": ["sudden_weakness", "speech_difficulty", "vision_changes", "dizziness", "symptoms_resolving"],
+        "action": "call_911_immediate",
+        "urgency": "immediate"
+      }
+    ],
+    "oncological": [
+      {
+        "flag": "metastatic_disease",
+        "symptoms": ["bone_pain_night", "unexplained_weight_loss", "fatigue", "cancer_history"],
+        "action": "medical_referral",
+        "urgency": "within_48_hours"
+      }
+    ],
+    "infectious": [
+      {
+        "flag": "sepsis",
+        "symptoms": ["fever", "chills", "rapid_heart_rate", "confusion", "severe_illness"],
+        "action": "call_911_immediate",
+        "urgency": "immediate"
+      }
+    ]
+  },
+  "screening_protocols": {
+    "initial_evaluation": {
+      "mandatory_screening": [
+        "vital_signs",
+        "medical_history",
+        "current_medications",
+        "recent_imaging",
+        "surgical_history"
+      ],
+      "red_flag_questions": [
+        "Any fever or signs of infection?",
+        "Any recent unexplained weight loss?",
+        "Any bowel or bladder changes?",
+        "Any recent trauma or fall?",
+        "Any cancer history?",
+        "Any cardiac symptoms with activity?",
+        "Any neurological symptoms?"
+      ]
+    },
+    "ongoing_monitoring": {
+      "session_start": [
+        "How are you feeling today?",
+        "Any new symptoms since last visit?",
+        "Any changes in medications?",
+        "Any concerning symptoms overnight?",
+        "Rate your pain level today"
+      ],
+      "during_treatment": [
+        "Monitor vital signs if indicated",
+        "Watch for adverse reactions",
+        "Assess exercise tolerance",
+        "Monitor for symptom changes"
+      ]
+    }
+  },
+  "documentation_requirements": {
+    "red_flag_present": {
+      "document": ["specific_symptoms", "onset", "severity", "associated_factors"],
+      "action_taken": ["referral_made", "treatment_stopped", "emergency_called"],
+      "follow_up": ["communication_with_physician", "patient_education"]
+    },
+    "red_flag_ruled_out": {
+      "document": ["screening_performed", "negative_findings", "rationale_for_continuing"],
+      "ongoing_monitoring": ["plan_for_reassessment", "patient_instructions"]
+    }
+  }
+}

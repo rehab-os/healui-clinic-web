@@ -1,0 +1,752 @@
+{
+  "category": "neurological_rehabilitation_exercises",
+  "description": "Specialized exercises for neurological conditions and brain injury rehabilitation", 
+  "focus_areas": {
+    "vestibular_rehabilitation": "Balance and dizziness disorders",
+    "concussion_management": "Traumatic brain injury recovery",
+    "neuromuscular_disorders": "Progressive muscle and nerve diseases",
+    "developmental_neurological": "Pediatric neurological conditions"
+  },
+  "exercises": {
+    "EX_321": {
+      "name": "Vestibular Habituation Exercises",
+      "type": "vestibular_rehabilitation",
+      "body_region": "vestibular",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["target_cards", "metronome"],
+      "position": "seated_standing",
+      "vestibular_condition": "vestibular_neuritis",
+      "muscle_targets": {
+        "primary": ["vestibular_adaptation"],
+        "secondary": ["visual_stability", "postural_control"]
+      },
+      "translations": {
+        "en": {
+          "name": "Vestibular Habituation Exercises",
+          "description": "Exercises to reduce dizziness through vestibular adaptation",
+          "instructions": [
+            "Perform specific head movements that provoke mild dizziness",
+            "Hold positions until dizziness subsides",
+            "Progress frequency and speed gradually",
+            "Include eye-head coordination exercises",
+            "Practice movements in different positions"
+          ],
+          "cues": [
+            "Some dizziness is expected initially",
+            "Stop if severe nausea occurs",
+            "Consistency is key for adaptation"
+          ],
+          "common_errors": [
+            "Avoiding movements that cause dizziness",
+            "Progressing too quickly",
+            "Not being consistent with daily practice"
+          ]
+        }
+      }
+    },
+    "EX_322": {
+      "name": "Canalith Repositioning (Epley Maneuver)",
+      "type": "vestibular_treatment",
+      "body_region": "vestibular",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["treatment_table"],
+      "position": "supine_sitting",
+      "vestibular_condition": "BPPV",
+      "muscle_targets": {
+        "primary": ["otolith_repositioning"],
+        "secondary": ["symptom_resolution"]
+      },
+      "translations": {
+        "en": {
+          "name": "Canalith Repositioning (Epley Maneuver)",
+          "description": "Specific maneuver to treat posterior canal BPPV",
+          "instructions": [
+            "Position patient sitting with legs extended",
+            "Turn head 45 degrees toward affected ear",
+            "Quickly move to lying position with head extended",
+            "Turn head 90 degrees to opposite side",
+            "Continue sequence to sitting position"
+          ],
+          "cues": [
+            "Move quickly between positions",
+            "Hold each position until vertigo stops",
+            "Follow post-treatment precautions"
+          ],
+          "common_errors": [
+            "Moving too slowly between positions",
+            "Not completing full sequence",
+            "Not following post-treatment restrictions"
+          ]
+        }
+      }
+    },
+    "EX_323": {
+      "name": "Gaze Stabilization Training",
+      "type": "vestibular_ocular_reflex",
+      "body_region": "oculomotor",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["target_cards", "metronome"],
+      "position": "seated",
+      "vestibular_focus": "gaze_stability",
+      "muscle_targets": {
+        "primary": ["vestibular_ocular_reflex"],
+        "secondary": ["visual_tracking", "head_control"]
+      },
+      "translations": {
+        "en": {
+          "name": "Gaze Stabilization Training",
+          "description": "Exercises to improve visual stability during head movement",
+          "instructions": [
+            "Focus on stationary target while moving head",
+            "Perform horizontal and vertical head movements",
+            "Progress speed while maintaining visual clarity",
+            "Include different target distances",
+            "Practice in various lighting conditions"
+          ],
+          "cues": [
+            "Keep target in clear focus",
+            "Start slowly and increase speed",
+            "Stop if target becomes blurry"
+          ],
+          "common_errors": [
+            "Moving head too fast initially",
+            "Not maintaining focus on target",
+            "Progressing speed too quickly"
+          ]
+        }
+      }
+    },
+    "EX_324": {
+      "name": "Concussion Graduated Return to Activity",
+      "type": "concussion_management",
+      "body_region": "neurological",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["heart_rate_monitor"],
+      "position": "various",
+      "brain_injury": "concussion",
+      "muscle_targets": {
+        "primary": ["cognitive_physical_integration"],
+        "secondary": ["symptom_monitoring", "gradual_loading"]
+      },
+      "translations": {
+        "en": {
+          "name": "Concussion Graduated Return to Activity",
+          "description": "Systematic progression back to activity after concussion",
+          "instructions": [
+            "Begin with light cognitive and physical activity",
+            "Progress through stages only if asymptomatic",
+            "Include both cognitive and physical challenges",
+            "Monitor symptoms for 24 hours after each stage",
+            "Return to previous stage if symptoms worsen"
+          ],
+          "cues": [
+            "Progress only when symptom-free",
+            "Monitor symptoms closely",
+            "Be patient with recovery process"
+          ],
+          "common_errors": [
+            "Progressing despite symptoms",
+            "Not monitoring delayed symptoms",
+            "Rushing return to full activity"
+          ]
+        }
+      }
+    },
+    "EX_325": {
+      "name": "Post-Concussion Dual Task Training",
+      "type": "cognitive_physical_integration",
+      "body_region": "neurological",
+      "difficulty_level": 4,
+      "equipment_required": null,
+      "equipment_optional": ["cognitive_tasks"],
+      "position": "various",
+      "brain_injury": "post_concussion_syndrome",
+      "muscle_targets": {
+        "primary": ["executive_function"],
+        "secondary": ["attention", "motor_control"]
+      },
+      "translations": {
+        "en": {
+          "name": "Post-Concussion Dual Task Training",
+          "description": "Combined cognitive and physical tasks to improve function",
+          "instructions": [
+            "Perform physical activities while completing cognitive tasks",
+            "Start with simple combinations and progress complexity",
+            "Include attention-demanding cognitive tasks",
+            "Practice real-world dual task scenarios",
+            "Monitor cognitive fatigue and physical symptoms"
+          ],
+          "cues": [
+            "Focus on both tasks equally",
+            "Start simple and progress gradually",
+            "Rest when cognitive fatigue occurs"
+          ],
+          "common_errors": [
+            "Focusing on one task at expense of the other",
+            "Progressing complexity too quickly",
+            "Not recognizing cognitive fatigue"
+          ]
+        }
+      }
+    },
+    "EX_326": {
+      "name": "Meniere's Disease Management",
+      "type": "vestibular_episodic",
+      "body_region": "vestibular",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["balance_equipment"],
+      "position": "various",
+      "vestibular_condition": "menieres_disease",
+      "muscle_targets": {
+        "primary": ["balance_compensation"],
+        "secondary": ["fall_prevention", "confidence"]
+      },
+      "translations": {
+        "en": {
+          "name": "Meniere's Disease Management",
+          "description": "Exercise strategies for managing Meniere's disease episodes",
+          "instructions": [
+            "Practice balance exercises during symptom-free periods",
+            "Include habituation exercises for motion sensitivity",
+            "Learn techniques for managing acute episodes",
+            "Focus on fall prevention strategies",
+            "Address anxiety related to unpredictable symptoms"
+          ],
+          "cues": [
+            "Exercise during good days",
+            "Have safety measures in place",
+            "Learn episode management techniques"
+          ],
+          "common_errors": [
+            "Not exercising between episodes",
+            "Not preparing for acute episodes",
+            "Avoiding activities due to fear"
+          ]
+        }
+      }
+    },
+    "EX_327": {
+      "name": "ALS Respiratory Support Exercises",
+      "type": "neuromuscular_respiratory",
+      "body_region": "respiratory",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["respiratory_trainer", "cough_assist"],
+      "position": "seated_supine",
+      "neuromuscular_condition": "ALS",
+      "muscle_targets": {
+        "primary": ["respiratory_muscles"],
+        "secondary": ["airway_clearance", "speech"]
+      },
+      "translations": {
+        "en": {
+          "name": "ALS Respiratory Support Exercises",
+          "description": "Respiratory exercises to maintain function in ALS",
+          "instructions": [
+            "Perform breathing exercises to maintain chest wall mobility",
+            "Include assisted coughing techniques",
+            "Practice speech breathing exercises",
+            "Use respiratory devices as prescribed",
+            "Monitor respiratory function regularly"
+          ],
+          "cues": [
+            "Focus on airway clearance",
+            "Use assistive devices appropriately",
+            "Conserve energy for breathing"
+          ],
+          "common_errors": [
+            "Not addressing respiratory decline early",
+            "Inadequate airway clearance",
+            "Not using assistive devices when needed"
+          ]
+        }
+      }
+    },
+    "EX_328": {
+      "name": "Muscular Dystrophy Functional Maintenance",
+      "type": "progressive_neuromuscular",
+      "body_region": "muscle",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["assistive_devices"],
+      "position": "various",
+      "neuromuscular_condition": "muscular_dystrophy",
+      "muscle_targets": {
+        "primary": ["functional_preservation"],
+        "secondary": ["contracture_prevention", "respiratory_support"]
+      },
+      "translations": {
+        "en": {
+          "name": "Muscular Dystrophy Functional Maintenance",
+          "description": "Exercise program to maintain function in muscular dystrophy",
+          "instructions": [
+            "Focus on maintaining range of motion and preventing contractures",
+            "Include respiratory exercises and postural drainage",
+            "Use assistive devices to maintain independence",
+            "Avoid overexertion that could damage muscles",
+            "Include water-based exercises when appropriate"
+          ],
+          "cues": [
+            "Maintain function without overexertion",
+            "Prevent contractures daily",
+            "Support respiratory function"
+          ],
+          "common_errors": [
+            "Exercising to point of muscle damage",
+            "Not addressing contractures early",
+            "Ignoring respiratory function"
+          ]
+        }
+      }
+    },
+    "EX_329": {
+      "name": "Spinal Muscular Atrophy Exercise Adaptation",
+      "type": "motor_neuron_disease",
+      "body_region": "spinal_motor",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["assistive_technology"],
+      "position": "adapted_positions",
+      "neuromuscular_condition": "spinal_muscular_atrophy",
+      "muscle_targets": {
+        "primary": ["preserved_muscle_function"],
+        "secondary": ["respiratory_support", "spinal_alignment"]
+      },
+      "translations": {
+        "en": {
+          "name": "Spinal Muscular Atrophy Exercise Adaptation",
+          "description": "Adapted exercises for spinal muscular atrophy management",
+          "instructions": [
+            "Focus on exercises that don't stress weak muscles",
+            "Include respiratory support and chest wall mobility",
+            "Use assistive technology for exercise participation",
+            "Maintain spinal alignment and prevent scoliosis",
+            "Adapt activities to individual functional level"
+          ],
+          "cues": [
+            "Work within current abilities",
+            "Support respiratory function",
+            "Maintain spinal health"
+          ],
+          "common_errors": [
+            "Trying to strengthen severely weakened muscles",
+            "Not adapting to functional level",
+            "Ignoring respiratory needs"
+          ]
+        }
+      }
+    },
+    "EX_330": {
+      "name": "Guillain-Barré Recovery Exercises",
+      "type": "acute_neuropathy",
+      "body_region": "peripheral_nerve",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["assistive_devices"],
+      "position": "various",
+      "neurological_condition": "guillain_barre",
+      "muscle_targets": {
+        "primary": ["nerve_recovery"],
+        "secondary": ["muscle_reactivation", "functional_return"]
+      },
+      "translations": {
+        "en": {
+          "name": "Guillain-Barré Recovery Exercises",
+          "description": "Progressive exercises for Guillain-Barré syndrome recovery",
+          "instructions": [
+            "Begin with passive range of motion during acute phase",
+            "Progress to active assisted then active movements",
+            "Include respiratory exercises if respiratory involvement",
+            "Focus on functional activities as strength returns",
+            "Monitor for fatigue and overexertion"
+          ],
+          "cues": [
+            "Progress based on recovery phase",
+            "Avoid overexertion during recovery",
+            "Focus on functional goals"
+          ],
+          "common_errors": [
+            "Progressing too aggressively",
+            "Not addressing respiratory involvement",
+            "Ignoring fatigue signals"
+          ]
+        }
+      }
+    },
+    "EX_331": {
+      "name": "Charcot-Marie-Tooth Exercise Program",
+      "type": "hereditary_neuropathy",
+      "body_region": "peripheral_nerve",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["orthotic_devices", "assistive_devices"],
+      "position": "various",
+      "neurological_condition": "charcot_marie_tooth",
+      "muscle_targets": {
+        "primary": ["preserved_muscle_strength"],
+        "secondary": ["balance", "functional_mobility"]
+      },
+      "translations": {
+        "en": {
+          "name": "Charcot-Marie-Tooth Exercise Program",
+          "description": "Exercise program for hereditary motor sensory neuropathy",
+          "instructions": [
+            "Focus on strengthening unaffected muscle groups",
+            "Include balance training for sensory loss",
+            "Use orthotics and assistive devices appropriately",
+            "Avoid overuse of weakened muscles",
+            "Address foot and ankle deformities"
+          ],
+          "cues": [
+            "Strengthen what works well",
+            "Compensate for sensory loss",
+            "Use appropriate supports"
+          ],
+          "common_errors": [
+            "Trying to strengthen severely affected muscles",
+            "Not addressing balance deficits",
+            "Avoiding use of helpful assistive devices"
+          ]
+        }
+      }
+    },
+    "EX_332": {
+      "name": "Autism Spectrum Disorder - Sensory Motor",
+      "type": "neurodevelopmental",
+      "body_region": "sensorimotor",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["sensory_equipment"],
+      "position": "various",
+      "developmental_condition": "autism_spectrum_disorder",
+      "muscle_targets": {
+        "primary": ["sensory_integration"],
+        "secondary": ["motor_planning", "coordination"]
+      },
+      "translations": {
+        "en": {
+          "name": "Autism Spectrum Disorder - Sensory Motor",
+          "description": "Sensory-motor exercises for children with autism",
+          "instructions": [
+            "Include proprioceptive and vestibular input activities",
+            "Use structured routines and visual cues",
+            "Address sensory processing difficulties",
+            "Include motor imitation and planning activities",
+            "Create calm, predictable exercise environment"
+          ],
+          "cues": [
+            "Use visual schedules",
+            "Provide sensory input as needed",
+            "Keep routines consistent"
+          ],
+          "common_errors": [
+            "Not addressing sensory needs",
+            "Changing routines too frequently",
+            "Not using appropriate communication methods"
+          ]
+        }
+      }
+    },
+    "EX_333": {
+      "name": "Developmental Coordination Disorder Training",
+      "type": "motor_learning",
+      "body_region": "motor_development",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["motor_learning_equipment"],
+      "position": "various",
+      "developmental_condition": "developmental_coordination_disorder",
+      "muscle_targets": {
+        "primary": ["motor_planning"],
+        "secondary": ["coordination", "motor_learning"]
+      },
+      "translations": {
+        "en": {
+          "name": "Developmental Coordination Disorder Training",
+          "description": "Motor skill training for developmental coordination disorder",
+          "instructions": [
+            "Break complex movements into simple components",
+            "Use motor learning principles for skill acquisition",
+            "Include both gross and fine motor activities",
+            "Provide plenty of practice opportunities",
+            "Use task-specific training approaches"
+          ],
+          "cues": [
+            "Practice specific skills repeatedly",
+            "Break tasks into small steps",
+            "Celebrate small improvements"
+          ],
+          "common_errors": [
+            "Not providing enough practice time",
+            "Making tasks too complex",
+            "Not using motor learning principles"
+          ]
+        }
+      }
+    },
+    "EX_334": {
+      "name": "Cerebral Palsy Spasticity Management",
+      "type": "spasticity_management",
+      "body_region": "neuromotor",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["positioning_equipment", "splinting"],
+      "position": "various",
+      "neurological_condition": "cerebral_palsy",
+      "muscle_targets": {
+        "primary": ["spasticity_reduction"],
+        "secondary": ["functional_movement", "positioning"]
+      },
+      "translations": {
+        "en": {
+          "name": "Cerebral Palsy Spasticity Management",
+          "description": "Exercises to manage spasticity and improve function",
+          "instructions": [
+            "Include sustained stretching and positioning",
+            "Use weight-bearing activities to reduce tone",
+            "Include functional movement patterns",
+            "Coordinate with medical spasticity management",
+            "Focus on activities of daily living skills"
+          ],
+          "cues": [
+            "Maintain stretches longer",
+            "Use weight-bearing positions",
+            "Focus on function over pure movement"
+          ],
+          "common_errors": [
+            "Not holding stretches long enough",
+            "Focusing only on range of motion",
+            "Not addressing functional activities"
+          ]
+        }
+      }
+    },
+    "EX_335": {
+      "name": "Down Syndrome Motor Development",
+      "type": "genetic_developmental",
+      "body_region": "developmental",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["developmental_toys"],
+      "position": "various",
+      "genetic_condition": "down_syndrome",
+      "muscle_targets": {
+        "primary": ["motor_milestones"],
+        "secondary": ["strength", "coordination"]
+      },
+      "translations": {
+        "en": {
+          "name": "Down Syndrome Motor Development",
+          "description": "Motor development exercises for children with Down syndrome",
+          "instructions": [
+            "Address hypotonia with strengthening activities",
+            "Include activities to improve motor planning",
+            "Focus on achieving developmental milestones",
+            "Address atlantoaxial instability precautions",
+            "Include balance and coordination activities"
+          ],
+          "cues": [
+            "Build strength gradually",
+            "Protect the neck during activities",
+            "Make activities fun and engaging"
+          ],
+          "common_errors": [
+            "Not addressing hypotonia adequately",
+            "Ignoring neck stability precautions",
+            "Not focusing on functional skills"
+          ]
+        }
+      }
+    },
+    "EX_336": {
+      "name": "Complex Regional Pain Syndrome Desensitization",
+      "type": "pain_desensitization",
+      "body_region": "affected_limb",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["desensitization_materials"],
+      "position": "comfortable",
+      "pain_condition": "complex_regional_pain_syndrome",
+      "muscle_targets": {
+        "primary": ["pain_reduction"],
+        "secondary": ["function_restoration", "desensitization"]
+      },
+      "translations": {
+        "en": {
+          "name": "Complex Regional Pain Syndrome Desensitization",
+          "description": "Graded exposure and desensitization for CRPS",
+          "instructions": [
+            "Begin with gentle touch and texture exposure",
+            "Progress gradually through desensitization hierarchy",
+            "Include movement within pain tolerance",
+            "Use mirror therapy for limb awareness",
+            "Combine with stress management techniques"
+          ],
+          "cues": [
+            "Start very gently",
+            "Progress slowly through sensations",
+            "Use mirror therapy techniques"
+          ],
+          "common_errors": [
+            "Progressing too aggressively",
+            "Not addressing psychological components",
+            "Avoiding movement completely"
+          ]
+        }
+      }
+    },
+    "EX_337": {
+      "name": "Chronic Fatigue Syndrome Pacing",
+      "type": "energy_conservation",
+      "body_region": "systemic",
+      "difficulty_level": 1,
+      "equipment_required": null,
+      "equipment_optional": ["activity_monitors"],
+      "position": "various",
+      "chronic_condition": "chronic_fatigue_syndrome",
+      "muscle_targets": {
+        "primary": ["energy_management"],
+        "secondary": ["function_preservation", "symptom_management"]
+      },
+      "translations": {
+        "en": {
+          "name": "Chronic Fatigue Syndrome Pacing",
+          "description": "Energy management and pacing strategies for CFS",
+          "instructions": [
+            "Learn to recognize early fatigue signals",
+            "Break activities into smaller segments with rest",
+            "Avoid boom-bust cycles of activity",
+            "Use energy conservation techniques",
+            "Monitor activity levels and symptoms"
+          ],
+          "cues": [
+            "Rest before you're exhausted",
+            "Pace activities throughout the day",
+            "Listen to your body's signals"
+          ],
+          "common_errors": [
+            "Pushing through fatigue",
+            "Not taking adequate rest breaks",
+            "Doing too much on good days"
+          ]
+        }
+      }
+    },
+    "EX_338": {
+      "name": "Hypermobility Exercise Stabilization",
+      "type": "joint_stabilization",
+      "body_region": "joints",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["supportive_bracing"],
+      "position": "various",
+      "connective_tissue_condition": "hypermobility_spectrum_disorder",
+      "muscle_targets": {
+        "primary": ["joint_stability"],
+        "secondary": ["muscle_strength", "proprioception"]
+      },
+      "translations": {
+        "en": {
+          "name": "Hypermobility Exercise Stabilization",
+          "description": "Joint stabilization exercises for hypermobile individuals",
+          "instructions": [
+            "Focus on strengthening muscles around hypermobile joints",
+            "Avoid end-range positions that stress joints",
+            "Include proprioceptive training for joint awareness",
+            "Use supportive bracing when necessary",
+            "Include isometric strengthening exercises"
+          ],
+          "cues": [
+            "Don't push joints to end range",
+            "Focus on muscle control",
+            "Build stability before mobility"
+          ],
+          "common_errors": [
+            "Stretching already hypermobile joints",
+            "Not strengthening stabilizing muscles",
+            "Ignoring proprioceptive deficits"
+          ]
+        }
+      }
+    },
+    "EX_339": {
+      "name": "Ehlers-Danlos Syndrome Management",
+      "type": "connective_tissue_disorder",
+      "body_region": "connective_tissue",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["joint_protection_devices"],
+      "position": "joint_protected",
+      "genetic_condition": "ehlers_danlos_syndrome",
+      "muscle_targets": {
+        "primary": ["joint_protection"],
+        "secondary": ["muscle_strength", "pain_management"]
+      },
+      "translations": {
+        "en": {
+          "name": "Ehlers-Danlos Syndrome Management",
+          "description": "Exercise program for Ehlers-Danlos syndrome",
+          "instructions": [
+            "Focus on low-impact strengthening exercises",
+            "Avoid high-impact or contact activities",
+            "Include gentle cardiovascular exercise",
+            "Use joint protection techniques",
+            "Address associated conditions like POTS"
+          ],
+          "cues": [
+            "Protect joints during all activities",
+            "Build strength without joint stress",
+            "Monitor for associated symptoms"
+          ],
+          "common_errors": [
+            "Participating in high-impact activities",
+            "Not protecting hypermobile joints",
+            "Ignoring associated conditions"
+          ]
+        }
+      }
+    },
+    "EX_340": {
+      "name": "POTS Exercise Reconditioning",
+      "type": "autonomic_dysfunction",
+      "body_region": "cardiovascular",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["heart_rate_monitor", "recline_bike"],
+      "position": "recumbent_gradual_upright",
+      "autonomic_condition": "postural_orthostatic_tachycardia_syndrome",
+      "muscle_targets": {
+        "primary": ["orthostatic_tolerance"],
+        "secondary": ["cardiovascular_conditioning", "muscle_pump"]
+      },
+      "translations": {
+        "en": {
+          "name": "POTS Exercise Reconditioning",
+          "description": "Graduated exercise program for POTS patients",
+          "instructions": [
+            "Begin with recumbent or semi-recumbent exercise",
+            "Focus on leg muscle strengthening for venous return",
+            "Gradually progress to upright activities",
+            "Monitor heart rate and symptoms closely",
+            "Include salt loading and compression garments"
+          ],
+          "cues": [
+            "Start in recumbent positions",
+            "Build up lower body strength",
+            "Progress upright time gradually"
+          ],
+          "common_errors": [
+            "Starting with upright exercise",
+            "Not monitoring heart rate response",
+            "Progressing too quickly to standing"
+          ]
+        }
+      }
+    }
+  }
+}

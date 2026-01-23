@@ -1,0 +1,2743 @@
+{
+  "database_info": {
+    "version": "2.0.0",
+    "total_exercises": 342,
+    "last_updated": "2025-09-01",
+    "description": "Unified physiotherapy exercise database with knowledge graph structure",
+    "specialty_categories": [
+      "general",
+      "aquatic_therapy",
+      "womens_health",
+      "ligament_rehabilitation",
+      "cardiac_respiratory",
+      "neurological_rehabilitation",
+      "orthopedic"
+    ],
+    "source_files": [
+      "exercises.json (EX_001-EX_200)",
+      "aquatic-therapy-exercises.json (EX_201-EX_225)",
+      "womens-health-exercises.json (EX_226-EX_250)",
+      "ligament-rehabilitation-exercises.json (EX_251-EX_300)",
+      "cardiac-respiratory-exercises.json (EX_301-EX_320)",
+      "neurological-rehabilitation-exercises.json (EX_321-EX_340)",
+      "orthopedic-exercises.json (EX_001-EX_002 \u2192 EX_341-EX_342)"
+    ],
+    "exercise_id_ranges": {
+      "general": "EX_001-EX_200",
+      "aquatic_therapy": "EX_201-EX_225",
+      "womens_health": "EX_226-EX_250",
+      "ligament_rehabilitation": "EX_251-EX_300",
+      "cardiac_respiratory": "EX_301-EX_320",
+      "neurological_rehabilitation": "EX_321-EX_340",
+      "orthopedic": "EX_341-EX_342"
+    },
+    "schema_info": {
+      "core_fields": [
+        "name",
+        "type",
+        "body_region",
+        "difficulty_level",
+        "equipment_required",
+        "equipment_optional",
+        "position",
+        "muscle_targets",
+        "translations"
+      ],
+      "optional_specialty_fields": [
+        "cardiac_phase",
+        "ligament_focus",
+        "water_depth",
+        "womens_health_focus",
+        "pregnancy_stage",
+        "postpartum_stage",
+        "vestibular_condition",
+        "brain_injury",
+        "neurological_condition",
+        "rehabilitation_phase",
+        "cardiac_condition",
+        "respiratory_condition",
+        "emg_activation"
+      ]
+    },
+    "cf_codes_added": true,
+    "cf_code_version": "1.0.0",
+    "cf_code_description": "Canadian Fitness codes for functional goals based on ICF framework"
+  },
+  "cf_code_reference": {
+    "d410": "Changing basic body position",
+    "d415": "Maintaining a body position",
+    "d420": "Transferring oneself",
+    "d430": "Lifting and carrying objects",
+    "d440": "Fine hand use",
+    "d445": "Hand and arm use",
+    "d450": "Walking",
+    "d455": "Moving around",
+    "d460": "Moving around in different locations",
+    "d465": "Moving around using equipment",
+    "d510": "Washing oneself",
+    "d520": "Caring for body parts",
+    "d530": "Toileting",
+    "d540": "Dressing",
+    "d550": "Eating",
+    "d560": "Drinking",
+    "d570": "Looking after one's health",
+    "d620": "Acquisition of necessities",
+    "d630": "Preparing meals",
+    "d640": "Doing housework",
+    "d650": "Caring for household objects"
+  },
+  "exercises": {
+    "EX_001": {
+      "name": "Scapular Wall Slides",
+      "type": "mobility",
+      "body_region": "shoulder",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": [
+        "EQ_034"
+      ],
+      "position": "standing",
+      "muscle_targets": {
+        "primary": [
+          "serratus_anterior",
+          "lower_trapezius"
+        ],
+        "secondary": [
+          "middle_trapezius",
+          "rhomboids"
+        ]
+      },
+      "emg_activation": {
+        "serratus_anterior": 0.72,
+        "lower_trapezius": 0.65
+      },
+      "translations": {
+        "en": {
+          "name": "Scapular Wall Slides",
+          "description": "A shoulder mobility exercise targeting scapular control and upward rotation",
+          "instructions": [
+            "Stand with your back flat against a wall",
+            "Place arms against wall in 'goalpost' position (90\u00b0 shoulder abduction, 90\u00b0 elbow flexion)",
+            "Slowly slide arms up the wall, maintaining contact throughout",
+            "Reach as high as comfortable without losing wall contact",
+            "Slowly lower back to starting position"
+          ],
+          "cues": [
+            "Keep lower back pressed against wall",
+            "Don't shrug shoulders toward ears",
+            "Maintain chin tuck throughout movement"
+          ],
+          "common_errors": [
+            "Arching lower back off wall",
+            "Losing wall contact with arms",
+            "Excessive shoulder shrugging"
+          ]
+        },
+        "es": {},
+        "fr": {},
+        "de": {},
+        "pt": {},
+        "hi": {},
+        "ar": {},
+        "zh": {}
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d445",
+        "d540"
+      ],
+      "functional_goals": [
+        "Improve overhead reaching for daily activities",
+        "Enhance ability to dress independently",
+        "Improve shoulder mobility for self-care tasks"
+      ],
+      "icf_domains": "self_care"
+    },
+    "EX_002": {
+      "name": "Prone Scapular Retraction",
+      "type": "strengthening",
+      "body_region": "shoulder",
+      "difficulty_level": 2,
+      "equipment_required": [
+        "EQ_034"
+      ],
+      "equipment_optional": [
+        "EQ_026"
+      ],
+      "position": "prone",
+      "muscle_targets": {
+        "primary": [
+          "middle_trapezius",
+          "rhomboids"
+        ],
+        "secondary": [
+          "posterior_deltoid"
+        ]
+      },
+      "emg_activation": {
+        "middle_trapezius": 0.68,
+        "rhomboids": 0.71
+      },
+      "translations": {
+        "en": {
+          "name": "Prone Scapular Retraction",
+          "description": "Strengthening exercise for scapular stabilizers",
+          "instructions": [
+            "Lie face down on treatment table",
+            "Arms at sides or in T-position",
+            "Squeeze shoulder blades together",
+            "Hold for 5 seconds",
+            "Slowly release"
+          ],
+          "cues": [
+            "Think about squeezing a pencil between shoulder blades",
+            "Keep neck neutral",
+            "Breathe normally throughout"
+          ],
+          "common_errors": [
+            "Excessive neck extension",
+            "Using momentum",
+            "Holding breath"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d445",
+        "d540"
+      ],
+      "functional_goals": [
+        "Improve overhead reaching for daily activities",
+        "Enhance ability to dress independently",
+        "Improve shoulder mobility for self-care tasks"
+      ],
+      "icf_domains": "self_care"
+    },
+    "EX_003": {
+      "name": "Pendulum Exercise (Codman's)",
+      "type": "mobility",
+      "body_region": "shoulder",
+      "difficulty_level": 1,
+      "equipment_required": null,
+      "equipment_optional": [
+        "EQ_034"
+      ],
+      "position": "standing_bent",
+      "muscle_targets": {
+        "primary": [
+          "passive_shoulder_mobility"
+        ],
+        "secondary": []
+      },
+      "translations": {
+        "en": {
+          "name": "Pendulum Exercise",
+          "description": "Gentle passive shoulder mobilization",
+          "instructions": [
+            "Bend forward at waist, supporting with unaffected arm",
+            "Let affected arm hang freely",
+            "Use body motion to create gentle swinging",
+            "Perform circles, forward/back, and side to side",
+            "Continue for 1-2 minutes"
+          ],
+          "cues": [
+            "Keep arm completely relaxed",
+            "Movement comes from body, not shoulder",
+            "Start with small movements"
+          ],
+          "common_errors": [
+            "Actively moving shoulder",
+            "Movements too large initially",
+            "Tensing shoulder muscles"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d445",
+        "d510"
+      ],
+      "functional_goals": [
+        "Reduce shoulder pain for daily activities",
+        "Improve passive shoulder mobility",
+        "Prepare shoulder for active movement"
+      ],
+      "icf_domains": "self_care"
+    },
+    "EX_004": {
+      "name": "Quadruped Rock Back",
+      "type": "mobility",
+      "body_region": "lumbar_spine",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": [
+        "EQ_034"
+      ],
+      "position": "quadruped",
+      "muscle_targets": {
+        "primary": [
+          "lumbar_mobility"
+        ],
+        "secondary": [
+          "hip_flexors",
+          "thoracic_spine"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "Quadruped Rock Back",
+          "description": "Spinal mobility exercise emphasizing lumbar flexion",
+          "instructions": [
+            "Start on hands and knees",
+            "Slowly rock hips back toward heels",
+            "Keep arms extended and spine neutral",
+            "Rock back as far as comfortable",
+            "Return to starting position"
+          ],
+          "cues": [
+            "Move slowly and controlled",
+            "Breathe throughout movement",
+            "Stop if any pain"
+          ],
+          "common_errors": [
+            "Rounding upper back excessively",
+            "Moving too quickly",
+            "Pushing through pain"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d410",
+        "d530"
+      ],
+      "functional_goals": [
+        "Improve spinal mobility for daily activities",
+        "Enhance ability to bend and reach",
+        "Reduce stiffness for functional movements"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_005": {
+      "name": "Dead Bug",
+      "type": "core_stability",
+      "body_region": "core",
+      "difficulty_level": 4,
+      "equipment_required": null,
+      "equipment_optional": null,
+      "position": "supine",
+      "muscle_targets": {
+        "primary": [
+          "transverse_abdominis",
+          "rectus_abdominis"
+        ],
+        "secondary": [
+          "hip_flexors",
+          "quadriceps"
+        ]
+      },
+      "emg_activation": {
+        "transverse_abdominis": 0.82,
+        "rectus_abdominis": 0.58
+      },
+      "translations": {
+        "en": {
+          "name": "Dead Bug",
+          "description": "Core stability exercise with anti-extension focus",
+          "instructions": [
+            "Lie on back with arms pointing to ceiling",
+            "Bring knees to 90\u00b0 hip and knee flexion",
+            "Slowly lower opposite arm and leg",
+            "Keep lower back pressed to floor",
+            "Return to start and alternate sides"
+          ],
+          "cues": [
+            "Press lower back into floor throughout",
+            "Move slowly and controlled",
+            "Breathe out as you lower limbs"
+          ],
+          "common_errors": [
+            "Arching lower back",
+            "Moving too quickly",
+            "Holding breath"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d410",
+        "d415"
+      ],
+      "functional_goals": [
+        "Improve core stability for transfers",
+        "Enhance trunk control during daily activities",
+        "Reduce low back pain with movement"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_006": {
+      "name": "Bird Dog",
+      "type": "core_stability",
+      "body_region": "core",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": null,
+      "position": "quadruped",
+      "muscle_targets": {
+        "primary": [
+          "multifidus",
+          "erector_spinae"
+        ],
+        "secondary": [
+          "gluteus_maximus",
+          "deltoid"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "Bird Dog",
+          "description": "Core stability with anti-rotation component",
+          "instructions": [
+            "Start on hands and knees",
+            "Extend opposite arm and leg simultaneously",
+            "Keep hips level and spine neutral",
+            "Hold for 5-10 seconds",
+            "Return to start and switch sides"
+          ],
+          "cues": [
+            "Imagine balancing a cup of water on lower back",
+            "Reach long through fingertips and toes",
+            "Keep neck neutral"
+          ],
+          "common_errors": [
+            "Rotating hips",
+            "Arching lower back",
+            "Lifting limbs too high"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d415",
+        "d410"
+      ],
+      "functional_goals": [
+        "Improve balance during reaching activities",
+        "Enhance core stability for lifting",
+        "Improve postural control"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_007": {
+      "name": "Straight Leg Raise",
+      "type": "strengthening",
+      "body_region": "hip",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": [
+        "EQ_026"
+      ],
+      "position": "supine",
+      "muscle_targets": {
+        "primary": [
+          "hip_flexors",
+          "quadriceps"
+        ],
+        "secondary": [
+          "rectus_abdominis"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "Straight Leg Raise",
+          "description": "Hip flexor and quadriceps strengthening",
+          "instructions": [
+            "Lie on back with one knee bent, other leg straight",
+            "Tighten quad of straight leg",
+            "Lift leg to height of opposite knee",
+            "Hold 2-3 seconds",
+            "Slowly lower"
+          ],
+          "cues": [
+            "Keep knee completely straight",
+            "Tighten quad before lifting",
+            "Control the lowering phase"
+          ],
+          "common_errors": [
+            "Bending knee during lift",
+            "Using momentum",
+            "Arching back"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d450",
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve hip strength for walking",
+        "Enhance stair climbing ability",
+        "Improve single leg stance stability"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_008": {
+      "name": "Clamshells",
+      "type": "strengthening",
+      "body_region": "hip",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": [
+        "EQ_026"
+      ],
+      "position": "sidelying",
+      "muscle_targets": {
+        "primary": [
+          "gluteus_medius"
+        ],
+        "secondary": [
+          "gluteus_minimus",
+          "piriformis"
+        ]
+      },
+      "emg_activation": {
+        "gluteus_medius": 0.76
+      },
+      "translations": {
+        "en": {
+          "name": "Clamshells",
+          "description": "Hip abductor strengthening exercise",
+          "instructions": [
+            "Lie on side with hips and knees bent to 45\u00b0",
+            "Keep feet together",
+            "Lift top knee while keeping feet touching",
+            "Keep pelvis stable",
+            "Lower slowly"
+          ],
+          "cues": [
+            "Don't roll backward",
+            "Move from hip, not back",
+            "Keep core engaged"
+          ],
+          "common_errors": [
+            "Rolling pelvis backward",
+            "Separating feet",
+            "Using momentum"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d450",
+        "d415"
+      ],
+      "functional_goals": [
+        "Improve hip stability during walking",
+        "Reduce trendelenburg gait pattern",
+        "Enhance lateral stability"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_009": {
+      "name": "Heel Slides",
+      "type": "mobility",
+      "body_region": "knee",
+      "difficulty_level": 1,
+      "equipment_required": null,
+      "equipment_optional": [
+        "EQ_034"
+      ],
+      "position": "supine",
+      "muscle_targets": {
+        "primary": [
+          "knee_flexion_ROM"
+        ],
+        "secondary": [
+          "hip_flexors"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "Heel Slides",
+          "description": "Gentle knee flexion mobility exercise",
+          "instructions": [
+            "Lie on back with legs straight",
+            "Slowly slide heel toward buttocks",
+            "Bend knee as far as comfortable",
+            "Hold 2-3 seconds",
+            "Slowly straighten"
+          ],
+          "cues": [
+            "Keep heel in contact with surface",
+            "Move slowly and smoothly",
+            "Stop at first resistance"
+          ],
+          "common_errors": [
+            "Lifting heel off surface",
+            "Forcing through pain",
+            "Moving too quickly"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve general physical function"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_010": {
+      "name": "Quad Sets",
+      "type": "isometric",
+      "body_region": "knee",
+      "difficulty_level": 1,
+      "equipment_required": null,
+      "equipment_optional": null,
+      "position": "supine",
+      "muscle_targets": {
+        "primary": [
+          "quadriceps"
+        ],
+        "secondary": []
+      },
+      "translations": {
+        "en": {
+          "name": "Quadriceps Sets",
+          "description": "Isometric quadriceps activation",
+          "instructions": [
+            "Lie or sit with leg straight",
+            "Tighten thigh muscle",
+            "Push knee down into surface",
+            "Hold 5-10 seconds",
+            "Relax completely"
+          ],
+          "cues": [
+            "Think about lifting kneecap",
+            "Breathe normally",
+            "Full contraction"
+          ],
+          "common_errors": [
+            "Holding breath",
+            "Partial contraction",
+            "Tensing other muscles"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d450",
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve knee strength for walking",
+        "Enhance stair climbing ability",
+        "Improve knee stability"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_011": {
+      "name": "Ankle Pumps",
+      "type": "mobility",
+      "body_region": "ankle",
+      "difficulty_level": 1,
+      "equipment_required": null,
+      "equipment_optional": null,
+      "position": "supine",
+      "muscle_targets": {
+        "primary": [
+          "gastrocnemius",
+          "tibialis_anterior"
+        ],
+        "secondary": [
+          "soleus"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "Ankle Pumps",
+          "description": "Active ankle mobility and circulation exercise",
+          "instructions": [
+            "Lie or sit with legs extended",
+            "Point toes away (plantarflexion)",
+            "Pull toes toward nose (dorsiflexion)",
+            "Repeat rhythmically",
+            "Can add circles"
+          ],
+          "cues": [
+            "Full range of motion",
+            "Keep leg relaxed",
+            "Smooth movement"
+          ],
+          "common_errors": [
+            "Only moving toes",
+            "Incomplete range",
+            "Too fast"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d450",
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve ankle mobility for walking",
+        "Reduce risk of trips and falls",
+        "Enhance push-off during gait"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_012": {
+      "name": "Standing Heel Raise",
+      "type": "strengthening",
+      "body_region": "ankle",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": [
+        "EQ_035"
+      ],
+      "position": "standing",
+      "muscle_targets": {
+        "primary": [
+          "gastrocnemius",
+          "soleus"
+        ],
+        "secondary": [
+          "tibialis_posterior"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "Standing Heel Raise",
+          "description": "Calf strengthening exercise",
+          "instructions": [
+            "Stand with feet hip-width apart",
+            "Rise up onto toes",
+            "Hold 2-3 seconds at top",
+            "Lower slowly with control",
+            "Use support if needed"
+          ],
+          "cues": [
+            "Push through big toe",
+            "Keep body straight",
+            "Control the descent"
+          ],
+          "common_errors": [
+            "Rolling to outside of foot",
+            "Using momentum",
+            "Incomplete range"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve general physical function"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_013": {
+      "name": "Bridge",
+      "type": "strengthening",
+      "body_region": "hip",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": [
+        "EQ_027"
+      ],
+      "position": "supine",
+      "muscle_targets": {
+        "primary": [
+          "gluteus_maximus"
+        ],
+        "secondary": [
+          "hamstrings",
+          "erector_spinae"
+        ]
+      },
+      "emg_activation": {
+        "gluteus_maximus": 0.74,
+        "hamstrings": 0.38
+      },
+      "translations": {
+        "en": {
+          "name": "Bridge Exercise",
+          "description": "Gluteal and core strengthening",
+          "instructions": [
+            "Lie on back, knees bent, feet flat",
+            "Tighten abdominals",
+            "Squeeze glutes and lift hips",
+            "Create straight line from knees to shoulders",
+            "Lower slowly"
+          ],
+          "cues": [
+            "Push through heels",
+            "Don't arch back",
+            "Squeeze glutes at top"
+          ],
+          "common_errors": [
+            "Arching lower back",
+            "Pushing through toes",
+            "Uneven hip height"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d410",
+        "d420"
+      ],
+      "functional_goals": [
+        "Improve ability to get out of bed",
+        "Enhance hip strength for sit-to-stand",
+        "Improve pelvic stability"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_014": {
+      "name": "Wall Sits",
+      "type": "strengthening",
+      "body_region": "knee",
+      "difficulty_level": 4,
+      "equipment_required": null,
+      "equipment_optional": null,
+      "position": "standing",
+      "muscle_targets": {
+        "primary": [
+          "quadriceps"
+        ],
+        "secondary": [
+          "gluteus_maximus",
+          "hamstrings"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "Wall Sits",
+          "description": "Isometric lower extremity strengthening",
+          "instructions": [
+            "Stand with back against wall",
+            "Slide down to 90\u00b0 knee bend",
+            "Keep knees over ankles",
+            "Hold position",
+            "Push through heels to return"
+          ],
+          "cues": [
+            "Weight through heels",
+            "Knees behind toes",
+            "Back flat on wall"
+          ],
+          "common_errors": [
+            "Knees past toes",
+            "Partial squat depth",
+            "Leaning forward"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve general physical function"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_015": {
+      "name": "Cervical Retraction",
+      "type": "postural",
+      "body_region": "cervical_spine",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": null,
+      "position": "sitting",
+      "muscle_targets": {
+        "primary": [
+          "deep_neck_flexors"
+        ],
+        "secondary": [
+          "upper_cervical_extensors"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "Cervical Retraction (Chin Tuck)",
+          "description": "Postural exercise for neck alignment",
+          "instructions": [
+            "Sit tall with shoulders relaxed",
+            "Draw chin straight back",
+            "Keep eyes level",
+            "Hold 5 seconds",
+            "Relax to neutral"
+          ],
+          "cues": [
+            "Make double chin",
+            "Don't tilt head",
+            "Lengthen back of neck"
+          ],
+          "common_errors": [
+            "Tilting chin down",
+            "Jutting chin forward",
+            "Tensing shoulders"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve general physical function"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_016": {
+      "name": "Thoracic Extension",
+      "type": "mobility",
+      "body_region": "thoracic_spine",
+      "difficulty_level": 3,
+      "equipment_required": [
+        "EQ_028"
+      ],
+      "equipment_optional": null,
+      "position": "supine",
+      "muscle_targets": {
+        "primary": [
+          "thoracic_extensors"
+        ],
+        "secondary": [
+          "rhomboids"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "Thoracic Extension on Foam Roller",
+          "description": "Thoracic spine mobility exercise",
+          "instructions": [
+            "Lie with foam roller under mid-back",
+            "Support head with hands",
+            "Keep lower back neutral",
+            "Extend back over roller",
+            "Return to start"
+          ],
+          "cues": [
+            "Move from mid-back only",
+            "Don't arch lower back",
+            "Support neck"
+          ],
+          "common_errors": [
+            "Hyperextending lower back",
+            "Dropping head back",
+            "Moving too quickly"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve general physical function"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_017": {
+      "name": "Mini Squats",
+      "type": "functional",
+      "body_region": "knee",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": [
+        "EQ_035"
+      ],
+      "position": "standing",
+      "muscle_targets": {
+        "primary": [
+          "quadriceps",
+          "gluteus_maximus"
+        ],
+        "secondary": [
+          "hamstrings",
+          "gastrocnemius"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "Mini Squats",
+          "description": "Functional lower extremity exercise",
+          "instructions": [
+            "Stand with feet shoulder-width apart",
+            "Slowly bend knees to 45\u00b0",
+            "Keep knees over toes",
+            "Push through heels to return",
+            "Maintain neutral spine"
+          ],
+          "cues": [
+            "Weight on heels",
+            "Chest up",
+            "Knees track over toes"
+          ],
+          "common_errors": [
+            "Knees collapsing inward",
+            "Heels lifting",
+            "Excessive forward lean"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve general physical function"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_018": {
+      "name": "Step Ups",
+      "type": "functional",
+      "body_region": "knee",
+      "difficulty_level": 4,
+      "equipment_required": [
+        "EQ_036"
+      ],
+      "equipment_optional": null,
+      "position": "standing",
+      "muscle_targets": {
+        "primary": [
+          "quadriceps",
+          "gluteus_maximus"
+        ],
+        "secondary": [
+          "hamstrings",
+          "hip_stabilizers"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "Step Ups",
+          "description": "Functional strengthening and balance",
+          "instructions": [
+            "Place one foot fully on step",
+            "Push through heel to step up",
+            "Bring other foot up",
+            "Step down with control",
+            "Lead with same leg"
+          ],
+          "cues": [
+            "Push through heel",
+            "Keep knee aligned",
+            "Control descent"
+          ],
+          "common_errors": [
+            "Pushing off back leg",
+            "Knee valgus",
+            "Using momentum"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve general physical function"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_019": {
+      "name": "Single Leg Balance",
+      "type": "balance",
+      "body_region": "ankle",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": [
+        "EQ_029"
+      ],
+      "position": "standing",
+      "muscle_targets": {
+        "primary": [
+          "ankle_stabilizers",
+          "hip_stabilizers"
+        ],
+        "secondary": [
+          "core"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "Single Leg Balance",
+          "description": "Proprioception and balance training",
+          "instructions": [
+            "Stand on one leg",
+            "Keep standing knee slightly bent",
+            "Hold for 30 seconds",
+            "Progress by closing eyes",
+            "Add unstable surface for challenge"
+          ],
+          "cues": [
+            "Fix gaze on one point",
+            "Engage core",
+            "Small corrections are normal"
+          ],
+          "common_errors": [
+            "Locking knee",
+            "Hip hiking",
+            "Gripping with toes"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d450",
+        "d415"
+      ],
+      "functional_goals": [
+        "Improve balance during walking",
+        "Enhance stability on uneven surfaces",
+        "Reduce fall risk"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_020": {
+      "name": "Nerve Glides - Median",
+      "type": "neurodynamic",
+      "body_region": "upper_extremity",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": null,
+      "position": "sitting",
+      "muscle_targets": {
+        "primary": [
+          "median_nerve_mobility"
+        ],
+        "secondary": []
+      },
+      "translations": {
+        "en": {
+          "name": "Median Nerve Glides",
+          "description": "Neural mobilization for median nerve",
+          "instructions": [
+            "Extend arm to side at shoulder height",
+            "Extend wrist and fingers",
+            "Turn head away from arm",
+            "Gently bend and straighten elbow",
+            "Should feel stretch, not pain"
+          ],
+          "cues": [
+            "Gentle movement only",
+            "No forcing",
+            "Stop if numbness/tingling increases"
+          ],
+          "common_errors": [
+            "Forcing into pain",
+            "Moving too quickly",
+            "Excessive neck rotation"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve general physical function"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_021": {
+      "name": "External Rotation at 90\u00b0",
+      "type": "strengthening",
+      "body_region": "shoulder",
+      "difficulty_level": 4,
+      "equipment_required": [
+        "EQ_026"
+      ],
+      "equipment_optional": [
+        "EQ_031"
+      ],
+      "position": "standing",
+      "muscle_targets": {
+        "primary": [
+          "infraspinatus",
+          "teres_minor"
+        ],
+        "secondary": [
+          "posterior_deltoid"
+        ]
+      },
+      "emg_activation": {
+        "infraspinatus": 0.88,
+        "teres_minor": 0.72
+      },
+      "translations": {
+        "en": {
+          "name": "External Rotation at 90 Degrees",
+          "description": "Rotator cuff strengthening in functional position",
+          "instructions": [
+            "Stand with arm at 90\u00b0 shoulder abduction",
+            "Elbow bent to 90\u00b0",
+            "Rotate arm up against resistance",
+            "Control return to start position"
+          ],
+          "cues": [
+            "Keep elbow at shoulder height",
+            "Think about starting a motorcycle",
+            "Control eccentric phase"
+          ],
+          "common_errors": [
+            "Dropping elbow below shoulder",
+            "Compensating with trunk",
+            "Too much resistance too soon"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve general physical function"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_022": {
+      "name": "D2 Flexion PNF Pattern",
+      "type": "neuromuscular",
+      "body_region": "shoulder",
+      "difficulty_level": 5,
+      "equipment_required": null,
+      "equipment_optional": [
+        "EQ_026"
+      ],
+      "position": "standing",
+      "muscle_targets": {
+        "primary": [
+          "deltoid",
+          "biceps",
+          "rhomboids"
+        ],
+        "secondary": [
+          "serratus_anterior"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "D2 Flexion PNF Pattern",
+          "description": "Proprioceptive neuromuscular facilitation pattern for shoulder",
+          "instructions": [
+            "Start with arm across body, palm down",
+            "Flex, abduct, and externally rotate",
+            "End position: arm up and out, thumb toward ceiling",
+            "Reverse pattern for return"
+          ],
+          "cues": [
+            "Smooth diagonal movement",
+            "Lead with thumb",
+            "Full body coordination"
+          ],
+          "common_errors": [
+            "Breaking pattern into components",
+            "Poor timing",
+            "Insufficient end-range"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve general physical function"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_023": {
+      "name": "Push-up Plus",
+      "type": "strengthening",
+      "body_region": "shoulder",
+      "difficulty_level": 5,
+      "equipment_required": null,
+      "equipment_optional": null,
+      "position": "prone",
+      "muscle_targets": {
+        "primary": [
+          "serratus_anterior"
+        ],
+        "secondary": [
+          "pectoralis_major",
+          "triceps"
+        ]
+      },
+      "emg_activation": {
+        "serratus_anterior": 0.91
+      },
+      "translations": {
+        "en": {
+          "name": "Push-up Plus",
+          "description": "Advanced serratus anterior strengthening",
+          "instructions": [
+            "Start in push-up position",
+            "Perform standard push-up",
+            "At top, push shoulder blades apart",
+            "Hold protraction, then lower"
+          ],
+          "cues": [
+            "Reach through shoulders at top",
+            "Don't let scapulae pinch together",
+            "Maintain core stability"
+          ],
+          "common_errors": [
+            "Insufficient scapular protraction",
+            "Sagging hips",
+            "Rushing the movement"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve general physical function"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_024": {
+      "name": "Eccentric Bicep Curls",
+      "type": "strengthening",
+      "body_region": "elbow",
+      "difficulty_level": 4,
+      "equipment_required": [
+        "EQ_026"
+      ],
+      "equipment_optional": null,
+      "position": "standing",
+      "muscle_targets": {
+        "primary": [
+          "biceps_brachii"
+        ],
+        "secondary": [
+          "brachialis"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "Eccentric Bicep Curls",
+          "description": "Eccentric strengthening for tennis elbow rehabilitation",
+          "instructions": [
+            "Use both hands to curl weight up",
+            "Remove non-affected hand",
+            "Slowly lower weight with affected arm only",
+            "Take 5-6 seconds to lower"
+          ],
+          "cues": [
+            "Focus on slow lowering phase",
+            "Control the weight",
+            "Use both hands to lift"
+          ],
+          "common_errors": [
+            "Lowering too quickly",
+            "Using affected arm to lift",
+            "Excessive weight"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d450",
+        "d430"
+      ],
+      "functional_goals": [
+        "Improve functional strength",
+        "Enhance mobility endurance",
+        "Build strength for daily activities"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_025": {
+      "name": "Nerve Glides - Ulnar",
+      "type": "neurodynamic",
+      "body_region": "elbow",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": null,
+      "position": "standing",
+      "muscle_targets": {
+        "primary": [
+          "ulnar_nerve_mobility"
+        ],
+        "secondary": []
+      },
+      "translations": {
+        "en": {
+          "name": "Ulnar Nerve Glides",
+          "description": "Neural mobilization for ulnar nerve",
+          "instructions": [
+            "Arm out to side, elbow bent",
+            "Wrist extended, ring finger bent",
+            "Side bend head away from arm",
+            "Gently straighten and bend elbow"
+          ],
+          "cues": [
+            "Gentle oscillations only",
+            "Stop if symptoms worsen",
+            "Move within comfortable range"
+          ],
+          "common_errors": [
+            "Too aggressive stretching",
+            "Ignoring symptom changes",
+            "Poor head position"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve general physical function"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_026": {
+      "name": "Tendon Glides",
+      "type": "mobility",
+      "body_region": "hand",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": null,
+      "position": "sitting",
+      "muscle_targets": {
+        "primary": [
+          "flexor_tendons"
+        ],
+        "secondary": []
+      },
+      "translations": {
+        "en": {
+          "name": "Tendon Glides",
+          "description": "Finger flexor tendon mobilization",
+          "instructions": [
+            "Start with fingers straight",
+            "Make hook fist (bend at PIP/DIP)",
+            "Make full fist",
+            "Return to straight",
+            "Make table top position"
+          ],
+          "cues": [
+            "Move through full range",
+            "Smooth transitions",
+            "Don't force movement"
+          ],
+          "common_errors": [
+            "Incomplete flexion",
+            "Skipping positions",
+            "Moving too fast"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d410",
+        "d445"
+      ],
+      "functional_goals": [
+        "Improve range of motion for function",
+        "Reduce stiffness in daily activities",
+        "Enhance movement quality"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_027": {
+      "name": "Grip Strengthening",
+      "type": "strengthening",
+      "body_region": "hand",
+      "difficulty_level": 2,
+      "equipment_required": [
+        "EQ_031"
+      ],
+      "equipment_optional": null,
+      "position": "sitting",
+      "muscle_targets": {
+        "primary": [
+          "finger_flexors"
+        ],
+        "secondary": [
+          "intrinsic_hand_muscles"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "Grip Strengthening",
+          "description": "Hand strength exercise using dynamometer",
+          "instructions": [
+            "Hold grip dynamometer properly",
+            "Squeeze maximally for 3 seconds",
+            "Rest 10 seconds between reps",
+            "Monitor grip strength progression"
+          ],
+          "cues": [
+            "Full grip, not just fingers",
+            "Consistent hand position",
+            "Track improvement"
+          ],
+          "common_errors": [
+            "Inconsistent hand placement",
+            "Not holding long enough",
+            "Too many repetitions"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d450",
+        "d430"
+      ],
+      "functional_goals": [
+        "Improve functional strength",
+        "Enhance mobility endurance",
+        "Build strength for daily activities"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_028": {
+      "name": "Side-lying Hip Abduction",
+      "type": "strengthening",
+      "body_region": "hip",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": [
+        "EQ_026"
+      ],
+      "position": "sidelying",
+      "muscle_targets": {
+        "primary": [
+          "gluteus_medius"
+        ],
+        "secondary": [
+          "gluteus_minimus",
+          "tensor_fasciae_latae"
+        ]
+      },
+      "emg_activation": {
+        "gluteus_medius": 0.81
+      },
+      "translations": {
+        "en": {
+          "name": "Side-lying Hip Abduction",
+          "description": "Primary hip abductor strengthening",
+          "instructions": [
+            "Lie on side with body straight",
+            "Lift top leg up and back slightly",
+            "Keep toe pointing forward",
+            "Lower with control"
+          ],
+          "cues": [
+            "Lead with heel",
+            "Keep pelvis stable",
+            "Don't let leg drift forward"
+          ],
+          "common_errors": [
+            "Hip flexion compensation",
+            "Rolling backward",
+            "Using momentum"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d450",
+        "d415"
+      ],
+      "functional_goals": [
+        "Improve hip stability during walking",
+        "Reduce trendelenburg gait pattern",
+        "Enhance lateral stability"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_029": {
+      "name": "Monster Walks",
+      "type": "functional",
+      "body_region": "hip",
+      "difficulty_level": 4,
+      "equipment_required": [
+        "EQ_026"
+      ],
+      "equipment_optional": null,
+      "position": "standing",
+      "muscle_targets": {
+        "primary": [
+          "gluteus_medius",
+          "gluteus_maximus"
+        ],
+        "secondary": [
+          "quadriceps"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "Monster Walks",
+          "description": "Dynamic hip stabilization exercise",
+          "instructions": [
+            "Place resistance band around ankles or knees",
+            "Semi-squat position",
+            "Step sideways maintaining tension",
+            "Keep knees aligned over toes"
+          ],
+          "cues": [
+            "Stay low throughout",
+            "Don't let knees cave in",
+            "Maintain constant tension"
+          ],
+          "common_errors": [
+            "Standing up between steps",
+            "Knee valgus",
+            "Losing band tension"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve general physical function"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_030": {
+      "name": "Single Leg Deadlift",
+      "type": "functional",
+      "body_region": "hip",
+      "difficulty_level": 5,
+      "equipment_required": null,
+      "equipment_optional": null,
+      "position": "standing",
+      "muscle_targets": {
+        "primary": [
+          "hamstrings",
+          "gluteus_maximus"
+        ],
+        "secondary": [
+          "core",
+          "calf_muscles"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "Single Leg Deadlift",
+          "description": "Unilateral posterior chain strengthening",
+          "instructions": [
+            "Stand on one leg",
+            "Hinge at hip, reach toward floor",
+            "Keep back straight",
+            "Return to standing"
+          ],
+          "cues": [
+            "Push hips back",
+            "Keep standing knee soft",
+            "Chest up throughout"
+          ],
+          "common_errors": [
+            "Rounding back",
+            "Losing balance",
+            "Not reaching full range"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve general physical function"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_031": {
+      "name": "Terminal Knee Extension",
+      "type": "strengthening",
+      "body_region": "knee",
+      "difficulty_level": 3,
+      "equipment_required": [
+        "EQ_026"
+      ],
+      "equipment_optional": null,
+      "position": "standing",
+      "muscle_targets": {
+        "primary": [
+          "vastus_medialis_oblique"
+        ],
+        "secondary": [
+          "quadriceps"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "Terminal Knee Extension",
+          "description": "VMO strengthening exercise",
+          "instructions": [
+            "Place resistance band behind knee",
+            "Other end anchored behind",
+            "Step backward to create tension",
+            "Fully straighten knee against resistance"
+          ],
+          "cues": [
+            "Focus on last 20\u00b0 of extension",
+            "Hold fully straight position",
+            "Feel muscle at inner thigh"
+          ],
+          "common_errors": [
+            "Not achieving full extension",
+            "Too much knee flexion at start",
+            "Using hip instead of knee"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d450",
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve knee strength for walking",
+        "Enhance stair climbing ability",
+        "Improve knee stability"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_032": {
+      "name": "Single Leg Squat",
+      "type": "functional",
+      "body_region": "knee",
+      "difficulty_level": 6,
+      "equipment_required": null,
+      "equipment_optional": [
+        "EQ_035"
+      ],
+      "position": "standing",
+      "muscle_targets": {
+        "primary": [
+          "quadriceps",
+          "gluteus_maximus"
+        ],
+        "secondary": [
+          "hip_stabilizers",
+          "core"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "Single Leg Squat",
+          "description": "Advanced unilateral lower extremity strengthening",
+          "instructions": [
+            "Stand on one leg",
+            "Slowly squat down on single leg",
+            "Keep knee aligned over toe",
+            "Return to standing"
+          ],
+          "cues": [
+            "Control descent and ascent",
+            "Keep trunk upright",
+            "Don't let knee cave inward"
+          ],
+          "common_errors": [
+            "Knee valgus",
+            "Trunk lean",
+            "Insufficient depth"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve general physical function"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_033": {
+      "name": "Lateral Step Down",
+      "type": "functional",
+      "body_region": "knee",
+      "difficulty_level": 5,
+      "equipment_required": [
+        "EQ_036"
+      ],
+      "equipment_optional": null,
+      "position": "standing",
+      "muscle_targets": {
+        "primary": [
+          "quadriceps",
+          "gluteus_medius"
+        ],
+        "secondary": [
+          "hamstrings"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "Lateral Step Down",
+          "description": "Eccentric control and hip stability",
+          "instructions": [
+            "Stand sideways on step",
+            "Slowly lower outside leg to floor",
+            "Lightly touch floor with toe",
+            "Return to start position"
+          ],
+          "cues": [
+            "Control lowering with stance leg",
+            "Keep knee over toe",
+            "Don't push off ground"
+          ],
+          "common_errors": [
+            "Dropping too quickly",
+            "Pushing off with lowering leg",
+            "Knee valgus"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve general physical function"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_034": {
+      "name": "Calf Stretch - Gastrocnemius",
+      "type": "stretching",
+      "body_region": "ankle",
+      "difficulty_level": 1,
+      "equipment_required": null,
+      "equipment_optional": [
+        "EQ_034"
+      ],
+      "position": "standing",
+      "muscle_targets": {
+        "primary": [
+          "gastrocnemius"
+        ],
+        "secondary": []
+      },
+      "translations": {
+        "en": {
+          "name": "Calf Stretch - Gastrocnemius",
+          "description": "Static stretch for gastrocnemius muscle",
+          "instructions": [
+            "Step back leg back straight",
+            "Front leg bent, hands on wall",
+            "Keep back heel down",
+            "Lean forward to stretch"
+          ],
+          "cues": [
+            "Keep back leg straight",
+            "Heel must stay down",
+            "Feel stretch in upper calf"
+          ],
+          "common_errors": [
+            "Lifting back heel",
+            "Bending back knee",
+            "Not enough forward lean"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve general physical function"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_035": {
+      "name": "Calf Stretch - Soleus",
+      "type": "stretching",
+      "body_region": "ankle",
+      "difficulty_level": 1,
+      "equipment_required": null,
+      "equipment_optional": null,
+      "position": "standing",
+      "muscle_targets": {
+        "primary": [
+          "soleus"
+        ],
+        "secondary": []
+      },
+      "translations": {
+        "en": {
+          "name": "Calf Stretch - Soleus",
+          "description": "Targeted stretch for deeper calf muscle",
+          "instructions": [
+            "Step back leg back, knee bent",
+            "Front leg bent, hands on wall",
+            "Keep back heel down",
+            "Lean forward while keeping back knee bent"
+          ],
+          "cues": [
+            "Both knees bent",
+            "Feel stretch in lower calf",
+            "Heel down throughout"
+          ],
+          "common_errors": [
+            "Straightening back leg",
+            "Lifting heel",
+            "Insufficient forward lean"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve general physical function"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_036": {
+      "name": "Toe Raises",
+      "type": "strengthening",
+      "body_region": "ankle",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": null,
+      "position": "standing",
+      "muscle_targets": {
+        "primary": [
+          "tibialis_anterior"
+        ],
+        "secondary": [
+          "extensor_digitorum_longus"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "Toe Raises",
+          "description": "Anterior tibialis strengthening",
+          "instructions": [
+            "Stand with feet flat",
+            "Lift toes and forefoot up",
+            "Keep heels on ground",
+            "Hold then lower slowly"
+          ],
+          "cues": [
+            "Lift toes as high as possible",
+            "Heels stay down",
+            "Feel muscle on shin working"
+          ],
+          "common_errors": [
+            "Lifting whole foot",
+            "Not enough dorsiflexion",
+            "Using momentum"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve general physical function"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_037": {
+      "name": "Alphabet Draws",
+      "type": "mobility",
+      "body_region": "ankle",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": null,
+      "position": "sitting",
+      "muscle_targets": {
+        "primary": [
+          "ankle_muscles_all_planes"
+        ],
+        "secondary": []
+      },
+      "translations": {
+        "en": {
+          "name": "Alphabet Draws",
+          "description": "Multi-planar ankle mobility exercise",
+          "instructions": [
+            "Sit with leg extended",
+            "Use foot to 'draw' letters in air",
+            "Go through entire alphabet",
+            "Make letters large and clear"
+          ],
+          "cues": [
+            "Use ankle, not leg movement",
+            "Full range of motion",
+            "Clear letter shapes"
+          ],
+          "common_errors": [
+            "Moving whole leg",
+            "Small movements",
+            "Too fast"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve general physical function"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_038": {
+      "name": "Towel Scrunches",
+      "type": "strengthening",
+      "body_region": "foot",
+      "difficulty_level": 2,
+      "equipment_required": [
+        "towel"
+      ],
+      "equipment_optional": null,
+      "position": "sitting",
+      "muscle_targets": {
+        "primary": [
+          "intrinsic_foot_muscles"
+        ],
+        "secondary": [
+          "flexor_digitorum_brevis"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "Towel Scrunches",
+          "description": "Intrinsic foot muscle strengthening",
+          "instructions": [
+            "Place towel flat under foot",
+            "Use toes to scrunch towel toward you",
+            "Pick up towel using only toes",
+            "Release and repeat"
+          ],
+          "cues": [
+            "Use toes, not whole foot",
+            "Create good arch",
+            "Full toe flexion"
+          ],
+          "common_errors": [
+            "Using ankle movement",
+            "Not enough toe flexion",
+            "Lifting heel"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d450",
+        "d430"
+      ],
+      "functional_goals": [
+        "Improve functional strength",
+        "Enhance mobility endurance",
+        "Build strength for daily activities"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_039": {
+      "name": "Marble Pick-up",
+      "type": "functional",
+      "body_region": "foot",
+      "difficulty_level": 3,
+      "equipment_required": [
+        "marbles",
+        "cup"
+      ],
+      "equipment_optional": null,
+      "position": "sitting",
+      "muscle_targets": {
+        "primary": [
+          "intrinsic_foot_muscles"
+        ],
+        "secondary": [
+          "toe_flexors"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "Marble Pick-up",
+          "description": "Fine motor control for foot muscles",
+          "instructions": [
+            "Place marbles on floor",
+            "Use toes to pick up marbles",
+            "Place marbles in cup",
+            "Use one foot at a time"
+          ],
+          "cues": [
+            "Precise toe control",
+            "Don't use hands",
+            "Good foot positioning"
+          ],
+          "common_errors": [
+            "Using whole foot",
+            "Dropping marbles",
+            "Not isolated toe movement"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve general physical function"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_040": {
+      "name": "Cat-Cow Stretch",
+      "type": "mobility",
+      "body_region": "spine",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": null,
+      "position": "quadruped",
+      "muscle_targets": {
+        "primary": [
+          "spinal_mobility"
+        ],
+        "secondary": [
+          "hip_flexors"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "Cat-Cow Stretch",
+          "description": "Spinal segmental mobility exercise",
+          "instructions": [
+            "Start on hands and knees",
+            "Arch back and look up (cow)",
+            "Round back and tuck chin (cat)",
+            "Alternate slowly between positions"
+          ],
+          "cues": [
+            "Move segment by segment",
+            "Full range both directions",
+            "Coordinate with breathing"
+          ],
+          "common_errors": [
+            "Moving too quickly",
+            "Not full range",
+            "Stiff movement pattern"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d410",
+        "d530"
+      ],
+      "functional_goals": [
+        "Improve spinal mobility for daily activities",
+        "Enhance ability to bend and reach",
+        "Reduce stiffness for functional movements"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_041": {
+      "name": "Thoracic Rotation",
+      "type": "mobility",
+      "body_region": "thoracic_spine",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": null,
+      "position": "quadruped",
+      "muscle_targets": {
+        "primary": [
+          "thoracic_rotators"
+        ],
+        "secondary": [
+          "rhomboids"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "Thoracic Rotation",
+          "description": "Thoracic spine rotational mobility",
+          "instructions": [
+            "Start on hands and knees",
+            "Place one hand behind head",
+            "Rotate elbow toward ceiling",
+            "Return to start and repeat"
+          ],
+          "cues": [
+            "Lead with elbow",
+            "Keep hips still",
+            "Rotate through mid-back"
+          ],
+          "common_errors": [
+            "Hip rotation",
+            "Cervical compensation",
+            "Incomplete rotation"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d410",
+        "d640"
+      ],
+      "functional_goals": [
+        "Improve trunk rotation for driving",
+        "Enhance ability to reach across body",
+        "Improve functional rotation patterns"
+      ],
+      "icf_domains": "domestic_life"
+    },
+    "EX_042": {
+      "name": "Prone Press-up",
+      "type": "mobility",
+      "body_region": "lumbar_spine",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": null,
+      "position": "prone",
+      "muscle_targets": {
+        "primary": [
+          "lumbar_extension"
+        ],
+        "secondary": [
+          "erector_spinae"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "Prone Press-up",
+          "description": "Lumbar extension mobility exercise",
+          "instructions": [
+            "Lie face down",
+            "Place hands under shoulders",
+            "Press up with arms, keep hips down",
+            "Hold position then lower"
+          ],
+          "cues": [
+            "Let back arch naturally",
+            "Hips stay on table/floor",
+            "Relax back muscles"
+          ],
+          "common_errors": [
+            "Lifting hips",
+            "Not enough extension",
+            "Tensing back muscles"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve general physical function"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_043": {
+      "name": "McGill Big 3 - Curl-up",
+      "type": "core_stability",
+      "body_region": "core",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": null,
+      "position": "supine",
+      "muscle_targets": {
+        "primary": [
+          "rectus_abdominis"
+        ],
+        "secondary": [
+          "transverse_abdominis"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "McGill Curl-up",
+          "description": "Spinal stability focused abdominal exercise",
+          "instructions": [
+            "One knee bent, other leg straight",
+            "Hands under lower back",
+            "Lift head/shoulders slightly",
+            "Hold 10 seconds"
+          ],
+          "cues": [
+            "Tiny movement only",
+            "No lumbar flexion",
+            "Quality over quantity"
+          ],
+          "common_errors": [
+            "Too much trunk flexion",
+            "Hands behind head",
+            "Holding breath"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve general physical function"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_044": {
+      "name": "McGill Big 3 - Side Plank",
+      "type": "core_stability",
+      "body_region": "core",
+      "difficulty_level": 4,
+      "equipment_required": null,
+      "equipment_optional": null,
+      "position": "sidelying",
+      "muscle_targets": {
+        "primary": [
+          "quadratus_lumborum",
+          "obliques"
+        ],
+        "secondary": [
+          "gluteus_medius"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "McGill Side Plank",
+          "description": "Lateral core stability exercise",
+          "instructions": [
+            "Lie on side, elbow under shoulder",
+            "Lift hips to create straight line",
+            "Hold position",
+            "Breathe normally"
+          ],
+          "cues": [
+            "Straight line from head to feet",
+            "Don't let hips sag",
+            "Push floor away"
+          ],
+          "common_errors": [
+            "Hip sagging",
+            "Rolling forward/back",
+            "Holding breath"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d415",
+        "d430"
+      ],
+      "functional_goals": [
+        "Build endurance for physical activities",
+        "Improve core strength for lifting",
+        "Enhance postural stability"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_045": {
+      "name": "Turkish Get-up",
+      "type": "functional",
+      "body_region": "full_body",
+      "difficulty_level": 7,
+      "equipment_required": null,
+      "equipment_optional": [
+        "EQ_026"
+      ],
+      "position": "supine_to_standing",
+      "muscle_targets": {
+        "primary": [
+          "full_body_integration"
+        ],
+        "secondary": [
+          "core",
+          "shoulders",
+          "hips"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "Turkish Get-up",
+          "description": "Complex movement pattern for total body integration",
+          "instructions": [
+            "Start lying with arm pointing up",
+            "Roll to elbow, then to hand",
+            "Bridge up, sweep leg through",
+            "Stand up maintaining arm position"
+          ],
+          "cues": [
+            "Keep eyes on raised hand",
+            "Smooth transitions",
+            "Control each phase"
+          ],
+          "common_errors": [
+            "Losing arm position",
+            "Poor transitions",
+            "Rushing movement"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve general physical function"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_046": {
+      "name": "Bear Crawl",
+      "type": "functional",
+      "body_region": "full_body",
+      "difficulty_level": 5,
+      "equipment_required": null,
+      "equipment_optional": null,
+      "position": "quadruped",
+      "muscle_targets": {
+        "primary": [
+          "core",
+          "shoulders"
+        ],
+        "secondary": [
+          "hip_flexors",
+          "quadriceps"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "Bear Crawl",
+          "description": "Dynamic stability and coordination exercise",
+          "instructions": [
+            "Start on hands and knees",
+            "Lift knees 1 inch off ground",
+            "Crawl forward/backward/sideways",
+            "Keep hips level"
+          ],
+          "cues": [
+            "Small steps",
+            "Keep core tight",
+            "Opposite hand/foot"
+          ],
+          "common_errors": [
+            "Knees too high",
+            "Hip hiking",
+            "Moving too fast"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve general physical function"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_047": {
+      "name": "Farmer's Walk",
+      "type": "functional",
+      "body_region": "full_body",
+      "difficulty_level": 4,
+      "equipment_required": [
+        "weights"
+      ],
+      "equipment_optional": null,
+      "position": "standing",
+      "muscle_targets": {
+        "primary": [
+          "grip",
+          "core",
+          "traps"
+        ],
+        "secondary": [
+          "legs",
+          "posterior_chain"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "Farmer's Walk",
+          "description": "Loaded carry for functional strength",
+          "instructions": [
+            "Hold weights at sides",
+            "Walk with normal gait",
+            "Keep shoulders back",
+            "Maintain good posture"
+          ],
+          "cues": [
+            "Tall posture",
+            "Don't lean sideways",
+            "Strong grip"
+          ],
+          "common_errors": [
+            "Forward lean",
+            "Lateral trunk lean",
+            "Poor grip endurance"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve general physical function"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_048": {
+      "name": "Deep Breathing Exercise",
+      "type": "breathing",
+      "body_region": "respiratory",
+      "difficulty_level": 1,
+      "equipment_required": null,
+      "equipment_optional": null,
+      "position": "supine",
+      "muscle_targets": {
+        "primary": [
+          "diaphragm"
+        ],
+        "secondary": [
+          "intercostals"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "Deep Breathing Exercise",
+          "description": "Diaphragmatic breathing for respiratory rehabilitation",
+          "instructions": [
+            "Lie on back, knees bent",
+            "One hand on chest, one on belly",
+            "Breathe in through nose, belly rises",
+            "Exhale slowly through mouth"
+          ],
+          "cues": [
+            "Belly hand moves more",
+            "Chest hand stays still",
+            "Slow, controlled breathing"
+          ],
+          "common_errors": [
+            "Chest breathing",
+            "Breathing too fast",
+            "Forcing exhalation"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve general physical function"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_049": {
+      "name": "Pursed Lip Breathing",
+      "type": "breathing",
+      "body_region": "respiratory",
+      "difficulty_level": 1,
+      "equipment_required": null,
+      "equipment_optional": null,
+      "position": "sitting",
+      "muscle_targets": {
+        "primary": [
+          "breathing_control"
+        ],
+        "secondary": []
+      },
+      "translations": {
+        "en": {
+          "name": "Pursed Lip Breathing",
+          "description": "Breathing technique for COPD management",
+          "instructions": [
+            "Inhale through nose for 2 counts",
+            "Purse lips like whistling",
+            "Exhale slowly through pursed lips",
+            "Exhale twice as long as inhale"
+          ],
+          "cues": [
+            "Relax shoulders",
+            "Don't force exhale",
+            "1:2 inhale to exhale ratio"
+          ],
+          "common_errors": [
+            "Exhaling too fast",
+            "Forcing breath",
+            "Shoulder tension"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve general physical function"
+      ],
+      "icf_domains": "mobility"
+    },
+    "EX_050": {
+      "name": "Stair Climbing Training",
+      "type": "functional",
+      "body_region": "cardiopulmonary",
+      "difficulty_level": 3,
+      "equipment_required": [
+        "EQ_036"
+      ],
+      "equipment_optional": null,
+      "position": "standing",
+      "muscle_targets": {
+        "primary": [
+          "quadriceps",
+          "cardiovascular"
+        ],
+        "secondary": [
+          "gluteus_maximus"
+        ]
+      },
+      "translations": {
+        "en": {
+          "name": "Stair Climbing Training",
+          "description": "Functional cardiovascular and strength training",
+          "instructions": [
+            "Use actual stairs or step platform",
+            "Step up with full foot contact",
+            "Step down with control",
+            "Monitor heart rate and breathing"
+          ],
+          "cues": [
+            "Use handrail for balance only",
+            "Full foot on step",
+            "Pace yourself"
+          ],
+          "common_errors": [
+            "Using handrail for support",
+            "Only toe contact",
+            "Going too fast initially"
+          ]
+        }
+      },
+      "specialty_categories": [
+        "general"
+      ],
+      "cf_codes": [
+        "d455"
+      ],
+      "functional_goals": [
+        "Improve general physical function"
+      ],
+      "icf_domains": "mobility"
+    }
+  }
+}

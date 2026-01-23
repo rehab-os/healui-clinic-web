@@ -1,0 +1,277 @@
+{
+  "evidence_based_protocols": {
+    "PROTOCOL_001": {
+      "name": "Adhesive Capsulitis Evidence-Based Protocol",
+      "condition": "COND_001",
+      "evidence_level": "Grade_A",
+      "phases": {
+        "phase_1_freezing": {
+          "duration": "0-9_months",
+          "characteristics": ["progressive_pain", "night_pain", "ROM_loss"],
+          "goals": ["pain_management", "maintain_available_ROM", "patient_education"],
+          "interventions": {
+            "exercises": ["EX_003", "EX_048", "gentle_ROM"],
+            "modalities": ["EQ_007", "EQ_009", "heat"],
+            "manual_therapy": ["grade_1-2_mobilization"],
+            "medications": ["NSAIDs", "corticosteroid_injection"]
+          },
+          "precautions": ["avoid_aggressive_stretching", "respect_pain_levels"],
+          "progression_criteria": ["decreased_night_pain", "improved_pain_with_movement"]
+        },
+        "phase_2_frozen": {
+          "duration": "4-12_months", 
+          "characteristics": ["stable_ROM_loss", "decreased_pain"],
+          "goals": ["restore_ROM", "maintain_strength", "improve_function"],
+          "interventions": {
+            "exercises": ["EX_001", "EX_021", "EX_037_for_shoulder", "EX_002"],
+            "modalities": ["heat", "EQ_008_ultrasound"],
+            "manual_therapy": ["grade_3-4_mobilization", "stretching"],
+            "advanced": ["manipulation_under_anesthesia_if_indicated"]
+          },
+          "progression_criteria": ["ROM_improvements", "functional_gains"],
+          "frequency": "daily_home_program_plus_2-3x_week_supervised"
+        },
+        "phase_3_thawing": {
+          "duration": "12-24_months",
+          "characteristics": ["gradual_ROM_return", "minimal_pain"],
+          "goals": ["restore_full_ROM", "normalize_strength", "return_to_activities"],
+          "interventions": {
+            "exercises": ["EX_021", "EX_022", "EX_023", "functional_activities"],
+            "progressive_strengthening": ["resistance_bands", "weights"],
+            "sport_specific": ["if_applicable"]
+          },
+          "discharge_criteria": ["ROM_within_10%_normal", "functional_goals_met", "patient_satisfaction"]
+        }
+      },
+      "outcome_measures": ["METRIC_003", "METRIC_015", "METRIC_020"],
+      "evidence_references": ["Kelley_2013_Cochrane", "Page_2014_JOSPT"]
+    },
+    "PROTOCOL_002": {
+      "name": "ACL Reconstruction Rehabilitation Protocol",
+      "condition": "COND_004",
+      "evidence_level": "Grade_A",
+      "phases": {
+        "phase_1_immediate_post_op": {
+          "duration": "0-2_weeks",
+          "goals": ["control_swelling", "restore_extension", "quad_activation", "protect_graft"],
+          "ROM_goals": {"flexion": "0-90_degrees", "extension": "0_degrees"},
+          "interventions": {
+            "exercises": ["EX_009", "EX_010", "EX_011", "EX_048"],
+            "modalities": ["EQ_009", "EQ_032", "elevation"],
+            "weight_bearing": ["as_tolerated_with_crutches"],
+            "bracing": ["as_per_surgeon_protocol"]
+          },
+          "precautions": ["avoid_hamstring_exercises", "no_pivoting", "protect_incisions"]
+        },
+        "phase_2_early_mobility": {
+          "duration": "2-6_weeks",
+          "goals": ["full_extension", "flexion_120_degrees", "normalize_gait", "minimize_swelling"],
+          "interventions": {
+            "exercises": ["EX_013", "EX_007", "EX_017", "EX_012"],
+            "strengthening": ["isometric", "limited_range_isotonic"],
+            "modalities": ["continue_ice", "EQ_008_if_appropriate"],
+            "functional": ["stationary_bike_when_ROM_adequate"]
+          },
+          "progression_criteria": ["full_extension", "120_degrees_flexion", "minimal_swelling"]
+        },
+        "phase_3_progressive_strengthening": {
+          "duration": "6-12_weeks", 
+          "goals": ["strengthen_quadriceps", "improve_proprioception", "advance_functional_activities"],
+          "interventions": {
+            "exercises": ["EX_018", "EX_031", "EX_019", "EX_050"],
+            "strengthening": ["progressive_resistance", "EQ_001_if_available"],
+            "proprioception": ["balance_exercises", "unstable_surfaces"],
+            "cardio": ["swimming", "cycling", "EQ_002_if_available"]
+          },
+          "criteria": ["quad_strength_>80%_contralateral", "good_balance", "no_effusion"]
+        },
+        "phase_4_advanced_functional": {
+          "duration": "12-16_weeks",
+          "goals": ["sport_specific_training", "plyometrics", "agility"],
+          "interventions": {
+            "exercises": ["EX_032", "EX_030", "plyometric_progression"],
+            "functional": ["running_progression", "cutting_drills", "sport_specific"],
+            "testing": ["hop_tests", "strength_testing", "functional_assessment"]
+          },
+          "return_to_sport_criteria": [
+            "hop_tests_>90%_symmetry",
+            "quad_strength_>90%_symmetry", 
+            "psychological_readiness",
+            "surgeon_clearance"
+          ]
+        }
+      },
+      "outcome_measures": ["METRIC_024", "METRIC_015", "METRIC_005", "hop_tests"],
+      "evidence_references": ["Adams_2012_Sports_Health", "van_Melick_2016_BJSM"]
+    },
+    "PROTOCOL_003": {
+      "name": "COPD Pulmonary Rehabilitation Protocol",
+      "condition": "COND_026",
+      "evidence_level": "Grade_A",
+      "duration": "8-12_weeks",
+      "phases": {
+        "assessment_phase": {
+          "duration": "week_1",
+          "components": ["medical_clearance", "exercise_testing", "education_assessment"],
+          "assessments": ["METRIC_012", "METRIC_013", "pulmonary_function_tests", "arterial_blood_gas"]
+        },
+        "conditioning_phase": {
+          "duration": "weeks_2-8",
+          "goals": ["improve_exercise_tolerance", "reduce_dyspnea", "enhance_QOL"],
+          "interventions": {
+            "aerobic": ["walking", "cycling", "EQ_002_if_available"],
+            "strength": ["EX_047", "EX_017", "upper_body_exercises"],
+            "breathing": ["EX_048", "EX_049", "breathing_retraining"],
+            "education": ["disease_management", "medication_compliance", "energy_conservation"]
+          },
+          "monitoring": ["oxygen_saturation", "heart_rate", "dyspnea_scale", "blood_pressure"],
+          "progression": ["gradual_increase_duration_intensity", "individualized_based_on_response"]
+        },
+        "maintenance_phase": {
+          "duration": "weeks_9-12_and_beyond",
+          "goals": ["maintain_gains", "long_term_adherence", "prevent_exacerbations"],
+          "interventions": {
+            "home_program": ["prescribed_exercises", "activity_pacing"],
+            "community": ["maintenance_programs", "support_groups"],
+            "monitoring": ["symptom_tracking", "medication_adherence"]
+          }
+        }
+      },
+      "outcome_measures": ["METRIC_012", "METRIC_013", "quality_of_life_scales"],
+      "evidence_references": ["McCarthy_2015_Cochrane", "Spruit_2013_AJRCCM"]
+    },
+    "PROTOCOL_004": {
+      "name": "Stroke Rehabilitation Protocol - Acute Phase",
+      "condition": "COND_020",
+      "evidence_level": "Grade_A",
+      "phases": {
+        "hyperacute_phase": {
+          "duration": "0-24_hours",
+          "goals": ["medical_stabilization", "prevent_complications", "early_mobilization"],
+          "interventions": {
+            "positioning": ["frequent_position_changes", "proper_alignment"],
+            "mobility": ["bed_mobility", "sitting_balance", "early_standing_if_appropriate"],
+            "exercises": ["EX_048", "passive_ROM", "EX_009"],
+            "swallowing": ["dysphagia_screening", "aspiration_precautions"]
+          },
+          "monitoring": ["vital_signs", "neurological_status", "skin_integrity"]
+        },
+        "acute_phase": {
+          "duration": "1-7_days",
+          "goals": ["prevent_complications", "maximize_recovery", "assess_deficits"],
+          "interventions": {
+            "mobility": ["progressive_sitting", "standing", "walking_preparation"],
+            "exercises": ["EX_006", "EX_013", "active_assisted_ROM"],
+            "cognitive": ["attention_training", "memory_exercises"],
+            "speech": ["communication_strategies", "swallowing_therapy"]
+          },
+          "assessments": ["METRIC_021", "METRIC_022", "METRIC_028"]
+        },
+        "subacute_phase": {
+          "duration": "1-6_weeks",
+          "goals": ["functional_recovery", "prevent_secondary_complications", "discharge_planning"],
+          "interventions": {
+            "mobility": ["EX_018", "EX_019", "gait_training"],
+            "strength": ["EX_022", "functional_strengthening"],
+            "balance": ["EX_019", "EQ_005_if_available"],
+            "ADLs": ["self_care_training", "adaptive_equipment"]
+          },
+          "progression": ["task_specific_training", "home_visits", "family_training"]
+        }
+      },
+      "outcome_measures": ["METRIC_021", "METRIC_022", "METRIC_028", "METRIC_010"],
+      "evidence_references": ["Langhorne_2011_Cochrane", "Veerbeek_2014_Stroke"]
+    },
+    "PROTOCOL_005": {
+      "name": "Patellofemoral Pain Syndrome Protocol",
+      "condition": "COND_005",
+      "evidence_level": "Grade_B",
+      "phases": {
+        "phase_1_pain_control": {
+          "duration": "0-4_weeks",
+          "goals": ["reduce_pain", "improve_VMO_activation", "address_contributing_factors"],
+          "interventions": {
+            "exercises": ["EX_010", "EX_031", "EX_008", "EX_048"],
+            "education": ["load_management", "activity_modification"],
+            "modalities": ["ice", "EQ_033_taping"],
+            "manual_therapy": ["patellar_mobilization", "soft_tissue_release"]
+          },
+          "activity_modification": ["avoid_aggravating_activities", "stair_modification"]
+        },
+        "phase_2_strengthening": {
+          "duration": "4-8_weeks",
+          "goals": ["hip_strengthening", "improve_lower_extremity_alignment", "progress_function"],
+          "interventions": {
+            "exercises": ["EX_028", "EX_029", "EX_013", "EX_017"],
+            "progression": ["closed_chain_emphasis", "functional_movements"],
+            "education": ["proper_movement_patterns", "ergonomics"]
+          },
+          "monitoring": ["pain_response", "movement_quality", "strength_gains"]
+        },
+        "phase_3_functional": {
+          "duration": "8-12_weeks",
+          "goals": ["return_to_full_activity", "prevent_recurrence", "optimize_performance"],
+          "interventions": {
+            "exercises": ["EX_032", "EX_033", "EX_018", "sport_specific"],
+            "running_progression": ["if_runner", "gradual_return"],
+            "maintenance": ["long_term_exercise_program"]
+          }
+        }
+      },
+      "outcome_measures": ["METRIC_005", "METRIC_025", "METRIC_013"],
+      "evidence_references": ["Collins_2018_BJSM", "Crossley_2016_Cochrane"]
+    }
+  },
+  "protocol_selection_guidelines": {
+    "factors_to_consider": [
+      "patient_specific_factors",
+      "condition_severity",
+      "comorbidities",
+      "patient_goals",
+      "available_resources",
+      "evidence_quality",
+      "clinical_experience"
+    ],
+    "modification_principles": [
+      "individualize_based_on_response",
+      "consider_patient_preferences",
+      "adjust_for_comorbidities",
+      "modify_for_available_equipment",
+      "adapt_for_setting_constraints"
+    ],
+    "quality_indicators": [
+      "patient_reported_outcomes",
+      "functional_improvements",
+      "return_to_activities",
+      "patient_satisfaction",
+      "adherence_rates"
+    ]
+  },
+  "implementation_framework": {
+    "staff_training": [
+      "protocol_familiarization",
+      "outcome_measure_training",
+      "clinical_reasoning_skills",
+      "patient_communication"
+    ],
+    "quality_assurance": [
+      "regular_protocol_review",
+      "outcome_monitoring",
+      "peer_review",
+      "continuing_education"
+    ],
+    "documentation": [
+      "protocol_selection_rationale",
+      "modifications_made",
+      "patient_response",
+      "outcome_measures",
+      "discharge_planning"
+    ],
+    "updates_maintenance": [
+      "literature_review_schedule",
+      "protocol_revision_process",
+      "stakeholder_feedback",
+      "outcome_data_analysis"
+    ]
+  }
+}

@@ -1,0 +1,822 @@
+{
+  "metrics": {
+    "METRIC_001": {
+      "name": "Disabilities of the Arm, Shoulder and Hand",
+      "acronym": "DASH",
+      "type": "patient_reported_outcome",
+      "loinc_code": "87642-6",
+      "domains": ["function", "symptoms"],
+      "body_regions": ["shoulder", "elbow", "wrist", "hand"],
+      "items": 30,
+      "scoring": {
+        "range": "0-100",
+        "direction": "higher_worse",
+        "mcid": 10.2,
+        "mdc": 12.7,
+        "calculation": "((sum_of_responses - 30) / 120) * 100"
+      },
+      "administration_time": "5-10 minutes",
+      "validated_populations": ["orthopedic", "rheumatologic", "neurologic"]
+    },
+    "METRIC_002": {
+      "name": "QuickDASH",
+      "acronym": "QuickDASH",
+      "type": "patient_reported_outcome",
+      "loinc_code": "87643-4",
+      "domains": ["function", "symptoms"],
+      "body_regions": ["shoulder", "elbow", "wrist", "hand"],
+      "items": 11,
+      "scoring": {
+        "range": "0-100",
+        "direction": "higher_worse",
+        "mcid": 8,
+        "mdc": 11.2,
+        "calculation": "((sum_of_responses - 11) / 44) * 100"
+      },
+      "administration_time": "2-3 minutes",
+      "validated_populations": ["orthopedic"]
+    },
+    "METRIC_003": {
+      "name": "Shoulder Pain and Disability Index",
+      "acronym": "SPADI",
+      "type": "patient_reported_outcome",
+      "loinc_code": "87644-2",
+      "domains": ["pain", "disability"],
+      "body_regions": ["shoulder"],
+      "items": 13,
+      "scoring": {
+        "range": "0-100",
+        "direction": "higher_worse",
+        "mcid": 13,
+        "mdc": 18,
+        "calculation": "average_of_subscales"
+      },
+      "administration_time": "5 minutes",
+      "validated_populations": ["shoulder_pathology"]
+    },
+    "METRIC_004": {
+      "name": "Western Ontario and McMaster Universities Osteoarthritis Index",
+      "acronym": "WOMAC",
+      "type": "patient_reported_outcome",
+      "loinc_code": "87645-9",
+      "domains": ["pain", "stiffness", "physical_function"],
+      "body_regions": ["hip", "knee"],
+      "items": 24,
+      "scoring": {
+        "range": "0-96",
+        "direction": "higher_worse",
+        "mcid": 12,
+        "mdc": 16,
+        "calculation": "sum_of_items"
+      },
+      "administration_time": "5-10 minutes",
+      "validated_populations": ["osteoarthritis"]
+    },
+    "METRIC_005": {
+      "name": "Knee injury and Osteoarthritis Outcome Score",
+      "acronym": "KOOS",
+      "type": "patient_reported_outcome",
+      "loinc_code": "87646-7",
+      "domains": ["pain", "symptoms", "ADL", "sport_recreation", "QOL"],
+      "body_regions": ["knee"],
+      "items": 42,
+      "scoring": {
+        "range": "0-100",
+        "direction": "higher_better",
+        "mcid": 10,
+        "mdc": 8,
+        "calculation": "normalized_score_per_subscale"
+      },
+      "administration_time": "10 minutes",
+      "validated_populations": ["knee_injury", "osteoarthritis"]
+    },
+    "METRIC_006": {
+      "name": "Oswestry Disability Index",
+      "acronym": "ODI",
+      "type": "patient_reported_outcome",
+      "loinc_code": "87647-5",
+      "domains": ["functional_disability"],
+      "body_regions": ["lumbar_spine"],
+      "items": 10,
+      "scoring": {
+        "range": "0-100",
+        "direction": "higher_worse",
+        "mcid": 10,
+        "mdc": 12.8,
+        "calculation": "(sum_of_scores / 50) * 100"
+      },
+      "administration_time": "5 minutes",
+      "validated_populations": ["low_back_pain"]
+    },
+    "METRIC_007": {
+      "name": "Roland-Morris Disability Questionnaire",
+      "acronym": "RMDQ",
+      "type": "patient_reported_outcome",
+      "loinc_code": "87648-3",
+      "domains": ["functional_disability"],
+      "body_regions": ["lumbar_spine"],
+      "items": 24,
+      "scoring": {
+        "range": "0-24",
+        "direction": "higher_worse",
+        "mcid": 3.5,
+        "mdc": 5,
+        "calculation": "sum_of_yes_responses"
+      },
+      "administration_time": "5 minutes",
+      "validated_populations": ["low_back_pain"]
+    },
+    "METRIC_008": {
+      "name": "Neck Disability Index",
+      "acronym": "NDI",
+      "type": "patient_reported_outcome",
+      "loinc_code": "87649-1",
+      "domains": ["functional_disability"],
+      "body_regions": ["cervical_spine"],
+      "items": 10,
+      "scoring": {
+        "range": "0-100",
+        "direction": "higher_worse",
+        "mcid": 7.5,
+        "mdc": 10.5,
+        "calculation": "(sum_of_scores / 50) * 100"
+      },
+      "administration_time": "5 minutes",
+      "validated_populations": ["neck_pain"]
+    },
+    "METRIC_009": {
+      "name": "Foot and Ankle Ability Measure",
+      "acronym": "FAAM",
+      "type": "patient_reported_outcome",
+      "loinc_code": "87650-9",
+      "domains": ["ADL", "sports"],
+      "body_regions": ["foot", "ankle"],
+      "items": 29,
+      "scoring": {
+        "range": "0-100",
+        "direction": "higher_better",
+        "mcid": 8,
+        "mdc": 5.7,
+        "calculation": "percentage_of_maximum"
+      },
+      "administration_time": "5-7 minutes",
+      "validated_populations": ["foot_ankle_disorders"]
+    },
+    "METRIC_010": {
+      "name": "Berg Balance Scale",
+      "acronym": "BBS",
+      "type": "performance_based",
+      "loinc_code": "87651-7",
+      "domains": ["balance", "fall_risk"],
+      "body_regions": ["neurological"],
+      "items": 14,
+      "scoring": {
+        "range": "0-56",
+        "direction": "higher_better",
+        "cutoff_fall_risk": 45,
+        "mdc": 4.6,
+        "calculation": "sum_of_items"
+      },
+      "administration_time": "15-20 minutes",
+      "validated_populations": ["elderly", "neurological"]
+    },
+    "METRIC_011": {
+      "name": "Timed Up and Go",
+      "acronym": "TUG",
+      "type": "performance_based",
+      "loinc_code": "87652-5",
+      "domains": ["mobility", "fall_risk"],
+      "body_regions": ["functional"],
+      "items": 1,
+      "scoring": {
+        "range": "seconds",
+        "direction": "lower_better",
+        "cutoff_fall_risk": 13.5,
+        "mdc": 2.9,
+        "calculation": "time_in_seconds"
+      },
+      "administration_time": "3 minutes",
+      "validated_populations": ["elderly", "neurological"]
+    },
+    "METRIC_012": {
+      "name": "6 Minute Walk Test",
+      "acronym": "6MWT",
+      "type": "performance_based",
+      "loinc_code": "87653-3",
+      "domains": ["endurance", "functional_capacity"],
+      "body_regions": ["cardiopulmonary"],
+      "items": 1,
+      "scoring": {
+        "range": "meters",
+        "direction": "higher_better",
+        "mcid": 30,
+        "mdc": 50,
+        "calculation": "distance_in_meters"
+      },
+      "administration_time": "10 minutes",
+      "validated_populations": ["cardiopulmonary", "elderly"]
+    },
+    "METRIC_013": {
+      "name": "Visual Analog Scale - Pain",
+      "acronym": "VAS",
+      "type": "patient_reported",
+      "loinc_code": "72133-2",
+      "domains": ["pain_intensity"],
+      "body_regions": ["any"],
+      "items": 1,
+      "scoring": {
+        "range": "0-100mm",
+        "direction": "higher_worse",
+        "mcid": 12,
+        "mdc": 20,
+        "calculation": "mm_on_line"
+      },
+      "administration_time": "1 minute",
+      "validated_populations": ["all"]
+    },
+    "METRIC_014": {
+      "name": "Numeric Pain Rating Scale",
+      "acronym": "NPRS",
+      "type": "patient_reported",
+      "loinc_code": "72133-2",
+      "domains": ["pain_intensity"],
+      "body_regions": ["any"],
+      "items": 1,
+      "scoring": {
+        "range": "0-10",
+        "direction": "higher_worse",
+        "mcid": 2,
+        "mdc": 2.5,
+        "calculation": "numeric_rating"
+      },
+      "administration_time": "30 seconds",
+      "validated_populations": ["all"],
+      "clinical_usage": ["acute_pain", "chronic_pain", "post_surgical", "outcome_tracking"],
+      "notes": "Most commonly used pain scale in clinical practice"
+    },
+    "METRIC_015": {
+      "name": "Range of Motion - Goniometry",
+      "acronym": "ROM",
+      "type": "objective_measure",
+      "loinc_code": "80337-6",
+      "domains": ["joint_mobility"],
+      "body_regions": ["any_joint"],
+      "items": "joint_specific",
+      "scoring": {
+        "range": "degrees",
+        "direction": "higher_better",
+        "mdc": 5,
+        "calculation": "degrees_of_motion"
+      },
+      "administration_time": "2-5 minutes per joint",
+      "validated_populations": ["all"]
+    },
+    "METRIC_016": {
+      "name": "Manual Muscle Testing",
+      "acronym": "MMT",
+      "type": "objective_measure",
+      "loinc_code": "80339-2",
+      "domains": ["strength"],
+      "body_regions": ["any_muscle"],
+      "items": "muscle_specific",
+      "scoring": {
+        "range": "0-5",
+        "direction": "higher_better",
+        "grades": {
+          "0": "no_contraction",
+          "1": "trace_contraction",
+          "2": "movement_gravity_eliminated",
+          "3": "movement_against_gravity",
+          "4": "movement_against_resistance",
+          "5": "normal_strength"
+        }
+      },
+      "administration_time": "1-2 minutes per muscle",
+      "validated_populations": ["all"]
+    },
+    "METRIC_017": {
+      "name": "Fear-Avoidance Beliefs Questionnaire",
+      "acronym": "FABQ",
+      "type": "patient_reported_outcome",
+      "loinc_code": "87654-1",
+      "domains": ["psychosocial", "fear_avoidance"],
+      "body_regions": ["lumbar_spine"],
+      "items": 16,
+      "scoring": {
+        "range": "0-96",
+        "direction": "higher_worse",
+        "subscales": ["physical_activity", "work"],
+        "cutoff_high_risk": 15,
+        "calculation": "sum_per_subscale"
+      },
+      "administration_time": "5 minutes",
+      "validated_populations": ["low_back_pain"]
+    },
+    "METRIC_018": {
+      "name": "Tampa Scale for Kinesiophobia",
+      "acronym": "TSK",
+      "type": "patient_reported_outcome",
+      "loinc_code": "87655-8",
+      "domains": ["psychosocial", "fear_of_movement"],
+      "body_regions": ["any"],
+      "items": 17,
+      "scoring": {
+        "range": "17-68",
+        "direction": "higher_worse",
+        "cutoff_high_fear": 37,
+        "mdc": 5.6,
+        "calculation": "sum_of_items"
+      },
+      "administration_time": "5 minutes",
+      "validated_populations": ["chronic_pain"]
+    },
+    "METRIC_019": {
+      "name": "Patient-Specific Functional Scale",
+      "acronym": "PSFS",
+      "type": "patient_reported_outcome",
+      "loinc_code": "87656-6",
+      "domains": ["individualized_function"],
+      "body_regions": ["any"],
+      "items": "3-5 patient_selected",
+      "scoring": {
+        "range": "0-10",
+        "direction": "higher_better",
+        "mcid": 2,
+        "mdc": 2.5,
+        "calculation": "average_of_activities"
+      },
+      "administration_time": "5 minutes",
+      "validated_populations": ["all"]
+    },
+    "METRIC_020": {
+      "name": "Global Rating of Change",
+      "acronym": "GROC",
+      "type": "patient_reported",
+      "loinc_code": "87657-4",
+      "domains": ["perceived_improvement"],
+      "body_regions": ["any"],
+      "items": 1,
+      "scoring": {
+        "range": "-7 to +7",
+        "direction": "higher_better",
+        "mcid": 2,
+        "anchors": {
+          "-7": "very_much_worse",
+          "0": "no_change",
+          "+7": "very_much_better"
+        }
+      },
+      "administration_time": "30 seconds",
+      "validated_populations": ["all"]
+    },
+    "METRIC_021": {
+      "name": "Functional Independence Measure",
+      "acronym": "FIM",
+      "type": "clinician_rated",
+      "loinc_code": "87658-2",
+      "domains": ["self_care", "mobility", "cognition", "social"],
+      "body_regions": ["neurological"],
+      "items": 18,
+      "scoring": {
+        "range": "18-126",
+        "direction": "higher_better",
+        "levels": "1-7 per item",
+        "mdc": 6,
+        "calculation": "sum_of_items"
+      },
+      "administration_time": "30-45 minutes",
+      "validated_populations": ["rehabilitation", "neurological"]
+    },
+    "METRIC_022": {
+      "name": "Barthel Index",
+      "acronym": "BI",
+      "type": "clinician_rated",
+      "loinc_code": "87659-0",
+      "domains": ["activities_of_daily_living"],
+      "body_regions": ["neurological"],
+      "items": 10,
+      "scoring": {
+        "range": "0-100",
+        "direction": "higher_better",
+        "interpretation": {
+          "0-20": "total_dependence",
+          "21-60": "severe_dependence",
+          "61-90": "moderate_dependence",
+          "91-99": "slight_dependence",
+          "100": "independent"
+        }
+      },
+      "administration_time": "5-10 minutes",
+      "validated_populations": ["stroke", "elderly"]
+    },
+    "METRIC_023": {
+      "name": "Activities-specific Balance Confidence Scale",
+      "acronym": "ABC",
+      "type": "patient_reported_outcome",
+      "loinc_code": "87660-8",
+      "domains": ["balance_confidence"],
+      "body_regions": ["functional"],
+      "items": 16,
+      "scoring": {
+        "range": "0-100",
+        "direction": "higher_better",
+        "cutoff_fall_risk": 67,
+        "mdc": 13,
+        "calculation": "average_percentage"
+      },
+      "administration_time": "10 minutes",
+      "validated_populations": ["elderly", "neurological"]
+    },
+    "METRIC_024": {
+      "name": "International Knee Documentation Committee",
+      "acronym": "IKDC",
+      "type": "patient_reported_outcome",
+      "loinc_code": "87661-6",
+      "domains": ["symptoms", "function", "sports_activity"],
+      "body_regions": ["knee"],
+      "items": 18,
+      "scoring": {
+        "range": "0-100",
+        "direction": "higher_better",
+        "mcid": 11.5,
+        "mdc": 8.8,
+        "calculation": "transformed_score"
+      },
+      "administration_time": "5-10 minutes",
+      "validated_populations": ["knee_ligament_injury"]
+    },
+    "METRIC_025": {
+      "name": "Lower Extremity Functional Scale",
+      "acronym": "LEFS",
+      "type": "patient_reported_outcome",
+      "loinc_code": "87662-4",
+      "domains": ["lower_extremity_function"],
+      "body_regions": ["hip", "knee", "ankle", "foot"],
+      "items": 20,
+      "scoring": {
+        "range": "0-80",
+        "direction": "higher_better",
+        "mcid": 9,
+        "mdc": 5.3,
+        "calculation": "sum_of_items"
+      },
+      "administration_time": "5 minutes",
+      "validated_populations": ["lower_extremity_disorders"]
+    },
+    "METRIC_026": {
+      "name": "Upper Extremity Functional Index",
+      "acronym": "UEFI",
+      "type": "patient_reported_outcome",
+      "loinc_code": "87663-2",
+      "domains": ["upper_extremity_function"],
+      "body_regions": ["shoulder", "elbow", "wrist", "hand"],
+      "items": 20,
+      "scoring": {
+        "range": "0-80",
+        "direction": "higher_better",
+        "mcid": 8,
+        "mdc": 5.1,
+        "calculation": "sum_of_items"
+      },
+      "administration_time": "5 minutes",
+      "validated_populations": ["upper_extremity_disorders"]
+    },
+    "METRIC_027": {
+      "name": "Modified Ashworth Scale",
+      "acronym": "MAS",
+      "type": "clinician_rated",
+      "loinc_code": "87664-0",
+      "domains": ["spasticity"],
+      "body_regions": ["neurological"],
+      "items": "per_muscle_group",
+      "scoring": {
+        "range": "0-4",
+        "direction": "higher_worse",
+        "grades": {
+          "0": "no_increase_in_tone",
+          "1": "slight_increase",
+          "1+": "slight_increase_with_catch",
+          "2": "marked_increase",
+          "3": "considerable_increase",
+          "4": "rigid"
+        }
+      },
+      "administration_time": "2 minutes per muscle",
+      "validated_populations": ["neurological"]
+    },
+    "METRIC_028": {
+      "name": "Fugl-Meyer Assessment",
+      "acronym": "FMA",
+      "type": "clinician_rated",
+      "loinc_code": "87665-7",
+      "domains": ["motor_function", "sensation", "balance"],
+      "body_regions": ["neurological"],
+      "items": 155,
+      "scoring": {
+        "range": "0-226",
+        "direction": "higher_better",
+        "subscales": ["upper_extremity", "lower_extremity"],
+        "mdc": 5.2,
+        "calculation": "sum_of_items"
+      },
+      "administration_time": "30-45 minutes",
+      "validated_populations": ["stroke"]
+    },
+    "METRIC_029": {
+      "name": "Unified Parkinson's Disease Rating Scale",
+      "acronym": "UPDRS",
+      "type": "clinician_rated",
+      "loinc_code": "87666-5",
+      "domains": ["motor", "non_motor", "ADL", "complications"],
+      "body_regions": ["neurological"],
+      "items": 42,
+      "scoring": {
+        "range": "0-199",
+        "direction": "higher_worse",
+        "parts": 4,
+        "mdc": 4.3,
+        "calculation": "sum_of_parts"
+      },
+      "administration_time": "20-30 minutes",
+      "validated_populations": ["parkinsons_disease"]
+    },
+    "METRIC_030": {
+      "name": "Central Sensitization Inventory",
+      "acronym": "CSI",
+      "type": "patient_reported_outcome",
+      "loinc_code": "87667-3",
+      "domains": ["central_sensitization", "pain_hypersensitivity"],
+      "body_regions": ["systemic"],
+      "items": 25,
+      "scoring": {
+        "range": "0-100",
+        "direction": "higher_worse",
+        "cutoff_central_sensitization": 40,
+        "calculation": "sum_of_items",
+        "interpretation": {
+          "0-29": "subclinical",
+          "30-39": "mild",
+          "40-49": "moderate",
+          "50-59": "severe",
+          "60-100": "extreme"
+        }
+      },
+      "administration_time": "5-10 minutes",
+      "validated_populations": ["chronic_pain", "fibromyalgia", "complex_regional_pain"],
+      "clinical_usage": ["screening", "treatment_planning", "outcome_monitoring"]
+    },
+    "METRIC_031": {
+      "name": "Hop Test Battery",
+      "acronym": "HTB",
+      "type": "performance_based",
+      "loinc_code": "94737-5",
+      "domains": ["functional_performance", "neuromuscular_control", "power"],
+      "body_regions": ["knee", "lower_extremity"],
+      "items": 4,
+      "components": [
+        "single_hop_for_distance",
+        "triple_hop_for_distance",
+        "crossover_hop_for_distance",
+        "6_meter_timed_hop"
+      ],
+      "scoring": {
+        "range": "percentage_of_uninvolved_limb",
+        "direction": "higher_better",
+        "cutoff_return_to_sport": 90,
+        "calculation": "(involved_limb / uninvolved_limb) * 100",
+        "limb_symmetry_index": {
+          "excellent": ">95%",
+          "good": "90-95%",
+          "fair": "85-89%",
+          "poor": "<85%"
+        }
+      },
+      "administration_time": "15-20 minutes",
+      "validated_populations": ["ACL_reconstruction", "knee_ligament_injury", "athletes"],
+      "clinical_domains": ["return_to_sport", "functional_recovery", "knee_stability"],
+      "notes": "Gold standard for return to sport testing after ACL reconstruction"
+    },
+    "METRIC_032": {
+      "name": "Dizziness Handicap Inventory",
+      "acronym": "DHI",
+      "type": "patient_reported_outcome",
+      "loinc_code": "71423-9",
+      "domains": ["functional", "emotional", "physical"],
+      "body_regions": ["vestibular"],
+      "items": 25,
+      "scoring": {
+        "range": "0-100",
+        "direction": "higher_worse",
+        "mcid": 18,
+        "mdc": 17.18,
+        "calculation": "sum_of_items",
+        "subscales": {
+          "functional": "9_items",
+          "emotional": "9_items",
+          "physical": "7_items"
+        },
+        "severity": {
+          "0-30": "mild_handicap",
+          "31-60": "moderate_handicap",
+          "61-100": "severe_handicap"
+        }
+      },
+      "administration_time": "10 minutes",
+      "validated_populations": ["vestibular_disorders", "dizziness", "balance_disorders"],
+      "clinical_domains": ["vestibular_rehabilitation", "balance", "quality_of_life"]
+    },
+    "METRIC_033": {
+      "name": "Modified Borg Dyspnea Scale",
+      "acronym": "mBorg",
+      "type": "patient_reported",
+      "loinc_code": "70019-7",
+      "domains": ["dyspnea", "respiratory_symptoms"],
+      "body_regions": ["cardiopulmonary"],
+      "items": 1,
+      "scoring": {
+        "range": "0-10",
+        "direction": "higher_worse",
+        "mcid": 1,
+        "mdc": 2,
+        "scale_descriptors": {
+          "0": "nothing_at_all",
+          "0.5": "very_very_slight",
+          "1": "very_slight",
+          "2": "slight",
+          "3": "moderate",
+          "4": "somewhat_severe",
+          "5": "severe",
+          "6": "severe",
+          "7": "very_severe",
+          "8": "very_severe",
+          "9": "very_very_severe",
+          "10": "maximal"
+        }
+      },
+      "administration_time": "1 minute",
+      "validated_populations": ["COPD", "heart_failure", "pulmonary_rehabilitation"],
+      "clinical_domains": ["exercise_tolerance", "symptom_monitoring", "treatment_response"]
+    },
+    "METRIC_034": {
+      "name": "Fatigue Severity Scale",
+      "acronym": "FSS",
+      "type": "patient_reported_outcome",
+      "loinc_code": "87670-7",
+      "domains": ["fatigue", "physical_impact", "functional_impact"],
+      "body_regions": ["systemic"],
+      "items": 9,
+      "scoring": {
+        "range": "1-7",
+        "direction": "higher_worse",
+        "mcid": 0.6,
+        "mdc": 1.9,
+        "calculation": "mean_of_items",
+        "cutoff_severe_fatigue": 4,
+        "interpretation": {
+          "1-3.9": "minimal_fatigue",
+          "4-4.9": "moderate_fatigue",
+          "5-7": "severe_fatigue"
+        }
+      },
+      "administration_time": "5 minutes",
+      "validated_populations": ["multiple_sclerosis", "chronic_fatigue", "fibromyalgia", "parkinsons", "stroke"],
+      "clinical_domains": ["energy_conservation", "activity_pacing", "treatment_efficacy"]
+    },
+    "METRIC_035": {
+      "name": "Pelvic Floor Distress Inventory-20",
+      "acronym": "PFDI-20",
+      "type": "patient_reported_outcome",
+      "loinc_code": "87671-5",
+      "domains": ["urinary", "colorectal", "pelvic_organ_prolapse"],
+      "body_regions": ["pelvic_floor"],
+      "items": 20,
+      "scoring": {
+        "range": "0-300",
+        "direction": "higher_worse",
+        "mcid": 45,
+        "mdc": 35,
+        "calculation": "sum_of_subscale_scores",
+        "subscales": {
+          "POPDI": {
+            "items": 6,
+            "range": "0-100",
+            "domain": "prolapse"
+          },
+          "CRADI": {
+            "items": 8,
+            "range": "0-100",
+            "domain": "colorectal"
+          },
+          "UDI": {
+            "items": 6,
+            "range": "0-100",
+            "domain": "urinary"
+          }
+        }
+      },
+      "administration_time": "10 minutes",
+      "validated_populations": ["pelvic_floor_dysfunction", "postpartum", "urinary_incontinence", "pelvic_organ_prolapse"],
+      "clinical_domains": ["womens_health", "pelvic_rehabilitation", "urogynecology"]
+    },
+    "METRIC_036": {
+      "name": "Jaw Functional Limitation Scale",
+      "acronym": "JFLS",
+      "type": "patient_reported_outcome",
+      "loinc_code": "87672-3",
+      "domains": ["mastication", "mobility", "communication"],
+      "body_regions": ["temporomandibular_joint"],
+      "items": 20,
+      "scoring": {
+        "range": "0-10",
+        "direction": "higher_worse",
+        "mcid": 1.5,
+        "mdc": 2.2,
+        "calculation": "mean_of_items",
+        "subscales": {
+          "mastication": "6_items",
+          "jaw_mobility": "9_items",
+          "verbal_emotional": "5_items"
+        },
+        "severity": {
+          "0-2": "minimal_limitation",
+          "2.1-4": "mild_limitation",
+          "4.1-6": "moderate_limitation",
+          "6.1-8": "severe_limitation",
+          "8.1-10": "extreme_limitation"
+        }
+      },
+      "administration_time": "8 minutes",
+      "validated_populations": ["TMD", "jaw_surgery", "orofacial_pain"],
+      "clinical_domains": ["TMJ_rehabilitation", "orofacial_function", "jaw_mobility"]
+    },
+    "METRIC_037": {
+      "name": "Tampa Scale for Kinesiophobia",
+      "acronym": "TSK",
+      "type": "patient_reported_outcome",
+      "loinc_code": "87655-8",
+      "domains": ["psychosocial", "fear_of_movement", "catastrophizing"],
+      "body_regions": ["any"],
+      "items": 17,
+      "scoring": {
+        "range": "17-68",
+        "direction": "higher_worse",
+        "cutoff_high_fear": 37,
+        "mdc": 5.6,
+        "mcid": 4,
+        "calculation": "sum_of_items",
+        "subscales": {
+          "harm": "items_1_2_7_9_14_15_17",
+          "activity_avoidance": "items_3_6_11_13"
+        },
+        "interpretation": {
+          "17-36": "low_kinesiophobia",
+          "37-44": "moderate_kinesiophobia",
+          "45-68": "high_kinesiophobia"
+        }
+      },
+      "administration_time": "5 minutes",
+      "validated_populations": ["chronic_pain", "low_back_pain", "post_surgical", "musculoskeletal_disorders"],
+      "clinical_domains": ["pain_psychology", "movement_rehabilitation", "behavioral_modification"],
+      "notes": "Strong predictor of disability and treatment outcomes"
+    },
+    "METRIC_038": {
+      "name": "Fear-Avoidance Beliefs Questionnaire",
+      "acronym": "FABQ",
+      "type": "patient_reported_outcome",
+      "loinc_code": "87654-1",
+      "domains": ["psychosocial", "fear_avoidance", "work_beliefs", "physical_activity_beliefs"],
+      "body_regions": ["lumbar_spine", "musculoskeletal"],
+      "items": 16,
+      "scoring": {
+        "range": "0-96",
+        "direction": "higher_worse",
+        "subscales": {
+          "physical_activity": {
+            "items": "2_3_4_5",
+            "range": "0-24",
+            "cutoff_high_risk": 15,
+            "mcid": 4,
+            "mdc": 4.7
+          },
+          "work": {
+            "items": "6_7_9_10_11_12_15",
+            "range": "0-42",
+            "cutoff_high_risk": 25,
+            "mcid": 7,
+            "mdc": 9.4
+          }
+        },
+        "calculation": "sum_per_subscale",
+        "risk_stratification": {
+          "low_risk": "PA<15_and_W<25",
+          "moderate_risk": "PA_15-19_or_W_25-34",
+          "high_risk": "PA>19_or_W>34"
+        }
+      },
+      "administration_time": "5 minutes",
+      "validated_populations": ["low_back_pain", "chronic_pain", "work_injury", "musculoskeletal_disorders"],
+      "clinical_domains": ["return_to_work", "disability_prevention", "cognitive_behavioral_therapy"],
+      "notes": "Key predictor of chronic disability and return to work outcomes"
+    }
+  }
+}

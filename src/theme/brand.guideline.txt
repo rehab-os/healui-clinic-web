@@ -1,0 +1,365 @@
+# Rehab OS - AI-Powered Physiotherapy Brand Guidelines
+
+## Vision Statement
+Rehab OS represents the future of intelligent healthcare—where AI agents, predictive analytics, and human expertise converge to create transformative patient experiences. Our design language embodies innovation, trust, and emotional intelligence.
+
+## Design Philosophy
+Our design system is built on three core pillars:
+1. **Intelligent Simplicity** - Complex AI made intuitively accessible
+2. **Emotional Resonance** - Creating meaningful connections through design
+3. **Predictive Empowerment** - Anticipating needs before they arise
+
+## Brand Personality
+- **Visionary** - Leading the healthcare revolution
+- **Empathetic** - Understanding human needs deeply
+- **Precise** - Medical-grade accuracy with warmth
+- **Dynamic** - Constantly evolving and learning
+- **Trustworthy** - Security and privacy at the core
+
+## Color System
+
+### Primary Palette
+- **Neural Blue** - `#0066FF` 
+  - Primary brand color representing intelligence and trust
+  - Use for primary CTAs, AI agent interfaces, and key interactions
+  
+- **Deep Ocean** - `#003D99`
+  - Hover states and depth layers
+  
+- **Electric Sky** - `#4D94FF`
+  - Active states and highlights
+
+### AI Agent Colors
+- **Agent Purple** - `#7C3AED` - AI assistant primary
+- **Agent Violet** - `#6D28D9` - AI processing states
+- **Agent Lavender** - `#A78BFA` - AI suggestions
+
+### Semantic Colors
+- **Success Emerald** - `#10B981` - Positive outcomes
+- **Warning Amber** - `#F59E0B` - Attention needed
+- **Error Coral** - `#F87171` - Critical alerts
+- **Info Cyan** - `#06B6D4` - Informational states
+
+### Gradient System
+```css
+/* Primary Gradient - AI Intelligence */
+background: linear-gradient(135deg, #0066FF 0%, #7C3AED 100%);
+
+/* Health Gradient - Wellness */
+background: linear-gradient(135deg, #10B981 0%, #06B6D4 100%);
+
+/* Ambient Gradient - Background */
+background: linear-gradient(180deg, #F0F9FF 0%, #E0E7FF 100%);
+```
+
+### Dark Mode Palette
+- **Void Black** - `#0A0A0A` - Primary background
+- **Carbon** - `#171717` - Card backgrounds
+- **Graphite** - `#262626` - Elevated surfaces
+- **Steel** - `#404040` - Borders
+- **Silver** - `#737373` - Muted text
+
+## Typography System
+
+### Font Stack
+```css
+--font-primary: 'Inter var', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+--font-display: 'Cal Sans', 'Inter var', sans-serif;
+--font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+```
+
+### Type Scale (Fluid Typography)
+```css
+/* Display - Hero sections */
+--text-display: clamp(2.5rem, 5vw, 4rem);
+--text-display-weight: 700;
+
+/* Headings */
+--text-h1: clamp(2rem, 4vw, 3rem);
+--text-h2: clamp(1.5rem, 3vw, 2.25rem);
+--text-h3: clamp(1.25rem, 2.5vw, 1.875rem);
+--text-h4: clamp(1.125rem, 2vw, 1.5rem);
+
+/* Body */
+--text-body: clamp(1rem, 1.5vw, 1.125rem);
+--text-small: clamp(0.875rem, 1.2vw, 1rem);
+--text-tiny: 0.75rem;
+```
+
+## Spacing & Grid System
+
+### Spatial Harmony Scale
+Based on 8px grid with harmonic progression:
+```css
+--space-1: 0.25rem;  /* 4px */
+--space-2: 0.5rem;   /* 8px */
+--space-3: 0.75rem;  /* 12px */
+--space-4: 1rem;     /* 16px */
+--space-5: 1.5rem;   /* 24px */
+--space-6: 2rem;     /* 32px */
+--space-7: 3rem;     /* 48px */
+--space-8: 4rem;     /* 64px */
+--space-9: 6rem;     /* 96px */
+```
+
+## Motion & Animation
+
+### Spring Physics System
+```css
+/* Micro-interactions */
+--spring-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+--spring-smooth: cubic-bezier(0.23, 1, 0.320, 1);
+--spring-gentle: cubic-bezier(0.4, 0, 0.2, 1);
+
+/* Durations */
+--duration-instant: 100ms;
+--duration-fast: 200ms;
+--duration-normal: 300ms;
+--duration-slow: 500ms;
+--duration-slower: 700ms;
+```
+
+### Signature Animations
+1. **AI Pulse** - Breathing effect for AI processing
+2. **Data Flow** - Particle animations for data visualization
+3. **Morphing Cards** - Shape-shifting containers
+4. **Haptic Feedback** - Subtle vibrations on interactions
+
+## AI Agent Interface Patterns
+
+### Agent States
+1. **Idle** - Gentle floating animation with gradient shift
+2. **Listening** - Pulsing rings with audio waveform
+3. **Thinking** - Neural network visualization
+4. **Speaking** - Voice waveform with text streaming
+5. **Learning** - Particle absorption effect
+
+### Agent Components
+```css
+/* Agent Avatar */
+.ai-agent-avatar {
+  background: linear-gradient(135deg, #7C3AED 0%, #0066FF 100%);
+  animation: ai-pulse 3s ease-in-out infinite;
+  box-shadow: 0 0 40px rgba(124, 58, 237, 0.4);
+}
+
+/* Agent Message Bubble */
+.ai-message {
+  background: rgba(124, 58, 237, 0.05);
+  border: 1px solid rgba(124, 58, 237, 0.2);
+  backdrop-filter: blur(40px);
+}
+```
+
+## Component Design System
+
+### Glassmorphism Elements
+```css
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+```
+
+### Neumorphic Inputs
+```css
+.neuro-input {
+  background: #F0F4F8;
+  box-shadow: 
+    inset 2px 2px 5px rgba(0, 0, 0, 0.1),
+    inset -2px -2px 5px rgba(255, 255, 255, 0.9);
+}
+```
+
+### Floating Action Buttons
+```css
+.fab-primary {
+  background: linear-gradient(135deg, #0066FF 0%, #7C3AED 100%);
+  box-shadow: 
+    0 4px 20px rgba(0, 102, 255, 0.3),
+    0 8px 40px rgba(124, 58, 237, 0.2);
+  transform: translateY(0);
+  transition: all 0.3s var(--spring-bounce);
+}
+
+.fab-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 30px rgba(0, 102, 255, 0.4),
+    0 12px 50px rgba(124, 58, 237, 0.3);
+}
+```
+
+## Data Visualization
+
+### Chart Colors
+```javascript
+const chartPalette = {
+  primary: ['#0066FF', '#7C3AED', '#06B6D4', '#10B981'],
+  extended: ['#F59E0B', '#EF4444', '#8B5CF6', '#3B82F6'],
+  gradient: [
+    'rgba(0, 102, 255, 0.8)',
+    'rgba(124, 58, 237, 0.8)',
+    'rgba(6, 182, 212, 0.8)',
+    'rgba(16, 185, 129, 0.8)'
+  ]
+};
+```
+
+### Real-time Metrics Style
+- Animated number transitions
+- Micro-charts with live updates
+- Predictive trend indicators
+- Anomaly highlighting with glow effects
+
+## Voice UI Integration
+
+### Voice Interface States
+1. **Wake State** - "Hey NeuroFlow" activation
+2. **Listening** - Real-time transcription display
+3. **Processing** - AI thinking animation
+4. **Response** - Synthesized voice with visual feedback
+
+### Voice Feedback Patterns
+```css
+.voice-wave {
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(0, 102, 255, 0.5), 
+    transparent);
+  animation: voice-flow 1.5s ease-in-out infinite;
+}
+```
+
+## Accessibility Standards
+
+### WCAG AAA Compliance
+- Contrast ratios: 7:1 for normal text, 4.5:1 for large text
+- Focus indicators with 3px outline and 2px offset
+- Keyboard navigation with visible focus path
+- Screen reader optimized with ARIA labels
+- Reduced motion alternatives
+
+### Inclusive Design Features
+- High contrast mode toggle
+- Font size adjustment (up to 200%)
+- Color blind friendly palettes
+- Voice navigation support
+- Haptic feedback options
+
+## Mobile-First Responsive Design
+
+### Breakpoints
+```css
+--screen-xs: 375px;   /* Mobile S */
+--screen-sm: 640px;   /* Mobile L */
+--screen-md: 768px;   /* Tablet */
+--screen-lg: 1024px;  /* Desktop */
+--screen-xl: 1280px;  /* Desktop L */
+--screen-2xl: 1536px; /* Desktop XL */
+```
+
+### Touch Targets
+- Minimum size: 44x44px
+- Recommended: 48x48px
+- Spacing between targets: 8px minimum
+
+## Implementation with Mantine & NextJS
+
+### Enhanced Theme Configuration
+```typescript
+import { MantineThemeOverride } from '@mantine/core';
+
+export const neuroFlowTheme: MantineThemeOverride = {
+  colorScheme: 'light',
+  primaryColor: 'neural-blue',
+  colors: {
+    'neural-blue': [
+      '#E6F0FF', '#B3D1FF', '#80B3FF', '#4D94FF',
+      '#1A75FF', '#0066FF', '#0052CC', '#003D99',
+      '#002966', '#001433'
+    ],
+    'agent-purple': [
+      '#F3E8FF', '#E9D5FF', '#D8B4FE', '#C084FC',
+      '#A855F7', '#9333EA', '#7C3AED', '#6D28D9',
+      '#5B21B6', '#4C1D95'
+    ]
+  },
+  fontFamily: 'Inter var, -apple-system, sans-serif',
+  headings: { 
+    fontFamily: 'Cal Sans, Inter var, sans-serif',
+    fontWeight: 700
+  },
+  components: {
+    Button: {
+      styles: (theme) => ({
+        root: {
+          transition: 'all 200ms cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+          '&:hover': {
+            transform: 'translateY(-2px)',
+          },
+        },
+      }),
+    },
+  },
+};
+```
+
+## Privacy & Security UI
+
+### Data Transparency Dashboard
+- Real-time data usage visualization
+- Granular privacy controls
+- Clear consent management
+- Audit trail visibility
+- One-click data export/deletion
+
+### Security Indicators
+- Encrypted connection badge
+- Biometric authentication UI
+- Two-factor authentication flow
+- Session security status
+
+## Future-Forward Features
+
+### AR/VR Ready
+- Spatial UI components
+- 3D gesture controls
+- Immersive data visualization
+- Virtual consultation spaces
+
+### Predictive UI
+- Context-aware interface adaptation
+- Anticipatory design patterns
+- Proactive assistance
+- Behavioral learning integration
+
+## Design Tokens
+```json
+{
+  "color": {
+    "primary": {
+      "value": "#0066FF",
+      "type": "color"
+    },
+    "ai": {
+      "agent": {
+        "value": "#7C3AED",
+        "type": "color"
+      }
+    }
+  },
+  "motion": {
+    "spring": {
+      "bounce": {
+        "value": "cubic-bezier(0.68, -0.55, 0.265, 1.55)",
+        "type": "cubicBezier"
+      }
+    }
+  }
+}
+```
+
+This comprehensive brand guideline positions NeuroFlow Pro at the forefront of healthcare innovation, combining Google's Material Design 3 Expressive principles with cutting-edge AI interface patterns to create an unparalleled user experience that's both emotionally engaging and medically precise.

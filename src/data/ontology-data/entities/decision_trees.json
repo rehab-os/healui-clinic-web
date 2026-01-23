@@ -1,0 +1,262 @@
+{
+  "decision_trees": {
+    "TREE_001": {
+      "name": "Shoulder Pain Assessment",
+      "description": "Primary decision tree for shoulder pain differential diagnosis",
+      "body_region": "shoulder",
+      "entry_point": "QUESTION_001",
+      "total_questions": 15,
+      "nodes": [
+        {
+          "id": "QUESTION_001",
+          "question": "Did the pain start suddenly with a specific injury or trauma?",
+          "type": "yes_no",
+          "clinical_reasoning": "Sudden onset suggests acute injury vs gradual onset suggests overuse/degenerative",
+          "yes_path": "QUESTION_002",
+          "no_path": "QUESTION_003",
+          "diagnostic_weight": 0.8,
+          "conditions_influenced": ["COND_001", "COND_002", "COND_003"],
+          "red_flag_potential": false
+        },
+        {
+          "id": "QUESTION_002",
+          "question": "Did you hear an audible 'pop' when the injury occurred?",
+          "type": "yes_no",
+          "clinical_reasoning": "Audible pop strongly suggests rotator cuff tear or labral tear",
+          "yes_path": "QUESTION_004",
+          "no_path": "QUESTION_005",
+          "diagnostic_weight": 0.9,
+          "conditions_influenced": ["COND_002", "COND_003"],
+          "red_flag_potential": false
+        },
+        {
+          "id": "QUESTION_003",
+          "question": "Is the pain worse with overhead activities (reaching, lifting above head)?",
+          "type": "yes_no",
+          "clinical_reasoning": "Overhead pain is pathognomonic for impingement syndrome",
+          "yes_path": "QUESTION_006",
+          "no_path": "QUESTION_007",
+          "diagnostic_weight": 0.9,
+          "conditions_influenced": ["COND_001"],
+          "red_flag_potential": false
+        },
+        {
+          "id": "QUESTION_004",
+          "question": "Are you unable to lift your arm to shoulder height without severe pain?",
+          "type": "yes_no",
+          "clinical_reasoning": "Inability to lift arm suggests significant rotator cuff tear",
+          "yes_path": "ASSESS_001",
+          "no_path": "QUESTION_008",
+          "diagnostic_weight": 0.85,
+          "conditions_influenced": ["COND_002"],
+          "red_flag_potential": false
+        },
+        {
+          "id": "QUESTION_005",
+          "question": "Do you have pain reaching behind your back (fastening bra, reaching wallet)?",
+          "type": "yes_no",
+          "clinical_reasoning": "Internal rotation deficit suggests posterior capsule tightness or labral pathology",
+          "yes_path": "QUESTION_009",
+          "no_path": "QUESTION_010",
+          "diagnostic_weight": 0.7,
+          "conditions_influenced": ["COND_003", "COND_159"],
+          "red_flag_potential": false
+        },
+        {
+          "id": "QUESTION_006",
+          "question": "Is there a painful arc when you lift your arm out to the side (between 60-120 degrees)?",
+          "type": "yes_no",
+          "clinical_reasoning": "Painful arc is classic for subacromial impingement",
+          "yes_path": "ASSESS_002",
+          "no_path": "QUESTION_011",
+          "diagnostic_weight": 0.95,
+          "conditions_influenced": ["COND_001"],
+          "red_flag_potential": false
+        },
+        {
+          "id": "QUESTION_007",
+          "question": "Do you have severe night pain that disturbs your sleep?",
+          "type": "yes_no",
+          "clinical_reasoning": "Night pain suggests inflammatory condition or adhesive capsulitis",
+          "yes_path": "QUESTION_012",
+          "no_path": "QUESTION_013",
+          "diagnostic_weight": 0.8,
+          "conditions_influenced": ["COND_159", "COND_036"],
+          "red_flag_potential": true
+        },
+        {
+          "id": "QUESTION_008",
+          "question": "Do you have weakness when trying to lift your arm out to the side?",
+          "type": "yes_no",
+          "clinical_reasoning": "Weakness suggests rotator cuff pathology",
+          "yes_path": "ASSESS_003",
+          "no_path": "QUESTION_014",
+          "diagnostic_weight": 0.8,
+          "conditions_influenced": ["COND_002"],
+          "red_flag_potential": false
+        },
+        {
+          "id": "QUESTION_009",
+          "question": "Is your shoulder movement becoming progressively more limited over weeks/months?",
+          "type": "yes_no",
+          "clinical_reasoning": "Progressive limitation suggests frozen shoulder",
+          "yes_path": "ASSESS_004",
+          "no_path": "QUESTION_015",
+          "diagnostic_weight": 0.9,
+          "conditions_influenced": ["COND_159"],
+          "red_flag_potential": false
+        },
+        {
+          "id": "QUESTION_010",
+          "question": "Do you have clicking or grinding sensations in your shoulder?",
+          "type": "yes_no",
+          "clinical_reasoning": "Mechanical symptoms suggest labral or degenerative changes",
+          "yes_path": "ASSESS_005",
+          "no_path": "QUESTION_016",
+          "diagnostic_weight": 0.6,
+          "conditions_influenced": ["COND_003", "COND_195"],
+          "red_flag_potential": false
+        }
+      ],
+      "assessments": [
+        {
+          "id": "ASSESS_001",
+          "name": "Drop Arm Test",
+          "description": "Test for rotator cuff tear",
+          "conditions_indicated": ["COND_002"]
+        },
+        {
+          "id": "ASSESS_002", 
+          "name": "Hawkins-Kennedy Test",
+          "description": "Test for subacromial impingement",
+          "conditions_indicated": ["COND_001"]
+        },
+        {
+          "id": "ASSESS_003",
+          "name": "Empty Can Test",
+          "description": "Test for supraspinatus pathology",
+          "conditions_indicated": ["COND_002"]
+        },
+        {
+          "id": "ASSESS_004",
+          "name": "Capsular Pattern Assessment",
+          "description": "Test for adhesive capsulitis",
+          "conditions_indicated": ["COND_159"]
+        },
+        {
+          "id": "ASSESS_005",
+          "name": "O'Brien Test",
+          "description": "Test for labral pathology",
+          "conditions_indicated": ["COND_003"]
+        }
+      ]
+    },
+    
+    "TREE_002": {
+      "name": "Low Back Pain Assessment",
+      "description": "Primary decision tree for lumbar spine pain differential diagnosis",
+      "body_region": "lumbar_spine",
+      "entry_point": "QUESTION_101",
+      "total_questions": 12,
+      "nodes": [
+        {
+          "id": "QUESTION_101",
+          "question": "Do you have any numbness, tingling, or weakness in your legs?",
+          "type": "yes_no",
+          "clinical_reasoning": "Neurological symptoms indicate nerve involvement - red flag screening",
+          "yes_path": "QUESTION_102",
+          "no_path": "QUESTION_105",
+          "diagnostic_weight": 0.9,
+          "conditions_influenced": ["COND_009", "COND_010", "COND_021"],
+          "red_flag_potential": true
+        },
+        {
+          "id": "QUESTION_102",
+          "question": "Do you have any changes in bowel or bladder control?",
+          "type": "yes_no",
+          "clinical_reasoning": "Bowel/bladder dysfunction is red flag for cauda equina syndrome",
+          "yes_path": "RED_FLAG_REFERRAL",
+          "no_path": "QUESTION_103",
+          "diagnostic_weight": 1.0,
+          "conditions_influenced": ["COND_021"],
+          "red_flag_potential": true
+        },
+        {
+          "id": "QUESTION_103",
+          "question": "Does the leg pain go below your knee?",
+          "type": "yes_no",
+          "clinical_reasoning": "Pain below knee suggests nerve root compression",
+          "yes_path": "QUESTION_104",
+          "no_path": "QUESTION_106",
+          "diagnostic_weight": 0.85,
+          "conditions_influenced": ["COND_009"],
+          "red_flag_potential": false
+        },
+        {
+          "id": "QUESTION_104",
+          "question": "Is the leg pain worse than your back pain?",
+          "type": "yes_no",
+          "clinical_reasoning": "Leg pain dominant suggests radiculopathy over mechanical back pain",
+          "yes_path": "ASSESS_101",
+          "no_path": "QUESTION_107",
+          "diagnostic_weight": 0.8,
+          "conditions_influenced": ["COND_009"],
+          "red_flag_potential": false
+        },
+        {
+          "id": "QUESTION_105",
+          "question": "Is your pain worse when bending forward?",
+          "type": "yes_no",
+          "clinical_reasoning": "Flexion intolerance suggests disc pathology",
+          "yes_path": "QUESTION_108",
+          "no_path": "QUESTION_109",
+          "diagnostic_weight": 0.7,
+          "conditions_influenced": ["COND_008"],
+          "red_flag_potential": false
+        },
+        {
+          "id": "QUESTION_106",
+          "question": "Do you have walking limitations that improve when you lean forward or sit down?",
+          "type": "yes_no",
+          "clinical_reasoning": "Neurogenic claudication suggests spinal stenosis",
+          "yes_path": "ASSESS_102",
+          "no_path": "QUESTION_110",
+          "diagnostic_weight": 0.9,
+          "conditions_influenced": ["COND_010"],
+          "red_flag_potential": false
+        },
+        {
+          "id": "QUESTION_107",
+          "question": "Is your pain worse in the morning and improves with movement?",
+          "type": "yes_no",
+          "clinical_reasoning": "Morning stiffness suggests inflammatory condition",
+          "yes_path": "QUESTION_111",
+          "no_path": "ASSESS_103",
+          "diagnostic_weight": 0.8,
+          "conditions_influenced": ["COND_035", "COND_036"],
+          "red_flag_potential": false
+        }
+      ],
+      "assessments": [
+        {
+          "id": "ASSESS_101",
+          "name": "Straight Leg Raise Test",
+          "description": "Test for nerve root tension",
+          "conditions_indicated": ["COND_009"]
+        },
+        {
+          "id": "ASSESS_102",
+          "name": "Neurogenic Claudication Assessment",
+          "description": "Walking test for spinal stenosis",
+          "conditions_indicated": ["COND_010"]
+        },
+        {
+          "id": "ASSESS_103",
+          "name": "Centralization Assessment",
+          "description": "McKenzie assessment for disc pathology",
+          "conditions_indicated": ["COND_008"]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,341 @@
+{
+  "machine_based_protocols": {
+    "SHOCKWAVE_PROTOCOLS": {
+      "EQ_006": {
+        "equipment_name": "Shockwave Therapy Unit (Storz Medical)",
+        "protocols": {
+          "SHOCK_001": {
+            "condition": "COND_013",
+            "condition_name": "Plantar Fasciitis",
+            "protocol_name": "Radial Shockwave for Plantar Fasciitis",
+            "evidence_level": "Grade_A",
+            "parameters": {
+              "frequency": "8-10_Hz",
+              "pressure": "2.5-3.0_bar",
+              "pulses": "2000-2500_per_session",
+              "sessions": "3-5_sessions",
+              "interval": "weekly",
+              "focal_area": "calcaneal_insertion_plantar_fascia"
+            },
+            "technique": [
+              "Patient prone or side-lying",
+              "Identify most tender point",
+              "Apply gel coupling medium",
+              "Start with low intensity",
+              "Move applicator in circular motions",
+              "Cover 2-3cm area around insertion"
+            ],
+            "precautions": ["check_contraindications", "inform_patient_about_discomfort"],
+            "expected_outcome": "70-80%_improvement_in_3_months"
+          },
+          "SHOCK_002": {
+            "condition": "COND_002",
+            "condition_name": "Rotator Cuff Tendinopathy",
+            "protocol_name": "Focused Shockwave for Calcific Tendinitis",
+            "parameters": {
+              "frequency": "15-20_Hz",
+              "energy_density": "0.15-0.25_mJ/mm2",
+              "pulses": "1500-2000",
+              "sessions": "3-4_sessions",
+              "interval": "2_weeks"
+            },
+            "imaging_guided": "ultrasound_or_fluoroscopy_recommended",
+            "post_treatment": ["ice_application", "gentle_ROM", "avoid_aggravating_activities_48h"]
+          },
+          "SHOCK_003": {
+            "condition": "COND_015",
+            "condition_name": "Achilles Tendinopathy",
+            "protocol_name": "Radial Shockwave for Achilles",
+            "parameters": {
+              "frequency": "8-12_Hz",
+              "pressure": "2.0-3.0_bar",
+              "pulses": "2000",
+              "sessions": "3-6_sessions",
+              "interval": "weekly"
+            },
+            "technique": ["target_mid_portion_or_insertion", "avoid_direct_pressure_on_tendon"],
+            "exercises_post_treatment": ["EX_034", "EX_035", "eccentric_loading_after_48h"]
+          }
+        }
+      }
+    },
+    "ELECTRICAL_STIMULATION_PROTOCOLS": {
+      "EQ_008": {
+        "equipment_name": "Intelect Legend XT Combo",
+        "protocols": {
+          "TENS_001": {
+            "indication": "Pain_Management_Acute",
+            "conditions": ["COND_008", "COND_012", "COND_013"],
+            "parameters": {
+              "waveform": "symmetrical_biphasic",
+              "frequency": "80-120_Hz",
+              "pulse_width": "50-100_microseconds",
+              "amplitude": "sensory_level_no_muscle_contraction",
+              "treatment_time": "20-30_minutes",
+              "electrode_placement": "around_painful_area_or_dermatome"
+            },
+            "contraindications": ["pacemaker", "pregnancy_abdomen", "malignancy", "DVT"],
+            "patient_instructions": ["comfortable_tingling_sensation", "no_muscle_twitching"]
+          },
+          "TENS_002": {
+            "indication": "Pain_Management_Chronic",
+            "conditions": ["COND_008", "COND_030"],
+            "parameters": {
+              "frequency": "2-10_Hz",
+              "pulse_width": "150-250_microseconds",
+              "amplitude": "motor_threshold",
+              "treatment_time": "20-45_minutes",
+              "modulation": "frequency_or_amplitude_modulation_recommended"
+            },
+            "rationale": "endorphin_release_mechanism"
+          },
+          "NMES_001": {
+            "indication": "Muscle_Strengthening",
+            "conditions": ["COND_004", "COND_037", "COND_020"],
+            "target_muscle": "quadriceps",
+            "parameters": {
+              "frequency": "35-50_Hz",
+              "pulse_width": "300-400_microseconds",
+              "on_time": "10-15_seconds",
+              "off_time": "50_seconds_or_1:5_ratio",
+              "ramp_up": "2-3_seconds",
+              "ramp_down": "1-2_seconds",
+              "amplitude": "strong_comfortable_contraction",
+              "sessions": "15-20_contractions",
+              "frequency_per_week": "3-5_sessions"
+            },
+            "electrode_placement": "motor_points_proximal_distal",
+            "patient_position": "supported_sitting_60-90_degrees",
+            "progression": "increase_amplitude_before_time_parameters"
+          },
+          "IFC_001": {
+            "indication": "Deep_Pain_Relief_Muscle_Relaxation", 
+            "conditions": ["COND_008", "COND_016"],
+            "parameters": {
+              "carrier_frequency": "4000_Hz",
+              "AMF": "80-150_Hz_acute_pain_or_2-10_Hz_chronic",
+              "sweep": "6/6_or_1/1_pattern",
+              "treatment_time": "15-20_minutes",
+              "electrode_placement": "quadripolar_crossing_at_target"
+            }
+          }
+        }
+      }
+    },
+    "ULTRASOUND_PROTOCOLS": {
+      "EQ_008": {
+        "protocols": {
+          "US_001": {
+            "indication": "Tissue_Heating_Chronic_Conditions",
+            "conditions": ["COND_001", "COND_002", "COND_012"],
+            "parameters": {
+              "frequency": "1_MHz_deep_3_MHz_superficial",
+              "intensity": "0.5-2.0_W/cm2",
+              "duty_cycle": "continuous_or_50%_pulsed",
+              "treatment_time": "5-10_minutes",
+              "ERA": "match_to_treatment_area_2x_ERA_rule"
+            },
+            "technique": [
+              "apply_adequate_coupling_gel",
+              "maintain_perpendicular_contact",
+              "slow_circular_overlapping_movements",
+              "1cm_per_second_speed",
+              "keep_transducer_moving"
+            ],
+            "contraindications": ["malignancy", "pregnancy", "infection", "DVT", "impaired_circulation"]
+          },
+          "US_002": {
+            "indication": "Non_Thermal_Effects_Acute_Inflammation",
+            "conditions": ["acute_injuries", "COND_014"],
+            "parameters": {
+              "frequency": "3_MHz_for_superficial",
+              "intensity": "0.1-0.3_W/cm2",
+              "duty_cycle": "20%_pulsed",
+              "treatment_time": "5-8_minutes"
+            },
+            "rationale": "promote_healing_without_heating"
+          },
+          "PHONOPHORESIS_001": {
+            "indication": "Drug_Delivery_Enhancement",
+            "medications": ["hydrocortisone_cream", "diclofenac_gel"],
+            "conditions": ["COND_012", "COND_002"],
+            "parameters": {
+              "intensity": "0.5-1.5_W/cm2",
+              "duty_cycle": "continuous_or_pulsed",
+              "coupling_medium": "medication_mixed_with_gel"
+            }
+          }
+        }
+      }
+    },
+    "LASER_THERAPY_PROTOCOLS": {
+      "EQ_007": {
+        "equipment_name": "Class IV K-Laser",
+        "protocols": {
+          "LASER_001": {
+            "indication": "Pain_Reduction_Tissue_Healing",
+            "conditions": ["COND_012", "COND_002", "COND_018", "wound_healing"],
+            "parameters": {
+              "wavelengths": "660nm_superficial_800-970nm_deep",
+              "power": "1-15_W_depending_on_condition",
+              "energy_density": "4-8_J/cm2",
+              "treatment_time": "2-8_minutes",
+              "technique": "contact_or_non_contact"
+            },
+            "specific_protocols": {
+              "tennis_elbow": {
+                "energy": "6_J/cm2",
+                "technique": "contact_slow_scanning",
+                "frequency": "3x_per_week_for_4_weeks"
+              },
+              "wound_healing": {
+                "energy": "2-4_J/cm2", 
+                "technique": "non_contact_grid_pattern",
+                "frequency": "daily_or_every_other_day"
+              }
+            },
+            "safety": ["eye_protection_mandatory", "avoid_reflective_surfaces", "pregnancy_contraindicated"]
+          }
+        }
+      }
+    },
+    "ISOKINETIC_PROTOCOLS": {
+      "EQ_001": {
+        "equipment_name": "Biodex System 4 Pro",
+        "protocols": {
+          "ISO_TEST_001": {
+            "purpose": "Knee_Strength_Assessment",
+            "conditions": ["COND_004", "COND_037", "COND_006"],
+            "parameters": {
+              "speeds": ["60_degrees/sec", "180_degrees/sec", "300_degrees/sec"],
+              "repetitions": "5_reps_at_60_deg/sec_15_reps_higher_speeds",
+              "rest": "60_seconds_between_speeds",
+              "ROM": "90_degrees_or_available_ROM",
+              "gravity_correction": "yes",
+              "warm_up": "submaximal_contractions_x5"
+            },
+            "measurements": ["peak_torque", "total_work", "power", "endurance_ratio"],
+            "normative_data": "compare_to_contralateral_and_norms"
+          },
+          "ISO_TRAIN_001": {
+            "purpose": "ACL_Rehab_Strengthening",
+            "condition": "COND_004",
+            "phase": "12+_weeks_post_surgery",
+            "parameters": {
+              "speeds": ["180-300_degrees/sec_initial"],
+              "progression": "decrease_speed_as_tolerated",
+              "sets": "3_sets_8-12_reps",
+              "frequency": "2-3x_per_week",
+              "ROM": "30-90_degrees_initially",
+              "mode": "concentric_initially_progress_to_eccentric"
+            },
+            "progression_criteria": ["pain_free", "no_effusion", "good_form"],
+            "precautions": ["avoid_terminal_extension_initially", "monitor_patellofemoral_symptoms"]
+          }
+        }
+      }
+    },
+    "ANTI_GRAVITY_PROTOCOLS": {
+      "EQ_002": {
+        "equipment_name": "AlterG Anti-Gravity Treadmill",
+        "protocols": {
+          "ALTERG_001": {
+            "purpose": "Post_Surgical_Weight_Bearing_Progression",
+            "conditions": ["COND_037", "COND_038", "fracture_rehabilitation"],
+            "parameters": {
+              "initial_unweighting": "40-60%_body_weight",
+              "progression": "increase_10-20%_weekly",
+              "speed": "start_0.5_mph_progress_to_normal_walking",
+              "duration": "10-30_minutes",
+              "frequency": "3-5x_per_week"
+            },
+            "progression_criteria": ["pain_free", "normal_gait_mechanics", "surgeon_clearance"]
+          },
+          "ALTERG_002": {
+            "purpose": "Neurological_Gait_Training",
+            "conditions": ["COND_020", "COND_024", "COND_025"],
+            "parameters": {
+              "unweighting": "20-80%_depending_on_ability",
+              "speed": "patient_determined_comfortable_pace",
+              "handrail_use": "as_needed_for_safety",
+              "visual_feedback": "use_available_gait_analysis"
+            },
+            "goals": ["improve_gait_symmetry", "increase_step_length", "normalize_timing"]
+          }
+        }
+      }
+    },
+    "BIOFEEDBACK_PROTOCOLS": {
+      "EQ_021": {
+        "equipment_name": "EMG Biofeedback System",
+        "protocols": {
+          "EMG_001": {
+            "purpose": "Quadriceps_Re_education",
+            "conditions": ["COND_004", "COND_037", "COND_005"],
+            "parameters": {
+              "electrode_placement": "VMO_and_VL",
+              "threshold": "start_low_progress_upward",
+              "feedback": "visual_and_auditory",
+              "exercises": ["EX_010", "EX_031", "EX_017"],
+              "session_duration": "15-20_minutes"
+            },
+            "progression": "increase_threshold_as_recruitment_improves"
+          },
+          "EMG_002": {
+            "purpose": "Pelvic_Floor_Training",
+            "condition": "COND_045",
+            "parameters": {
+              "electrode_placement": "internal_or_external_sensors",
+              "feedback": "real_time_visual_display",
+              "exercises": ["pelvic_floor_contractions", "functional_activities"],
+              "session_frequency": "2-3x_per_week"
+            },
+            "goals": ["improve_muscle_awareness", "coordinate_contractions", "functional_integration"]
+          }
+        }
+      }
+    }
+  },
+  "protocol_selection_guidelines": {
+    "patient_factors": [
+      "condition_acuity",
+      "tissue_healing_phase",
+      "pain_levels",
+      "contraindications",
+      "previous_response_to_modalities"
+    ],
+    "treatment_goals": [
+      "pain_reduction",
+      "tissue_healing",
+      "muscle_strengthening",
+      "functional_improvement",
+      "return_to_activity"
+    ],
+    "evidence_considerations": [
+      "research_quality",
+      "clinical_guidelines",
+      "patient_population_match",
+      "outcome_measures"
+    ]
+  },
+  "safety_monitoring": {
+    "during_treatment": [
+      "patient_comfort",
+      "skin_response",
+      "vital_signs_if_indicated",
+      "equipment_function"
+    ],
+    "post_treatment": [
+      "immediate_response",
+      "delayed_reactions",
+      "functional_changes",
+      "adverse_events"
+    ],
+    "documentation": [
+      "parameters_used",
+      "patient_response",
+      "modifications_made",
+      "home_instructions"
+    ]
+  }
+}

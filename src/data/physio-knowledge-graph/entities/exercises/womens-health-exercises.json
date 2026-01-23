@@ -1,0 +1,946 @@
+{
+  "category": "womens_health_exercises",
+  "description": "Specialized exercises for women's health conditions and life stages",
+  "focus_areas": {
+    "pelvic_floor": "Core foundation for women's health",
+    "prenatal_postnatal": "Pregnancy and postpartum recovery",
+    "menopause": "Hormonal transition support", 
+    "reproductive_health": "Conditions affecting reproductive system",
+    "breast_health": "Post-surgical and cancer rehabilitation"
+  },
+  "exercises": {
+    "EX_226": {
+      "name": "Pelvic Floor Muscle Training (Kegels)",
+      "type": "pelvic_floor_strengthening",
+      "body_region": "pelvic_floor",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_021", "biofeedback_unit"],
+      "position": "various",
+      "muscle_targets": {
+        "primary": ["levator_ani", "coccygeus", "urethral_sphincter"],
+        "secondary": ["deep_abdominals", "multifidus"]
+      },
+      "womens_health_focus": "incontinence_prolapse_prevention",
+      "translations": {
+        "en": {
+          "name": "Pelvic Floor Muscle Training (Kegels)",
+          "description": "Foundational exercise for pelvic floor strength and function",
+          "instructions": [
+            "Identify pelvic floor muscles by stopping urine midstream",
+            "Contract pelvic floor muscles lifting up and in",
+            "Hold for 3-5 seconds initially, progress to 10 seconds",
+            "Relax completely between contractions",
+            "Perform 10-15 repetitions, 3 times daily"
+          ],
+          "cues": [
+            "Lift up like stopping urine flow",
+            "Don't hold your breath",
+            "Complete relaxation between contractions"
+          ],
+          "common_errors": [
+            "Bearing down instead of lifting up",
+            "Holding breath during exercise",
+            "Not fully relaxing between contractions"
+          ]
+        }
+      }
+    },
+    "EX_227": {
+      "name": "Prenatal Core Breathing",
+      "type": "prenatal_core",
+      "body_region": "core_respiratory",
+      "difficulty_level": 1,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_034", "pregnancy_pillow"],
+      "position": "side_lying_or_sitting",
+      "muscle_targets": {
+        "primary": ["diaphragm", "pelvic_floor", "deep_abdominals"],
+        "secondary": ["postural_muscles"]
+      },
+      "pregnancy_stage": "all_trimesters",
+      "womens_health_focus": "pregnancy_preparation_recovery",
+      "translations": {
+        "en": {
+          "name": "Prenatal Core Breathing",
+          "description": "Breath-based core training safe for pregnancy",
+          "instructions": [
+            "Position comfortably in side-lying or supported sitting",
+            "Place one hand on chest, one on belly", 
+            "Breathe in allowing ribs to expand sideways",
+            "Exhale gently engaging deep abdominals",
+            "Coordinate with gentle pelvic floor engagement"
+          ],
+          "cues": [
+            "Breathe into your ribs",
+            "Gentle belly engagement on exhale",
+            "Keep shoulders relaxed"
+          ],
+          "common_errors": [
+            "Breathing only into upper chest",
+            "Forceful abdominal contraction",
+            "Holding breath"
+          ]
+        }
+      }
+    },
+    "EX_228": {
+      "name": "Postpartum Abdominal Recovery",
+      "type": "postpartum_recovery",
+      "body_region": "abdominal_core",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["measuring_tape"],
+      "position": "supine_or_supported",
+      "muscle_targets": {
+        "primary": ["rectus_abdominis", "transverse_abdominis"],
+        "secondary": ["pelvic_floor", "multifidus"]
+      },
+      "postpartum_stage": "6_weeks_plus",
+      "womens_health_focus": "diastasis_recti_recovery",
+      "translations": {
+        "en": {
+          "name": "Postpartum Abdominal Recovery",
+          "description": "Progressive abdominal recovery addressing diastasis recti",
+          "instructions": [
+            "Check for diastasis recti separation",
+            "Begin with gentle breath-based exercises",
+            "Progress to modified crunches avoiding doming",
+            "Include transverse abdominis strengthening",
+            "Avoid traditional crunches until cleared"
+          ],
+          "cues": [
+            "Gentle engagement, no doming",
+            "Exhale on exertion",
+            "Support separation with hands if needed"
+          ],
+          "common_errors": [
+            "Doing traditional crunches too early",
+            "Ignoring diastasis recti",
+            "Progressing too quickly"
+          ]
+        }
+      }
+    },
+    "EX_229": {
+      "name": "Breast Cancer Exercise - Upper Extremity",
+      "type": "oncology_rehabilitation",
+      "body_region": "upper_extremity",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_024", "light_weights"],
+      "position": "various",
+      "muscle_targets": {
+        "primary": ["shoulder_mobility", "lymphatic_drainage"],
+        "secondary": ["posture", "strength"]
+      },
+      "womens_health_focus": "breast_cancer_rehabilitation",
+      "treatment_stage": "post_surgical_cleared",
+      "translations": {
+        "en": {
+          "name": "Breast Cancer Exercise - Upper Extremity",
+          "description": "Specialized upper extremity exercises post breast cancer treatment",
+          "instructions": [
+            "Begin with gentle range of motion exercises",
+            "Progress shoulder elevation gradually",
+            "Include lymphatic drainage movements",
+            "Address posture changes from surgery",
+            "Coordinate with oncology team"
+          ],
+          "cues": [
+            "Move gently and gradually",
+            "Listen to your body",
+            "Support affected arm as needed"
+          ],
+          "common_errors": [
+            "Progressing too aggressively",
+            "Ignoring lymphedema precautions",
+            "Not addressing posture changes"
+          ]
+        }
+      }
+    },
+    "EX_230": {
+      "name": "Menopause Bone Health Training",
+      "type": "bone_health_strengthening",
+      "body_region": "total_body",
+      "difficulty_level": 3,
+      "equipment_required": ["EQ_024"],
+      "equipment_optional": ["bone_density_monitoring"],
+      "position": "standing_weight_bearing",
+      "muscle_targets": {
+        "primary": ["bone_density_improvement"],
+        "secondary": ["balance", "fall_prevention"]
+      },
+      "womens_health_focus": "menopause_bone_health",
+      "translations": {
+        "en": {
+          "name": "Menopause Bone Health Training",
+          "description": "Weight-bearing and resistance exercises for menopausal bone health",
+          "instructions": [
+            "Include weight-bearing cardiovascular exercise",
+            "Add progressive resistance training",
+            "Focus on spine, hip, and wrist loading",
+            "Include balance and fall prevention",
+            "Monitor bone density changes"
+          ],
+          "cues": [
+            "Load bones to stimulate growth",
+            "Progress intensity gradually",
+            "Focus on high-risk fracture sites"
+          ],
+          "common_errors": [
+            "Not enough loading stimulus",
+            "Ignoring fall risk",
+            "Inadequate progression"
+          ]
+        }
+      }
+    },
+    "EX_231": {
+      "name": "Pregnancy Safe Cardiovascular Training",
+      "type": "prenatal_cardiovascular",
+      "body_region": "cardiovascular_system",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["heart_rate_monitor", "EQ_032"],
+      "position": "various_safe_positions",
+      "muscle_targets": {
+        "primary": ["cardiovascular_fitness"],
+        "secondary": ["endurance", "mood"]
+      },
+      "pregnancy_stage": "all_trimesters_adapted",
+      "womens_health_focus": "pregnancy_fitness_safety",
+      "translations": {
+        "en": {
+          "name": "Pregnancy Safe Cardiovascular Training",
+          "description": "Safe cardiovascular exercise throughout pregnancy",
+          "instructions": [
+            "Monitor heart rate and perceived exertion",
+            "Avoid supine position after first trimester",
+            "Include low-impact activities",
+            "Stay hydrated and avoid overheating",
+            "Modify intensity as pregnancy progresses"
+          ],
+          "cues": [
+            "Talk test - maintain conversation",
+            "Listen to your body",
+            "Stay cool and hydrated"
+          ],
+          "common_errors": [
+            "Exercising at pre-pregnancy intensity",
+            "Ignoring warning signs",
+            "Not modifying for pregnancy changes"
+          ]
+        }
+      }
+    },
+    "EX_232": {
+      "name": "Pelvic Pain Management Exercises",
+      "type": "pelvic_pain_rehabilitation",
+      "body_region": "pelvic_region",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_034", "heat_therapy"],
+      "position": "comfortable_positions",
+      "muscle_targets": {
+        "primary": ["pelvic_floor_relaxation", "pain_reduction"],
+        "secondary": ["hip_mobility", "stress_reduction"]
+      },
+      "womens_health_focus": "chronic_pelvic_pain",
+      "translations": {
+        "en": {
+          "name": "Pelvic Pain Management Exercises",
+          "description": "Gentle exercises for chronic pelvic pain management",
+          "instructions": [
+            "Focus on pelvic floor relaxation techniques",
+            "Include gentle hip and spine mobility",
+            "Practice stress reduction breathing",
+            "Use heat therapy for muscle relaxation",
+            "Coordinate with pelvic pain specialist"
+          ],
+          "cues": [
+            "Let go of tension",
+            "Breathe into tight areas",
+            "Move gently and mindfully"
+          ],
+          "common_errors": [
+            "Forcing tight muscles to strengthen",
+            "Ignoring pain signals",
+            "Not addressing whole person"
+          ]
+        }
+      }
+    },
+    "EX_233": {
+      "name": "Postpartum Return to Exercise Progression",
+      "type": "postpartum_fitness",
+      "body_region": "total_body",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_024", "stroller"],
+      "position": "various",
+      "muscle_targets": {
+        "primary": ["total_body_reconditioning"],
+        "secondary": ["mental_health", "energy"]
+      },
+      "postpartum_stage": "progressive_6_weeks_plus",
+      "womens_health_focus": "postpartum_fitness_return",
+      "translations": {
+        "en": {
+          "name": "Postpartum Return to Exercise Progression",
+          "description": "Systematic progression back to pre-pregnancy fitness",
+          "instructions": [
+            "Start with walking and gentle movement",
+            "Progress core and pelvic floor recovery",
+            "Gradually increase intensity and duration",
+            "Include strength training progression",
+            "Listen to body and adjust for breastfeeding"
+          ],
+          "cues": [
+            "Start slow and progress gradually",
+            "Core and pelvic floor first",
+            "Adjust for energy and time constraints"
+          ],
+          "common_errors": [
+            "Returning to pre-pregnancy intensity too quickly",
+            "Ignoring core recovery",
+            "Not adjusting for lifestyle changes"
+          ]
+        }
+      }
+    },
+    "EX_234": {
+      "name": "PCOS Exercise Protocol",
+      "type": "hormonal_condition_exercise",
+      "body_region": "metabolic_system",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_024", "glucose_monitor"],
+      "position": "various",
+      "muscle_targets": {
+        "primary": ["insulin_sensitivity", "weight_management"],
+        "secondary": ["mood", "reproductive_health"]
+      },
+      "womens_health_focus": "PCOS_management",
+      "translations": {
+        "en": {
+          "name": "PCOS Exercise Protocol",
+          "description": "Exercise protocol for Polycystic Ovary Syndrome management",
+          "instructions": [
+            "Include both cardiovascular and resistance training",
+            "Focus on insulin sensitivity improvement",
+            "Add high-intensity intervals as appropriate",
+            "Support weight management goals",
+            "Coordinate with reproductive endocrinologist"
+          ],
+          "cues": [
+            "Consistency over intensity",
+            "Focus on metabolic benefits",
+            "Track improvements beyond weight"
+          ],
+          "common_errors": [
+            "Only focusing on weight loss",
+            "Ignoring insulin sensitivity benefits",
+            "Not individualizing approach"
+          ]
+        }
+      }
+    },
+    "EX_235": {
+      "name": "Endometriosis Exercise Management",
+      "type": "chronic_condition_exercise",
+      "body_region": "pelvic_abdominal",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_034", "heat_therapy"],
+      "position": "comfortable_positions",
+      "muscle_targets": {
+        "primary": ["pain_management", "pelvic_mobility"],
+        "secondary": ["mood", "energy"]
+      },
+      "womens_health_focus": "endometriosis_symptom_management",
+      "translations": {
+        "en": {
+          "name": "Endometriosis Exercise Management",
+          "description": "Exercise approach for endometriosis symptom management",
+          "instructions": [
+            "Adapt exercise to menstrual cycle",
+            "Include gentle mobility and stretching",
+            "Use low-impact cardiovascular exercise",
+            "Focus on stress reduction benefits",
+            "Modify intensity during flare-ups"
+          ],
+          "cues": [
+            "Listen to your body's cycles",
+            "Movement can help with pain",
+            "Some days gentle is enough"
+          ],
+          "common_errors": [
+            "Pushing through severe pain",
+            "Not adapting to menstrual cycle",
+            "Giving up exercise completely"
+          ]
+        }
+      }
+    },
+    "EX_236": {
+      "name": "Osteoporosis Safe Exercise Program",
+      "type": "bone_health_safety",
+      "body_region": "spine_hip_wrist",
+      "difficulty_level": 3,
+      "equipment_required": ["EQ_024"],
+      "equipment_optional": ["balance_equipment"],
+      "position": "safe_positioning",
+      "muscle_targets": {
+        "primary": ["bone_loading", "fall_prevention"],
+        "secondary": ["posture", "strength"]
+      },
+      "womens_health_focus": "osteoporosis_management",
+      "translations": {
+        "en": {
+          "name": "Osteoporosis Safe Exercise Program",
+          "description": "Safe exercise program for women with osteoporosis",
+          "instructions": [
+            "Avoid spinal flexion under load",
+            "Include weight-bearing and resistance exercises",
+            "Focus on balance and fall prevention",
+            "Emphasize posture and alignment",
+            "Progress loading safely and gradually"
+          ],
+          "cues": [
+            "Keep spine straight and strong",
+            "Load bones safely",
+            "Focus on balance and posture"
+          ],
+          "common_errors": [
+            "Doing unsafe spinal movements",
+            "Not enough bone loading stimulus",
+            "Ignoring fall prevention"
+          ]
+        }
+      }
+    },
+    "EX_237": {
+      "name": "Lymphedema Management - Breast Cancer",
+      "type": "lymphedema_exercise",
+      "body_region": "upper_extremity_lymphatic",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["compression_garments", "EQ_030"],
+      "position": "elevated_positions",
+      "muscle_targets": {
+        "primary": ["lymphatic_drainage"],
+        "secondary": ["range_of_motion", "strength"]
+      },
+      "womens_health_focus": "breast_cancer_lymphedema",
+      "translations": {
+        "en": {
+          "name": "Lymphedema Management - Breast Cancer",
+          "description": "Exercise program for breast cancer-related lymphedema",
+          "instructions": [
+            "Use compression garments during exercise",
+            "Include gentle pumping movements",
+            "Practice deep breathing for lymphatic flow",
+            "Elevate affected limb when possible",
+            "Monitor for swelling changes"
+          ],
+          "cues": [
+            "Gentle pumping motions",
+            "Breathe deeply to help drainage",
+            "Elevate when resting"
+          ],
+          "common_errors": [
+            "Exercising without compression",
+            "Movements too aggressive",
+            "Not monitoring swelling"
+          ]
+        }
+      }
+    },
+    "EX_238": {
+      "name": "Prenatal Back Pain Relief",
+      "type": "prenatal_pain_management",
+      "body_region": "spine_pelvis",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_034", "pregnancy_support_belt"],
+      "position": "pregnancy_safe_positions",
+      "muscle_targets": {
+        "primary": ["back_pain_relief"],
+        "secondary": ["posture", "core_support"]
+      },
+      "pregnancy_stage": "second_third_trimester",
+      "womens_health_focus": "pregnancy_back_pain",
+      "translations": {
+        "en": {
+          "name": "Prenatal Back Pain Relief",
+          "description": "Safe exercises for pregnancy-related back pain",
+          "instructions": [
+            "Use pregnancy-safe positions only",
+            "Include gentle spinal mobility",
+            "Strengthen core without straining",
+            "Address postural changes of pregnancy",
+            "Use support devices as needed"
+          ],
+          "cues": [
+            "Support your growing belly",
+            "Move gently and slowly",
+            "Use props for comfort"
+          ],
+          "common_errors": [
+            "Using unsafe positions",
+            "Exercising through severe pain",
+            "Not using adequate support"
+          ]
+        }
+      }
+    },
+    "EX_239": {
+      "name": "Menstrual Cycle Exercise Adaptation",
+      "type": "hormonal_cycle_exercise",
+      "body_region": "total_body",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["cycle_tracking_app"],
+      "position": "various",
+      "muscle_targets": {
+        "primary": ["cycle_appropriate_training"],
+        "secondary": ["hormone_optimization", "symptom_management"]
+      },
+      "womens_health_focus": "menstrual_cycle_optimization",
+      "translations": {
+        "en": {
+          "name": "Menstrual Cycle Exercise Adaptation",
+          "description": "Adapting exercise to menstrual cycle phases",
+          "instructions": [
+            "Track menstrual cycle and symptoms",
+            "Adapt intensity to cycle phases",
+            "Higher intensity in follicular phase",
+            "Gentler exercise during menstruation",
+            "Listen to body's daily signals"
+          ],
+          "cues": [
+            "Work with your cycle, not against it",
+            "Some days call for different intensity",
+            "Track patterns over time"
+          ],
+          "common_errors": [
+            "Ignoring cycle-related changes",
+            "Forcing same intensity daily",
+            "Not tracking patterns"
+          ]
+        }
+      }
+    },
+    "EX_240": {
+      "name": "Pelvic Organ Prolapse Exercise Program",
+      "type": "pelvic_floor_rehabilitation",
+      "body_region": "pelvic_floor",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_021", "pessary_if_prescribed"],
+      "position": "prolapse_appropriate",
+      "muscle_targets": {
+        "primary": ["pelvic_floor_support"],
+        "secondary": ["core_stability", "postural_support"]
+      },
+      "womens_health_focus": "prolapse_management",
+      "translations": {
+        "en": {
+          "name": "Pelvic Organ Prolapse Exercise Program",
+          "description": "Exercise program for pelvic organ prolapse management",
+          "instructions": [
+            "Avoid high-impact activities initially",
+            "Focus on pelvic floor strengthening",
+            "Include supportive core strengthening",
+            "Practice proper lifting mechanics",
+            "Coordinate with pelvic floor physiotherapist"
+          ],
+          "cues": [
+            "Lift up and support internally",
+            "Engage before lifting",
+            "Avoid downward pressure"
+          ],
+          "common_errors": [
+            "Doing high-impact exercise too early",
+            "Not coordinating with professional help",
+            "Bearing down during exercise"
+          ]
+        }
+      }
+    },
+    "EX_241": {
+      "name": "Cesarean Section Recovery Exercise",
+      "type": "postpartum_surgical_recovery",
+      "body_region": "abdominal_core",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["abdominal_binder"],
+      "position": "supported_positions",
+      "muscle_targets": {
+        "primary": ["surgical_healing", "scar_mobility"],
+        "secondary": ["core_recovery", "posture"]
+      },
+      "postpartum_stage": "6_weeks_plus_cleared",
+      "womens_health_focus": "cesarean_recovery",
+      "translations": {
+        "en": {
+          "name": "Cesarean Section Recovery Exercise",
+          "description": "Progressive exercise program after cesarean delivery",
+          "instructions": [
+            "Wait for medical clearance before starting",
+            "Begin with gentle mobility and breathing",
+            "Include scar tissue massage when healed",
+            "Progress core strengthening very gradually",
+            "Address posture changes from surgery"
+          ],
+          "cues": [
+            "Start very gently",
+            "Listen to your body",
+            "Healing takes time"
+          ],
+          "common_errors": [
+            "Starting before medical clearance",
+            "Progressing too quickly",
+            "Ignoring scar tissue management"
+          ]
+        }
+      }
+    },
+    "EX_242": {
+      "name": "Fertility Enhancement Exercise Program",
+      "type": "fertility_support",
+      "body_region": "reproductive_system",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["stress_monitoring"],
+      "position": "various",
+      "muscle_targets": {
+        "primary": ["reproductive_health"],
+        "secondary": ["stress_reduction", "circulation"]
+      },
+      "womens_health_focus": "fertility_enhancement",
+      "translations": {
+        "en": {
+          "name": "Fertility Enhancement Exercise Program",
+          "description": "Exercise program to support fertility and reproductive health",
+          "instructions": [
+            "Include moderate-intensity cardiovascular exercise",
+            "Add stress-reduction activities like yoga",
+            "Maintain healthy weight through balanced approach",
+            "Include pelvic circulation exercises",
+            "Coordinate with reproductive health team"
+          ],
+          "cues": [
+            "Balance activity with rest",
+            "Focus on stress reduction",
+            "Support overall health"
+          ],
+          "common_errors": [
+            "Over-exercising causing stress",
+            "Ignoring stress reduction benefits",
+            "Not taking holistic approach"
+          ]
+        }
+      }
+    },
+    "EX_243": {
+      "name": "Perimenopause Exercise Adaptation",
+      "type": "hormonal_transition_exercise",
+      "body_region": "total_body",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["symptom_tracking"],
+      "position": "various",
+      "muscle_targets": {
+        "primary": ["symptom_management"],
+        "secondary": ["bone_health", "cardiovascular_health"]
+      },
+      "womens_health_focus": "perimenopause_transition",
+      "translations": {
+        "en": {
+          "name": "Perimenopause Exercise Adaptation",
+          "description": "Adapting exercise for perimenopause symptoms and changes",
+          "instructions": [
+            "Address hot flashes with appropriate clothing and environment",
+            "Include bone-loading activities",
+            "Focus on sleep quality through exercise timing",
+            "Add stress management components",
+            "Adapt to energy fluctuations"
+          ],
+          "cues": [
+            "Adapt to daily symptoms",
+            "Focus on long-term health",
+            "Exercise can help with symptoms"
+          ],
+          "common_errors": [
+            "Not adapting to symptom fluctuations",
+            "Ignoring bone health needs",
+            "Poor exercise timing affecting sleep"
+          ]
+        }
+      }
+    },
+    "EX_244": {
+      "name": "Vulvodynia Pain Management Exercise",
+      "type": "pelvic_pain_specific",
+      "body_region": "pelvic_vulvar",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["cushioning", "relaxation_aids"],
+      "position": "comfortable_non_pressure",
+      "muscle_targets": {
+        "primary": ["pain_reduction", "pelvic_relaxation"],
+        "secondary": ["stress_management", "general_fitness"]
+      },
+      "womens_health_focus": "vulvar_pain_management",
+      "translations": {
+        "en": {
+          "name": "Vulvodynia Pain Management Exercise",
+          "description": "Exercise approach for vulvar pain management",
+          "instructions": [
+            "Avoid exercises that put pressure on vulvar area",
+            "Focus on pelvic floor relaxation techniques",
+            "Include stress reduction and mindfulness",
+            "Choose appropriate seating and positioning",
+            "Coordinate with vulvar pain specialist"
+          ],
+          "cues": [
+            "Avoid pressure on sensitive areas",
+            "Focus on relaxation, not tension",
+            "Gentle movement can help"
+          ],
+          "common_errors": [
+            "Doing exercises that increase pressure",
+            "Focusing only on strengthening",
+            "Not addressing stress component"
+          ]
+        }
+      }
+    },
+    "EX_245": {
+      "name": "Postpartum Depression Exercise Support",
+      "type": "mental_health_exercise",
+      "body_region": "mental_health",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["social_support", "childcare"],
+      "position": "accessible_positions",
+      "muscle_targets": {
+        "primary": ["mood_improvement"],
+        "secondary": ["energy", "self_care"]
+      },
+      "postpartum_stage": "any_with_symptoms",
+      "womens_health_focus": "postpartum_mental_health",
+      "translations": {
+        "en": {
+          "name": "Postpartum Depression Exercise Support",
+          "description": "Exercise program to support mental health postpartum",
+          "instructions": [
+            "Start with small, achievable goals",
+            "Include outdoor activities when possible",
+            "Focus on activities that bring joy",
+            "Include social components when ready",
+            "Coordinate with mental health professionals"
+          ],
+          "cues": [
+            "Any movement counts",
+            "Start where you are",
+            "Be kind to yourself"
+          ],
+          "common_errors": [
+            "Setting unrealistic expectations",
+            "Exercising in isolation only",
+            "Not seeking professional help when needed"
+          ]
+        }
+      }
+    },
+    "EX_246": {
+      "name": "Breast Reconstruction Exercise Program",
+      "type": "post_surgical_rehabilitation",
+      "body_region": "chest_upper_extremity",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_024", "scar_management_tools"],
+      "position": "post_surgical_appropriate",
+      "muscle_targets": {
+        "primary": ["surgical_site_recovery"],
+        "secondary": ["posture", "function"]
+      },
+      "womens_health_focus": "breast_reconstruction_recovery",
+      "translations": {
+        "en": {
+          "name": "Breast Reconstruction Exercise Program",
+          "description": "Specialized exercise program post breast reconstruction",
+          "instructions": [
+            "Follow surgeon's specific guidelines and timeline",
+            "Begin with gentle range of motion exercises",
+            "Progress to strengthening when cleared",
+            "Address asymmetries and compensations",
+            "Include scar tissue management"
+          ],
+          "cues": [
+            "Follow medical guidelines strictly",
+            "Progress gradually and safely",
+            "Address whole body compensation"
+          ],
+          "common_errors": [
+            "Not following surgical restrictions",
+            "Progressing too quickly",
+            "Ignoring compensatory patterns"
+          ]
+        }
+      }
+    },
+    "EX_247": {
+      "name": "Urinary Incontinence Exercise Program",
+      "type": "incontinence_rehabilitation",
+      "body_region": "pelvic_floor",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["EQ_021", "incontinence_products"],
+      "position": "various",
+      "muscle_targets": {
+        "primary": ["urinary_control"],
+        "secondary": ["core_stability", "confidence"]
+      },
+      "womens_health_focus": "incontinence_management",
+      "translations": {
+        "en": {
+          "name": "Urinary Incontinence Exercise Program",
+          "description": "Comprehensive program for urinary incontinence management",
+          "instructions": [
+            "Include pelvic floor strengthening exercises",
+            "Practice functional training with bladder challenges",
+            "Add core strengthening for support",
+            "Include bladder training components",
+            "Coordinate with continence specialist"
+          ],
+          "cues": [
+            "Engage before coughing or lifting",
+            "Practice makes continence automatic",
+            "Combine with bladder training"
+          ],
+          "common_errors": [
+            "Only doing pelvic floor exercises",
+            "Not practicing functional situations",
+            "Expecting immediate results"
+          ]
+        }
+      }
+    },
+    "EX_248": {
+      "name": "Menopause Hot Flash Management Exercise",
+      "type": "menopause_symptom_exercise",
+      "body_region": "thermoregulation",
+      "difficulty_level": 2,
+      "equipment_required": null,
+      "equipment_optional": ["cooling_towels", "fan"],
+      "position": "temperature_controlled",
+      "muscle_targets": {
+        "primary": ["symptom_management"],
+        "secondary": ["stress_reduction", "sleep_quality"]
+      },
+      "womens_health_focus": "menopause_hot_flashes",
+      "translations": {
+        "en": {
+          "name": "Menopause Hot Flash Management Exercise",
+          "description": "Exercise strategies for managing hot flashes",
+          "instructions": [
+            "Exercise in cool environments",
+            "Include stress-reduction activities like yoga",
+            "Time exercise to avoid triggering hot flashes",
+            "Stay hydrated and dress in layers",
+            "Include breathing exercises for management"
+          ],
+          "cues": [
+            "Stay cool during exercise",
+            "Breathing can help manage symptoms",
+            "Exercise timing matters"
+          ],
+          "common_errors": [
+            "Exercising in too hot environments",
+            "Not timing exercise appropriately",
+            "Ignoring stress reduction benefits"
+          ]
+        }
+      }
+    },
+    "EX_249": {
+      "name": "Women's Cardiovascular Health Program",
+      "type": "cardiovascular_womens_health",
+      "body_region": "cardiovascular_system",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["heart_rate_monitor"],
+      "position": "various",
+      "muscle_targets": {
+        "primary": ["cardiovascular_health"],
+        "secondary": ["bone_health", "mental_health"]
+      },
+      "womens_health_focus": "heart_disease_prevention",
+      "translations": {
+        "en": {
+          "name": "Women's Cardiovascular Health Program",
+          "description": "Cardiovascular exercise program addressing women's heart health",
+          "instructions": [
+            "Include regular aerobic exercise",
+            "Address women-specific heart disease risks",
+            "Combine with strength training",
+            "Monitor for heart disease symptoms",
+            "Coordinate with cardiologist if indicated"
+          ],
+          "cues": [
+            "Heart health is women's health",
+            "Know your risk factors",
+            "Exercise is medicine for your heart"
+          ],
+          "common_errors": [
+            "Not recognizing women's heart disease symptoms",
+            "Ignoring family history and risk factors",
+            "Inadequate exercise intensity"
+          ]
+        }
+      }
+    },
+    "EX_250": {
+      "name": "Holistic Women's Wellness Program",
+      "type": "wellness_integration",
+      "body_region": "holistic_health",
+      "difficulty_level": 3,
+      "equipment_required": null,
+      "equipment_optional": ["wellness_tracking_tools"],
+      "position": "various",
+      "muscle_targets": {
+        "primary": ["whole_person_wellness"],
+        "secondary": ["life_balance", "self_care"]
+      },
+      "womens_health_focus": "comprehensive_wellness",
+      "translations": {
+        "en": {
+          "name": "Holistic Women's Wellness Program",
+          "description": "Comprehensive wellness approach for women across life stages",
+          "instructions": [
+            "Address physical, mental, and emotional health",
+            "Adapt to life stage and circumstances",
+            "Include stress management and self-care",
+            "Focus on sustainable lifestyle changes",
+            "Create supportive community connections"
+          ],
+          "cues": [
+            "Whole person approach to health",
+            "Self-care is not selfish",
+            "Small consistent changes matter"
+          ],
+          "common_errors": [
+            "All-or-nothing approach",
+            "Ignoring mental/emotional health",
+            "Not adapting to life changes"
+          ]
+        }
+      }
+    }
+  }
+}

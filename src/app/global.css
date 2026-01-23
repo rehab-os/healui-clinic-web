@@ -1,0 +1,330 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+/* Leaflet CSS - Import globally to ensure it's available */
+@import 'leaflet/dist/leaflet.css';
+
+@layer base {
+  :root {
+    /* Healui.ai Brand Colors */
+    --primary-color: #0891b2;      /* Cyan 600 - Trust & Technology */
+    --primary-dark: #0e7490;       /* Cyan 700 - Depth & Professionalism */
+    --physio-accent: #10b981;      /* Emerald 500 - Health & Vitality */
+    --secondary-color: #06b6d4;    /* Cyan 500 - Supporting accent */
+    --accent-color: #0ea5e9;       /* Sky 500 - Interactive elements */
+    
+    /* Neutral Colors */
+    --white: #ffffff;              /* Pure white - Primary background */
+    --bg-light: #fafbfc;           /* Off-white - Secondary background */
+    --border-color: #e2e8f0;       /* Light gray - Subtle borders */
+    
+    /* Text Colors */
+    --text-dark: #1a202c;          /* Near black - Primary text */
+    --text-gray: #4a5568;          /* Dark gray - Body text */
+    --text-light: #718096;         /* Medium gray - Secondary text */
+    
+    /* Gradients */
+    --gradient-physio: linear-gradient(135deg, #10b981 0%, #0891b2 100%);
+    --gradient-primary: linear-gradient(135deg, #0891b2 0%, #0ea5e9 100%);
+    --gradient-hover: linear-gradient(135deg, #0891b2 0%, #10b981 100%);
+    
+    /* Typography */
+    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-display: 'Space Grotesk', sans-serif;
+    
+    /* Font Weights */
+    --font-light: 300;
+    --font-regular: 400;
+    --font-medium: 500;
+    --font-semibold: 600;
+    --font-bold: 700;
+    --font-extrabold: 800;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    --shadow-physio: 0 10px 20px rgba(16, 185, 129, 0.3);
+    
+    /* Animation Timing */
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --duration-fast: 0.3s;
+    --duration-normal: 0.5s;
+    --duration-slow: 0.8s;
+
+    /* ========== Semantic Color System (Clinical UI) ========== */
+    /* Primary Actions - Clinical Teal */
+    --color-action-primary: #0d9488;
+    --color-action-primary-hover: #0f766e;
+    --color-action-primary-light: #ccfbf1;
+
+    /* Feedback Colors */
+    --color-feedback-success: #059669;
+    --color-feedback-success-light: #d1fae5;
+    --color-feedback-warning: #d97706;
+    --color-feedback-warning-light: #fef3c7;
+    --color-feedback-danger: #dc2626;
+    --color-feedback-danger-light: #fee2e2;
+    --color-feedback-info: #0284c7;
+    --color-feedback-info-light: #e0f2fe;
+
+    /* Surfaces */
+    --color-surface-default: #ffffff;
+    --color-surface-elevated: #f8fafc;
+    --color-surface-sunken: #f1f5f9;
+
+    /* Text */
+    --color-text-primary: #0f172a;
+    --color-text-secondary: #475569;
+    --color-text-muted: #94a3b8;
+    --color-text-inverse: #ffffff;
+
+    /* Borders */
+    --color-border-default: #e2e8f0;
+    --color-border-strong: #cbd5e1;
+
+    /* Interactive States */
+    --color-focus-ring: rgba(13, 148, 136, 0.5);
+    --color-hover-overlay: rgba(0, 0, 0, 0.04);
+
+    /* Existing HSL-based colors for compatibility */
+    --primary: 195 89% 37%;        /* Maps to #0891b2 */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 188 95% 42%;      /* Maps to #06b6d4 */
+    --secondary-foreground: 0 0% 100%;
+    --accent: 199 89% 48%;         /* Maps to #0ea5e9 */
+    --accent-foreground: 0 0% 100%;
+    --background: 0 0% 100%;
+    --foreground: 224 30% 15%;     /* Maps to #1a202c */
+    --card: 0 0% 100%;
+    --card-foreground: 224 30% 15%;
+    --muted: 214 32% 91%;          /* Maps to #e2e8f0 */
+    --muted-foreground: 215 16% 47%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 214 32% 91%;         /* Maps to #e2e8f0 */
+    --input: 214 32% 91%;
+    --ring: 195 89% 37%;           /* Maps to primary color */
+    --radius: 0.9375rem;           /* 15px default radius */
+  }
+
+  .dark {
+    --background: 224 20% 10%;
+    --foreground: 210 20% 98%;
+    --primary: 195 89% 37%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 188 95% 42%;
+    --secondary-foreground: 0 0% 100%;
+    --accent: 199 89% 48%;
+    --accent-foreground: 0 0% 100%;
+    --card: 224 20% 14%;
+    --card-foreground: 210 20% 98%;
+    --muted: 215 20% 18%;
+    --muted-foreground: 215 16% 57%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 215 20% 20%;
+    --input: 215 20% 20%;
+    --ring: 195 89% 37%;
+  }
+  
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    line-height: 1.2;
+    @apply font-semibold;
+  }
+  
+  /* Focus states */
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-healui-physio;
+  }
+  
+  /* Selection */
+  ::selection {
+    @apply bg-healui-physio/20 text-healui-primary-dark;
+  }
+}
+
+@layer components {
+  /* Button Components */
+  .btn-primary {
+    @apply bg-brand-teal text-brand-white px-8 py-3.5 rounded-xl font-semibold 
+           transition-all duration-300 hover:bg-brand-teal/90 hover:shadow-lg
+           active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 
+           focus-visible:outline-brand-teal;
+  }
+  
+  .btn-secondary {
+    @apply bg-brand-black/10 text-brand-black border-2 border-transparent 
+           px-8 py-3.5 rounded-xl font-semibold transition-all duration-300
+           hover:border-brand-black/30 hover:shadow-md;
+  }
+  
+  /* Card Components */
+  .card-base {
+    @apply bg-brand-white p-10 rounded-lg shadow-sm border border-gray-200
+           transition-all duration-300 hover:-translate-y-1 hover:shadow-lg;
+  }
+  
+  .card-feature {
+    @apply card-base text-center relative overflow-hidden;
+  }
+  
+  /* Glass Effect */
+  .glass {
+    @apply bg-white/90 backdrop-blur-[20px];
+  }
+  
+  /* Section Spacing */
+  .section {
+    @apply py-24 px-[5%];
+  }
+  
+  .section-hero {
+    @apply pt-40 pb-24 px-[5%];
+  }
+  
+  /* Container */
+  .container-custom {
+    @apply max-w-content mx-auto;
+  }
+  
+  /* Gradient Text */
+  .gradient-text {
+    @apply bg-gradient-physio bg-clip-text text-transparent;
+  }
+  
+  /* Grid Layout */
+  .grid-auto {
+    @apply grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-8;
+  }
+}
+
+@layer utilities {
+  /* Safe area support for mobile devices with notches */
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .safe-left {
+    padding-left: env(safe-area-inset-left);
+  }
+
+  .safe-right {
+    padding-right: env(safe-area-inset-right);
+  }
+
+  /* Safe area inset classes for sticky headers/footers */
+  .safe-area-inset-top {
+    padding-top: max(env(safe-area-inset-top), 0px);
+  }
+
+  .safe-area-inset-bottom {
+    padding-bottom: max(env(safe-area-inset-bottom), 0px);
+  }
+
+  /* Touch-friendly tap targets */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-pulse,
+    .animate-bounce,
+    .animate-ping,
+    .animate-spin {
+      animation: none !important;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Touch manipulation for better mobile scrolling */
+  .touch-pan-y {
+    touch-action: pan-y;
+  }
+
+  .touch-pan-x {
+    touch-action: pan-x;
+  }
+
+  .touch-manipulation {
+    touch-action: manipulation;
+  }
+  
+  /* Custom animations */
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient 3s ease infinite;
+  }
+  
+  @keyframes gradient {
+    0%, 100% {
+      background-position: left center;
+    }
+    50% {
+      background-position: right center;
+    }
+  }
+  
+  /* Mobile slide up animation */
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+  
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  
+  /* Custom scrollbar */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-muted;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-healui-physio/50 rounded-full;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-healui-physio/70;
+  }
+}

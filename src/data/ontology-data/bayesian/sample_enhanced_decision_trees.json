@@ -1,0 +1,75 @@
+{
+  "enhanced_decision_trees": {
+    "TREE_001": {
+      "name": "Shoulder Pain Assessment - Enhanced",
+      "body_region": "shoulder",
+      "entry_point": "QUESTION_001",
+      "nodes": [
+        {
+          "id": "QUESTION_001",
+          "question": "Did the pain start suddenly with a specific injury or trauma?",
+          "type": "yes_no",
+          "symptom_detected": null,
+          "clinical_reasoning": "Sudden onset suggests acute injury vs gradual onset suggests overuse/degenerative",
+          "yes_path": "QUESTION_002",
+          "no_path": "QUESTION_003",
+          "diagnostic_weight": 0.8,
+          "conditions_influenced": {
+            "COND_002": {"yes": 0.85, "no": 0.25},
+            "COND_001": {"yes": 0.15, "no": 0.75}
+          }
+        },
+        {
+          "id": "QUESTION_002", 
+          "question": "Did you hear an audible 'pop' when the injury occurred?",
+          "type": "yes_no",
+          "symptom_detected": "SYMPTOM_018",
+          "clinical_reasoning": "Audible pop strongly suggests rotator cuff tear",
+          "yes_path": "QUESTION_004",
+          "no_path": "QUESTION_005",
+          "diagnostic_weight": 0.95,
+          "conditions_influenced": {
+            "COND_002": {"yes": 0.95, "no": 0.40},
+            "COND_003": {"yes": 0.70, "no": 0.30}
+          }
+        },
+        {
+          "id": "QUESTION_003",
+          "question": "Is the pain worse with overhead activities (reaching, lifting above head)?",
+          "type": "yes_no", 
+          "symptom_detected": "SYMPTOM_001",
+          "clinical_reasoning": "Overhead pain is pathognomonic for impingement syndrome",
+          "yes_path": "QUESTION_006",
+          "no_path": "QUESTION_007",
+          "diagnostic_weight": 0.9,
+          "conditions_influenced": {
+            "COND_001": {"yes": 0.50, "no": 0.20},
+            "COND_002": {"yes": 0.80, "no": 0.35}
+          }
+        },
+        {
+          "id": "QUESTION_004",
+          "question": "Are you unable to lift your arm to shoulder height without severe pain?",
+          "type": "yes_no",
+          "symptom_detected": "SYMPTOM_019", 
+          "clinical_reasoning": "Inability to lift arm suggests significant rotator cuff tear",
+          "diagnostic_weight": 0.9,
+          "conditions_influenced": {
+            "COND_002": {"yes": 0.90, "no": 0.40}
+          }
+        },
+        {
+          "id": "QUESTION_007",
+          "question": "Do you have severe night pain that disturbs your sleep?",
+          "type": "yes_no",
+          "symptom_detected": "SYMPTOM_002",
+          "clinical_reasoning": "Night pain suggests inflammatory condition or adhesive capsulitis", 
+          "diagnostic_weight": 0.8,
+          "conditions_influenced": {
+            "COND_001": {"yes": 0.80, "no": 0.30}
+          }
+        }
+      ]
+    }
+  }
+}

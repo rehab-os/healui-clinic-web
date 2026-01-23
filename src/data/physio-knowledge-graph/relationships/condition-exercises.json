@@ -1,0 +1,423 @@
+{
+  "condition_exercise_mappings": {
+    "COND_001": {
+      "condition_name": "Adhesive Capsulitis (Frozen Shoulder)",
+      "phase_1_acute": {
+        "duration": "0-4 weeks",
+        "goals": ["pain_management", "maintain_available_ROM"],
+        "exercises": ["EX_003", "EX_001", "EX_048"]
+      },
+      "phase_2_subacute": {
+        "duration": "4-12 weeks", 
+        "goals": ["restore_ROM", "gentle_strengthening"],
+        "exercises": ["EX_001", "EX_021", "EX_002", "EX_040"]
+      },
+      "phase_3_chronic": {
+        "duration": "12+ weeks",
+        "goals": ["full_ROM", "strength", "function"],
+        "exercises": ["EX_021", "EX_022", "EX_023", "EX_045"]
+      }
+    },
+    "COND_002": {
+      "condition_name": "Rotator Cuff Tendinopathy",
+      "phase_1_acute": {
+        "duration": "0-2 weeks",
+        "goals": ["pain_control", "tissue_protection"],
+        "exercises": ["EX_003", "EX_002", "EX_048"]
+      },
+      "phase_2_subacute": {
+        "duration": "2-8 weeks",
+        "goals": ["restore_mobility", "eccentric_strengthening"],
+        "exercises": ["EX_001", "EX_021", "EX_024", "EX_002"]
+      },
+      "phase_3_chronic": {
+        "duration": "8+ weeks",
+        "goals": ["progressive_loading", "functional_return"],
+        "exercises": ["EX_021", "EX_022", "EX_023", "EX_047"]
+      }
+    },
+    "COND_004": {
+      "condition_name": "Anterior Cruciate Ligament Tear",
+      "phase_1_acute": {
+        "duration": "0-2 weeks post-surgery",
+        "goals": ["ROM_0-90", "quad_activation", "swelling_control"],
+        "exercises": ["EX_009", "EX_010", "EX_011", "EX_048"]
+      },
+      "phase_2_subacute": {
+        "duration": "2-12 weeks",
+        "goals": ["full_ROM", "strength", "proprioception"],
+        "exercises": ["EX_013", "EX_007", "EX_031", "EX_019"]
+      },
+      "phase_3_functional": {
+        "duration": "12-24 weeks",
+        "goals": ["sport_specific", "plyometrics", "agility"],
+        "exercises": ["EX_032", "EX_030", "EX_018", "EX_029"]
+      }
+    },
+    "COND_005": {
+      "condition_name": "Patellofemoral Pain Syndrome", 
+      "phase_1_acute": {
+        "duration": "0-4 weeks",
+        "goals": ["pain_reduction", "VMO_activation"],
+        "exercises": ["EX_010", "EX_031", "EX_008", "EX_048"]
+      },
+      "phase_2_strengthening": {
+        "duration": "4-12 weeks",
+        "goals": ["hip_strength", "functional_training"],
+        "exercises": ["EX_028", "EX_029", "EX_013", "EX_017"]
+      },
+      "phase_3_functional": {
+        "duration": "12+ weeks",
+        "goals": ["return_to_activity", "movement_quality"],
+        "exercises": ["EX_032", "EX_033", "EX_018", "EX_046"]
+      }
+    },
+    "COND_006": {
+      "condition_name": "Knee Osteoarthritis",
+      "phase_1_education": {
+        "duration": "ongoing",
+        "goals": ["pain_management", "joint_protection"],
+        "exercises": ["EX_009", "EX_010", "EX_048", "EX_034"]
+      },
+      "phase_2_strengthening": {
+        "duration": "8-16 weeks",
+        "goals": ["quad_strength", "hip_strength", "function"],
+        "exercises": ["EX_014", "EX_013", "EX_007", "EX_028"]
+      },
+      "phase_3_maintenance": {
+        "duration": "ongoing",
+        "goals": ["maintain_gains", "activity_tolerance"],
+        "exercises": ["EX_017", "EX_018", "EX_050", "EX_047"]
+      }
+    },
+    "COND_008": {
+      "condition_name": "Non-specific Low Back Pain",
+      "phase_1_acute": {
+        "duration": "0-6 weeks",
+        "goals": ["pain_control", "movement_restoration"],
+        "exercises": ["EX_040", "EX_004", "EX_006", "EX_048"]
+      },
+      "phase_2_subacute": {
+        "duration": "6-12 weeks",
+        "goals": ["core_stability", "spinal_mobility"],
+        "exercises": ["EX_043", "EX_044", "EX_005", "EX_041"]
+      },
+      "phase_3_chronic": {
+        "duration": "12+ weeks",
+        "goals": ["functional_capacity", "return_to_work"],
+        "exercises": ["EX_045", "EX_030", "EX_047", "EX_046"]
+      }
+    },
+    "COND_012": {
+      "condition_name": "Lateral Epicondylalgia (Tennis Elbow)",
+      "phase_1_acute": {
+        "duration": "0-2 weeks",
+        "goals": ["pain_control", "tissue_protection"],
+        "exercises": ["EX_025", "EX_048", "EX_026"]
+      },
+      "phase_2_loading": {
+        "duration": "2-8 weeks",
+        "goals": ["eccentric_strengthening", "tendon_remodeling"],
+        "exercises": ["EX_024", "EX_025", "EX_027"]
+      },
+      "phase_3_functional": {
+        "duration": "8+ weeks",
+        "goals": ["progressive_loading", "return_to_sport"],
+        "exercises": ["EX_027", "EX_022", "EX_047"]
+      }
+    },
+    "COND_013": {
+      "condition_name": "Plantar Fasciitis",
+      "phase_1_acute": {
+        "duration": "0-6 weeks",
+        "goals": ["pain_control", "tissue_mobility"],
+        "exercises": ["EX_034", "EX_035", "EX_038", "EX_048"]
+      },
+      "phase_2_strengthening": {
+        "duration": "6-12 weeks",
+        "goals": ["intrinsic_foot_strength", "calf_strength"],
+        "exercises": ["EX_038", "EX_039", "EX_012", "EX_036"]
+      },
+      "phase_3_functional": {
+        "duration": "12+ weeks",
+        "goals": ["return_to_running", "prevention"],
+        "exercises": ["EX_012", "EX_019", "EX_050", "EX_047"]
+      }
+    },
+    "COND_014": {
+      "condition_name": "Ankle Lateral Ligament Sprain",
+      "phase_1_acute": {
+        "duration": "0-1 week",
+        "goals": ["protection", "early_mobility"],
+        "exercises": ["EX_011", "EX_037", "EX_048"]
+      },
+      "phase_2_subacute": {
+        "duration": "1-4 weeks",
+        "goals": ["ROM_restoration", "strength"],
+        "exercises": ["EX_034", "EX_035", "EX_036", "EX_012"]
+      },
+      "phase_3_functional": {
+        "duration": "4+ weeks",
+        "goals": ["proprioception", "return_to_sport"],
+        "exercises": ["EX_019", "EX_029", "EX_032", "EX_046"]
+      }
+    },
+    "COND_015": {
+      "condition_name": "Achilles Tendinopathy",
+      "phase_1_reactive": {
+        "duration": "0-2 weeks",
+        "goals": ["load_management", "pain_control"],
+        "exercises": ["EX_011", "EX_034", "EX_048"]
+      },
+      "phase_2_dysrepair": {
+        "duration": "2-12 weeks",
+        "goals": ["progressive_loading", "eccentric_strengthening"],
+        "exercises": ["EX_012", "EX_034", "EX_035", "EX_019"]
+      },
+      "phase_3_degenerative": {
+        "duration": "12+ weeks",
+        "goals": ["load_tolerance", "function"],
+        "exercises": ["EX_012", "EX_030", "EX_050", "EX_047"]
+      }
+    },
+    "COND_016": {
+      "condition_name": "Hip Osteoarthritis",
+      "phase_1_conservative": {
+        "duration": "0-12 weeks",
+        "goals": ["pain_management", "mobility"],
+        "exercises": ["EX_004", "EX_040", "EX_048", "EX_034"]
+      },
+      "phase_2_strengthening": {
+        "duration": "12-24 weeks",
+        "goals": ["hip_strength", "function"],
+        "exercises": ["EX_028", "EX_008", "EX_013", "EX_007"]
+      },
+      "phase_3_maintenance": {
+        "duration": "ongoing",
+        "goals": ["maintain_function", "prevent_decline"],
+        "exercises": ["EX_017", "EX_030", "EX_047", "EX_050"]
+      }
+    },
+    "COND_018": {
+      "condition_name": "Carpal Tunnel Syndrome",
+      "phase_1_conservative": {
+        "duration": "0-8 weeks",
+        "goals": ["nerve_mobility", "symptom_management"],
+        "exercises": ["EX_020", "EX_026", "EX_048"]
+      },
+      "phase_2_strengthening": {
+        "duration": "8+ weeks",
+        "goals": ["grip_strength", "function"],
+        "exercises": ["EX_027", "EX_026", "EX_022"]
+      },
+      "phase_3_maintenance": {
+        "duration": "ongoing",
+        "goals": ["prevent_recurrence", "ergonomics"],
+        "exercises": ["EX_020", "EX_027", "EX_047"]
+      }
+    },
+    "COND_020": {
+      "condition_name": "Stroke (CVA)",
+      "phase_1_acute": {
+        "duration": "0-3 months",
+        "goals": ["prevent_complications", "basic_mobility"],
+        "exercises": ["EX_009", "EX_003", "EX_048", "EX_011", "EX_051", "EX_054"]
+      },
+      "phase_2_subacute": {
+        "duration": "3-6 months",
+        "goals": ["motor_recovery", "functional_training"],
+        "exercises": ["EX_022", "EX_006", "EX_013", "EX_019", "EX_052", "EX_053", "EX_056"]
+      },
+      "phase_3_chronic": {
+        "duration": "6+ months",
+        "goals": ["maximize_function", "prevent_decline"],
+        "exercises": ["EX_018", "EX_045", "EX_046", "EX_050", "EX_055", "EX_057"]
+      }
+    },
+    "COND_021": {
+      "condition_name": "Parkinson's Disease",
+      "phase_1_early": {
+        "duration": "H&Y 1-2",
+        "goals": ["maintain_mobility", "prevent_decline"],
+        "exercises": ["EX_040", "EX_041", "EX_019", "EX_048", "EX_051", "EX_056"]
+      },
+      "phase_2_moderate": {
+        "duration": "H&Y 2.5-3",
+        "goals": ["balance", "functional_mobility"],
+        "exercises": ["EX_019", "EX_046", "EX_018", "EX_050", "EX_052", "EX_055"]
+      },
+      "phase_3_advanced": {
+        "duration": "H&Y 4-5",
+        "goals": ["safety", "caregiver_training"],
+        "exercises": ["EX_009", "EX_048", "EX_011", "EX_040", "EX_054"]
+      }
+    },
+    "COND_026": {
+      "condition_name": "Chronic Obstructive Pulmonary Disease",
+      "phase_1_stable": {
+        "duration": "ongoing",
+        "goals": ["breathing_efficiency", "exercise_tolerance"],
+        "exercises": ["EX_048", "EX_049", "EX_050", "EX_047", "EX_094"]
+      },
+      "phase_2_exacerbation": {
+        "duration": "acute episodes",
+        "goals": ["symptom_management", "prevent_decline"],
+        "exercises": ["EX_048", "EX_049", "EX_009", "EX_040", "EX_094"]
+      },
+      "phase_3_pulmonary_rehab": {
+        "duration": "8-12 weeks",
+        "goals": ["conditioning", "self_management"],
+        "exercises": ["EX_050", "EX_047", "EX_017", "EX_048", "EX_094"]
+      }
+    },
+    "COND_029": {
+      "condition_name": "Post-COVID-19 Syndrome",
+      "phase_1_acute": {
+        "duration": "0-4 weeks",
+        "goals": ["breathing", "gentle_mobility"],
+        "exercises": ["EX_048", "EX_049", "EX_040", "EX_009", "EX_094"]
+      },
+      "phase_2_recovery": {
+        "duration": "4-12 weeks",
+        "goals": ["gradual_conditioning", "fatigue_management"],
+        "exercises": ["EX_050", "EX_017", "EX_013", "EX_047", "EX_094"]
+      },
+      "phase_3_reconditioning": {
+        "duration": "12+ weeks",
+        "goals": ["return_to_baseline", "prevent_relapse"],
+        "exercises": ["EX_047", "EX_046", "EX_045", "EX_050", "EX_094"]
+      }
+    },
+    "COND_033": {
+      "condition_name": "Temporomandibular Disorder",
+      "phase_1_acute": {
+        "duration": "0-4 weeks",
+        "goals": ["pain_control", "jaw_mobility"],
+        "exercises": ["EX_015", "EX_048", "EX_041"]
+      },
+      "phase_2_rehabilitation": {
+        "duration": "4-12 weeks",
+        "goals": ["muscle_balance", "function"],
+        "exercises": ["EX_015", "EX_041", "EX_040", "EX_022"]
+      },
+      "phase_3_maintenance": {
+        "duration": "ongoing",
+        "goals": ["prevent_recurrence", "self_management"],
+        "exercises": ["EX_015", "EX_048", "EX_041"]
+      }
+    },
+    "COND_037": {
+      "condition_name": "Post-Surgical Rehabilitation (TKR)",
+      "phase_1_immediate": {
+        "duration": "0-2 weeks",
+        "goals": ["ROM_0-90", "quad_activation", "mobility"],
+        "exercises": ["EX_009", "EX_010", "EX_011", "EX_048"]
+      },
+      "phase_2_early": {
+        "duration": "2-6 weeks", 
+        "goals": ["full_extension", "90+_flexion", "strength"],
+        "exercises": ["EX_013", "EX_007", "EX_031", "EX_017"]
+      },
+      "phase_3_advanced": {
+        "duration": "6-12 weeks",
+        "goals": ["functional_activities", "stair_negotiation"],
+        "exercises": ["EX_018", "EX_033", "EX_050", "EX_019"]
+      },
+      "phase_4_return": {
+        "duration": "12+ weeks",
+        "goals": ["full_function", "sports_if_appropriate"],
+        "exercises": ["EX_030", "EX_032", "EX_047", "EX_046"]
+      }
+    },
+    "COND_038": {
+      "condition_name": "Post-Surgical Rehabilitation (THR)",
+      "phase_1_immediate": {
+        "duration": "0-6 weeks",
+        "goals": ["hip_precautions", "basic_mobility"],
+        "exercises": ["EX_007", "EX_011", "EX_048", "EX_013"]
+      },
+      "phase_2_intermediate": {
+        "duration": "6-12 weeks",
+        "goals": ["strength", "balance", "function"],
+        "exercises": ["EX_028", "EX_008", "EX_019", "EX_018"]
+      },
+      "phase_3_advanced": {
+        "duration": "12+ weeks",
+        "goals": ["return_to_activities", "prevent_dislocation"],
+        "exercises": ["EX_030", "EX_029", "EX_047", "EX_050"]
+      }
+    },
+    "COND_043": {
+      "condition_name": "Vestibular Disorders",
+      "phase_1_acute": {
+        "duration": "0-2 weeks",
+        "goals": ["symptom_management", "adaptation"],
+        "exercises": ["EX_015", "EX_048", "EX_040"]
+      },
+      "phase_2_compensation": {
+        "duration": "2-8 weeks",
+        "goals": ["vestibular_adaptation", "balance"],
+        "exercises": ["EX_019", "EX_015", "EX_041", "EX_046"]
+      },
+      "phase_3_functional": {
+        "duration": "8+ weeks",
+        "goals": ["return_to_activities", "fall_prevention"],
+        "exercises": ["EX_045", "EX_046", "EX_032", "EX_047"]
+      }
+    },
+    "COND_045": {
+      "condition_name": "Pelvic Floor Dysfunction",
+      "phase_1_awareness": {
+        "duration": "0-4 weeks",
+        "goals": ["muscle_identification", "coordination"],
+        "exercises": ["EX_048", "EX_005", "EX_006"]
+      },
+      "phase_2_strengthening": {
+        "duration": "4-12 weeks",
+        "goals": ["strength", "endurance", "function"],
+        "exercises": ["EX_013", "EX_043", "EX_044", "EX_005"]
+      },
+      "phase_3_functional": {
+        "duration": "12+ weeks",
+        "goals": ["activity_integration", "symptom_control"],
+        "exercises": ["EX_032", "EX_030", "EX_047", "EX_046"]
+      }
+    },
+    "COND_048": {
+      "condition_name": "Iliotibial Band Syndrome",
+      "phase_1_acute": {
+        "duration": "0-2 weeks",
+        "goals": ["pain_control", "activity_modification"],
+        "exercises": ["EX_034", "EX_028", "EX_048"]
+      },
+      "phase_2_rehabilitation": {
+        "duration": "2-8 weeks",
+        "goals": ["hip_strength", "biomechanics"],
+        "exercises": ["EX_028", "EX_029", "EX_008", "EX_013"]
+      },
+      "phase_3_return": {
+        "duration": "8+ weeks",
+        "goals": ["running_progression", "prevent_recurrence"],
+        "exercises": ["EX_030", "EX_032", "EX_019", "EX_050"]
+      }
+    },
+    "COND_049": {
+      "condition_name": "Shin Splints (MTSS)",
+      "phase_1_acute": {
+        "duration": "0-2 weeks",
+        "goals": ["pain_control", "load_management"],
+        "exercises": ["EX_034", "EX_036", "EX_048"]
+      },
+      "phase_2_rehabilitation": {
+        "duration": "2-6 weeks",
+        "goals": ["calf_flexibility", "shin_strength"],
+        "exercises": ["EX_034", "EX_035", "EX_036", "EX_019"]
+      },
+      "phase_3_return": {
+        "duration": "6+ weeks",
+        "goals": ["running_progression", "biomechanics"],
+        "exercises": ["EX_012", "EX_030", "EX_050", "EX_047"]
+      }
+    }
+  }
+}

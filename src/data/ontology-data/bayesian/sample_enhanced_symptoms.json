@@ -1,0 +1,124 @@
+{
+  "enhanced_symptoms": {
+    "SYMPTOM_001": {
+      "name": "Sharp pain with overhead activities",
+      "type": "pain",
+      "body_regions": ["shoulder"],
+      "characteristics": {
+        "quality": "sharp",
+        "trigger": "overhead_movement",
+        "severity_range": "moderate_to_severe"
+      },
+      "clinical_significance": "Common in impingement syndromes and rotator cuff pathology",
+      "base_prevalence": 0.45,
+      "associated_questions": ["QUESTION_003"],
+      "condition_likelihoods": {
+        "COND_001": {
+          "present": 0.50,
+          "absent": 0.50,
+          "category": "common"
+        },
+        "COND_002": {
+          "present": 0.80,
+          "absent": 0.20,
+          "category": "characteristic"
+        },
+        "COND_003": {
+          "present": 0.25,
+          "absent": 0.75,
+          "category": "possible"
+        }
+      }
+    },
+    "SYMPTOM_002": {
+      "name": "Night pain disturbing sleep",
+      "type": "pain",
+      "body_regions": ["shoulder", "hip"],
+      "characteristics": {
+        "quality": "variable",
+        "trigger": "lying_on_affected_side",
+        "timing": "nocturnal"
+      },
+      "clinical_significance": "Highly suggestive of inflammatory or adhesive conditions",
+      "base_prevalence": 0.35,
+      "associated_questions": ["QUESTION_007"],
+      "condition_likelihoods": {
+        "COND_001": {
+          "present": 0.80,
+          "absent": 0.20,
+          "category": "characteristic"
+        },
+        "COND_002": {
+          "present": 0.60,
+          "absent": 0.40,
+          "category": "common"
+        }
+      }
+    },
+    "SYMPTOM_003": {
+      "name": "Progressive loss of range of motion",
+      "type": "movement_restriction",
+      "body_regions": ["shoulder", "elbow", "knee"],
+      "characteristics": {
+        "onset": "gradual",
+        "pattern": "capsular",
+        "progression": "worsening"
+      },
+      "clinical_significance": "Pathognomonic for adhesive capsulitis when in shoulder",
+      "base_prevalence": 0.25,
+      "associated_questions": ["QUESTION_009"],
+      "condition_likelihoods": {
+        "COND_001": {
+          "present": 0.90,
+          "absent": 0.10,
+          "category": "pathognomonic"
+        }
+      }
+    },
+    "SYMPTOM_018": {
+      "name": "Audible pop during injury",
+      "type": "mechanical",
+      "body_regions": ["shoulder", "knee"],
+      "characteristics": {
+        "timing": "acute_injury",
+        "quality": "audible",
+        "significance": "tissue_disruption"
+      },
+      "clinical_significance": "Strongly suggests significant tissue tear",
+      "base_prevalence": 0.15,
+      "associated_questions": ["QUESTION_002"],
+      "condition_likelihoods": {
+        "COND_002": {
+          "present": 0.95,
+          "absent": 0.05,
+          "category": "pathognomonic"
+        },
+        "COND_003": {
+          "present": 0.70,
+          "absent": 0.30,
+          "category": "characteristic"
+        }
+      }
+    },
+    "SYMPTOM_019": {
+      "name": "Unable to lift arm to shoulder height",
+      "type": "functional_limitation",
+      "body_regions": ["shoulder"],
+      "characteristics": {
+        "severity": "severe",
+        "impact": "functional_loss",
+        "pattern": "active_movement_loss"
+      },
+      "clinical_significance": "Indicates significant rotator cuff involvement",
+      "base_prevalence": 0.20,
+      "associated_questions": ["QUESTION_004"],
+      "condition_likelihoods": {
+        "COND_002": {
+          "present": 0.90,
+          "absent": 0.10,
+          "category": "pathognomonic"
+        }
+      }
+    }
+  }
+}

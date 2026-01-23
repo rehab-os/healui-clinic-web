@@ -1,0 +1,44 @@
+{
+  "equipment_mapping": {
+    "description": "Mapping from old machine names to new EQ_xxx IDs for exercise reference updates",
+    "mapping": {
+      "TENS units": "EQ_041",
+      "IFT machines": "EQ_042", 
+      "Ultrasound therapy units": "EQ_043",
+      "Shortwave diathermy": "EQ_044",
+      "Laser therapy devices": "EQ_045",
+      "Shockwave therapy machines": "EQ_046",
+      "EMS units": "EQ_047",
+      "Treatment tables": "EQ_048",
+      "Traction units": "EQ_049",
+      "Treadmills": "EQ_050",
+      "Stationary bikes": "EQ_051",
+      "Parallel bars": "EQ_052",
+      "Isokinetic machines": "EQ_053",
+      "CPM machines": "EQ_054",
+      "Gait trainers": "EQ_055",
+      "Hydrocollator units": "EQ_056",
+      "Paraffin wax baths": "EQ_057",
+      "Ice machines": "EQ_058",
+      "Goniometers": "EQ_059",
+      "Dynamometers": "EQ_060",
+      "Hydrotherapy pools": "EQ_061",
+      "Underwater treadmills": "EQ_062"
+    },
+    "string_replacements": {
+      "stationary_bike": "EQ_051",
+      "underwater_treadmill": "EQ_062",
+      "treatment_table": "EQ_048",
+      "parallel_bars": "EQ_052",
+      "treadmill": "EQ_050",
+      "paraffin_bath": "EQ_057",
+      "goniometer": "EQ_059",
+      "dynamometer": "EQ_060"
+    },
+    "notes": {
+      "high_end_vs_basic": "Equipment.json contains high-end specialized versions (e.g., EQ_022 Paraffin Bath Unit vs EQ_057 Basic Paraffin Bath)",
+      "consolidation_strategy": "Maintained both high-end and basic versions to represent clinic equipment diversity",
+      "id_range": "Original equipment: EQ_001-EQ_040, New basic machines: EQ_041-EQ_062"
+    }
+  }
+}

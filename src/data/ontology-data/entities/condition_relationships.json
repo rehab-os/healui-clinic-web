@@ -1,0 +1,2311 @@
+{
+  "condition_relationships": {
+    "COND_001": {
+      "name": "Adhesive Capsulitis (Frozen Shoulder)",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_003", "weight": 0.95, "name": "Progressive loss of range of motion"},
+          {"id": "SYMPTOM_119", "weight": 0.90, "name": "Capsular pattern of movement restriction (ER<ABD<IR)"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_002", "weight": 0.85, "name": "Night pain disturbing sleep"},
+          {"id": "SYMPTOM_050", "weight": 0.80, "name": "Limited movement in all directions"},
+          {"id": "SYMPTOM_057", "weight": 0.75, "name": "Pain with reaching behind back"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_035", "weight": 0.65, "name": "Inability to find comfortable position"},
+          {"id": "SYMPTOM_056", "weight": 0.60, "name": "Difficulty with overhead activities"},
+          {"id": "SYMPTOM_001", "weight": 0.50, "name": "Sharp pain with overhead activities"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_015", "relevance": "high", "name": "Thomas Test (hip flexor tightness)"},
+        {"id": "ASSESS_054", "relevance": "high", "name": "Scapular Assistance Test"},
+        {"id": "ASSESS_006", "relevance": "medium", "name": "Hawkins-Kennedy Test"},
+        {"id": "ASSESS_007", "relevance": "medium", "name": "Neer Impingement Test"}
+      ],
+      "bayesian_data": {
+        "prior_probability": 0.08,
+        "demographic_modifiers": {
+          "age": {"40-60": 2.5, "60+": 1.8, "20-40": 0.3},
+          "gender": {"female": 2.0, "male": 1.0}
+        }
+      }
+    },
+    
+    "COND_002": {
+      "name": "Rotator Cuff Tear",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_008", "weight": 0.90, "name": "Catching or locking sensation"},
+          {"id": "SYMPTOM_106", "weight": 0.85, "name": "Painful arc 60-120 degrees"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_001", "weight": 0.80, "name": "Sharp pain with overhead activities"},
+          {"id": "SYMPTOM_009", "weight": 0.75, "name": "Giving way or instability"},
+          {"id": "SYMPTOM_007", "weight": 0.75, "name": "Weakness in specific muscle groups"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_002", "weight": 0.65, "name": "Night pain disturbing sleep"},
+          {"id": "SYMPTOM_056", "weight": 0.60, "name": "Difficulty with overhead activities"},
+          {"id": "SYMPTOM_033", "weight": 0.55, "name": "Pain with specific movements only"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_005", "relevance": "high", "name": "Empty Can Test"},
+        {"id": "ASSESS_008", "relevance": "high", "name": "Drop Arm Test"},
+        {"id": "ASSESS_034", "relevance": "high", "name": "Lift-Off Test"},
+        {"id": "ASSESS_006", "relevance": "medium", "name": "Hawkins-Kennedy Test"},
+        {"id": "ASSESS_007", "relevance": "medium", "name": "Neer Impingement Test"}
+      ]
+    },
+    
+    "COND_003": {
+      "name": "Shoulder Impingement Syndrome",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_106", "weight": 0.95, "name": "Painful arc 60-120 degrees shoulder abduction"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_001", "weight": 0.85, "name": "Sharp pain with overhead activities"},
+          {"id": "SYMPTOM_033", "weight": 0.80, "name": "Pain with specific movements only"},
+          {"id": "SYMPTOM_056", "weight": 0.75, "name": "Difficulty with overhead activities"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_002", "weight": 0.60, "name": "Night pain disturbing sleep"},
+          {"id": "SYMPTOM_035", "weight": 0.55, "name": "Inability to find comfortable position"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_006", "relevance": "high", "name": "Hawkins-Kennedy Test"},
+        {"id": "ASSESS_007", "relevance": "high", "name": "Neer Impingement Test"},
+        {"id": "ASSESS_005", "relevance": "medium", "name": "Empty Can Test"},
+        {"id": "ASSESS_054", "relevance": "medium", "name": "Scapular Assistance Test"}
+      ]
+    },
+    
+    "COND_004": {
+      "name": "ACL Tear",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_101", "weight": 0.95, "name": "Audible pop at time of injury"},
+          {"id": "SYMPTOM_110", "weight": 0.90, "name": "Immediate effusion after injury"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_059", "weight": 0.85, "name": "Knee buckling or giving way"},
+          {"id": "SYMPTOM_060", "weight": 0.80, "name": "Knee swelling within hours of injury"},
+          {"id": "SYMPTOM_009", "weight": 0.80, "name": "Giving way or instability"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_104", "weight": 0.65, "name": "Joint line tenderness on palpation"},
+          {"id": "SYMPTOM_021", "weight": 0.60, "name": "Difficulty with stairs"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_001", "relevance": "high", "name": "Lachman Test"},
+        {"id": "ASSESS_003", "relevance": "high", "name": "Anterior Drawer Test"},
+        {"id": "ASSESS_004", "relevance": "high", "name": "Pivot Shift Test"},
+        {"id": "ASSESS_002", "relevance": "medium", "name": "McMurray Test"}
+      ]
+    },
+    
+    "COND_005": {
+      "name": "Meniscus Tear",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_117", "weight": 0.90, "name": "Locking - inability to fully extend joint"},
+          {"id": "SYMPTOM_008", "weight": 0.85, "name": "Catching or locking sensation"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_104", "weight": 0.80, "name": "Joint line tenderness on palpation"},
+          {"id": "SYMPTOM_019", "weight": 0.75, "name": "Crepitus or grinding sensation"},
+          {"id": "SYMPTOM_010", "weight": 0.75, "name": "Swelling after activity"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_021", "weight": 0.65, "name": "Difficulty with stairs"},
+          {"id": "SYMPTOM_061", "weight": 0.55, "name": "Pain behind kneecap"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_002", "relevance": "high", "name": "McMurray Test"},
+        {"id": "ASSESS_037", "relevance": "medium", "name": "Varus/Valgus Stress Test"},
+        {"id": "ASSESS_001", "relevance": "low", "name": "Lachman Test"}
+      ]
+    },
+    
+    "COND_006": {
+      "name": "Patellofemoral Pain Syndrome",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_111", "weight": 0.90, "name": "Pain worse going downstairs than upstairs"},
+          {"id": "SYMPTOM_102", "weight": 0.85, "name": "Theater sign - pain sitting with knee bent"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_061", "weight": 0.85, "name": "Pain behind kneecap"},
+          {"id": "SYMPTOM_019", "weight": 0.75, "name": "Crepitus or grinding sensation"},
+          {"id": "SYMPTOM_021", "weight": 0.70, "name": "Difficulty with stairs"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_010", "weight": 0.60, "name": "Swelling after activity"},
+          {"id": "SYMPTOM_020", "weight": 0.55, "name": "Pain worse with prolonged positions"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_036", "relevance": "high", "name": "Patellar Apprehension Test"},
+        {"id": "ASSESS_002", "relevance": "medium", "name": "McMurray Test"}
+      ]
+    },
+    
+    "COND_007": {
+      "name": "Lumbar Disc Herniation",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_005", "weight": 0.95, "name": "Pain radiating down leg below knee"},
+          {"id": "SYMPTOM_125", "weight": 0.90, "name": "Positive SLR with sensitization"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_068", "weight": 0.85, "name": "Low back pain with bending forward"},
+          {"id": "SYMPTOM_006", "weight": 0.80, "name": "Numbness and tingling in dermatomal pattern"},
+          {"id": "SYMPTOM_007", "weight": 0.80, "name": "Weakness in specific muscle groups"},
+          {"id": "SYMPTOM_071", "weight": 0.75, "name": "Pain peripheralizing with movement"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_044", "weight": 0.65, "name": "Pain with sitting for extended periods"},
+          {"id": "SYMPTOM_017", "weight": 0.60, "name": "Burning or electric shock sensation"},
+          {"id": "SYMPTOM_055", "weight": 0.60, "name": "Radiating pain following nerve path"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_010", "relevance": "high", "name": "Straight Leg Raise"},
+        {"id": "ASSESS_011", "relevance": "high", "name": "Slump Test"},
+        {"id": "ASSESS_024", "relevance": "high", "name": "Dermatome Testing"},
+        {"id": "ASSESS_025", "relevance": "high", "name": "Myotome Testing"},
+        {"id": "ASSESS_026", "relevance": "medium", "name": "Deep Tendon Reflexes"}
+      ]
+    },
+    
+    "COND_008": {
+      "name": "Lumbar Spinal Stenosis",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_103", "weight": 0.95, "name": "Shopping cart sign - relief when leaning forward"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_069", "weight": 0.85, "name": "Low back pain with extension"},
+          {"id": "SYMPTOM_005", "weight": 0.80, "name": "Pain radiating down leg below knee"},
+          {"id": "SYMPTOM_020", "weight": 0.75, "name": "Pain worse with prolonged positions"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_006", "weight": 0.65, "name": "Numbness and tingling in dermatomal pattern"},
+          {"id": "SYMPTOM_007", "weight": 0.60, "name": "Weakness in specific muscle groups"},
+          {"id": "SYMPTOM_021", "weight": 0.55, "name": "Difficulty with stairs"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_010", "relevance": "high", "name": "Straight Leg Raise"},
+        {"id": "ASSESS_046", "relevance": "high", "name": "Quadrant Test/Kemp's"},
+        {"id": "ASSESS_024", "relevance": "medium", "name": "Dermatome Testing"},
+        {"id": "ASSESS_025", "relevance": "medium", "name": "Myotome Testing"}
+      ]
+    },
+    
+    "COND_009": {
+      "name": "Cervical Radiculopathy",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_006", "weight": 0.90, "name": "Numbness and tingling in dermatomal pattern"},
+          {"id": "SYMPTOM_055", "weight": 0.85, "name": "Radiating pain following nerve path"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_072", "weight": 0.80, "name": "Neck pain with rotation"},
+          {"id": "SYMPTOM_007", "weight": 0.80, "name": "Weakness in specific muscle groups"},
+          {"id": "SYMPTOM_017", "weight": 0.75, "name": "Burning or electric shock sensation"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_073", "weight": 0.65, "name": "Headaches associated with neck pain"},
+          {"id": "SYMPTOM_042", "weight": 0.60, "name": "Pins and needles sensation"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_012", "relevance": "high", "name": "Spurling's Test"},
+        {"id": "ASSESS_024", "relevance": "high", "name": "Dermatome Testing"},
+        {"id": "ASSESS_025", "relevance": "high", "name": "Myotome Testing"},
+        {"id": "ASSESS_026", "relevance": "medium", "name": "Deep Tendon Reflexes"},
+        {"id": "ASSESS_023", "relevance": "medium", "name": "Hoffman's Sign"}
+      ]
+    },
+    
+    "COND_010": {
+      "name": "Plantar Fasciitis",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_063", "weight": 0.95, "name": "Heel pain with first steps in morning"},
+          {"id": "SYMPTOM_040", "weight": 0.90, "name": "Sharp pain with initial weight bearing"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_020", "weight": 0.75, "name": "Pain worse with prolonged positions"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_021", "weight": 0.55, "name": "Difficulty with stairs"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_038", "relevance": "medium", "name": "Ottawa Ankle Rules"}
+      ]
+    },
+    
+    "COND_011": {
+      "name": "Tennis Elbow (Lateral Epicondylitis)",
+      "symptoms": {
+        "characteristic": [
+          {"id": "SYMPTOM_033", "weight": 0.85, "name": "Pain with specific movements only"},
+          {"id": "SYMPTOM_007", "weight": 0.75, "name": "Weakness in specific muscle groups"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_010", "weight": 0.60, "name": "Swelling after activity"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_037", "relevance": "medium", "name": "Varus/Valgus Stress Test"}
+      ]
+    },
+    
+    "COND_012": {
+      "name": "Carpal Tunnel Syndrome",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_042", "weight": 0.85, "name": "Pins and needles sensation"},
+          {"id": "SYMPTOM_006", "weight": 0.85, "name": "Numbness and tingling in dermatomal pattern"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_002", "weight": 0.80, "name": "Night pain disturbing sleep"},
+          {"id": "SYMPTOM_007", "weight": 0.75, "name": "Weakness in specific muscle groups"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_017", "weight": 0.60, "name": "Burning or electric shock sensation"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_017", "relevance": "high", "name": "Tinel's Sign"},
+        {"id": "ASSESS_018", "relevance": "high", "name": "Phalen's Test"},
+        {"id": "ASSESS_024", "relevance": "medium", "name": "Dermatome Testing"},
+        {"id": "ASSESS_025", "relevance": "medium", "name": "Myotome Testing"}
+      ]
+    },
+    
+    "COND_013": {
+      "name": "De Quervain's Tenosynovitis",
+      "symptoms": {
+        "characteristic": [
+          {"id": "SYMPTOM_033", "weight": 0.85, "name": "Pain with specific movements only"},
+          {"id": "SYMPTOM_010", "weight": 0.70, "name": "Swelling after activity"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_019", "relevance": "high", "name": "Finkelstein's Test"}
+      ]
+    },
+    
+    "COND_014": {
+      "name": "Hip Osteoarthritis",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_004", "weight": 0.85, "name": "Morning stiffness lasting >30 minutes"},
+          {"id": "SYMPTOM_109", "weight": 0.80, "name": "Bone-on-bone grinding sensation"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_003", "weight": 0.80, "name": "Progressive loss of range of motion"},
+          {"id": "SYMPTOM_019", "weight": 0.75, "name": "Crepitus or grinding sensation"},
+          {"id": "SYMPTOM_020", "weight": 0.75, "name": "Pain worse with prolonged positions"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_021", "weight": 0.65, "name": "Difficulty with stairs"},
+          {"id": "SYMPTOM_010", "weight": 0.60, "name": "Swelling after activity"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_013", "relevance": "high", "name": "FABER Test"},
+        {"id": "ASSESS_014", "relevance": "high", "name": "FADIR Test"},
+        {"id": "ASSESS_015", "relevance": "high", "name": "Thomas Test"},
+        {"id": "ASSESS_032", "relevance": "medium", "name": "Trendelenburg Test"},
+        {"id": "ASSESS_055", "relevance": "medium", "name": "Scour Test"}
+      ]
+    },
+    
+    "COND_015": {
+      "name": "Femoroacetabular Impingement",
+      "symptoms": {
+        "characteristic": [
+          {"id": "SYMPTOM_008", "weight": 0.80, "name": "Catching or locking sensation"},
+          {"id": "SYMPTOM_033", "weight": 0.75, "name": "Pain with specific movements only"},
+          {"id": "SYMPTOM_020", "weight": 0.70, "name": "Pain worse with prolonged positions"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_021", "weight": 0.60, "name": "Difficulty with stairs"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_013", "relevance": "medium", "name": "FABER Test"},
+        {"id": "ASSESS_014", "relevance": "high", "name": "FADIR Test"},
+        {"id": "ASSESS_055", "relevance": "high", "name": "Scour Test"}
+      ]
+    },
+    
+    "COND_016": {
+      "name": "IT Band Syndrome",
+      "symptoms": {
+        "characteristic": [
+          {"id": "SYMPTOM_033", "weight": 0.85, "name": "Pain with specific movements only"},
+          {"id": "SYMPTOM_010", "weight": 0.70, "name": "Swelling after activity"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_021", "weight": 0.55, "name": "Difficulty with stairs"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_016", "relevance": "high", "name": "Ober's Test"},
+        {"id": "ASSESS_002", "relevance": "medium", "name": "McMurray Test"}
+      ]
+    },
+    
+    "COND_017": {
+      "name": "Achilles Tendinopathy",
+      "symptoms": {
+        "characteristic": [
+          {"id": "SYMPTOM_040", "weight": 0.80, "name": "Sharp pain with initial weight bearing"},
+          {"id": "SYMPTOM_004", "weight": 0.75, "name": "Morning stiffness lasting >30 minutes"},
+          {"id": "SYMPTOM_010", "weight": 0.70, "name": "Swelling after activity"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_021", "weight": 0.60, "name": "Difficulty with stairs"},
+          {"id": "SYMPTOM_019", "weight": 0.55, "name": "Crepitus or grinding sensation"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_020", "relevance": "high", "name": "Thompson Test"}
+      ]
+    },
+    
+    "COND_018": {
+      "name": "Ankle Sprain (Lateral)",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_161", "weight": 0.90, "name": "Positive anterior drawer test ankle"},
+          {"id": "SYMPTOM_162", "weight": 0.85, "name": "Positive talar tilt test"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_158", "weight": 0.85, "name": "Lateral ankle pain with inversion movement"},
+          {"id": "SYMPTOM_159", "weight": 0.80, "name": "Point tenderness over anterior talofibular ligament"},
+          {"id": "SYMPTOM_062", "weight": 0.75, "name": "Ankle rolling or giving way"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_160", "weight": 0.65, "name": "Pain walking on uneven surfaces"},
+          {"id": "SYMPTOM_010", "weight": 0.60, "name": "Swelling after activity"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_021", "relevance": "high", "name": "Anterior Drawer Test - Ankle"},
+        {"id": "ASSESS_038", "relevance": "medium", "name": "Ottawa Ankle Rules"}
+      ]
+    },
+    
+    "COND_019": {
+      "name": "Thoracic Outlet Syndrome",
+      "symptoms": {
+        "characteristic": [
+          {"id": "SYMPTOM_006", "weight": 0.85, "name": "Numbness and tingling in dermatomal pattern"},
+          {"id": "SYMPTOM_007", "weight": 0.80, "name": "Weakness in specific muscle groups"},
+          {"id": "SYMPTOM_055", "weight": 0.75, "name": "Radiating pain following nerve path"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_042", "weight": 0.65, "name": "Pins and needles sensation"},
+          {"id": "SYMPTOM_017", "weight": 0.60, "name": "Burning or electric shock sensation"},
+          {"id": "SYMPTOM_056", "weight": 0.55, "name": "Difficulty with overhead activities"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_024", "relevance": "high", "name": "Dermatome Testing"},
+        {"id": "ASSESS_025", "relevance": "high", "name": "Myotome Testing"}
+      ]
+    },
+    
+    "COND_020": {
+      "name": "Sacroiliac Joint Dysfunction",
+      "symptoms": {
+        "characteristic": [
+          {"id": "SYMPTOM_020", "weight": 0.80, "name": "Pain worse with prolonged positions"},
+          {"id": "SYMPTOM_044", "weight": 0.75, "name": "Pain with sitting for extended periods"},
+          {"id": "SYMPTOM_033", "weight": 0.70, "name": "Pain with specific movements only"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_021", "weight": 0.60, "name": "Difficulty with stairs"},
+          {"id": "SYMPTOM_005", "weight": 0.55, "name": "Pain radiating down leg below knee"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_013", "relevance": "high", "name": "FABER Test"},
+        {"id": "ASSESS_044", "relevance": "high", "name": "Prone Instability Test"}
+      ]
+    },
+
+    "COND_021": {
+      "name": "Parkinson's Disease",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_127", "weight": 0.95, "name": "Resting tremor"},
+          {"id": "SYMPTOM_128", "weight": 0.90, "name": "Bradykinesia (slowness of movement)"},
+          {"id": "SYMPTOM_129", "weight": 0.85, "name": "Rigidity"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_130", "weight": 0.80, "name": "Postural instability"},
+          {"id": "SYMPTOM_131", "weight": 0.75, "name": "Shuffling gait"},
+          {"id": "SYMPTOM_132", "weight": 0.70, "name": "Masked facies"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_004", "weight": 0.60, "name": "Morning stiffness lasting >30 minutes"},
+          {"id": "SYMPTOM_021", "weight": 0.55, "name": "Difficulty with stairs"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_027", "relevance": "high", "name": "Romberg Test"},
+        {"id": "ASSESS_025", "relevance": "high", "name": "Myotome Testing"},
+        {"id": "ASSESS_026", "relevance": "medium", "name": "Deep Tendon Reflexes"}
+      ]
+    },
+
+    "COND_022": {
+      "name": "Multiple Sclerosis",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_133", "weight": 0.90, "name": "Optic neuritis"},
+          {"id": "SYMPTOM_134", "weight": 0.85, "name": "Lhermitte's sign"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_007", "weight": 0.80, "name": "Weakness in specific muscle groups"},
+          {"id": "SYMPTOM_006", "weight": 0.80, "name": "Numbness and tingling in dermatomal pattern"},
+          {"id": "SYMPTOM_135", "weight": 0.75, "name": "Fatigue and heat sensitivity"},
+          {"id": "SYMPTOM_136", "weight": 0.70, "name": "Coordination problems"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_042", "weight": 0.65, "name": "Pins and needles sensation"},
+          {"id": "SYMPTOM_021", "weight": 0.60, "name": "Difficulty with stairs"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_023", "relevance": "high", "name": "Hoffman's Sign"},
+        {"id": "ASSESS_022", "relevance": "high", "name": "Babinski Sign"},
+        {"id": "ASSESS_024", "relevance": "high", "name": "Dermatome Testing"},
+        {"id": "ASSESS_025", "relevance": "high", "name": "Myotome Testing"},
+        {"id": "ASSESS_027", "relevance": "medium", "name": "Romberg Test"}
+      ]
+    },
+
+    "COND_023": {
+      "name": "Peripheral Neuropathy",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_081", "weight": 0.95, "name": "Foot numbness or burning"},
+          {"id": "SYMPTOM_137", "weight": 0.90, "name": "Stocking-glove distribution sensory loss"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_042", "weight": 0.85, "name": "Pins and needles sensation"},
+          {"id": "SYMPTOM_017", "weight": 0.80, "name": "Burning or electric shock sensation"},
+          {"id": "SYMPTOM_007", "weight": 0.75, "name": "Weakness in specific muscle groups"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_021", "weight": 0.65, "name": "Difficulty with stairs"},
+          {"id": "SYMPTOM_138", "weight": 0.60, "name": "Loss of balance"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_024", "relevance": "high", "name": "Dermatome Testing"},
+        {"id": "ASSESS_026", "relevance": "high", "name": "Deep Tendon Reflexes"},
+        {"id": "ASSESS_027", "relevance": "high", "name": "Romberg Test"},
+        {"id": "ASSESS_025", "relevance": "medium", "name": "Myotome Testing"}
+      ]
+    },
+
+    "COND_024": {
+      "name": "Traumatic Brain Injury",
+      "symptoms": {
+        "characteristic": [
+          {"id": "SYMPTOM_073", "weight": 0.85, "name": "Headaches associated with neck pain"},
+          {"id": "SYMPTOM_135", "weight": 0.80, "name": "Fatigue and heat sensitivity"},
+          {"id": "SYMPTOM_136", "weight": 0.75, "name": "Coordination problems"},
+          {"id": "SYMPTOM_139", "weight": 0.70, "name": "Cognitive difficulties"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_138", "weight": 0.65, "name": "Loss of balance"},
+          {"id": "SYMPTOM_140", "weight": 0.60, "name": "Vision problems"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_040", "relevance": "high", "name": "Cranial Nerve Screen"},
+        {"id": "ASSESS_027", "relevance": "high", "name": "Romberg Test"},
+        {"id": "ASSESS_025", "relevance": "medium", "name": "Myotome Testing"},
+        {"id": "ASSESS_024", "relevance": "medium", "name": "Dermatome Testing"}
+      ]
+    },
+
+    "COND_025": {
+      "name": "Spinal Cord Injury",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_141", "weight": 0.95, "name": "Complete loss of sensation below injury level"},
+          {"id": "SYMPTOM_142", "weight": 0.90, "name": "Complete paralysis below injury level"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_007", "weight": 0.85, "name": "Weakness in specific muscle groups"},
+          {"id": "SYMPTOM_143", "weight": 0.80, "name": "Autonomic dysfunction"},
+          {"id": "SYMPTOM_144", "weight": 0.75, "name": "Spasticity"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_006", "weight": 0.70, "name": "Numbness and tingling in dermatomal pattern"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_022", "relevance": "high", "name": "Babinski Sign"},
+        {"id": "ASSESS_024", "relevance": "high", "name": "Dermatome Testing"},
+        {"id": "ASSESS_025", "relevance": "high", "name": "Myotome Testing"},
+        {"id": "ASSESS_026", "relevance": "high", "name": "Deep Tendon Reflexes"}
+      ]
+    },
+
+    "COND_026": {
+      "name": "Chronic Obstructive Pulmonary Disease",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_145", "weight": 0.95, "name": "Dyspnea on exertion"},
+          {"id": "SYMPTOM_146", "weight": 0.90, "name": "Chronic productive cough"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_135", "weight": 0.80, "name": "Fatigue and heat sensitivity"},
+          {"id": "SYMPTOM_147", "weight": 0.75, "name": "Barrel chest deformity"},
+          {"id": "SYMPTOM_148", "weight": 0.70, "name": "Use of accessory muscles"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_021", "weight": 0.65, "name": "Difficulty with stairs"},
+          {"id": "SYMPTOM_149", "weight": 0.60, "name": "Exercise intolerance"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_047", "relevance": "high", "name": "6-Minute Walk Test"},
+        {"id": "ASSESS_048", "relevance": "medium", "name": "Pulse Oximetry"}
+      ]
+    },
+
+    "COND_027": {
+      "name": "Post-Myocardial Infarction",
+      "symptoms": {
+        "characteristic": [
+          {"id": "SYMPTOM_150", "weight": 0.85, "name": "Chest pain or discomfort"},
+          {"id": "SYMPTOM_145", "weight": 0.80, "name": "Dyspnea on exertion"},
+          {"id": "SYMPTOM_135", "weight": 0.75, "name": "Fatigue and heat sensitivity"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_149", "weight": 0.65, "name": "Exercise intolerance"},
+          {"id": "SYMPTOM_151", "weight": 0.60, "name": "Anxiety related to activity"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_047", "relevance": "high", "name": "6-Minute Walk Test"},
+        {"id": "ASSESS_048", "relevance": "high", "name": "Pulse Oximetry"},
+        {"id": "ASSESS_049", "relevance": "medium", "name": "Heart Rate Response"}
+      ]
+    },
+
+    "COND_028": {
+      "name": "Congestive Heart Failure",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_145", "weight": 0.95, "name": "Dyspnea on exertion"},
+          {"id": "SYMPTOM_152", "weight": 0.90, "name": "Orthopnea"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_153", "weight": 0.85, "name": "Peripheral edema"},
+          {"id": "SYMPTOM_135", "weight": 0.80, "name": "Fatigue and heat sensitivity"},
+          {"id": "SYMPTOM_154", "weight": 0.75, "name": "Paroxysmal nocturnal dyspnea"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_149", "weight": 0.70, "name": "Exercise intolerance"},
+          {"id": "SYMPTOM_021", "weight": 0.65, "name": "Difficulty with stairs"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_047", "relevance": "high", "name": "6-Minute Walk Test"},
+        {"id": "ASSESS_048", "relevance": "high", "name": "Pulse Oximetry"},
+        {"id": "ASSESS_049", "relevance": "high", "name": "Heart Rate Response"}
+      ]
+    },
+
+    "COND_029": {
+      "name": "Post-COVID-19 Syndrome",
+      "symptoms": {
+        "characteristic": [
+          {"id": "SYMPTOM_135", "weight": 0.85, "name": "Fatigue and heat sensitivity"},
+          {"id": "SYMPTOM_145", "weight": 0.80, "name": "Dyspnea on exertion"},
+          {"id": "SYMPTOM_155", "weight": 0.75, "name": "Brain fog"},
+          {"id": "SYMPTOM_149", "weight": 0.70, "name": "Exercise intolerance"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_073", "weight": 0.65, "name": "Headaches associated with neck pain"},
+          {"id": "SYMPTOM_021", "weight": 0.60, "name": "Difficulty with stairs"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_047", "relevance": "high", "name": "6-Minute Walk Test"},
+        {"id": "ASSESS_048", "relevance": "medium", "name": "Pulse Oximetry"}
+      ]
+    },
+
+    "COND_030": {
+      "name": "Fibromyalgia",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_156", "weight": 0.95, "name": "Widespread tender points"},
+          {"id": "SYMPTOM_157", "weight": 0.90, "name": "Chronic widespread pain"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_135", "weight": 0.85, "name": "Fatigue and heat sensitivity"},
+          {"id": "SYMPTOM_004", "weight": 0.80, "name": "Morning stiffness lasting >30 minutes"},
+          {"id": "SYMPTOM_002", "weight": 0.75, "name": "Night pain disturbing sleep"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_155", "weight": 0.70, "name": "Brain fog"},
+          {"id": "SYMPTOM_139", "weight": 0.65, "name": "Cognitive difficulties"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_050", "relevance": "high", "name": "Tender Point Examination"}
+      ]
+    },
+
+    "COND_031": {
+      "name": "Complex Regional Pain Syndrome",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_158", "weight": 0.95, "name": "Severe burning pain"},
+          {"id": "SYMPTOM_159", "weight": 0.90, "name": "Allodynia"},
+          {"id": "SYMPTOM_160", "weight": 0.85, "name": "Temperature and color changes"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_161", "weight": 0.80, "name": "Swelling and stiffness"},
+          {"id": "SYMPTOM_162", "weight": 0.75, "name": "Motor dysfunction"},
+          {"id": "SYMPTOM_163", "weight": 0.70, "name": "Sudomotor changes"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_007", "weight": 0.65, "name": "Weakness in specific muscle groups"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_024", "relevance": "high", "name": "Dermatome Testing"},
+        {"id": "ASSESS_051", "relevance": "high", "name": "Sympathetic Function Tests"}
+      ]
+    },
+
+    "COND_032": {
+      "name": "Thoracic Outlet Syndrome",
+      "symptoms": {
+        "characteristic": [
+          {"id": "SYMPTOM_006", "weight": 0.85, "name": "Numbness and tingling in dermatomal pattern"},
+          {"id": "SYMPTOM_007", "weight": 0.80, "name": "Weakness in specific muscle groups"},
+          {"id": "SYMPTOM_055", "weight": 0.75, "name": "Radiating pain following nerve path"},
+          {"id": "SYMPTOM_164", "weight": 0.70, "name": "Vascular symptoms in arm"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_042", "weight": 0.65, "name": "Pins and needles sensation"},
+          {"id": "SYMPTOM_056", "weight": 0.60, "name": "Difficulty with overhead activities"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_052", "relevance": "high", "name": "Adson's Test"},
+        {"id": "ASSESS_053", "relevance": "high", "name": "Wright's Test"},
+        {"id": "ASSESS_024", "relevance": "medium", "name": "Dermatome Testing"},
+        {"id": "ASSESS_025", "relevance": "medium", "name": "Myotome Testing"}
+      ]
+    },
+
+    "COND_033": {
+      "name": "Temporomandibular Disorder",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_165", "weight": 0.95, "name": "Jaw clicking or popping"},
+          {"id": "SYMPTOM_166", "weight": 0.90, "name": "Limited jaw opening"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_167", "weight": 0.85, "name": "Jaw pain with chewing"},
+          {"id": "SYMPTOM_168", "weight": 0.80, "name": "Facial pain"},
+          {"id": "SYMPTOM_073", "weight": 0.75, "name": "Headaches associated with neck pain"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_072", "weight": 0.70, "name": "Neck pain with rotation"},
+          {"id": "SYMPTOM_169", "weight": 0.65, "name": "Ear pain or fullness"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_054", "relevance": "high", "name": "TMJ Range of Motion"},
+        {"id": "ASSESS_055", "relevance": "high", "name": "TMJ Palpation"}
+      ]
+    },
+
+    "COND_034": {
+      "name": "Scoliosis",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_170", "weight": 0.95, "name": "Visible spinal curvature"},
+          {"id": "SYMPTOM_171", "weight": 0.90, "name": "Rib hump with forward bending"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_172", "weight": 0.80, "name": "Uneven shoulder heights"},
+          {"id": "SYMPTOM_173", "weight": 0.75, "name": "Uneven hip levels"},
+          {"id": "SYMPTOM_020", "weight": 0.70, "name": "Pain worse with prolonged positions"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_135", "weight": 0.65, "name": "Fatigue and heat sensitivity"},
+          {"id": "SYMPTOM_145", "weight": 0.60, "name": "Dyspnea on exertion"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_056", "relevance": "high", "name": "Adams Forward Bend Test"},
+        {"id": "ASSESS_057", "relevance": "high", "name": "Scoliometer Measurement"}
+      ]
+    },
+
+    "COND_035": {
+      "name": "Ankylosing Spondylitis",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_004", "weight": 0.95, "name": "Morning stiffness lasting >30 minutes"},
+          {"id": "SYMPTOM_174", "weight": 0.90, "name": "Inflammatory back pain"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_175", "weight": 0.85, "name": "Improvement with exercise"},
+          {"id": "SYMPTOM_003", "weight": 0.80, "name": "Progressive loss of range of motion"},
+          {"id": "SYMPTOM_069", "weight": 0.75, "name": "Low back pain with extension"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_020", "weight": 0.70, "name": "Pain worse with prolonged positions"},
+          {"id": "SYMPTOM_135", "weight": 0.65, "name": "Fatigue and heat sensitivity"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_058", "relevance": "high", "name": "Schober's Test"},
+        {"id": "ASSESS_059", "relevance": "high", "name": "Chest Expansion Test"},
+        {"id": "ASSESS_013", "relevance": "medium", "name": "FABER Test"}
+      ]
+    },
+
+    "COND_036": {
+      "name": "Rheumatoid Arthritis",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_176", "weight": 0.95, "name": "Symmetric joint swelling"},
+          {"id": "SYMPTOM_004", "weight": 0.90, "name": "Morning stiffness lasting >30 minutes"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_177", "weight": 0.85, "name": "Joint warmth and redness"},
+          {"id": "SYMPTOM_135", "weight": 0.80, "name": "Fatigue and heat sensitivity"},
+          {"id": "SYMPTOM_178", "weight": 0.75, "name": "Joint deformity"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_007", "weight": 0.70, "name": "Weakness in specific muscle groups"},
+          {"id": "SYMPTOM_003", "weight": 0.65, "name": "Progressive loss of range of motion"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_060", "relevance": "high", "name": "Joint Swelling Assessment"},
+        {"id": "ASSESS_061", "relevance": "high", "name": "Grip Strength Test"}
+      ]
+    },
+
+    "COND_037": {
+      "name": "Post-Surgical Rehabilitation (TKR)",
+      "symptoms": {
+        "characteristic": [
+          {"id": "SYMPTOM_179", "weight": 0.85, "name": "Post-surgical pain"},
+          {"id": "SYMPTOM_010", "weight": 0.80, "name": "Swelling after activity"},
+          {"id": "SYMPTOM_003", "weight": 0.75, "name": "Progressive loss of range of motion"},
+          {"id": "SYMPTOM_007", "weight": 0.70, "name": "Weakness in specific muscle groups"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_021", "weight": 0.65, "name": "Difficulty with stairs"},
+          {"id": "SYMPTOM_004", "weight": 0.60, "name": "Morning stiffness lasting >30 minutes"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_062", "relevance": "high", "name": "Knee Range of Motion"},
+        {"id": "ASSESS_025", "relevance": "high", "name": "Myotome Testing"},
+        {"id": "ASSESS_047", "relevance": "medium", "name": "6-Minute Walk Test"}
+      ]
+    },
+
+    "COND_038": {
+      "name": "Post-Surgical Rehabilitation (THR)",
+      "symptoms": {
+        "characteristic": [
+          {"id": "SYMPTOM_179", "weight": 0.85, "name": "Post-surgical pain"},
+          {"id": "SYMPTOM_003", "weight": 0.80, "name": "Progressive loss of range of motion"},
+          {"id": "SYMPTOM_007", "weight": 0.75, "name": "Weakness in specific muscle groups"},
+          {"id": "SYMPTOM_180", "weight": 0.70, "name": "Hip precautions limitations"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_021", "weight": 0.65, "name": "Difficulty with stairs"},
+          {"id": "SYMPTOM_138", "weight": 0.60, "name": "Loss of balance"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_063", "relevance": "high", "name": "Hip Range of Motion"},
+        {"id": "ASSESS_032", "relevance": "high", "name": "Trendelenburg Test"},
+        {"id": "ASSESS_025", "relevance": "medium", "name": "Myotome Testing"}
+      ]
+    },
+
+    "COND_039": {
+      "name": "Lymphedema",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_181", "weight": 0.95, "name": "Non-pitting edema"},
+          {"id": "SYMPTOM_182", "weight": 0.90, "name": "Stemmer's sign positive"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_183", "weight": 0.85, "name": "Heaviness in affected limb"},
+          {"id": "SYMPTOM_184", "weight": 0.80, "name": "Skin texture changes"},
+          {"id": "SYMPTOM_185", "weight": 0.75, "name": "Recurrent infections"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_003", "weight": 0.70, "name": "Progressive loss of range of motion"},
+          {"id": "SYMPTOM_135", "weight": 0.65, "name": "Fatigue and heat sensitivity"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_064", "relevance": "high", "name": "Limb Circumference Measurement"},
+        {"id": "ASSESS_065", "relevance": "high", "name": "Stemmer's Sign Test"}
+      ]
+    },
+
+    "COND_040": {
+      "name": "Cerebral Palsy",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_144", "weight": 0.95, "name": "Spasticity"},
+          {"id": "SYMPTOM_186", "weight": 0.90, "name": "Abnormal movement patterns"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_187", "weight": 0.85, "name": "Developmental delays"},
+          {"id": "SYMPTOM_136", "weight": 0.80, "name": "Coordination problems"},
+          {"id": "SYMPTOM_188", "weight": 0.75, "name": "Primitive reflexes persistent"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_007", "weight": 0.70, "name": "Weakness in specific muscle groups"},
+          {"id": "SYMPTOM_003", "weight": 0.65, "name": "Progressive loss of range of motion"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_066", "relevance": "high", "name": "Modified Ashworth Scale"},
+        {"id": "ASSESS_067", "relevance": "high", "name": "Gross Motor Function Measure"},
+        {"id": "ASSESS_025", "relevance": "medium", "name": "Myotome Testing"}
+      ]
+    },
+
+    "COND_041": {
+      "name": "Developmental Coordination Disorder",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_189", "weight": 0.95, "name": "Poor motor coordination"},
+          {"id": "SYMPTOM_190", "weight": 0.90, "name": "Difficulty with fine motor tasks"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_191", "weight": 0.85, "name": "Clumsiness"},
+          {"id": "SYMPTOM_138", "weight": 0.80, "name": "Loss of balance"},
+          {"id": "SYMPTOM_192", "weight": 0.75, "name": "Poor handwriting"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_021", "weight": 0.70, "name": "Difficulty with stairs"},
+          {"id": "SYMPTOM_193", "weight": 0.65, "name": "Avoids physical activities"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_068", "relevance": "high", "name": "Movement Assessment Battery"},
+        {"id": "ASSESS_027", "relevance": "medium", "name": "Romberg Test"}
+      ]
+    },
+
+    "COND_042": {
+      "name": "Torticollis",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_194", "weight": 0.95, "name": "Neck twisted to one side"},
+          {"id": "SYMPTOM_195", "weight": 0.90, "name": "Head tilt"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_072", "weight": 0.85, "name": "Neck pain with rotation"},
+          {"id": "SYMPTOM_196", "weight": 0.80, "name": "Muscle tightness on one side"},
+          {"id": "SYMPTOM_003", "weight": 0.75, "name": "Progressive loss of range of motion"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_197", "weight": 0.70, "name": "Facial asymmetry"},
+          {"id": "SYMPTOM_073", "weight": 0.65, "name": "Headaches associated with neck pain"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_069", "relevance": "high", "name": "Cervical Range of Motion"},
+        {"id": "ASSESS_070", "relevance": "high", "name": "Muscle Length Testing"}
+      ]
+    },
+
+    "COND_043": {
+      "name": "Vestibular Disorders",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_198", "weight": 0.95, "name": "Vertigo"},
+          {"id": "SYMPTOM_199", "weight": 0.90, "name": "Nystagmus"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_138", "weight": 0.85, "name": "Loss of balance"},
+          {"id": "SYMPTOM_200", "weight": 0.80, "name": "Nausea with head movement"},
+          {"id": "SYMPTOM_201", "weight": 0.75, "name": "Oscillopsia"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_073", "weight": 0.70, "name": "Headaches associated with neck pain"},
+          {"id": "SYMPTOM_169", "weight": 0.65, "name": "Ear pain or fullness"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_071", "relevance": "high", "name": "Dix-Hallpike Test"},
+        {"id": "ASSESS_072", "relevance": "high", "name": "Head Thrust Test"},
+        {"id": "ASSESS_027", "relevance": "medium", "name": "Romberg Test"}
+      ]
+    },
+
+    "COND_044": {
+      "name": "Benign Paroxysmal Positional Vertigo",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_202", "weight": 0.95, "name": "Positional vertigo"},
+          {"id": "SYMPTOM_203", "weight": 0.90, "name": "Brief episodes of spinning"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_200", "weight": 0.85, "name": "Nausea with head movement"},
+          {"id": "SYMPTOM_199", "weight": 0.80, "name": "Nystagmus"},
+          {"id": "SYMPTOM_204", "weight": 0.75, "name": "Triggered by head position changes"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_138", "weight": 0.70, "name": "Loss of balance"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_071", "relevance": "high", "name": "Dix-Hallpike Test"},
+        {"id": "ASSESS_073", "relevance": "high", "name": "Supine Roll Test"}
+      ]
+    },
+
+    "COND_045": {
+      "name": "Pelvic Floor Dysfunction",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_205", "weight": 0.95, "name": "Pelvic pressure or heaviness"},
+          {"id": "SYMPTOM_206", "weight": 0.90, "name": "Incomplete bladder emptying"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_207", "weight": 0.85, "name": "Urinary frequency"},
+          {"id": "SYMPTOM_208", "weight": 0.80, "name": "Pelvic pain"},
+          {"id": "SYMPTOM_209", "weight": 0.75, "name": "Pain with intercourse"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_210", "weight": 0.70, "name": "Lower back pain"},
+          {"id": "SYMPTOM_044", "weight": 0.65, "name": "Pain with sitting for extended periods"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_074", "relevance": "high", "name": "Pelvic Floor Muscle Assessment"},
+        {"id": "ASSESS_075", "relevance": "high", "name": "Internal Pelvic Examination"}
+      ]
+    },
+
+    "COND_046": {
+      "name": "Stress Incontinence",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_211", "weight": 0.95, "name": "Urine leakage with coughing/sneezing"},
+          {"id": "SYMPTOM_212", "weight": 0.90, "name": "Leakage with physical activity"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_213", "weight": 0.85, "name": "Urgency without warning"},
+          {"id": "SYMPTOM_207", "weight": 0.80, "name": "Urinary frequency"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_205", "weight": 0.75, "name": "Pelvic pressure or heaviness"},
+          {"id": "SYMPTOM_007", "weight": 0.70, "name": "Weakness in specific muscle groups"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_074", "relevance": "high", "name": "Pelvic Floor Muscle Assessment"},
+        {"id": "ASSESS_076", "relevance": "high", "name": "Cough Stress Test"}
+      ]
+    },
+
+    "COND_047": {
+      "name": "Diastasis Recti",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_214", "weight": 0.95, "name": "Visible abdominal separation"},
+          {"id": "SYMPTOM_215", "weight": 0.90, "name": "Doming with trunk flexion"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_216", "weight": 0.85, "name": "Core weakness"},
+          {"id": "SYMPTOM_210", "weight": 0.80, "name": "Lower back pain"},
+          {"id": "SYMPTOM_217", "weight": 0.75, "name": "Poor posture"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_205", "weight": 0.70, "name": "Pelvic pressure or heaviness"},
+          {"id": "SYMPTOM_020", "weight": 0.65, "name": "Pain worse with prolonged positions"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_077", "relevance": "high", "name": "Diastasis Recti Assessment"},
+        {"id": "ASSESS_078", "relevance": "high", "name": "Core Stability Testing"}
+      ]
+    },
+
+    "COND_048": {
+      "name": "Iliotibial Band Syndrome",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_218", "weight": 0.95, "name": "Lateral knee pain with running"},
+          {"id": "SYMPTOM_219", "weight": 0.90, "name": "Pain at 30-degree knee flexion"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_033", "weight": 0.85, "name": "Pain with specific movements only"},
+          {"id": "SYMPTOM_220", "weight": 0.80, "name": "Pain worse with downhill running"},
+          {"id": "SYMPTOM_010", "weight": 0.75, "name": "Swelling after activity"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_021", "weight": 0.70, "name": "Difficulty with stairs"},
+          {"id": "SYMPTOM_221", "weight": 0.65, "name": "Hip weakness"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_016", "relevance": "high", "name": "Ober's Test"},
+        {"id": "ASSESS_079", "relevance": "high", "name": "Noble Compression Test"},
+        {"id": "ASSESS_032", "relevance": "medium", "name": "Trendelenburg Test"}
+      ]
+    },
+
+    "COND_049": {
+      "name": "Shin Splints (MTSS)",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_222", "weight": 0.95, "name": "Medial tibial pain with activity"},
+          {"id": "SYMPTOM_223", "weight": 0.90, "name": "Diffuse lower leg aching"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_224", "weight": 0.85, "name": "Pain improved with rest"},
+          {"id": "SYMPTOM_225", "weight": 0.80, "name": "Pain worse with running"},
+          {"id": "SYMPTOM_226", "weight": 0.75, "name": "Tenderness along tibia"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_227", "weight": 0.70, "name": "Tightness in calf muscles"},
+          {"id": "SYMPTOM_010", "weight": 0.65, "name": "Swelling after activity"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_080", "relevance": "high", "name": "Tibial Stress Test"},
+        {"id": "ASSESS_081", "relevance": "medium", "name": "Calf Flexibility Test"}
+      ]
+    },
+
+    "COND_050": {
+      "name": "Hamstring Strain",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_228", "weight": 0.95, "name": "Sudden posterior thigh pain"},
+          {"id": "SYMPTOM_229", "weight": 0.90, "name": "Pain with knee flexion against resistance"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_230", "weight": 0.85, "name": "Pain with hip flexion"},
+          {"id": "SYMPTOM_231", "weight": 0.80, "name": "Localized tenderness"},
+          {"id": "SYMPTOM_010", "weight": 0.75, "name": "Swelling after activity"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_021", "weight": 0.70, "name": "Difficulty with stairs"},
+          {"id": "SYMPTOM_232", "weight": 0.65, "name": "Stiffness after sitting"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_082", "relevance": "high", "name": "Straight Leg Raise (passive)"},
+        {"id": "ASSESS_083", "relevance": "high", "name": "Hamstring Strength Test"},
+        {"id": "ASSESS_084", "relevance": "medium", "name": "90/90 Hamstring Test"}
+      ]
+    },
+
+    "COND_051": {
+      "name": "Biceps Tendinopathy",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_233", "weight": 0.95, "name": "Anterior shoulder pain with resisted elbow flexion"},
+          {"id": "SYMPTOM_234", "weight": 0.90, "name": "Pain in bicipital groove on palpation"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_056", "weight": 0.85, "name": "Difficulty with overhead activities"},
+          {"id": "SYMPTOM_235", "weight": 0.80, "name": "Pain with resisted supination"},
+          {"id": "SYMPTOM_033", "weight": 0.75, "name": "Pain with specific movements only"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_002", "weight": 0.65, "name": "Night pain disturbing sleep"},
+          {"id": "SYMPTOM_010", "weight": 0.60, "name": "Swelling after activity"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_009", "relevance": "high", "name": "Speed's Test"},
+        {"id": "ASSESS_085", "relevance": "high", "name": "Yergason's Test"},
+        {"id": "ASSESS_086", "relevance": "medium", "name": "Biceps Load Test"}
+      ]
+    },
+
+    "COND_052": {
+      "name": "SLAP Lesion",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_236", "weight": 0.95, "name": "Deep aching shoulder pain"},
+          {"id": "SYMPTOM_237", "weight": 0.90, "name": "Pain with overhead throwing motion"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_008", "weight": 0.85, "name": "Catching or locking sensation"},
+          {"id": "SYMPTOM_238", "weight": 0.80, "name": "Loss of throwing velocity"},
+          {"id": "SYMPTOM_009", "weight": 0.75, "name": "Giving way or instability"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_056", "weight": 0.70, "name": "Difficulty with overhead activities"},
+          {"id": "SYMPTOM_239", "weight": 0.65, "name": "Posterior shoulder tightness"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_087", "relevance": "high", "name": "O'Brien's Test"},
+        {"id": "ASSESS_088", "relevance": "high", "name": "Biceps Load Test II"},
+        {"id": "ASSESS_009", "relevance": "medium", "name": "Speed's Test"}
+      ]
+    },
+
+    "COND_053": {
+      "name": "Shoulder Instability",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_240", "weight": 0.95, "name": "Recurrent shoulder dislocations"},
+          {"id": "SYMPTOM_241", "weight": 0.90, "name": "Fear of shoulder dislocation with movement"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_009", "weight": 0.85, "name": "Giving way or instability"},
+          {"id": "SYMPTOM_242", "weight": 0.80, "name": "Dead arm syndrome"},
+          {"id": "SYMPTOM_243", "weight": 0.75, "name": "Apprehension with abduction/external rotation"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_056", "weight": 0.70, "name": "Difficulty with overhead activities"},
+          {"id": "SYMPTOM_007", "weight": 0.65, "name": "Weakness in specific muscle groups"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_029", "relevance": "high", "name": "Apprehension Test"},
+        {"id": "ASSESS_089", "relevance": "high", "name": "Relocation Test"},
+        {"id": "ASSESS_090", "relevance": "high", "name": "Load and Shift Test"}
+      ]
+    },
+
+    "COND_054": {
+      "name": "Medial Epicondylalgia (Golfer's Elbow)",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_244", "weight": 0.95, "name": "Medial elbow pain with gripping"},
+          {"id": "SYMPTOM_245", "weight": 0.90, "name": "Pain with resisted wrist flexion"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_246", "weight": 0.85, "name": "Tenderness over medial epicondyle"},
+          {"id": "SYMPTOM_247", "weight": 0.80, "name": "Pain with resisted forearm pronation"},
+          {"id": "SYMPTOM_033", "weight": 0.75, "name": "Pain with specific movements only"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_007", "weight": 0.70, "name": "Weakness in specific muscle groups"},
+          {"id": "SYMPTOM_042", "weight": 0.65, "name": "Pins and needles sensation"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_091", "relevance": "high", "name": "Medial Epicondylitis Test"},
+        {"id": "ASSESS_092", "relevance": "medium", "name": "Golfer's Elbow Test"}
+      ]
+    },
+
+    "COND_055": {
+      "name": "Olecranon Bursitis",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_248", "weight": 0.95, "name": "Posterior elbow swelling"},
+          {"id": "SYMPTOM_249", "weight": 0.90, "name": "Fluctuant mass over olecranon"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_250", "weight": 0.85, "name": "Tenderness over posterior elbow"},
+          {"id": "SYMPTOM_251", "weight": 0.80, "name": "Pain with elbow flexion"},
+          {"id": "SYMPTOM_252", "weight": 0.75, "name": "Warmth over bursa"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_010", "weight": 0.70, "name": "Swelling after activity"},
+          {"id": "SYMPTOM_253", "weight": 0.65, "name": "Limited elbow extension"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_093", "relevance": "high", "name": "Bursal Aspiration Test"}
+      ]
+    },
+
+    "COND_056": {
+      "name": "Cubital Tunnel Syndrome",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_254", "weight": 0.95, "name": "Numbness in 4th and 5th fingers"},
+          {"id": "SYMPTOM_255", "weight": 0.90, "name": "Weakness of intrinsic hand muscles"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_256", "weight": 0.85, "name": "Symptoms worse with elbow flexion"},
+          {"id": "SYMPTOM_257", "weight": 0.80, "name": "Clawing of ring and little fingers"},
+          {"id": "SYMPTOM_258", "weight": 0.75, "name": "Positive elbow flexion test"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_042", "weight": 0.70, "name": "Pins and needles sensation"},
+          {"id": "SYMPTOM_017", "weight": 0.65, "name": "Burning or electric shock sensation"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_094", "relevance": "high", "name": "Elbow Flexion Test"},
+        {"id": "ASSESS_095", "relevance": "high", "name": "Tinel's Sign at Elbow"},
+        {"id": "ASSESS_042", "relevance": "high", "name": "Froment's Sign"}
+      ]
+    },
+
+    "COND_057": {
+      "name": "Triangular Fibrocartilage Complex Injury",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_259", "weight": 0.95, "name": "Ulnar-sided wrist pain"},
+          {"id": "SYMPTOM_260", "weight": 0.90, "name": "Pain with wrist rotation and ulnar deviation"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_261", "weight": 0.85, "name": "Clicking or snapping with wrist movement"},
+          {"id": "SYMPTOM_262", "weight": 0.80, "name": "Weakness with gripping"},
+          {"id": "SYMPTOM_008", "weight": 0.75, "name": "Catching or locking sensation"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_010", "weight": 0.70, "name": "Swelling after activity"},
+          {"id": "SYMPTOM_033", "weight": 0.65, "name": "Pain with specific movements only"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_096", "relevance": "high", "name": "TFCC Load Test"},
+        {"id": "ASSESS_097", "relevance": "high", "name": "Piano Key Test"}
+      ]
+    },
+
+    "COND_058": {
+      "name": "Trigger Finger",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_263", "weight": 0.95, "name": "Finger catching or locking"},
+          {"id": "SYMPTOM_264", "weight": 0.90, "name": "Palpable nodule at A1 pulley"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_265", "weight": 0.85, "name": "Morning finger stiffness"},
+          {"id": "SYMPTOM_266", "weight": 0.80, "name": "Triggering worse in morning"},
+          {"id": "SYMPTOM_267", "weight": 0.75, "name": "Pain at base of finger"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_268", "weight": 0.70, "name": "Difficulty with fine motor tasks"},
+          {"id": "SYMPTOM_004", "weight": 0.65, "name": "Morning stiffness lasting >30 minutes"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_098", "relevance": "high", "name": "Trigger Finger Test"}
+      ]
+    },
+
+    "COND_059": {
+      "name": "Dupuytren's Contracture",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_269", "weight": 0.95, "name": "Progressive finger contracture"},
+          {"id": "SYMPTOM_270", "weight": 0.90, "name": "Palpable palmar nodules and cords"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_271", "weight": 0.85, "name": "Ring and little finger most affected"},
+          {"id": "SYMPTOM_272", "weight": 0.80, "name": "Inability to flatten hand on table"},
+          {"id": "SYMPTOM_273", "weight": 0.75, "name": "Skin dimpling or puckering"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_268", "weight": 0.70, "name": "Difficulty with fine motor tasks"},
+          {"id": "SYMPTOM_003", "weight": 0.65, "name": "Progressive loss of range of motion"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_099", "relevance": "high", "name": "Tabletop Test"},
+        {"id": "ASSESS_100", "relevance": "high", "name": "Hueston's Table Top Test"}
+      ]
+    },
+
+    "COND_060": {
+      "name": "Mallet Finger",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_274", "weight": 0.95, "name": "Inability to extend fingertip"},
+          {"id": "SYMPTOM_275", "weight": 0.90, "name": "Drooping fingertip deformity"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_276", "weight": 0.85, "name": "History of fingertip trauma"},
+          {"id": "SYMPTOM_277", "weight": 0.80, "name": "Tenderness over DIP joint"},
+          {"id": "SYMPTOM_278", "weight": 0.75, "name": "Extensor lag at DIP joint"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_010", "weight": 0.70, "name": "Swelling after activity"},
+          {"id": "SYMPTOM_268", "weight": 0.65, "name": "Difficulty with fine motor tasks"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_101", "relevance": "high", "name": "DIP Extension Test"}
+      ]
+    },
+
+    "COND_061": {
+      "name": "Posterior Cruciate Ligament Injury",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_279", "weight": 0.95, "name": "Posterior knee instability"},
+          {"id": "SYMPTOM_280", "weight": 0.90, "name": "Dashboard injury mechanism"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_281", "weight": 0.85, "name": "Posterior knee pain"},
+          {"id": "SYMPTOM_282", "weight": 0.80, "name": "Pain worse with knee flexion"},
+          {"id": "SYMPTOM_283", "weight": 0.75, "name": "Instability going downstairs"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_010", "weight": 0.70, "name": "Swelling after activity"},
+          {"id": "SYMPTOM_021", "weight": 0.65, "name": "Difficulty with stairs"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_102", "relevance": "high", "name": "Posterior Drawer Test"},
+        {"id": "ASSESS_103", "relevance": "high", "name": "Posterior Sag Test"},
+        {"id": "ASSESS_104", "relevance": "medium", "name": "Quadriceps Active Test"}
+      ]
+    },
+
+    "COND_062": {
+      "name": "Medial Collateral Ligament Sprain",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_284", "weight": 0.95, "name": "Medial knee pain with valgus stress"},
+          {"id": "SYMPTOM_285", "weight": 0.90, "name": "Tenderness along MCL"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_286", "weight": 0.85, "name": "History of valgus injury mechanism"},
+          {"id": "SYMPTOM_287", "weight": 0.80, "name": "Medial knee instability"},
+          {"id": "SYMPTOM_010", "weight": 0.75, "name": "Swelling after activity"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_021", "weight": 0.70, "name": "Difficulty with stairs"},
+          {"id": "SYMPTOM_288", "weight": 0.65, "name": "Pain with pivoting movements"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_037", "relevance": "high", "name": "Varus/Valgus Stress Test"},
+        {"id": "ASSESS_105", "relevance": "medium", "name": "Slocum Test"}
+      ]
+    },
+
+    "COND_063": {
+      "name": "Patellar Tendinopathy (Jumper's Knee)",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_289", "weight": 0.95, "name": "Anterior knee pain below patella"},
+          {"id": "SYMPTOM_290", "weight": 0.90, "name": "Pain with jumping and landing"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_291", "weight": 0.85, "name": "Tenderness at patellar tendon insertion"},
+          {"id": "SYMPTOM_292", "weight": 0.80, "name": "Pain with squatting"},
+          {"id": "SYMPTOM_293", "weight": 0.75, "name": "Morning stiffness in knee"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_021", "weight": 0.70, "name": "Difficulty with stairs"},
+          {"id": "SYMPTOM_010", "weight": 0.65, "name": "Swelling after activity"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_106", "relevance": "high", "name": "Patellar Tendon Palpation"},
+        {"id": "ASSESS_107", "relevance": "medium", "name": "Single Leg Decline Squat"}
+      ]
+    },
+
+    "COND_064": {
+      "name": "Baker's Cyst",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_294", "weight": 0.95, "name": "Popliteal fullness or mass"},
+          {"id": "SYMPTOM_295", "weight": 0.90, "name": "Posterior knee tightness"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_296", "weight": 0.85, "name": "Knee stiffness with flexion"},
+          {"id": "SYMPTOM_297", "weight": 0.80, "name": "Calf pain if cyst ruptures"},
+          {"id": "SYMPTOM_298", "weight": 0.75, "name": "Fluctuating size of mass"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_021", "weight": 0.70, "name": "Difficulty with stairs"},
+          {"id": "SYMPTOM_020", "weight": 0.65, "name": "Pain worse with prolonged positions"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_108", "relevance": "high", "name": "Popliteal Cyst Palpation"},
+        {"id": "ASSESS_109", "relevance": "medium", "name": "Foucher's Sign"}
+      ]
+    },
+
+    "COND_065": {
+      "name": "Pes Anserine Bursitis",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_299", "weight": 0.95, "name": "Medial knee pain below joint line"},
+          {"id": "SYMPTOM_300", "weight": 0.90, "name": "Tenderness over pes anserine insertion"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_301", "weight": 0.85, "name": "Pain with resisted knee flexion"},
+          {"id": "SYMPTOM_302", "weight": 0.80, "name": "Pain worse at night"},
+          {"id": "SYMPTOM_021", "weight": 0.75, "name": "Difficulty with stairs"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_010", "weight": 0.70, "name": "Swelling after activity"},
+          {"id": "SYMPTOM_033", "weight": 0.65, "name": "Pain with specific movements only"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_110", "relevance": "high", "name": "Pes Anserine Tenderness Test"}
+      ]
+    },
+
+    "COND_066": {
+      "name": "Femoroacetabular Impingement",
+      "symptoms": {
+        "characteristic": [
+          {"id": "SYMPTOM_008", "weight": 0.80, "name": "Catching or locking sensation"},
+          {"id": "SYMPTOM_033", "weight": 0.75, "name": "Pain with specific movements only"},
+          {"id": "SYMPTOM_020", "weight": 0.70, "name": "Pain worse with prolonged positions"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_021", "weight": 0.60, "name": "Difficulty with stairs"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_013", "relevance": "medium", "name": "FABER Test"},
+        {"id": "ASSESS_014", "relevance": "high", "name": "FADIR Test"},
+        {"id": "ASSESS_055", "relevance": "high", "name": "Scour Test"}
+      ]
+    },
+
+    "COND_067": {
+      "name": "Hip Labral Tear",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_303", "weight": 0.95, "name": "Deep groin pain"},
+          {"id": "SYMPTOM_304", "weight": 0.90, "name": "Sharp catching pain in hip"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_008", "weight": 0.85, "name": "Catching or locking sensation"},
+          {"id": "SYMPTOM_305", "weight": 0.80, "name": "Pain with hip flexion and internal rotation"},
+          {"id": "SYMPTOM_306", "weight": 0.75, "name": "Clicking or snapping in hip"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_021", "weight": 0.70, "name": "Difficulty with stairs"},
+          {"id": "SYMPTOM_020", "weight": 0.65, "name": "Pain worse with prolonged positions"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_014", "relevance": "high", "name": "FADIR Test"},
+        {"id": "ASSESS_111", "relevance": "high", "name": "McCarthy Test"},
+        {"id": "ASSESS_055", "relevance": "medium", "name": "Scour Test"}
+      ]
+    },
+
+    "COND_068": {
+      "name": "Piriformis Syndrome",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_307", "weight": 0.95, "name": "Buttock pain radiating down leg"},
+          {"id": "SYMPTOM_308", "weight": 0.90, "name": "Pain worse with sitting"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_309", "weight": 0.85, "name": "Tenderness over piriformis muscle"},
+          {"id": "SYMPTOM_310", "weight": 0.80, "name": "Pain with resisted hip external rotation"},
+          {"id": "SYMPTOM_055", "weight": 0.75, "name": "Radiating pain following nerve path"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_042", "weight": 0.70, "name": "Pins and needles sensation"},
+          {"id": "SYMPTOM_006", "weight": 0.65, "name": "Numbness and tingling in dermatomal pattern"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_112", "relevance": "high", "name": "Piriformis Test"},
+        {"id": "ASSESS_113", "relevance": "high", "name": "FAIR Test"},
+        {"id": "ASSESS_013", "relevance": "medium", "name": "FABER Test"}
+      ]
+    },
+
+    "COND_069": {
+      "name": "Snapping Hip Syndrome",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_311", "weight": 0.95, "name": "Audible or palpable hip snapping"},
+          {"id": "SYMPTOM_312", "weight": 0.90, "name": "Snapping with hip flexion/extension"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_313", "weight": 0.85, "name": "Lateral hip snapping (external)"},
+          {"id": "SYMPTOM_314", "weight": 0.80, "name": "Anterior hip snapping (internal)"},
+          {"id": "SYMPTOM_315", "weight": 0.75, "name": "Pain associated with snapping"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_021", "weight": 0.70, "name": "Difficulty with stairs"},
+          {"id": "SYMPTOM_316", "weight": 0.65, "name": "Hip muscle tightness"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_114", "relevance": "high", "name": "Dynamic Hip Snapping Test"},
+        {"id": "ASSESS_016", "relevance": "medium", "name": "Ober's Test"}
+      ]
+    },
+
+    "COND_070": {
+      "name": "Meralgia Paresthetica",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_317", "weight": 0.95, "name": "Anterolateral thigh numbness"},
+          {"id": "SYMPTOM_318", "weight": 0.90, "name": "Burning sensation in lateral thigh"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_319", "weight": 0.85, "name": "Symptoms worse with standing/walking"},
+          {"id": "SYMPTOM_320", "weight": 0.80, "name": "Relief with sitting or hip flexion"},
+          {"id": "SYMPTOM_321", "weight": 0.75, "name": "Hyperesthesia over lateral thigh"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_042", "weight": 0.70, "name": "Pins and needles sensation"},
+          {"id": "SYMPTOM_322", "weight": 0.65, "name": "Tight clothing worsens symptoms"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_115", "relevance": "high", "name": "Lateral Femoral Cutaneous Nerve Test"},
+        {"id": "ASSESS_024", "relevance": "medium", "name": "Dermatome Testing"}
+      ]
+    },
+
+    "COND_071": {
+      "name": "Posterior Tibial Tendon Dysfunction",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_323", "weight": 0.95, "name": "Medial ankle pain and swelling"},
+          {"id": "SYMPTOM_324", "weight": 0.90, "name": "Progressive flatfoot deformity"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_325", "weight": 0.85, "name": "Inability to perform single heel rise"},
+          {"id": "SYMPTOM_326", "weight": 0.80, "name": "Too many toes sign"},
+          {"id": "SYMPTOM_327", "weight": 0.75, "name": "Arch collapse with weight bearing"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_021", "weight": 0.70, "name": "Difficulty with stairs"},
+          {"id": "SYMPTOM_328", "weight": 0.65, "name": "Fatigue with prolonged standing"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_116", "relevance": "high", "name": "Single Heel Rise Test"},
+        {"id": "ASSESS_117", "relevance": "high", "name": "Too Many Toes Sign"},
+        {"id": "ASSESS_118", "relevance": "medium", "name": "Arch Height Assessment"}
+      ]
+    },
+
+    "COND_072": {
+      "name": "Peroneal Tendinopathy",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_329", "weight": 0.95, "name": "Lateral ankle pain behind fibula"},
+          {"id": "SYMPTOM_330", "weight": 0.90, "name": "Pain with resisted ankle eversion"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_331", "weight": 0.85, "name": "Pain worse with activity"},
+          {"id": "SYMPTOM_332", "weight": 0.80, "name": "Tenderness along peroneal tendons"},
+          {"id": "SYMPTOM_333", "weight": 0.75, "name": "Swelling behind lateral malleolus"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_062", "weight": 0.70, "name": "Ankle rolling or giving way"},
+          {"id": "SYMPTOM_160", "weight": 0.65, "name": "Pain walking on uneven surfaces"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_119", "relevance": "high", "name": "Peroneal Tendon Test"},
+        {"id": "ASSESS_120", "relevance": "medium", "name": "Eversion Strength Test"}
+      ]
+    },
+
+    "COND_073": {
+      "name": "Tarsal Tunnel Syndrome",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_334", "weight": 0.95, "name": "Plantar foot numbness and burning"},
+          {"id": "SYMPTOM_335", "weight": 0.90, "name": "Symptoms worse with prolonged standing"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_336", "weight": 0.85, "name": "Positive Tinel's sign at tarsal tunnel"},
+          {"id": "SYMPTOM_337", "weight": 0.80, "name": "Night pain in foot"},
+          {"id": "SYMPTOM_338", "weight": 0.75, "name": "Radiating pain into toes"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_042", "weight": 0.70, "name": "Pins and needles sensation"},
+          {"id": "SYMPTOM_017", "weight": 0.65, "name": "Burning or electric shock sensation"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_121", "relevance": "high", "name": "Tinel's Sign at Tarsal Tunnel"},
+        {"id": "ASSESS_122", "relevance": "medium", "name": "Dorsiflexion-Eversion Test"}
+      ]
+    },
+
+    "COND_074": {
+      "name": "Morton's Neuroma",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_339", "weight": 0.95, "name": "Burning pain between 3rd-4th toes"},
+          {"id": "SYMPTOM_340", "weight": 0.90, "name": "Feeling of walking on a marble"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_341", "weight": 0.85, "name": "Numbness in adjacent toe sides"},
+          {"id": "SYMPTOM_342", "weight": 0.80, "name": "Pain worse with tight shoes"},
+          {"id": "SYMPTOM_343", "weight": 0.75, "name": "Relief with shoe removal"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_344", "weight": 0.70, "name": "Forefoot pain"},
+          {"id": "SYMPTOM_042", "weight": 0.65, "name": "Pins and needles sensation"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_123", "relevance": "high", "name": "Mulder's Test"},
+        {"id": "ASSESS_124", "relevance": "high", "name": "Squeeze Test"}
+      ]
+    },
+
+    "COND_075": {
+      "name": "Metatarsalgia",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_344", "weight": 0.95, "name": "Forefoot pain"},
+          {"id": "SYMPTOM_345", "weight": 0.90, "name": "Pain under metatarsal heads"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_346", "weight": 0.85, "name": "Pain worse with weight bearing"},
+          {"id": "SYMPTOM_347", "weight": 0.80, "name": "Callus formation under forefoot"},
+          {"id": "SYMPTOM_348", "weight": 0.75, "name": "Sharp or aching forefoot pain"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_349", "weight": 0.70, "name": "Pain worse with high heels"},
+          {"id": "SYMPTOM_021", "weight": 0.65, "name": "Difficulty with stairs"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_125", "relevance": "high", "name": "Metatarsal Squeeze Test"},
+        {"id": "ASSESS_126", "relevance": "medium", "name": "Forefoot Compression Test"}
+      ]
+    },
+
+    "COND_076": {
+      "name": "Hallux Valgus (Bunion)",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_350", "weight": 0.95, "name": "Lateral deviation of great toe"},
+          {"id": "SYMPTOM_351", "weight": 0.90, "name": "Prominent medial first metatarsal head"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_352", "weight": 0.85, "name": "Pain over bunion with tight shoes"},
+          {"id": "SYMPTOM_353", "weight": 0.80, "name": "Difficulty fitting into shoes"},
+          {"id": "SYMPTOM_354", "weight": 0.75, "name": "Redness and swelling over bunion"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_355", "weight": 0.70, "name": "Callus formation"},
+          {"id": "SYMPTOM_344", "weight": 0.65, "name": "Forefoot pain"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_127", "relevance": "high", "name": "Hallux Valgus Angle Measurement"},
+        {"id": "ASSESS_128", "relevance": "medium", "name": "First MTP Joint Range of Motion"}
+      ]
+    },
+
+    "COND_077": {
+      "name": "Hallux Rigidus",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_356", "weight": 0.95, "name": "Limited great toe dorsiflexion"},
+          {"id": "SYMPTOM_357", "weight": 0.90, "name": "Pain with toe push-off"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_358", "weight": 0.85, "name": "Stiffness in first MTP joint"},
+          {"id": "SYMPTOM_359", "weight": 0.80, "name": "Dorsal bunion formation"},
+          {"id": "SYMPTOM_360", "weight": 0.75, "name": "Grinding sensation in toe joint"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_361", "weight": 0.70, "name": "Altered gait pattern"},
+          {"id": "SYMPTOM_004", "weight": 0.65, "name": "Morning stiffness lasting >30 minutes"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_128", "relevance": "high", "name": "First MTP Joint Range of Motion"},
+        {"id": "ASSESS_129", "relevance": "high", "name": "Grind Test"}
+      ]
+    },
+
+    "COND_078": {
+      "name": "Hammer Toe",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_362", "weight": 0.95, "name": "Fixed flexion deformity of PIP joint"},
+          {"id": "SYMPTOM_363", "weight": 0.90, "name": "Toe cannot be passively straightened"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_364", "weight": 0.85, "name": "Corn formation on top of toe"},
+          {"id": "SYMPTOM_365", "weight": 0.80, "name": "Pain with shoe pressure"},
+          {"id": "SYMPTOM_366", "weight": 0.75, "name": "Difficulty with shoe fitting"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_355", "weight": 0.70, "name": "Callus formation"},
+          {"id": "SYMPTOM_344", "weight": 0.65, "name": "Forefoot pain"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_130", "relevance": "high", "name": "Hammer Toe Flexibility Test"}
+      ]
+    },
+
+    "COND_079": {
+      "name": "Stress Fracture - Metatarsal",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_367", "weight": 0.95, "name": "Progressive forefoot pain with activity"},
+          {"id": "SYMPTOM_368", "weight": 0.90, "name": "Localized metatarsal tenderness"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_369", "weight": 0.85, "name": "Pain improves with rest"},
+          {"id": "SYMPTOM_370", "weight": 0.80, "name": "History of increased activity"},
+          {"id": "SYMPTOM_371", "weight": 0.75, "name": "Pain with hopping on affected foot"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_010", "weight": 0.70, "name": "Swelling after activity"},
+          {"id": "SYMPTOM_021", "weight": 0.65, "name": "Difficulty with stairs"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_131", "relevance": "high", "name": "Tuning Fork Test"},
+        {"id": "ASSESS_132", "relevance": "high", "name": "Hop Test"}
+      ]
+    },
+
+    "COND_080": {
+      "name": "Compartment Syndrome - Chronic",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_372", "weight": 0.95, "name": "Exercise-induced leg pain"},
+          {"id": "SYMPTOM_373", "weight": 0.90, "name": "Predictable onset with activity"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_374", "weight": 0.85, "name": "Tightness and pressure in leg"},
+          {"id": "SYMPTOM_375", "weight": 0.80, "name": "Numbness and tingling in foot"},
+          {"id": "SYMPTOM_376", "weight": 0.75, "name": "Weakness with prolonged exercise"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_377", "weight": 0.70, "name": "Symptoms resolve with rest"},
+          {"id": "SYMPTOM_378", "weight": 0.65, "name": "Bilateral leg involvement"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_133", "relevance": "high", "name": "Compartment Pressure Testing"},
+        {"id": "ASSESS_134", "relevance": "medium", "name": "Exercise Stress Test"}
+      ]
+    },
+
+    "COND_081": {
+      "name": "Spondylolisthesis",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_379", "weight": 0.95, "name": "Palpable step-off deformity"},
+          {"id": "SYMPTOM_380", "weight": 0.90, "name": "Pain increases with extension"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_381", "weight": 0.85, "name": "Bilateral leg pain and numbness"},
+          {"id": "SYMPTOM_382", "weight": 0.80, "name": "Neurogenic claudication symptoms"},
+          {"id": "SYMPTOM_383", "weight": 0.75, "name": "Hamstring tightness"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_384", "weight": 0.70, "name": "Lower back pain with standing"},
+          {"id": "SYMPTOM_021", "weight": 0.65, "name": "Difficulty with stairs"},
+          {"id": "SYMPTOM_385", "weight": 0.60, "name": "Relief with sitting or forward flexion"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_135", "relevance": "high", "name": "Single Leg Extension Test"},
+        {"id": "ASSESS_136", "relevance": "high", "name": "Straight Leg Raise Test"}
+      ]
+    },
+
+    "COND_082": {
+      "name": "Facet Joint Syndrome",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_386", "weight": 0.95, "name": "Pain worsens with extension and rotation"},
+          {"id": "SYMPTOM_387", "weight": 0.90, "name": "Unilateral back pain without radiation"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_388", "weight": 0.85, "name": "Relief with flexion"},
+          {"id": "SYMPTOM_004", "weight": 0.80, "name": "Morning stiffness lasting >30 minutes"},
+          {"id": "SYMPTOM_389", "weight": 0.75, "name": "Pain over paraspinal muscles"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_390", "weight": 0.70, "name": "Difficulty getting out of bed"},
+          {"id": "SYMPTOM_384", "weight": 0.65, "name": "Lower back pain with standing"},
+          {"id": "SYMPTOM_391", "weight": 0.60, "name": "Pain worse in evening"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_137", "relevance": "high", "name": "Facet Loading Test"},
+        {"id": "ASSESS_138", "relevance": "medium", "name": "Kemp's Test"}
+      ]
+    },
+
+    "COND_083": {
+      "name": "Sacroiliac Joint Dysfunction",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_392", "weight": 0.95, "name": "Unilateral pain below L5 level"},
+          {"id": "SYMPTOM_393", "weight": 0.90, "name": "Pain over posterior superior iliac spine"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_394", "weight": 0.85, "name": "Pain with transitional movements"},
+          {"id": "SYMPTOM_395", "weight": 0.80, "name": "Difficulty with single leg stance"},
+          {"id": "SYMPTOM_396", "weight": 0.75, "name": "Pain radiates to groin or thigh"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_397", "weight": 0.70, "name": "Pain with getting out of car"},
+          {"id": "SYMPTOM_021", "weight": 0.65, "name": "Difficulty with stairs"},
+          {"id": "SYMPTOM_398", "weight": 0.60, "name": "Asymmetric standing posture"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_139", "relevance": "high", "name": "FABER Test"},
+        {"id": "ASSESS_140", "relevance": "high", "name": "Gaenslen's Test"},
+        {"id": "ASSESS_141", "relevance": "medium", "name": "Thigh Thrust Test"}
+      ]
+    },
+
+    "COND_084": {
+      "name": "Coccydynia",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_399", "weight": 0.95, "name": "Pain directly over coccyx"},
+          {"id": "SYMPTOM_400", "weight": 0.90, "name": "Pain worse with sitting"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_401", "weight": 0.85, "name": "Pain with transition from sitting to standing"},
+          {"id": "SYMPTOM_402", "weight": 0.80, "name": "Pain with defecation"},
+          {"id": "SYMPTOM_403", "weight": 0.75, "name": "History of fall on tailbone"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_404", "weight": 0.70, "name": "Relief with standing or walking"},
+          {"id": "SYMPTOM_405", "weight": 0.65, "name": "Difficulty with prolonged sitting"},
+          {"id": "SYMPTOM_406", "weight": 0.60, "name": "Use of cushion for sitting"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_142", "relevance": "high", "name": "Coccygeal Palpation Test"}
+      ]
+    },
+
+    "COND_085": {
+      "name": "Whiplash Associated Disorder",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_407", "weight": 0.95, "name": "Neck pain following motor vehicle accident"},
+          {"id": "SYMPTOM_408", "weight": 0.90, "name": "Delayed onset of symptoms"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_409", "weight": 0.85, "name": "Headaches"},
+          {"id": "SYMPTOM_410", "weight": 0.80, "name": "Dizziness and vertigo"},
+          {"id": "SYMPTOM_411", "weight": 0.75, "name": "Cognitive difficulties"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_412", "weight": 0.70, "name": "Upper extremity numbness and tingling"},
+          {"id": "SYMPTOM_413", "weight": 0.65, "name": "Fatigue"},
+          {"id": "SYMPTOM_414", "weight": 0.60, "name": "Sleep disturbances"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_143", "relevance": "high", "name": "Cervical Range of Motion Test"},
+        {"id": "ASSESS_144", "relevance": "medium", "name": "Spurling's Test"}
+      ]
+    },
+
+    "COND_086": {
+      "name": "Guillain-Barré Syndrome",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_415", "weight": 0.95, "name": "Ascending symmetric weakness"},
+          {"id": "SYMPTOM_416", "weight": 0.90, "name": "Areflexia or hyporeflexia"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_417", "weight": 0.85, "name": "Distal numbness and tingling"},
+          {"id": "SYMPTOM_418", "weight": 0.80, "name": "Respiratory muscle weakness"},
+          {"id": "SYMPTOM_419", "weight": 0.75, "name": "Facial weakness"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_420", "weight": 0.70, "name": "Recent viral illness"},
+          {"id": "SYMPTOM_421", "weight": 0.65, "name": "Difficulty swallowing"},
+          {"id": "SYMPTOM_422", "weight": 0.60, "name": "Autonomic dysfunction"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_145", "relevance": "high", "name": "Deep Tendon Reflex Testing"},
+        {"id": "ASSESS_146", "relevance": "high", "name": "Manual Muscle Testing"}
+      ]
+    },
+
+    "COND_087": {
+      "name": "Myasthenia Gravis",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_423", "weight": 0.95, "name": "Fatigable weakness"},
+          {"id": "SYMPTOM_424", "weight": 0.90, "name": "Weakness improves with rest"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_425", "weight": 0.85, "name": "Ptosis and diplopia"},
+          {"id": "SYMPTOM_426", "weight": 0.80, "name": "Dysarthria and dysphagia"},
+          {"id": "SYMPTOM_427", "weight": 0.75, "name": "Proximal muscle weakness"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_428", "weight": 0.70, "name": "Symptoms worse with exertion"},
+          {"id": "SYMPTOM_429", "weight": 0.65, "name": "Respiratory muscle involvement"},
+          {"id": "SYMPTOM_430", "weight": 0.60, "name": "Fluctuating symptoms throughout day"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_147", "relevance": "high", "name": "Ice Pack Test"},
+        {"id": "ASSESS_148", "relevance": "high", "name": "Repetitive Stimulation Test"}
+      ]
+    },
+
+    "COND_088": {
+      "name": "Post-Polio Syndrome",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_431", "weight": 0.95, "name": "New weakness in previously affected muscles"},
+          {"id": "SYMPTOM_432", "weight": 0.90, "name": "History of acute poliomyelitis"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_433", "weight": 0.85, "name": "Progressive muscle atrophy"},
+          {"id": "SYMPTOM_434", "weight": 0.80, "name": "New weakness in unaffected muscles"},
+          {"id": "SYMPTOM_435", "weight": 0.75, "name": "Muscle and joint pain"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_413", "weight": 0.70, "name": "Fatigue"},
+          {"id": "SYMPTOM_436", "weight": 0.65, "name": "Cold intolerance"},
+          {"id": "SYMPTOM_414", "weight": 0.60, "name": "Sleep disturbances"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_146", "relevance": "high", "name": "Manual Muscle Testing"},
+        {"id": "ASSESS_149", "relevance": "medium", "name": "Fatigue Assessment"}
+      ]
+    },
+
+    "COND_089": {
+      "name": "Charcot-Marie-Tooth Disease",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_437", "weight": 0.95, "name": "Distal muscle weakness and atrophy"},
+          {"id": "SYMPTOM_438", "weight": 0.90, "name": "High-arched feet (pes cavus)"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_439", "weight": 0.85, "name": "Hammer toes"},
+          {"id": "SYMPTOM_440", "weight": 0.80, "name": "Distal sensory loss"},
+          {"id": "SYMPTOM_441", "weight": 0.75, "name": "Foot drop"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_442", "weight": 0.70, "name": "Frequent ankle sprains"},
+          {"id": "SYMPTOM_443", "weight": 0.65, "name": "Difficulty with fine motor tasks"},
+          {"id": "SYMPTOM_444", "weight": 0.60, "name": "Family history of similar symptoms"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_150", "relevance": "high", "name": "Nerve Conduction Studies"},
+        {"id": "ASSESS_146", "relevance": "high", "name": "Manual Muscle Testing"}
+      ]
+    },
+
+    "COND_090": {
+      "name": "Muscular Dystrophy",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_445", "weight": 0.95, "name": "Progressive muscle weakness"},
+          {"id": "SYMPTOM_446", "weight": 0.90, "name": "Muscle pseudohypertrophy"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_447", "weight": 0.85, "name": "Gowers' sign"},
+          {"id": "SYMPTOM_448", "weight": 0.80, "name": "Delayed motor milestones"},
+          {"id": "SYMPTOM_449", "weight": 0.75, "name": "Waddling gait"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_450", "weight": 0.70, "name": "Frequent falls"},
+          {"id": "SYMPTOM_451", "weight": 0.65, "name": "Difficulty climbing stairs"},
+          {"id": "SYMPTOM_444", "weight": 0.60, "name": "Family history of similar symptoms"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_146", "relevance": "high", "name": "Manual Muscle Testing"},
+        {"id": "ASSESS_151", "relevance": "medium", "name": "Gowers' Sign Test"}
+      ]
+    },
+
+    "COND_091": {
+      "name": "Amyotrophic Lateral Sclerosis",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_452", "weight": 0.95, "name": "Progressive weakness with fasciculations"},
+          {"id": "SYMPTOM_453", "weight": 0.90, "name": "Upper and lower motor neuron signs"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_454", "weight": 0.85, "name": "Dysarthria and dysphagia"},
+          {"id": "SYMPTOM_455", "weight": 0.80, "name": "Muscle cramps"},
+          {"id": "SYMPTOM_456", "weight": 0.75, "name": "Emotional lability"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_457", "weight": 0.70, "name": "Difficulty with fine motor tasks"},
+          {"id": "SYMPTOM_458", "weight": 0.65, "name": "Weight loss"},
+          {"id": "SYMPTOM_413", "weight": 0.60, "name": "Fatigue"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_152", "relevance": "high", "name": "Electromyography (EMG)"},
+        {"id": "ASSESS_145", "relevance": "high", "name": "Deep Tendon Reflex Testing"}
+      ]
+    },
+
+    "COND_092": {
+      "name": "Huntington's Disease",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_459", "weight": 0.95, "name": "Progressive chorea"},
+          {"id": "SYMPTOM_460", "weight": 0.90, "name": "Cognitive decline"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_461", "weight": 0.85, "name": "Psychiatric symptoms"},
+          {"id": "SYMPTOM_462", "weight": 0.80, "name": "Dystonia"},
+          {"id": "SYMPTOM_444", "weight": 0.75, "name": "Family history of similar symptoms"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_463", "weight": 0.70, "name": "Depression and anxiety"},
+          {"id": "SYMPTOM_464", "weight": 0.65, "name": "Difficulty with balance"},
+          {"id": "SYMPTOM_421", "weight": 0.60, "name": "Difficulty swallowing"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_153", "relevance": "high", "name": "Movement Disorder Assessment"},
+        {"id": "ASSESS_154", "relevance": "medium", "name": "Cognitive Assessment"}
+      ]
+    },
+
+    "COND_093": {
+      "name": "Ataxia",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_465", "weight": 0.95, "name": "Incoordination of voluntary movements"},
+          {"id": "SYMPTOM_466", "weight": 0.90, "name": "Wide-based unsteady gait"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_467", "weight": 0.85, "name": "Dysmetria"},
+          {"id": "SYMPTOM_468", "weight": 0.80, "name": "Intention tremor"},
+          {"id": "SYMPTOM_469", "weight": 0.75, "name": "Nystagmus"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_470", "weight": 0.70, "name": "Difficulty with rapid alternating movements"},
+          {"id": "SYMPTOM_454", "weight": 0.65, "name": "Dysarthria and dysphagia"},
+          {"id": "SYMPTOM_450", "weight": 0.60, "name": "Frequent falls"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_155", "relevance": "high", "name": "Finger-to-Nose Test"},
+        {"id": "ASSESS_156", "relevance": "high", "name": "Heel-to-Shin Test"}
+      ]
+    },
+
+    "COND_094": {
+      "name": "Bell's Palsy",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_471", "weight": 0.95, "name": "Unilateral facial paralysis"},
+          {"id": "SYMPTOM_472", "weight": 0.90, "name": "Inability to close eye on affected side"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_473", "weight": 0.85, "name": "Loss of nasolabial fold"},
+          {"id": "SYMPTOM_474", "weight": 0.80, "name": "Drooling"},
+          {"id": "SYMPTOM_475", "weight": 0.75, "name": "Hyperacusis"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_476", "weight": 0.70, "name": "Altered taste sensation"},
+          {"id": "SYMPTOM_477", "weight": 0.65, "name": "Pain around ear"},
+          {"id": "SYMPTOM_408", "weight": 0.60, "name": "Delayed onset of symptoms"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_157", "relevance": "high", "name": "House-Brackmann Grading"},
+        {"id": "ASSESS_158", "relevance": "medium", "name": "Facial Nerve Function Test"}
+      ]
+    },
+
+    "COND_095": {
+      "name": "Trigeminal Neuralgia",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_478", "weight": 0.95, "name": "Sudden, severe, shooting facial pain"},
+          {"id": "SYMPTOM_479", "weight": 0.90, "name": "Pain triggered by light touch"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_480", "weight": 0.85, "name": "Pain in trigeminal nerve distribution"},
+          {"id": "SYMPTOM_481", "weight": 0.80, "name": "Pain lasts seconds to minutes"},
+          {"id": "SYMPTOM_482", "weight": 0.75, "name": "Trigger zones on face"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_483", "weight": 0.70, "name": "Avoidance of touching face"},
+          {"id": "SYMPTOM_484", "weight": 0.65, "name": "Pain worse with chewing or talking"},
+          {"id": "SYMPTOM_485", "weight": 0.60, "name": "Unilateral facial pain"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_159", "relevance": "high", "name": "Trigeminal Sensory Testing"},
+        {"id": "ASSESS_160", "relevance": "medium", "name": "Trigger Point Assessment"}
+      ]
+    },
+
+    "COND_096": {
+      "name": "Pneumonia - Post",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_486", "weight": 0.95, "name": "Persistent dyspnea on exertion"},
+          {"id": "SYMPTOM_487", "weight": 0.90, "name": "Reduced exercise tolerance"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_488", "weight": 0.85, "name": "Productive cough"},
+          {"id": "SYMPTOM_413", "weight": 0.80, "name": "Fatigue"},
+          {"id": "SYMPTOM_489", "weight": 0.75, "name": "Chest tightness"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_490", "weight": 0.70, "name": "Decreased lung function"},
+          {"id": "SYMPTOM_491", "weight": 0.65, "name": "Muscle weakness and deconditioning"},
+          {"id": "SYMPTOM_458", "weight": 0.60, "name": "Weight loss"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_161", "relevance": "high", "name": "Pulmonary Function Test"},
+        {"id": "ASSESS_162", "relevance": "high", "name": "Six-Minute Walk Test"}
+      ]
+    },
+
+    "COND_097": {
+      "name": "Pulmonary Fibrosis",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_492", "weight": 0.95, "name": "Progressive shortness of breath"},
+          {"id": "SYMPTOM_493", "weight": 0.90, "name": "Dry, persistent cough"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_494", "weight": 0.85, "name": "Clubbing of fingers"},
+          {"id": "SYMPTOM_487", "weight": 0.80, "name": "Reduced exercise tolerance"},
+          {"id": "SYMPTOM_495", "weight": 0.75, "name": "Fine inspiratory crackles"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_413", "weight": 0.70, "name": "Fatigue"},
+          {"id": "SYMPTOM_458", "weight": 0.65, "name": "Weight loss"},
+          {"id": "SYMPTOM_489", "weight": 0.60, "name": "Chest tightness"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_161", "relevance": "high", "name": "Pulmonary Function Test"},
+        {"id": "ASSESS_163", "relevance": "high", "name": "High-Resolution CT Scan"}
+      ]
+    },
+
+    "COND_098": {
+      "name": "Asthma",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_496", "weight": 0.95, "name": "Reversible airway obstruction"},
+          {"id": "SYMPTOM_497", "weight": 0.90, "name": "Wheeze with expiration"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_498", "weight": 0.85, "name": "Episodic dyspnea"},
+          {"id": "SYMPTOM_499", "weight": 0.80, "name": "Nocturnal symptoms"},
+          {"id": "SYMPTOM_500", "weight": 0.75, "name": "Trigger-induced symptoms"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_489", "weight": 0.70, "name": "Chest tightness"},
+          {"id": "SYMPTOM_501", "weight": 0.65, "name": "Exercise-induced symptoms"},
+          {"id": "SYMPTOM_502", "weight": 0.60, "name": "Response to bronchodilators"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_164", "relevance": "high", "name": "Peak Flow Measurement"},
+        {"id": "ASSESS_165", "relevance": "high", "name": "Bronchodilator Response Test"}
+      ]
+    },
+
+    "COND_099": {
+      "name": "Bronchiectasis",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_503", "weight": 0.95, "name": "Chronic productive cough with purulent sputum"},
+          {"id": "SYMPTOM_504", "weight": 0.90, "name": "Abnormal airway dilation on imaging"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_505", "weight": 0.85, "name": "Recurrent respiratory infections"},
+          {"id": "SYMPTOM_506", "weight": 0.80, "name": "Hemoptysis"},
+          {"id": "SYMPTOM_507", "weight": 0.75, "name": "Coarse crackles on auscultation"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_486", "weight": 0.70, "name": "Persistent dyspnea on exertion"},
+          {"id": "SYMPTOM_494", "weight": 0.65, "name": "Clubbing of fingers"},
+          {"id": "SYMPTOM_413", "weight": 0.60, "name": "Fatigue"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_163", "relevance": "high", "name": "High-Resolution CT Scan"},
+        {"id": "ASSESS_166", "relevance": "medium", "name": "Sputum Culture"}
+      ]
+    },
+
+    "COND_100": {
+      "name": "Post-Cardiac Surgery Rehabilitation",
+      "symptoms": {
+        "pathognomonic": [
+          {"id": "SYMPTOM_508", "weight": 0.95, "name": "Reduced functional capacity post-surgery"},
+          {"id": "SYMPTOM_509", "weight": 0.90, "name": "Sternotomy pain and stiffness"}
+        ],
+        "characteristic": [
+          {"id": "SYMPTOM_487", "weight": 0.85, "name": "Reduced exercise tolerance"},
+          {"id": "SYMPTOM_413", "weight": 0.80, "name": "Fatigue"},
+          {"id": "SYMPTOM_510", "weight": 0.75, "name": "Anxiety about activity"}
+        ],
+        "common": [
+          {"id": "SYMPTOM_491", "weight": 0.70, "name": "Muscle weakness and deconditioning"},
+          {"id": "SYMPTOM_414", "weight": 0.65, "name": "Sleep disturbances"},
+          {"id": "SYMPTOM_511", "weight": 0.60, "name": "Depression and mood changes"}
+        ]
+      },
+      "clinical_assessments": [
+        {"id": "ASSESS_162", "relevance": "high", "name": "Six-Minute Walk Test"},
+        {"id": "ASSESS_167", "relevance": "high", "name": "Cardiac Stress Test"},
+        {"id": "ASSESS_168", "relevance": "medium", "name": "Functional Capacity Evaluation"}
+      ]
+    }
+  }
+}
