@@ -73,6 +73,11 @@ interface ApiResponse {
 }
 
 const responseMiddleware = async (response: Response): Promise<ApiResponse> => {
+    // Handle 204 No Content (empty response body)
+    if (response.status === 204) {
+        return { success: true, statusCode: 204, message: 'Success', data: null }
+    }
+
     const data = await response.json()
 
     if (response.status === 401) {

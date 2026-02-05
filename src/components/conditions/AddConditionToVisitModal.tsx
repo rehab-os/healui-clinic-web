@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { X, Plus, Calendar, AlertTriangle, Stethoscope, Clock, Activity, FileText } from 'lucide-react';
 import ApiManager from '../../services/api';
 import ConditionSelector from '../molecule/ConditionSelector';
-import type { 
+import { TreatmentFocus } from '../../lib/types';
+import type {
   PatientConditionResponseDto,
   Neo4jConditionResponseDto,
   CreatePatientConditionDto,
-  CreateVisitConditionDto,
-  ConditionType,
-  TreatmentFocus
+  CreateVisitConditionDto
 } from '../../lib/types';
 
 interface AddConditionToVisitModalProps {
@@ -43,7 +42,6 @@ const AddConditionToVisitModal: React.FC<AddConditionToVisitModalProps> = ({
   
   // New condition creation
   const [selectedNewConditions, setSelectedNewConditions] = useState<Neo4jConditionResponseDto[]>([]);
-  const [newConditionType, setNewConditionType] = useState<ConditionType>('ACUTE');
   const [newConditionDescription, setNewConditionDescription] = useState('');
   
   // Symptom data for each condition
@@ -66,7 +64,7 @@ const AddConditionToVisitModal: React.FC<AddConditionToVisitModalProps> = ({
         const activeConditions = (response.data || []).filter(
           (condition: PatientConditionResponseDto) => 
             condition.status === 'ACTIVE' && 
-            !existingConditionIds.includes(condition.neo4j_condition_id)
+            !existingConditionIds.includes(condition.condition_id)
         );
         setPatientConditions(activeConditions);
       }
@@ -92,10 +90,10 @@ const AddConditionToVisitModal: React.FC<AddConditionToVisitModalProps> = ({
   };
 
   const addExistingCondition = (condition: PatientConditionResponseDto) => {
-    const symptoms = initializeSymptomData(condition.neo4j_condition_id, condition.condition_name);
+    const symptoms = initializeSymptomData(condition.condition_id, condition.condition_name);
     setSymptomData(prev => ({
       ...prev,
-      [condition.neo4j_condition_id]: symptoms
+      [condition.condition_id]: symptoms
     }));
   };
 
@@ -147,11 +145,12 @@ const AddConditionToVisitModal: React.FC<AddConditionToVisitModalProps> = ({
 
       for (const condition of newConditionsToCreate) {
         const symptoms = symptomData[condition.condition_id];
-        
+
         const createData: CreatePatientConditionDto = {
-          neo4j_condition_id: condition.condition_id,
-          description: newConditionDescription || condition.description,
-          condition_type: newConditionType
+          condition_id: condition.condition_id,
+          condition_name: condition.condition_name,
+          body_region: condition.body_region,
+          chief_complaint: symptoms.chief_complaint || newConditionDescription
         };
 
         const response = await ApiManager.createPatientCondition(patientId, createData);
@@ -169,7 +168,7 @@ const AddConditionToVisitModal: React.FC<AddConditionToVisitModalProps> = ({
         // Find patient condition ID
         let patientConditionId = createdPatientConditions[conditionId];
         if (!patientConditionId) {
-          const existingCondition = patientConditions.find(c => c.neo4j_condition_id === conditionId);
+          const existingCondition = patientConditions.find(c => c.condition_id === conditionId);
           patientConditionId = existingCondition?.id;
         }
 
@@ -178,8 +177,9 @@ const AddConditionToVisitModal: React.FC<AddConditionToVisitModalProps> = ({
         }
 
         const visitConditionData: CreateVisitConditionDto = {
+          visit_id: visitId,
           patient_condition_id: patientConditionId,
-          treatment_focus: 'PRIMARY',
+          treatment_focus: TreatmentFocus.PRIMARY,
           chief_complaint: symptoms.chief_complaint
         };
 
@@ -209,7 +209,6 @@ const AddConditionToVisitModal: React.FC<AddConditionToVisitModalProps> = ({
     setSymptomData({});
     setSelectedNewConditions([]);
     setNewConditionDescription('');
-    setNewConditionType('ACUTE');
     setError('');
   };
 
@@ -293,7 +292,7 @@ const AddConditionToVisitModal: React.FC<AddConditionToVisitModalProps> = ({
               ) : (
                 <div className="grid gap-3">
                   {patientConditions.map((condition) => {
-                    const isSelected = selectedConditions.includes(condition.neo4j_condition_id);
+                    const isSelected = selectedConditions.includes(condition.condition_id);
                     
                     return (
                       <div key={condition.id} className="border border-border-color rounded-lg p-4">
@@ -316,7 +315,7 @@ const AddConditionToVisitModal: React.FC<AddConditionToVisitModalProps> = ({
                             </button>
                           ) : (
                             <button
-                              onClick={() => removeCondition(condition.neo4j_condition_id)}
+                              onClick={() => removeCondition(condition.condition_id)}
                               className="px-3 py-1.5 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 transition-colors"
                             >
                               Remove
@@ -326,10 +325,10 @@ const AddConditionToVisitModal: React.FC<AddConditionToVisitModalProps> = ({
                         
                         {isSelected && (
                           <SymptomDataForm
-                            conditionId={condition.neo4j_condition_id}
+                            conditionId={condition.condition_id}
                             conditionName={condition.condition_name}
-                            symptomData={symptomData[condition.neo4j_condition_id]}
-                            onUpdate={(updates) => updateSymptomData(condition.neo4j_condition_id, updates)}
+                            symptomData={symptomData[condition.condition_id]}
+                            onUpdate={(updates) => updateSymptomData(condition.condition_id, updates)}
                           />
                         )}
                       </div>
@@ -358,33 +357,17 @@ const AddConditionToVisitModal: React.FC<AddConditionToVisitModalProps> = ({
 
               {selectedNewConditions.length > 0 && (
                 <>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Condition Type
-                      </label>
-                      <select
-                        value={newConditionType}
-                        onChange={(e) => setNewConditionType(e.target.value as ConditionType)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-healui-physio/20"
-                      >
-                        <option value="ACUTE">Acute</option>
-                        <option value="CHRONIC">Chronic</option>
-                        <option value="RECURRING">Recurring</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Additional Description
-                      </label>
-                      <input
-                        type="text"
-                        value={newConditionDescription}
-                        onChange={(e) => setNewConditionDescription(e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-healui-physio/20"
-                        placeholder="Optional description..."
-                      />
-                    </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Additional Notes
+                    </label>
+                    <input
+                      type="text"
+                      value={newConditionDescription}
+                      onChange={(e) => setNewConditionDescription(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-healui-physio/20"
+                      placeholder="Optional notes..."
+                    />
                   </div>
 
                   <div className="space-y-4">

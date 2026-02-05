@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useAppSelector } from '../../../store/hooks';
 import ApiManager from '../../../services/api';
 import AddPatientModal from '../../../components/molecule/AddPatientModal';
@@ -9,6 +10,7 @@ import EnhancedPatientDetailsModal from '../../../components/molecule/EnhancedPa
 import ScheduleVisitModal from '../../../components/molecule/ScheduleVisitModal';
 import ClinicalAssessmentModal from '../../../components/molecule/ClinicalAssessmentModal';
 import PatientBillingModal from '../../../components/molecule/PatientBillingModal';
+import AddConditionWorkflow from '../../../components/molecule/AddConditionWorkflow';
 import {
   UserPlus,
   Users,
@@ -37,7 +39,8 @@ import {
   XCircle,
   Stethoscope,
   IndianRupee,
-  Package
+  Package,
+  Crosshair
 } from 'lucide-react';
 
 interface Patient {
@@ -94,6 +97,7 @@ interface PatientsData {
 
 
 export default function PatientsPage() {
+  const router = useRouter();
   const { userData, currentClinic } = useAppSelector(state => state.user);
   const [patientsData, setPatientsData] = useState<PatientsData>({
     patients: [],
@@ -110,6 +114,7 @@ export default function PatientsPage() {
   const [showScheduleModal, setShowScheduleModal] = useState(false);
   const [showAssessmentModal, setShowAssessmentModal] = useState(false);
   const [showBillingModal, setShowBillingModal] = useState(false);
+  const [showDxModal, setShowDxModal] = useState(false);
   const [page, setPage] = useState(1);
   const limit = 15; // Increased for better mobile experience
 
@@ -154,8 +159,8 @@ export default function PatientsPage() {
   };
 
   const handleViewPatient = (patient: Patient) => {
-    setSelectedPatient(patient);
-    setShowDetailsModal(true);
+    // Navigate to the new patient page
+    router.push(`/dashboard/patients/${patient.id}`);
   };
 
   const handleScheduleVisit = (patient: Patient) => {
@@ -171,6 +176,11 @@ export default function PatientsPage() {
   const handleBilling = (patient: Patient) => {
     setSelectedPatient(patient);
     setShowBillingModal(true);
+  };
+
+  const handleDx = (patient: Patient) => {
+    setSelectedPatient(patient);
+    setShowDxModal(true);
   };
 
   const calculateAge = (dob: Date) => {
@@ -385,6 +395,7 @@ export default function PatientsPage() {
                       onSchedule={() => handleScheduleVisit(patient)}
                       onClinicalAssessment={() => handleClinicalAssessment(patient)}
                       onBilling={() => handleBilling(patient)}
+                      onDx={() => handleDx(patient)}
                     />
                   ))}
                 </tbody>
@@ -402,6 +413,7 @@ export default function PatientsPage() {
                 onSchedule={() => handleScheduleVisit(patient)}
                 onClinicalAssessment={() => handleClinicalAssessment(patient)}
                 onBilling={() => handleBilling(patient)}
+                onDx={() => handleDx(patient)}
               />
             ))}
           </div>
@@ -520,6 +532,23 @@ export default function PatientsPage() {
           }}
         />
       )}
+
+      {/* Dx Workflow Modal */}
+      <AddConditionWorkflow
+        isOpen={showDxModal}
+        onClose={() => {
+          setShowDxModal(false);
+          setSelectedPatient(null);
+        }}
+        patientId={selectedPatient?.id || ''}
+        patientName={selectedPatient?.full_name}
+        onComplete={(result) => {
+          console.log('Dx completed:', result);
+          setShowDxModal(false);
+          setSelectedPatient(null);
+          fetchPatients();
+        }}
+      />
     </div>
   );
 }
@@ -531,9 +560,10 @@ interface PatientCardProps {
   onSchedule: () => void;
   onClinicalAssessment: () => void;
   onBilling: () => void;
+  onDx: () => void;
 }
 
-const PatientCard: React.FC<PatientCardProps> = ({ patient, viewMode, onView, onSchedule, onClinicalAssessment, onBilling }) => {
+const PatientCard: React.FC<PatientCardProps> = ({ patient, viewMode, onView, onSchedule, onClinicalAssessment, onBilling, onDx }) => {
 
   const calculateAge = (dob: Date) => {
     const today = new Date();
@@ -623,6 +653,18 @@ const PatientCard: React.FC<PatientCardProps> = ({ patient, viewMode, onView, on
         {/* Actions */}
         <td className="px-4 py-2.5">
           <div className="flex items-center justify-end gap-1">
+            {/* Dx Button - Primary Action */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onDx();
+              }}
+              className="inline-flex items-center px-2.5 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 rounded-md shadow-sm transition-all"
+            >
+              <Crosshair className="h-3.5 w-3.5 mr-1" />
+              Dx
+            </button>
+
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -722,6 +764,18 @@ const PatientCard: React.FC<PatientCardProps> = ({ patient, viewMode, onView, on
           </div>
         </div>
 
+        {/* Dx Button - Prominent */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onDx();
+          }}
+          className="w-full mb-4 inline-flex items-center justify-center px-4 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 rounded-lg shadow-md hover:shadow-lg transition-all"
+        >
+          <Crosshair className="h-4 w-4 mr-2" />
+          Start Dx
+        </button>
+
         {/* Action Buttons */}
         <div className="flex items-center justify-between pt-4 border-t border-gray-100">
           <button
@@ -733,7 +787,7 @@ const PatientCard: React.FC<PatientCardProps> = ({ patient, viewMode, onView, on
           >
             View Details
           </button>
-          
+
           <div className="flex items-center space-x-2">
             <button
               onClick={(e) => {
@@ -745,7 +799,7 @@ const PatientCard: React.FC<PatientCardProps> = ({ patient, viewMode, onView, on
               <Stethoscope className="h-4 w-4 mr-1.5" />
               History
             </button>
-            
+
             <button
               onClick={(e) => {
                 e.stopPropagation();

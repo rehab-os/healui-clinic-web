@@ -410,16 +410,10 @@ export interface PatientIntakeStatusDto {
 // Multi-Condition Support Types
 export enum ConditionStatus {
     ACTIVE = 'ACTIVE',
-    RESOLVED = 'RESOLVED',
     IMPROVING = 'IMPROVING',
-    CHRONIC = 'CHRONIC'
-}
-
-export enum ConditionType {
-    ACUTE = 'ACUTE',
-    CHRONIC = 'CHRONIC',
-    POST_SURGICAL = 'POST_SURGICAL',
-    CONGENITAL = 'CONGENITAL'
+    ON_HOLD = 'ON_HOLD',
+    DISCHARGED = 'DISCHARGED',
+    RESOLVED = 'RESOLVED', // Legacy - use DISCHARGED with GOALS_MET reason instead
 }
 
 export enum TreatmentFocus {
@@ -427,206 +421,182 @@ export enum TreatmentFocus {
     SECONDARY = 'SECONDARY'
 }
 
+export enum UrgencyLevel {
+    LOW = 'LOW',
+    MODERATE = 'MODERATE',
+    HIGH = 'HIGH',
+    URGENT = 'URGENT',
+}
+
 // Patient Condition Types
 export interface CreatePatientConditionDto {
-    neo4j_condition_id: string // Backend expects this field (can contain ontology IDs)
-    description?: string
-    condition_type?: ConditionType
-    onset_date?: string
-    
-    // ========== SCREENING FIELDS ==========
-    // Red Flag Fields
-    night_pain?: boolean
-    unexplained_weight_loss?: boolean
-    history_cancer_tb?: boolean
-    fever_with_symptoms?: boolean
-    bladder_bowel_changes?: boolean
-    neurological_symptoms?: boolean
-    recent_trauma?: boolean
-    red_flag_notes?: string
+    condition_id?: string  // Static condition ID
+    neo4j_condition_id?: string // Legacy field, use condition_id instead
+    condition_name?: string
+    body_region?: string
 
-    // Primary Problem Fields
+    // Quick access fields
     chief_complaint?: string
-    primary_body_region?: string
-    pain_present?: boolean
-    vas_score?: number
-    symptom_duration?: SymptomDuration
-
-    // Functional Impact
-    functional_limitation_level?: FunctionalLimitationLevel
-    work_affected?: boolean
-    sleep_affected?: boolean
-    daily_activities_affected?: boolean
-
-    // Mechanism/Context
-    mechanism_of_injury?: MechanismOfInjury
-    related_to_work?: boolean
-    related_to_sport?: boolean
-    previous_episodes?: boolean
-
-    // Patient Expectations
-    primary_goal?: string
+    vas_score?: number  // 0-10 scale
     urgency_level?: UrgencyLevel
+
+    // ========== DUAL DIAGNOSIS WORKFLOW ==========
+    diagnosis_method?: 'SYMPTOM_AND_CLINICAL' | 'CLINICAL_ONLY'
+    diagnosis_status?: 'DRAFT' | 'SYMPTOM_DX_PENDING' | 'SYMPTOM_DX_COMPLETE' | 'CLINICAL_DX_COMPLETE' | 'COMPLETE'
+
+    // SymptomDx
+    symptom_dx_data?: any
+    symptom_dx_completed?: boolean
+    symptom_dx_completed_at?: string
+    symptom_dx_filled_by?: 'PATIENT' | 'PHYSIO'
+    symptom_dx_filled_by_user_id?: string
+
+    // ClinicalDx
+    clinical_dx_data?: any
+    clinical_dx_completed?: boolean
+    clinical_dx_completed_at?: string
+    clinical_assessments_data?: any[]
+    clinical_dx_differential?: any
+
+    // Final Diagnosis
+    final_diagnosis?: any
+
+    // Patient Link
+    patient_link_token?: string
+    patient_link_expires_at?: string
 }
 
 export interface UpdatePatientConditionStatusDto {
     status: ConditionStatus
 }
 
-export interface UpdatePatientConditionDescriptionDto {
-    description: string
-}
-
-export enum SeverityLevel {
-    MILD = 'MILD',
-    MODERATE = 'MODERATE',
-    SEVERE = 'SEVERE',
-}
-
-export enum FunctionalLimitationLevel {
-    NONE = 'NONE',
-    MILD = 'MILD',
-    MODERATE = 'MODERATE',
-    SEVERE = 'SEVERE'
-}
-
-export enum MechanismOfInjury {
-    TRAUMA = 'TRAUMA',
-    GRADUAL_ONSET = 'GRADUAL_ONSET',
-    POST_SURGICAL = 'POST_SURGICAL',
-    UNKNOWN = 'UNKNOWN'
-}
-
-export enum UrgencyLevel {
-    ROUTINE = 'ROUTINE',
-    URGENT = 'URGENT',
-    EMERGENT = 'EMERGENT'
-}
-
-export enum SymptomDuration {
-    ACUTE = 'ACUTE',        // < 6 weeks
-    SUBACUTE = 'SUBACUTE',  // 6-12 weeks  
-    CHRONIC = 'CHRONIC'     // > 3 months
-}
-
 export interface UpdatePatientConditionDto {
+    condition_id?: string
+    condition_name?: string
+    body_region?: string
     status?: ConditionStatus
-    description?: string
-    severity_level?: SeverityLevel
-    current_protocol_id?: string
-    last_assessment_date?: string
+
+    // Quick access fields
+    chief_complaint?: string
+    vas_score?: number  // 0-10 scale
+    urgency_level?: UrgencyLevel
+
+    // Discharge
     discharge_summary?: string
     discharged_at?: string
     discharged_by_id?: string
-    
-    // ========== SCREENING FIELDS ==========
-    // Red Flag Fields
-    night_pain?: boolean
-    unexplained_weight_loss?: boolean
-    history_cancer_tb?: boolean
-    fever_with_symptoms?: boolean
-    bladder_bowel_changes?: boolean
-    neurological_symptoms?: boolean
-    recent_trauma?: boolean
-    red_flag_notes?: string
 
-    // Primary Problem Fields
-    chief_complaint?: string
-    primary_body_region?: string
-    pain_present?: boolean
-    vas_score?: number
-    symptom_duration?: SymptomDuration
+    // ========== DUAL DIAGNOSIS WORKFLOW ==========
+    diagnosis_method?: 'SYMPTOM_AND_CLINICAL' | 'CLINICAL_ONLY'
+    diagnosis_status?: 'DRAFT' | 'SYMPTOM_DX_PENDING' | 'SYMPTOM_DX_COMPLETE' | 'CLINICAL_DX_COMPLETE' | 'COMPLETE'
 
-    // Functional Impact
-    functional_limitation_level?: FunctionalLimitationLevel
-    work_affected?: boolean
-    sleep_affected?: boolean
-    daily_activities_affected?: boolean
+    // SymptomDx
+    symptom_dx_data?: any
+    symptom_dx_completed?: boolean
+    symptom_dx_completed_at?: string
+    symptom_dx_filled_by?: 'PATIENT' | 'PHYSIO'
+    symptom_dx_filled_by_user_id?: string
 
-    // Mechanism/Context
-    mechanism_of_injury?: MechanismOfInjury
-    related_to_work?: boolean
-    related_to_sport?: boolean
-    previous_episodes?: boolean
+    // ClinicalDx
+    clinical_dx_data?: any
+    clinical_dx_completed?: boolean
+    clinical_dx_completed_at?: string
+    clinical_assessments_data?: any[]
+    clinical_dx_differential?: any
 
-    // Patient Expectations
-    primary_goal?: string
-    urgency_level?: UrgencyLevel
+    // Final Diagnosis
+    final_diagnosis?: any
+
+    // Patient Link
+    patient_link_token?: string
+    patient_link_expires_at?: string
 }
 
 export interface PatientConditionResponseDto {
     id: string
     patient_id?: string
     patient_user_id?: string
-    neo4j_condition_id: string // Contains ontology ID (backend field name)
+    condition_id?: string  // Static condition ID
     condition_name: string
-    description?: string
-    condition_type: ConditionType
-    onset_date?: Date
-    status: ConditionStatus
     body_region?: string
-    neo4j_metadata?: any
+    status: ConditionStatus
     created_at: Date
     updated_at: Date
-    neo4j_condition?: Neo4jConditionResponseDto
+
+    // Quick access fields
+    chief_complaint?: string
+    vas_score?: number
+    urgency_level?: UrgencyLevel
+
+    // Visit stats
     visit_conditions_count?: number
     last_treated_date?: Date
-    
-    // New fields
+
+    // Discharge tracking
     discharged_at?: Date
     discharged_by_id?: string
+    discharge_reason?: DischargeReason
     discharge_summary?: string
-    current_protocol_id?: string
-    severity_level?: SeverityLevel
-    last_assessment_date?: Date
+    discharge_notes?: string
     dischargedBy?: {
         id: string
         full_name: string
     }
-    
-    // ========== SCREENING FIELDS ==========
-    screening_completed?: boolean
-    screening_date?: Date
-    screened_by_id?: string
-    
-    // Red Flag Fields
-    night_pain?: boolean
-    unexplained_weight_loss?: boolean
-    history_cancer_tb?: boolean
-    fever_with_symptoms?: boolean
-    bladder_bowel_changes?: boolean
-    neurological_symptoms?: boolean
-    recent_trauma?: boolean
-    red_flag_notes?: string
 
-    // Primary Problem Fields
-    chief_complaint?: string
-    primary_body_region?: string
-    pain_present?: boolean
-    vas_score?: number
-    symptom_duration?: SymptomDuration
+    // ========== DUAL DIAGNOSIS WORKFLOW ==========
+    diagnosis_method?: 'SYMPTOM_AND_CLINICAL' | 'CLINICAL_ONLY'
+    diagnosis_status?: 'DRAFT' | 'SYMPTOM_DX_PENDING' | 'SYMPTOM_DX_COMPLETE' | 'CLINICAL_DX_COMPLETE' | 'COMPLETE'
 
-    // Functional Impact
-    functional_limitation_level?: FunctionalLimitationLevel
-    work_affected?: boolean
-    sleep_affected?: boolean
-    daily_activities_affected?: boolean
+    // SymptomDx
+    symptom_dx_data?: any
+    symptom_dx_completed?: boolean
+    symptom_dx_completed_at?: Date
+    symptom_dx_filled_by?: 'PATIENT' | 'PHYSIO'
+    symptom_dx_filled_by_user_id?: string
 
-    // Mechanism/Context
-    mechanism_of_injury?: MechanismOfInjury
-    related_to_work?: boolean
-    related_to_sport?: boolean
-    previous_episodes?: boolean
+    // ClinicalDx
+    clinical_dx_data?: any
+    clinical_dx_completed?: boolean
+    clinical_dx_completed_at?: Date
+    clinical_assessments_data?: any[]
+    clinical_dx_differential?: any
 
-    // Patient Expectations
-    primary_goal?: string
-    urgency_level?: UrgencyLevel
-    
-    screenedBy?: {
-        id: string
-        full_name: string
-    }
+    // Final Diagnosis
+    final_diagnosis?: any
+
+    // Patient Link
+    patient_link_token?: string
+    patient_link_expires_at?: Date
 }
+
+// Discharge reason enum
+export type DischargeReason =
+    | 'GOALS_MET'       // Treatment goals achieved
+    | 'MMI'             // Maximum Medical Improvement
+    | 'REFERRED'        // Referred to specialist
+    | 'LAMA'            // Left Against Medical Advice
+    | 'SAMA'            // Signed Against Medical Advice
+    | 'LTFU'            // Lost to Follow-up
+    | 'NON_COMPLIANT'   // Poor adherence
+    | 'FINANCIAL'       // Coverage/payment issues
+    | 'RELOCATED'       // Patient moved away
+    | 'TRANSFERRED'     // Transferred to another facility
+    | 'DECEASED'        // Patient passed away
+    | 'RECURRENCE'      // Condition recurred
+
+export const DISCHARGE_REASONS: { value: DischargeReason; label: string; description: string }[] = [
+    { value: 'GOALS_MET', label: 'Goals Met', description: 'Treatment goals achieved, patient recovered' },
+    { value: 'MMI', label: 'Maximum Medical Improvement', description: 'Plateaued, no further gains expected' },
+    { value: 'REFERRED', label: 'Referred', description: 'Referred to specialist/surgeon/other provider' },
+    { value: 'LAMA', label: 'LAMA', description: 'Left Against Medical Advice' },
+    { value: 'SAMA', label: 'SAMA', description: 'Signed Against Medical Advice' },
+    { value: 'LTFU', label: 'Lost to Follow-up', description: 'Patient stopped coming, no contact' },
+    { value: 'NON_COMPLIANT', label: 'Non-Compliant', description: 'Discharged due to poor adherence' },
+    { value: 'FINANCIAL', label: 'Financial/Insurance', description: 'Coverage ended or payment issues' },
+    { value: 'RELOCATED', label: 'Relocated', description: 'Patient moved away' },
+    { value: 'TRANSFERRED', label: 'Transferred', description: 'Transferred to another facility' },
+    { value: 'DECEASED', label: 'Deceased', description: 'Patient passed away' },
+]
 
 // Visit Condition Types
 export interface CreateVisitConditionDto {

@@ -13,12 +13,12 @@ import { Badge } from '../ui/badge'
 import type {
     CreatePatientConditionDto,
     Neo4jConditionResponseDto,
-    ConditionType,
-    SymptomDuration,
-    FunctionalLimitationLevel,
-    MechanismOfInjury,
     UrgencyLevel
 } from '../../lib/types'
+
+// Local types for screening UI (data stored in JSONB fields)
+type SymptomDuration = 'ACUTE' | 'SUBACUTE' | 'CHRONIC'
+type FunctionalLimitationLevel = 'NONE' | 'MILD' | 'MODERATE' | 'SEVERE'
 import localConditionService from '../../services/localConditionService'
 
 interface SmartScreeningModalProps {
@@ -258,28 +258,42 @@ export const SmartScreeningModal: React.FC<SmartScreeningModalProps> = ({
     const handleSubmit = () => {
         if (!screening.selectedCondition) return
 
+        // Build symptom_dx_data from screening responses
+        const symptomDxData = {
+            red_flags: {
+                night_pain: screening.redFlags.includes('night_pain'),
+                unexplained_weight_loss: screening.redFlags.includes('weight_loss'),
+                fever_with_symptoms: screening.redFlags.includes('fever'),
+                neurological_symptoms: screening.redFlags.includes('numbness') || screening.redFlags.includes('weakness'),
+                bladder_bowel_changes: screening.redFlags.includes('bowel_bladder'),
+                recent_trauma: screening.redFlags.includes('trauma'),
+            },
+            primary_problem: {
+                primary_body_region: screening.painLocation,
+                pain_present: screening.painLevel > 0,
+                symptom_duration: screening.symptomDuration || undefined,
+            },
+            functional_impact: {
+                functional_limitation_level: screening.functionalImpact || undefined,
+            },
+            patient_expectations: {
+                primary_goal: screening.primaryGoal,
+            },
+            additional_notes: screening.additionalNotes,
+            filled_at: new Date().toISOString(),
+        }
+
         const conditionData: CreatePatientConditionDto = {
             neo4j_condition_id: screening.selectedCondition.condition_id,
-            description: screening.additionalNotes,
-            condition_type: 'ACUTE' as ConditionType,
-            
-            // Screening data from questions
+            condition_name: screening.selectedCondition.condition_name,
+            body_region: screening.selectedCondition.body_region,
             chief_complaint: screening.chiefComplaint,
-            primary_body_region: screening.painLocation,
-            pain_present: screening.painLevel > 0,
             vas_score: screening.painLevel,
-            symptom_duration: screening.symptomDuration || undefined,
-            functional_limitation_level: screening.functionalImpact || undefined,
-            primary_goal: screening.primaryGoal,
             urgency_level: screening.urgencyLevel || undefined,
-            
-            // Red flags
-            night_pain: screening.redFlags.includes('night_pain'),
-            unexplained_weight_loss: screening.redFlags.includes('weight_loss'),
-            fever_with_symptoms: screening.redFlags.includes('fever'),
-            neurological_symptoms: screening.redFlags.includes('numbness') || screening.redFlags.includes('weakness'),
-            bladder_bowel_changes: screening.redFlags.includes('bowel_bladder'),
-            recent_trauma: screening.redFlags.includes('trauma'),
+            symptom_dx_data: symptomDxData,
+            symptom_dx_completed: true,
+            symptom_dx_filled_by: 'PHYSIO',
+            diagnosis_status: 'SYMPTOM_DX_COMPLETE',
         }
 
         onSubmit(conditionData)

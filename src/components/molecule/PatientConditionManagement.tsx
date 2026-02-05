@@ -2,32 +2,40 @@
 
 import React, { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
-import { Plus, Edit, Trash2, Calendar, Clock, AlertCircle, Stethoscope, TrendingUp, CheckCircle, Sparkles } from 'lucide-react'
+import { Plus, Edit, Trash2, Calendar, Clock, AlertCircle, Stethoscope, TrendingUp, CheckCircle, Sparkles, LogOut, PlayCircle } from 'lucide-react'
 import { Button } from '../ui/button'
 import { Badge } from '../ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from '../ui/alert-dialog'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs'
 import { Textarea } from '../ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 import { Skeleton } from '../ui/skeleton'
+import { toast } from 'sonner'
 import ConditionSelector from './ConditionSelector'
 import ConditionScreeningModal from './ConditionScreeningModal'
 import SmartScreeningModal from './SmartScreeningModal'
 import PhysioAssessmentChatbot from './PhysioAssessmentChatbot'
 import ProtocolGeneratorModal from '../conditions/ProtocolGeneratorModal'
+import DischargeConditionDialog from './DischargeConditionDialog'
 import ApiManager from '../../services/api'
 import { format } from 'date-fns'
 import type {
     PatientConditionResponseDto,
     Neo4jConditionResponseDto,
     ConditionStatus,
-    ConditionType,
     CreatePatientConditionDto,
-    UpdatePatientConditionStatusDto,
-    UpdatePatientConditionDescriptionDto,
     UpdatePatientConditionDto,
-    SeverityLevel,
     VisitConditionResponseDto
 } from '../../lib/types'
 
@@ -58,8 +66,6 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
     // Add condition state
     const [selectedNewConditions, setSelectedNewConditions] = useState<Neo4jConditionResponseDto[]>([])
     const [newConditionDescription, setNewConditionDescription] = useState('')
-    const [newConditionType, setNewConditionType] = useState<ConditionType>('ACUTE')
-    const [newConditionOnsetDate, setNewConditionOnsetDate] = useState('')
     const [addingCondition, setAddingCondition] = useState(false)
     const [showScreeningModal, setShowScreeningModal] = useState(false)
     const [showSmartScreeningModal, setShowSmartScreeningModal] = useState(false)
@@ -67,11 +73,8 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
 
     // Edit condition state
     const [editingCondition, setEditingCondition] = useState(false)
-    const [editingStatus, setEditingStatus] = useState(false)
-    const [editingDescription, setEditingDescription] = useState(false)
     const [editStatus, setEditStatus] = useState<ConditionStatus>('ACTIVE')
-    const [editDescription, setEditDescription] = useState('')
-    const [editSeverityLevel, setEditSeverityLevel] = useState<SeverityLevel | undefined>(undefined)
+    const [editChiefComplaint, setEditChiefComplaint] = useState('')
 
     // Protocol Generator Modal State
     const [showProtocolGenerator, setShowProtocolGenerator] = useState(false)
@@ -79,8 +82,16 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
         conditionId: string;
         conditionName: string;
     } | null>(null)
-    const [editCurrentProtocolId, setEditCurrentProtocolId] = useState('')
     const [editDischargeSummary, setEditDischargeSummary] = useState('')
+
+    // Delete confirmation state
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+    const [conditionToDelete, setConditionToDelete] = useState<ConditionWithHistory | null>(null)
+    const [isDeleting, setIsDeleting] = useState(false)
+
+    // Discharge state
+    const [showDischargeDialog, setShowDischargeDialog] = useState(false)
+    const [conditionToDischarge, setConditionToDischarge] = useState<ConditionWithHistory | null>(null)
 
     // Load patient conditions
     const loadConditions = async () => {
@@ -130,18 +141,28 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
         loadConditions()
     }, [patientId])
 
+    // Filter out incomplete drafts - only show conditions with actual diagnosis
+    const completedConditions = conditions.filter(c =>
+        !c.diagnosis_status ||
+        c.diagnosis_status === 'COMPLETE' ||
+        c.diagnosis_status === 'CLINICAL_DX_COMPLETE' ||
+        c.diagnosis_status === 'SYMPTOM_DX_COMPLETE'
+    )
+
     // Filter conditions by status
     const getFilteredConditions = (status: string) => {
         switch (status) {
             case 'active':
-                return conditions.filter(c => c.status === 'ACTIVE')
+                return completedConditions.filter(c => c.status === 'ACTIVE')
             case 'improving':
-                return conditions.filter(c => c.status === 'IMPROVING')
-            case 'resolved':
-                return conditions.filter(c => c.status === 'RESOLVED' || c.status === 'CHRONIC')
+                return completedConditions.filter(c => c.status === 'IMPROVING')
+            case 'on_hold':
+                return completedConditions.filter(c => c.status === 'ON_HOLD')
+            case 'discharged':
+                return completedConditions.filter(c => c.status === 'DISCHARGED' || c.status === 'RESOLVED')
             case 'all':
             default:
-                return conditions
+                return completedConditions
         }
     }
 
@@ -155,16 +176,16 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
             const addPromises = selectedNewConditions.map(async (condition) => {
                 const createData: CreatePatientConditionDto = {
                     neo4j_condition_id: condition.condition_id,
-                    description: newConditionDescription || condition.description,
-                    condition_type: newConditionType,
-                    onset_date: newConditionOnsetDate || undefined
+                    condition_name: condition.condition_name,
+                    body_region: condition.body_region,
+                    chief_complaint: newConditionDescription || undefined
                 }
 
                 return ApiManager.createPatientCondition(patientId, createData)
             })
 
             const results = await Promise.all(addPromises)
-            
+
             // Check if all requests succeeded
             const failed = results.filter(r => !r.success)
             if (failed.length > 0) {
@@ -174,8 +195,6 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
             // Reset form and reload
             setSelectedNewConditions([])
             setNewConditionDescription('')
-            setNewConditionType('ACUTE')
-            setNewConditionOnsetDate('')
             setShowAddDialog(false)
             await loadConditions()
         } catch (err: any) {
@@ -269,28 +288,20 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
         try {
             // Build update data with only changed fields
             const updateData: UpdatePatientConditionDto = {}
-            
+
             if (editStatus !== selectedCondition.status) {
                 updateData.status = editStatus
             }
-            
-            if (editDescription !== (selectedCondition.description || '')) {
-                updateData.description = editDescription
-            }
-            
-            if (editSeverityLevel !== selectedCondition.severity_level) {
-                updateData.severity_level = editSeverityLevel
-            }
-            
-            if (editCurrentProtocolId !== (selectedCondition.current_protocol_id || '')) {
-                updateData.current_protocol_id = editCurrentProtocolId
+
+            if (editChiefComplaint !== (selectedCondition.chief_complaint || '')) {
+                updateData.chief_complaint = editChiefComplaint
             }
 
             // If status is being changed to RESOLVED, require discharge summary
             if (updateData.status === 'RESOLVED' && !editDischargeSummary.trim()) {
                 throw new Error('Discharge summary is required when marking condition as resolved')
             }
-            
+
             if (updateData.status === 'RESOLVED' && editDischargeSummary.trim()) {
                 updateData.discharge_summary = editDischargeSummary
             }
@@ -331,22 +342,37 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
     }
 
     // Delete condition
-    const handleDeleteCondition = async (condition: ConditionWithHistory) => {
-        if (!confirm(`Are you sure you want to remove "${condition.condition_name}" from this patient?`)) {
-            return
-        }
+    // Open delete confirmation dialog
+    const handleDeleteClick = (condition: ConditionWithHistory) => {
+        setConditionToDelete(condition)
+        setShowDeleteDialog(true)
+    }
 
+    // Actually delete the condition after confirmation
+    const handleConfirmDelete = async () => {
+        if (!conditionToDelete) return
+
+        setIsDeleting(true)
         try {
-            const response = await ApiManager.deletePatientCondition(patientId, condition.id)
-            
+            const response = await ApiManager.deletePatientCondition(patientId, conditionToDelete.id)
+
             if (!response.success) {
                 throw new Error(response.message || 'Failed to delete condition')
             }
 
+            toast.success('Condition removed', {
+                description: `"${conditionToDelete.condition_name}" has been removed from this patient.`
+            })
+            setShowDeleteDialog(false)
+            setConditionToDelete(null)
             await loadConditions()
         } catch (err: any) {
             console.error('Error deleting condition:', err)
-            setError(err.message || 'Failed to delete condition')
+            toast.error('Failed to delete condition', {
+                description: err.message || 'An error occurred while deleting the condition.'
+            })
+        } finally {
+            setIsDeleting(false)
         }
     }
 
@@ -372,23 +398,11 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
         }
     }
 
-    // Get severity color
-    const getSeverityColor = (severity: SeverityLevel) => {
-        switch (severity) {
-            case 'MILD': return 'bg-green-100 text-green-800 border-green-200'
-            case 'MODERATE': return 'bg-yellow-100 text-yellow-800 border-yellow-200'
-            case 'SEVERE': return 'bg-red-100 text-red-800 border-red-200'
-            default: return 'bg-gray-100 text-gray-800 border-gray-200'
-        }
-    }
-
     // Open edit dialog
     const openEditDialog = (condition: ConditionWithHistory) => {
         setSelectedCondition(condition)
         setEditStatus(condition.status)
-        setEditDescription(condition.description || '')
-        setEditSeverityLevel(condition.severity_level)
-        setEditCurrentProtocolId(condition.current_protocol_id || '')
+        setEditChiefComplaint(condition.chief_complaint || '')
         setEditDischargeSummary(condition.discharge_summary || '')
         setError(null)
         setShowEditDialog(true)
@@ -472,48 +486,17 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
                                 />
                                 
                                 {selectedNewConditions.length > 0 && (
-                                    <>
-                                        <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                                Condition Type
-                                            </label>
-                                            <Select value={newConditionType} onValueChange={(value: ConditionType) => setNewConditionType(value)}>
-                                                <SelectTrigger>
-                                                    <SelectValue />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value="ACUTE">Acute</SelectItem>
-                                                    <SelectItem value="CHRONIC">Chronic</SelectItem>
-                                                    <SelectItem value="POST_SURGICAL">Post-Surgical</SelectItem>
-                                                    <SelectItem value="CONGENITAL">Congenital</SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                        </div>
-
-                                        <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                                Onset Date (Optional)
-                                            </label>
-                                            <input
-                                                type="date"
-                                                value={newConditionOnsetDate}
-                                                onChange={(e) => setNewConditionOnsetDate(e.target.value)}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                            />
-                                        </div>
-
-                                        <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                                Additional Description (Optional)
-                                            </label>
-                                            <Textarea
-                                                value={newConditionDescription}
-                                                onChange={(e) => setNewConditionDescription(e.target.value)}
-                                                placeholder="Add any patient-specific notes about these conditions..."
-                                                rows={3}
-                                            />
-                                        </div>
-                                    </>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Chief Complaint (Optional)
+                                        </label>
+                                        <Textarea
+                                            value={newConditionDescription}
+                                            onChange={(e) => setNewConditionDescription(e.target.value)}
+                                            placeholder="Describe the patient's main concern..."
+                                            rows={3}
+                                        />
+                                    </div>
                                 )}
 
                                 <div className="flex justify-between gap-2">
@@ -574,15 +557,18 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
                         <TabsTrigger value="improving">
                             Improving ({getFilteredConditions('improving').length})
                         </TabsTrigger>
-                        <TabsTrigger value="resolved">
-                            Resolved ({getFilteredConditions('resolved').length})
+                        <TabsTrigger value="on_hold">
+                            On Hold ({getFilteredConditions('on_hold').length})
+                        </TabsTrigger>
+                        <TabsTrigger value="discharged">
+                            Discharged ({getFilteredConditions('discharged').length})
                         </TabsTrigger>
                         <TabsTrigger value="all">
-                            All ({conditions.length})
+                            All ({completedConditions.length})
                         </TabsTrigger>
                     </TabsList>
 
-                    {['active', 'improving', 'resolved', 'all'].map(tab => (
+                    {['active', 'improving', 'on_hold', 'discharged', 'all'].map(tab => (
                         <TabsContent key={tab} value={tab} className="mt-4">
                             {getFilteredConditions(tab).length === 0 ? (
                                 <div className="text-center py-8 text-gray-500">
@@ -705,11 +691,47 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
                                                         >
                                                             <Sparkles className="w-4 h-4" />
                                                         </Button>
+                                                        {condition.status !== 'DISCHARGED' ? (
+                                                            <Button
+                                                                type="button"
+                                                                variant="outline"
+                                                                size="sm"
+                                                                onClick={() => {
+                                                                    setConditionToDischarge(condition)
+                                                                    setShowDischargeDialog(true)
+                                                                }}
+                                                                className="text-orange-600 hover:text-orange-700 hover:bg-orange-50"
+                                                                title="Discharge"
+                                                            >
+                                                                <LogOut className="w-4 h-4" />
+                                                            </Button>
+                                                        ) : (
+                                                            <Button
+                                                                type="button"
+                                                                variant="outline"
+                                                                size="sm"
+                                                                onClick={async () => {
+                                                                    try {
+                                                                        const response = await ApiManager.reactivateCondition(patientId, condition.id)
+                                                                        if (response.success) {
+                                                                            toast.success('Condition reactivated')
+                                                                            loadConditions()
+                                                                        }
+                                                                    } catch (err) {
+                                                                        toast.error('Failed to reactivate')
+                                                                    }
+                                                                }}
+                                                                className="text-green-600 hover:text-green-700 hover:bg-green-50"
+                                                                title="Reactivate"
+                                                            >
+                                                                <PlayCircle className="w-4 h-4" />
+                                                            </Button>
+                                                        )}
                                                         <Button
                                                             type="button"
                                                             variant="outline"
                                                             size="sm"
-                                                            onClick={() => handleDeleteCondition(condition)}
+                                                            onClick={() => handleDeleteClick(condition)}
                                                             className="text-red-600 hover:text-red-700 hover:bg-red-50"
                                                         >
                                                             <Trash2 className="w-4 h-4" />
@@ -756,49 +778,18 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
                                         <SelectItem value="ACTIVE">Active</SelectItem>
                                         <SelectItem value="IMPROVING">Improving</SelectItem>
                                         <SelectItem value="RESOLVED">Resolved</SelectItem>
-                                        <SelectItem value="CHRONIC">Chronic</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
 
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Severity Level
-                                </label>
-                                <Select value={editSeverityLevel || 'UNSPECIFIED'} onValueChange={(value) => setEditSeverityLevel(value === 'UNSPECIFIED' ? undefined : value as SeverityLevel)}>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select severity level" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="UNSPECIFIED">Not specified</SelectItem>
-                                        <SelectItem value="MILD">Mild</SelectItem>
-                                        <SelectItem value="MODERATE">Moderate</SelectItem>
-                                        <SelectItem value="SEVERE">Severe</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Current Protocol ID
-                                </label>
-                                <input
-                                    type="text"
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    value={editCurrentProtocolId}
-                                    onChange={(e) => setEditCurrentProtocolId(e.target.value)}
-                                    placeholder="Enter protocol ID (e.g. PROTO_001)"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Description
+                                    Chief Complaint
                                 </label>
                                 <Textarea
-                                    value={editDescription}
-                                    onChange={(e) => setEditDescription(e.target.value)}
-                                    placeholder="Add any patient-specific notes about this condition..."
+                                    value={editChiefComplaint}
+                                    onChange={(e) => setEditChiefComplaint(e.target.value)}
+                                    placeholder="Patient's main concern..."
                                     rows={3}
                                 />
                             </div>
@@ -892,6 +883,41 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
             </div>,
             document.body
         )}
+
+        {/* Delete Confirmation Dialog */}
+        <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                    <AlertDialogTitle>Remove Condition</AlertDialogTitle>
+                    <AlertDialogDescription>
+                        Are you sure you want to remove <strong>"{conditionToDelete?.condition_name}"</strong> from this patient?
+                        This action cannot be undone.
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                        onClick={handleConfirmDelete}
+                        disabled={isDeleting}
+                        className="bg-red-600 hover:bg-red-700 focus:ring-red-600"
+                    >
+                        {isDeleting ? 'Removing...' : 'Remove Condition'}
+                    </AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
+
+        {/* Discharge Condition Dialog */}
+        <DischargeConditionDialog
+            isOpen={showDischargeDialog}
+            onClose={() => {
+                setShowDischargeDialog(false)
+                setConditionToDischarge(null)
+            }}
+            condition={conditionToDischarge}
+            patientId={patientId}
+            onDischargeComplete={loadConditions}
+        />
         </>
     )
 }

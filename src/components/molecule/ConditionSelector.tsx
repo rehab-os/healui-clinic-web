@@ -25,7 +25,6 @@ import localConditionService from '../../services/localConditionService'
 import type {
     Neo4jConditionResponseDto,
     PatientConditionResponseDto,
-    ConditionType,
     ConditionStatus
 } from '../../lib/types'
 

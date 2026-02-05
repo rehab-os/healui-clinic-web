@@ -13,12 +13,13 @@ import { Badge } from '../ui/badge'
 import type {
     CreatePatientConditionDto,
     Neo4jConditionResponseDto,
-    ConditionType,
-    SymptomDuration,
-    FunctionalLimitationLevel,
-    MechanismOfInjury,
     UrgencyLevel
 } from '../../lib/types'
+
+// Local types for screening UI (data stored in JSONB fields)
+type SymptomDuration = 'ACUTE' | 'SUBACUTE' | 'CHRONIC'
+type FunctionalLimitationLevel = 'NONE' | 'MILD' | 'MODERATE' | 'SEVERE'
+type MechanismOfInjury = 'TRAUMA' | 'GRADUAL_ONSET' | 'POST_SURGICAL' | 'UNKNOWN'
 
 interface ConditionScreeningModalProps {
     open: boolean
@@ -62,9 +63,7 @@ interface ScreeningData {
     primary_goal?: string
     urgency_level?: UrgencyLevel
 
-    // Condition details
-    condition_type?: ConditionType
-    onset_date?: string
+    // Additional notes
     description?: string
 }
 
@@ -114,14 +113,53 @@ export const ConditionScreeningModal: React.FC<ConditionScreeningModalProps> = (
     const handleSubmit = () => {
         if (selectedConditions.length === 0) return
 
+        // Build symptom_dx_data from screening responses
+        const symptomDxData = {
+            red_flags: {
+                night_pain: screeningData.night_pain,
+                unexplained_weight_loss: screeningData.unexplained_weight_loss,
+                history_cancer_tb: screeningData.history_cancer_tb,
+                fever_with_symptoms: screeningData.fever_with_symptoms,
+                bladder_bowel_changes: screeningData.bladder_bowel_changes,
+                neurological_symptoms: screeningData.neurological_symptoms,
+                recent_trauma: screeningData.recent_trauma,
+                notes: screeningData.red_flag_notes,
+            },
+            primary_problem: {
+                primary_body_region: screeningData.primary_body_region,
+                pain_present: screeningData.pain_present,
+                symptom_duration: screeningData.symptom_duration,
+            },
+            functional_impact: {
+                functional_limitation_level: screeningData.functional_limitation_level,
+                work_affected: screeningData.work_affected,
+                sleep_affected: screeningData.sleep_affected,
+                daily_activities_affected: screeningData.daily_activities_affected,
+            },
+            mechanism_context: {
+                mechanism_of_injury: screeningData.mechanism_of_injury,
+                related_to_work: screeningData.related_to_work,
+                related_to_sport: screeningData.related_to_sport,
+                previous_episodes: screeningData.previous_episodes,
+            },
+            patient_expectations: {
+                primary_goal: screeningData.primary_goal,
+            },
+            additional_notes: screeningData.description,
+            filled_at: new Date().toISOString(),
+        }
+
         const conditionData: CreatePatientConditionDto = {
             neo4j_condition_id: selectedConditions[0].condition_id,
-            description: screeningData.description,
-            condition_type: screeningData.condition_type,
-            onset_date: screeningData.onset_date,
-            
-            // Screening data
-            ...screeningData
+            condition_name: selectedConditions[0].condition_name,
+            body_region: selectedConditions[0].body_region,
+            chief_complaint: screeningData.chief_complaint,
+            vas_score: screeningData.vas_score,
+            urgency_level: screeningData.urgency_level || undefined,
+            symptom_dx_data: symptomDxData,
+            symptom_dx_completed: true,
+            symptom_dx_filled_by: 'PHYSIO',
+            diagnosis_status: 'SYMPTOM_DX_COMPLETE',
         }
 
         onSubmit(conditionData)
@@ -527,35 +565,6 @@ export const ConditionScreeningModal: React.FC<ConditionScreeningModalProps> = (
                     </Select>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <Label>Condition Type</Label>
-                        <Select 
-                            value={screeningData.condition_type || 'ACUTE'} 
-                            onValueChange={(value) => updateScreeningData('condition_type', value as ConditionType)}
-                        >
-                            <SelectTrigger className="mt-1">
-                                <SelectValue placeholder="Select type" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="ACUTE">Acute</SelectItem>
-                                <SelectItem value="CHRONIC">Chronic</SelectItem>
-                                <SelectItem value="RECURRING">Recurring</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
-
-                    <div>
-                        <Label htmlFor="onset-date">When did this start? (optional)</Label>
-                        <Input
-                            id="onset-date"
-                            type="date"
-                            value={screeningData.onset_date || ''}
-                            onChange={(e) => updateScreeningData('onset_date', e.target.value)}
-                            className="mt-1"
-                        />
-                    </div>
-                </div>
 
                 <div>
                     <Label htmlFor="description">Additional notes (optional)</Label>

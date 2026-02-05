@@ -4,11 +4,10 @@ import { useAppSelector } from '../../store/hooks';
 import ApiManager from '../../services/api';
 import ConditionSelector from './ConditionSelector';
 import AddressFields from './AddressFields';
-import type { 
-  CreatePatientDto, 
+import type {
+  CreatePatientDto,
   Neo4jConditionResponseDto,
   CreatePatientConditionDto,
-  ConditionType,
   PreviousSurgeryDto,
   PastIllnessDto,
   PastInvestigationDto,
@@ -53,7 +52,6 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
 
   // Multi-condition state
   const [selectedConditions, setSelectedConditions] = useState<Neo4jConditionResponseDto[]>([]);
-  const [conditionType, setConditionType] = useState<ConditionType>('ACUTE');
   const [conditionDescription, setConditionDescription] = useState('');
   const [showConditions, setShowConditions] = useState(false);
 
@@ -130,10 +128,11 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
             const conditionPromises = selectedConditions.map(async (condition) => {
               const conditionData: CreatePatientConditionDto = {
                 neo4j_condition_id: condition.condition_id,
-                description: conditionDescription || condition.description,
-                condition_type: conditionType,
+                condition_name: condition.condition_name,
+                body_region: condition.body_region,
+                chief_complaint: conditionDescription || undefined
               };
-              
+
               return ApiManager.createPatientCondition(patientId, conditionData);
             });
 
@@ -683,36 +682,18 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                   />
                   
                   {selectedConditions.length > 0 && (
-                    <>
-                      <div>
-                        <label className="block text-xs sm:text-sm font-medium text-brand-black mb-1 sm:mb-1.5">
-                          Condition Type
-                        </label>
-                        <select
-                          value={conditionType}
-                          onChange={(e) => setConditionType(e.target.value as ConditionType)}
-                          className="w-full px-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 bg-brand-white text-sm sm:text-base"
-                        >
-                          <option value="ACUTE">Acute</option>
-                          <option value="CHRONIC">Chronic</option>
-                          <option value="POST_SURGICAL">Post-Surgical</option>
-                          <option value="CONGENITAL">Congenital</option>
-                        </select>
-                      </div>
-
-                      <div>
-                        <label className="block text-xs sm:text-sm font-medium text-brand-black mb-1 sm:mb-1.5">
-                          Additional Notes (Optional)
-                        </label>
-                        <textarea
-                          value={conditionDescription}
-                          onChange={(e) => setConditionDescription(e.target.value)}
-                          className="w-full px-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 bg-brand-white text-sm sm:text-base"
-                          rows={2}
-                          placeholder="Any patient-specific notes about these conditions..."
-                        />
-                      </div>
-                    </>
+                    <div>
+                      <label className="block text-xs sm:text-sm font-medium text-brand-black mb-1 sm:mb-1.5">
+                        Chief Complaint (Optional)
+                      </label>
+                      <textarea
+                        value={conditionDescription}
+                        onChange={(e) => setConditionDescription(e.target.value)}
+                        className="w-full px-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 bg-brand-white text-sm sm:text-base"
+                        rows={2}
+                        placeholder="Describe the patient's main concern..."
+                      />
+                    </div>
                   )}
                 </div>
               )}

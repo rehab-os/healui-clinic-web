@@ -3,17 +3,16 @@ import { X, Calendar, Clock, User, FileText, AlertCircle, CheckCircle, Video, Us
 import { useAppSelector } from '../../store/hooks';
 import ApiManager from '../../services/api';
 import ConditionSelector from './ConditionSelector';
-import type { 
-  CreateVisitDto, 
-  PhysiotherapistAvailabilityDto, 
+import type {
+  CreateVisitDto,
+  PhysiotherapistAvailabilityDto,
   VisitMode,
   PatientConditionResponseDto,
   ChiefComplaintDto,
   TreatmentFocus,
   CreateVisitConditionDto,
   Neo4jConditionResponseDto,
-  CreatePatientConditionDto,
-  ConditionType
+  CreatePatientConditionDto
 } from '../../lib/types';
 
 interface Patient {
@@ -50,7 +49,6 @@ const ScheduleVisitModal: React.FC<ScheduleVisitModalProps> = ({ patient, onClos
   // Add new condition support
   const [showAddCondition, setShowAddCondition] = useState(false);
   const [selectedNewConditions, setSelectedNewConditions] = useState<Neo4jConditionResponseDto[]>([]);
-  const [newConditionType, setNewConditionType] = useState<ConditionType>('ACUTE');
   const [newConditionDescription, setNewConditionDescription] = useState('');
   const [addingNewConditions, setAddingNewConditions] = useState(false);
   const [formData, setFormData] = useState({
@@ -202,16 +200,16 @@ const ScheduleVisitModal: React.FC<ScheduleVisitModalProps> = ({ patient, onClos
       const addPromises = selectedNewConditions.map(async (condition) => {
         const createData: CreatePatientConditionDto = {
           neo4j_condition_id: condition.condition_id,
-          description: newConditionDescription || condition.description,
-          condition_type: newConditionType,
-          onset_date: undefined // Can be added later
+          condition_name: condition.condition_name,
+          body_region: condition.body_region,
+          chief_complaint: newConditionDescription || undefined
         };
 
         return ApiManager.createPatientCondition(patient.id, createData);
       });
 
       const results = await Promise.all(addPromises);
-      
+
       // Check if all requests succeeded
       const failed = results.filter(r => !r.success);
       if (failed.length > 0) {
@@ -220,7 +218,7 @@ const ScheduleVisitModal: React.FC<ScheduleVisitModalProps> = ({ patient, onClos
 
       // Reload patient conditions and auto-add to chief complaints
       await loadPatientConditions();
-      
+
       // Auto-add newly created conditions to chief complaints if in multi-condition mode
       if (useMultiCondition) {
         const newComplaints = selectedNewConditions.map(condition => ({
@@ -243,7 +241,6 @@ const ScheduleVisitModal: React.FC<ScheduleVisitModalProps> = ({ patient, onClos
       // Reset form
       setSelectedNewConditions([]);
       setNewConditionDescription('');
-      setNewConditionType('ACUTE');
       setShowAddCondition(false);
     } catch (err: any) {
       console.error('Error adding new conditions:', err);
@@ -691,30 +688,14 @@ const ScheduleVisitModal: React.FC<ScheduleVisitModalProps> = ({ patient, onClos
                         <>
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
-                              Condition Type
-                            </label>
-                            <select
-                              value={newConditionType}
-                              onChange={(e) => setNewConditionType(e.target.value as ConditionType)}
-                              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-healui-physio/20 focus:border-healui-physio text-sm"
-                            >
-                              <option value="ACUTE">Acute</option>
-                              <option value="CHRONIC">Chronic</option>
-                              <option value="POST_SURGICAL">Post-Surgical</option>
-                              <option value="CONGENITAL">Congenital</option>
-                            </select>
-                          </div>
-
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                              Additional Description (Optional)
+                              Chief Complaint (Optional)
                             </label>
                             <textarea
                               value={newConditionDescription}
                               onChange={(e) => setNewConditionDescription(e.target.value)}
                               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-healui-physio/20 focus:border-healui-physio text-sm"
                               rows={2}
-                              placeholder="Add any patient-specific notes about these conditions..."
+                              placeholder="Describe the patient's main concern..."
                             />
                           </div>
 
@@ -724,7 +705,6 @@ const ScheduleVisitModal: React.FC<ScheduleVisitModalProps> = ({ patient, onClos
                               onClick={() => {
                                 setSelectedNewConditions([]);
                                 setNewConditionDescription('');
-                                setNewConditionType('ACUTE');
                                 setShowAddCondition(false);
                               }}
                               className="px-3 py-1.5 text-xs text-gray-600 hover:text-gray-800 transition-colors"

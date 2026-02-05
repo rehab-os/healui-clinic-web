@@ -1,18 +1,18 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { X, AlertCircle, Save, Calendar, FileText, TrendingUp } from 'lucide-react'
+import { TrendingUp } from 'lucide-react'
 import { Button } from '../ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 import { Textarea } from '../ui/textarea'
-import { Input } from '../ui/input'
 import ApiManager from '../../services/api'
-import type { 
-  PatientConditionResponseDto, 
-  UpdatePatientConditionDto, 
-  ConditionStatus, 
-  SeverityLevel 
+import {
+  ConditionStatus
+} from '../../lib/types'
+import type {
+  PatientConditionResponseDto,
+  UpdatePatientConditionDto
 } from '../../lib/types'
 
 interface ConditionEditModalProps {
@@ -32,24 +32,16 @@ export const ConditionEditModal: React.FC<ConditionEditModalProps> = ({
   const [error, setError] = useState<string | null>(null)
   
   // Form state
-  const [status, setStatus] = useState<ConditionStatus>('ACTIVE')
-  const [severityLevel, setSeverityLevel] = useState<SeverityLevel | 'NONE'>('NONE')
-  const [description, setDescription] = useState('')
+  const [status, setStatus] = useState<ConditionStatus>(ConditionStatus.ACTIVE)
+  const [chiefComplaint, setChiefComplaint] = useState('')
   const [dischargeSummary, setDischargeSummary] = useState('')
-  const [lastAssessmentDate, setLastAssessmentDate] = useState('')
 
   // Initialize form when condition changes
   useEffect(() => {
     if (condition) {
       setStatus(condition.status)
-      setSeverityLevel(condition.severity_level || 'NONE')
-      setDescription(condition.description || '')
+      setChiefComplaint(condition.chief_complaint || '')
       setDischargeSummary(condition.discharge_summary || '')
-      setLastAssessmentDate(
-        condition.last_assessment_date 
-          ? new Date(condition.last_assessment_date).toISOString().split('T')[0]
-          : ''
-      )
       setError(null)
     }
   }, [condition])
@@ -63,21 +55,13 @@ export const ConditionEditModal: React.FC<ConditionEditModalProps> = ({
     try {
       // Build update data
       const updateData: UpdatePatientConditionDto = {}
-      
+
       if (status !== condition.status) {
         updateData.status = status
       }
-      
-      if (severityLevel !== (condition.severity_level || 'NONE')) {
-        updateData.severity_level = severityLevel === 'NONE' ? undefined : (severityLevel as SeverityLevel)
-      }
-      
-      if (description !== (condition.description || '')) {
-        updateData.description = description
-      }
-      
-      if (lastAssessmentDate) {
-        updateData.last_assessment_date = lastAssessmentDate
+
+      if (chiefComplaint !== (condition.chief_complaint || '')) {
+        updateData.chief_complaint = chiefComplaint
       }
 
       // Handle discharge
@@ -165,46 +149,15 @@ export const ConditionEditModal: React.FC<ConditionEditModalProps> = ({
             </Select>
           </div>
 
-          {/* Severity Level */}
+          {/* Chief Complaint */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Severity Level
-            </label>
-            <Select value={severityLevel} onValueChange={setSeverityLevel}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select severity" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="NONE">Not specified</SelectItem>
-                <SelectItem value="MILD">Mild</SelectItem>
-                <SelectItem value="MODERATE">Moderate</SelectItem>
-                <SelectItem value="SEVERE">Severe</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Last Assessment Date */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Last Assessment Date
-            </label>
-            <Input
-              type="date"
-              value={lastAssessmentDate}
-              onChange={(e) => setLastAssessmentDate(e.target.value)}
-              max={new Date().toISOString().split('T')[0]} // Can't be future date
-            />
-          </div>
-
-          {/* Description */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Notes
+              Chief Complaint
             </label>
             <Textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Add condition-specific notes..."
+              value={chiefComplaint}
+              onChange={(e) => setChiefComplaint(e.target.value)}
+              placeholder="Patient's main concern..."
               rows={3}
             />
           </div>

@@ -414,6 +414,31 @@ class ApiManager {
         return ApiMethods.delete(url)
     }
 
+    // Discharge a condition
+    static dischargeCondition = (patientId: string, conditionId: string, data: {
+        discharge_reason: string;
+        discharge_summary?: string;
+        discharge_notes?: string;
+        referred_to?: string;
+        final_vas_score?: number;
+        final_functional_score?: number;
+    }) => {
+        const url = BASE_URL + `patients/${patientId}/conditions/${conditionId}/discharge`
+        return ApiMethods.post(url, data)
+    }
+
+    // Reactivate a discharged condition
+    static reactivateCondition = (patientId: string, conditionId: string) => {
+        const url = BASE_URL + `patients/${patientId}/conditions/${conditionId}/reactivate`
+        return ApiMethods.post(url, {})
+    }
+
+    // Put condition on hold
+    static putConditionOnHold = (patientId: string, conditionId: string, reason: string) => {
+        const url = BASE_URL + `patients/${patientId}/conditions/${conditionId}/hold`
+        return ApiMethods.post(url, { reason })
+    }
+
     static getAvailableConditions = (patientId: string, params?: any) => {
         const url = BASE_URL + ENDPOINTS.GET_AVAILABLE_CONDITIONS(patientId, params)
         return ApiMethods.get(url)

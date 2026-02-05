@@ -24,8 +24,6 @@ import {
   MessageSquare,
   ClipboardList,
   ChevronRight,
-  Mic,
-  Keyboard,
   Brain,
   Crosshair,
   MapPin,
@@ -37,8 +35,9 @@ import {
   DiagnosisResult,
 } from '@/services/smartScreeningEngine';
 import BodyMapSelector from './BodyMapSelector';
-import VoiceInputButton from './VoiceInputButton';
 import FloatingSummaryPanel from './FloatingSummaryPanel';
+import AssessmentRecommendationHub from './AssessmentRecommendationHub';
+import AssessmentFormBuilder from './AssessmentFormBuilder';
 import screeningAPI from '@/services/screeningAPI';
 import useAIQuestionFlow from '@/hooks/useAIQuestionFlow';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -65,11 +64,22 @@ interface ChatMessage {
   questionId?: string;
 }
 
+// Import SymptomDxData type
+import type { SymptomDxData } from './SymptomAssessmentModal';
+
+// Diagnosis method type
+type DiagnosisMethod = 'SYMPTOM_AND_CLINICAL' | 'CLINICAL_ONLY';
+
 interface SmartScreeningChatbotProps {
   patientId: string;
   patientName?: string;
   onComplete?: (result: any) => void;
   onClose?: () => void;
+  // NEW: Optional SymptomDx data from previous step
+  symptomDxData?: SymptomDxData | null;
+  diagnosisMethod?: DiagnosisMethod | null;
+  // Draft condition ID - when provided, UPDATE this condition instead of creating new
+  draftConditionId?: string | null;
 }
 
 // ==================== Clubbed Questions Configuration ====================
@@ -357,6 +367,9 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
   patientName,
   onComplete,
   onClose,
+  symptomDxData,
+  diagnosisMethod,
+  draftConditionId,
 }) => {
   const [engine] = useState(() => new SmartScreeningEngine(patientId));
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -370,8 +383,6 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
   const [isTyping, setIsTyping] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const [diagnosisResult, setDiagnosisResult] = useState<DiagnosisResult | null>(null);
-  const [isVoiceMode, setIsVoiceMode] = useState(false);
-  const [isVoiceProcessing, setIsVoiceProcessing] = useState(false);
   const [useAIFlow, setUseAIFlow] = useState(false);
   const [selectedRegions, setSelectedRegions] = useState<any[]>([]);
   const [collectedData, setCollectedData] = useState<Record<string, any>>({});
@@ -380,6 +391,13 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
   const [showChatHistory, setShowChatHistory] = useState(false);
   const [isSourceTrackingPhase, setIsSourceTrackingPhase] = useState(false);
   const [identifiedSources, setIdentifiedSources] = useState<Array<{sourceRegion: string; implication: string}>>([]);
+
+  // Clinical Assessment states
+  const [showAssessmentHub, setShowAssessmentHub] = useState(false);
+  const [showDirectAssessment, setShowDirectAssessment] = useState(false);
+  const [selectedAssessments, setSelectedAssessments] = useState<any[]>([]);
+  const [completedAssessments, setCompletedAssessments] = useState<any[]>([]);
+  const [currentAssessmentIndex, setCurrentAssessmentIndex] = useState(0);
 
   const chatEndRef = useRef<HTMLDivElement>(null);
   const sessionStartTime = useRef<number>(Date.now());
@@ -392,77 +410,6 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
       console.log('AI recommended question:', q);
     },
   });
-
-  // Voice transcription handler
-  const handleVoiceTranscription = useCallback(async (audioBlob: Blob): Promise<string> => {
-    const transcription = await screeningAPI.transcribeAudio(audioBlob);
-    return transcription;
-  }, []);
-
-  // Handle voice input completion
-  const handleVoiceInputComplete = useCallback((transcription: string) => {
-    if (!currentQuestion) return;
-
-    // For text questions, set directly
-    if (currentQuestion.type === 'text') {
-      setCurrentResponse(transcription);
-      return;
-    }
-
-    // For single_choice, try to match
-    if (currentQuestion.type === 'single_choice' && currentQuestion.options) {
-      const parsed = screeningAPI.parseNaturalLanguageResponse(transcription, {
-        questionId: currentQuestion.id,
-        questionType: 'single_choice',
-        options: currentQuestion.options.map(o => o.label)
-      });
-      if (parsed.value && parsed.confidence > 0.5) {
-        const matched = currentQuestion.options.find(o =>
-          o.label.toLowerCase() === parsed.value.toLowerCase()
-        );
-        if (matched) {
-          setCurrentResponse(matched.value);
-          return;
-        }
-      }
-    }
-
-    // For multi_choice, try to match multiple
-    if (currentQuestion.type === 'multi_choice' && currentQuestion.options) {
-      const parsed = screeningAPI.parseNaturalLanguageResponse(transcription, {
-        questionId: currentQuestion.id,
-        questionType: 'multi_choice',
-        options: currentQuestion.options.map(o => o.label)
-      });
-      if (parsed.value && Array.isArray(parsed.value) && parsed.confidence > 0.5) {
-        const matchedValues = parsed.value.map((label: string) => {
-          const opt = currentQuestion.options?.find(o =>
-            o.label.toLowerCase() === label.toLowerCase()
-          );
-          return opt?.value;
-        }).filter(Boolean);
-        if (matchedValues.length > 0) {
-          setCurrentResponse(matchedValues);
-          return;
-        }
-      }
-    }
-
-    // For slider/scale
-    if (currentQuestion.type === 'slider') {
-      const parsed = screeningAPI.parseNaturalLanguageResponse(transcription, {
-        questionId: currentQuestion.id,
-        questionType: 'scale'
-      });
-      if (typeof parsed.value === 'number' && parsed.confidence > 0.5) {
-        setCurrentResponse(parsed.value);
-        return;
-      }
-    }
-
-    // Fallback: set as text
-    setCurrentResponse(transcription);
-  }, [currentQuestion]);
 
   const scrollToBottom = useCallback(() => {
     setTimeout(() => {
@@ -600,6 +547,42 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
     };
     init();
   }, [engine, patientName, addBotMessage, loadQuestion]);
+
+  // Pre-populate from symptomDxData if available (from full assessment pathway)
+  useEffect(() => {
+    if (symptomDxData && engine) {
+      console.log('Pre-populating from SymptomDx data:', symptomDxData);
+
+      // Pre-populate chief complaint if available
+      if (symptomDxData.chief_complaint) {
+        engine.setResponse?.('chief_complaint', symptomDxData.chief_complaint);
+      }
+
+      // Pre-populate body regions
+      if (symptomDxData.body_regions?.length > 0) {
+        const session = engine.getSession();
+        if (session) {
+          session.selectedPainRegions = symptomDxData.body_regions;
+        }
+      }
+
+      // Pre-activate pain pathway if pain level exists
+      if (symptomDxData.pain_level && symptomDxData.pain_level > 0) {
+        engine.activatePathway?.('PAIN');
+        engine.setResponse?.('pain_screening', 'yes');
+        engine.setResponse?.('vas_score', symptomDxData.pain_level);
+      }
+
+      // Add indicator message if symptom data was pre-filled
+      if (symptomDxData.questions_asked > 0) {
+        addBotMessage(
+          `I've received ${symptomDxData.questions_asked} responses from the symptom assessment. ` +
+          `${symptomDxData.body_regions?.length > 0 ? `Regions: ${symptomDxData.body_regions.join(', ')}. ` : ''}` +
+          `Let's continue with the clinical examination.`
+        );
+      }
+    }
+  }, [symptomDxData, engine, addBotMessage]);
 
   // Reset response when question changes
   useEffect(() => {
@@ -795,13 +778,13 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
             } else {
               setCurrentQuestion(null);
               setClubbedQuestions([]);
-              await generateDiagnosis();
+              await completeQuestionnaire();
             }
           }
         } else {
           setCurrentQuestion(null);
           setClubbedQuestions([]);
-          await generateDiagnosis();
+          await completeQuestionnaire();
         }
       } catch (error) {
         console.error('AI flow error, falling back to manual:', error);
@@ -819,7 +802,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
     } else {
       setCurrentQuestion(null);
       setClubbedQuestions([]);
-      await generateDiagnosis();
+      await completeQuestionnaire();
     }
   };
 
@@ -922,12 +905,102 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
     addMessage('user', `Selected: ${condition.condition_name}`);
 
     const isTestMode = patientId.startsWith('test');
+    const session = engine.getSession();
 
     if (!isTestMode) {
       try {
         const { default: ApiManager } = await import('@/services/api');
-        const conditionPayload = engine.createConditionPayload(condition);
-        await ApiManager.createPatientCondition(patientId, conditionPayload);
+
+        // Build comprehensive condition payload with dual diagnosis data
+        const conditionPayload = {
+          // MAIN DIAGNOSIS - The final selected condition
+          condition_id: condition.condition_id,
+          condition_name: condition.condition_name,  // The real condition name
+          neo4j_condition_id: condition.condition_id, // For backwards compatibility
+
+          // Diagnosis method
+          diagnosis_method: diagnosisMethod || 'CLINICAL_ONLY',
+
+          // SymptomDx data (if available from full assessment pathway)
+          symptom_dx_data: symptomDxData || null,
+          symptom_dx_completed: !!symptomDxData,
+          symptom_dx_completed_at: symptomDxData?.completed_at || null,
+          symptom_dx_filled_by: symptomDxData?.filled_by || null,
+
+          // ClinicalDx data from this screening session
+          clinical_dx_data: {
+            session_id: session.id,
+            started_at: session.startTime?.toISOString() || new Date().toISOString(),
+            completed_at: new Date().toISOString(),
+            responses: session.responses,
+            activated_pathways: Array.from(session.activatedPathways || []),
+            skipped_sections: Array.from(session.skippedSections || []),
+            red_flags_detected: session.redFlagsDetected || [],
+            referral_findings: session.identifiedReferralSources || [],
+            selected_pain_regions: session.selectedPainRegions || [],
+            completion_percentage: session.completionPercentage || 100,
+          },
+          clinical_dx_completed: true,
+          clinical_dx_completed_at: new Date().toISOString(),
+
+          // Clinical assessments from popup forms
+          clinical_assessments_data: completedAssessments.map((a: any) => ({
+            assessment_id: a.assessment_id || a.id,
+            assessment_name: a.assessment_name || a.name,
+            category: a.category || 'GENERAL',
+            completed_at: a.timestamp || new Date().toISOString(),
+            form_data: a.form_data || a,
+            findings_summary: a.findings_summary || null,
+          })),
+
+          // Differential diagnosis from AI
+          clinical_dx_differential: diagnosisResult?.diagnosis ? {
+            generated_at: new Date().toISOString(),
+            conditions: diagnosisResult.diagnosis.differential_diagnosis?.map((d: any) => ({
+              condition_id: d.condition_id,
+              condition_name: d.condition_name,
+              confidence_score: d.confidence_score,
+              supporting_evidence: d.supporting_evidence || [],
+              clinical_reasoning: d.clinical_reasoning || '',
+            })) || [],
+            treatment_urgency: diagnosisResult.diagnosis.treatment_urgency || 'MODERATE',
+          } : null,
+
+          // Final diagnosis selection
+          final_diagnosis: {
+            selected_condition_id: condition.condition_id,
+            selected_condition_name: condition.condition_name,
+            selection_method: 'AI_SUGGESTED',
+            ai_confidence_score: condition.confidence_score,
+            confirmed_at: new Date().toISOString(),
+          },
+
+          // Also populate existing columns for backwards compatibility
+          chief_complaint: symptomDxData?.chief_complaint || session.responses?.chief_complaint,
+          vas_score: symptomDxData?.pain_level || session.responses?.vas_score,
+          primary_body_region: symptomDxData?.body_regions?.[0] || session.selectedPainRegions?.[0],
+          pain_present: !!(symptomDxData?.pain_level || session.responses?.vas_score),
+
+          // Red flags
+          night_pain: session.responses?.night_pain === 'yes' || session.responses?.night_pain === true,
+          unexplained_weight_loss: session.responses?.weight_loss === 'yes' || session.responses?.weight_loss === true,
+          neurological_symptoms: session.responses?.neurological_symptoms === 'yes' || session.responses?.neurological_symptoms === true,
+          recent_trauma: session.responses?.trauma === 'yes' || session.responses?.trauma === true,
+          bladder_bowel_changes: session.responses?.cauda_equina === 'yes' || session.responses?.cauda_equina === true,
+
+          // Urgency from AI diagnosis
+          urgency_level: diagnosisResult?.diagnosis?.treatment_urgency?.toUpperCase() || 'MODERATE',
+
+          // Mark diagnosis as complete
+          diagnosis_status: 'COMPLETE',
+        };
+
+        // If we have a draft condition ID, UPDATE it instead of creating new
+        if (draftConditionId) {
+          await ApiManager.updatePatientCondition(patientId, draftConditionId, conditionPayload);
+        } else {
+          await ApiManager.createPatientCondition(patientId, conditionPayload);
+        }
       } catch (error) {
         console.error('Error saving condition:', error);
         addMessage('system', 'Error saving diagnosis. Please try again.');
@@ -943,6 +1016,8 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
         diagnosis: condition,
         session: engine.getSession(),
         clinicalSummary: engine.generateClinicalSummary(),
+        symptomDxData: symptomDxData,
+        diagnosisMethod: diagnosisMethod,
       });
     }
 
@@ -956,6 +1031,11 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
     setCurrentResponse('');
     setIsComplete(false);
     setDiagnosisResult(null);
+    setShowAssessmentHub(false);
+    setShowDirectAssessment(false);
+    setSelectedAssessments([]);
+    setCompletedAssessments([]);
+    setCurrentAssessmentIndex(0);
 
     setTimeout(async () => {
       await addBotMessage("Starting fresh assessment.");
@@ -969,32 +1049,106 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
     }, 200);
   };
 
+  // ==================== Clinical Assessment Flow ====================
+
+  // Called when questionnaire is complete - show assessment hub
+  const completeQuestionnaire = async () => {
+    await addBotMessage("Screening complete! Now let's enhance your assessment with targeted clinical tests...");
+    scrollToBottom();
+
+    // Show Assessment Recommendation Hub after brief delay
+    setTimeout(() => {
+      setShowAssessmentHub(true);
+    }, 1000);
+  };
+
+  // Handle starting recommended assessments
+  const handleStartRecommended = (assessments: any[]) => {
+    if (!assessments || assessments.length === 0) {
+      addBotMessage('No assessments were selected. Proceeding to diagnosis...');
+      proceedToFinalDiagnosis();
+      return;
+    }
+
+    setSelectedAssessments(assessments);
+    setCurrentAssessmentIndex(0);
+    setShowAssessmentHub(false);
+
+    addBotMessage(`Starting ${assessments.length} clinical assessments. Assessment 1 of ${assessments.length}: ${assessments[0].name}`);
+
+    setTimeout(() => {
+      setShowDirectAssessment(true);
+    }, 500);
+  };
+
+  // Handle choosing custom assessments - for now, same as skip
+  const handleChooseCustom = () => {
+    setShowAssessmentHub(false);
+    addBotMessage("Custom assessment selection not yet implemented. Proceeding to diagnosis...");
+    setTimeout(() => {
+      proceedToFinalDiagnosis();
+    }, 500);
+  };
+
+  // Handle skipping all assessments
+  const handleSkipAllAssessments = () => {
+    setShowAssessmentHub(false);
+    addBotMessage("Skipping clinical assessments. Generating diagnosis based on screening data...");
+    setTimeout(() => {
+      proceedToFinalDiagnosis();
+    }, 500);
+  };
+
+  // Handle assessment form submission
+  const handleDirectAssessmentSubmit = (assessmentId: string, formData: any) => {
+    // Add to completed assessments
+    const assessment = selectedAssessments[currentAssessmentIndex];
+    setCompletedAssessments(prev => [...prev, {
+      assessment_id: assessmentId,
+      assessment_name: assessment?.name || assessmentId,
+      form_data: formData,
+      timestamp: new Date().toISOString()
+    }]);
+
+    // Check if more assessments remain
+    if (currentAssessmentIndex < selectedAssessments.length - 1) {
+      const nextIndex = currentAssessmentIndex + 1;
+      setCurrentAssessmentIndex(nextIndex);
+      addBotMessage(`Assessment ${nextIndex + 1} of ${selectedAssessments.length}: ${selectedAssessments[nextIndex].name}`);
+    } else {
+      // All assessments completed
+      setShowDirectAssessment(false);
+      handleDirectAssessmentsComplete();
+    }
+  };
+
+  // Handle skipping current assessment
+  const handleDirectAssessmentSkip = () => {
+    if (currentAssessmentIndex < selectedAssessments.length - 1) {
+      const nextIndex = currentAssessmentIndex + 1;
+      setCurrentAssessmentIndex(nextIndex);
+      addBotMessage(`Skipped. Assessment ${nextIndex + 1} of ${selectedAssessments.length}: ${selectedAssessments[nextIndex].name}`);
+    } else {
+      setShowDirectAssessment(false);
+      handleDirectAssessmentsComplete();
+    }
+  };
+
+  // Handle all assessments complete
+  const handleDirectAssessmentsComplete = () => {
+    addBotMessage(`Clinical assessments completed! ${completedAssessments.length} tests documented. Generating enhanced AI diagnosis...`);
+    setTimeout(() => {
+      proceedToFinalDiagnosis();
+    }, 1500);
+  };
+
+  // Proceed to final diagnosis (called after assessments or when skipped)
+  const proceedToFinalDiagnosis = async () => {
+    await generateDiagnosis();
+  };
+
   // ==================== Render Input Components ====================
 
-  // Voice mode toggle component
-  const VoiceModeToggle = () => {
-    const showVoice = ['text', 'single_choice', 'multi_choice', 'slider'].includes(currentQuestion?.type || '');
-    if (!showVoice) return null;
-
-    return (
-      <div className="flex items-center justify-between mb-3 pb-3 border-b border-slate-100">
-        <button
-          onClick={() => setIsVoiceMode(!isVoiceMode)}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-            isVoiceMode
-              ? 'bg-slate-800 text-white'
-              : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-          }`}
-        >
-          {isVoiceMode ? <Mic className="w-3.5 h-3.5" /> : <Keyboard className="w-3.5 h-3.5" />}
-          {isVoiceMode ? 'Voice Mode' : 'Type Mode'}
-        </button>
-        {isVoiceMode && (
-          <span className="text-xs text-slate-500">Tap microphone to speak</span>
-        )}
-      </div>
-    );
-  };
 
   // Render a single input for a clubbed question
   const renderClubbedInput = (question: ScreeningQuestion) => {
@@ -1211,49 +1365,20 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
       case 'text':
         return (
           <div className="space-y-4">
-            <VoiceModeToggle />
-            {isVoiceMode ? (
-              <div className="flex flex-col items-center py-6">
-                <VoiceInputButton
-                  onTranscription={handleVoiceInputComplete}
-                  onProcessingStart={() => setIsVoiceProcessing(true)}
-                  onProcessingEnd={() => setIsVoiceProcessing(false)}
-                  transcribeAudio={handleVoiceTranscription}
-                  size="lg"
-                  showTimer
-                />
-                {currentResponse && (
-                  <div className="mt-4 w-full p-4 bg-teal-50 border border-teal-200 rounded-md">
-                    <p className="text-sm text-teal-800 font-medium">Transcribed:</p>
-                    <p className="text-base text-teal-700 mt-1">{currentResponse}</p>
-                  </div>
-                )}
-                <Button
-                  onClick={handleSubmit}
-                  disabled={!canSubmit()}
-                  className="w-full mt-4 bg-teal-600 hover:bg-teal-700 text-white rounded-md min-h-[48px] font-medium"
-                >
-                  Continue <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </div>
-            ) : (
-              <>
-                <Textarea
-                  value={currentResponse}
-                  onChange={(e) => setCurrentResponse(e.target.value)}
-                  placeholder={currentQuestion.placeholder || "Describe in detail..."}
-                  className="min-h-[140px] bg-white border-slate-200 text-slate-800 rounded-md resize-none focus:border-teal-400 focus:ring-2 focus:ring-teal-100 text-base p-4"
-                  autoFocus
-                />
-                <Button
-                  onClick={handleSubmit}
-                  disabled={!canSubmit()}
-                  className="w-full bg-teal-600 hover:bg-teal-700 text-white rounded-md min-h-[48px] font-medium"
-                >
-                  Continue <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </>
-            )}
+            <Textarea
+              value={currentResponse}
+              onChange={(e) => setCurrentResponse(e.target.value)}
+              placeholder={currentQuestion.placeholder || "Describe in detail..."}
+              className="min-h-[140px] bg-white border-slate-200 text-slate-800 rounded-md resize-none focus:border-teal-400 focus:ring-2 focus:ring-teal-100 text-base p-4"
+              autoFocus
+            />
+            <Button
+              onClick={handleSubmit}
+              disabled={!canSubmit()}
+              className="w-full bg-teal-600 hover:bg-teal-700 text-white rounded-md min-h-[48px] font-medium"
+            >
+              Continue <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
           </div>
         );
 
@@ -1326,181 +1451,268 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
 
       case 'single_choice':
         return (
-          <div className="space-y-3">
-            <VoiceModeToggle />
-            {isVoiceMode ? (
-              <div className="flex flex-col items-center py-4">
-                <VoiceInputButton
-                  onTranscription={handleVoiceInputComplete}
-                  onProcessingStart={() => setIsVoiceProcessing(true)}
-                  onProcessingEnd={() => setIsVoiceProcessing(false)}
-                  transcribeAudio={handleVoiceTranscription}
-                  size="md"
-                  showTimer
-                />
-                <p className="text-sm text-slate-500 mt-3 text-center">
-                  Say the option you want to select
-                </p>
-                {currentResponse && (
-                  <div className="mt-3 px-4 py-2 bg-teal-50 border border-teal-200 rounded-md">
-                    <p className="text-sm text-teal-700">
-                      Selected: {currentQuestion.options?.find(o => o.value === currentResponse)?.label || currentResponse}
-                    </p>
-                  </div>
-                )}
-                <Button
-                  onClick={handleSubmit}
-                  disabled={!canSubmit()}
-                  className="w-full mt-4 bg-teal-600 hover:bg-teal-700 text-white rounded-md min-h-[48px] font-medium"
-                >
-                  Continue <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </div>
-            ) : (
-              <>
-                <motion.div
-                  role="radiogroup"
-                  aria-label={currentQuestion.question}
-                  className="space-y-2"
-                  variants={optionsContainerVariants}
-                  initial="initial"
-                  animate="animate"
-                >
-                  {currentQuestion.options?.map((option, index) => (
-                    <motion.button
-                      key={option.value}
-                      variants={optionVariants}
-                      whileHover={{ scale: 1.01, x: 4 }}
-                      whileTap={{ scale: 0.99 }}
-                      role="radio"
-                      aria-checked={currentResponse === option.value}
-                      tabIndex={currentResponse === option.value || (!currentResponse && index === 0) ? 0 : -1}
-                      onClick={() => {
-                        setCurrentResponse(option.value);
-                        // Auto-submit after brief visual feedback
-                        setTimeout(handleSubmit, 120);
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
-                          e.preventDefault();
-                          const nextIndex = (index + 1) % (currentQuestion.options?.length || 1);
-                          setCurrentResponse(currentQuestion.options?.[nextIndex]?.value);
-                        } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
-                          e.preventDefault();
-                          const prevIndex = (index - 1 + (currentQuestion.options?.length || 1)) % (currentQuestion.options?.length || 1);
-                          setCurrentResponse(currentQuestion.options?.[prevIndex]?.value);
-                        } else if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault();
-                          setCurrentResponse(option.value);
-                          setTimeout(handleSubmit, 120);
-                        }
-                      }}
-                      className={`w-full flex items-center gap-3 min-h-[48px] px-4 rounded-md border transition-colors duration-100 text-left
-                        focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-1 ${
-                        currentResponse === option.value
-                          ? 'border-teal-600 bg-teal-50'
-                          : 'border-slate-200 bg-white hover:border-teal-300 hover:bg-slate-50'
-                      }`}
-                    >
-                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
-                        currentResponse === option.value
-                          ? 'border-teal-600 bg-teal-600'
-                          : 'border-slate-300'
-                      }`}>
-                        <AnimatedCheckmark show={currentResponse === option.value} />
-                      </div>
-                      <span className={`text-sm ${currentResponse === option.value ? 'text-teal-800 font-medium' : 'text-slate-700'}`}>
-                        {option.label}
-                      </span>
-                    </motion.button>
-                  ))}
-                </motion.div>
-              </>
-            )}
-          </div>
+          <motion.div
+            role="radiogroup"
+            aria-label={currentQuestion.question}
+            className="space-y-2"
+            variants={optionsContainerVariants}
+            initial="initial"
+            animate="animate"
+          >
+            {currentQuestion.options?.map((option, index) => (
+              <motion.button
+                key={option.value}
+                variants={optionVariants}
+                whileHover={{ scale: 1.01, x: 4 }}
+                whileTap={{ scale: 0.99 }}
+                role="radio"
+                aria-checked={currentResponse === option.value}
+                tabIndex={currentResponse === option.value || (!currentResponse && index === 0) ? 0 : -1}
+                onClick={() => {
+                  setCurrentResponse(option.value);
+                  // Auto-submit after brief visual feedback
+                  setTimeout(handleSubmit, 120);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    const nextIndex = (index + 1) % (currentQuestion.options?.length || 1);
+                    setCurrentResponse(currentQuestion.options?.[nextIndex]?.value);
+                  } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    const prevIndex = (index - 1 + (currentQuestion.options?.length || 1)) % (currentQuestion.options?.length || 1);
+                    setCurrentResponse(currentQuestion.options?.[prevIndex]?.value);
+                  } else if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setCurrentResponse(option.value);
+                    setTimeout(handleSubmit, 120);
+                  }
+                }}
+                className={`w-full flex items-center gap-3 min-h-[48px] px-4 rounded-md border transition-colors duration-100 text-left
+                  focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-1 ${
+                  currentResponse === option.value
+                    ? 'border-teal-600 bg-teal-50'
+                    : 'border-slate-200 bg-white hover:border-teal-300 hover:bg-slate-50'
+                }`}
+              >
+                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
+                  currentResponse === option.value
+                    ? 'border-teal-600 bg-teal-600'
+                    : 'border-slate-300'
+                }`}>
+                  <AnimatedCheckmark show={currentResponse === option.value} />
+                </div>
+                <span className={`text-sm ${currentResponse === option.value ? 'text-teal-800 font-medium' : 'text-slate-700'}`}>
+                  {option.label}
+                </span>
+              </motion.button>
+            ))}
+          </motion.div>
         );
 
       case 'multi_choice':
       case 'checklist':
-        return (
-          <div className="space-y-2">
-            <VoiceModeToggle />
-            {isVoiceMode ? (
-              <div className="flex flex-col items-center py-4">
-                <VoiceInputButton
-                  onTranscription={handleVoiceInputComplete}
-                  onProcessingStart={() => setIsVoiceProcessing(true)}
-                  onProcessingEnd={() => setIsVoiceProcessing(false)}
-                  transcribeAudio={handleVoiceTranscription}
-                  size="md"
-                  showTimer
-                />
-                <p className="text-sm text-slate-500 mt-3 text-center">
-                  Say the options you want (e.g., "walking and standing")
-                </p>
-                {Array.isArray(currentResponse) && currentResponse.length > 0 && (
-                  <div className="mt-3 flex flex-wrap gap-2 justify-center">
-                    {currentResponse.map((val: string) => {
-                      const opt = currentQuestion.options?.find(o => o.value === val);
+        // Special case for pain_location - grouped body part selector
+        if (currentQuestion.id === 'pain_location') {
+          const bodyPartGroups = [
+            {
+              label: 'Head & Spine',
+              parts: [
+                { id: 'head', name: 'Head', hasLaterality: false },
+                { id: 'neck', name: 'Neck', hasLaterality: false },
+                { id: 'upper_back', name: 'Upper Back (Thoracic)', hasLaterality: false },
+                { id: 'lower_back', name: 'Lower Back (Lumbar)', hasLaterality: false },
+                { id: 'chest', name: 'Chest', hasLaterality: false },
+              ]
+            },
+            {
+              label: 'Upper Limb',
+              parts: [
+                { id: 'shoulder', name: 'Shoulder', hasLaterality: true },
+                { id: 'arm', name: 'Upper Arm', hasLaterality: true },
+                { id: 'elbow', name: 'Elbow', hasLaterality: true },
+                { id: 'forearm', name: 'Forearm', hasLaterality: true },
+                { id: 'wrist', name: 'Wrist', hasLaterality: true },
+                { id: 'hand', name: 'Hand', hasLaterality: true },
+              ]
+            },
+            {
+              label: 'Lower Limb',
+              parts: [
+                { id: 'hip', name: 'Hip', hasLaterality: true },
+                { id: 'thigh', name: 'Thigh', hasLaterality: true },
+                { id: 'knee', name: 'Knee', hasLaterality: true },
+                { id: 'leg', name: 'Lower Leg (Calf)', hasLaterality: true },
+                { id: 'ankle', name: 'Ankle', hasLaterality: true },
+                { id: 'foot', name: 'Foot', hasLaterality: true },
+              ]
+            }
+          ];
+
+          const selectedParts = Array.isArray(currentResponse) ? currentResponse : [];
+
+          const togglePart = (partId: string) => {
+            setCurrentResponse((prev: string[]) => {
+              const arr = Array.isArray(prev) ? prev : [];
+              // Remove any existing selection for this part (left, right, both, or plain)
+              const filtered = arr.filter(v => !v.startsWith(partId));
+              // If it was selected, just remove it (toggle off)
+              if (arr.some(v => v.startsWith(partId))) {
+                return filtered;
+              }
+              // Otherwise add it
+              return [...filtered, partId];
+            });
+          };
+
+          const selectLaterality = (partId: string, laterality: 'left' | 'right' | 'both') => {
+            setCurrentResponse((prev: string[]) => {
+              const arr = Array.isArray(prev) ? prev : [];
+              // Remove any existing selection for this part
+              const filtered = arr.filter(v => !v.startsWith(partId));
+              // Add with laterality
+              return [...filtered, `${partId}_${laterality}`];
+            });
+          };
+
+          const getSelectedLaterality = (partId: string): string | null => {
+            const found = selectedParts.find(v => v.startsWith(partId));
+            if (!found) return null;
+            if (found === partId) return 'selected'; // No laterality needed
+            return found.split('_').pop() || null;
+          };
+
+          return (
+            <div className="space-y-4">
+              {bodyPartGroups.map((group) => (
+                <div key={group.label} className="space-y-2">
+                  <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wide px-1">
+                    {group.label}
+                  </h4>
+                  <div className="space-y-2">
+                    {group.parts.map((part) => {
+                      const selectedLat = getSelectedLaterality(part.id);
+                      const isSelected = selectedLat !== null;
+
                       return (
-                        <span key={val} className="px-3 py-1.5 bg-teal-50 text-teal-700 rounded text-sm font-medium">
-                          {opt?.label || val}
-                        </span>
+                        <div key={part.id} className="space-y-1">
+                          <button
+                            onClick={() => {
+                              if (part.hasLaterality) {
+                                // Toggle selection state
+                                if (isSelected) {
+                                  togglePart(part.id);
+                                } else {
+                                  // Default to selecting the part, will show laterality options
+                                  setCurrentResponse((prev: string[]) => {
+                                    const arr = Array.isArray(prev) ? prev : [];
+                                    return [...arr, `${part.id}_pending`];
+                                  });
+                                }
+                              } else {
+                                togglePart(part.id);
+                              }
+                            }}
+                            className={`w-full flex items-center justify-between min-h-[44px] px-3 rounded-md border transition-all duration-100 ${
+                              isSelected
+                                ? 'border-teal-600 bg-teal-50'
+                                : 'border-slate-200 bg-white hover:border-teal-300 hover:bg-slate-50'
+                            }`}
+                          >
+                            <div className="flex items-center gap-3">
+                              <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 transition-all ${
+                                isSelected ? 'border-teal-600 bg-teal-600' : 'border-slate-300'
+                              }`}>
+                                {isSelected && <Check className="h-3 w-3 text-white" />}
+                              </div>
+                              <span className={`text-sm ${isSelected ? 'text-teal-800 font-medium' : 'text-slate-700'}`}>
+                                {part.name}
+                              </span>
+                            </div>
+                            {part.hasLaterality && isSelected && selectedLat !== 'pending' && (
+                              <span className="text-xs bg-teal-100 text-teal-700 px-2 py-0.5 rounded-full capitalize">
+                                {selectedLat}
+                              </span>
+                            )}
+                          </button>
+
+                          {/* Laterality options - shown when part with laterality is selected */}
+                          {part.hasLaterality && isSelected && (
+                            <div className="flex gap-2 pl-8">
+                              {['left', 'right', 'both'].map((lat) => (
+                                <button
+                                  key={lat}
+                                  onClick={() => selectLaterality(part.id, lat as 'left' | 'right' | 'both')}
+                                  className={`flex-1 py-2 px-3 text-xs font-medium rounded-md border transition-all ${
+                                    selectedLat === lat
+                                      ? 'border-teal-600 bg-teal-600 text-white'
+                                      : 'border-slate-200 bg-white hover:border-teal-300 text-slate-600'
+                                  }`}
+                                >
+                                  {lat === 'both' ? 'Both' : lat.charAt(0).toUpperCase() + lat.slice(1)}
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                        </div>
                       );
                     })}
                   </div>
-                )}
-                <Button
-                  onClick={handleSubmit}
-                  disabled={!canSubmit()}
-                  className="w-full mt-4 bg-teal-600 hover:bg-teal-700 text-white rounded-md min-h-[48px] font-medium"
-                >
-                  Continue <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </div>
-            ) : (
-              <>
-                <div className="space-y-2">
-                  {currentQuestion.options?.map((option) => {
-                    const isSelected = Array.isArray(currentResponse) && currentResponse.includes(option.value);
-                    return (
-                      <button
-                        key={option.value}
-                        onClick={() => {
-                          setCurrentResponse((prev: string[]) => {
-                            const arr = Array.isArray(prev) ? prev : [];
-                            return arr.includes(option.value)
-                              ? arr.filter(v => v !== option.value)
-                              : [...arr, option.value];
-                          });
-                        }}
-                        className={`w-full flex items-center gap-3 min-h-[44px] px-3 rounded-md border transition-all duration-100 text-left ${
-                          isSelected
-                            ? 'border-teal-600 bg-teal-50'
-                            : 'border-slate-200 bg-white hover:border-teal-300 hover:bg-slate-50'
-                        }`}
-                      >
-                        <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 transition-all ${
-                          isSelected ? 'border-teal-600 bg-teal-600' : 'border-slate-300'
-                        }`}>
-                          {isSelected && <Check className="h-3 w-3 text-white" />}
-                        </div>
-                        <span className={`text-sm ${isSelected ? 'text-teal-800 font-medium' : 'text-slate-700'}`}>
-                          {option.label}
-                        </span>
-                      </button>
-                    );
-                  })}
                 </div>
-                <Button
-                  onClick={handleSubmit}
-                  disabled={!canSubmit()}
-                  className="w-full bg-teal-600 hover:bg-teal-700 text-white rounded-md min-h-[44px] mt-3 font-medium text-sm"
-                >
-                  Continue <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </>
-            )}
+              ))}
+              <Button
+                onClick={handleSubmit}
+                disabled={!canSubmit() || selectedParts.some(p => p.endsWith('_pending'))}
+                className="w-full bg-teal-600 hover:bg-teal-700 text-white rounded-md min-h-[44px] mt-3 font-medium text-sm"
+              >
+                Continue <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </div>
+          );
+        }
+
+        // Regular multi_choice/checklist
+        return (
+          <div className="space-y-2">
+            <div className="space-y-2">
+              {currentQuestion.options?.map((option) => {
+                const isSelected = Array.isArray(currentResponse) && currentResponse.includes(option.value);
+                return (
+                  <button
+                    key={option.value}
+                    onClick={() => {
+                      setCurrentResponse((prev: string[]) => {
+                        const arr = Array.isArray(prev) ? prev : [];
+                        return arr.includes(option.value)
+                          ? arr.filter(v => v !== option.value)
+                          : [...arr, option.value];
+                      });
+                    }}
+                    className={`w-full flex items-center gap-3 min-h-[44px] px-3 rounded-md border transition-all duration-100 text-left ${
+                      isSelected
+                        ? 'border-teal-600 bg-teal-50'
+                        : 'border-slate-200 bg-white hover:border-teal-300 hover:bg-slate-50'
+                    }`}
+                  >
+                    <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 transition-all ${
+                      isSelected ? 'border-teal-600 bg-teal-600' : 'border-slate-300'
+                    }`}>
+                      {isSelected && <Check className="h-3 w-3 text-white" />}
+                    </div>
+                    <span className={`text-sm ${isSelected ? 'text-teal-800 font-medium' : 'text-slate-700'}`}>
+                      {option.label}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+            <Button
+              onClick={handleSubmit}
+              disabled={!canSubmit()}
+              className="w-full bg-teal-600 hover:bg-teal-700 text-white rounded-md min-h-[44px] mt-3 font-medium text-sm"
+            >
+              Continue <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
           </div>
         );
 
@@ -1515,86 +1727,52 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
         };
         return (
           <div className="space-y-6">
-            <VoiceModeToggle />
-            {isVoiceMode ? (
-              <div className="flex flex-col items-center py-4">
-                <VoiceInputButton
-                  onTranscription={handleVoiceInputComplete}
-                  onProcessingStart={() => setIsVoiceProcessing(true)}
-                  onProcessingEnd={() => setIsVoiceProcessing(false)}
-                  transcribeAudio={handleVoiceTranscription}
-                  size="md"
-                  showTimer
-                />
-                <p className="text-sm text-slate-500 mt-3 text-center">
-                  Say a number from 0 to 10 (e.g., "seven" or "moderate")
-                </p>
-                {typeof currentResponse === 'number' && (
-                  <div className="mt-4 text-center">
-                    <span className="text-5xl font-bold text-slate-800 tabular-nums">{currentResponse}</span>
-                    <span className="text-slate-400 text-xl ml-1">/ 10</span>
-                    <div className={`text-sm font-medium mt-2 inline-block px-3 py-1 rounded-full ${getSeverityStyle(currentResponse)}`}>
-                      {currentResponse === 0 ? 'No pain' : currentResponse <= 3 ? 'Mild pain' : currentResponse <= 6 ? 'Moderate pain' : currentResponse <= 8 ? 'Severe pain' : 'Worst pain'}
-                    </div>
-                  </div>
-                )}
-                <Button
-                  onClick={handleSubmit}
-                  className="w-full mt-4 bg-teal-600 hover:bg-teal-700 text-white rounded-md min-h-[48px] font-medium"
-                >
-                  Continue <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </div>
-            ) : (
-              <>
-                <div className="bg-slate-50 rounded-lg p-6 sm:p-8">
-                  <div className="text-center mb-8">
-                    <div className="text-7xl font-bold text-slate-800 tabular-nums">{sliderValue}</div>
-                    <div className={`text-sm font-medium mt-3 inline-block px-4 py-1.5 rounded-full ${getSeverityStyle(sliderValue)}`}>
-                      {sliderValue === 0 ? 'No pain' : sliderValue <= 3 ? 'Mild pain' : sliderValue <= 6 ? 'Moderate pain' : sliderValue <= 8 ? 'Severe pain' : 'Worst pain'}
-                    </div>
-                  </div>
-                  <input
-                    type="range"
-                    min={currentQuestion.min || 0}
-                    max={currentQuestion.max || 10}
-                    value={sliderValue}
-                    onChange={(e) => setCurrentResponse(parseInt(e.target.value))}
-                    aria-label="Pain scale from 0 to 10"
-                    aria-valuemin={currentQuestion.min || 0}
-                    aria-valuemax={currentQuestion.max || 10}
-                    aria-valuenow={sliderValue}
-                    aria-valuetext={sliderValue === 0 ? 'No pain' : sliderValue <= 3 ? 'Mild pain' : sliderValue <= 6 ? 'Moderate pain' : sliderValue <= 8 ? 'Severe pain' : 'Worst pain'}
-                    className="w-full h-4 bg-slate-200 rounded-full appearance-none cursor-pointer touch-pan-y
-                      focus:outline-none focus-visible:ring-4 focus-visible:ring-teal-200
-                      [&::-webkit-slider-thumb]:appearance-none
-                      [&::-webkit-slider-thumb]:w-10
-                      [&::-webkit-slider-thumb]:h-10
-                      [&::-webkit-slider-thumb]:rounded-full
-                      [&::-webkit-slider-thumb]:bg-teal-600
-                      [&::-webkit-slider-thumb]:cursor-pointer
-                      [&::-webkit-slider-thumb]:shadow-lg
-                      [&::-webkit-slider-thumb]:border-4
-                      [&::-webkit-slider-thumb]:border-white
-                      [&::-webkit-slider-thumb]:transition-transform
-                      [&::-webkit-slider-thumb]:active:scale-110
-                      [&::-webkit-slider-thumb]:focus-visible:ring-4
-                      [&::-webkit-slider-thumb]:focus-visible:ring-teal-200"
-                  />
-                  <div className="flex justify-between text-sm text-slate-400 mt-4">
-                    <span>0 - None</span>
-                    <span>5 - Moderate</span>
-                    <span>10 - Worst</span>
-                  </div>
+            <div className="bg-slate-50 rounded-lg p-6 sm:p-8">
+              <div className="text-center mb-8">
+                <div className="text-7xl font-bold text-slate-800 tabular-nums">{sliderValue}</div>
+                <div className={`text-sm font-medium mt-3 inline-block px-4 py-1.5 rounded-full ${getSeverityStyle(sliderValue)}`}>
+                  {sliderValue === 0 ? 'No pain' : sliderValue <= 3 ? 'Mild pain' : sliderValue <= 6 ? 'Moderate pain' : sliderValue <= 8 ? 'Severe pain' : 'Worst pain'}
                 </div>
-                <Button
-                  onClick={handleSubmit}
-                  className="w-full bg-teal-600 hover:bg-teal-700 text-white rounded-md min-h-[48px] font-medium"
-                >
-                  Continue <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </>
-            )}
+              </div>
+              <input
+                type="range"
+                min={currentQuestion.min || 0}
+                max={currentQuestion.max || 10}
+                value={sliderValue}
+                onChange={(e) => setCurrentResponse(parseInt(e.target.value))}
+                aria-label="Pain scale from 0 to 10"
+                aria-valuemin={currentQuestion.min || 0}
+                aria-valuemax={currentQuestion.max || 10}
+                aria-valuenow={sliderValue}
+                aria-valuetext={sliderValue === 0 ? 'No pain' : sliderValue <= 3 ? 'Mild pain' : sliderValue <= 6 ? 'Moderate pain' : sliderValue <= 8 ? 'Severe pain' : 'Worst pain'}
+                className="w-full h-4 bg-slate-200 rounded-full appearance-none cursor-pointer touch-pan-y
+                  focus:outline-none focus-visible:ring-4 focus-visible:ring-teal-200
+                  [&::-webkit-slider-thumb]:appearance-none
+                  [&::-webkit-slider-thumb]:w-10
+                  [&::-webkit-slider-thumb]:h-10
+                  [&::-webkit-slider-thumb]:rounded-full
+                  [&::-webkit-slider-thumb]:bg-teal-600
+                  [&::-webkit-slider-thumb]:cursor-pointer
+                  [&::-webkit-slider-thumb]:shadow-lg
+                  [&::-webkit-slider-thumb]:border-4
+                  [&::-webkit-slider-thumb]:border-white
+                  [&::-webkit-slider-thumb]:transition-transform
+                  [&::-webkit-slider-thumb]:active:scale-110
+                  [&::-webkit-slider-thumb]:focus-visible:ring-4
+                  [&::-webkit-slider-thumb]:focus-visible:ring-teal-200"
+              />
+              <div className="flex justify-between text-sm text-slate-400 mt-4">
+                <span>0 - None</span>
+                <span>5 - Moderate</span>
+                <span>10 - Worst</span>
+              </div>
+            </div>
+            <Button
+              onClick={handleSubmit}
+              className="w-full bg-teal-600 hover:bg-teal-700 text-white rounded-md min-h-[48px] font-medium"
+            >
+              Continue <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
           </div>
         );
 
@@ -2717,6 +2895,35 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
 
       {/* Side AI Processing Indicator - shows on right edge when AI is working */}
       <SideProcessingIndicator isVisible={isProcessing && !isTyping} />
+
+      {/* ===== CLINICAL ASSESSMENT HUB ===== */}
+      <AssessmentRecommendationHub
+        isOpen={showAssessmentHub}
+        onClose={() => setShowAssessmentHub(false)}
+        screeningData={{
+          responses: engine.getSession().responses,
+          selectedRegions: selectedRegions,
+          redFlags: detectedRedFlags,
+          collectedData: collectedData
+        }}
+        onStartRecommended={handleStartRecommended}
+        onChooseCustom={handleChooseCustom}
+        onSkipAll={handleSkipAllAssessments}
+      />
+
+      {/* ===== CLINICAL ASSESSMENT FORM ===== */}
+      {selectedAssessments.length > 0 && (
+        <AssessmentFormBuilder
+          isOpen={showDirectAssessment}
+          onClose={() => setShowDirectAssessment(false)}
+          assessmentId={selectedAssessments[currentAssessmentIndex]?.assessment_id || ''}
+          onSubmit={handleDirectAssessmentSubmit}
+          onNext={() => {}}
+          onSkip={handleDirectAssessmentSkip}
+          currentIndex={currentAssessmentIndex}
+          totalAssessments={selectedAssessments.length}
+        />
+      )}
     </div>
   );
 };

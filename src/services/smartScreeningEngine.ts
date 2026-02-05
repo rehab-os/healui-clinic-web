@@ -154,40 +154,75 @@ export const RED_FLAG_OPTIONS = [
 // ==================== ICF (International Classification of Functioning) Code Mappings ====================
 // Based on WHO ICF classification for physiotherapy documentation
 export const ICF_CODES: Record<string, { code: string; category: string; description: string }> = {
-  // Body Functions (b)
+  // ========== Body Functions (b) ==========
+
+  // Pain functions (b280-b289)
   pain_screening: { code: 'b280', category: 'Body Functions', description: 'Sensation of pain' },
   pain_location: { code: 'b2801', category: 'Body Functions', description: 'Pain in body part' },
   vas_score: { code: 'b2800', category: 'Body Functions', description: 'Generalized pain' },
   pain_nature: { code: 'b2802', category: 'Body Functions', description: 'Pain quality' },
   pain_radiation: { code: 'b2803', category: 'Body Functions', description: 'Radiating pain' },
+  radiation_pattern: { code: 'b2803', category: 'Body Functions', description: 'Radiating pain pattern' },
   behavior_24hr: { code: 'b2804', category: 'Body Functions', description: 'Pain pattern' },
+  pain_timing: { code: 'b2804', category: 'Body Functions', description: 'Pain timing pattern' },
+  pain_movement: { code: 'b2804', category: 'Body Functions', description: 'Pain with movement' },
+  night_pain_details: { code: 'b2804', category: 'Body Functions', description: 'Night pain characteristics' },
   morning_stiffness_duration: { code: 'b7800', category: 'Body Functions', description: 'Sensation of muscle stiffness' },
 
-  // Sensory functions
+  // Sensory functions (b265-b279)
   sensation_screening: { code: 'b265', category: 'Body Functions', description: 'Touch function' },
   sensation_type: { code: 'b270', category: 'Body Functions', description: 'Sensory functions related to temperature and other stimuli' },
+  sensations_assessment: { code: 'b270', category: 'Body Functions', description: 'Sensory assessment' },
+  dermatome_assessment: { code: 'b2702', category: 'Body Functions', description: 'Sensitivity to pressure' },
 
-  // Neuromusculoskeletal functions
+  // Neuromusculoskeletal functions (b710-b789)
   weakness_screening: { code: 'b730', category: 'Body Functions', description: 'Muscle power functions' },
   weakness_location: { code: 'b7300', category: 'Body Functions', description: 'Power of isolated muscles and muscle groups' },
+  mmt_assessment: { code: 'b7300', category: 'Body Functions', description: 'Muscle power assessment' },
+  myotome_assessment: { code: 'b7300', category: 'Body Functions', description: 'Myotome muscle power' },
   mobility_screening: { code: 'b710', category: 'Body Functions', description: 'Mobility of joint functions' },
   mobility_limitations: { code: 'b7100', category: 'Body Functions', description: 'Mobility of a single joint' },
+  active_rom: { code: 'b7100', category: 'Body Functions', description: 'Active joint mobility' },
+  passive_rom: { code: 'b7101', category: 'Body Functions', description: 'Passive joint mobility' },
+  tightness_assessment: { code: 'b7350', category: 'Body Functions', description: 'Tone of isolated muscles and muscle groups' },
 
-  // Activities and Participation (d)
+  // Muscle tone and reflexes
+  reflex_testing: { code: 'b750', category: 'Body Functions', description: 'Motor reflex functions' },
+
+  // Vestibular and balance
+  balance_assessment: { code: 'b235', category: 'Body Functions', description: 'Vestibular functions' },
+
+  // Structures (s)
+  swelling_assessment: { code: 's7', category: 'Body Structures', description: 'Structures related to movement' },
+  tenderness_assessment: { code: 's7', category: 'Body Structures', description: 'Structures related to movement' },
+  girth_measurement: { code: 's7', category: 'Body Structures', description: 'Structure measurement' },
+
+  // ========== Activities and Participation (d) ==========
+
+  // General tasks (d230-d299)
   functional_impact: { code: 'd230', category: 'Activities', description: 'Carrying out daily routine' },
+  adl_scoring: { code: 'd230', category: 'Activities', description: 'Activities of daily living' },
+
+  // Mobility activities (d4)
   aggravating_factors: { code: 'd4', category: 'Activities', description: 'Mobility activities' },
   relieving_factors: { code: 'd4', category: 'Activities', description: 'Mobility activities' },
+  gait_analysis: { code: 'd450', category: 'Activities', description: 'Walking' },
+  posture_assessment: { code: 'd415', category: 'Activities', description: 'Maintaining a body position' },
 
-  // Specific activities
+  // Health management
   chief_complaint: { code: 'd570', category: 'Activities', description: 'Looking after ones health' },
+
+  // Onset and progression
+  onset_nature: { code: 'b130', category: 'Body Functions', description: 'Energy and drive functions (onset)' },
   symptom_onset: { code: 'b130', category: 'Body Functions', description: 'Energy and drive functions (time course)' },
   symptom_progression: { code: 'b130', category: 'Body Functions', description: 'Energy and drive functions (progression)' },
 
   // Red flags - Body structures/functions at risk
   red_flag_screening: { code: 'b299', category: 'Body Functions', description: 'Sensory functions and pain, unspecified (red flags)' },
 
-  // Environmental factors
+  // ========== Environmental Factors (e) ==========
   previous_episodes: { code: 'e580', category: 'Environment', description: 'Health services, systems and policies (history)' },
+  previous_episode_comparison: { code: 'e580', category: 'Environment', description: 'Health services comparison' },
 };
 
 // Alias for backward compatibility
@@ -303,9 +338,40 @@ export const QUESTION_TEMPLATES: Record<string, ScreeningQuestion> = {
   // ========== PAIN PATHWAY ==========
   pain_location: {
     id: 'pain_location',
-    type: 'body_map',
-    question: "Where exactly do you feel the pain? You can select multiple areas.",
-    multiple: true
+    type: 'multi_choice',
+    question: "Where exactly do you feel the pain? Select all areas that apply.",
+    options: [
+      { value: 'head', label: 'Head' },
+      { value: 'neck', label: 'Neck' },
+      { value: 'shoulder_left', label: 'Left Shoulder' },
+      { value: 'shoulder_right', label: 'Right Shoulder' },
+      { value: 'shoulder_both', label: 'Both Shoulders' },
+      { value: 'upper_back', label: 'Upper Back (Thoracic)' },
+      { value: 'lower_back', label: 'Lower Back (Lumbar)' },
+      { value: 'chest', label: 'Chest' },
+      { value: 'arm_left', label: 'Left Arm' },
+      { value: 'arm_right', label: 'Right Arm' },
+      { value: 'elbow_left', label: 'Left Elbow' },
+      { value: 'elbow_right', label: 'Right Elbow' },
+      { value: 'wrist_left', label: 'Left Wrist' },
+      { value: 'wrist_right', label: 'Right Wrist' },
+      { value: 'hand_left', label: 'Left Hand' },
+      { value: 'hand_right', label: 'Right Hand' },
+      { value: 'hip_left', label: 'Left Hip' },
+      { value: 'hip_right', label: 'Right Hip' },
+      { value: 'hip_both', label: 'Both Hips' },
+      { value: 'thigh_left', label: 'Left Thigh' },
+      { value: 'thigh_right', label: 'Right Thigh' },
+      { value: 'knee_left', label: 'Left Knee' },
+      { value: 'knee_right', label: 'Right Knee' },
+      { value: 'knee_both', label: 'Both Knees' },
+      { value: 'leg_left', label: 'Left Lower Leg (Calf)' },
+      { value: 'leg_right', label: 'Right Lower Leg (Calf)' },
+      { value: 'ankle_left', label: 'Left Ankle' },
+      { value: 'ankle_right', label: 'Right Ankle' },
+      { value: 'foot_left', label: 'Left Foot' },
+      { value: 'foot_right', label: 'Right Foot' }
+    ]
   },
 
   pain_nature: {
@@ -1924,10 +1990,49 @@ export class SmartScreeningEngine {
       summary += `\n`;
     }
 
+    // ==================== ICF CODES REFERENCE ====================
+    summary += `ICF CODES USED IN THIS ASSESSMENT\n`;
+    summary += `────────────────────────────────────────────────────────────────\n`;
+
+    // Collect all ICF codes used based on responses
+    const usedICFCodes: { code: string; category: string; description: string }[] = [];
+    const addedCodes = new Set<string>();
+
+    Object.keys(r).forEach(key => {
+      const icfInfo = ICF_CODES[key];
+      if (icfInfo && !addedCodes.has(icfInfo.code)) {
+        usedICFCodes.push(icfInfo);
+        addedCodes.add(icfInfo.code);
+      }
+    });
+
+    // Sort by category and code
+    usedICFCodes.sort((a, b) => {
+      if (a.category !== b.category) return a.category.localeCompare(b.category);
+      return a.code.localeCompare(b.code);
+    });
+
+    // Group by category
+    const categories: Record<string, typeof usedICFCodes> = {};
+    usedICFCodes.forEach(icf => {
+      if (!categories[icf.category]) categories[icf.category] = [];
+      categories[icf.category].push(icf);
+    });
+
+    Object.entries(categories).forEach(([category, codes]) => {
+      summary += `\n  ${category}:\n`;
+      codes.forEach(icf => {
+        summary += `    ${icf.code.padEnd(8)} ${icf.description}\n`;
+      });
+    });
+
+    summary += `\n`;
+
     // ==================== FOOTER ====================
     summary += `════════════════════════════════════════════════════════════════\n`;
     summary += `Generated: ${new Date().toLocaleString()}\n`;
-    summary += `ICF = International Classification of Functioning (WHO)\n`;
+    summary += `ICF = International Classification of Functioning, Disability\n`;
+    summary += `      and Health (WHO, 2001)\n`;
     summary += `════════════════════════════════════════════════════════════════\n`;
 
     return summary;

@@ -2,6 +2,7 @@ import './global.css';
 import { ReduxProvider } from '../components/providers/ReduxProvider';
 import { AppMantineProvider } from '../components/providers/MantineProvider';
 import { AuthProvider } from '../components/providers/AuthProvider';
+import { Toaster } from '../components/ui/sonner';
 
 export const metadata = {
   title: 'Healui.ai - World\'s First AI-Powered Physiotherapy EMR Software | Smart Clinical Management',
@@ -116,6 +117,7 @@ export default function RootLayout({
           <AuthProvider>
             <AppMantineProvider>
               {children}
+              <Toaster />
             </AppMantineProvider>
           </AuthProvider>
         </ReduxProvider>
