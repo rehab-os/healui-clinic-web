@@ -341,7 +341,43 @@ export const ENDPOINTS = {
         return url
     },
 
+    // ============ Clinic Billing Settings ============
+    GET_BILLING_SETTINGS: (clinicId: string) => `clinics/${clinicId}/billing-settings`,
+    UPDATE_BILLING_SETTINGS: (clinicId: string) => `clinics/${clinicId}/billing-settings`,
+
+    // ============ Clinic Services (Charges Table) ============
+    GET_CLINIC_SERVICES: (clinicId: string, includeInactive?: boolean) => {
+        let url = `clinics/${clinicId}/services`
+        if (includeInactive) url += '?include_inactive=true'
+        return url
+    },
+    CREATE_CLINIC_SERVICE: (clinicId: string) => `clinics/${clinicId}/services`,
+    UPDATE_CLINIC_SERVICE: (clinicId: string, id: string) => `clinics/${clinicId}/services/${id}`,
+    DELETE_CLINIC_SERVICE: (clinicId: string, id: string) => `clinics/${clinicId}/services/${id}`,
+    REORDER_CLINIC_SERVICES: (clinicId: string) => `clinics/${clinicId}/services/reorder`,
+
+    // ============ Session Pack Templates ============
+    GET_PACK_TEMPLATES: (clinicId: string, includeInactive?: boolean) => {
+        let url = `clinics/${clinicId}/pack-templates`
+        if (includeInactive) url += '?include_inactive=true'
+        return url
+    },
+    CREATE_PACK_TEMPLATE: (clinicId: string) => `clinics/${clinicId}/pack-templates`,
+    UPDATE_PACK_TEMPLATE: (clinicId: string, id: string) => `clinics/${clinicId}/pack-templates/${id}`,
+    DELETE_PACK_TEMPLATE: (clinicId: string, id: string) => `clinics/${clinicId}/pack-templates/${id}`,
+
     // ============ Billing APIs ============
+    // Multi-Visit & Extra Billing
+    BILL_MULTIPLE_VISITS: () => 'billing/visits/bill-multiple',
+    GET_UNBILLED_VISITS: (patientId: string, clinicId: string) => `billing/patients/${patientId}/unbilled-visits?clinic_id=${clinicId}`,
+    GET_CLINIC_SERVICES_FOR_BILLING: (clinicId: string) => `billing/clinic-services?clinic_id=${clinicId}`,
+    GET_RECEIPT_DATA: (billingId: string) => `billing/visit-billings/${billingId}/receipt`,
+    GET_CORPORATE_OUTSTANDING: (params: { clinic_id: string; company?: string }) => {
+        const searchParams = new URLSearchParams({ clinic_id: params.clinic_id })
+        if (params.company) searchParams.append('company', params.company)
+        return `billing/reports/corporate-outstanding?${searchParams.toString()}`
+    },
+
     // Patient Account
     GET_PATIENT_ACCOUNT: (patientId: string, clinicId: string) => `billing/patients/${patientId}/account?clinic_id=${clinicId}`,
     GET_PATIENT_BALANCE: (patientId: string, clinicId: string) => `billing/patients/${patientId}/balance?clinic_id=${clinicId}`,

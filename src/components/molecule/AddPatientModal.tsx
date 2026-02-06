@@ -41,6 +41,8 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
     current_medications: '',
     insurance_provider: '',
     insurance_policy_number: '',
+    referral_source: '',
+    corporate_company: '',
   });
 
   const [addressData, setAddressData] = useState<AddressData>({ country: 'India' });
@@ -114,6 +116,8 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
             })
           : undefined,
         activity_level: formData.activity_level || undefined,
+        referral_source: formData.referral_source || undefined,
+        corporate_company: formData.corporate_company || undefined,
       };
       console.log('Patient data being sent:', patientData); // Debug log
 
@@ -632,6 +636,32 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                     <option value="ACTIVE">Active</option>
                     <option value="ATHLETIC">Athletic</option>
                   </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-brand-black mb-1 sm:mb-1.5">
+                    Referral Source
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.referral_source}
+                    onChange={(e) => setFormData({ ...formData, referral_source: e.target.value })}
+                    className="w-full px-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 bg-brand-white text-sm sm:text-base"
+                    placeholder="e.g., Google, Walk-in, Dr. Name"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-brand-black mb-1 sm:mb-1.5">
+                    Corporate Company
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.corporate_company}
+                    onChange={(e) => setFormData({ ...formData, corporate_company: e.target.value })}
+                    className="w-full px-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 bg-brand-white text-sm sm:text-base"
+                    placeholder="Company name (if corporate patient)"
+                  />
                 </div>
 
                 <div className="sm:col-span-2">

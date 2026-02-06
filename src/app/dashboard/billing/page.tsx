@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useAppSelector } from '../../../store/hooks';
 import ApiManager from '../../../services/api';
 import BillVisitModal from '../../../components/molecule/BillVisitModal';
@@ -25,16 +26,23 @@ import {
   ChevronRight,
   Loader2,
   Receipt,
-  FileText
+  FileText,
+  Settings,
+  ListOrdered,
+  Building,
+  LayoutGrid
 } from 'lucide-react';
 import type {
   DailySummaryDto,
   OutstandingPatientDto,
   PaymentDto,
-  SessionPackDto
+  SessionPackDto,
+  CorporateOutstandingDto,
+  CorporateCompanyOutstanding
 } from '../../../lib/types';
 
 export default function BillingPage() {
+  const router = useRouter();
   const { currentClinic } = useAppSelector(state => state.user);
 
   // Data states
@@ -43,6 +51,7 @@ export default function BillingPage() {
   const [totalOutstanding, setTotalOutstanding] = useState(0);
   const [recentPayments, setRecentPayments] = useState<PaymentDto[]>([]);
   const [activePacks, setActivePacks] = useState<SessionPackDto[]>([]);
+  const [corporateData, setCorporateData] = useState<CorporateOutstandingDto | null>(null);
 
   // UI states
   const [loading, setLoading] = useState(true);
@@ -68,10 +77,11 @@ export default function BillingPage() {
       setLoading(true);
 
       // Fetch all data in parallel
-      const [summaryRes, outstandingRes, packsRes] = await Promise.all([
+      const [summaryRes, outstandingRes, packsRes, corpRes] = await Promise.all([
         ApiManager.getDailySummary(currentClinic.id, selectedDate),
         ApiManager.getOutstandingReport({ clinic_id: currentClinic.id, limit: 10 }),
-        ApiManager.getSessionPacks({ clinic_id: currentClinic.id, status: 'ACTIVE', has_remaining: true, limit: 5 })
+        ApiManager.getSessionPacks({ clinic_id: currentClinic.id, status: 'ACTIVE', has_remaining: true, limit: 5 }),
+        ApiManager.getCorporateOutstanding({ clinic_id: currentClinic.id })
       ]);
 
       if (summaryRes.success && summaryRes.data) {
@@ -85,6 +95,10 @@ export default function BillingPage() {
 
       if (packsRes.success && packsRes.data) {
         setActivePacks(packsRes.data.packs || []);
+      }
+
+      if (corpRes.success && corpRes.data) {
+        setCorporateData(corpRes.data);
       }
     } catch (error) {
       console.error('Failed to fetch billing data:', error);
@@ -178,7 +192,7 @@ export default function BillingPage() {
         </button>
 
         <button
-          onClick={() => window.location.href = '/dashboard/billing/invoices'}
+          onClick={() => router.push('/dashboard/billing/invoices')}
           className="flex items-center gap-3 p-4 bg-blue-50 border border-blue-200 rounded-xl hover:bg-blue-100 transition-colors"
         >
           <div className="p-2 bg-blue-500 rounded-lg">
@@ -191,7 +205,7 @@ export default function BillingPage() {
         </button>
 
         <button
-          onClick={() => window.location.href = '/dashboard/billing/reports'}
+          onClick={() => router.push('/dashboard/billing/reports')}
           className="flex items-center gap-3 p-4 bg-orange-50 border border-orange-200 rounded-xl hover:bg-orange-100 transition-colors"
         >
           <div className="p-2 bg-orange-500 rounded-lg">
@@ -201,6 +215,31 @@ export default function BillingPage() {
             <p className="font-medium text-orange-900">Reports</p>
             <p className="text-xs text-orange-600">View analytics</p>
           </div>
+        </button>
+      </div>
+
+      {/* Configuration Links */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-1">
+        <button
+          onClick={() => router.push('/dashboard/billing/services')}
+          className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm whitespace-nowrap"
+        >
+          <ListOrdered className="h-4 w-4 text-gray-500" />
+          <span className="text-gray-700">Charges Table</span>
+        </button>
+        <button
+          onClick={() => router.push('/dashboard/billing/pack-templates')}
+          className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm whitespace-nowrap"
+        >
+          <LayoutGrid className="h-4 w-4 text-gray-500" />
+          <span className="text-gray-700">Pack Templates</span>
+        </button>
+        <button
+          onClick={() => router.push('/dashboard/billing/settings')}
+          className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm whitespace-nowrap"
+        >
+          <Settings className="h-4 w-4 text-gray-500" />
+          <span className="text-gray-700">Billing Settings</span>
         </button>
       </div>
 
@@ -425,6 +464,41 @@ export default function BillingPage() {
                 <p className="text-lg font-bold text-gray-900">
                   {formatCurrency(method.amount || 0)}
                 </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Corporate Outstanding */}
+      {corporateData && corporateData.companies.length > 0 && (
+        <div className="bg-white border border-gray-200 rounded-xl">
+          <div className="p-4 border-b border-gray-100 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Building className="h-5 w-5 text-indigo-500" />
+              <h2 className="font-semibold text-gray-900">Corporate Outstanding</h2>
+            </div>
+            <span className="text-sm font-semibold text-red-600">
+              {formatCurrency(corporateData.total_outstanding)}
+            </span>
+          </div>
+          <div className="divide-y divide-gray-100">
+            {corporateData.companies.map((company) => (
+              <div key={company.company} className="p-4 hover:bg-gray-50 transition-colors">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="font-medium text-gray-900">{company.company}</p>
+                    <p className="text-xs text-gray-500">
+                      {company.patient_count} patient{company.patient_count > 1 ? 's' : ''} · {company.visit_count} visit{company.visit_count > 1 ? 's' : ''}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-semibold text-red-600">{formatCurrency(company.outstanding)}</p>
+                    <p className="text-xs text-gray-500">
+                      Billed: {formatCurrency(company.total_billed)} · Paid: {formatCurrency(company.total_paid)}
+                    </p>
+                  </div>
+                </div>
               </div>
             ))}
           </div>

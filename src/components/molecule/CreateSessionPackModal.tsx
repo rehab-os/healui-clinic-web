@@ -13,12 +13,15 @@ import {
   User,
   CreditCard,
   Smartphone,
-  Banknote
+  Banknote,
+  Star,
+  Zap
 } from 'lucide-react';
 import ApiManager from '../../services/api';
 import type {
   CreateSessionPackDto,
-  PaymentMethod
+  PaymentMethod,
+  SessionPackTemplateDto
 } from '../../lib/types';
 
 interface Patient {
@@ -50,6 +53,11 @@ const CreateSessionPackModal: React.FC<CreateSessionPackModalProps> = ({
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
+  // Templates
+  const [templates, setTemplates] = useState<SessionPackTemplateDto[]>([]);
+  const [loadingTemplates, setLoadingTemplates] = useState(false);
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(null);
+
   // Patient search
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<Patient[]>([]);
@@ -73,19 +81,26 @@ const CreateSessionPackModal: React.FC<CreateSessionPackModalProps> = ({
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('CASH');
   const [notes, setNotes] = useState('');
 
-  // Common pack presets
-  const packPresets = [
-    { name: '5-Session Pack', sessions: 5, discount: 0 },
-    { name: '10-Session Pack', sessions: 10, discount: 5 },
-    { name: '15-Session Pack', sessions: 15, discount: 10 },
-    { name: '20-Session Pack', sessions: 20, discount: 15 },
-  ];
-
   useEffect(() => {
+    fetchTemplates();
     if (preSelectedPatient) {
       fetchPatientConditions(preSelectedPatient.id);
     }
   }, [preSelectedPatient]);
+
+  const fetchTemplates = async () => {
+    try {
+      setLoadingTemplates(true);
+      const res = await ApiManager.getPackTemplates(clinicId);
+      if (res.success && res.data) {
+        setTemplates(res.data);
+      }
+    } catch (err) {
+      console.error('Failed to fetch templates:', err);
+    } finally {
+      setLoadingTemplates(false);
+    }
+  };
 
   const searchPatients = async (query: string) => {
     if (query.length < 2) {
@@ -137,9 +152,16 @@ const CreateSessionPackModal: React.FC<CreateSessionPackModalProps> = ({
     fetchPatientConditions(patient.id);
   };
 
-  const handlePresetSelect = (preset: typeof packPresets[0]) => {
-    setName(preset.name);
-    setTotalSessions(preset.sessions.toString());
+  const handleTemplateSelect = (template: SessionPackTemplateDto) => {
+    setSelectedTemplateId(template.id);
+    setName(template.name);
+    setTotalSessions(template.total_sessions.toString());
+    setAmount(template.amount.toString());
+    if (template.validity_days) {
+      const validDate = new Date();
+      validDate.setDate(validDate.getDate() + template.validity_days);
+      setValidUntil(validDate.toISOString().split('T')[0]);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -325,27 +347,84 @@ const CreateSessionPackModal: React.FC<CreateSessionPackModalProps> = ({
             )}
           </div>
 
-          {/* Quick Presets */}
-          <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1.5">Quick Select</label>
-            <div className="grid grid-cols-4 gap-1.5">
-              {packPresets.map((preset) => (
-                <button
-                  key={preset.name}
-                  type="button"
-                  onClick={() => handlePresetSelect(preset)}
-                  className={`py-2 px-1 rounded border text-center transition-all ${
-                    name === preset.name
-                      ? 'border-purple-400 bg-purple-50'
-                      : 'border-gray-200 hover:border-purple-200'
-                  }`}
-                >
-                  <p className="text-sm font-semibold text-gray-900">{preset.sessions}</p>
-                  <p className="text-[10px] text-gray-500">sessions</p>
-                </button>
-              ))}
+          {/* Template Cards */}
+          {loadingTemplates ? (
+            <div className="flex items-center justify-center py-3">
+              <Loader2 className="h-4 w-4 animate-spin text-purple-500" />
+              <span className="ml-2 text-xs text-gray-500">Loading templates...</span>
             </div>
-          </div>
+          ) : templates.length > 0 ? (
+            <div>
+              <label className="block text-xs font-medium text-gray-600 mb-1.5 flex items-center gap-1">
+                <Zap className="h-3 w-3 text-purple-500" />
+                Quick Select from Templates
+              </label>
+              <div className="grid grid-cols-2 gap-2">
+                {templates.map((template) => (
+                  <button
+                    key={template.id}
+                    type="button"
+                    onClick={() => handleTemplateSelect(template)}
+                    className={`relative py-2.5 px-3 rounded-lg border text-left transition-all ${
+                      selectedTemplateId === template.id
+                        ? 'border-purple-400 bg-purple-50 ring-1 ring-purple-200'
+                        : 'border-gray-200 hover:border-purple-200 hover:bg-purple-50/30'
+                    }`}
+                  >
+                    {template.is_popular && (
+                      <Star className="absolute top-1.5 right-1.5 h-3 w-3 text-purple-500 fill-purple-500" />
+                    )}
+                    <p className="text-sm font-semibold text-gray-900 truncate pr-4">{template.name}</p>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-xs text-purple-600 font-medium">{template.total_sessions} sessions</span>
+                      <span className="text-xs text-gray-400">|</span>
+                      <span className="text-xs text-gray-600">{formatCurrency(template.amount)}</span>
+                    </div>
+                    <p className="text-[10px] text-green-600 mt-0.5">
+                      {formatCurrency(template.per_session_rate)}/session
+                    </p>
+                  </button>
+                ))}
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedTemplateId(null);
+                  setName('');
+                  setTotalSessions('10');
+                  setAmount('');
+                  setValidUntil('');
+                }}
+                className="mt-2 text-xs text-gray-500 hover:text-gray-700"
+              >
+                Clear selection / Enter manually
+              </button>
+            </div>
+          ) : (
+            <div>
+              <label className="block text-xs font-medium text-gray-600 mb-1.5">Quick Select</label>
+              <div className="grid grid-cols-4 gap-1.5">
+                {[5, 10, 15, 20].map((sessions) => (
+                  <button
+                    key={sessions}
+                    type="button"
+                    onClick={() => {
+                      setName(`${sessions}-Session Pack`);
+                      setTotalSessions(sessions.toString());
+                    }}
+                    className={`py-2 px-1 rounded border text-center transition-all ${
+                      name === `${sessions}-Session Pack`
+                        ? 'border-purple-400 bg-purple-50'
+                        : 'border-gray-200 hover:border-purple-200'
+                    }`}
+                  >
+                    <p className="text-sm font-semibold text-gray-900">{sessions}</p>
+                    <p className="text-[10px] text-gray-500">sessions</p>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Pack Name */}
           <div>

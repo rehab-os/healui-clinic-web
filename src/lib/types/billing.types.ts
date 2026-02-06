@@ -3,13 +3,15 @@
 // Enums
 export type SessionPackStatus = 'ACTIVE' | 'EXHAUSTED' | 'EXPIRED' | 'CANCELLED'
 export type SessionPackPaymentStatus = 'PAID' | 'PARTIAL' | 'UNPAID'
-export type BillingType = 'SESSION_DEDUCT' | 'CHARGED' | 'COMPLIMENTARY'
+export type BillingType = 'SESSION_DEDUCT' | 'CHARGED' | 'COMPLIMENTARY' | 'MANUAL' | 'CATALOG' | 'CORPORATE'
 export type VisitBillingStatus = 'PAID' | 'PARTIAL' | 'OWED'
+export type VisitBillingStatusEnum = 'UNBILLED' | 'BILLED' | 'PACK_DEDUCTED' | 'COMPLIMENTARY' | 'CORPORATE_BILLED'
 export type PaymentMethod = 'CASH' | 'UPI' | 'CARD' | 'BANK_TRANSFER' | 'CHEQUE' | 'OTHER'
-export type PaymentFor = 'VISIT' | 'SESSION_PACK' | 'OUTSTANDING' | 'ADVANCE'
+export type PaymentFor = 'VISIT' | 'SESSION_PACK' | 'OUTSTANDING' | 'ADVANCE' | 'CORPORATE'
 export type InvoiceType = 'TAX_INVOICE' | 'RECEIPT' | 'ESTIMATE'
 export type InvoiceStatus = 'DRAFT' | 'FINALIZED' | 'CANCELLED'
 export type LineItemType = 'CONSULTATION' | 'SESSION' | 'SESSION_PACK' | 'OTHER'
+export type ServiceType = 'consultation' | 'session' | 'addon'
 
 // ============ Patient Account ============
 export interface PatientAccountDto {
@@ -100,6 +102,13 @@ export interface SessionPackQueryParams {
 }
 
 // ============ Visit Billing ============
+export interface BillingServiceLineItem {
+  service_id?: string
+  name: string
+  price: number
+  quantity: number
+}
+
 export interface VisitBillingDto {
   id: string
   visit_id: string
@@ -113,6 +122,12 @@ export interface VisitBillingDto {
   status: VisitBillingStatus
   notes?: string
   complimentary_reason?: string
+  services?: BillingServiceLineItem[]
+  discount_amount?: number
+  discount_percent?: number
+  discount_reason?: string
+  corporate_company?: string
+  visit_ids?: string[]
   created_at: string
   visit?: any
   sessionPack?: SessionPackDto
@@ -128,6 +143,12 @@ export interface BillVisitDto {
   payment_reference?: string
   complimentary_reason?: string
   notes?: string
+  services?: BillingServiceLineItem[]
+  discount_amount?: number
+  discount_percent?: number
+  discount_reason?: string
+  corporate_company?: string
+  visit_ids?: string[]
 }
 
 export interface UpdateVisitBillingDto {
@@ -330,4 +351,174 @@ export interface CollectionReportParams {
   date_to: string
   received_by?: string
   method?: PaymentMethod
+}
+
+// ============ Clinic Billing Settings ============
+export interface ClinicBillingSettingsDto {
+  id: string
+  clinic_id: string
+  enabled_payment_methods: PaymentMethod[]
+  gst_registered: boolean
+  gstin?: string
+  gst_rate: number
+  receipt_prefix?: string
+  discount_reasons: string[]
+  referral_sources: string[]
+  corporate_companies: string[]
+  auto_bill_on_visit_complete: boolean
+  created_at: string
+  updated_at: string
+}
+
+export interface UpdateClinicBillingSettingsDto {
+  enabled_payment_methods?: PaymentMethod[]
+  gst_registered?: boolean
+  gstin?: string
+  gst_rate?: number
+  receipt_prefix?: string
+  discount_reasons?: string[]
+  referral_sources?: string[]
+  corporate_companies?: string[]
+  auto_bill_on_visit_complete?: boolean
+}
+
+// ============ Clinic Services (Charges Table) ============
+export interface ClinicServiceDto {
+  id: string
+  clinic_id: string
+  name: string
+  price: number
+  home_visit_price?: number
+  service_type: ServiceType
+  display_order: number
+  is_active: boolean
+  created_at: string
+  updated_at: string
+}
+
+export interface CreateClinicServiceDto {
+  clinic_id?: string
+  name: string
+  price: number
+  home_visit_price?: number
+  service_type: ServiceType
+  is_active?: boolean
+}
+
+export interface UpdateClinicServiceDto {
+  name?: string
+  price?: number
+  home_visit_price?: number
+  service_type?: ServiceType
+  is_active?: boolean
+}
+
+export interface ReorderClinicServicesDto {
+  items: { id: string; display_order: number }[]
+}
+
+// ============ Session Pack Templates ============
+export interface SessionPackTemplateDto {
+  id: string
+  clinic_id: string
+  name: string
+  service_id?: string
+  total_sessions: number
+  amount: number
+  per_session_rate: number
+  validity_days?: number
+  is_popular: boolean
+  is_active: boolean
+  created_at: string
+  updated_at: string
+  service?: ClinicServiceDto
+}
+
+export interface CreateSessionPackTemplateDto {
+  clinic_id?: string
+  name: string
+  service_id?: string
+  total_sessions: number
+  amount: number
+  validity_days?: number
+  is_popular?: boolean
+  is_active?: boolean
+}
+
+export interface UpdateSessionPackTemplateDto {
+  name?: string
+  service_id?: string
+  total_sessions?: number
+  amount?: number
+  validity_days?: number
+  is_popular?: boolean
+  is_active?: boolean
+}
+
+// ============ Multi-Visit Billing ============
+export interface BillMultipleVisitsDto {
+  visit_ids: string[]
+  clinic_id: string
+  billing_type: BillingType
+  charge_amount?: number
+  payment_amount?: number
+  payment_method?: PaymentMethod
+  payment_reference?: string
+  notes?: string
+  services?: BillingServiceLineItem[]
+  discount_amount?: number
+  discount_percent?: number
+  discount_reason?: string
+  corporate_company?: string
+}
+
+// ============ Corporate Outstanding ============
+export interface CorporateOutstandingParams {
+  clinic_id: string
+  company?: string
+}
+
+export interface CorporateOutstandingDto {
+  companies: CorporateCompanyOutstanding[]
+  total_outstanding: number
+}
+
+export interface CorporateCompanyOutstanding {
+  company: string
+  total_billed: number
+  total_paid: number
+  outstanding: number
+  visit_count: number
+  patient_count: number
+}
+
+// ============ Receipt Data ============
+export interface ReceiptDataDto {
+  receipt_number: string
+  billing_id: string
+  clinic: {
+    name: string
+    address?: string
+    phone?: string
+    gstin?: string
+  }
+  patient: {
+    name: string
+    phone?: string
+    patient_code?: string
+  }
+  billing_type: BillingType
+  date: string
+  services?: BillingServiceLineItem[]
+  subtotal: number
+  discount_amount?: number
+  discount_reason?: string
+  gst_amount?: number
+  gst_rate?: number
+  total_amount: number
+  amount_paid: number
+  amount_owed: number
+  payment_method?: PaymentMethod
+  payment_reference?: string
+  corporate_company?: string
 }

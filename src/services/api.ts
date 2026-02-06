@@ -48,6 +48,14 @@ import type {
     InvoiceQueryParams,
     OutstandingReportParams,
     CollectionReportParams,
+    UpdateClinicBillingSettingsDto,
+    CreateClinicServiceDto,
+    UpdateClinicServiceDto,
+    ReorderClinicServicesDto,
+    CreateSessionPackTemplateDto,
+    UpdateSessionPackTemplateDto,
+    BillMultipleVisitsDto,
+    CorporateOutstandingParams,
 } from '../lib/types'
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://healui-backend-core.onrender.com/api/v1/'
@@ -1102,7 +1110,94 @@ class ApiManager {
         return ApiMethods.publicPost(url, data)
     }
 
+    // ============ CLINIC BILLING SETTINGS ============
+
+    static getBillingSettings = (clinicId: string) => {
+        const url = BASE_URL + ENDPOINTS.GET_BILLING_SETTINGS(clinicId)
+        return ApiMethods.get(url)
+    }
+
+    static updateBillingSettings = (clinicId: string, data: UpdateClinicBillingSettingsDto) => {
+        const url = BASE_URL + ENDPOINTS.UPDATE_BILLING_SETTINGS(clinicId)
+        return ApiMethods.put(url, data)
+    }
+
+    // ============ CLINIC SERVICES (Charges Table) ============
+
+    static getClinicServices = (clinicId: string, includeInactive?: boolean) => {
+        const url = BASE_URL + ENDPOINTS.GET_CLINIC_SERVICES(clinicId, includeInactive)
+        return ApiMethods.get(url)
+    }
+
+    static createClinicService = (clinicId: string, data: CreateClinicServiceDto) => {
+        const url = BASE_URL + ENDPOINTS.CREATE_CLINIC_SERVICE(clinicId)
+        return ApiMethods.post(url, data)
+    }
+
+    static updateClinicService = (clinicId: string, id: string, data: UpdateClinicServiceDto) => {
+        const url = BASE_URL + ENDPOINTS.UPDATE_CLINIC_SERVICE(clinicId, id)
+        return ApiMethods.put(url, data)
+    }
+
+    static deleteClinicService = (clinicId: string, id: string) => {
+        const url = BASE_URL + ENDPOINTS.DELETE_CLINIC_SERVICE(clinicId, id)
+        return ApiMethods.delete(url)
+    }
+
+    static reorderClinicServices = (clinicId: string, data: ReorderClinicServicesDto) => {
+        const url = BASE_URL + ENDPOINTS.REORDER_CLINIC_SERVICES(clinicId)
+        return ApiMethods.put(url, data)
+    }
+
+    // ============ SESSION PACK TEMPLATES ============
+
+    static getPackTemplates = (clinicId: string, includeInactive?: boolean) => {
+        const url = BASE_URL + ENDPOINTS.GET_PACK_TEMPLATES(clinicId, includeInactive)
+        return ApiMethods.get(url)
+    }
+
+    static createPackTemplate = (clinicId: string, data: CreateSessionPackTemplateDto) => {
+        const url = BASE_URL + ENDPOINTS.CREATE_PACK_TEMPLATE(clinicId)
+        return ApiMethods.post(url, data)
+    }
+
+    static updatePackTemplate = (clinicId: string, id: string, data: UpdateSessionPackTemplateDto) => {
+        const url = BASE_URL + ENDPOINTS.UPDATE_PACK_TEMPLATE(clinicId, id)
+        return ApiMethods.put(url, data)
+    }
+
+    static deletePackTemplate = (clinicId: string, id: string) => {
+        const url = BASE_URL + ENDPOINTS.DELETE_PACK_TEMPLATE(clinicId, id)
+        return ApiMethods.delete(url)
+    }
+
     // ============ BILLING APIs ============
+
+    // Multi-Visit & Extra Billing
+    static billMultipleVisits = (data: BillMultipleVisitsDto) => {
+        const url = BASE_URL + ENDPOINTS.BILL_MULTIPLE_VISITS()
+        return ApiMethods.post(url, data)
+    }
+
+    static getUnbilledVisits = (patientId: string, clinicId: string) => {
+        const url = BASE_URL + ENDPOINTS.GET_UNBILLED_VISITS(patientId, clinicId)
+        return ApiMethods.get(url)
+    }
+
+    static getClinicServicesForBilling = (clinicId: string) => {
+        const url = BASE_URL + ENDPOINTS.GET_CLINIC_SERVICES_FOR_BILLING(clinicId)
+        return ApiMethods.get(url)
+    }
+
+    static getReceiptData = (billingId: string) => {
+        const url = BASE_URL + ENDPOINTS.GET_RECEIPT_DATA(billingId)
+        return ApiMethods.get(url)
+    }
+
+    static getCorporateOutstanding = (params: CorporateOutstandingParams) => {
+        const url = BASE_URL + ENDPOINTS.GET_CORPORATE_OUTSTANDING(params)
+        return ApiMethods.get(url)
+    }
 
     // Patient Account & Balance
     static getPatientAccount = (patientId: string, clinicId: string) => {

@@ -352,6 +352,8 @@ export interface CreatePatientDto {
     referred_by?: string
     insurance_provider?: string
     insurance_policy_number?: string
+    corporate_company?: string
+    referral_source?: string
     clinic_id: string
     intake_status?: PatientIntakeStatus
 }
@@ -386,6 +388,8 @@ export interface PatientResponseDto {
     referred_by?: string
     insurance_provider?: string
     insurance_policy_number?: string
+    corporate_company?: string
+    referral_source?: string
     created_by: string
     intake_status: PatientIntakeStatus
     basic_intake_completed_at?: Date

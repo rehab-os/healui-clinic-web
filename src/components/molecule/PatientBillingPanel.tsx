@@ -13,7 +13,10 @@ import {
   Building,
   FileText,
   Calendar,
-  CheckCircle
+  CheckCircle,
+  CheckSquare,
+  Square,
+  Receipt
 } from 'lucide-react';
 import ApiManager from '../../services/api';
 import type {
@@ -25,6 +28,15 @@ import type {
 } from '../../lib/types';
 import RecordPaymentModal from './RecordPaymentModal';
 import CreateSessionPackModal from './CreateSessionPackModal';
+import BillVisitModal from './BillVisitModal';
+
+interface UnbilledVisit {
+  id: string;
+  scheduled_date: string;
+  visit_type: string;
+  visit_mode: string;
+  billing_status: string;
+}
 
 type ViewState = 'summary' | 'record-payment' | 'create-pack';
 
@@ -51,6 +63,16 @@ const PatientBillingPanel: React.FC<PatientBillingPanelProps> = ({
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showPackModal, setShowPackModal] = useState(false);
 
+  // Unbilled visits
+  const [unbilledVisits, setUnbilledVisits] = useState<UnbilledVisit[]>([]);
+  const [selectedVisitIds, setSelectedVisitIds] = useState<string[]>([]);
+  const [loadingUnbilled, setLoadingUnbilled] = useState(false);
+
+  // Bill visit modal
+  const [showBillModal, setShowBillModal] = useState(false);
+  const [billVisitId, setBillVisitId] = useState<string>('');
+  const [billMultiVisitIds, setBillMultiVisitIds] = useState<string[]>([]);
+
   // Payment form state
   const [paymentAmount, setPaymentAmount] = useState('');
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('CASH');
@@ -74,6 +96,7 @@ const PatientBillingPanel: React.FC<PatientBillingPanelProps> = ({
 
   useEffect(() => {
     fetchAccountData();
+    fetchUnbilledVisits();
   }, [patientId, clinicId]);
 
   const changeView = (view: ViewState) => {
@@ -119,6 +142,51 @@ const PatientBillingPanel: React.FC<PatientBillingPanelProps> = ({
     } finally {
       setLoading(false);
     }
+  };
+
+  const fetchUnbilledVisits = async () => {
+    try {
+      setLoadingUnbilled(true);
+      const response = await ApiManager.getUnbilledVisits(patientId, clinicId);
+      if (response.success && response.data) {
+        setUnbilledVisits(response.data);
+      }
+    } catch (error) {
+      console.error('Failed to fetch unbilled visits:', error);
+    } finally {
+      setLoadingUnbilled(false);
+    }
+  };
+
+  const toggleVisitSelection = (visitId: string) => {
+    setSelectedVisitIds(prev =>
+      prev.includes(visitId) ? prev.filter(id => id !== visitId) : [...prev, visitId]
+    );
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedVisitIds.length === unbilledVisits.length) {
+      setSelectedVisitIds([]);
+    } else {
+      setSelectedVisitIds(unbilledVisits.map(v => v.id));
+    }
+  };
+
+  const handleBillSelected = () => {
+    if (selectedVisitIds.length === 1) {
+      setBillVisitId(selectedVisitIds[0]);
+      setBillMultiVisitIds([]);
+    } else {
+      setBillVisitId(selectedVisitIds[0]);
+      setBillMultiVisitIds(selectedVisitIds);
+    }
+    setShowBillModal(true);
+  };
+
+  const handleBillSingleVisit = (visitId: string) => {
+    setBillVisitId(visitId);
+    setBillMultiVisitIds([]);
+    setShowBillModal(true);
   };
 
   const formatCurrency = (amount: number) => {
@@ -814,18 +882,65 @@ const PatientBillingPanel: React.FC<PatientBillingPanelProps> = ({
         </div>
       )}
 
-      {/* Unbilled Visits Warning */}
-      {account?.unbilled_visits_count && account.unbilled_visits_count > 0 && (
+      {/* Unbilled Visits */}
+      {unbilledVisits.length > 0 && (
         <div className="p-4 border-b border-gray-100">
-          <div className="flex items-center gap-3 p-3 bg-amber-50 rounded">
-            <AlertCircle className="h-4 w-4 text-amber-500 flex-shrink-0" />
-            <div>
-              <p className="text-sm font-medium text-amber-800">
-                {account.unbilled_visits_count} unbilled visit{account.unbilled_visits_count > 1 ? 's' : ''}
-              </p>
-              <p className="text-xs text-amber-600">Requires billing action</p>
-            </div>
+          <div className="flex items-center justify-between mb-3">
+            <h4 className="text-xs font-medium text-gray-500 uppercase tracking-wide flex items-center gap-1.5">
+              <AlertCircle className="h-3.5 w-3.5 text-amber-500" />
+              Unbilled Visits ({unbilledVisits.length})
+            </h4>
+            {unbilledVisits.length > 1 && (
+              <button
+                onClick={toggleSelectAll}
+                className="text-xs text-brand-teal hover:text-brand-teal/80 font-medium"
+              >
+                {selectedVisitIds.length === unbilledVisits.length ? 'Deselect All' : 'Select All'}
+              </button>
+            )}
           </div>
+          <div className="space-y-1.5">
+            {unbilledVisits.map((visit) => (
+              <div
+                key={visit.id}
+                className={`flex items-center gap-2 p-2.5 rounded-lg border transition-all cursor-pointer ${
+                  selectedVisitIds.includes(visit.id)
+                    ? 'border-brand-teal bg-brand-teal/5'
+                    : 'border-gray-100 hover:border-gray-200 bg-gray-50'
+                }`}
+                onClick={() => toggleVisitSelection(visit.id)}
+              >
+                {selectedVisitIds.includes(visit.id) ? (
+                  <CheckSquare className="h-4 w-4 text-brand-teal flex-shrink-0" />
+                ) : (
+                  <Square className="h-4 w-4 text-gray-300 flex-shrink-0" />
+                )}
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900">
+                    {new Date(visit.scheduled_date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                  </p>
+                  <p className="text-[10px] text-gray-500">
+                    {visit.visit_type}{visit.visit_mode === 'HOME_VISIT' ? ' (Home)' : ''}
+                  </p>
+                </div>
+                <button
+                  onClick={(e) => { e.stopPropagation(); handleBillSingleVisit(visit.id); }}
+                  className="text-[10px] text-brand-teal hover:underline font-medium px-2 py-1"
+                >
+                  Bill
+                </button>
+              </div>
+            ))}
+          </div>
+          {selectedVisitIds.length > 1 && (
+            <button
+              onClick={handleBillSelected}
+              className="mt-3 w-full py-2 text-xs font-medium text-white bg-brand-teal rounded-lg hover:bg-brand-teal/90 transition-colors flex items-center justify-center gap-1.5"
+            >
+              <Receipt className="h-3.5 w-3.5" />
+              Bill {selectedVisitIds.length} Selected Visits
+            </button>
+          )}
         </div>
       )}
 
@@ -851,6 +966,28 @@ const PatientBillingPanel: React.FC<PatientBillingPanelProps> = ({
           </button>
         </div>
       </div>
+
+      {/* Bill Visit Modal */}
+      {showBillModal && billVisitId && (
+        <BillVisitModal
+          visitId={billVisitId}
+          clinicId={clinicId}
+          multiVisitIds={billMultiVisitIds.length > 1 ? billMultiVisitIds : undefined}
+          onClose={() => {
+            setShowBillModal(false);
+            setBillVisitId('');
+            setBillMultiVisitIds([]);
+          }}
+          onSuccess={() => {
+            setShowBillModal(false);
+            setBillVisitId('');
+            setBillMultiVisitIds([]);
+            setSelectedVisitIds([]);
+            fetchAccountData();
+            fetchUnbilledVisits();
+          }}
+        />
+      )}
     </div>
   );
 };
