@@ -1,4 +1,4 @@
-import SymptomAssessmentChat from '@/components/molecule/SymptomAssessmentChat';
+import SymptomAssessmentChat from '@/components/features/screening/SymptomAssessmentChat';
 
 export const metadata = {
   title: 'Symptom Assessment | HealUI',

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useAppSelector } from '../../../../../store/hooks';
-import ApiManager from '../../../../../services/api';
+import ApiManager from '@/services/api/api.service';
 import { 
   ArrowLeft, User, Phone, Mail, Calendar, MapPin, Heart, Shield, 
   FileText, Clock, Activity, AlertCircle, Plus, Save, Edit3, 
@@ -11,14 +11,14 @@ import {
   CalendarPlus, Eye, Edit, Trash2, Sparkles, Video, MoreVertical, PenTool, Info, XCircle, ChevronDown, ChevronUp
 } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
-import SmartNoteInput from '../../../../../components/notes/SmartNoteInput';
-import NutritionSuggestions from '../../../../../components/nutrition/NutritionSuggestions';
-import TreatmentProtocolModal from '../../../../../components/molecule/TreatmentProtocolModal';
-import VisitConditionContext from '../../../../../components/conditions/VisitConditionContext';
-import ConditionProtocolCard from '../../../../../components/conditions/ConditionProtocolCard';
-import ConditionNotesTab from '../../../../../components/conditions/ConditionNotesTab';
-import ConditionProgressIndicator from '../../../../../components/conditions/ConditionProgressIndicator';
-import ProtocolGeneratorModal from '../../../../../components/conditions/ProtocolGeneratorModal';
+import SmartNoteInput from '../../../../../components/features/notes/SmartNoteInput';
+import NutritionSuggestions from '../../../../../components/features/nutrition/NutritionSuggestions';
+import TreatmentProtocolModal from '../../../../../components/features/conditions/TreatmentProtocolModal';
+import VisitConditionContext from '../../../../../components/features/conditions/VisitConditionContext';
+import ConditionProtocolCard from '../../../../../components/features/conditions/ConditionProtocolCard';
+import ConditionNotesTab from '../../../../../components/features/conditions/ConditionNotesTab';
+import ConditionProgressIndicator from '../../../../../components/features/conditions/ConditionProgressIndicator';
+import ProtocolGeneratorModal from '../../../../../components/features/conditions/ProtocolGeneratorModal';
 import { VisitCondition, ConditionProtocol, ConditionGoal } from '../../../../../types/condition-types';
 import {
   SlidePopup,

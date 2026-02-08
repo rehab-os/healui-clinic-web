@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useAppSelector } from '../../../../store/hooks';
-import ApiManager from '../../../../services/api';
+import ApiManager from '@/services/api/api.service';
 import {
   Settings,
   IndianRupee,

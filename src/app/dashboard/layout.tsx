@@ -5,9 +5,9 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { logout } from '../../store/slices/auth.slice';
-import Header from '../../components/molecule/Header';
-import ApiManager from '../../services/api';
-import firebaseAuthService from '../../services/firebase-auth';
+import Header from '../../components/features/shared/Header';
+import ApiManager from '@/services/api/api.service';
+import firebaseAuthService from '@/services/auth/firebase-auth.service';
 import {
   LayoutDashboard,
   Users,

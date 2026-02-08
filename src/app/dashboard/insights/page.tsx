@@ -20,8 +20,8 @@ import {
   GenderChart,
   PeakHoursHeatmap,
   SimpleBarChart,
-} from '../../../components/dashboard';
-import ApiManager from '../../../services/api';
+} from '../../../components/features/dashboard';
+import ApiManager from '@/services/api/api.service';
 
 // Types for API responses
 interface AgeDistribution {

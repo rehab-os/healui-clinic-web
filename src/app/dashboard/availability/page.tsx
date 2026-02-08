@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../../store/hooks';
-import ApiManager from '../../../services/api';
+import ApiManager from '@/services/api/api.service';
 // Removed UI component imports - using clean custom designs
 import { 
   Calendar,
@@ -31,8 +31,8 @@ import {
   Activity,
   X
 } from 'lucide-react';
-import ServiceAreaSetup from '../../../components/molecule/ServiceAreaSetup';
-import LeafletMapPicker from '../../../components/molecule/LeafletMapPicker';
+import ServiceAreaSetup from '../../../components/features/clinics/ServiceAreaSetup';
+import LeafletMapPicker from '../../../components/features/maps/LeafletMapPicker';
 import {
   setFetchLoading,
   setAvailabilities,
@@ -61,7 +61,7 @@ import {
   setUpdateError as setPracticeUpdateError,
   PracticeSettings
 } from '../../../store/slices/practice.slice';
-import ProfileCompletionAlert from '../../../components/molecule/ProfileCompletionAlert';
+import ProfileCompletionAlert from '../../../components/features/profile/ProfileCompletionAlert';
 import { useRouter } from 'next/navigation';
 
 const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];

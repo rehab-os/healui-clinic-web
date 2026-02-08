@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useAppSelector } from '../../../../store/hooks';
-import ApiManager from '../../../../services/api';
+import ApiManager from '@/services/api/api.service';
 import {
   Building2,
   MapPin,
@@ -42,7 +42,7 @@ import {
   Minus,
   Image,
 } from 'lucide-react';
-import ClinicQRCodeModal from '../../../../components/molecule/ClinicQRCodeModal';
+import ClinicQRCodeModal from '../../../../components/features/clinics/ClinicQRCodeModal';
 
 // Types
 interface Clinic {

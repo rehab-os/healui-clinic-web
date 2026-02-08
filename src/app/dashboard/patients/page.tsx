@@ -3,14 +3,14 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppSelector } from '../../../store/hooks';
-import ApiManager from '../../../services/api';
-import AddPatientModal from '../../../components/molecule/AddPatientModal';
-import QuickIntakeModal from '../../../components/molecule/QuickIntakeModal';
-import EnhancedPatientDetailsModal from '../../../components/molecule/EnhancedPatientDetailsModal';
-import ScheduleVisitModal from '../../../components/molecule/ScheduleVisitModal';
-import ClinicalAssessmentModal from '../../../components/molecule/ClinicalAssessmentModal';
-import PatientBillingModal from '../../../components/molecule/PatientBillingModal';
-import AddConditionWorkflow from '../../../components/molecule/AddConditionWorkflow';
+import ApiManager from '@/services/api/api.service';
+import AddPatientModal from '../../../components/features/patients/AddPatientModal';
+import QuickIntakeModal from '../../../components/features/shared/QuickIntakeModal';
+import EnhancedPatientDetailsModal from '../../../components/features/patients/EnhancedPatientDetailsModal';
+import ScheduleVisitModal from '../../../components/features/appointments/ScheduleVisitModal';
+import ClinicalAssessmentModal from '../../../components/features/assessments/ClinicalAssessmentModal';
+import PatientBillingModal from '../../../components/features/billing/PatientBillingModal';
+import AddConditionWorkflow from '../../../components/features/conditions/AddConditionWorkflow';
 import {
   UserPlus,
   Users,

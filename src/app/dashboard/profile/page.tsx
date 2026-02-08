@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../../store/hooks';
-import ApiManager from '../../../services/api';
+import ApiManager from '@/services/api/api.service';
 import { 
   User, 
   GraduationCap, 
@@ -26,10 +26,10 @@ import {
   CreditCard
 } from 'lucide-react';
 import { setUser } from '../../../store/slices/auth.slice';
-import ProfilePhotoUpload from '../../../components/molecule/ProfilePhotoUpload';
+import ProfilePhotoUpload from '../../../components/features/profile/ProfilePhotoUpload';
 
 // Import database data
-import machinesData from '../../../data/anatomy-database/machines/machines.json';
+import machinesData from '../../../data/anatomy/machines/machines.json';
 
 // Constants for dropdowns
 const SPECIALIZATIONS = [

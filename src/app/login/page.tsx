@@ -10,10 +10,10 @@ import {
   loginStart,
   loginFailure,
 } from '../../store/slices/auth.slice';
-import ApiManager from '../../services/api';
-import firebaseAuthService from '../../services/firebase-auth';
+import ApiManager from '@/services/api/api.service';
+import firebaseAuthService from '@/services/auth/firebase-auth.service';
 import { ConfirmationResult } from 'firebase/auth';
-import { getDeviceInfo } from '../../utils/firebase-helper';
+import { getDeviceInfo } from '@/lib/utils/firebase';
 import { 
   Phone, 
   ShieldCheck, 

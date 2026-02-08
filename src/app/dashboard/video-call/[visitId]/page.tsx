@@ -22,7 +22,7 @@ import {
   Save,
   CheckCircle
 } from 'lucide-react';
-import ApiManager from '../../../../services/api';
+import ApiManager from '@/services/api/api.service';
 import { useAppSelector } from '../../../../store/hooks';
 import type { VisitResponseDto, VisitMode } from '../../../../lib/types';
 

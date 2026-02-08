@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useAppSelector } from '../../../../store/hooks';
-import ApiManager from '../../../../services/api';
+import ApiManager from '@/services/api/api.service';
 import { format, parseISO } from 'date-fns';
 import {
   ArrowLeft, Phone, Mail, Calendar, MapPin, Plus,

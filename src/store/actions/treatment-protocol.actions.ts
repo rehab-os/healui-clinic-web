@@ -1,5 +1,5 @@
 import { AppDispatch } from '../store'
-import ApiManager from '../../services/api'
+import ApiManager from '@/services/api/api.service'
 import {
     setProtocolsLoading,
     setProtocolsSuccess,

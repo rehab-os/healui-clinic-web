@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import BodyMapSelector from '../../components/molecule/BodyMapSelector';
+import BodyMapSelector from '../../components/features/maps/BodyMapSelector';
 import { RotateCcw } from 'lucide-react';
 
 interface SelectedRegion {

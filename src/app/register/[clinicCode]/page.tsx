@@ -3,9 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { Building2, Loader2, AlertCircle } from 'lucide-react';
-import ApiManager from '../../../services/api';
-import PatientSelfRegistrationForm from '../../../components/public/PatientSelfRegistrationForm';
-import RegistrationSuccess from '../../../components/public/RegistrationSuccess';
+import ApiManager from '@/services/api/api.service';
+import PatientSelfRegistrationForm from '../../../components/features/patients/PatientSelfRegistrationForm';
+import RegistrationSuccess from '../../../components/features/patients/RegistrationSuccess';
 import type { PublicClinicInfoDto, PublicPatientRegistrationResponseDto } from '../../../lib/types';
 
 type PageState = 'loading' | 'form' | 'success' | 'error';

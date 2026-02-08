@@ -3,10 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppSelector } from '../../../store/hooks';
-import ApiManager from '../../../services/api';
-import BillVisitModal from '../../../components/molecule/BillVisitModal';
-import RecordPaymentModal from '../../../components/molecule/RecordPaymentModal';
-import CreateSessionPackModal from '../../../components/molecule/CreateSessionPackModal';
+import ApiManager from '@/services/api/api.service';
+import BillVisitModal from '../../../components/features/billing/BillVisitModal';
+import RecordPaymentModal from '../../../components/features/billing/RecordPaymentModal';
+import CreateSessionPackModal from '../../../components/features/billing/CreateSessionPackModal';
 import {
   IndianRupee,
   Users,

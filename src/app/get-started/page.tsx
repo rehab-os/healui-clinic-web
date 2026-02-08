@@ -13,8 +13,8 @@ import {
   ChevronLeft,
   Star
 } from 'lucide-react';
-import ApiManager from '../../services/api';
-import firebaseAuthService from '../../services/firebase-auth';
+import ApiManager from '@/services/api/api.service';
+import firebaseAuthService from '@/services/auth/firebase-auth.service';
 import { ConfirmationResult } from 'firebase/auth';
 import type { CreateOrganizationDto } from '../../lib/types';
 

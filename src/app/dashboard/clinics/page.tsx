@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { useAppSelector } from '../../../store/hooks';
-import ApiManager from '../../../services/api';
-import CreateClinicModal from '../../../components/molecule/CreateClinicModal';
+import ApiManager from '@/services/api/api.service';
+import CreateClinicModal from '../../../components/features/clinics/CreateClinicModal';
 import {
   Plus,
   Building2,
@@ -26,7 +26,7 @@ import {
   AlertCircle,
   QrCode
 } from 'lucide-react';
-import ClinicQRCodeModal from '../../../components/molecule/ClinicQRCodeModal';
+import ClinicQRCodeModal from '../../../components/features/clinics/ClinicQRCodeModal';
 
 interface Clinic {
   id: string;

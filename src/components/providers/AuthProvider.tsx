@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../store/hooks';
 import { getCookieValue } from '../../lib/utils/helpers';
-import ApiManager from '../../services/api';
+import ApiManager from '@/services/api/api.service';
 import { logout } from '../../store/slices/auth.slice';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {

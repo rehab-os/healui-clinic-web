@@ -14,8 +14,8 @@ import {
   Building2,
   Info,
 } from 'lucide-react';
-import { KPICard, SimpleBarChart } from '../../../components/dashboard';
-import ApiManager from '../../../services/api';
+import { KPICard, SimpleBarChart } from '../../../components/features/dashboard';
+import ApiManager from '@/services/api/api.service';
 
 // Types for API responses
 interface ClinicalOutcomesSummary {

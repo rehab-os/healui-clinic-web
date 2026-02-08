@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { useAppSelector } from '../../../store/hooks';
-import ApiManager from '../../../services/api';
-import AddTeamMemberModal from '../../../components/molecule/AddTeamMemberModal';
+import ApiManager from '@/services/api/api.service';
+import AddTeamMemberModal from '../../../components/features/team/AddTeamMemberModal';
 import { 
   UserPlus,
   Users,

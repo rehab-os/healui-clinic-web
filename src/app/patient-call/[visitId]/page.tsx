@@ -15,7 +15,7 @@ import {
   Calendar,
   Clock
 } from 'lucide-react';
-import ApiManager from '../../../services/api';
+import ApiManager from '@/services/api/api.service';
 
 // Agora imports - dynamically imported to avoid SSR issues
 // import AgoraRTC, { IAgoraRTCClient, ICameraVideoTrack, IMicrophoneAudioTrack } from 'agora-rtc-sdk-ng';

@@ -6,7 +6,7 @@ import screeningAPI, {
   NextQuestionResult,
   BatchQuestionsResult,
   CompletenessResult
-} from '@/services/screeningAPI';
+} from '@/services/api/screening-api.service';
 
 interface SelectedRegion {
   mainRegion: string;

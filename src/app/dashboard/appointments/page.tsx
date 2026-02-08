@@ -3,13 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppSelector } from '../../../store/hooks';
-import ApiManager from '../../../services/api';
-import AppointmentCard from '../../../components/molecule/AppointmentCard';
-import AppointmentCalendar from '../../../components/molecule/AppointmentCalendar';
-import RescheduleVisitModal from '../../../components/molecule/RescheduleVisitModal';
-import CancelVisitModal from '../../../components/molecule/CancelVisitModal';
-import BillVisitModal from '../../../components/molecule/BillVisitModal';
-import PatientFeedbackModal, { PatientFeedback } from '../../../components/molecule/PatientFeedbackModal';
+import ApiManager from '@/services/api/api.service';
+import AppointmentCard from '../../../components/features/appointments/AppointmentCard';
+import AppointmentCalendar from '../../../components/features/appointments/AppointmentCalendar';
+import RescheduleVisitModal from '../../../components/features/appointments/RescheduleVisitModal';
+import CancelVisitModal from '../../../components/features/appointments/CancelVisitModal';
+import BillVisitModal from '../../../components/features/billing/BillVisitModal';
+import PatientFeedbackModal, { PatientFeedback } from '../../../components/features/patients/PatientFeedbackModal';
 // Removed UI component imports - using standard JSX elements instead
 import {
   Calendar,

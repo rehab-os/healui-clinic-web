@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import SmartScreeningChatbot from '../../components/molecule/SmartScreeningChatbot';
+import SmartScreeningChatbot from '../../components/features/screening/SmartScreeningChatbot';
 
 export default function SmartScreeningPage() {
   const [key, setKey] = useState(0);
