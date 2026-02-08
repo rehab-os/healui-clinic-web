@@ -129,20 +129,20 @@ const FloatingSummaryPanel: React.FC<FloatingSummaryPanelProps> = ({
   return (
     <div className={`flex flex-col h-full ${className}`}>
       {/* Simple Header */}
-      <div className="px-3 py-2.5 border-b border-slate-100 bg-slate-50/50">
+      <div className="px-4 py-2.5 border-b border-gray-100 bg-gray-50">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-medium text-slate-600">Summary</span>
+          <span className="text-sm font-semibold text-gray-700">Summary</span>
           <motion.span
             key={answeredCount}
             initial={{ scale: 1.2, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="text-xs text-slate-400"
+            className="text-xs text-gray-500"
           >
             {answeredCount} of {totalQuestions}
           </motion.span>
         </div>
         {/* Animated Progress bar */}
-        <div className="mt-2 h-1 bg-slate-200 rounded-full overflow-hidden">
+        <div className="mt-2 h-1 bg-gray-200 rounded-full overflow-hidden">
           <motion.div
             className="h-full bg-teal-500 rounded-full"
             initial={{ width: 0 }}
@@ -186,12 +186,12 @@ const FloatingSummaryPanel: React.FC<FloatingSummaryPanelProps> = ({
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="p-4 text-center text-slate-400 text-xs"
+            className="p-4 text-center text-gray-400 text-xs"
           >
             Your answers will appear here
           </motion.div>
         ) : (
-          <div className="divide-y divide-slate-100">
+          <div className="divide-y divide-gray-100">
             <AnimatePresence mode="popLayout">
               {allItems.map((item, index) => (
                 <motion.div
@@ -204,12 +204,12 @@ const FloatingSummaryPanel: React.FC<FloatingSummaryPanelProps> = ({
                     delay: index === allItems.length - 1 ? 0 : 0, // Only animate latest item
                   }}
                   layout
-                  className="px-3 py-2"
+                  className="px-4 py-2.5"
                 >
-                  <div className="text-[10px] text-slate-400 uppercase tracking-wide mb-0.5">
+                  <div className="text-xs text-gray-500 uppercase tracking-wide mb-1">
                     {item.label}
                   </div>
-                  <div className="text-xs text-slate-700 capitalize">
+                  <div className="text-sm text-gray-800 capitalize">
                     {item.value}
                   </div>
                 </motion.div>
@@ -226,9 +226,9 @@ const FloatingSummaryPanel: React.FC<FloatingSummaryPanelProps> = ({
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
-            className="px-3 py-2 border-t border-slate-100 bg-slate-50/50"
+            className="px-4 py-2.5 border-t border-gray-100 bg-gray-50"
           >
-            <div className="flex items-center gap-1.5 text-xs text-slate-500">
+            <div className="flex items-center gap-1.5 text-xs text-gray-500">
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}

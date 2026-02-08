@@ -12,11 +12,9 @@ import {
 import { Button } from '@/components/ui/button';
 import {
   X,
-  Stethoscope,
   ClipboardList,
   ArrowRight,
   Zap,
-  Users,
   Link2,
   CheckCircle2,
   ArrowLeft,
@@ -24,7 +22,6 @@ import {
   Smartphone,
   Copy,
   Loader2,
-  ExternalLink,
 } from 'lucide-react';
 import SymptomAssessmentModal, { SymptomDxData } from './SymptomAssessmentModal';
 import SmartScreeningChatbot from './SmartScreeningChatbot';
@@ -36,8 +33,7 @@ export type DiagnosisMethod = 'SYMPTOM_AND_CLINICAL' | 'CLINICAL_ONLY';
 export type DiagnosisStatus = 'DRAFT' | 'SYMPTOM_DX_PENDING' | 'SYMPTOM_DX_COMPLETE' | 'CLINICAL_DX_COMPLETE' | 'COMPLETE';
 
 export type WorkflowStep =
-  | 'SELECTION'           // Choose Full Assessment or Clinical Only
-  | 'SYMPTOM_DX_CHOICE'   // Choose Fill Now or Send Link
+  | 'LAUNCHER'            // One-tap entry: Start Assessment / Send to Patient / Quick Dx
   | 'SYMPTOM_DX_LINK'     // Show generated patient link
   | 'SYMPTOM_DX_FILL'     // Fill symptom assessment in-clinic
   | 'SYMPTOM_DX_COMPLETE' // Symptom assessment done
@@ -72,7 +68,7 @@ export default function AddConditionWorkflow({
   patientName,
   onComplete,
 }: AddConditionWorkflowProps) {
-  const [currentStep, setCurrentStep] = useState<WorkflowStep>('SELECTION');
+  const [currentStep, setCurrentStep] = useState<WorkflowStep>('LAUNCHER');
   const [diagnosisMethod, setDiagnosisMethod] = useState<DiagnosisMethod | null>(null);
   const [symptomDxData, setSymptomDxData] = useState<SymptomDxData | null>(null);
   const [showSymptomModal, setShowSymptomModal] = useState(false);
@@ -98,7 +94,7 @@ export default function AddConditionWorkflow({
   }, [currentStep, onClose]);
 
   const resetWorkflow = () => {
-    setCurrentStep('SELECTION');
+    setCurrentStep('LAUNCHER');
     setDiagnosisMethod(null);
     setSymptomDxData(null);
     setShowSymptomModal(false);
@@ -179,12 +175,6 @@ export default function AddConditionWorkflow({
     }
   };
 
-  // Handle pathway selection
-  const handleSelectFullAssessment = () => {
-    setDiagnosisMethod('SYMPTOM_AND_CLINICAL');
-    setCurrentStep('SYMPTOM_DX_CHOICE');
-  };
-
   const handleSelectClinicalOnly = async () => {
     setDiagnosisMethod('CLINICAL_ONLY');
     // Create draft and go directly to clinical
@@ -259,212 +249,79 @@ export default function AddConditionWorkflow({
     }
   };
 
-  // Render pathway selection
-  const renderPathwaySelection = () => (
+  // Render one-tap launcher
+  const renderLauncher = () => (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="py-4"
+      className="py-4 space-y-3"
     >
-      <div className="text-center mb-8">
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">
-          Choose Assessment Pathway
-        </h2>
-        <p className="text-gray-600">
-          How would you like to diagnose this patient?
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Full Assessment Option */}
-        <motion.button
-          onClick={handleSelectFullAssessment}
-          className="relative group p-6 bg-white border-2 border-gray-200 rounded-xl hover:border-emerald-500 hover:shadow-lg transition-all text-left"
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-        >
-          <div className="absolute top-4 right-4">
-            <span className="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs font-medium rounded-full">
-              Recommended
-            </span>
-          </div>
-
-          <div className="w-14 h-14 rounded-xl bg-emerald-100 flex items-center justify-center mb-4">
-            <ClipboardList className="w-7 h-7 text-emerald-600" />
-          </div>
-
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">
-            Full Dx
-          </h3>
-          <p className="text-sm text-gray-600 mb-4">
-            SymptomDx + ClinicalDx for comprehensive diagnosis
-          </p>
-
-          <div className="space-y-2">
-            <div className="flex items-center text-sm text-gray-500">
-              <Users className="w-4 h-4 mr-2 text-emerald-500" />
-              <span>Patient or physio fills symptoms</span>
-            </div>
-            <div className="flex items-center text-sm text-gray-500">
-              <Send className="w-4 h-4 mr-2 text-emerald-500" />
-              <span>Can send link via WhatsApp</span>
-            </div>
-            <div className="flex items-center text-sm text-gray-500">
-              <CheckCircle2 className="w-4 h-4 mr-2 text-emerald-500" />
-              <span>Most comprehensive data</span>
-            </div>
-          </div>
-
-          <div className="mt-4 pt-4 border-t border-gray-100">
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-emerald-600">
-                Start Full Dx
-              </span>
-              <ArrowRight className="w-5 h-5 text-emerald-600 group-hover:translate-x-1 transition-transform" />
-            </div>
-          </div>
-        </motion.button>
-
-        {/* Clinical Only Option */}
-        <motion.button
-          onClick={handleSelectClinicalOnly}
-          disabled={isCreatingDraft}
-          className="relative group p-6 bg-white border-2 border-gray-200 rounded-xl hover:border-gray-400 hover:shadow-lg transition-all text-left disabled:opacity-50"
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-        >
-          <div className="w-14 h-14 rounded-xl bg-gray-100 flex items-center justify-center mb-4">
-            <Stethoscope className="w-7 h-7 text-gray-600" />
-          </div>
-
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">
-            Quick Dx
-          </h3>
-          <p className="text-sm text-gray-600 mb-4">
-            ClinicalDx only - skip symptom history
-          </p>
-
-          <div className="space-y-2">
-            <div className="flex items-center text-sm text-gray-500">
-              <Zap className="w-4 h-4 mr-2 text-gray-400" />
-              <span>Faster workflow</span>
-            </div>
-            <div className="flex items-center text-sm text-gray-500">
-              <Stethoscope className="w-4 h-4 mr-2 text-gray-400" />
-              <span>Physio-only mode</span>
-            </div>
-            <div className="flex items-center text-sm text-gray-500">
-              <CheckCircle2 className="w-4 h-4 mr-2 text-gray-400" />
-              <span>Good for follow-ups</span>
-            </div>
-          </div>
-
-          <div className="mt-4 pt-4 border-t border-gray-100">
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-gray-600">
-                {isCreatingDraft ? 'Creating...' : 'Start Quick Dx'}
-              </span>
-              {isCreatingDraft ? (
-                <Loader2 className="w-5 h-5 text-gray-400 animate-spin" />
-              ) : (
-                <ArrowRight className="w-5 h-5 text-gray-600 group-hover:translate-x-1 transition-transform" />
-              )}
-            </div>
-          </div>
-        </motion.button>
-      </div>
-    </motion.div>
-  );
-
-  // Render SymptomDx choice (Fill Now vs Send Link)
-  const renderSymptomDxChoice = () => (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      className="py-4"
-    >
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={() => setCurrentStep('SELECTION')}
-        className="mb-4"
+      {/* Primary: Start Assessment (full width) */}
+      <motion.button
+        onClick={handleFillNow}
+        disabled={isCreatingDraft}
+        className="w-full group p-5 bg-white border-2 border-teal-200 rounded-xl hover:border-teal-500 hover:shadow-lg transition-all text-left disabled:opacity-50"
+        whileHover={{ scale: 1.01 }}
+        whileTap={{ scale: 0.98 }}
       >
-        <ArrowLeft className="w-4 h-4 mr-2" />
-        Back
-      </Button>
-
-      <div className="text-center mb-8">
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">
-          How to collect symptoms?
-        </h2>
-        <p className="text-gray-600">
-          Choose how you want to gather the patient's symptom information
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Fill Now Option */}
-        <motion.button
-          onClick={handleFillNow}
-          disabled={isCreatingDraft}
-          className="group p-6 bg-white border-2 border-gray-200 rounded-xl hover:border-blue-500 hover:shadow-lg transition-all text-left disabled:opacity-50"
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-        >
-          <div className="w-14 h-14 rounded-xl bg-blue-100 flex items-center justify-center mb-4">
-            <ClipboardList className="w-7 h-7 text-blue-600" />
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-teal-100 flex items-center justify-center flex-shrink-0">
+            <ClipboardList className="w-6 h-6 text-teal-600" />
           </div>
-
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">
-            Fill Now
-          </h3>
-          <p className="text-sm text-gray-600 mb-4">
-            Physio fills the symptom assessment with the patient in-clinic
-          </p>
-
-          <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
-            <span className="text-sm font-medium text-blue-600">
-              {isCreatingDraft ? 'Creating...' : 'Start Assessment'}
-            </span>
-            {isCreatingDraft ? (
-              <Loader2 className="w-5 h-5 text-blue-400 animate-spin" />
-            ) : (
-              <ArrowRight className="w-5 h-5 text-blue-600 group-hover:translate-x-1 transition-transform" />
-            )}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2">
+              <h3 className="text-base font-semibold text-gray-900">
+                Start Assessment
+              </h3>
+              <span className="px-2 py-0.5 bg-teal-100 text-teal-700 text-xs font-medium rounded-full">
+                Recommended
+              </span>
+            </div>
+            <p className="text-sm text-gray-500 mt-0.5">
+              SymptomDx + ClinicalDx · In-clinic
+            </p>
           </div>
-        </motion.button>
+          {isCreatingDraft ? (
+            <Loader2 className="w-5 h-5 text-teal-400 animate-spin flex-shrink-0" />
+          ) : (
+            <ArrowRight className="w-5 h-5 text-teal-600 group-hover:translate-x-1 transition-transform flex-shrink-0" />
+          )}
+        </div>
+      </motion.button>
 
-        {/* Send Link Option */}
+      {/* Secondary row: Send to Patient + Quick Dx (50/50) */}
+      <div className="grid grid-cols-2 gap-3">
         <motion.button
           onClick={handleSendLink}
           disabled={isCreatingDraft}
-          className="group p-6 bg-white border-2 border-gray-200 rounded-xl hover:border-green-500 hover:shadow-lg transition-all text-left disabled:opacity-50"
-          whileHover={{ scale: 1.02 }}
+          className="group p-3.5 bg-white border-2 border-gray-200 rounded-xl hover:border-gray-400 hover:shadow-md transition-all text-left disabled:opacity-50"
+          whileHover={{ scale: 1.01 }}
           whileTap={{ scale: 0.98 }}
         >
-          <div className="w-14 h-14 rounded-xl bg-green-100 flex items-center justify-center mb-4">
-            <Smartphone className="w-7 h-7 text-green-600" />
-          </div>
-
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">
-            Send Patient Link
+          <Smartphone className="w-5 h-5 text-gray-500 mb-2" />
+          <h3 className="text-sm font-semibold text-gray-900">
+            Send to Patient
           </h3>
-          <p className="text-sm text-gray-600 mb-4">
-            Generate a link and send to patient via WhatsApp
+          <p className="text-xs text-gray-500 mt-0.5">
+            WhatsApp link
           </p>
+        </motion.button>
 
-          <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
-            <span className="text-sm font-medium text-green-600">
-              {isCreatingDraft ? 'Generating...' : 'Generate Link'}
-            </span>
-            {isCreatingDraft ? (
-              <Loader2 className="w-5 h-5 text-green-400 animate-spin" />
-            ) : (
-              <Link2 className="w-5 h-5 text-green-600 group-hover:translate-x-1 transition-transform" />
-            )}
-          </div>
+        <motion.button
+          onClick={handleSelectClinicalOnly}
+          disabled={isCreatingDraft}
+          className="group p-3.5 bg-white border-2 border-gray-200 rounded-xl hover:border-gray-400 hover:shadow-md transition-all text-left disabled:opacity-50"
+          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <Zap className="w-5 h-5 text-gray-500 mb-2" />
+          <h3 className="text-sm font-semibold text-gray-900">
+            Quick Dx
+          </h3>
+          <p className="text-xs text-gray-500 mt-0.5">
+            Clinical only
+          </p>
         </motion.button>
       </div>
     </motion.div>
@@ -481,7 +338,7 @@ export default function AddConditionWorkflow({
       <Button
         variant="ghost"
         size="sm"
-        onClick={() => setCurrentStep('SYMPTOM_DX_CHOICE')}
+        onClick={() => setCurrentStep('LAUNCHER')}
         className="mb-4"
       >
         <ArrowLeft className="w-4 h-4 mr-2" />
@@ -588,37 +445,37 @@ export default function AddConditionWorkflow({
 
       {/* Summary of symptom assessment */}
       {symptomDxData && (
-        <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 mb-6">
-          <h4 className="font-medium text-emerald-900 mb-3">SymptomDx Summary</h4>
+        <div className="bg-teal-50 border border-teal-200 rounded-xl p-4 mb-6">
+          <h4 className="font-medium text-teal-900 mb-3">SymptomDx Summary</h4>
           <div className="space-y-2 text-sm">
             {symptomDxData.body_regions.length > 0 && (
               <div className="flex justify-between">
-                <span className="text-emerald-700">Body Regions:</span>
-                <span className="font-medium text-emerald-900">
+                <span className="text-teal-700">Body Regions:</span>
+                <span className="font-medium text-teal-900">
                   {symptomDxData.body_regions.join(', ')}
                 </span>
               </div>
             )}
             {symptomDxData.pain_level !== undefined && (
               <div className="flex justify-between">
-                <span className="text-emerald-700">Pain Level:</span>
-                <span className="font-medium text-emerald-900">
+                <span className="text-teal-700">Pain Level:</span>
+                <span className="font-medium text-teal-900">
                   {symptomDxData.pain_level}/10
                 </span>
               </div>
             )}
             {symptomDxData.symptom_duration && (
               <div className="flex justify-between">
-                <span className="text-emerald-700">Duration:</span>
-                <span className="font-medium text-emerald-900">
+                <span className="text-teal-700">Duration:</span>
+                <span className="font-medium text-teal-900">
                   {symptomDxData.symptom_duration}
                 </span>
               </div>
             )}
             {symptomDxData.ai_analysis?.top_conditions?.[0] && (
               <div className="flex justify-between">
-                <span className="text-emerald-700">AI Analysis:</span>
-                <span className="font-medium text-emerald-900">
+                <span className="text-teal-700">AI Analysis:</span>
+                <span className="font-medium text-teal-900">
                   {symptomDxData.ai_analysis.top_conditions[0].condition_name}
                 </span>
               </div>
@@ -677,10 +534,8 @@ export default function AddConditionWorkflow({
   // Main content based on step
   const renderContent = () => {
     switch (currentStep) {
-      case 'SELECTION':
-        return renderPathwaySelection();
-      case 'SYMPTOM_DX_CHOICE':
-        return renderSymptomDxChoice();
+      case 'LAUNCHER':
+        return renderLauncher();
       case 'SYMPTOM_DX_LINK':
         return renderPatientLink();
       case 'SYMPTOM_DX_FILL':
@@ -707,10 +562,8 @@ export default function AddConditionWorkflow({
             onClick={() => {
               if (diagnosisMethod === 'SYMPTOM_AND_CLINICAL' && symptomDxData) {
                 setCurrentStep('SYMPTOM_DX_COMPLETE');
-              } else if (diagnosisMethod === 'SYMPTOM_AND_CLINICAL') {
-                setCurrentStep('SYMPTOM_DX_CHOICE');
               } else {
-                setCurrentStep('SELECTION');
+                setCurrentStep('LAUNCHER');
               }
             }}
           >
@@ -735,7 +588,7 @@ export default function AddConditionWorkflow({
     <>
       <Dialog open={isOpen && currentStep !== 'CLINICAL_DX' && currentStep !== 'SYMPTOM_DX_FILL'} onOpenChange={(open) => !open && handleClose()}>
         <DialogContent
-          className="sm:max-w-2xl"
+          className="sm:max-w-md"
           showCloseButton={false}
         >
           <DialogHeader className="flex flex-row items-center justify-between">
@@ -745,8 +598,7 @@ export default function AddConditionWorkflow({
                 {patientName && <span className="text-gray-500 font-normal ml-2">for {patientName}</span>}
               </DialogTitle>
               <DialogDescription>
-                {currentStep === 'SELECTION' && 'Choose diagnosis pathway'}
-                {currentStep === 'SYMPTOM_DX_CHOICE' && 'How to collect symptoms?'}
+                {currentStep === 'LAUNCHER' && 'Choose how to start'}
                 {currentStep === 'SYMPTOM_DX_LINK' && 'Patient link generated'}
                 {currentStep === 'SYMPTOM_DX_COMPLETE' && 'SymptomDx saved'}
                 {currentStep === 'COMPLETE' && 'Diagnosis complete'}
@@ -768,7 +620,7 @@ export default function AddConditionWorkflow({
         isOpen={showSymptomModal}
         onClose={() => {
           setShowSymptomModal(false);
-          setCurrentStep('SYMPTOM_DX_CHOICE');
+          setCurrentStep('LAUNCHER');
         }}
         patientId={patientId}
         patientName={patientName}
