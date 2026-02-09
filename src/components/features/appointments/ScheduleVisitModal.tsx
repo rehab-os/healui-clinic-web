@@ -620,15 +620,15 @@ const ScheduleVisitModal: React.FC<ScheduleVisitModalProps> = ({ patient, onClos
                       ))}
 
                       {/* Add Condition Button */}
-                      {patientConditions.filter(condition => 
-                        !chiefComplaints.some(complaint => complaint.condition_id === condition.id)
+                      {patientConditions.filter(condition =>
+                        condition.neo4j_condition_id && !chiefComplaints.some(complaint => complaint.condition_id === condition.neo4j_condition_id)
                       ).length > 0 && (
                         <div className="border-2 border-dashed border-border-color rounded-lg p-3">
                           <p className="text-sm text-gray-600 mb-2">Add conditions to treat in this visit:</p>
                           <div className="flex flex-wrap gap-2">
                             {patientConditions
-                              .filter(condition => 
-                                !chiefComplaints.some(complaint => complaint.condition_id === condition.id)
+                              .filter(condition =>
+                                condition.neo4j_condition_id && !chiefComplaints.some(complaint => complaint.condition_id === condition.neo4j_condition_id)
                               )
                               .map(condition => (
                                 <button

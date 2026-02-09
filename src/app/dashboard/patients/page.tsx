@@ -159,8 +159,9 @@ export default function PatientsPage() {
   };
 
   const handleViewPatient = (patient: Patient) => {
-    // Navigate to the new patient page
-    router.push(`/dashboard/patients/${patient.id}`);
+    // Open the patient details modal
+    setSelectedPatient(patient);
+    setShowDetailsModal(true);
   };
 
   const handleScheduleVisit = (patient: Patient) => {
