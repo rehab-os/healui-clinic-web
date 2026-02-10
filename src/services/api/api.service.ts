@@ -1429,6 +1429,169 @@ class ApiManager {
         const url = BASE_URL + `analytics/outcomes/org/${organizationId}/by-therapist`
         return ApiMethods.get(url)
     }
+
+    // ============ CLINICAL INSIGHTS ============
+
+    /**
+     * Get all clinical insights for a patient condition
+     */
+    static getClinicalInsights = (patientConditionId: string, params?: { limit?: number; offset?: number; insightType?: string }) => {
+        let url = BASE_URL + `patient-conditions/${patientConditionId}/clinical-insights`
+        if (params) {
+            const queryParams = new URLSearchParams()
+            if (params.limit) queryParams.append('limit', params.limit.toString())
+            if (params.offset) queryParams.append('offset', params.offset.toString())
+            if (params.insightType) queryParams.append('insightType', params.insightType)
+            const queryString = queryParams.toString()
+            if (queryString) url += `?${queryString}`
+        }
+        return ApiMethods.get(url)
+    }
+
+    /**
+     * Add a clinical insight to a patient condition
+     */
+    static addClinicalInsight = (patientConditionId: string, data: any) => {
+        const url = BASE_URL + `patient-conditions/${patientConditionId}/clinical-insights`
+        return ApiMethods.post(url, data)
+    }
+
+    /**
+     * Mark a clinical insight as used in protocol generation
+     */
+    static markInsightAsUsed = (insightId: string, protocolId: string) => {
+        const url = BASE_URL + `clinical-insights/${insightId}/mark-as-used`
+        return ApiMethods.post(url, { generated_protocol_id: protocolId })
+    }
+
+    /**
+     * Update a clinical insight
+     */
+    static updateClinicalInsight = (insightId: string, data: any) => {
+        const url = BASE_URL + `clinical-insights/${insightId}`
+        return ApiMethods.put(url, data)
+    }
+
+    /**
+     * Delete a clinical insight
+     */
+    static deleteClinicalInsight = (insightId: string) => {
+        const url = BASE_URL + `clinical-insights/${insightId}`
+        return ApiMethods.delete(url)
+    }
+
+    // ============ TREATMENT HISTORY ============
+
+    /**
+     * Get treatment history for a patient condition
+     */
+    static getTreatmentHistory = (patientConditionId: string, params?: { limit?: number; offset?: number }) => {
+        let url = BASE_URL + `patient-conditions/${patientConditionId}/treatment-history`
+        if (params) {
+            const queryParams = new URLSearchParams()
+            if (params.limit) queryParams.append('limit', params.limit.toString())
+            if (params.offset) queryParams.append('offset', params.offset.toString())
+            const queryString = queryParams.toString()
+            if (queryString) url += `?${queryString}`
+        }
+        return ApiMethods.get(url)
+    }
+
+    /**
+     * Get treatment history for a specific protocol
+     */
+    static getHistoryForProtocol = (protocolId: string) => {
+        const url = BASE_URL + `treatment-protocols/${protocolId}/history`
+        return ApiMethods.get(url)
+    }
+
+    /**
+     * Compare two protocol versions
+     */
+    static compareProtocolVersions = (currentId: string, previousId: string) => {
+        const url = BASE_URL + `treatment-history/${currentId}/compare/${previousId}`
+        return ApiMethods.get(url)
+    }
+
+    /**
+     * Log a treatment change/update
+     */
+    static logTreatmentChange = (data: any) => {
+        const url = BASE_URL + `treatment-history`
+        return ApiMethods.post(url, data)
+    }
+
+    // ============ DIETARY PROFILE ============
+
+    /**
+     * Get dietary profile for a patient
+     */
+    static getDietaryProfile = (patientId?: string, patientUserId?: string) => {
+        let url = BASE_URL + `dietary-profiles/patient`
+        const queryParams = new URLSearchParams()
+        if (patientId) queryParams.append('patient_id', patientId)
+        if (patientUserId) queryParams.append('patient_user_id', patientUserId)
+        const queryString = queryParams.toString()
+        if (queryString) url += `?${queryString}`
+        return ApiMethods.get(url)
+    }
+
+    /**
+     * Generate dietary profile for a patient
+     */
+    static generateDietaryProfile = (patientId: string | undefined, patientUserId: string | undefined, data: any) => {
+        let url = BASE_URL + `dietary-profiles/generate`
+        const queryParams = new URLSearchParams()
+        if (patientId) queryParams.append('patient_id', patientId)
+        if (patientUserId) queryParams.append('patient_user_id', patientUserId)
+        const queryString = queryParams.toString()
+        if (queryString) url += `?${queryString}`
+        return ApiMethods.post(url, data)
+    }
+
+    /**
+     * Update dietary profile
+     */
+    static updateDietaryProfile = (id: string, data: any) => {
+        const url = BASE_URL + `dietary-profiles/${id}`
+        return ApiMethods.put(url, data)
+    }
+
+    /**
+     * Add contraindication to patient
+     */
+    static addContraindication = (patientId: string | undefined, patientUserId: string | undefined, data: any) => {
+        let url = BASE_URL + `dietary-profiles/contraindications`
+        const queryParams = new URLSearchParams()
+        if (patientId) queryParams.append('patient_id', patientId)
+        if (patientUserId) queryParams.append('patient_user_id', patientUserId)
+        const queryString = queryParams.toString()
+        if (queryString) url += `?${queryString}`
+        return ApiMethods.post(url, data)
+    }
+
+    /**
+     * Get all contraindications for a patient
+     */
+    static getAllContraindications = (patientId?: string, patientUserId?: string) => {
+        let url = BASE_URL + `dietary-profiles/contraindications/all`
+        const queryParams = new URLSearchParams()
+        if (patientId) queryParams.append('patient_id', patientId)
+        if (patientUserId) queryParams.append('patient_user_id', patientUserId)
+        const queryString = queryParams.toString()
+        if (queryString) url += `?${queryString}`
+        return ApiMethods.get(url)
+    }
+
+    // ============ ENHANCED VISIT CONDITIONS ============
+
+    /**
+     * Update visit condition phase and goals
+     */
+    static updateVisitConditionPhaseGoals = (id: string, data: { selected_phase?: string; custom_phase?: string; selected_goals?: string[]; custom_goals?: string[] }) => {
+        const url = BASE_URL + `visit-conditions/${id}/phase-goals`
+        return ApiMethods.put(url, data)
+    }
 }
 
 export default ApiManager

@@ -39,6 +39,7 @@ interface ProtocolGeneratorModalProps {
   conditionName: string
   patientName?: string
   visitId?: string
+  visitConditionId?: string
 }
 
 const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
@@ -48,7 +49,8 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
   conditionId,
   conditionName,
   patientName,
-  visitId
+  visitId,
+  visitConditionId
 }) => {
   const [step, setStep] = useState<ProtocolGenerationStep>('selection')
   const [selectedPlanTypes, setSelectedPlanTypes] = useState<('home' | 'clinical')[]>([])
@@ -715,19 +717,96 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
         physioPrescribed,
       })
 
+      // Helper function to parse reps safely
+      const parseReps = (reps: any): number => {
+        if (!reps) return 10 // Default 10 reps
+
+        if (typeof reps === 'number') {
+          return Math.max(1, Math.min(100, Math.floor(reps)))
+        }
+
+        if (typeof reps === 'string') {
+          // Handle ranges like "10-12" - take the first number
+          const num = parseInt(reps)
+          if (isNaN(num)) return 10
+          return Math.max(1, Math.min(100, num))
+        }
+
+        return 10
+      }
+
+      // Helper function to parse sets safely
+      const parseSets = (sets: any): number => {
+        if (!sets) return 3 // Default 3 sets
+
+        if (typeof sets === 'number') {
+          return Math.max(1, Math.min(20, Math.floor(sets)))
+        }
+
+        if (typeof sets === 'string') {
+          const num = parseInt(sets)
+          if (isNaN(num)) return 3
+          return Math.max(1, Math.min(20, num))
+        }
+
+        return 3
+      }
+
+      // Helper function to parse duration to seconds
+      const parseDurationToSeconds = (duration: any): number => {
+        if (!duration) return 60 // Default 60 seconds
+
+        // If already a number, ensure it's in valid range
+        if (typeof duration === 'number') {
+          return Math.max(5, Math.min(3600, duration))
+        }
+
+        // If string, try to parse
+        if (typeof duration === 'string') {
+          const str = duration.toLowerCase().trim()
+
+          // Parse number from string
+          const num = parseFloat(str)
+          if (isNaN(num)) return 60 // Default if unparseable
+
+          // Check if it mentions minutes, otherwise assume seconds
+          if (str.includes('min')) {
+            return Math.max(5, Math.min(3600, num * 60))
+          } else {
+            return Math.max(5, Math.min(3600, num))
+          }
+        }
+
+        return 60 // Default fallback
+      }
+
       // Now save the actual treatment protocol
       // Build exercises for the protocol
       const exercises = finalProtocol.treatmentPhases.flatMap((phase, phaseIndex) =>
-        phase.exercises.map((ex, exIndex) => ({
-          exercise_name: ex.exerciseName,
-          exercise_description: ex.instructions || '',
-          custom_reps: parseInt(ex.repetitions) || 10,
-          custom_sets: ex.sets || 3,
-          custom_duration_seconds: ex.holdDuration ? parseInt(ex.holdDuration) * 60 : 60,
-          custom_notes: ex.safetyNotes || '',
-          frequency: ex.frequency,
-          order_index: phaseIndex * 100 + exIndex,
-        }))
+        phase.exercises.map((ex, exIndex) => {
+          const exerciseData = {
+            exercise_name: ex.exerciseName,
+            exercise_description: ex.instructions || '',
+            custom_reps: parseReps(ex.repetitions),
+            custom_sets: parseSets(ex.sets),
+            custom_duration_seconds: parseDurationToSeconds(ex.holdDuration),
+            custom_notes: ex.safetyNotes || '',
+            frequency: ex.frequency || 'Daily',
+            order_index: phaseIndex * 100 + exIndex,
+          }
+
+          // Debug logging
+          console.log(`Exercise ${exIndex + 1}:`, {
+            original: { reps: ex.repetitions, sets: ex.sets, duration: ex.holdDuration },
+            parsed: {
+              reps: exerciseData.custom_reps,
+              sets: exerciseData.custom_sets,
+              duration: exerciseData.custom_duration_seconds
+            }
+          })
+
+          return exerciseData
+        })
       )
 
       // Build modalities for the protocol (JSONB format)
@@ -763,15 +842,28 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
       // Build goals array
       const goals = finalProtocol.treatmentPhases.flatMap(p => p.primaryGoals || [])
 
+      // Helper to check if a string is a valid UUID
+      const isValidUUID = (str: string) => {
+        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+        return uuidRegex.test(str)
+      }
+
+      // Get the static condition ID only if it's a valid UUID
+      const staticConditionId = conditionData?.condition_id || staticConditionData?.id
+      const validConditionId = staticConditionId && isValidUUID(staticConditionId)
+        ? staticConditionId
+        : undefined
+
       // Create the treatment protocol
-      const protocolData = {
+      const protocolData: any = {
         visit_id: visitId,
+        visit_condition_id: visitConditionId, // Link to specific visit-condition instance
+        patient_condition_id: conditionId, // Link to patient's condition record
         protocol_title: `${conditionName} - ${protocolType === 'home' ? 'Home' : 'Clinical'} Protocol`,
         current_complaint: conditionData?.chief_complaint || '',
         general_notes: finalProtocol.protocolMetadata?.additionalNotes || '',
         show_explanations: true,
         protocol_type: protocolType as 'home' | 'clinical',
-        condition_id: conditionId,
         condition_name: conditionName,
         modalities: modalities,
         manual_therapy: manualTherapy,
@@ -781,15 +873,30 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
         exercises: exercises,
       }
 
+      // Only add condition_id if it's a valid UUID
+      if (validConditionId) {
+        protocolData.condition_id = validConditionId
+      }
+
+      console.log('Protocol save data:', {
+        visit_id: protocolData.visit_id,
+        visit_condition_id: protocolData.visit_condition_id,
+        patient_condition_id: protocolData.patient_condition_id,
+        condition_id: protocolData.condition_id || 'NOT INCLUDED (not a UUID)',
+        staticConditionIdAttempted: staticConditionId
+      })
+
       const response = await ApiManager.createTreatmentProtocol(protocolData)
 
       if (response.success) {
+        const savedProtocol = response.data
+
         showNotification({
           title: 'Protocol Saved',
           message: 'Treatment protocol has been saved successfully',
           color: 'green',
         })
-        console.log('Protocol saved successfully:', response.data)
+        console.log('Protocol saved successfully:', savedProtocol)
         setSaving(false)
         onClose()
       } else {

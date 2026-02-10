@@ -102,7 +102,7 @@ const ScheduleVisitModal: React.FC<ScheduleVisitModalProps> = ({ patient, onClos
         activeConditions.forEach((condition, index) => {
           console.log(`📝 Condition ${index + 1}:`, {
             id: condition.id,
-            neo4j_condition_id: condition.neo4j_condition_id,
+            condition_id: condition.condition_id,
             condition_name: condition.condition_name
           });
         });
@@ -156,23 +156,24 @@ const ScheduleVisitModal: React.FC<ScheduleVisitModalProps> = ({ patient, onClos
     // Debug: Log the condition data
     console.log('🔍 Adding chief complaint for condition:', {
       id: condition.id,
-      neo4j_condition_id: condition.neo4j_condition_id,
+      condition_id: condition.condition_id,
       condition_name: condition.condition_name
     });
 
-    // Safety check: ensure we have a Neo4j condition ID
-    if (!condition.neo4j_condition_id) {
-      console.error('❌ Patient condition missing neo4j_condition_id:', condition);
-      alert(`Error: Patient condition "${condition.condition_name}" is missing Neo4j condition ID. Please contact support.`);
+    // Safety check: ensure we have a condition ID
+    if (!condition.condition_id) {
+      console.error('❌ Patient condition missing condition_id:', condition);
+      alert(`Error: Patient condition "${condition.condition_name}" is missing condition ID. Please contact support.`);
       return;
     }
 
     const newComplaint: ChiefComplaintDto = {
-      condition_id: condition.neo4j_condition_id, // Use Neo4j condition ID, not patient condition UUID
+      condition_id: condition.condition_id, // Use condition ID from the condition
       condition_name: condition.condition_name,
       complaint: '',
       severity: 5,
-      treatment_focus: 'PRIMARY'
+      treatment_focus: 'PRIMARY',
+      patient_condition_id: condition.id // Store the patient condition UUID
     };
 
     setChiefComplaints(prev => [...prev, newComplaint]);
@@ -307,13 +308,13 @@ const ScheduleVisitModal: React.FC<ScheduleVisitModalProps> = ({ patient, onClos
       };
 
       const response = await ApiManager.createVisit(visitData);
-      
+
       if (response.success) {
         const visitId = response.data?.id;
-        
-        // Visit-conditions are automatically created by the backend when chief_complaints are provided
-        console.log(`✅ Visit created successfully with ${validComplaints.length} chief complaints`);
-        
+
+        // Backend automatically creates visit-conditions from chief_complaints array
+        console.log(`✅ Visit created successfully with ${validComplaints.length} conditions`);
+
         onSuccess();
       } else {
         setError(response.message || 'Failed to schedule visit');
@@ -559,25 +560,15 @@ const ScheduleVisitModal: React.FC<ScheduleVisitModalProps> = ({ patient, onClos
                     </div>
                   ) : (
                     <>
-                      {/* Existing Chief Complaints */}
+                      {/* Selected Conditions */}
                       {chiefComplaints.map((complaint, index) => (
                         <div key={index} className="p-3 border border-border-color rounded-lg bg-gray-50">
-                          <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
                               <Stethoscope className="w-4 h-4 text-healui-physio" />
                               <span className="font-medium text-sm text-text-dark">
                                 {complaint.condition_name}
                               </span>
-                              <select
-                                value={complaint.treatment_focus}
-                                onChange={(e) => updateChiefComplaint(index, { 
-                                  treatment_focus: e.target.value as TreatmentFocus 
-                                })}
-                                className="text-xs px-2 py-1 border border-border-color rounded bg-white"
-                              >
-                                <option value="PRIMARY">Primary</option>
-                                <option value="SECONDARY">Secondary</option>
-                              </select>
                             </div>
                             <button
                               type="button"
@@ -587,48 +578,19 @@ const ScheduleVisitModal: React.FC<ScheduleVisitModalProps> = ({ patient, onClos
                               <Trash2 className="w-4 h-4" />
                             </button>
                           </div>
-                          
-                          <textarea
-                            value={complaint.complaint}
-                            onChange={(e) => updateChiefComplaint(index, { complaint: e.target.value })}
-                            className="w-full px-3 py-2 border border-border-color rounded-lg focus:outline-none focus:ring-2 focus:ring-healui-physio/20 focus:border-healui-physio transition-all duration-200 bg-white text-sm"
-                            rows={2}
-                            placeholder={`Describe complaints related to ${complaint.condition_name}...`}
-                          />
-                          
-                          <div className="mt-2">
-                            <label className="block text-xs font-medium text-text-dark mb-1">
-                              Severity (1-10)
-                            </label>
-                            <input
-                              type="range"
-                              min="1"
-                              max="10"
-                              value={complaint.severity || 5}
-                              onChange={(e) => updateChiefComplaint(index, { 
-                                severity: parseInt(e.target.value) 
-                              })}
-                              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-                            />
-                            <div className="flex justify-between text-xs text-gray-500 mt-1">
-                              <span>Mild</span>
-                              <span className="font-medium">{complaint.severity || 5}</span>
-                              <span>Severe</span>
-                            </div>
-                          </div>
                         </div>
                       ))}
 
                       {/* Add Condition Button */}
                       {patientConditions.filter(condition =>
-                        condition.neo4j_condition_id && !chiefComplaints.some(complaint => complaint.condition_id === condition.neo4j_condition_id)
+                        condition.condition_id && !chiefComplaints.some(complaint => complaint.condition_id === condition.condition_id)
                       ).length > 0 && (
                         <div className="border-2 border-dashed border-border-color rounded-lg p-3">
                           <p className="text-sm text-gray-600 mb-2">Add conditions to treat in this visit:</p>
                           <div className="flex flex-wrap gap-2">
                             {patientConditions
                               .filter(condition =>
-                                condition.neo4j_condition_id && !chiefComplaints.some(complaint => complaint.condition_id === condition.neo4j_condition_id)
+                                condition.condition_id && !chiefComplaints.some(complaint => complaint.condition_id === condition.condition_id)
                               )
                               .map(condition => (
                                 <button
@@ -652,79 +614,6 @@ const ScheduleVisitModal: React.FC<ScheduleVisitModalProps> = ({ patient, onClos
                       )}
                     </>
                   )}
-                  {/* Add New Condition Section */}
-                  <div className="mt-4 border-t border-gray-200 pt-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <label className="block text-xs sm:text-sm font-medium text-text-dark">
-                      Add New Conditions to Patient
-                    </label>
-                    <button
-                      type="button"
-                      onClick={() => setShowAddCondition(!showAddCondition)}
-                      className="text-xs sm:text-sm text-healui-physio hover:text-healui-physio/80 font-medium transition-colors flex items-center gap-1"
-                    >
-                      <Settings className="w-4 h-4" />
-                      {showAddCondition ? 'Hide' : 'Add Conditions'}
-                    </button>
-                  </div>
-
-                  {showAddCondition && (
-                    <div className="space-y-4 p-3 bg-gray-50 rounded-lg border">
-                      <p className="text-xs text-gray-600">
-                        Add new conditions to the patient's medical record. They will be available for future visits.
-                      </p>
-                      
-                      <ConditionSelector
-                        patientId={patient.id}
-                        selectedConditions={selectedNewConditions}
-                        onConditionsChange={setSelectedNewConditions}
-                        multiple={true}
-                        showSearch={true}
-                        showBodyRegionFilter={true}
-                        placeholder="Search for new conditions to add..."
-                      />
-
-                      {selectedNewConditions.length > 0 && (
-                        <>
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                              Chief Complaint (Optional)
-                            </label>
-                            <textarea
-                              value={newConditionDescription}
-                              onChange={(e) => setNewConditionDescription(e.target.value)}
-                              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-healui-physio/20 focus:border-healui-physio text-sm"
-                              rows={2}
-                              placeholder="Describe the patient's main concern..."
-                            />
-                          </div>
-
-                          <div className="flex justify-end gap-2">
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setSelectedNewConditions([]);
-                                setNewConditionDescription('');
-                                setShowAddCondition(false);
-                              }}
-                              className="px-3 py-1.5 text-xs text-gray-600 hover:text-gray-800 transition-colors"
-                            >
-                              Cancel
-                            </button>
-                            <button
-                              type="button"
-                              onClick={handleAddNewConditions}
-                              disabled={addingNewConditions}
-                              className="px-4 py-1.5 bg-healui-physio text-white rounded-md hover:bg-healui-physio/90 transition-colors text-xs font-medium disabled:opacity-50"
-                            >
-                              {addingNewConditions ? 'Adding...' : `Add ${selectedNewConditions.length} Condition(s)`}
-                            </button>
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  )}
-                  </div>
                 </div>
               )}
             </div>

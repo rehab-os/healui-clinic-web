@@ -532,6 +532,10 @@ export interface PatientConditionResponseDto {
     vas_score?: number
     urgency_level?: UrgencyLevel
 
+    // Active protocol tracking
+    active_protocol_id?: string
+    active_protocol?: TreatmentProtocolResponseDto
+
     // Visit stats
     visit_conditions_count?: number
     last_treated_date?: Date
@@ -664,6 +668,7 @@ export interface ChiefComplaintDto {
     complaint: string
     severity?: number // 1-10 scale
     treatment_focus: TreatmentFocus
+    patient_condition_id?: string // UUID of the patient's condition record
 }
 
 // Visit Types
@@ -943,13 +948,14 @@ export interface ProtocolTreatmentPhase {
 export interface CreateTreatmentProtocolDto {
     visit_id: string
     visit_condition_id?: string
+    patient_condition_id?: string // Link to patient_conditions table
     protocol_title: string
     current_complaint?: string
     general_notes?: string
     additional_manual_notes?: string
     show_explanations?: boolean
     protocol_type?: TreatmentProtocolType
-    condition_id?: string
+    condition_id?: string // Static condition reference (conditions table)
     condition_name?: string
     modalities?: ProtocolModality[]
     manual_therapy?: ProtocolManualTherapy[]
@@ -1008,6 +1014,7 @@ export interface TreatmentProtocolResponseDto {
     id: string
     visit_id: string
     visit_condition_id?: string
+    patient_condition_id?: string // Link to patient_conditions table
     patient_id?: string
     clinic_id?: string
     patient_user_id?: string
@@ -1018,7 +1025,7 @@ export interface TreatmentProtocolResponseDto {
     additional_manual_notes?: string
     show_explanations: boolean
     protocol_type?: TreatmentProtocolType
-    condition_id?: string
+    condition_id?: string // Static condition reference
     condition_name?: string
     modalities?: ProtocolModality[]
     manual_therapy?: ProtocolManualTherapy[]

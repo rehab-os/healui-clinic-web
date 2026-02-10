@@ -1,0 +1,473 @@
+/**
+ * HealUI Redesigned Design System
+ * Balanced Modern Approach: Distinctive but Practical
+ *
+ * Philosophy:
+ * - Modern aesthetics that don't sacrifice usability
+ * - Light mode primary (medical tradition) + Dark mode option
+ * - Glassmorphism ONLY for accents (modals, overlays)
+ * - Solid cards for content (readability first)
+ * - Teal as hero color (your brand)
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+/* ============================================
+   COLOR SYSTEM - BOTH MODES
+   ============================================ */
+
+:root {
+  /* ===== LIGHT MODE (Default - Medical Standard) ===== */
+
+  /* Backgrounds */
+  --bg-primary: #eff8ff;    /* Soft blue-tinted white */
+  --bg-secondary: #e5f3f8;
+  --bg-tertiary: #dceef5;
+  --bg-elevated: #FFFFFF;   /* Pure white for elevated cards */
+
+  /* Text */
+  --text-primary: #000000;    /* Pure black for maximum readability */
+  --text-secondary: #1e5f79;  /* Your brand teal for secondary text */
+  --text-tertiary: #4a9aaf;
+  --text-inverse: #FFFFFF;
+
+  /* Borders */
+  --border-primary: #c8eaeb;  /* Light mint for soft borders */
+  --border-secondary: #a8d5d5;
+  --border-focus: #1e5f79;     /* Deep teal for focus states */
+
+  /* Teal - Your Brand Color (Based on #1e5f79) */
+  --teal-50:  #eff8ff;  /* Softest - almost white with blue hint */
+  --teal-100: #c8eaeb;  /* Light mint accent */
+  --teal-200: #a8d5d5;  /* Logo light mint */
+  --teal-300: #7ec0c9;
+  --teal-400: #4a9aaf;
+  --teal-500: #1e5f79;  /* PRIMARY - Your deep teal */
+  --teal-600: #1a5468;
+  --teal-700: #164857;
+  --teal-800: #113d46;
+  --teal-900: #0d3135;
+
+  /* Semantic */
+  --success: #10B981;
+  --success-bg: #D1FAE5;
+  --warning: #F59E0B;
+  --warning-bg: #FEF3C7;
+  --error: #EF4444;
+  --error-bg: #FEE2E2;
+  --info: #3B82F6;
+  --info-bg: #DBEAFE;
+
+  /* Shadows (Subtle for light mode) */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08),
+               0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08),
+               0 4px 6px -2px rgba(0, 0, 0, 0.03);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08),
+               0 10px 10px -5px rgba(0, 0, 0, 0.02);
+
+  /* Teal Glow (Subtle for light) */
+  --teal-glow: 0 0 0 3px rgba(30, 95, 121, 0.1),
+               0 0 20px rgba(30, 95, 121, 0.15);
+  --teal-glow-strong: 0 0 0 3px rgba(30, 95, 121, 0.2),
+                      0 0 30px rgba(30, 95, 121, 0.25);
+}
+
+/* ===== DARK MODE (Optional but Modern) ===== */
+[data-theme="dark"] {
+  /* Backgrounds */
+  --bg-primary: #000000;    /* Pure black */
+  --bg-secondary: #0d1f28;  /* Very dark teal-tinted */
+  --bg-tertiary: #1a3340;
+  --bg-elevated: #0d1f28;
+
+  /* Text */
+  --text-primary: #eff8ff;  /* Soft blue-white for readability */
+  --text-secondary: #c8eaeb;
+  --text-tertiary: #7ec0c9;
+  --text-inverse: #000000;
+
+  /* Borders */
+  --border-primary: #1a3340;
+  --border-secondary: #2a4f5e;
+  --border-focus: #4a9aaf;
+
+  /* Teal (Lighter/brighter for dark bg visibility) */
+  --teal-500: #4a9aaf;  /* Lighter teal for contrast on black */
+  --teal-600: #7ec0c9;
+
+  /* Shadows (Stronger for dark) */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4),
+               0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5),
+               0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6),
+               0 10px 10px -5px rgba(0, 0, 0, 0.4);
+
+  /* Teal Glow (Stronger for dark) */
+  --teal-glow: 0 0 0 3px rgba(74, 154, 175, 0.2),
+               0 0 25px rgba(74, 154, 175, 0.3);
+  --teal-glow-strong: 0 0 0 3px rgba(74, 154, 175, 0.3),
+                      0 0 40px rgba(74, 154, 175, 0.4);
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+
+:root {
+  /* Fonts */
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Inter', -apple-system, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Type Scale (1.250 - Major Third) */
+  --text-xs:   0.64rem;   /* 10px */
+  --text-sm:   0.8rem;    /* 13px */
+  --text-base: 1rem;      /* 16px */
+  --text-lg:   1.25rem;   /* 20px */
+  --text-xl:   1.563rem;  /* 25px */
+  --text-2xl:  1.953rem;  /* 31px */
+  --text-3xl:  2.441rem;  /* 39px */
+  --text-4xl:  3.052rem;  /* 49px */
+
+  /* Line Heights */
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+
+  /* Font Weights */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+}
+
+/* ============================================
+   SPACING (8pt Grid + Golden Ratio)
+   ============================================ */
+
+:root {
+  --space-0: 0;
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.25rem;   /* 20px - Golden ratio button padding */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-12: 3rem;     /* 48px */
+  --space-16: 4rem;     /* 64px */
+
+  /* Golden Ratio Special */
+  --space-golden: 1.618rem; /* ~26px */
+}
+
+/* ============================================
+   BORDER RADIUS (Organic but Professional)
+   ============================================ */
+
+:root {
+  --radius-sm: 0.5rem;    /* 8px - inputs */
+  --radius-md: 0.75rem;   /* 12px - cards */
+  --radius-lg: 1rem;      /* 16px - modals */
+  --radius-xl: 1.5rem;    /* 24px - hero sections */
+  --radius-full: 9999px;  /* pills */
+}
+
+/* ============================================
+   TRANSITIONS
+   ============================================ */
+
+:root {
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  transition: background var(--transition-normal),
+              color var(--transition-normal);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: var(--font-bold);
+  line-height: var(--leading-tight);
+  color: var(--text-primary);
+}
+
+/* ============================================
+   COMPONENT STYLES
+   ============================================ */
+
+/* ----- Cards (SOLID, not glass - for readability) ----- */
+.card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+  border-color: var(--teal-300);
+}
+
+.card-elevated {
+  box-shadow: var(--shadow-md);
+}
+
+.card-teal-accent {
+  border-left: 4px solid var(--teal-500);
+}
+
+/* ----- Glass Card (ONLY for modals/overlays) ----- */
+.glass-card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(30, 95, 121, 0.2);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-xl);
+}
+
+[data-theme="dark"] .glass-card {
+  background: rgba(0, 0, 0, 0.8);
+  border-color: rgba(74, 154, 175, 0.3);
+}
+
+/* ----- Buttons ----- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  line-height: 1;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--teal-100);
+}
+
+/* Primary Button (Teal - Your Brand) */
+.btn-primary {
+  background: var(--teal-500);
+  color: white;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+  background: var(--teal-600);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* Secondary Button */
+.btn-secondary {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  border: 2px solid var(--border-secondary);
+}
+
+.btn-secondary:hover {
+  border-color: var(--teal-500);
+  background: var(--teal-50);
+  color: var(--teal-700);
+}
+
+/* Ghost Button */
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+}
+
+.btn-ghost:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+/* Sparkles Button (Special!) */
+.btn-sparkles {
+  background: var(--teal-500);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-sparkles::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn-sparkles:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.btn-sparkles:hover {
+  box-shadow: var(--teal-glow-strong);
+}
+
+/* Icon Button */
+.btn-icon {
+  padding: var(--space-2);
+  width: 40px;
+  height: 40px;
+}
+
+/* ----- Badges ----- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  line-height: 1;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badge-success {
+  background: var(--success-bg);
+  color: var(--success);
+}
+
+.badge-warning {
+  background: var(--warning-bg);
+  color: var(--warning);
+}
+
+.badge-error {
+  background: var(--error-bg);
+  color: var(--error);
+}
+
+.badge-teal {
+  background: var(--teal-100);
+  color: var(--teal-700);
+}
+
+.badge-teal-solid {
+  background: var(--teal-500);
+  color: white;
+  box-shadow: 0 0 15px rgba(30, 95, 121, 0.4);
+}
+
+/* ----- Animations ----- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+}
+
+/* Stagger delays */
+.stagger-1 { animation-delay: 0ms; }
+.stagger-2 { animation-delay: 100ms; }
+.stagger-3 { animation-delay: 200ms; }
+.stagger-4 { animation-delay: 300ms; }
+
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg,
+    var(--teal-400) 0%,
+    var(--teal-300) 50%,
+    var(--teal-400) 100%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+}
+
+/* ----- Utility Classes ----- */
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.gap-2 { gap: var(--space-2); }
+.gap-3 { gap: var(--space-3); }
+.gap-4 { gap: var(--space-4); }
+.gap-6 { gap: var(--space-6); }
+
+.mt-2 { margin-top: var(--space-2); }
+.mt-4 { margin-top: var(--space-4); }
+.mt-6 { margin-top: var(--space-6); }
+.mb-2 { margin-bottom: var(--space-2); }
+.mb-4 { margin-bottom: var(--space-4); }
+.mb-6 { margin-bottom: var(--space-6); }
+
+.p-4 { padding: var(--space-4); }
+.p-6 { padding: var(--space-6); }
+.p-8 { padding: var(--space-8); }
+
+/* Focus ring for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--teal-500);
+  outline-offset: 2px;
+}
