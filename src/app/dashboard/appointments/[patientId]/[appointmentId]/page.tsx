@@ -35,7 +35,7 @@ import {
   ArrowLeft, User, Calendar, Clock, Stethoscope, Activity,
   FileText, Heart, Brain, Target, Plus, ChevronRight, AlertCircle,
   TrendingUp, Package, Utensils, History, ChevronDown, ChevronUp,
-  Sparkles, LogOut, Check, Edit
+  Sparkles, LogOut, Check, Edit, X, Download
 } from 'lucide-react'
 import { format } from 'date-fns'
 import NutritionSuggestions from '@/components/features/nutrition/NutritionSuggestions'
@@ -44,16 +44,11 @@ import AddNoteModal from './components/AddNoteModal'
 import EnhancedPatientDetailsModal from '@/components/features/patients/EnhancedPatientDetailsModal'
 import ProtocolGeneratorModal from '@/components/features/conditions/ProtocolGeneratorModal'
 import DischargeConditionDialog from '@/components/features/conditions/DischargeConditionDialog'
+import { generatePatientReport } from '@/lib/utils/patientReportGenerator'
 
 /**
- * Improved Appointment Details Page
- * Clean, organized UI matching patients page design
- * Features:
- * - Condition management with protocols
- * - Clinical insights and notes
- * - Nutrition/dietary recommendations
- * - Visit history timeline
- * - Treatment progress tracking
+ * Compact EMR Appointment Details Page
+ * Features floating panels and optimized space usage
  */
 export default function AppointmentDetailsPage() {
   const params = useParams()
@@ -74,15 +69,15 @@ export default function AppointmentDetailsPage() {
   const errors = useAppSelector(selectErrors)
 
   // Local UI state
-  const [expandedSections, setExpandedSections] = useState({
-    conditions: true,
-    nutrition: true,
-    visits: true,
-    insights: false
-  })
+  const [expandedProtocols, setExpandedProtocols] = useState<Record<string, boolean>>({})
   const [conditionProtocols, setConditionProtocols] = useState<Record<string, any>>({})
   const [patientVisits, setPatientVisits] = useState<any[]>([])
   const [nutritionData, setNutritionData] = useState<any>(null)
+
+  // Floating panel states
+  const [showVisitHistory, setShowVisitHistory] = useState(false)
+  const [showNutrition, setShowNutrition] = useState(false)
+  const [visitNoteModalOpen, setVisitNoteModalOpen] = useState(false)
 
   // Modal states
   const [insightModal, setInsightModal] = useState<{
@@ -107,12 +102,10 @@ export default function AppointmentDetailsPage() {
     conditionName: null
   })
 
-  const [visitNoteModalOpen, setVisitNoteModalOpen] = useState(false)
   const [showPatientDetailsModal, setShowPatientDetailsModal] = useState(false)
 
   // Protocol & Discharge states
   const [showProtocolGenerator, setShowProtocolGenerator] = useState(false)
-  const [expandedProtocols, setExpandedProtocols] = useState<Record<string, boolean>>({})
   const [selectedConditionForProtocol, setSelectedConditionForProtocol] = useState<{
     conditionId: string
     conditionName: string
@@ -149,7 +142,6 @@ export default function AppointmentDetailsPage() {
         const response = await ApiManager.getPatient(appointment.patient_id)
         if (response.success && response.data) {
           dispatch(setPatient(response.data))
-          // Fetch patient visits for history
           fetchPatientVisits(response.data.id)
         }
       }
@@ -181,39 +173,21 @@ export default function AppointmentDetailsPage() {
           visit_id: params.appointmentId as string
         })
 
-        console.log('Initial protocol fetch response:', response)
-
         if (response.success && response.data) {
-          // Backend returns { protocols: [], total, page, limit, totalPages }
           const protocols = response.data.protocols || response.data || []
-
-          console.log('Initial protocols array:', protocols)
-
-          // Map protocols by visit_condition_id (most specific) with fallbacks
           const protocolMap: Record<string, { home?: any; clinical?: any }> = {}
 
           protocols.forEach((protocol: any) => {
-            console.log('Mapping protocol:', {
-              protocolId: protocol.id,
-              protocolType: protocol.protocol_type,
-              visitConditionId: protocol.visit_condition_id,
-              patientConditionId: protocol.patient_condition_id,
-              conditionId: protocol.condition_id
-            })
-
-            // Match by visit_condition_id first (most specific and accurate)
             let matchingCondition = visitConditions.find(vc =>
               protocol.visit_condition_id && vc.id === protocol.visit_condition_id
             )
 
-            // Fallback: match by patient_condition_id
             if (!matchingCondition && protocol.patient_condition_id) {
               matchingCondition = visitConditions.find(vc =>
                 vc.patient_condition_id === protocol.patient_condition_id
               )
             }
 
-            // Fallback: match by static condition_id
             if (!matchingCondition && protocol.condition_id) {
               matchingCondition = visitConditions.find(vc =>
                 vc.condition_id === protocol.condition_id
@@ -221,29 +195,14 @@ export default function AppointmentDetailsPage() {
             }
 
             if (matchingCondition) {
-              const matchType = protocol.visit_condition_id ? 'visit_condition_id' :
-                               protocol.patient_condition_id ? 'patient_condition_id' : 'condition_id'
-              console.log('Matched to condition:', {
-                visitConditionId: matchingCondition.id,
-                conditionName: matchingCondition.condition_name,
-                protocolType: protocol.protocol_type,
-                matchType
-              })
-
-              // Initialize if not exists
               if (!protocolMap[matchingCondition.id]) {
                 protocolMap[matchingCondition.id] = {}
               }
-
-              // Store by protocol type (home or clinical)
               const protocolType = protocol.protocol_type || 'home'
               protocolMap[matchingCondition.id][protocolType] = protocol
-            } else {
-              console.log('No matching condition found for protocol')
             }
           })
 
-          console.log('Final protocol map:', protocolMap)
           setConditionProtocols(protocolMap)
         }
       } catch (error) {
@@ -269,11 +228,6 @@ export default function AppointmentDetailsPage() {
     return age
   }
 
-  // Toggle section expansion
-  const toggleSection = (section: keyof typeof expandedSections) => {
-    setExpandedSections(prev => ({ ...prev, [section]: !prev[section] }))
-  }
-
   // Get status badge style
   const getStatusBadge = (status: string) => {
     const styles = {
@@ -287,6 +241,11 @@ export default function AppointmentDetailsPage() {
     return styles[status as keyof typeof styles] || 'bg-gray-100 text-gray-800 border-gray-200'
   }
 
+  // Get condition border color based on focus
+  const getConditionBorderColor = (treatmentFocus: string) => {
+    return treatmentFocus === 'PRIMARY' ? 'border-l-brand-teal' : 'border-l-purple-500'
+  }
+
   // Handler: Add clinical insight
   const handleAddInsight = async (data: any) => {
     if (!insightModal.patientConditionId) return
@@ -298,7 +257,6 @@ export default function AppointmentDetailsPage() {
       })
       if (response.success) {
         toast.success('Clinical insight added successfully')
-        // Refresh insights if needed
       }
     } catch (error: any) {
       toast.error(error.message || 'Failed to add insight')
@@ -347,7 +305,6 @@ export default function AppointmentDetailsPage() {
   // Handler: Note success
   const handleNoteSuccess = () => {
     toast.success('Note added successfully')
-    // Optionally refresh notes list
   }
 
   // Handler: Generate Protocol
@@ -371,9 +328,68 @@ export default function AppointmentDetailsPage() {
     toast.success('Condition discharged successfully')
     setShowDischargeDialog(false)
     setConditionToDischarge(null)
-    // Refresh visit conditions
     if (appointment?.id) {
       dispatch(fetchVisitConditions(appointment.id))
+    }
+  }
+
+  // Handler: Export PDF Report
+  const handleExportPDF = async () => {
+    try {
+      // Helper to ensure array format
+      const ensureArray = (value: any) => {
+        if (Array.isArray(value)) return value
+        if (typeof value === 'string') return [value]
+        return []
+      }
+
+      // Prepare data for PDF
+      const reportData = {
+        patient: {
+          full_name: patient.full_name,
+          date_of_birth: patient.date_of_birth,
+          gender: patient.gender,
+          phone: patient.phone,
+          email: patient.email,
+          allergies: ensureArray(patient.allergies),
+          current_medications: ensureArray(patient.current_medications),
+          medical_history: ensureArray(patient.medical_history),
+        },
+        appointment: {
+          scheduled_date: appointment.scheduled_date,
+          scheduled_time: appointment.scheduled_time,
+          visit_type: appointment.visit_type,
+          status: appointment.status,
+          chief_complaint: appointment.chief_complaint,
+        },
+        clinic: {
+          name: 'HealUI Physiotherapy Clinic', // Replace with actual clinic data
+          address: '123 Health Street, Medical District',
+          phone: '+1 (555) 123-4567',
+          email: 'contact@healui.clinic',
+        },
+        physiotherapist: {
+          full_name: appointment.physiotherapist?.full_name || 'Dr. Physiotherapist',
+          license_number: 'PT-12345',
+        },
+        visitConditions: visitConditions.map(vc => ({
+          condition_name: vc.condition_name,
+          body_region: vc.body_region,
+          treatment_focus: vc.treatment_focus,
+          chief_complaint: vc.chief_complaint,
+          condition: vc.condition,
+        })),
+        clinicalInsights: clinicalInsights || [],
+        protocols: conditionProtocols,
+        dietaryProfile: dietaryProfile || undefined,
+        contraindications: contraindications || [],
+      }
+
+      generatePatientReport(reportData)
+      toast.success('Patient report generated successfully!')
+    } catch (error) {
+      console.error('Failed to generate PDF:', error)
+      toast.error('Failed to generate report. Please try again.')
     }
   }
 
@@ -412,9 +428,9 @@ export default function AppointmentDetailsPage() {
       <Toaster position="top-right" richColors />
 
       <div className="min-h-screen bg-gray-50 pb-20">
-        {/* Header */}
-        <div className="bg-white border-b border-gray-200 sticky top-0 z-40">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        {/* Compact Header */}
+        <div className="bg-white border-b border-gray-200 sticky top-0 z-40 shadow-sm">
+          <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <button
@@ -425,13 +441,45 @@ export default function AppointmentDetailsPage() {
                 </button>
                 <div>
                   <h1 className="text-2xl font-bold text-gray-900">{patient.full_name}</h1>
-                  <p className="text-sm text-gray-600">
-                    {appointment.visit_type} • {format(new Date(appointment.scheduled_date), 'MMM dd, yyyy')} at {appointment.scheduled_time}
-                  </p>
+                  <div className="flex items-center gap-3 text-sm text-gray-600 mt-0.5">
+                    <span className="flex items-center gap-1.5">
+                      <Calendar className="h-3.5 w-3.5" />
+                      {format(new Date(appointment.scheduled_date), 'MMM dd, yyyy')}
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <Clock className="h-3.5 w-3.5" />
+                      {appointment.scheduled_time}
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <Stethoscope className="h-3.5 w-3.5" />
+                      {appointment.visit_type}
+                    </span>
+                    {patient.date_of_birth && (
+                      <span className="flex items-center gap-1.5">
+                        <User className="h-3.5 w-3.5" />
+                        {calculateAge(patient.date_of_birth)}y • {patient.gender === 'M' ? 'Male' : patient.gender === 'F' ? 'Female' : 'Other'}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium border ${getStatusBadge(appointment.status)}`}>
+                <button
+                  onClick={handleExportPDF}
+                  className="inline-flex items-center gap-2 px-3.5 py-2 text-sm font-medium text-white bg-gradient-to-r from-brand-teal to-teal-600 hover:from-brand-teal/90 hover:to-teal-600/90 rounded-lg transition-all shadow-sm hover:shadow-md"
+                  title="Export Patient Report"
+                >
+                  <Download className="h-4 w-4" />
+                  Export Report
+                </button>
+                <button
+                  onClick={() => setShowPatientDetailsModal(true)}
+                  className="inline-flex items-center gap-2 px-3.5 py-2 text-sm font-medium text-brand-teal bg-brand-teal/5 hover:bg-brand-teal/10 rounded-lg transition-colors border border-brand-teal/20"
+                >
+                  <User className="h-4 w-4" />
+                  Full Profile
+                </button>
+                <span className={`inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium border ${getStatusBadge(appointment.status)}`}>
                   {appointment.status.replace('_', ' ')}
                 </span>
               </div>
@@ -439,679 +487,460 @@ export default function AppointmentDetailsPage() {
           </div>
         </div>
 
-        {/* Main Content */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-            {/* Left Column - Main Content (2/3) */}
-            <div className="lg:col-span-2 space-y-6">
-
-              {/* Patient Info Card */}
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                <div className="flex items-start gap-4">
-                  <div className="h-16 w-16 rounded-full bg-gradient-to-br from-brand-teal to-teal-600 flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
-                    {patient.full_name.charAt(0).toUpperCase()}
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-start justify-between mb-3">
-                      <h2 className="text-xl font-semibold text-gray-900">{patient.full_name}</h2>
-                      <button
-                        onClick={() => setShowPatientDetailsModal(true)}
-                        className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-brand-teal bg-brand-teal/5 hover:bg-brand-teal/10 rounded-lg transition-colors border border-brand-teal/20"
-                      >
-                        <User className="h-4 w-4" />
-                        View Full Details
-                      </button>
-                    </div>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
-                      {patient.phone && (
-                        <div className="flex items-center gap-2 text-gray-600">
-                          <User className="h-4 w-4 text-gray-400" />
-                          <span>{patient.phone}</span>
-                        </div>
-                      )}
-                      {patient.date_of_birth && (
-                        <div className="flex items-center gap-2 text-gray-600">
-                          <Calendar className="h-4 w-4 text-gray-400" />
-                          <span>{calculateAge(patient.date_of_birth)} years</span>
-                        </div>
-                      )}
-                      {patient.gender && (
-                        <div className="flex items-center gap-2 text-gray-600">
-                          <Heart className="h-4 w-4 text-gray-400" />
-                          <span>{patient.gender === 'M' ? 'Male' : patient.gender === 'F' ? 'Female' : 'Other'}</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
+        {/* Main Content - Full Width */}
+        <div className="max-w-7xl mx-auto px-6 py-6">
+          {/* Conditions Grid - 2 Column Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            {visitConditions.length === 0 ? (
+              <div className="col-span-2 text-center py-20 bg-white rounded-lg border-2 border-dashed border-gray-200">
+                <Stethoscope className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+                <p className="text-gray-600 font-medium mb-1">No conditions added</p>
+                <p className="text-sm text-gray-500">Add conditions to start tracking treatment</p>
               </div>
-
-              {/* Conditions Section */}
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-                <button
-                  onClick={() => toggleSection('conditions')}
-                  className="w-full flex items-center justify-between p-6 hover:bg-gray-50 transition-colors"
+            ) : (
+              visitConditions.map((condition) => (
+                <div
+                  key={condition.id}
+                  className={`bg-white rounded-lg border-l-4 border-t border-r border-b border-gray-200 shadow-sm hover:shadow-md transition-all ${getConditionBorderColor(condition.treatment_focus)}`}
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-lg bg-brand-teal/10 flex items-center justify-center">
-                      <Stethoscope className="h-5 w-5 text-brand-teal" />
-                    </div>
-                    <div className="text-left">
-                      <h3 className="text-lg font-semibold text-gray-900">Conditions Being Treated</h3>
-                      <p className="text-sm text-gray-600">{visitConditions.length} condition{visitConditions.length !== 1 ? 's' : ''}</p>
-                    </div>
-                  </div>
-                  {expandedSections.conditions ? (
-                    <ChevronUp className="h-5 w-5 text-gray-400" />
-                  ) : (
-                    <ChevronDown className="h-5 w-5 text-gray-400" />
-                  )}
-                </button>
-
-                {expandedSections.conditions && (
-                  <div className="px-6 pb-6 space-y-4">
-                    {visitConditions.length === 0 ? (
-                      <div className="text-center py-12 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
-                        <Stethoscope className="h-12 w-12 text-gray-300 mx-auto mb-3" />
-                        <p className="text-gray-600 font-medium mb-1">No conditions added</p>
-                        <p className="text-sm text-gray-500">Add conditions to start tracking treatment</p>
-                      </div>
-                    ) : (
-                      <>
-                        {/* DEBUG INFO */}
-                        <div className="bg-yellow-50 border border-yellow-200 rounded p-3 text-xs font-mono">
-                          <div className="font-bold mb-2">🐛 Debug Info:</div>
-                          <div>Total Conditions: {visitConditions.length}</div>
-                          <div>Total Protocols Loaded: {Object.keys(conditionProtocols).length}</div>
-                          <div className="mt-2">
-                            <div className="font-bold">Condition Protocols:</div>
-                            {visitConditions.map(c => (
-                              <div key={c.id} className="ml-2">
-                                • {c.id} → {c.condition_name}
-                                {conditionProtocols[c.id] ? (
-                                  <div className="ml-4 text-green-700">
-                                    {conditionProtocols[c.id].home && '✅ Home Protocol'}
-                                    {conditionProtocols[c.id].clinical && '✅ Clinical Protocol'}
-                                    {!conditionProtocols[c.id].home && !conditionProtocols[c.id].clinical && '⚠️ Empty'}
-                                  </div>
-                                ) : ' ❌ NO PROTOCOLS'}
-                              </div>
-                            ))}
-                          </div>
-                          <div className="mt-2">
-                            <div className="font-bold">Protocol Map:</div>
-                            <pre className="text-xs overflow-auto max-h-32">
-                              {JSON.stringify(conditionProtocols, null, 2)}
-                            </pre>
-                          </div>
+                  {/* Compact Condition Header */}
+                  <div className="p-4 border-b border-gray-100">
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <h3 className="font-bold text-gray-900 text-base">
+                            {condition.condition_name}
+                          </h3>
+                          {condition.condition?.status && (
+                            <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border ${
+                              condition.condition.status === 'ACTIVE' ? 'bg-green-50 text-green-700 border-green-200' :
+                              condition.condition.status === 'DISCHARGED' ? 'bg-blue-50 text-blue-700 border-blue-200' :
+                              'bg-gray-50 text-gray-700 border-gray-200'
+                            }`}>
+                              {condition.condition.status}
+                            </span>
+                          )}
                         </div>
+                        {condition.body_region && (
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-gray-100 text-gray-700">
+                            {condition.body_region}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    {condition.chief_complaint && (
+                      <div className="mt-2 p-2.5 bg-amber-50 rounded-lg border border-amber-200">
+                        <p className="text-xs text-gray-800">
+                          "{condition.chief_complaint}"
+                        </p>
+                      </div>
+                    )}
+                  </div>
 
-                        {visitConditions.map((condition) => (
-                        <div
-                          key={condition.id}
-                          className="bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-all overflow-hidden"
+                  {/* Compact Protocols */}
+                  <div className="border-b border-gray-100">
+                    {/* Home Protocol */}
+                    {conditionProtocols[condition.id]?.home ? (
+                      <div className="border-b border-gray-100 last:border-b-0">
+                        <button
+                          onClick={() => setExpandedProtocols(prev => ({
+                            ...prev,
+                            [`${condition.id}-home`]: !prev[`${condition.id}-home`]
+                          }))}
+                          className="w-full px-4 py-2.5 bg-gray-50 hover:bg-gray-100 transition-colors text-left"
                         >
-                          {/* Header */}
-                          <div className="p-5 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
-                            <div className="flex items-start justify-between mb-3">
-                              <div className="flex-1">
-                                <div className="flex items-center gap-2 mb-2">
-                                  <h4 className="font-bold text-gray-900 text-lg">
-                                    {condition.condition_name}
-                                  </h4>
-                                  {condition.condition?.status && (
-                                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border ${
-                                      condition.condition.status === 'ACTIVE' ? 'bg-green-50 text-green-700 border-green-200' :
-                                      condition.condition.status === 'DISCHARGED' ? 'bg-blue-50 text-blue-700 border-blue-200' :
-                                      'bg-gray-50 text-gray-700 border-gray-200'
-                                    }`}>
-                                      {condition.condition.status}
-                                    </span>
-                                  )}
-                                </div>
-                                <div className="flex items-center gap-2 flex-wrap">
-                                  {condition.body_region && (
-                                    <span className="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-white border border-gray-300 text-gray-700">
-                                      📍 {condition.body_region}
-                                    </span>
-                                  )}
-                                  {condition.treatment_focus && (
-                                    <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium border ${
-                                      condition.treatment_focus === 'PRIMARY'
-                                        ? 'bg-brand-teal/10 text-brand-teal border-brand-teal/30'
-                                        : 'bg-purple-50 text-purple-700 border-purple-200'
-                                    }`}>
-                                      {condition.treatment_focus === 'PRIMARY' ? '⭐ Primary' : '◐ Secondary'}
-                                    </span>
-                                  )}
-                                </div>
-                              </div>
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <Package className="h-4 w-4 text-gray-700" />
+                              <span className="text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                Home Protocol
+                              </span>
+                              <span className="text-xs text-gray-600">
+                                • {conditionProtocols[condition.id].home.exercises?.length || 0} exercises
+                                • {conditionProtocols[condition.id].home.program_duration_weeks || 0} weeks
+                              </span>
                             </div>
-                            {condition.chief_complaint && (
-                              <div className="mt-3 p-3 bg-amber-50 rounded-lg border border-amber-200">
-                                <p className="text-sm text-gray-800 font-medium">
-                                  💬 "{condition.chief_complaint}"
-                                </p>
+                            {expandedProtocols[`${condition.id}-home`] ? (
+                              <ChevronUp className="h-4 w-4 text-gray-500" />
+                            ) : (
+                              <ChevronDown className="h-4 w-4 text-gray-500" />
+                            )}
+                          </div>
+                        </button>
+
+                        {expandedProtocols[`${condition.id}-home`] && (
+                          <div className="px-4 py-3 bg-white text-xs space-y-3">
+                            {conditionProtocols[condition.id].home.goals && conditionProtocols[condition.id].home.goals.length > 0 && (
+                              <div>
+                                <div className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1.5">Goals</div>
+                                <ul className="space-y-0.5">
+                                  {conditionProtocols[condition.id].home.goals.map((goal: string, idx: number) => (
+                                    <li key={idx} className="text-gray-600 flex items-start gap-1.5">
+                                      <span className="text-gray-400">•</span>
+                                      <span>{goal}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+
+                            {conditionProtocols[condition.id].home.exercises && conditionProtocols[condition.id].home.exercises.length > 0 && (
+                              <div>
+                                <div className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1.5">Exercises</div>
+                                <div className="space-y-2">
+                                  {conditionProtocols[condition.id].home.exercises.map((exercise: any, idx: number) => (
+                                    <div key={idx} className="bg-gray-50 p-2.5 rounded border border-gray-200">
+                                      <div className="font-semibold text-gray-900 mb-1 text-xs">{exercise.exercise_name}</div>
+                                      <div className="flex items-center gap-3 text-[11px] text-gray-600">
+                                        <span>Sets: {exercise.custom_sets}</span>
+                                        <span>Reps: {exercise.custom_reps}</span>
+                                        <span>Duration: {exercise.custom_duration_seconds}s</span>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
                               </div>
                             )}
                           </div>
-
-                          {/* Active Protocols Display (Home & Clinical) */}
-                          {conditionProtocols[condition.id] && (
-                            <div className="border-y border-gray-200">
-                              {/* Home Protocol */}
-                              {conditionProtocols[condition.id].home && (
-                                <div className="border-b border-gray-200 last:border-b-0">
-                                  <button
-                                    onClick={() => setExpandedProtocols(prev => ({
-                                      ...prev,
-                                      [`${condition.id}-home`]: !prev[`${condition.id}-home`]
-                                    }))}
-                                    className="w-full px-5 py-3 bg-gray-50 hover:bg-gray-100 transition-colors text-left"
-                                  >
-                                    <div className="flex items-start justify-between">
-                                      <div className="flex-1">
-                                        <div className="flex items-center gap-2 mb-1">
-                                          <Package className="h-4 w-4 text-gray-700" />
-                                          <p className="text-xs font-mono font-semibold text-gray-700 uppercase tracking-wider">
-                                            Active Home Protocol
-                                          </p>
-                                          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono bg-gray-200 text-gray-800 border border-gray-300">
-                                            HOME
-                                          </span>
-                                        </div>
-                                        <p className="text-sm font-medium text-gray-900 mb-1 font-mono">
-                                          {conditionProtocols[condition.id].home.protocol_title}
-                                        </p>
-                                        <div className="flex items-center gap-3 text-xs text-gray-600 font-mono">
-                                          {conditionProtocols[condition.id].home.exercises?.length > 0 && (
-                                            <span className="flex items-center gap-1">
-                                              <Activity className="h-3 w-3" />
-                                              {conditionProtocols[condition.id].home.exercises.length} exercises
-                                            </span>
-                                          )}
-                                          {conditionProtocols[condition.id].home.program_duration_weeks && (
-                                            <span className="flex items-center gap-1">
-                                              <Clock className="h-3 w-3" />
-                                              {conditionProtocols[condition.id].home.program_duration_weeks} weeks
-                                            </span>
-                                          )}
-                                          {conditionProtocols[condition.id].home.goals?.length > 0 && (
-                                            <span className="flex items-center gap-1">
-                                              <Target className="h-3 w-3" />
-                                              {conditionProtocols[condition.id].home.goals.length} goals
-                                            </span>
-                                          )}
-                                        </div>
-                                      </div>
-                                      {expandedProtocols[`${condition.id}-home`] ? (
-                                        <ChevronUp className="h-4 w-4 text-gray-500 flex-shrink-0 ml-2" />
-                                      ) : (
-                                        <ChevronDown className="h-4 w-4 text-gray-500 flex-shrink-0 ml-2" />
-                                      )}
-                                    </div>
-                                  </button>
-
-                                  {/* Expandable Content */}
-                                  {expandedProtocols[`${condition.id}-home`] && (
-                                    <div className="px-5 py-4 bg-white border-t border-gray-200 font-mono text-xs">
-                                      {/* Protocol Header */}
-                                      <div className="mb-4 pb-3 border-b border-gray-200">
-                                        <div className="grid grid-cols-2 gap-2 text-gray-600">
-                                          <div><span className="text-gray-400">Duration:</span> {conditionProtocols[condition.id].home.program_duration_weeks} weeks</div>
-                                          <div><span className="text-gray-400">Status:</span> {conditionProtocols[condition.id].home.status}</div>
-                                        </div>
-                                      </div>
-
-                                      {/* Goals */}
-                                      {conditionProtocols[condition.id].home.goals && conditionProtocols[condition.id].home.goals.length > 0 && (
-                                        <div className="mb-4">
-                                          <div className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Treatment Goals</div>
-                                          <ul className="space-y-1">
-                                            {conditionProtocols[condition.id].home.goals.map((goal: string, idx: number) => (
-                                              <li key={idx} className="text-gray-600 flex items-start gap-2">
-                                                <span className="text-gray-400">→</span>
-                                                <span>{goal}</span>
-                                              </li>
-                                            ))}
-                                          </ul>
-                                        </div>
-                                      )}
-
-                                      {/* Exercises */}
-                                      {conditionProtocols[condition.id].home.exercises && conditionProtocols[condition.id].home.exercises.length > 0 && (
-                                        <div className="mb-4">
-                                          <div className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Exercise Protocol</div>
-                                          <div className="space-y-3">
-                                            {conditionProtocols[condition.id].home.exercises.map((exercise: any, idx: number) => (
-                                              <div key={idx} className="bg-gray-50 p-3 border border-gray-200">
-                                                <div className="font-semibold text-gray-900 mb-1">{exercise.exercise_name}</div>
-                                                {exercise.exercise_description && (
-                                                  <div className="text-gray-600 mb-2 text-[11px]">{exercise.exercise_description}</div>
-                                                )}
-                                                <div className="grid grid-cols-3 gap-2 text-gray-600 text-[11px]">
-                                                  <div><span className="text-gray-400">Sets:</span> {exercise.custom_sets}</div>
-                                                  <div><span className="text-gray-400">Reps:</span> {exercise.custom_reps}</div>
-                                                  <div><span className="text-gray-400">Duration:</span> {exercise.custom_duration_seconds}s</div>
-                                                </div>
-                                                {exercise.frequency && (
-                                                  <div className="mt-1 text-gray-600 text-[11px]"><span className="text-gray-400">Frequency:</span> {exercise.frequency}</div>
-                                                )}
-                                              </div>
-                                            ))}
-                                          </div>
-                                        </div>
-                                      )}
-
-                                      {/* Treatment Phases */}
-                                      {conditionProtocols[condition.id].home.treatment_phases && conditionProtocols[condition.id].home.treatment_phases.length > 0 && (
-                                        <div className="mb-4">
-                                          <div className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Treatment Phases</div>
-                                          <div className="space-y-2">
-                                            {conditionProtocols[condition.id].home.treatment_phases.map((phase: any, idx: number) => (
-                                              <div key={idx} className="bg-gray-50 p-2 border-l-2 border-gray-400">
-                                                <div className="font-semibold text-gray-900">{phase.phase_name || `Phase ${idx + 1}`}</div>
-                                                {phase.duration_weeks && (
-                                                  <div className="text-gray-600 text-[11px]">Duration: {phase.duration_weeks} weeks</div>
-                                                )}
-                                              </div>
-                                            ))}
-                                          </div>
-                                        </div>
-                                      )}
-                                    </div>
-                                  )}
-                                </div>
-                              )}
-
-                              {/* Clinical Protocol */}
-                              {conditionProtocols[condition.id].clinical && (
-                                <div className="border-b border-gray-200 last:border-b-0">
-                                  <button
-                                    onClick={() => setExpandedProtocols(prev => ({
-                                      ...prev,
-                                      [`${condition.id}-clinical`]: !prev[`${condition.id}-clinical`]
-                                    }))}
-                                    className="w-full px-5 py-3 bg-gray-50 hover:bg-gray-100 transition-colors text-left"
-                                  >
-                                    <div className="flex items-start justify-between">
-                                      <div className="flex-1">
-                                        <div className="flex items-center gap-2 mb-1">
-                                          <Package className="h-4 w-4 text-gray-700" />
-                                          <p className="text-xs font-mono font-semibold text-gray-700 uppercase tracking-wider">
-                                            Active Clinical Protocol
-                                          </p>
-                                          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono bg-gray-200 text-gray-800 border border-gray-300">
-                                            CLINICAL
-                                          </span>
-                                        </div>
-                                        <p className="text-sm font-medium text-gray-900 mb-1 font-mono">
-                                          {conditionProtocols[condition.id].clinical.protocol_title}
-                                        </p>
-                                        <div className="flex items-center gap-3 text-xs text-gray-600 font-mono">
-                                          {conditionProtocols[condition.id].clinical.exercises?.length > 0 && (
-                                            <span className="flex items-center gap-1">
-                                              <Activity className="h-3 w-3" />
-                                              {conditionProtocols[condition.id].clinical.exercises.length} exercises
-                                            </span>
-                                          )}
-                                          {conditionProtocols[condition.id].clinical.program_duration_weeks && (
-                                            <span className="flex items-center gap-1">
-                                              <Clock className="h-3 w-3" />
-                                              {conditionProtocols[condition.id].clinical.program_duration_weeks} weeks
-                                            </span>
-                                          )}
-                                          {conditionProtocols[condition.id].clinical.goals?.length > 0 && (
-                                            <span className="flex items-center gap-1">
-                                              <Target className="h-3 w-3" />
-                                              {conditionProtocols[condition.id].clinical.goals.length} goals
-                                            </span>
-                                          )}
-                                        </div>
-                                      </div>
-                                      {expandedProtocols[`${condition.id}-clinical`] ? (
-                                        <ChevronUp className="h-4 w-4 text-gray-500 flex-shrink-0 ml-2" />
-                                      ) : (
-                                        <ChevronDown className="h-4 w-4 text-gray-500 flex-shrink-0 ml-2" />
-                                      )}
-                                    </div>
-                                  </button>
-
-                                  {/* Expandable Content */}
-                                  {expandedProtocols[`${condition.id}-clinical`] && (
-                                    <div className="px-5 py-4 bg-white border-t border-gray-200 font-mono text-xs">
-                                      {/* Protocol Header */}
-                                      <div className="mb-4 pb-3 border-b border-gray-200">
-                                        <div className="grid grid-cols-2 gap-2 text-gray-600">
-                                          <div><span className="text-gray-400">Duration:</span> {conditionProtocols[condition.id].clinical.program_duration_weeks} weeks</div>
-                                          <div><span className="text-gray-400">Status:</span> {conditionProtocols[condition.id].clinical.status}</div>
-                                        </div>
-                                      </div>
-
-                                      {/* Goals */}
-                                      {conditionProtocols[condition.id].clinical.goals && conditionProtocols[condition.id].clinical.goals.length > 0 && (
-                                        <div className="mb-4">
-                                          <div className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Treatment Goals</div>
-                                          <ul className="space-y-1">
-                                            {conditionProtocols[condition.id].clinical.goals.map((goal: string, idx: number) => (
-                                              <li key={idx} className="text-gray-600 flex items-start gap-2">
-                                                <span className="text-gray-400">→</span>
-                                                <span>{goal}</span>
-                                              </li>
-                                            ))}
-                                          </ul>
-                                        </div>
-                                      )}
-
-                                      {/* Exercises */}
-                                      {conditionProtocols[condition.id].clinical.exercises && conditionProtocols[condition.id].clinical.exercises.length > 0 && (
-                                        <div className="mb-4">
-                                          <div className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Exercise Protocol</div>
-                                          <div className="space-y-3">
-                                            {conditionProtocols[condition.id].clinical.exercises.map((exercise: any, idx: number) => (
-                                              <div key={idx} className="bg-gray-50 p-3 border border-gray-200">
-                                                <div className="font-semibold text-gray-900 mb-1">{exercise.exercise_name}</div>
-                                                {exercise.exercise_description && (
-                                                  <div className="text-gray-600 mb-2 text-[11px]">{exercise.exercise_description}</div>
-                                                )}
-                                                <div className="grid grid-cols-3 gap-2 text-gray-600 text-[11px]">
-                                                  <div><span className="text-gray-400">Sets:</span> {exercise.custom_sets}</div>
-                                                  <div><span className="text-gray-400">Reps:</span> {exercise.custom_reps}</div>
-                                                  <div><span className="text-gray-400">Duration:</span> {exercise.custom_duration_seconds}s</div>
-                                                </div>
-                                                {exercise.frequency && (
-                                                  <div className="mt-1 text-gray-600 text-[11px]"><span className="text-gray-400">Frequency:</span> {exercise.frequency}</div>
-                                                )}
-                                              </div>
-                                            ))}
-                                          </div>
-                                        </div>
-                                      )}
-
-                                      {/* Treatment Phases */}
-                                      {conditionProtocols[condition.id].clinical.treatment_phases && conditionProtocols[condition.id].clinical.treatment_phases.length > 0 && (
-                                        <div className="mb-4">
-                                          <div className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Treatment Phases</div>
-                                          <div className="space-y-2">
-                                            {conditionProtocols[condition.id].clinical.treatment_phases.map((phase: any, idx: number) => (
-                                              <div key={idx} className="bg-gray-50 p-2 border-l-2 border-gray-400">
-                                                <div className="font-semibold text-gray-900">{phase.phase_name || `Phase ${idx + 1}`}</div>
-                                                {phase.duration_weeks && (
-                                                  <div className="text-gray-600 text-[11px]">Duration: {phase.duration_weeks} weeks</div>
-                                                )}
-                                              </div>
-                                            ))}
-                                          </div>
-                                        </div>
-                                      )}
-                                    </div>
-                                  )}
-                                </div>
-                              )}
-                            </div>
-                          )}
-
-                          {/* Action Buttons Grid */}
-                          <div className="p-4 bg-gray-50">
-                            <div className="grid grid-cols-2 gap-2">
-                              <button
-                                onClick={() => openInsightModal(condition)}
-                                className="flex items-center justify-center gap-2 px-3 py-2.5 bg-white text-brand-teal border border-brand-teal/20 rounded-lg hover:bg-brand-teal hover:text-white transition-colors text-sm font-medium shadow-sm"
-                                title="Add Clinical Insight"
-                              >
-                                <Brain className="h-4 w-4" />
-                                Insight
-                              </button>
-                              <button
-                                onClick={() => openConditionNoteModal(condition)}
-                                className="flex items-center justify-center gap-2 px-3 py-2.5 bg-white text-blue-600 border border-blue-200 rounded-lg hover:bg-blue-600 hover:text-white transition-colors text-sm font-medium shadow-sm"
-                                title="Add Note"
-                              >
-                                <FileText className="h-4 w-4" />
-                                Note
-                              </button>
-                              <button
-                                onClick={() => handleGenerateProtocol(condition)}
-                                className={`flex items-center justify-center gap-2 px-3 py-2.5 bg-white border rounded-lg transition-colors text-sm font-medium shadow-sm ${
-                                  conditionProtocols[condition.id]
-                                    ? 'text-purple-600 border-purple-200 hover:bg-purple-600 hover:text-white'
-                                    : 'text-purple-600 border-purple-200 hover:bg-purple-600 hover:text-white'
-                                }`}
-                                title={conditionProtocols[condition.id] ? 'Generate New Protocol' : 'Generate AI Protocol'}
-                              >
-                                <Sparkles className="h-4 w-4" />
-                                {conditionProtocols[condition.id] ? 'New Protocol' : 'AI Protocol'}
-                              </button>
-                              {condition.condition?.status !== 'DISCHARGED' ? (
-                                <button
-                                  onClick={() => handleDischargeCondition(condition)}
-                                  className="flex items-center justify-center gap-2 px-3 py-2.5 bg-white text-orange-600 border border-orange-200 rounded-lg hover:bg-orange-600 hover:text-white transition-colors text-sm font-medium shadow-sm"
-                                  title="Discharge Condition"
-                                >
-                                  <LogOut className="h-4 w-4" />
-                                  Discharge
-                                </button>
-                              ) : (
-                                <button
-                                  onClick={async () => {
-                                    try {
-                                      const response = await ApiManager.reactivateCondition(patient.id, condition.patient_condition_id)
-                                      if (response.success) {
-                                        toast.success('Condition reactivated')
-                                        dispatch(fetchVisitConditions(appointment.id))
-                                      }
-                                    } catch (err) {
-                                      toast.error('Failed to reactivate')
-                                    }
-                                  }}
-                                  className="flex items-center justify-center gap-2 px-3 py-2.5 bg-white text-green-600 border border-green-200 rounded-lg hover:bg-green-600 hover:text-white transition-colors text-sm font-medium shadow-sm"
-                                  title="Reactivate Condition"
-                                >
-                                  <Check className="h-4 w-4" />
-                                  Reactivate
-                                </button>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                      </>
-                    )}
-                  </div>
-                )}
-              </div>
-
-              {/* Nutrition Section */}
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-                <button
-                  onClick={() => toggleSection('nutrition')}
-                  className="w-full flex items-center justify-between p-6 hover:bg-gray-50 transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-lg bg-emerald-100 flex items-center justify-center">
-                      <Utensils className="h-5 w-5 text-emerald-600" />
-                    </div>
-                    <div className="text-left">
-                      <h3 className="text-lg font-semibold text-gray-900">Nutrition & Dietary Guidance</h3>
-                      <p className="text-sm text-gray-600">AI-powered recommendations</p>
-                    </div>
-                  </div>
-                  {expandedSections.nutrition ? (
-                    <ChevronUp className="h-5 w-5 text-gray-400" />
-                  ) : (
-                    <ChevronDown className="h-5 w-5 text-gray-400" />
-                  )}
-                </button>
-
-                {expandedSections.nutrition && patient && (
-                  <div className="px-6 pb-6">
-                    <NutritionSuggestions
-                      patientData={{
-                        age: calculateAge(patient.date_of_birth),
-                        gender: patient.gender === 'M' ? 'Male' : patient.gender === 'F' ? 'Female' : 'Other',
-                        allergies: patient.allergies,
-                        currentMedications: patient.current_medications,
-                        medicalHistory: patient.medical_history,
-                        chiefComplaints: appointment.chief_complaint ? [appointment.chief_complaint] : [],
-                        recentNotes: patientVisits
-                          .filter(visit => visit.note)
-                          .slice(0, 5)
-                          .map(visit => JSON.stringify(visit.note?.note_data)),
-                        visitHistory: patientVisits.slice(0, 10)
-                      }}
-                      onDataChange={setNutritionData}
-                    />
-                  </div>
-                )}
-              </div>
-
-            </div>
-
-            {/* Right Column - Sidebar (1/3) */}
-            <div className="space-y-6">
-
-              {/* Visit History Section - Clean UI */}
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-                <button
-                  onClick={() => toggleSection('visits')}
-                  className="w-full flex items-center justify-between p-6 hover:bg-gray-50 transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center shadow-sm">
-                      <Calendar className="h-5 w-5 text-white" />
-                    </div>
-                    <div className="text-left">
-                      <h3 className="text-lg font-bold text-gray-900">Visit History</h3>
-                      <p className="text-sm text-gray-600">{patientVisits.length} total visit{patientVisits.length !== 1 ? 's' : ''}</p>
-                    </div>
-                  </div>
-                  {expandedSections.visits ? (
-                    <ChevronUp className="h-5 w-5 text-gray-400" />
-                  ) : (
-                    <ChevronDown className="h-5 w-5 text-gray-400" />
-                  )}
-                </button>
-
-                {expandedSections.visits && (
-                  <div className="px-6 pb-6">
-                    {patientVisits.length === 0 ? (
-                      <div className="text-center py-12 bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg border-2 border-dashed border-gray-300">
-                        <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-3" />
-                        <p className="text-gray-700 font-medium mb-1">No visit history</p>
-                        <p className="text-sm text-gray-500">This is the patient's first visit</p>
+                        )}
                       </div>
                     ) : (
-                      <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2">
-                        {patientVisits
-                          .filter(visit => visit.id !== appointment.id)
-                          .slice(0, 20)
-                          .map((visit) => {
-                            const visitDate = new Date(visit.scheduled_date)
-                            const isCompleted = visit.status === 'COMPLETED'
-                            const hasNote = visit.note
+                      <div className="border-b border-gray-100 last:border-b-0 px-4 py-2.5 bg-gray-50">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <Package className="h-4 w-4 text-gray-400" />
+                            <span className="text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                              Home Protocol
+                            </span>
+                            <span className="text-xs text-gray-500 italic">• Not generated</span>
+                          </div>
+                          <button
+                            onClick={() => handleGenerateProtocol(condition)}
+                            className="text-xs text-purple-600 hover:text-purple-700 font-medium flex items-center gap-1"
+                          >
+                            <Sparkles className="h-3 w-3" />
+                            Generate
+                          </button>
+                        </div>
+                      </div>
+                    )}
 
-                            return (
-                              <div
-                                key={visit.id}
-                                onClick={() => router.push(`/dashboard/appointments/${patient.id}/${visit.id}`)}
-                                className="group bg-white border border-gray-200 rounded-lg hover:border-brand-teal hover:shadow-md transition-all cursor-pointer overflow-hidden"
-                              >
-                                <div className="p-4">
-                                  <div className="flex items-start justify-between">
-                                    <div className="flex items-start gap-3 flex-1">
-                                      {/* Icon */}
-                                      <div className={`h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0 ${
-                                        isCompleted ? 'bg-green-100' :
-                                        visit.status === 'SCHEDULED' ? 'bg-blue-100' :
-                                        visit.status === 'CANCELLED' ? 'bg-red-100' :
-                                        'bg-gray-100'
-                                      }`}>
-                                        <Calendar className={`h-5 w-5 ${
-                                          isCompleted ? 'text-green-600' :
-                                          visit.status === 'SCHEDULED' ? 'text-blue-600' :
-                                          visit.status === 'CANCELLED' ? 'text-red-600' :
-                                          'text-gray-600'
-                                        }`} />
-                                      </div>
+                    {/* Clinical Protocol */}
+                    {conditionProtocols[condition.id]?.clinical ? (
+                      <div className="border-b border-gray-100 last:border-b-0">
+                        <button
+                          onClick={() => setExpandedProtocols(prev => ({
+                            ...prev,
+                            [`${condition.id}-clinical`]: !prev[`${condition.id}-clinical`]
+                          }))}
+                          className="w-full px-4 py-2.5 bg-gray-50 hover:bg-gray-100 transition-colors text-left"
+                        >
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <Package className="h-4 w-4 text-gray-700" />
+                              <span className="text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                Clinical Protocol
+                              </span>
+                              <span className="text-xs text-gray-600">
+                                • {conditionProtocols[condition.id].clinical.exercises?.length || 0} exercises
+                                • {conditionProtocols[condition.id].clinical.program_duration_weeks || 0} weeks
+                              </span>
+                            </div>
+                            {expandedProtocols[`${condition.id}-clinical`] ? (
+                              <ChevronUp className="h-4 w-4 text-gray-500" />
+                            ) : (
+                              <ChevronDown className="h-4 w-4 text-gray-500" />
+                            )}
+                          </div>
+                        </button>
 
-                                      {/* Content */}
-                                      <div className="flex-1 min-w-0">
-                                        <div className="flex items-center gap-2 flex-wrap mb-1">
-                                          <h4 className="font-semibold text-gray-900 text-sm">
-                                            {visit.visit_type?.split('_').map(word =>
-                                              word.charAt(0) + word.slice(1).toLowerCase()
-                                            ).join(' ')}
-                                          </h4>
-                                          <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${getStatusBadge(visit.status)}`}>
-                                            {visit.status.replace('_', ' ')}
-                                          </span>
-                                          {hasNote && (
-                                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-700 border border-purple-200">
-                                              <FileText className="h-3 w-3 mr-1" />
-                                              Has Note
-                                            </span>
-                                          )}
-                                        </div>
-                                        <div className="flex items-center gap-3 text-xs text-gray-600">
-                                          <span className="flex items-center gap-1">
-                                            <Clock className="h-3.5 w-3.5" />
-                                            {format(visitDate, 'MMM dd, yyyy')} • {visit.scheduled_time}
-                                          </span>
-                                          {visit.physiotherapist?.full_name && (
-                                            <span className="flex items-center gap-1">
-                                              <Stethoscope className="h-3.5 w-3.5" />
-                                              Dr. {visit.physiotherapist.full_name}
-                                            </span>
-                                          )}
-                                        </div>
-                                        {visit.chief_complaint && (
-                                          <p className="text-xs text-gray-600 mt-2 line-clamp-1 italic">
-                                            "{visit.chief_complaint}"
-                                          </p>
-                                        )}
+                        {expandedProtocols[`${condition.id}-clinical`] && (
+                          <div className="px-4 py-3 bg-white text-xs space-y-3">
+                            {conditionProtocols[condition.id].clinical.goals && conditionProtocols[condition.id].clinical.goals.length > 0 && (
+                              <div>
+                                <div className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1.5">Goals</div>
+                                <ul className="space-y-0.5">
+                                  {conditionProtocols[condition.id].clinical.goals.map((goal: string, idx: number) => (
+                                    <li key={idx} className="text-gray-600 flex items-start gap-1.5">
+                                      <span className="text-gray-400">•</span>
+                                      <span>{goal}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+
+                            {conditionProtocols[condition.id].clinical.exercises && conditionProtocols[condition.id].clinical.exercises.length > 0 && (
+                              <div>
+                                <div className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1.5">Exercises</div>
+                                <div className="space-y-2">
+                                  {conditionProtocols[condition.id].clinical.exercises.map((exercise: any, idx: number) => (
+                                    <div key={idx} className="bg-gray-50 p-2.5 rounded border border-gray-200">
+                                      <div className="font-semibold text-gray-900 mb-1 text-xs">{exercise.exercise_name}</div>
+                                      <div className="flex items-center gap-3 text-[11px] text-gray-600">
+                                        <span>Sets: {exercise.custom_sets}</span>
+                                        <span>Reps: {exercise.custom_reps}</span>
+                                        <span>Duration: {exercise.custom_duration_seconds}s</span>
                                       </div>
                                     </div>
-
-                                    {/* Arrow */}
-                                    <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-brand-teal transition-colors flex-shrink-0" />
-                                  </div>
+                                  ))}
                                 </div>
                               </div>
-                            )
-                          })}
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="border-b border-gray-100 last:border-b-0 px-4 py-2.5 bg-gray-50">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <Package className="h-4 w-4 text-gray-400" />
+                            <span className="text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                              Clinical Protocol
+                            </span>
+                            <span className="text-xs text-gray-500 italic">• Not generated</span>
+                          </div>
+                          <button
+                            onClick={() => handleGenerateProtocol(condition)}
+                            className="text-xs text-purple-600 hover:text-purple-700 font-medium flex items-center gap-1"
+                          >
+                            <Sparkles className="h-3 w-3" />
+                            Generate
+                          </button>
+                        </div>
                       </div>
                     )}
                   </div>
-                )}
-              </div>
 
-              {/* Quick Actions */}
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
-                <div className="space-y-2">
-                  <button
-                    onClick={() => setVisitNoteModalOpen(true)}
-                    className="w-full flex items-center gap-3 px-4 py-3 text-left bg-brand-teal/5 text-brand-teal rounded-lg hover:bg-brand-teal/10 transition-colors font-medium"
-                  >
-                    <FileText className="h-5 w-5" />
-                    <span>Add Visit Note</span>
-                  </button>
-                  <button className="w-full flex items-center gap-3 px-4 py-3 text-left bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors font-medium">
-                    <Target className="h-5 w-5" />
-                    <span>Update Treatment Goals</span>
-                  </button>
-                  <button className="w-full flex items-center gap-3 px-4 py-3 text-left bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors font-medium">
-                    <Brain className="h-5 w-5" />
-                    <span>Generate Protocol</span>
-                  </button>
+                  {/* Compact Action Buttons */}
+                  <div className="p-3 bg-gray-50">
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        onClick={() => openInsightModal(condition)}
+                        className="flex items-center justify-center gap-1.5 px-3 py-2 bg-white text-brand-teal border border-brand-teal/20 rounded-lg hover:bg-brand-teal hover:text-white transition-colors text-xs font-medium"
+                      >
+                        <Brain className="h-3.5 w-3.5" />
+                        Insight
+                      </button>
+                      <button
+                        onClick={() => openConditionNoteModal(condition)}
+                        className="flex items-center justify-center gap-1.5 px-3 py-2 bg-white text-blue-600 border border-blue-200 rounded-lg hover:bg-blue-600 hover:text-white transition-colors text-xs font-medium"
+                      >
+                        <FileText className="h-3.5 w-3.5" />
+                        Note
+                      </button>
+                      <button
+                        onClick={() => handleGenerateProtocol(condition)}
+                        className="flex items-center justify-center gap-1.5 px-3 py-2 bg-white text-purple-600 border border-purple-200 rounded-lg hover:bg-purple-600 hover:text-white transition-colors text-xs font-medium"
+                      >
+                        <Sparkles className="h-3.5 w-3.5" />
+                        Protocol
+                      </button>
+                      {condition.condition?.status !== 'DISCHARGED' ? (
+                        <button
+                          onClick={() => handleDischargeCondition(condition)}
+                          className="flex items-center justify-center gap-1.5 px-3 py-2 bg-white text-orange-600 border border-orange-200 rounded-lg hover:bg-orange-600 hover:text-white transition-colors text-xs font-medium"
+                        >
+                          <LogOut className="h-3.5 w-3.5" />
+                          Discharge
+                        </button>
+                      ) : (
+                        <button
+                          onClick={async () => {
+                            try {
+                              const response = await ApiManager.reactivateCondition(patient.id, condition.patient_condition_id)
+                              if (response.success) {
+                                toast.success('Condition reactivated')
+                                dispatch(fetchVisitConditions(appointment.id))
+                              }
+                            } catch (err) {
+                              toast.error('Failed to reactivate')
+                            }
+                          }}
+                          className="flex items-center justify-center gap-1.5 px-3 py-2 bg-white text-green-600 border border-green-200 rounded-lg hover:bg-green-600 hover:text-white transition-colors text-xs font-medium"
+                        >
+                          <Check className="h-3.5 w-3.5" />
+                          Reactivate
+                        </button>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </div>
-
-            </div>
+              ))
+            )}
           </div>
         </div>
       </div>
+
+      {/* Floating Action Buttons */}
+      <div className="fixed right-6 bottom-6 z-50 flex flex-col gap-3">
+        {/* Visit History Button */}
+        <button
+          onClick={() => setShowVisitHistory(true)}
+          className="group relative p-4 bg-purple-600 text-white rounded-full shadow-lg hover:bg-purple-700 transition-all hover:scale-110"
+          title="Visit History"
+        >
+          <History className="h-5 w-5" />
+          <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            Visit History
+          </span>
+        </button>
+
+        {/* Add Visit Note Button (Primary) */}
+        <button
+          onClick={() => setVisitNoteModalOpen(true)}
+          className="group relative p-5 bg-brand-teal text-white rounded-full shadow-lg hover:bg-brand-teal/90 transition-all hover:scale-110"
+          title="Add Visit Note"
+        >
+          <FileText className="h-6 w-6" />
+          <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            Add Visit Note
+          </span>
+        </button>
+
+        {/* Nutrition Button */}
+        <button
+          onClick={() => setShowNutrition(true)}
+          className="group relative p-4 bg-emerald-600 text-white rounded-full shadow-lg hover:bg-emerald-700 transition-all hover:scale-110"
+          title="Nutrition Guide"
+        >
+          <Utensils className="h-5 w-5" />
+          <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            Nutrition Guide
+          </span>
+        </button>
+      </div>
+
+      {/* Slide-in Panel: Visit History */}
+      {showVisitHistory && (
+        <>
+          <div
+            className="fixed inset-0 bg-black/20 z-50 transition-opacity"
+            onClick={() => setShowVisitHistory(false)}
+          />
+          <div className="fixed right-0 top-0 bottom-0 w-full max-w-md bg-white shadow-2xl z-50 transform transition-transform duration-300 overflow-y-auto">
+            <div className="sticky top-0 bg-white border-b border-gray-200 p-5 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-lg bg-purple-100 flex items-center justify-center">
+                  <History className="h-5 w-5 text-purple-600" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-semibold text-gray-900">Visit History</h2>
+                  <p className="text-sm text-gray-600">{patientVisits.length} visit{patientVisits.length !== 1 ? 's' : ''}</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowVisitHistory(false)}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <X className="h-5 w-5 text-gray-600" />
+              </button>
+            </div>
+
+            <div className="p-5">
+              {patientVisits.length === 0 ? (
+                <div className="text-center py-12 bg-gray-50 rounded-lg border border-dashed border-gray-200">
+                  <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-3" />
+                  <p className="text-gray-600 font-medium">No visit history</p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {patientVisits
+                    .filter(visit => visit.id !== appointment.id)
+                    .map((visit) => {
+                      const visitDate = new Date(visit.scheduled_date)
+
+                      return (
+                        <div
+                          key={visit.id}
+                          onClick={() => {
+                            setShowVisitHistory(false)
+                            router.push(`/dashboard/appointments/${patient.id}/${visit.id}`)
+                          }}
+                          className="group bg-white border border-gray-200 rounded-lg hover:border-brand-teal hover:shadow-md transition-all cursor-pointer p-4"
+                        >
+                          <div className="flex items-start justify-between">
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2 mb-1.5">
+                                <h4 className="font-semibold text-gray-900 text-sm truncate">
+                                  {visit.visit_type?.split('_').map(word =>
+                                    word.charAt(0) + word.slice(1).toLowerCase()
+                                  ).join(' ')}
+                                </h4>
+                                <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${getStatusBadge(visit.status)}`}>
+                                  {visit.status.replace('_', ' ')}
+                                </span>
+                              </div>
+                              <div className="text-xs text-gray-600 mb-1.5">
+                                {format(visitDate, 'MMM dd, yyyy')} • {visit.scheduled_time}
+                              </div>
+                              {visit.chief_complaint && (
+                                <p className="text-xs text-gray-600 italic line-clamp-2">
+                                  "{visit.chief_complaint}"
+                                </p>
+                              )}
+                            </div>
+                            <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-brand-teal transition-colors flex-shrink-0 ml-2" />
+                          </div>
+                        </div>
+                      )
+                    })}
+                </div>
+              )}
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Slide-in Panel: Nutrition */}
+      {showNutrition && (
+        <>
+          <div
+            className="fixed inset-0 bg-black/20 z-50 transition-opacity"
+            onClick={() => setShowNutrition(false)}
+          />
+          <div className="fixed right-0 top-0 bottom-0 w-full max-w-md bg-white shadow-2xl z-50 transform transition-transform duration-300 overflow-y-auto">
+            <div className="sticky top-0 bg-white border-b border-gray-200 p-5 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-lg bg-emerald-100 flex items-center justify-center">
+                  <Utensils className="h-5 w-5 text-emerald-600" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-semibold text-gray-900">Nutrition Guide</h2>
+                  <p className="text-sm text-gray-600">Dietary recommendations</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowNutrition(false)}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <X className="h-5 w-5 text-gray-600" />
+              </button>
+            </div>
+
+            <div className="p-5">
+              {patient && (
+                <NutritionSuggestions
+                  patientData={{
+                    age: calculateAge(patient.date_of_birth),
+                    gender: patient.gender === 'M' ? 'Male' : patient.gender === 'F' ? 'Female' : 'Other',
+                    allergies: patient.allergies,
+                    currentMedications: patient.current_medications,
+                    medicalHistory: patient.medical_history,
+                    chiefComplaints: appointment.chief_complaint ? [appointment.chief_complaint] : [],
+                    recentNotes: patientVisits
+                      .filter(visit => visit.note)
+                      .slice(0, 5)
+                      .map(visit => JSON.stringify(visit.note?.note_data)),
+                    visitHistory: patientVisits.slice(0, 10)
+                  }}
+                  onDataChange={setNutritionData}
+                />
+              )}
+            </div>
+          </div>
+        </>
+      )}
 
       {/* Modals */}
       <AddInsightModal
@@ -1138,7 +967,6 @@ export default function AppointmentDetailsPage() {
         onSuccess={handleNoteSuccess}
       />
 
-      {/* Patient Details Modal with Conditions & AI Protocol Generation */}
       {showPatientDetailsModal && patient && (
         <EnhancedPatientDetailsModal
           patient={patient as any}
@@ -1148,7 +976,6 @@ export default function AppointmentDetailsPage() {
             toast.info('Schedule visit from appointments page')
           }}
           onPatientUpdate={() => {
-            // Refresh patient data
             const fetchPatient = async () => {
               if (appointment?.patient_id) {
                 const response = await ApiManager.getPatient(appointment.patient_id)
@@ -1162,7 +989,6 @@ export default function AppointmentDetailsPage() {
         />
       )}
 
-      {/* Protocol Generator Modal */}
       {selectedConditionForProtocol && (
         <ProtocolGeneratorModal
           isOpen={showProtocolGenerator}
@@ -1170,35 +996,26 @@ export default function AppointmentDetailsPage() {
             setShowProtocolGenerator(false)
             setSelectedConditionForProtocol(null)
 
-            // Refresh protocols after saving
             try {
               const response = await ApiManager.getTreatmentProtocols({
                 visit_id: params.appointmentId as string
               })
 
-              console.log('Protocol refresh response:', response)
-
               if (response.success && response.data) {
-                // Backend returns { protocols: [], total, page, limit, totalPages }
                 const protocols = response.data.protocols || response.data || []
-
-                console.log('Protocols array:', protocols)
-
                 const protocolMap: Record<string, { home?: any; clinical?: any }> = {}
+
                 protocols.forEach((protocol: any) => {
-                  // Match by visit_condition_id first (most specific)
                   let matchingCondition = visitConditions.find(vc =>
                     protocol.visit_condition_id && vc.id === protocol.visit_condition_id
                   )
 
-                  // Fallback: match by patient_condition_id
                   if (!matchingCondition && protocol.patient_condition_id) {
                     matchingCondition = visitConditions.find(vc =>
                       vc.patient_condition_id === protocol.patient_condition_id
                     )
                   }
 
-                  // Fallback: match by static condition_id
                   if (!matchingCondition && protocol.condition_id) {
                     matchingCondition = visitConditions.find(vc =>
                       vc.condition_id === protocol.condition_id
@@ -1206,26 +1023,14 @@ export default function AppointmentDetailsPage() {
                   }
 
                   if (matchingCondition) {
-                    console.log('Matched protocol:', {
-                      protocolId: protocol.id,
-                      protocolType: protocol.protocol_type,
-                      visitConditionId: matchingCondition.id,
-                      matchType: protocol.visit_condition_id ? 'visit_condition_id' :
-                                 protocol.patient_condition_id ? 'patient_condition_id' : 'condition_id'
-                    })
-
-                    // Initialize if not exists
                     if (!protocolMap[matchingCondition.id]) {
                       protocolMap[matchingCondition.id] = {}
                     }
-
-                    // Store by protocol type (home or clinical)
                     const protocolType = protocol.protocol_type || 'home'
                     protocolMap[matchingCondition.id][protocolType] = protocol
                   }
                 })
 
-                console.log('Final protocol map:', protocolMap)
                 setConditionProtocols(protocolMap)
               }
             } catch (error) {
@@ -1241,7 +1046,6 @@ export default function AppointmentDetailsPage() {
         />
       )}
 
-      {/* Discharge Condition Dialog */}
       {conditionToDischarge && (
         <DischargeConditionDialog
           isOpen={showDischargeDialog}
