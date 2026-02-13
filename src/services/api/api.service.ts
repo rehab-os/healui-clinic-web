@@ -58,7 +58,8 @@ import type {
     CorporateOutstandingParams,
 } from '../../lib/types'
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://healui-backend-core.onrender.com/api/v1/'
+// Ensure trailing slash for consistent URL construction
+const BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'https://healui-backend-core.onrender.com/api/v1/').replace(/\/$/, '') + '/'
 
 class ApiManager {
     // Auth

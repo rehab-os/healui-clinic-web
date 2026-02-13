@@ -24,7 +24,11 @@ import {
   Activity,
   Loader2,
   AlertCircle,
-  QrCode
+  QrCode,
+  Bot,
+  Link2,
+  Copy,
+  ExternalLink
 } from 'lucide-react';
 import ClinicQRCodeModal from '../../../components/features/clinics/ClinicQRCodeModal';
 
@@ -271,12 +275,54 @@ interface ClinicCardProps {
 const ClinicCard: React.FC<ClinicCardProps> = ({ clinic, viewMode }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [showQRModal, setShowQRModal] = useState(false);
+  const [copySuccess, setCopySuccess] = useState(false);
   const router = require('next/navigation').useRouter();
 
   const handleCardClick = (e: React.MouseEvent) => {
     // Don't navigate if clicking on buttons or menu
     if ((e.target as HTMLElement).closest('button')) return;
     router.push(`/dashboard/clinics/${clinic.id}`);
+  };
+
+  const copyAgentLink = async () => {
+    const link = `${window.location.origin}/clinic-agent/${clinic.code}`;
+    try {
+      // Try modern clipboard API first
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(link);
+        setCopySuccess(true);
+        setTimeout(() => setCopySuccess(false), 2000);
+      } else {
+        // Fallback for browsers without clipboard API
+        const textArea = document.createElement('textarea');
+        textArea.value = link;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        textArea.style.top = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+          document.execCommand('copy');
+          textArea.remove();
+          setCopySuccess(true);
+          setTimeout(() => setCopySuccess(false), 2000);
+        } catch (err) {
+          console.error('Fallback: Could not copy text', err);
+          textArea.remove();
+          // Show the link in an alert as last resort
+          alert(`Copy this link:\n${link}`);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to copy link:', error);
+      // Show the link in an alert as last resort
+      alert(`Copy this link:\n${link}`);
+    }
+  };
+
+  const previewAgent = () => {
+    window.open(`/clinic-agent/${clinic.code}`, '_blank');
   };
 
   if (viewMode === 'list') {
@@ -339,7 +385,7 @@ const ClinicCard: React.FC<ClinicCardProps> = ({ clinic, viewMode }) => {
                   <MoreVertical className="h-5 w-5" />
                 </button>
                 {showMenu && (
-                  <div className="absolute right-0 top-12 w-52 bg-white rounded-xl shadow-xl border border-gray-100 z-10 overflow-hidden">
+                  <div className="absolute right-0 top-12 w-64 bg-white rounded-xl shadow-xl border border-gray-100 z-10 overflow-hidden">
                     <div className="p-2">
                       <button
                         onClick={() => { setShowQRModal(true); setShowMenu(false); }}
@@ -348,6 +394,31 @@ const ClinicCard: React.FC<ClinicCardProps> = ({ clinic, viewMode }) => {
                         <QrCode className="h-4 w-4 mr-3 text-[#1e5f79]" />
                         Patient Registration QR
                       </button>
+                      <button
+                        onClick={() => { copyAgentLink(); setShowMenu(false); }}
+                        className="w-full flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors group"
+                      >
+                        {copySuccess ? (
+                          <>
+                            <Copy className="h-4 w-4 mr-3 text-green-600" />
+                            <span className="text-green-600">Link Copied!</span>
+                          </>
+                        ) : (
+                          <>
+                            <Link2 className="h-4 w-4 mr-3 text-[#1e5f79]" />
+                            Copy AI Agent Link
+                          </>
+                        )}
+                      </button>
+                      <button
+                        onClick={() => { previewAgent(); setShowMenu(false); }}
+                        className="w-full flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+                      >
+                        <Bot className="h-4 w-4 mr-3 text-[#1e5f79]" />
+                        Preview AI Agent
+                        <ExternalLink className="h-3 w-3 ml-auto text-gray-400" />
+                      </button>
+                      <div className="my-1 border-t border-gray-100"></div>
                       <button className="w-full flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
                         <Edit className="h-4 w-4 mr-3 text-[#1e5f79]" />
                         Edit Clinic Details
@@ -407,7 +478,7 @@ const ClinicCard: React.FC<ClinicCardProps> = ({ clinic, viewMode }) => {
                   <MoreVertical className="h-5 w-5" />
                 </button>
                 {showMenu && (
-                  <div className="absolute right-0 top-10 w-52 bg-white rounded-xl shadow-xl border border-gray-100 z-10 overflow-hidden">
+                  <div className="absolute right-0 top-10 w-64 bg-white rounded-xl shadow-xl border border-gray-100 z-10 overflow-hidden">
                     <div className="p-2">
                       <button
                         onClick={() => { setShowQRModal(true); setShowMenu(false); }}
@@ -416,6 +487,31 @@ const ClinicCard: React.FC<ClinicCardProps> = ({ clinic, viewMode }) => {
                         <QrCode className="h-4 w-4 mr-3 text-[#1e5f79]" />
                         Patient Registration QR
                       </button>
+                      <button
+                        onClick={() => { copyAgentLink(); setShowMenu(false); }}
+                        className="w-full flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors group"
+                      >
+                        {copySuccess ? (
+                          <>
+                            <Copy className="h-4 w-4 mr-3 text-green-600" />
+                            <span className="text-green-600">Link Copied!</span>
+                          </>
+                        ) : (
+                          <>
+                            <Link2 className="h-4 w-4 mr-3 text-[#1e5f79]" />
+                            Copy AI Agent Link
+                          </>
+                        )}
+                      </button>
+                      <button
+                        onClick={() => { previewAgent(); setShowMenu(false); }}
+                        className="w-full flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+                      >
+                        <Bot className="h-4 w-4 mr-3 text-[#1e5f79]" />
+                        Preview AI Agent
+                        <ExternalLink className="h-3 w-3 ml-auto text-gray-400" />
+                      </button>
+                      <div className="my-1 border-t border-gray-100"></div>
                       <button className="w-full flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
                         <Edit className="h-4 w-4 mr-3 text-[#1e5f79]" />
                         Edit Clinic Details
