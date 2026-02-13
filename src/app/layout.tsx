@@ -4,13 +4,17 @@ import { AppMantineProvider } from '../components/providers/MantineProvider';
 import { AuthProvider } from '../components/providers/AuthProvider';
 import { Toaster } from '../components/ui/sonner';
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+};
+
 export const metadata = {
   title: 'Healui.ai - World\'s First AI-Powered Physiotherapy EMR Software | Smart Clinical Management',
   description: 'Revolutionary AI-based EMR software for physiotherapy clinics. World\'s first AI-powered physiotherapy electronic medical records system with automated documentation, intelligent patient management, and advanced clinical analytics for modern physio practices.',
   keywords: 'AI physiotherapy EMR, AI physio EMR software, physiotherapy AI EMR, electronic medical records physiotherapy, AI-powered physiotherapy software, smart physio clinic management, automated physiotherapy documentation, AI clinical intelligence physiotherapy, machine learning physiotherapy EMR, artificial intelligence rehabilitation software',
   author: 'Healui.ai',
   robots: 'index, follow',
-  viewport: 'width=device-width, initial-scale=1',
   openGraph: {
     title: 'Healui.ai - World\'s First AI-Powered Physiotherapy EMR Software',
     description: 'Revolutionary AI-based EMR software for physiotherapy clinics. Automated documentation, intelligent patient management, and advanced clinical analytics.',

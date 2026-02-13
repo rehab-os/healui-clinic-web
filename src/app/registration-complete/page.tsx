@@ -5,11 +5,12 @@
 
 'use client';
 
+import { Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { CheckCircle, Calendar, Home, Download } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-export default function RegistrationCompletePage() {
+function RegistrationCompleteContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const patientId = searchParams.get('patientId');
@@ -183,5 +184,13 @@ export default function RegistrationCompletePage() {
         </motion.div>
       </motion.div>
     </div>
+  );
+}
+
+export default function RegistrationCompletePage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-50 flex items-center justify-center">Loading...</div>}>
+      <RegistrationCompleteContent />
+    </Suspense>
   );
 }
