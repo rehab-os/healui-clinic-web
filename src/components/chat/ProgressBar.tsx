@@ -1,11 +1,11 @@
 /**
- * ProgressBar Component
- * Shows current step progress
+ * ProgressBar Component - Modern liquid progress
  */
 
 'use client';
 
 import React from 'react';
+import { motion } from 'framer-motion';
 import { ChatStep, STEP_NAMES, TOTAL_STEPS } from '@/types/chat.types';
 
 interface ProgressBarProps {
@@ -16,18 +16,41 @@ export function ProgressBar({ currentStep }: ProgressBarProps) {
   const progress = (currentStep / TOTAL_STEPS) * 100;
 
   return (
-    <div className="border-b border-gray-200 bg-gray-50 px-4 py-2">
-      <div className="mb-1 flex items-center justify-between text-xs text-gray-600">
-        <span className="font-medium">{STEP_NAMES[currentStep]}</span>
-        <span>
-          Step {currentStep} of {TOTAL_STEPS}
+    <div className="py-4">
+      {/* Step indicator - minimal */}
+      <div className="mb-3 flex items-center justify-between px-1">
+        <span className="text-sm font-medium text-gray-700">
+          {STEP_NAMES[currentStep]}
+        </span>
+        <span className="text-xs text-gray-400">
+          {currentStep}/{TOTAL_STEPS}
         </span>
       </div>
-      <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200">
-        <div
-          className="h-full bg-blue-600 transition-all duration-500 ease-out"
-          style={{ width: `${progress}%` }}
-        />
+
+      {/* Modern liquid progress bar */}
+      <div className="relative h-1.5 w-full overflow-hidden rounded-full bg-gray-100">
+        <motion.div
+          className="absolute left-0 top-0 h-full rounded-full bg-gradient-to-r from-cyan-500 via-teal-500 to-cyan-500 shadow-sm shadow-cyan-500/30"
+          initial={{ width: 0 }}
+          animate={{ width: `${progress}%` }}
+          transition={{
+            duration: 0.8,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+        >
+          {/* Animated shimmer effect */}
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+            animate={{
+              x: ['-100%', '200%'],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: 'linear',
+            }}
+          />
+        </motion.div>
       </div>
     </div>
   );

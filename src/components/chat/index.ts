@@ -12,4 +12,5 @@ export { MessageBubble } from './MessageBubble';
 export { MessageInput } from './MessageInput';
 export { TypingIndicator } from './TypingIndicator';
 export { ProgressBar } from './ProgressBar';
+export { StatusIndicator } from './StatusIndicator';
 export { FullScreenChat } from './FullScreenChat';

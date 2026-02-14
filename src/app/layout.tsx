@@ -3,6 +3,8 @@ import { ReduxProvider } from '../components/providers/ReduxProvider';
 import { AppMantineProvider } from '../components/providers/MantineProvider';
 import { AuthProvider } from '../components/providers/AuthProvider';
 import { Toaster } from '../components/ui/sonner';
+import { GeistSans } from 'geist/font/sans';
+import { GeistMono } from 'geist/font/mono';
 
 export const viewport = {
   width: 'device-width',
@@ -116,7 +118,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body>
+      <body className={`${GeistSans.variable} ${GeistMono.variable} font-sans antialiased`}>
         <ReduxProvider>
           <AuthProvider>
             <AppMantineProvider>

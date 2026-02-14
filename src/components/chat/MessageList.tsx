@@ -1,6 +1,5 @@
 /**
- * MessageList Component
- * Displays list of chat messages
+ * MessageList Component - Clean, minimal message area
  */
 
 'use client';
@@ -24,9 +23,9 @@ export function MessageList({
   messagesEndRef,
 }: MessageListProps) {
   return (
-    <div className="flex-1 overflow-y-auto bg-gray-50 p-4 space-y-4">
+    <div className="flex-1 space-y-6 overflow-y-auto px-6 py-8">
       {messages.length === 0 && !isLoading && (
-        <div className="flex h-full items-center justify-center text-center text-gray-500">
+        <div className="flex h-full items-center justify-center text-center text-gray-400">
           <p className="text-sm">Starting conversation...</p>
         </div>
       )}
@@ -38,7 +37,7 @@ export function MessageList({
       {isLoading && <TypingIndicator />}
 
       {error && (
-        <div className="rounded-lg bg-red-50 border border-red-200 p-3 text-sm text-red-800">
+        <div className="rounded-2xl bg-red-50 p-4 text-sm text-red-700 ring-1 ring-red-200/50">
           {error}
         </div>
       )}
