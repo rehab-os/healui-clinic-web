@@ -23,18 +23,24 @@ export default function TreatmentHistoryViewer({
 }: TreatmentHistoryViewerProps) {
   const getChangeTypeColor = (changeType: string) => {
     switch (changeType) {
-      case 'INITIAL_PROTOCOL':
+      case 'INITIAL_CREATION':
         return 'bg-blue-100 text-blue-800'
-      case 'PROTOCOL_UPDATE':
-        return 'bg-green-100 text-green-800'
-      case 'PROTOCOL_REGENERATION':
+      case 'AI_GENERATED_FROM_INSIGHTS':
         return 'bg-purple-100 text-purple-800'
-      case 'USER_MODIFICATION':
-        return 'bg-amber-100 text-amber-800'
-      case 'PHASE_CHANGE':
+      case 'MANUAL_UPDATE':
+        return 'bg-green-100 text-green-800'
+      case 'PHASE_PROGRESSION':
         return 'bg-teal-100 text-teal-800'
-      case 'GOAL_UPDATE':
+      case 'GOAL_ADJUSTMENT':
         return 'bg-indigo-100 text-indigo-800'
+      case 'EXERCISE_MODIFICATION':
+        return 'bg-amber-100 text-amber-800'
+      case 'MODALITY_CHANGE':
+        return 'bg-orange-100 text-orange-800'
+      case 'PATIENT_REQUEST':
+        return 'bg-cyan-100 text-cyan-800'
+      case 'ADVERSE_REACTION':
+        return 'bg-red-100 text-red-800'
       default:
         return 'bg-gray-100 text-gray-800'
     }

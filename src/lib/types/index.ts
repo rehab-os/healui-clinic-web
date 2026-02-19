@@ -532,9 +532,11 @@ export interface PatientConditionResponseDto {
     vas_score?: number
     urgency_level?: UrgencyLevel
 
-    // Active protocol tracking
-    active_protocol_id?: string
-    active_protocol?: TreatmentProtocolResponseDto
+    // Active protocol tracking (current active protocols across visits)
+    active_home_protocol_id?: string
+    active_clinical_protocol_id?: string
+    active_home_protocol?: TreatmentProtocolResponseDto
+    active_clinical_protocol?: TreatmentProtocolResponseDto
 
     // Visit stats
     visit_conditions_count?: number
@@ -630,7 +632,12 @@ export interface VisitConditionResponseDto {
     next_visit_plan?: string
     created_at: Date
     updated_at: Date
-    condition?: PatientConditionResponseDto
+    condition?: PatientConditionResponseDto & {
+        active_home_protocol_id?: string
+        active_clinical_protocol_id?: string
+        active_home_protocol?: TreatmentProtocolResponseDto
+        active_clinical_protocol?: TreatmentProtocolResponseDto
+    }
     notes_count?: number
     protocols_count?: number
 }
@@ -1066,6 +1073,7 @@ export interface TreatmentProtocolResponseDto {
 
 export interface GetTreatmentProtocolsQueryDto {
     visit_id?: string
+    patient_condition_id?: string
     patient_id?: string
     clinic_id?: string
     physiotherapist_id?: string
@@ -1079,6 +1087,7 @@ export interface TreatmentProtocolExistsResponseDto {
     exists: boolean
     protocol_id?: string
     status?: ProtocolStatus
+    protocols?: Array<{ id: string; status: string; protocol_type: string }>
 }
 
 // ============ PUBLIC PATIENT REGISTRATION TYPES (QR Code) ============

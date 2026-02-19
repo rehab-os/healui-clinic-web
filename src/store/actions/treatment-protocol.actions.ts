@@ -65,13 +65,19 @@ export const fetchTreatmentProtocol = (id: string) => async (dispatch: AppDispat
     }
 }
 
-// Fetch treatment protocol by visit ID
+// Fetch treatment protocols by visit ID (returns array, sets first as current for backward compat)
 export const fetchTreatmentProtocolByVisit = (visitId: string) => async (dispatch: AppDispatch) => {
     dispatch(setCurrentProtocolLoading(true))
     try {
         const response = await ApiManager.getTreatmentProtocolByVisit(visitId)
         if (response.success && response.data) {
-            dispatch(setCurrentProtocolSuccess(response.data))
+            // Backend now returns array of protocols for the visit
+            const protocols = Array.isArray(response.data) ? response.data : [response.data]
+            if (protocols.length > 0) {
+                dispatch(setCurrentProtocolSuccess(protocols[0]))
+            } else {
+                dispatch(setCurrentProtocolSuccess(null as any))
+            }
         } else {
             // If no protocol found, it's not an error - just set to null
             dispatch(setCurrentProtocolSuccess(null as any))

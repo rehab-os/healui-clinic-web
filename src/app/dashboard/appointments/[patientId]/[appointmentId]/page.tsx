@@ -35,7 +35,7 @@ import {
   ArrowLeft, User, Calendar, Clock, Stethoscope, Activity,
   FileText, Heart, Brain, Target, Plus, ChevronRight, AlertCircle,
   TrendingUp, Package, Utensils, History, ChevronDown, ChevronUp,
-  Sparkles, LogOut, Check, Edit, X, Download
+  Sparkles, LogOut, Check, Edit, X, Download, GitBranch
 } from 'lucide-react'
 import { format } from 'date-fns'
 import NutritionSuggestions from '@/components/features/nutrition/NutritionSuggestions'
@@ -44,6 +44,7 @@ import AddNoteModal from './components/AddNoteModal'
 import EnhancedPatientDetailsModal from '@/components/features/patients/EnhancedPatientDetailsModal'
 import ProtocolGeneratorModal from '@/components/features/conditions/ProtocolGeneratorModal'
 import DischargeConditionDialog from '@/components/features/conditions/DischargeConditionDialog'
+import TreatmentHistoryViewer from './components/history/TreatmentHistoryViewer'
 import { generatePatientReport } from '@/lib/utils/patientReportGenerator'
 
 /**
@@ -73,6 +74,9 @@ export default function AppointmentDetailsPage() {
   const [conditionProtocols, setConditionProtocols] = useState<Record<string, any>>({})
   const [patientVisits, setPatientVisits] = useState<any[]>([])
   const [nutritionData, setNutritionData] = useState<any>(null)
+  const [expandedHistory, setExpandedHistory] = useState<Record<string, boolean>>({})
+  const [conditionHistory, setConditionHistory] = useState<Record<string, { data: any[], loading: boolean }>>({})
+
 
   // Floating panel states
   const [showVisitHistory, setShowVisitHistory] = useState(false)
@@ -305,6 +309,39 @@ export default function AppointmentDetailsPage() {
   // Handler: Note success
   const handleNoteSuccess = () => {
     toast.success('Note added successfully')
+  }
+
+  // Handler: Toggle treatment history for a condition
+  const handleToggleHistory = async (condition: any) => {
+    const condId = condition.patient_condition_id
+    const isExpanded = expandedHistory[condition.id]
+
+    if (isExpanded) {
+      setExpandedHistory(prev => ({ ...prev, [condition.id]: false }))
+      return
+    }
+
+    // Show and start loading
+    setExpandedHistory(prev => ({ ...prev, [condition.id]: true }))
+
+    // Only fetch if not already loaded
+    if (!conditionHistory[condId]) {
+      setConditionHistory(prev => ({ ...prev, [condId]: { data: [], loading: true } }))
+      try {
+        const response = await ApiManager.getTreatmentHistory(condId)
+        if (response.success && response.data) {
+          setConditionHistory(prev => ({
+            ...prev,
+            [condId]: { data: response.data.history || [], loading: false }
+          }))
+        } else {
+          setConditionHistory(prev => ({ ...prev, [condId]: { data: [], loading: false } }))
+        }
+      } catch (error) {
+        console.error('Failed to fetch treatment history:', error)
+        setConditionHistory(prev => ({ ...prev, [condId]: { data: [], loading: false } }))
+      }
+    }
   }
 
   // Handler: Generate Protocol
@@ -540,176 +577,240 @@ export default function AppointmentDetailsPage() {
                   {/* Compact Protocols */}
                   <div className="border-b border-gray-100">
                     {/* Home Protocol */}
-                    {conditionProtocols[condition.id]?.home ? (
-                      <div className="border-b border-gray-100 last:border-b-0">
-                        <button
-                          onClick={() => setExpandedProtocols(prev => ({
-                            ...prev,
-                            [`${condition.id}-home`]: !prev[`${condition.id}-home`]
-                          }))}
-                          className="w-full px-4 py-2.5 bg-gray-50 hover:bg-gray-100 transition-colors text-left"
-                        >
+                    {(() => {
+                      const currentProtocol = conditionProtocols[condition.id]?.home
+                      const activeProtocol = !currentProtocol ? condition.condition?.active_home_protocol : null
+                      const protocol = currentProtocol || activeProtocol
+                      const isFromPreviousVisit = !currentProtocol && !!activeProtocol
+
+                      if (protocol) {
+                        return (
+                          <div className={`border-b border-gray-100 last:border-b-0 ${isFromPreviousVisit ? 'border-l-2 border-l-amber-400' : ''}`}>
+                            <button
+                              onClick={() => setExpandedProtocols(prev => ({
+                                ...prev,
+                                [`${condition.id}-home`]: !prev[`${condition.id}-home`]
+                              }))}
+                              className={`w-full px-4 py-2.5 hover:bg-gray-100 transition-colors text-left ${isFromPreviousVisit ? 'bg-amber-50/50' : 'bg-gray-50'}`}
+                            >
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                  <Package className={`h-4 w-4 ${isFromPreviousVisit ? 'text-amber-600' : 'text-gray-700'}`} />
+                                  <span className="text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                    Home Protocol
+                                  </span>
+                                  {isFromPreviousVisit && (
+                                    <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-amber-100 text-amber-700 border border-amber-200">
+                                      <History className="h-2.5 w-2.5" />
+                                      Last prescribed
+                                    </span>
+                                  )}
+                                  <span className="text-xs text-gray-600">
+                                    {protocol.exercises?.length || 0} exercises
+                                    {' '}{protocol.program_duration_weeks || 0}w
+                                  </span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  {isFromPreviousVisit && (
+                                    <button
+                                      onClick={(e) => { e.stopPropagation(); handleGenerateProtocol(condition) }}
+                                      className="text-[10px] text-purple-600 hover:text-purple-700 font-medium flex items-center gap-0.5"
+                                    >
+                                      <Sparkles className="h-2.5 w-2.5" />
+                                      New
+                                    </button>
+                                  )}
+                                  {expandedProtocols[`${condition.id}-home`] ? (
+                                    <ChevronUp className="h-4 w-4 text-gray-500" />
+                                  ) : (
+                                    <ChevronDown className="h-4 w-4 text-gray-500" />
+                                  )}
+                                </div>
+                              </div>
+                            </button>
+
+                            {expandedProtocols[`${condition.id}-home`] && (
+                              <div className={`px-4 py-3 text-xs space-y-3 ${isFromPreviousVisit ? 'bg-amber-50/30' : 'bg-white'}`}>
+                                {isFromPreviousVisit && protocol.created_at && (
+                                  <div className="text-[10px] text-amber-600 font-medium">
+                                    Prescribed on {format(new Date(protocol.created_at), 'MMM dd, yyyy')}
+                                  </div>
+                                )}
+                                {protocol.goals && protocol.goals.length > 0 && (
+                                  <div>
+                                    <div className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1.5">Goals</div>
+                                    <ul className="space-y-0.5">
+                                      {protocol.goals.map((goal: string, idx: number) => (
+                                        <li key={idx} className="text-gray-600 flex items-start gap-1.5">
+                                          <span className="text-gray-400">{'\u2022'}</span>
+                                          <span>{goal}</span>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                )}
+                                {protocol.exercises && protocol.exercises.length > 0 && (
+                                  <div>
+                                    <div className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1.5">Exercises</div>
+                                    <div className="space-y-2">
+                                      {protocol.exercises.map((exercise: any, idx: number) => (
+                                        <div key={idx} className={`p-2.5 rounded border ${isFromPreviousVisit ? 'bg-amber-50/50 border-amber-200' : 'bg-gray-50 border-gray-200'}`}>
+                                          <div className="font-semibold text-gray-900 mb-1 text-xs">{exercise.exercise_name}</div>
+                                          <div className="flex items-center gap-3 text-[11px] text-gray-600">
+                                            <span>Sets: {exercise.custom_sets}</span>
+                                            <span>Reps: {exercise.custom_reps}</span>
+                                            <span>Duration: {exercise.custom_duration_seconds}s</span>
+                                          </div>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        )
+                      }
+
+                      return (
+                        <div className="border-b border-gray-100 last:border-b-0 px-4 py-2.5 bg-gray-50">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
-                              <Package className="h-4 w-4 text-gray-700" />
+                              <Package className="h-4 w-4 text-gray-400" />
                               <span className="text-xs font-semibold text-gray-700 uppercase tracking-wider">
                                 Home Protocol
                               </span>
-                              <span className="text-xs text-gray-600">
-                                • {conditionProtocols[condition.id].home.exercises?.length || 0} exercises
-                                • {conditionProtocols[condition.id].home.program_duration_weeks || 0} weeks
-                              </span>
+                              <span className="text-xs text-gray-500 italic">Not generated</span>
                             </div>
-                            {expandedProtocols[`${condition.id}-home`] ? (
-                              <ChevronUp className="h-4 w-4 text-gray-500" />
-                            ) : (
-                              <ChevronDown className="h-4 w-4 text-gray-500" />
-                            )}
+                            <button
+                              onClick={() => handleGenerateProtocol(condition)}
+                              className="text-xs text-purple-600 hover:text-purple-700 font-medium flex items-center gap-1"
+                            >
+                              <Sparkles className="h-3 w-3" />
+                              Generate
+                            </button>
                           </div>
-                        </button>
-
-                        {expandedProtocols[`${condition.id}-home`] && (
-                          <div className="px-4 py-3 bg-white text-xs space-y-3">
-                            {conditionProtocols[condition.id].home.goals && conditionProtocols[condition.id].home.goals.length > 0 && (
-                              <div>
-                                <div className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1.5">Goals</div>
-                                <ul className="space-y-0.5">
-                                  {conditionProtocols[condition.id].home.goals.map((goal: string, idx: number) => (
-                                    <li key={idx} className="text-gray-600 flex items-start gap-1.5">
-                                      <span className="text-gray-400">•</span>
-                                      <span>{goal}</span>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            )}
-
-                            {conditionProtocols[condition.id].home.exercises && conditionProtocols[condition.id].home.exercises.length > 0 && (
-                              <div>
-                                <div className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1.5">Exercises</div>
-                                <div className="space-y-2">
-                                  {conditionProtocols[condition.id].home.exercises.map((exercise: any, idx: number) => (
-                                    <div key={idx} className="bg-gray-50 p-2.5 rounded border border-gray-200">
-                                      <div className="font-semibold text-gray-900 mb-1 text-xs">{exercise.exercise_name}</div>
-                                      <div className="flex items-center gap-3 text-[11px] text-gray-600">
-                                        <span>Sets: {exercise.custom_sets}</span>
-                                        <span>Reps: {exercise.custom_reps}</span>
-                                        <span>Duration: {exercise.custom_duration_seconds}s</span>
-                                      </div>
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      <div className="border-b border-gray-100 last:border-b-0 px-4 py-2.5 bg-gray-50">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <Package className="h-4 w-4 text-gray-400" />
-                            <span className="text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                              Home Protocol
-                            </span>
-                            <span className="text-xs text-gray-500 italic">• Not generated</span>
-                          </div>
-                          <button
-                            onClick={() => handleGenerateProtocol(condition)}
-                            className="text-xs text-purple-600 hover:text-purple-700 font-medium flex items-center gap-1"
-                          >
-                            <Sparkles className="h-3 w-3" />
-                            Generate
-                          </button>
                         </div>
-                      </div>
-                    )}
+                      )
+                    })()}
 
                     {/* Clinical Protocol */}
-                    {conditionProtocols[condition.id]?.clinical ? (
-                      <div className="border-b border-gray-100 last:border-b-0">
-                        <button
-                          onClick={() => setExpandedProtocols(prev => ({
-                            ...prev,
-                            [`${condition.id}-clinical`]: !prev[`${condition.id}-clinical`]
-                          }))}
-                          className="w-full px-4 py-2.5 bg-gray-50 hover:bg-gray-100 transition-colors text-left"
-                        >
+                    {(() => {
+                      const currentProtocol = conditionProtocols[condition.id]?.clinical
+                      const activeProtocol = !currentProtocol ? condition.condition?.active_clinical_protocol : null
+                      const protocol = currentProtocol || activeProtocol
+                      const isFromPreviousVisit = !currentProtocol && !!activeProtocol
+
+                      if (protocol) {
+                        return (
+                          <div className={`border-b border-gray-100 last:border-b-0 ${isFromPreviousVisit ? 'border-l-2 border-l-amber-400' : ''}`}>
+                            <button
+                              onClick={() => setExpandedProtocols(prev => ({
+                                ...prev,
+                                [`${condition.id}-clinical`]: !prev[`${condition.id}-clinical`]
+                              }))}
+                              className={`w-full px-4 py-2.5 hover:bg-gray-100 transition-colors text-left ${isFromPreviousVisit ? 'bg-amber-50/50' : 'bg-gray-50'}`}
+                            >
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                  <Package className={`h-4 w-4 ${isFromPreviousVisit ? 'text-amber-600' : 'text-gray-700'}`} />
+                                  <span className="text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                    Clinical Protocol
+                                  </span>
+                                  {isFromPreviousVisit && (
+                                    <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-amber-100 text-amber-700 border border-amber-200">
+                                      <History className="h-2.5 w-2.5" />
+                                      Last prescribed
+                                    </span>
+                                  )}
+                                  <span className="text-xs text-gray-600">
+                                    {protocol.exercises?.length || 0} exercises
+                                    {' '}{protocol.program_duration_weeks || 0}w
+                                  </span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  {isFromPreviousVisit && (
+                                    <button
+                                      onClick={(e) => { e.stopPropagation(); handleGenerateProtocol(condition) }}
+                                      className="text-[10px] text-purple-600 hover:text-purple-700 font-medium flex items-center gap-0.5"
+                                    >
+                                      <Sparkles className="h-2.5 w-2.5" />
+                                      New
+                                    </button>
+                                  )}
+                                  {expandedProtocols[`${condition.id}-clinical`] ? (
+                                    <ChevronUp className="h-4 w-4 text-gray-500" />
+                                  ) : (
+                                    <ChevronDown className="h-4 w-4 text-gray-500" />
+                                  )}
+                                </div>
+                              </div>
+                            </button>
+
+                            {expandedProtocols[`${condition.id}-clinical`] && (
+                              <div className={`px-4 py-3 text-xs space-y-3 ${isFromPreviousVisit ? 'bg-amber-50/30' : 'bg-white'}`}>
+                                {isFromPreviousVisit && protocol.created_at && (
+                                  <div className="text-[10px] text-amber-600 font-medium">
+                                    Prescribed on {format(new Date(protocol.created_at), 'MMM dd, yyyy')}
+                                  </div>
+                                )}
+                                {protocol.goals && protocol.goals.length > 0 && (
+                                  <div>
+                                    <div className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1.5">Goals</div>
+                                    <ul className="space-y-0.5">
+                                      {protocol.goals.map((goal: string, idx: number) => (
+                                        <li key={idx} className="text-gray-600 flex items-start gap-1.5">
+                                          <span className="text-gray-400">{'\u2022'}</span>
+                                          <span>{goal}</span>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                )}
+                                {protocol.exercises && protocol.exercises.length > 0 && (
+                                  <div>
+                                    <div className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1.5">Exercises</div>
+                                    <div className="space-y-2">
+                                      {protocol.exercises.map((exercise: any, idx: number) => (
+                                        <div key={idx} className={`p-2.5 rounded border ${isFromPreviousVisit ? 'bg-amber-50/50 border-amber-200' : 'bg-gray-50 border-gray-200'}`}>
+                                          <div className="font-semibold text-gray-900 mb-1 text-xs">{exercise.exercise_name}</div>
+                                          <div className="flex items-center gap-3 text-[11px] text-gray-600">
+                                            <span>Sets: {exercise.custom_sets}</span>
+                                            <span>Reps: {exercise.custom_reps}</span>
+                                            <span>Duration: {exercise.custom_duration_seconds}s</span>
+                                          </div>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        )
+                      }
+
+                      return (
+                        <div className="border-b border-gray-100 last:border-b-0 px-4 py-2.5 bg-gray-50">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
-                              <Package className="h-4 w-4 text-gray-700" />
+                              <Package className="h-4 w-4 text-gray-400" />
                               <span className="text-xs font-semibold text-gray-700 uppercase tracking-wider">
                                 Clinical Protocol
                               </span>
-                              <span className="text-xs text-gray-600">
-                                • {conditionProtocols[condition.id].clinical.exercises?.length || 0} exercises
-                                • {conditionProtocols[condition.id].clinical.program_duration_weeks || 0} weeks
-                              </span>
+                              <span className="text-xs text-gray-500 italic">Not generated</span>
                             </div>
-                            {expandedProtocols[`${condition.id}-clinical`] ? (
-                              <ChevronUp className="h-4 w-4 text-gray-500" />
-                            ) : (
-                              <ChevronDown className="h-4 w-4 text-gray-500" />
-                            )}
+                            <button
+                              onClick={() => handleGenerateProtocol(condition)}
+                              className="text-xs text-purple-600 hover:text-purple-700 font-medium flex items-center gap-1"
+                            >
+                              <Sparkles className="h-3 w-3" />
+                              Generate
+                            </button>
                           </div>
-                        </button>
-
-                        {expandedProtocols[`${condition.id}-clinical`] && (
-                          <div className="px-4 py-3 bg-white text-xs space-y-3">
-                            {conditionProtocols[condition.id].clinical.goals && conditionProtocols[condition.id].clinical.goals.length > 0 && (
-                              <div>
-                                <div className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1.5">Goals</div>
-                                <ul className="space-y-0.5">
-                                  {conditionProtocols[condition.id].clinical.goals.map((goal: string, idx: number) => (
-                                    <li key={idx} className="text-gray-600 flex items-start gap-1.5">
-                                      <span className="text-gray-400">•</span>
-                                      <span>{goal}</span>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            )}
-
-                            {conditionProtocols[condition.id].clinical.exercises && conditionProtocols[condition.id].clinical.exercises.length > 0 && (
-                              <div>
-                                <div className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1.5">Exercises</div>
-                                <div className="space-y-2">
-                                  {conditionProtocols[condition.id].clinical.exercises.map((exercise: any, idx: number) => (
-                                    <div key={idx} className="bg-gray-50 p-2.5 rounded border border-gray-200">
-                                      <div className="font-semibold text-gray-900 mb-1 text-xs">{exercise.exercise_name}</div>
-                                      <div className="flex items-center gap-3 text-[11px] text-gray-600">
-                                        <span>Sets: {exercise.custom_sets}</span>
-                                        <span>Reps: {exercise.custom_reps}</span>
-                                        <span>Duration: {exercise.custom_duration_seconds}s</span>
-                                      </div>
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      <div className="border-b border-gray-100 last:border-b-0 px-4 py-2.5 bg-gray-50">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <Package className="h-4 w-4 text-gray-400" />
-                            <span className="text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                              Clinical Protocol
-                            </span>
-                            <span className="text-xs text-gray-500 italic">• Not generated</span>
-                          </div>
-                          <button
-                            onClick={() => handleGenerateProtocol(condition)}
-                            className="text-xs text-purple-600 hover:text-purple-700 font-medium flex items-center gap-1"
-                          >
-                            <Sparkles className="h-3 w-3" />
-                            Generate
-                          </button>
                         </div>
-                      </div>
-                    )}
+                      )
+                    })()}
                   </div>
 
                   {/* Compact Action Buttons */}
@@ -764,7 +865,34 @@ export default function AppointmentDetailsPage() {
                         </button>
                       )}
                     </div>
+
+                    {/* Treatment History Toggle */}
+                    <button
+                      onClick={() => handleToggleHistory(condition)}
+                      className="mt-2 w-full flex items-center justify-center gap-1.5 px-3 py-1.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors text-xs font-medium"
+                    >
+                      <GitBranch className="h-3.5 w-3.5" />
+                      Protocol History
+                      {expandedHistory[condition.id] ? (
+                        <ChevronUp className="h-3 w-3 ml-1" />
+                      ) : (
+                        <ChevronDown className="h-3 w-3 ml-1" />
+                      )}
+                    </button>
                   </div>
+
+                  {/* Treatment History Panel */}
+                  {expandedHistory[condition.id] && (
+                    <div className="border-t border-gray-200">
+                      <TreatmentHistoryViewer
+                        history={conditionHistory[condition.patient_condition_id]?.data || []}
+                        loading={conditionHistory[condition.patient_condition_id]?.loading || false}
+                        onCompare={(currentId, previousId) => {
+                          dispatch(compareProtocolVersions({ currentId, previousId }))
+                        }}
+                      />
+                    </div>
+                  )}
                 </div>
               ))
             )}
