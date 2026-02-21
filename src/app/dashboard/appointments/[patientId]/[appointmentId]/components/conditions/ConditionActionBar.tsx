@@ -1,14 +1,13 @@
 'use client'
 
 import React from 'react'
-import { Sparkles, Brain } from 'lucide-react'
+import { Sparkles } from 'lucide-react'
 
 interface ConditionActionBarProps {
   hasProtocol: boolean
   hasUnusedInsights?: boolean
   unusedInsightsCount?: number
   onGenerateFromInsights?: () => void
-  onAddInsight?: () => void
   loading?: boolean
 }
 
@@ -17,11 +16,12 @@ export default function ConditionActionBar({
   hasUnusedInsights = false,
   unusedInsightsCount = 0,
   onGenerateFromInsights,
-  onAddInsight,
   loading = false
 }: ConditionActionBarProps) {
   const showGenerateCTA = hasUnusedInsights && unusedInsightsCount > 0 && !hasProtocol
   const showUpdateCTA = hasProtocol && hasUnusedInsights && unusedInsightsCount > 0
+
+  if (!showGenerateCTA && !showUpdateCTA) return null
 
   return (
     <div className="px-4 py-3 bg-white border-t border-gray-100 flex items-center gap-2">
@@ -47,26 +47,6 @@ export default function ConditionActionBar({
           <Sparkles className="h-4 w-4" />
           Update Protocol ({unusedInsightsCount} new insight{unusedInsightsCount !== 1 ? 's' : ''})
         </button>
-      )}
-
-      {/* Add Insight — always visible */}
-      {onAddInsight && (
-        <button
-          onClick={onAddInsight}
-          className={`flex items-center justify-center gap-2 px-4 py-2.5 text-brand-teal border border-brand-light-teal rounded-xl hover:bg-teal-50 transition-colors text-sm font-medium ${
-            !showGenerateCTA && !showUpdateCTA ? 'flex-1' : ''
-          }`}
-        >
-          <Brain className="h-4 w-4" />
-          Add Insight
-        </button>
-      )}
-
-      {/* Hint when no data at all */}
-      {!hasProtocol && !hasUnusedInsights && !onAddInsight && (
-        <p className="text-xs text-gray-500 text-center w-full">
-          Add clinical insights to generate a treatment protocol
-        </p>
       )}
     </div>
   )

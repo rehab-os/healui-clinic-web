@@ -1,11 +1,10 @@
 'use client'
 
-import React, { useState, useMemo } from 'react'
-import { Activity, ChevronDown } from 'lucide-react'
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+import React, { useMemo } from 'react'
+import { Activity } from 'lucide-react'
 import { getTrackingForCondition } from './tracking-data-loader'
 import { useTrackingState } from './useTrackingState'
-import TrackingCategoryTab from './TrackingCategoryTab'
+import TrackingItemRow from './TrackingItemRow'
 
 interface ConditionTrackingPanelProps {
   conditionName: string
@@ -16,8 +15,6 @@ export default function ConditionTrackingPanel({
   conditionName,
   visitConditionId,
 }: ConditionTrackingPanelProps) {
-  const [expanded, setExpanded] = useState(false)
-
   const tracking = useMemo(() => getTrackingForCondition(conditionName), [conditionName])
 
   const totalCount = useMemo(
@@ -27,28 +24,9 @@ export default function ConditionTrackingPanel({
 
   const { values, setValue, filledCount } = useTrackingState(visitConditionId, totalCount)
 
-  // Find default tab: "essential" if exists, else first category
-  const defaultTab = useMemo(() => {
-    if (!tracking) return ''
-    const essential = tracking.categories.find(c => c.key === 'essential')
-    return essential ? essential.key : tracking.categories[0]?.key || ''
-  }, [tracking])
-
-  // Empty state — condition not in tracking data
-  if (!tracking) {
-    return (
-      <div className="px-5 py-3 border-b border-gray-100">
-        <div className="flex items-center gap-2">
-          <Activity className="h-4 w-4 text-gray-300" />
-          <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Tracking</span>
-          <span className="text-xs text-gray-300 italic">No tracking items for this condition</span>
-        </div>
-      </div>
-    )
-  }
-
   // Count filled per category
   const categoryFilledCounts = useMemo(() => {
+    if (!tracking) return {}
     const counts: Record<string, number> = {}
     for (const cat of tracking.categories) {
       counts[cat.key] = cat.items.filter(item => {
@@ -63,54 +41,79 @@ export default function ConditionTrackingPanel({
     return counts
   }, [tracking, values])
 
+  // Empty state
+  if (!tracking) {
+    return (
+      <div className="bg-white rounded-xl border border-gray-200 shadow-sm">
+        <div className="px-5 py-4 flex items-center gap-2">
+          <Activity className="h-4 w-4 text-gray-300" />
+          <span className="text-sm font-semibold text-gray-400">Tracking</span>
+          <span className="text-xs text-gray-300 italic">No tracking items for this condition</span>
+        </div>
+      </div>
+    )
+  }
+
+  const progressPercent = totalCount > 0 ? (filledCount / totalCount) * 100 : 0
+
   return (
-    <div className="border-b border-gray-200">
-      {/* Header — clickable to expand/collapse */}
-      <button
-        onClick={() => setExpanded(!expanded)}
-        className="w-full px-5 py-2.5 flex items-center justify-between hover:bg-gray-50 transition-colors"
-      >
-        <div className="flex items-center gap-2">
-          <Activity className="h-4 w-4 text-teal-600" />
-          <span className="text-xs font-semibold text-gray-600 uppercase tracking-wider">Tracking</span>
-          <span className="text-xs text-gray-500">
-            {filledCount}/{totalCount} items recorded
-          </span>
+    <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+      {/* Header with progress bar */}
+      <div className="px-5 py-3.5 border-b border-gray-100">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <Activity className="h-4 w-4 text-teal-600" />
+            <span className="text-sm font-semibold text-gray-900">Tracking</span>
+            <span className="text-xs text-gray-400 font-medium">
+              {filledCount}/{totalCount}
+            </span>
+          </div>
+          {/* Progress bar */}
+          <div className="flex items-center gap-2">
+            <div className="w-20 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-teal-500 rounded-full transition-all duration-300"
+                style={{ width: `${progressPercent}%` }}
+              />
+            </div>
+            {filledCount === totalCount && totalCount > 0 && (
+              <span className="text-[10px] font-medium text-teal-600">Complete</span>
+            )}
+          </div>
         </div>
-        <ChevronDown className={`h-4 w-4 text-gray-400 transition-transform ${expanded ? 'rotate-180' : ''}`} />
-      </button>
+      </div>
 
-      {/* Content — collapsed by default */}
-      {expanded && (
-        <div className="px-5 pb-4">
-          <Tabs defaultValue={defaultTab} className="gap-0">
-            <TabsList className="h-auto p-0.5 bg-gray-100 rounded-lg w-full flex-wrap">
-              {tracking.categories.map(cat => (
-                <TabsTrigger
-                  key={cat.key}
-                  value={cat.key}
-                  className="text-xs px-2.5 py-1.5 data-[state=active]:bg-white data-[state=active]:text-teal-700 data-[state=active]:shadow-sm rounded-md"
-                >
+      {/* Flat grouped list */}
+      <div>
+        {tracking.categories.map(cat => {
+          if (cat.items.length === 0) return null
+          const filled = categoryFilledCounts[cat.key] || 0
+          return (
+            <div key={cat.key}>
+              {/* Category divider */}
+              <div className="px-5 py-2 bg-gray-50/70 border-y border-gray-100 flex items-center justify-between">
+                <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">
                   {cat.displayName}
-                  <span className="ml-1 text-[10px] text-gray-400 data-[state=active]:text-teal-600">
-                    {categoryFilledCounts[cat.key] || 0}/{cat.items.length}
-                  </span>
-                </TabsTrigger>
-              ))}
-            </TabsList>
-
-            {tracking.categories.map(cat => (
-              <TabsContent key={cat.key} value={cat.key} className="mt-2">
-                <TrackingCategoryTab
-                  items={cat.items}
-                  values={values}
-                  onValueChange={setValue}
-                />
-              </TabsContent>
-            ))}
-          </Tabs>
-        </div>
-      )}
+                </span>
+                <span className="text-[11px] text-gray-300 font-medium">
+                  {filled}/{cat.items.length}
+                </span>
+              </div>
+              {/* Items */}
+              <div className="divide-y divide-gray-50">
+                {cat.items.map(item => (
+                  <TrackingItemRow
+                    key={item.key}
+                    item={item}
+                    value={values[item.key]}
+                    onChange={(val) => setValue(item.key, val)}
+                  />
+                ))}
+              </div>
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }

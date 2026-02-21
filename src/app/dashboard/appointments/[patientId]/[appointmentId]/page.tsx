@@ -20,10 +20,10 @@ import {
 } from '@/store/slices/appointmentDetails.slice'
 import { Toaster, toast } from 'sonner'
 import ApiManager from '@/services/api/api.service'
-import { Brain, Lightbulb, FileText } from 'lucide-react'
+import { FileText } from 'lucide-react'
 import { format } from 'date-fns'
 import NutritionSuggestions from '@/components/features/nutrition/NutritionSuggestions'
-import AddInsightModal from './components/AddInsightModal'
+import InlineFindingInput from './components/conditions/InlineFindingInput'
 import AddNoteModal from './components/AddNoteModal'
 import EnhancedPatientDetailsModal from '@/components/features/patients/EnhancedPatientDetailsModal'
 import ProtocolGeneratorModal from '@/components/features/conditions/ProtocolGeneratorModal'
@@ -42,7 +42,7 @@ import InsightsTimeline, { CollapsibleSection } from './components/layout/Insigh
 
 // Condition components
 import ConditionCard from './components/conditions/ConditionCard'
-import ConditionProtocolViewer from './components/conditions/ConditionProtocolViewer'
+import ConditionProtocolSummary from './components/conditions/ConditionProtocolSummary'
 import ConditionActionBar from './components/conditions/ConditionActionBar'
 import ConditionTrackingPanel from './components/tracking/ConditionTrackingPanel'
 
@@ -76,9 +76,6 @@ export default function AppointmentDetailsPage() {
 
   // Modal states
   const [visitNoteModalOpen, setVisitNoteModalOpen] = useState(false)
-  const [insightModal, setInsightModal] = useState<{
-    open: boolean; conditionId: string | null; conditionName: string; patientConditionId: string | null
-  }>({ open: false, conditionId: null, conditionName: '', patientConditionId: null })
   const [noteModal, setNoteModal] = useState<{
     open: boolean; visitConditionId: string | null; conditionName: string | null
   }>({ open: false, visitConditionId: null, conditionName: null })
@@ -246,32 +243,6 @@ export default function AppointmentDetailsPage() {
     const m = today.getMonth() - birthDate.getMonth()
     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) age--
     return age
-  }
-
-  const handleAddInsight = async (data: any) => {
-    if (!insightModal.patientConditionId) return
-    try {
-      await dispatch(addClinicalInsight({
-        patientConditionId: insightModal.patientConditionId,
-        data: {
-          ...data,
-          visit_id: appointment.id,
-          visit_condition_id: insightModal.conditionId,
-        },
-      })).unwrap()
-      // Toast handled by AddInsightModal
-    } catch (error: any) {
-      toast.error(error.message || 'Failed to add insight')
-      throw error
-    }
-  }
-
-  const openInsightModal = (condition: any) => {
-    setInsightModal({ open: true, conditionId: condition.id, conditionName: condition.condition_name, patientConditionId: condition.patient_condition_id })
-  }
-
-  const closeInsightModal = () => {
-    setInsightModal({ open: false, conditionId: null, conditionName: '', patientConditionId: null })
   }
 
   const openConditionNoteModal = (condition: any) => {
@@ -473,37 +444,34 @@ export default function AppointmentDetailsPage() {
               >
                 {activeCondition && (
                   <>
+                    {/* Compact condition overview */}
                     <ConditionCard
                       condition={activeCondition}
                       visitChiefComplaint={appointment.chief_complaint}
                       onDischarge={() => handleDischargeCondition(activeCondition)}
                       onReactivate={() => handleReactivateCondition(activeCondition)}
                     >
-                      <ConditionProtocolViewer
-                        protocolType="home"
-                        protocol={currentHomeProtocol || previousHomeProtocol}
-                        isFromPreviousVisit={!currentHomeProtocol && !!previousHomeProtocol}
+                      <ConditionProtocolSummary
+                        homeProtocol={currentHomeProtocol || previousHomeProtocol}
+                        clinicalProtocol={currentClinicalProtocol || previousClinicalProtocol}
+                        isHomePrevious={!currentHomeProtocol && !!previousHomeProtocol}
+                        isClinicalPrevious={!currentClinicalProtocol && !!previousClinicalProtocol}
                         onGenerateNew={() => handleGenerateProtocol(activeCondition)}
                         onViewHistory={() => handleToggleHistory(activeCondition)}
                       />
-                      <ConditionProtocolViewer
-                        protocolType="clinical"
-                        protocol={currentClinicalProtocol || previousClinicalProtocol}
-                        isFromPreviousVisit={!currentClinicalProtocol && !!previousClinicalProtocol}
-                        onGenerateNew={() => handleGenerateProtocol(activeCondition)}
-                      />
-                      <ConditionTrackingPanel
-                        conditionName={activeCondition.condition_name}
-                        visitConditionId={activeCondition.id}
-                      />
                     </ConditionCard>
+
+                    {/* Primary work surface — tracking always visible */}
+                    <ConditionTrackingPanel
+                      conditionName={activeCondition.condition_name}
+                      visitConditionId={activeCondition.id}
+                    />
 
                     <ConditionActionBar
                       hasProtocol={!!currentHomeProtocol || !!currentClinicalProtocol}
                       hasUnusedInsights={activeUnusedInsights.length > 0}
                       unusedInsightsCount={activeUnusedInsights.length}
                       onGenerateFromInsights={() => handleGenerateProtocol(activeCondition)}
-                      onAddInsight={() => openInsightModal(activeCondition)}
                     />
 
                     {/* Treatment History (expandable below condition) */}
@@ -524,16 +492,29 @@ export default function AppointmentDetailsPage() {
             {/* RIGHT: Sidebar (40%) */}
             <div className="lg:col-span-2">
               <InsightsTimeline>
-                {/* Action Buttons — single canonical location */}
+                {/* Quick Observation — always visible at sidebar top */}
+                {activeCondition && (
+                  <div className="px-4 py-3 border-b border-gray-100 bg-teal-50/30">
+                    <InlineFindingInput
+                      label="Quick Observation"
+                      onSubmit={async (text) => {
+                        await dispatch(addClinicalInsight({
+                          patientConditionId: activeCondition.patient_condition_id,
+                          data: {
+                            insight_text: text,
+                            insight_type: 'OBSERVATION',
+                            visit_id: appointment.id,
+                            visit_condition_id: activeCondition.id,
+                          },
+                        })).unwrap()
+                      }}
+                    />
+                  </div>
+                )}
+
+                {/* Action Buttons */}
                 {activeCondition && (
                   <div className="flex gap-1.5 px-4 py-2.5 border-b border-gray-100">
-                    <button
-                      onClick={() => openInsightModal(activeCondition)}
-                      className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium text-brand-teal bg-teal-50 rounded-lg hover:bg-teal-100 transition-colors"
-                    >
-                      <Brain className="h-3.5 w-3.5" />
-                      Insight
-                    </button>
                     <button
                       onClick={() => openConditionNoteModal(activeCondition)}
                       className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium text-brand-teal border border-brand-light-teal rounded-lg hover:bg-teal-50 transition-colors"
@@ -683,14 +664,6 @@ export default function AppointmentDetailsPage() {
       </div>
 
       {/* ── Modals ────────────────────────────────────────────── */}
-
-      <AddInsightModal
-        open={insightModal.open}
-        onClose={closeInsightModal}
-        onSubmit={handleAddInsight}
-        conditionName={insightModal.conditionName}
-        visitId={appointment.id}
-      />
 
       <AddNoteModal
         open={noteModal.open}

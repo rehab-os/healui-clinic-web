@@ -16,7 +16,7 @@ export default function TrackingItemRow({ item, value, onChange }: TrackingItemR
   const direction = definition.direction
 
   return (
-    <div className="flex items-center gap-2 py-2 px-1 group">
+    <div className="flex items-center gap-2 py-2 px-5 group hover:bg-gray-50/50 transition-colors">
       {/* Priority star */}
       <div className="w-3.5 flex-shrink-0">
         {isPriority && <Star className="h-3 w-3 text-amber-400 fill-amber-400" />}

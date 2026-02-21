@@ -62,7 +62,7 @@ export default function ConditionCard({
   const showChiefComplaint = condition.chief_complaint && condition.chief_complaint !== visitChiefComplaint
 
   return (
-    <div className={`bg-white border-l-4 border border-gray-200 shadow-sm ${
+    <div className={`bg-white border-l-4 border border-gray-200 shadow-sm rounded-xl overflow-hidden ${
       isPrimary ? 'border-l-brand-teal' : 'border-l-teal-300'
     }`}>
       {/* Condition Header — compact */}
