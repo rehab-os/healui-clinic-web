@@ -39,6 +39,7 @@ export default function TrackingItemRow({ item, value, onChange }: TrackingItemR
           value={value}
           onChange={onChange}
           definition={definition}
+          itemKey={item.key}
         />
       </div>
 

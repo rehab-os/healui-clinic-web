@@ -63,4 +63,5 @@ export interface TrackingInputProps {
   onChange: (value: TrackingValue) => void
   definition: TrackingItemDefinition
   disabled?: boolean
+  itemKey?: string
 }
