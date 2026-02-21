@@ -339,7 +339,12 @@ export const appointmentDetailsSlice = createSlice({
       })
       .addCase(fetchClinicalInsights.fulfilled, (state, action) => {
         state.loading.clinicalInsights = false
-        state.clinicalInsights = action.payload
+        // Backend returns { insights: [...], total } — normalize to { data: [...], total }
+        const payload = action.payload
+        state.clinicalInsights = {
+          data: payload.insights || payload.data || [],
+          total: payload.total || 0,
+        }
       })
       .addCase(fetchClinicalInsights.rejected, (state, action) => {
         state.loading.clinicalInsights = false

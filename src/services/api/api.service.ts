@@ -626,6 +626,16 @@ class ApiManager {
         return ApiMethods.post(url, data)
     }
 
+    static getVisitNotes = (visitId: string) => {
+        const url = BASE_URL + ENDPOINTS.GET_VISIT_NOTES(visitId)
+        return ApiMethods.get(url)
+    }
+
+    static getVisitConditionNotes = (visitConditionId: string) => {
+        const url = BASE_URL + ENDPOINTS.GET_VISIT_CONDITION_NOTES(visitConditionId)
+        return ApiMethods.get(url)
+    }
+
     // Physiotherapist Profile
     static getPhysiotherapistProfile = () => {
         const url = BASE_URL + ENDPOINTS.GET_PHYSIOTHERAPIST_PROFILE()

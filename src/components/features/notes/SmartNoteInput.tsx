@@ -197,8 +197,8 @@ export default function SmartNoteInput({
         treatment_details: {},
         goals: {},
         outcome_measures: {},
-        // Add visit condition if selected
-        ...(useConditionMode && selectedVisitConditionId && {
+        // Add visit condition if selected or pre-selected by caller
+        ...((useConditionMode || preSelectedVisitConditionId) && selectedVisitConditionId && {
           visit_condition_id: selectedVisitConditionId
         })
       };

@@ -1,42 +1,26 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import {
   fetchAppointmentDetails,
   fetchVisitConditions,
   fetchClinicalInsights,
-  fetchTreatmentHistory,
-  fetchDietaryProfile,
-  fetchAllContraindications,
   addClinicalInsight,
-  updateVisitConditionPhaseGoals,
-  generateDietaryProfile,
-  addContraindication,
   compareProtocolVersions,
   selectAppointment,
   selectPatient,
   selectVisitConditions,
   selectClinicalInsights,
   selectUnusedInsights,
-  selectTreatmentHistory,
-  selectVersionComparison,
-  selectDietaryProfile,
-  selectContraindications,
   selectLoadingStates,
   selectErrors,
   setPatient,
-  clearVersionComparison,
 } from '@/store/slices/appointmentDetails.slice'
 import { Toaster, toast } from 'sonner'
 import ApiManager from '@/services/api/api.service'
-import {
-  ArrowLeft, User, Calendar, Clock, Stethoscope, Activity,
-  FileText, Heart, Brain, Target, Plus, ChevronRight, AlertCircle,
-  TrendingUp, Package, Utensils, History, ChevronDown, ChevronUp,
-  Sparkles, LogOut, Check, Edit, X, Download, GitBranch
-} from 'lucide-react'
+import { Brain, Lightbulb, FileText } from 'lucide-react'
 import { format } from 'date-fns'
 import NutritionSuggestions from '@/components/features/nutrition/NutritionSuggestions'
 import AddInsightModal from './components/AddInsightModal'
@@ -45,12 +29,22 @@ import EnhancedPatientDetailsModal from '@/components/features/patients/Enhanced
 import ProtocolGeneratorModal from '@/components/features/conditions/ProtocolGeneratorModal'
 import DischargeConditionDialog from '@/components/features/conditions/DischargeConditionDialog'
 import TreatmentHistoryViewer from './components/history/TreatmentHistoryViewer'
-import { generatePatientReport } from '@/lib/utils/patientReportGenerator'
+import InsightTimelineItem from './components/insights/InsightTimelineItem'
+import PreviousVisitsPanel from './components/visits/PreviousVisitsPanel'
+import { pdf } from '@react-pdf/renderer'
+import ClinicalReportPDF from '@/components/pdf/documents/ClinicalReportPDF'
 
-/**
- * Compact EMR Appointment Details Page
- * Features floating panels and optimized space usage
- */
+// Layout components
+import AppointmentPageShell from './components/layout/AppointmentPageShell'
+import PatientVisitHeader from './components/layout/PatientVisitHeader'
+import ConditionsSection from './components/layout/ConditionsSection'
+import InsightsTimeline, { CollapsibleSection } from './components/layout/InsightsTimeline'
+
+// Condition components
+import ConditionCard from './components/conditions/ConditionCard'
+import ConditionProtocolViewer from './components/conditions/ConditionProtocolViewer'
+import ConditionActionBar from './components/conditions/ConditionActionBar'
+
 export default function AppointmentDetailsPage() {
   const params = useParams()
   const router = useRouter()
@@ -62,86 +56,60 @@ export default function AppointmentDetailsPage() {
   const visitConditions = useAppSelector(selectVisitConditions)
   const clinicalInsights = useAppSelector(selectClinicalInsights)
   const unusedInsights = useAppSelector(selectUnusedInsights)
-  const treatmentHistory = useAppSelector(selectTreatmentHistory)
-  const versionComparison = useAppSelector(selectVersionComparison)
-  const dietaryProfile = useAppSelector(selectDietaryProfile)
-  const contraindications = useAppSelector(selectContraindications)
   const loading = useAppSelector(selectLoadingStates)
   const errors = useAppSelector(selectErrors)
+  const userClinic = useAppSelector(state => state.user.currentClinic)
+  const clinicSlice = useAppSelector(state => state.clinic)
+  const currentClinic = clinicSlice.clinics.find(c => c.id === userClinic?.id) || clinicSlice.currentClinic
 
-  // Local UI state
-  const [expandedProtocols, setExpandedProtocols] = useState<Record<string, boolean>>({})
+  // Local state: condition focus
+  const [activeConditionId, setActiveConditionId] = useState<string | null>(null)
+
+  // Protocol & history data
   const [conditionProtocols, setConditionProtocols] = useState<Record<string, any>>({})
+  const [expandedHistory, setExpandedHistory] = useState<Record<string, boolean>>({})
+  const [conditionHistory, setConditionHistory] = useState<Record<string, { data: any[]; loading: boolean }>>({})
   const [patientVisits, setPatientVisits] = useState<any[]>([])
   const [nutritionData, setNutritionData] = useState<any>(null)
-  const [expandedHistory, setExpandedHistory] = useState<Record<string, boolean>>({})
-  const [conditionHistory, setConditionHistory] = useState<Record<string, { data: any[], loading: boolean }>>({})
-
-
-  // Floating panel states
-  const [showVisitHistory, setShowVisitHistory] = useState(false)
-  const [showNutrition, setShowNutrition] = useState(false)
-  const [visitNoteModalOpen, setVisitNoteModalOpen] = useState(false)
+  const [visitNotes, setVisitNotes] = useState<{ notes: any[]; loading: boolean }>({ notes: [], loading: false })
 
   // Modal states
+  const [visitNoteModalOpen, setVisitNoteModalOpen] = useState(false)
   const [insightModal, setInsightModal] = useState<{
-    open: boolean
-    conditionId: string | null
-    conditionName: string
-    patientConditionId: string | null
-  }>({
-    open: false,
-    conditionId: null,
-    conditionName: '',
-    patientConditionId: null
-  })
-
+    open: boolean; conditionId: string | null; conditionName: string; patientConditionId: string | null
+  }>({ open: false, conditionId: null, conditionName: '', patientConditionId: null })
   const [noteModal, setNoteModal] = useState<{
-    open: boolean
-    visitConditionId: string | null
-    conditionName: string | null
-  }>({
-    open: false,
-    visitConditionId: null,
-    conditionName: null
-  })
-
+    open: boolean; visitConditionId: string | null; conditionName: string | null
+  }>({ open: false, visitConditionId: null, conditionName: null })
   const [showPatientDetailsModal, setShowPatientDetailsModal] = useState(false)
-
-  // Protocol & Discharge states
   const [showProtocolGenerator, setShowProtocolGenerator] = useState(false)
   const [selectedConditionForProtocol, setSelectedConditionForProtocol] = useState<{
-    conditionId: string
-    conditionName: string
-    patientConditionId: string
+    conditionId: string; conditionName: string; patientConditionId: string
   } | null>(null)
   const [showDischargeDialog, setShowDischargeDialog] = useState(false)
   const [conditionToDischarge, setConditionToDischarge] = useState<any>(null)
 
-  // Fetch initial data
+  // ── Data fetching ──────────────────────────────────────────────
+
   useEffect(() => {
     if (params.appointmentId && params.patientId) {
       dispatch(fetchAppointmentDetails({
         patientId: params.patientId as string,
-        appointmentId: params.appointmentId as string
+        appointmentId: params.appointmentId as string,
       }))
     }
   }, [params.appointmentId, params.patientId, dispatch])
 
-  // Fetch visit conditions
   useEffect(() => {
     if (appointment?.id) {
       dispatch(fetchVisitConditions(appointment.id))
     }
   }, [appointment?.id, dispatch])
 
-  // Fetch patient data
   useEffect(() => {
     const fetchPatient = async () => {
       if (appointment?.visit_source === 'MARKETPLACE') {
-        if (appointment.patientUser) {
-          dispatch(setPatient(appointment.patientUser))
-        }
+        if (appointment.patientUser) dispatch(setPatient(appointment.patientUser))
       } else if (appointment?.patient_id) {
         const response = await ApiManager.getPatient(appointment.patient_id)
         if (response.success && response.data) {
@@ -150,237 +118,237 @@ export default function AppointmentDetailsPage() {
         }
       }
     }
-    if (appointment) {
-      fetchPatient()
-    }
+    if (appointment) fetchPatient()
   }, [appointment, dispatch])
 
-  // Fetch patient visits
   const fetchPatientVisits = async (patientId: string) => {
     try {
       const response = await ApiManager.getPatientVisits(patientId)
-      if (response.success && response.data) {
-        setPatientVisits(response.data.visits || [])
-      }
+      if (response.success && response.data) setPatientVisits(response.data.visits || [])
     } catch (error) {
       console.error('Failed to fetch patient visits:', error)
     }
   }
 
-  // Fetch protocols for this visit
   useEffect(() => {
     const fetchProtocols = async () => {
       if (!params.appointmentId) return
-
       try {
-        const response = await ApiManager.getTreatmentProtocols({
-          visit_id: params.appointmentId as string
-        })
-
+        const response = await ApiManager.getTreatmentProtocols({ visit_id: params.appointmentId as string })
         if (response.success && response.data) {
           const protocols = response.data.protocols || response.data || []
           const protocolMap: Record<string, { home?: any; clinical?: any }> = {}
-
           protocols.forEach((protocol: any) => {
-            let matchingCondition = visitConditions.find(vc =>
-              protocol.visit_condition_id && vc.id === protocol.visit_condition_id
-            )
-
-            if (!matchingCondition && protocol.patient_condition_id) {
-              matchingCondition = visitConditions.find(vc =>
-                vc.patient_condition_id === protocol.patient_condition_id
-              )
-            }
-
-            if (!matchingCondition && protocol.condition_id) {
-              matchingCondition = visitConditions.find(vc =>
-                vc.condition_id === protocol.condition_id
-              )
-            }
-
-            if (matchingCondition) {
-              if (!protocolMap[matchingCondition.id]) {
-                protocolMap[matchingCondition.id] = {}
-              }
-              const protocolType = protocol.protocol_type || 'home'
-              protocolMap[matchingCondition.id][protocolType] = protocol
+            let match = visitConditions.find(vc => protocol.visit_condition_id && vc.id === protocol.visit_condition_id)
+            if (!match && protocol.patient_condition_id) match = visitConditions.find(vc => vc.patient_condition_id === protocol.patient_condition_id)
+            if (!match && protocol.condition_id) match = visitConditions.find(vc => vc.condition_id === protocol.condition_id)
+            if (match) {
+              if (!protocolMap[match.id]) protocolMap[match.id] = {}
+              protocolMap[match.id][protocol.protocol_type || 'home'] = protocol
             }
           })
-
           setConditionProtocols(protocolMap)
         }
       } catch (error) {
         console.error('Failed to fetch protocols:', error)
       }
     }
-
-    if (params.appointmentId && visitConditions.length > 0) {
-      fetchProtocols()
-    }
+    if (params.appointmentId && visitConditions.length > 0) fetchProtocols()
   }, [params.appointmentId, visitConditions])
 
-  // Calculate age for nutrition
+  // Auto-select first condition (PRIMARY priority)
+  useEffect(() => {
+    if (visitConditions.length > 0 && !activeConditionId) {
+      const primary = visitConditions.find(vc => vc.treatment_focus === 'PRIMARY')
+      setActiveConditionId(primary?.id || visitConditions[0].id)
+    }
+  }, [visitConditions, activeConditionId])
+
+  // Fetch clinical insights when active condition changes
+  useEffect(() => {
+    const vc = visitConditions.find(c => c.id === activeConditionId)
+    if (vc?.patient_condition_id) {
+      dispatch(fetchClinicalInsights({ patientConditionId: vc.patient_condition_id }))
+    }
+  }, [activeConditionId, visitConditions, dispatch])
+
+  // Fetch visit notes when appointment loads
+  useEffect(() => {
+    if (!appointment?.id) return
+    setVisitNotes(prev => ({ ...prev, loading: true }))
+    ApiManager.getVisitNotes(appointment.id)
+      .then(response => {
+        if (response.success && response.data) {
+          setVisitNotes({ notes: response.data.notes || [], loading: false })
+        } else {
+          setVisitNotes({ notes: [], loading: false })
+        }
+      })
+      .catch(() => setVisitNotes({ notes: [], loading: false }))
+  }, [appointment?.id])
+
+  // ── Derived data ───────────────────────────────────────────────
+
+  const activeCondition = useMemo(
+    () => visitConditions.find(vc => vc.id === activeConditionId) || null,
+    [visitConditions, activeConditionId]
+  )
+
+  // All insights for the active patient_condition (fetched via Redux)
+  const allInsights: any[] = clinicalInsights?.data || []
+
+  // All insights for active condition (already scoped by patient_condition_id via fetchClinicalInsights)
+  const activeConditionInsights = allInsights
+
+  const activeUnusedInsights = useMemo(
+    () => (unusedInsights || []).filter((i: any) => {
+      const pcId = activeCondition?.patient_condition_id
+      return pcId && i.patient_condition_id === pcId
+    }),
+    [unusedInsights, activeCondition?.patient_condition_id]
+  )
+
+  // Notes filtered to active condition (condition-specific notes + visit-level notes)
+  const activeConditionNotes = useMemo(
+    () => visitNotes.notes.filter((n: any) => n.visit_condition_id === activeConditionId),
+    [visitNotes.notes, activeConditionId]
+  )
+
+  const visitLevelNotes = useMemo(
+    () => visitNotes.notes.filter((n: any) => !n.visit_condition_id),
+    [visitNotes.notes]
+  )
+
+  // All notes for sidebar (condition + visit-level)
+  const allNotes = useMemo(
+    () => [...activeConditionNotes, ...visitLevelNotes].sort(
+      (a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    ),
+    [activeConditionNotes, visitLevelNotes]
+  )
+
+  // Insights sorted newest first (already scoped to condition via fetchClinicalInsights)
+  const sortedInsights = useMemo(
+    () => [...activeConditionInsights].sort(
+      (a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    ),
+    [activeConditionInsights]
+  )
+
+  // ── Handlers ───────────────────────────────────────────────────
+
   const calculateAge = (dob: string) => {
     if (!dob) return null
     const today = new Date()
     const birthDate = new Date(dob)
     let age = today.getFullYear() - birthDate.getFullYear()
-    const monthDiff = today.getMonth() - birthDate.getMonth()
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-      age--
-    }
+    const m = today.getMonth() - birthDate.getMonth()
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) age--
     return age
   }
 
-  // Get status badge style
-  const getStatusBadge = (status: string) => {
-    const styles = {
-      SCHEDULED: 'bg-blue-100 text-blue-800 border-blue-200',
-      CHECKED_IN: 'bg-purple-100 text-purple-800 border-purple-200',
-      IN_PROGRESS: 'bg-amber-100 text-amber-800 border-amber-200',
-      COMPLETED: 'bg-green-100 text-green-800 border-green-200',
-      CANCELLED: 'bg-red-100 text-red-800 border-red-200',
-      NO_SHOW: 'bg-gray-100 text-gray-800 border-gray-200',
-    }
-    return styles[status as keyof typeof styles] || 'bg-gray-100 text-gray-800 border-gray-200'
-  }
-
-  // Get condition border color based on focus
-  const getConditionBorderColor = (treatmentFocus: string) => {
-    return treatmentFocus === 'PRIMARY' ? 'border-l-brand-teal' : 'border-l-purple-500'
-  }
-
-  // Handler: Add clinical insight
   const handleAddInsight = async (data: any) => {
     if (!insightModal.patientConditionId) return
     try {
-      const response = await ApiManager.addClinicalInsight(insightModal.patientConditionId, {
-        ...data,
-        visit_id: appointment.id,
-        visit_condition_id: insightModal.conditionId
-      })
-      if (response.success) {
-        toast.success('Clinical insight added successfully')
-      }
+      await dispatch(addClinicalInsight({
+        patientConditionId: insightModal.patientConditionId,
+        data: {
+          ...data,
+          visit_id: appointment.id,
+          visit_condition_id: insightModal.conditionId,
+        },
+      })).unwrap()
+      // Toast handled by AddInsightModal
     } catch (error: any) {
       toast.error(error.message || 'Failed to add insight')
       throw error
     }
   }
 
-  // Handler: Open insight modal
   const openInsightModal = (condition: any) => {
-    setInsightModal({
-      open: true,
-      conditionId: condition.id,
-      conditionName: condition.condition_name,
-      patientConditionId: condition.patient_condition_id
-    })
+    setInsightModal({ open: true, conditionId: condition.id, conditionName: condition.condition_name, patientConditionId: condition.patient_condition_id })
   }
 
-  // Handler: Close insight modal
   const closeInsightModal = () => {
-    setInsightModal({
-      open: false,
-      conditionId: null,
-      conditionName: '',
-      patientConditionId: null
-    })
+    setInsightModal({ open: false, conditionId: null, conditionName: '', patientConditionId: null })
   }
 
-  // Handler: Open condition note modal
   const openConditionNoteModal = (condition: any) => {
-    setNoteModal({
-      open: true,
-      visitConditionId: condition.id,
-      conditionName: condition.condition_name
-    })
+    setNoteModal({ open: true, visitConditionId: condition.id, conditionName: condition.condition_name })
   }
 
-  // Handler: Close note modal
   const closeNoteModal = () => {
-    setNoteModal({
-      open: false,
-      visitConditionId: null,
-      conditionName: null
-    })
+    setNoteModal({ open: false, visitConditionId: null, conditionName: null })
   }
 
-  // Handler: Note success
   const handleNoteSuccess = () => {
     toast.success('Note added successfully')
+    // Refresh visit notes to show the new note in sidebar
+    if (appointment?.id) {
+      ApiManager.getVisitNotes(appointment.id)
+        .then(response => {
+          if (response.success && response.data) {
+            setVisitNotes({ notes: response.data.notes || [], loading: false })
+          }
+        })
+        .catch(() => {})
+    }
   }
 
-  // Handler: Toggle treatment history for a condition
   const handleToggleHistory = async (condition: any) => {
     const condId = condition.patient_condition_id
-    const isExpanded = expandedHistory[condition.id]
-
-    if (isExpanded) {
+    if (expandedHistory[condition.id]) {
       setExpandedHistory(prev => ({ ...prev, [condition.id]: false }))
       return
     }
-
-    // Show and start loading
     setExpandedHistory(prev => ({ ...prev, [condition.id]: true }))
-
-    // Only fetch if not already loaded
     if (!conditionHistory[condId]) {
       setConditionHistory(prev => ({ ...prev, [condId]: { data: [], loading: true } }))
       try {
         const response = await ApiManager.getTreatmentHistory(condId)
-        if (response.success && response.data) {
-          setConditionHistory(prev => ({
-            ...prev,
-            [condId]: { data: response.data.history || [], loading: false }
-          }))
-        } else {
-          setConditionHistory(prev => ({ ...prev, [condId]: { data: [], loading: false } }))
-        }
-      } catch (error) {
-        console.error('Failed to fetch treatment history:', error)
+        setConditionHistory(prev => ({
+          ...prev, [condId]: { data: response.success && response.data ? response.data.history || [] : [], loading: false },
+        }))
+      } catch {
         setConditionHistory(prev => ({ ...prev, [condId]: { data: [], loading: false } }))
       }
     }
   }
 
-  // Handler: Generate Protocol
   const handleGenerateProtocol = (condition: any) => {
     setSelectedConditionForProtocol({
-      conditionId: condition.id,
-      conditionName: condition.condition_name,
-      patientConditionId: condition.patient_condition_id
+      conditionId: condition.id, conditionName: condition.condition_name, patientConditionId: condition.patient_condition_id,
     })
     setShowProtocolGenerator(true)
   }
 
-  // Handler: Discharge Condition
   const handleDischargeCondition = (condition: any) => {
     setConditionToDischarge(condition)
     setShowDischargeDialog(true)
   }
 
-  // Handler: Discharge Success
   const handleDischargeSuccess = async () => {
     toast.success('Condition discharged successfully')
     setShowDischargeDialog(false)
     setConditionToDischarge(null)
-    if (appointment?.id) {
-      dispatch(fetchVisitConditions(appointment.id))
+    if (appointment?.id) dispatch(fetchVisitConditions(appointment.id))
+  }
+
+  const handleReactivateCondition = async (condition: any) => {
+    try {
+      const response = await ApiManager.reactivateCondition(patient.id, condition.patient_condition_id)
+      if (response.success) {
+        toast.success('Condition reactivated')
+        dispatch(fetchVisitConditions(appointment.id))
+      }
+    } catch {
+      toast.error('Failed to reactivate')
     }
   }
 
-  // Handler: Export PDF Report
   const handleExportPDF = async () => {
     try {
-      // Helper to ensure array format
-      const ensureArray = (value: any) => {
-        if (Array.isArray(value)) return value
-        if (typeof value === 'string') return [value]
-        return []
-      }
-
-      // Prepare data for PDF
+      const ensureArray = (v: any) => Array.isArray(v) ? v : typeof v === 'string' ? [v] : []
       const reportData = {
         patient: {
           full_name: patient.full_name,
@@ -400,677 +368,317 @@ export default function AppointmentDetailsPage() {
           chief_complaint: appointment.chief_complaint,
         },
         clinic: {
-          name: 'HealUI Physiotherapy Clinic', // Replace with actual clinic data
-          address: '123 Health Street, Medical District',
-          phone: '+1 (555) 123-4567',
-          email: 'contact@healui.clinic',
+          name: currentClinic?.name || 'Clinic',
+          address: currentClinic?.address,
+          city: currentClinic?.city,
+          state: currentClinic?.state,
+          pincode: currentClinic?.pincode,
+          phone: currentClinic?.phone,
+          email: currentClinic?.email,
         },
         physiotherapist: {
-          full_name: appointment.physiotherapist?.full_name || 'Dr. Physiotherapist',
-          license_number: 'PT-12345',
+          full_name: appointment.physiotherapist?.full_name || 'Physiotherapist',
+          license_number: appointment.physiotherapist?.license_number,
         },
         visitConditions: visitConditions.map(vc => ({
+          id: vc.id,
           condition_name: vc.condition_name,
           body_region: vc.body_region,
           treatment_focus: vc.treatment_focus,
           chief_complaint: vc.chief_complaint,
           condition: vc.condition,
         })),
-        clinicalInsights: clinicalInsights || [],
+        clinicalInsights: clinicalInsights?.data || [],
         protocols: conditionProtocols,
-        dietaryProfile: dietaryProfile || undefined,
-        contraindications: contraindications || [],
       }
 
-      generatePatientReport(reportData)
+      const blob = await pdf(<ClinicalReportPDF data={reportData} />).toBlob()
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = `${patient.full_name.replace(/\s+/g, '_')}_Clinical_Report_${format(new Date(), 'yyyy-MM-dd')}.pdf`
+      link.click()
+      URL.revokeObjectURL(url)
       toast.success('Patient report generated successfully!')
-    } catch (error) {
-      console.error('Failed to generate PDF:', error)
+    } catch (err) {
+      console.error('PDF generation error:', err)
       toast.error('Failed to generate report. Please try again.')
     }
   }
 
+  const refreshProtocols = async () => {
+    try {
+      const response = await ApiManager.getTreatmentProtocols({ visit_id: params.appointmentId as string })
+      if (response.success && response.data) {
+        const protocols = response.data.protocols || response.data || []
+        const protocolMap: Record<string, { home?: any; clinical?: any }> = {}
+        protocols.forEach((protocol: any) => {
+          let match = visitConditions.find(vc => protocol.visit_condition_id && vc.id === protocol.visit_condition_id)
+          if (!match && protocol.patient_condition_id) match = visitConditions.find(vc => vc.patient_condition_id === protocol.patient_condition_id)
+          if (!match && protocol.condition_id) match = visitConditions.find(vc => vc.condition_id === protocol.condition_id)
+          if (match) {
+            if (!protocolMap[match.id]) protocolMap[match.id] = {}
+            protocolMap[match.id][protocol.protocol_type || 'home'] = protocol
+          }
+        })
+        setConditionProtocols(protocolMap)
+      }
+    } catch (error) {
+      console.error('Failed to refresh protocols:', error)
+    }
+  }
+
+  // ── Loading / Error states ─────────────────────────────────────
+
   if (loading.appointment) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <Activity className="h-12 w-12 text-brand-teal animate-pulse mx-auto mb-3" />
-          <p className="text-gray-600">Loading appointment details...</p>
-        </div>
-      </div>
-    )
+    return <AppointmentPageShell loading />
   }
 
   if (errors.appointment || !appointment || !patient) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center max-w-md">
-          <AlertCircle className="h-16 w-16 text-red-500 mx-auto mb-4" />
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">Failed to load appointment</h2>
-          <p className="text-gray-600 mb-6">{errors.appointment || 'Appointment not found'}</p>
-          <button
-            onClick={() => router.back()}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-teal text-white rounded-lg hover:bg-brand-teal/90 transition-colors font-medium"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Go Back
-          </button>
-        </div>
-      </div>
-    )
+    return <AppointmentPageShell error={errors.appointment || 'Appointment not found'} />
   }
+
+  // ── Active condition protocol helpers ──────────────────────────
+
+  const currentHomeProtocol = activeCondition ? conditionProtocols[activeCondition.id]?.home : null
+  const previousHomeProtocol = activeCondition && !currentHomeProtocol ? activeCondition.condition?.active_home_protocol : null
+  const currentClinicalProtocol = activeCondition ? conditionProtocols[activeCondition.id]?.clinical : null
+  const previousClinicalProtocol = activeCondition && !currentClinicalProtocol ? activeCondition.condition?.active_clinical_protocol : null
+
+  // ── Render ─────────────────────────────────────────────────────
 
   return (
     <>
       <Toaster position="top-right" richColors />
 
-      <div className="min-h-screen bg-gray-50 pb-20">
-        {/* Compact Header */}
-        <div className="bg-white border-b border-gray-200 sticky top-0 z-40 shadow-sm">
-          <div className="max-w-7xl mx-auto px-6 py-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <button
-                  onClick={() => router.back()}
-                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                >
-                  <ArrowLeft className="h-5 w-5 text-gray-600" />
-                </button>
-                <div>
-                  <h1 className="text-2xl font-bold text-gray-900">{patient.full_name}</h1>
-                  <div className="flex items-center gap-3 text-sm text-gray-600 mt-0.5">
-                    <span className="flex items-center gap-1.5">
-                      <Calendar className="h-3.5 w-3.5" />
-                      {format(new Date(appointment.scheduled_date), 'MMM dd, yyyy')}
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                      <Clock className="h-3.5 w-3.5" />
-                      {appointment.scheduled_time}
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                      <Stethoscope className="h-3.5 w-3.5" />
-                      {appointment.visit_type}
-                    </span>
-                    {patient.date_of_birth && (
-                      <span className="flex items-center gap-1.5">
-                        <User className="h-3.5 w-3.5" />
-                        {calculateAge(patient.date_of_birth)}y • {patient.gender === 'M' ? 'Male' : patient.gender === 'F' ? 'Female' : 'Other'}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={handleExportPDF}
-                  className="inline-flex items-center gap-2 px-3.5 py-2 text-sm font-medium text-white bg-gradient-to-r from-brand-teal to-teal-600 hover:from-brand-teal/90 hover:to-teal-600/90 rounded-lg transition-all shadow-sm hover:shadow-md"
-                  title="Export Patient Report"
-                >
-                  <Download className="h-4 w-4" />
-                  Export Report
-                </button>
-                <button
-                  onClick={() => setShowPatientDetailsModal(true)}
-                  className="inline-flex items-center gap-2 px-3.5 py-2 text-sm font-medium text-brand-teal bg-brand-teal/5 hover:bg-brand-teal/10 rounded-lg transition-colors border border-brand-teal/20"
-                >
-                  <User className="h-4 w-4" />
-                  Full Profile
-                </button>
-                <span className={`inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium border ${getStatusBadge(appointment.status)}`}>
-                  {appointment.status.replace('_', ' ')}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div className="min-h-screen bg-brand-light-blue pb-10">
+        <PatientVisitHeader
+          patient={patient}
+          appointment={appointment}
+          onExportPDF={handleExportPDF}
+          onShowFullProfile={() => setShowPatientDetailsModal(true)}
+        />
 
-        {/* Main Content - Full Width */}
         <div className="max-w-7xl mx-auto px-6 py-6">
-          {/* Conditions Grid - 2 Column Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-            {visitConditions.length === 0 ? (
-              <div className="col-span-2 text-center py-20 bg-white rounded-lg border-2 border-dashed border-gray-200">
-                <Stethoscope className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-                <p className="text-gray-600 font-medium mb-1">No conditions added</p>
-                <p className="text-sm text-gray-500">Add conditions to start tracking treatment</p>
-              </div>
-            ) : (
-              visitConditions.map((condition) => (
-                <div
-                  key={condition.id}
-                  className={`bg-white rounded-lg border-l-4 border-t border-r border-b border-gray-200 shadow-sm hover:shadow-md transition-all ${getConditionBorderColor(condition.treatment_focus)}`}
-                >
-                  {/* Compact Condition Header */}
-                  <div className="p-4 border-b border-gray-100">
-                    <div className="flex items-start justify-between mb-2">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1">
-                          <h3 className="font-bold text-gray-900 text-base">
-                            {condition.condition_name}
-                          </h3>
-                          {condition.condition?.status && (
-                            <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border ${
-                              condition.condition.status === 'ACTIVE' ? 'bg-green-50 text-green-700 border-green-200' :
-                              condition.condition.status === 'DISCHARGED' ? 'bg-blue-50 text-blue-700 border-blue-200' :
-                              'bg-gray-50 text-gray-700 border-gray-200'
-                            }`}>
-                              {condition.condition.status}
-                            </span>
-                          )}
-                        </div>
-                        {condition.body_region && (
-                          <span className="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-gray-100 text-gray-700">
-                            {condition.body_region}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                    {condition.chief_complaint && (
-                      <div className="mt-2 p-2.5 bg-amber-50 rounded-lg border border-amber-200">
-                        <p className="text-xs text-gray-800">
-                          "{condition.chief_complaint}"
-                        </p>
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+
+            {/* LEFT: Focused Condition (60%) */}
+            <div className="lg:col-span-3">
+              <ConditionsSection
+                conditions={visitConditions}
+                activeConditionId={activeConditionId}
+                onConditionChange={setActiveConditionId}
+                loading={loading.visitConditions}
+              >
+                {activeCondition && (
+                  <>
+                    <ConditionCard
+                      condition={activeCondition}
+                      visitChiefComplaint={appointment.chief_complaint}
+                      onDischarge={() => handleDischargeCondition(activeCondition)}
+                      onReactivate={() => handleReactivateCondition(activeCondition)}
+                    >
+                      <ConditionProtocolViewer
+                        protocolType="home"
+                        protocol={currentHomeProtocol || previousHomeProtocol}
+                        isFromPreviousVisit={!currentHomeProtocol && !!previousHomeProtocol}
+                        onGenerateNew={() => handleGenerateProtocol(activeCondition)}
+                        onViewHistory={() => handleToggleHistory(activeCondition)}
+                      />
+                      <ConditionProtocolViewer
+                        protocolType="clinical"
+                        protocol={currentClinicalProtocol || previousClinicalProtocol}
+                        isFromPreviousVisit={!currentClinicalProtocol && !!previousClinicalProtocol}
+                        onGenerateNew={() => handleGenerateProtocol(activeCondition)}
+                      />
+                    </ConditionCard>
+
+                    <ConditionActionBar
+                      hasProtocol={!!currentHomeProtocol || !!currentClinicalProtocol}
+                      hasUnusedInsights={activeUnusedInsights.length > 0}
+                      unusedInsightsCount={activeUnusedInsights.length}
+                      onGenerateFromInsights={() => handleGenerateProtocol(activeCondition)}
+                      onAddInsight={() => openInsightModal(activeCondition)}
+                    />
+
+                    {/* Treatment History (expandable below condition) */}
+                    {expandedHistory[activeCondition.id] && (
+                      <div className="mt-3 bg-white rounded-xl border border-gray-200 shadow-sm">
+                        <TreatmentHistoryViewer
+                          history={conditionHistory[activeCondition.patient_condition_id]?.data || []}
+                          loading={conditionHistory[activeCondition.patient_condition_id]?.loading || false}
+                          onCompare={(currentId, previousId) => dispatch(compareProtocolVersions({ currentId, previousId }))}
+                        />
                       </div>
                     )}
-                  </div>
+                  </>
+                )}
+              </ConditionsSection>
+            </div>
 
-                  {/* Compact Protocols */}
-                  <div className="border-b border-gray-100">
-                    {/* Home Protocol */}
-                    {(() => {
-                      const currentProtocol = conditionProtocols[condition.id]?.home
-                      const activeProtocol = !currentProtocol ? condition.condition?.active_home_protocol : null
-                      const protocol = currentProtocol || activeProtocol
-                      const isFromPreviousVisit = !currentProtocol && !!activeProtocol
-
-                      if (protocol) {
-                        return (
-                          <div className={`border-b border-gray-100 last:border-b-0 ${isFromPreviousVisit ? 'border-l-2 border-l-amber-400' : ''}`}>
-                            <button
-                              onClick={() => setExpandedProtocols(prev => ({
-                                ...prev,
-                                [`${condition.id}-home`]: !prev[`${condition.id}-home`]
-                              }))}
-                              className={`w-full px-4 py-2.5 hover:bg-gray-100 transition-colors text-left ${isFromPreviousVisit ? 'bg-amber-50/50' : 'bg-gray-50'}`}
-                            >
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                  <Package className={`h-4 w-4 ${isFromPreviousVisit ? 'text-amber-600' : 'text-gray-700'}`} />
-                                  <span className="text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                                    Home Protocol
-                                  </span>
-                                  {isFromPreviousVisit && (
-                                    <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-amber-100 text-amber-700 border border-amber-200">
-                                      <History className="h-2.5 w-2.5" />
-                                      Last prescribed
-                                    </span>
-                                  )}
-                                  <span className="text-xs text-gray-600">
-                                    {protocol.exercises?.length || 0} exercises
-                                    {' '}{protocol.program_duration_weeks || 0}w
-                                  </span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                  {isFromPreviousVisit && (
-                                    <button
-                                      onClick={(e) => { e.stopPropagation(); handleGenerateProtocol(condition) }}
-                                      className="text-[10px] text-purple-600 hover:text-purple-700 font-medium flex items-center gap-0.5"
-                                    >
-                                      <Sparkles className="h-2.5 w-2.5" />
-                                      New
-                                    </button>
-                                  )}
-                                  {expandedProtocols[`${condition.id}-home`] ? (
-                                    <ChevronUp className="h-4 w-4 text-gray-500" />
-                                  ) : (
-                                    <ChevronDown className="h-4 w-4 text-gray-500" />
-                                  )}
-                                </div>
-                              </div>
-                            </button>
-
-                            {expandedProtocols[`${condition.id}-home`] && (
-                              <div className={`px-4 py-3 text-xs space-y-3 ${isFromPreviousVisit ? 'bg-amber-50/30' : 'bg-white'}`}>
-                                {isFromPreviousVisit && protocol.created_at && (
-                                  <div className="text-[10px] text-amber-600 font-medium">
-                                    Prescribed on {format(new Date(protocol.created_at), 'MMM dd, yyyy')}
-                                  </div>
-                                )}
-                                {protocol.goals && protocol.goals.length > 0 && (
-                                  <div>
-                                    <div className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1.5">Goals</div>
-                                    <ul className="space-y-0.5">
-                                      {protocol.goals.map((goal: string, idx: number) => (
-                                        <li key={idx} className="text-gray-600 flex items-start gap-1.5">
-                                          <span className="text-gray-400">{'\u2022'}</span>
-                                          <span>{goal}</span>
-                                        </li>
-                                      ))}
-                                    </ul>
-                                  </div>
-                                )}
-                                {protocol.exercises && protocol.exercises.length > 0 && (
-                                  <div>
-                                    <div className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1.5">Exercises</div>
-                                    <div className="space-y-2">
-                                      {protocol.exercises.map((exercise: any, idx: number) => (
-                                        <div key={idx} className={`p-2.5 rounded border ${isFromPreviousVisit ? 'bg-amber-50/50 border-amber-200' : 'bg-gray-50 border-gray-200'}`}>
-                                          <div className="font-semibold text-gray-900 mb-1 text-xs">{exercise.exercise_name}</div>
-                                          <div className="flex items-center gap-3 text-[11px] text-gray-600">
-                                            <span>Sets: {exercise.custom_sets}</span>
-                                            <span>Reps: {exercise.custom_reps}</span>
-                                            <span>Duration: {exercise.custom_duration_seconds}s</span>
-                                          </div>
-                                        </div>
-                                      ))}
-                                    </div>
-                                  </div>
-                                )}
-                              </div>
-                            )}
-                          </div>
-                        )
-                      }
-
-                      return (
-                        <div className="border-b border-gray-100 last:border-b-0 px-4 py-2.5 bg-gray-50">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <Package className="h-4 w-4 text-gray-400" />
-                              <span className="text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                                Home Protocol
-                              </span>
-                              <span className="text-xs text-gray-500 italic">Not generated</span>
-                            </div>
-                            <button
-                              onClick={() => handleGenerateProtocol(condition)}
-                              className="text-xs text-purple-600 hover:text-purple-700 font-medium flex items-center gap-1"
-                            >
-                              <Sparkles className="h-3 w-3" />
-                              Generate
-                            </button>
-                          </div>
-                        </div>
-                      )
-                    })()}
-
-                    {/* Clinical Protocol */}
-                    {(() => {
-                      const currentProtocol = conditionProtocols[condition.id]?.clinical
-                      const activeProtocol = !currentProtocol ? condition.condition?.active_clinical_protocol : null
-                      const protocol = currentProtocol || activeProtocol
-                      const isFromPreviousVisit = !currentProtocol && !!activeProtocol
-
-                      if (protocol) {
-                        return (
-                          <div className={`border-b border-gray-100 last:border-b-0 ${isFromPreviousVisit ? 'border-l-2 border-l-amber-400' : ''}`}>
-                            <button
-                              onClick={() => setExpandedProtocols(prev => ({
-                                ...prev,
-                                [`${condition.id}-clinical`]: !prev[`${condition.id}-clinical`]
-                              }))}
-                              className={`w-full px-4 py-2.5 hover:bg-gray-100 transition-colors text-left ${isFromPreviousVisit ? 'bg-amber-50/50' : 'bg-gray-50'}`}
-                            >
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                  <Package className={`h-4 w-4 ${isFromPreviousVisit ? 'text-amber-600' : 'text-gray-700'}`} />
-                                  <span className="text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                                    Clinical Protocol
-                                  </span>
-                                  {isFromPreviousVisit && (
-                                    <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-amber-100 text-amber-700 border border-amber-200">
-                                      <History className="h-2.5 w-2.5" />
-                                      Last prescribed
-                                    </span>
-                                  )}
-                                  <span className="text-xs text-gray-600">
-                                    {protocol.exercises?.length || 0} exercises
-                                    {' '}{protocol.program_duration_weeks || 0}w
-                                  </span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                  {isFromPreviousVisit && (
-                                    <button
-                                      onClick={(e) => { e.stopPropagation(); handleGenerateProtocol(condition) }}
-                                      className="text-[10px] text-purple-600 hover:text-purple-700 font-medium flex items-center gap-0.5"
-                                    >
-                                      <Sparkles className="h-2.5 w-2.5" />
-                                      New
-                                    </button>
-                                  )}
-                                  {expandedProtocols[`${condition.id}-clinical`] ? (
-                                    <ChevronUp className="h-4 w-4 text-gray-500" />
-                                  ) : (
-                                    <ChevronDown className="h-4 w-4 text-gray-500" />
-                                  )}
-                                </div>
-                              </div>
-                            </button>
-
-                            {expandedProtocols[`${condition.id}-clinical`] && (
-                              <div className={`px-4 py-3 text-xs space-y-3 ${isFromPreviousVisit ? 'bg-amber-50/30' : 'bg-white'}`}>
-                                {isFromPreviousVisit && protocol.created_at && (
-                                  <div className="text-[10px] text-amber-600 font-medium">
-                                    Prescribed on {format(new Date(protocol.created_at), 'MMM dd, yyyy')}
-                                  </div>
-                                )}
-                                {protocol.goals && protocol.goals.length > 0 && (
-                                  <div>
-                                    <div className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1.5">Goals</div>
-                                    <ul className="space-y-0.5">
-                                      {protocol.goals.map((goal: string, idx: number) => (
-                                        <li key={idx} className="text-gray-600 flex items-start gap-1.5">
-                                          <span className="text-gray-400">{'\u2022'}</span>
-                                          <span>{goal}</span>
-                                        </li>
-                                      ))}
-                                    </ul>
-                                  </div>
-                                )}
-                                {protocol.exercises && protocol.exercises.length > 0 && (
-                                  <div>
-                                    <div className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1.5">Exercises</div>
-                                    <div className="space-y-2">
-                                      {protocol.exercises.map((exercise: any, idx: number) => (
-                                        <div key={idx} className={`p-2.5 rounded border ${isFromPreviousVisit ? 'bg-amber-50/50 border-amber-200' : 'bg-gray-50 border-gray-200'}`}>
-                                          <div className="font-semibold text-gray-900 mb-1 text-xs">{exercise.exercise_name}</div>
-                                          <div className="flex items-center gap-3 text-[11px] text-gray-600">
-                                            <span>Sets: {exercise.custom_sets}</span>
-                                            <span>Reps: {exercise.custom_reps}</span>
-                                            <span>Duration: {exercise.custom_duration_seconds}s</span>
-                                          </div>
-                                        </div>
-                                      ))}
-                                    </div>
-                                  </div>
-                                )}
-                              </div>
-                            )}
-                          </div>
-                        )
-                      }
-
-                      return (
-                        <div className="border-b border-gray-100 last:border-b-0 px-4 py-2.5 bg-gray-50">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <Package className="h-4 w-4 text-gray-400" />
-                              <span className="text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                                Clinical Protocol
-                              </span>
-                              <span className="text-xs text-gray-500 italic">Not generated</span>
-                            </div>
-                            <button
-                              onClick={() => handleGenerateProtocol(condition)}
-                              className="text-xs text-purple-600 hover:text-purple-700 font-medium flex items-center gap-1"
-                            >
-                              <Sparkles className="h-3 w-3" />
-                              Generate
-                            </button>
-                          </div>
-                        </div>
-                      )
-                    })()}
-                  </div>
-
-                  {/* Compact Action Buttons */}
-                  <div className="p-3 bg-gray-50">
-                    <div className="grid grid-cols-2 gap-2">
-                      <button
-                        onClick={() => openInsightModal(condition)}
-                        className="flex items-center justify-center gap-1.5 px-3 py-2 bg-white text-brand-teal border border-brand-teal/20 rounded-lg hover:bg-brand-teal hover:text-white transition-colors text-xs font-medium"
-                      >
-                        <Brain className="h-3.5 w-3.5" />
-                        Insight
-                      </button>
-                      <button
-                        onClick={() => openConditionNoteModal(condition)}
-                        className="flex items-center justify-center gap-1.5 px-3 py-2 bg-white text-blue-600 border border-blue-200 rounded-lg hover:bg-blue-600 hover:text-white transition-colors text-xs font-medium"
-                      >
-                        <FileText className="h-3.5 w-3.5" />
-                        Note
-                      </button>
-                      <button
-                        onClick={() => handleGenerateProtocol(condition)}
-                        className="flex items-center justify-center gap-1.5 px-3 py-2 bg-white text-purple-600 border border-purple-200 rounded-lg hover:bg-purple-600 hover:text-white transition-colors text-xs font-medium"
-                      >
-                        <Sparkles className="h-3.5 w-3.5" />
-                        Protocol
-                      </button>
-                      {condition.condition?.status !== 'DISCHARGED' ? (
-                        <button
-                          onClick={() => handleDischargeCondition(condition)}
-                          className="flex items-center justify-center gap-1.5 px-3 py-2 bg-white text-orange-600 border border-orange-200 rounded-lg hover:bg-orange-600 hover:text-white transition-colors text-xs font-medium"
-                        >
-                          <LogOut className="h-3.5 w-3.5" />
-                          Discharge
-                        </button>
-                      ) : (
-                        <button
-                          onClick={async () => {
-                            try {
-                              const response = await ApiManager.reactivateCondition(patient.id, condition.patient_condition_id)
-                              if (response.success) {
-                                toast.success('Condition reactivated')
-                                dispatch(fetchVisitConditions(appointment.id))
-                              }
-                            } catch (err) {
-                              toast.error('Failed to reactivate')
-                            }
-                          }}
-                          className="flex items-center justify-center gap-1.5 px-3 py-2 bg-white text-green-600 border border-green-200 rounded-lg hover:bg-green-600 hover:text-white transition-colors text-xs font-medium"
-                        >
-                          <Check className="h-3.5 w-3.5" />
-                          Reactivate
-                        </button>
-                      )}
-                    </div>
-
-                    {/* Treatment History Toggle */}
+            {/* RIGHT: Sidebar (40%) */}
+            <div className="lg:col-span-2">
+              <InsightsTimeline>
+                {/* Action Buttons — single canonical location */}
+                {activeCondition && (
+                  <div className="flex gap-1.5 px-4 py-2.5 border-b border-gray-100">
                     <button
-                      onClick={() => handleToggleHistory(condition)}
-                      className="mt-2 w-full flex items-center justify-center gap-1.5 px-3 py-1.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors text-xs font-medium"
+                      onClick={() => openInsightModal(activeCondition)}
+                      className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium text-brand-teal bg-teal-50 rounded-lg hover:bg-teal-100 transition-colors"
                     >
-                      <GitBranch className="h-3.5 w-3.5" />
-                      Protocol History
-                      {expandedHistory[condition.id] ? (
-                        <ChevronUp className="h-3 w-3 ml-1" />
-                      ) : (
-                        <ChevronDown className="h-3 w-3 ml-1" />
-                      )}
+                      <Brain className="h-3.5 w-3.5" />
+                      Insight
+                    </button>
+                    <button
+                      onClick={() => openConditionNoteModal(activeCondition)}
+                      className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium text-brand-teal border border-brand-light-teal rounded-lg hover:bg-teal-50 transition-colors"
+                    >
+                      <FileText className="h-3.5 w-3.5" />
+                      Condition Note
+                    </button>
+                    <button
+                      onClick={() => setVisitNoteModalOpen(true)}
+                      className="flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                    >
+                      <FileText className="h-3.5 w-3.5" />
+                      Visit Note
                     </button>
                   </div>
+                )}
 
-                  {/* Treatment History Panel */}
-                  {expandedHistory[condition.id] && (
-                    <div className="border-t border-gray-200">
-                      <TreatmentHistoryViewer
-                        history={conditionHistory[condition.patient_condition_id]?.data || []}
-                        loading={conditionHistory[condition.patient_condition_id]?.loading || false}
-                        onCompare={(currentId, previousId) => {
-                          dispatch(compareProtocolVersions({ currentId, previousId }))
-                        }}
-                      />
+                {/* ── NOTES (this visit's notes — always expanded) ── */}
+                <CollapsibleSection
+                  title="Notes"
+                  count={allNotes.length}
+                  defaultExpanded
+                >
+                  {allNotes.length === 0 ? (
+                    <p className="text-xs text-gray-400 py-2">No notes yet for this visit</p>
+                  ) : (
+                    <div className="space-y-2.5">
+                      {allNotes.map((note: any) => {
+                        const isConditionNote = !!note.visit_condition_id
+                        return (
+                          <div
+                            key={note.id}
+                            className={`p-3 rounded-lg border ${
+                              isConditionNote
+                                ? 'bg-teal-50/40 border-brand-light-teal'
+                                : 'bg-white border-gray-200'
+                            }`}
+                          >
+                            <div className="flex items-center gap-2 mb-2">
+                              <FileText className={`h-3.5 w-3.5 ${isConditionNote ? 'text-brand-teal' : 'text-gray-400'}`} />
+                              <span className={`text-xs font-semibold ${isConditionNote ? 'text-brand-teal' : 'text-gray-600'}`}>
+                                {note.note_type || 'SOAP'}
+                              </span>
+                              {isConditionNote && (
+                                <span className="text-xs px-1.5 py-0.5 bg-teal-100 text-teal-700 rounded font-medium">
+                                  Condition
+                                </span>
+                              )}
+                              {!isConditionNote && (
+                                <span className="text-xs px-1.5 py-0.5 bg-gray-100 text-gray-500 rounded font-medium">
+                                  Visit
+                                </span>
+                              )}
+                              {note.is_legacy_note && (
+                                <span className="text-xs text-gray-400">(Legacy)</span>
+                              )}
+                              {note.created_at && (
+                                <span className="text-xs text-gray-400 ml-auto">
+                                  {format(new Date(note.created_at), 'h:mm a')}
+                                </span>
+                              )}
+                            </div>
+                            {note.note_data && (
+                              <div className="text-sm text-gray-700 space-y-1 leading-relaxed">
+                                {note.note_data.subjective && (
+                                  <p><span className="font-bold text-gray-500 text-xs uppercase tracking-wide">S</span> <span className="text-gray-700">{note.note_data.subjective}</span></p>
+                                )}
+                                {note.note_data.objective && (
+                                  <p><span className="font-bold text-gray-500 text-xs uppercase tracking-wide">O</span> <span className="text-gray-700">{note.note_data.objective}</span></p>
+                                )}
+                                {note.note_data.assessment && (
+                                  <p><span className="font-bold text-gray-500 text-xs uppercase tracking-wide">A</span> <span className="text-gray-700">{note.note_data.assessment}</span></p>
+                                )}
+                                {note.note_data.plan && (
+                                  <p><span className="font-bold text-gray-500 text-xs uppercase tracking-wide">P</span> <span className="text-gray-700">{note.note_data.plan}</span></p>
+                                )}
+                                {note.note_data.progress && (
+                                  <p><span className="font-bold text-gray-500 text-xs uppercase tracking-wide">Progress</span> <span className="text-gray-700">{note.note_data.progress}</span></p>
+                                )}
+                                {note.note_data.data && !note.note_data.subjective && (
+                                  <p><span className="font-bold text-gray-500 text-xs uppercase tracking-wide">Data</span> <span className="text-gray-700">{note.note_data.data}</span></p>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        )
+                      })}
                     </div>
                   )}
-                </div>
-              ))
-            )}
+                </CollapsibleSection>
+
+                {/* ── INSIGHTS (full condition timeline — always expanded) ── */}
+                <CollapsibleSection
+                  title="Insights"
+                  count={sortedInsights.length}
+                  badge={activeCondition?.condition_name}
+                  badgeColor="bg-teal-50 text-teal-700"
+                  defaultExpanded
+                >
+                  {sortedInsights.length === 0 ? (
+                    <p className="text-xs text-gray-400 py-2">No insights yet — add observations to track progress</p>
+                  ) : (
+                    <div className="space-y-1">
+                      {sortedInsights.map((insight: any) => (
+                        <InsightTimelineItem key={insight.id} insight={insight} />
+                      ))}
+                    </div>
+                  )}
+                </CollapsibleSection>
+
+                {/* ── DIETARY (collapsed by default) ── */}
+                <CollapsibleSection title="Dietary" badge="AI" badgeColor="bg-purple-50 text-purple-600">
+                  <div>
+                    {patient && (
+                      <NutritionSuggestions
+                        patientData={{
+                          age: calculateAge(patient.date_of_birth),
+                          gender: patient.gender === 'M' ? 'Male' : patient.gender === 'F' ? 'Female' : 'Other',
+                          allergies: patient.allergies,
+                          currentMedications: patient.current_medications,
+                          medicalHistory: patient.medical_history,
+                          chiefComplaints: appointment.chief_complaint ? [appointment.chief_complaint] : [],
+                          recentNotes: patientVisits.filter(v => v.note).slice(0, 5).map(v => JSON.stringify(v.note?.note_data)),
+                          visitHistory: patientVisits.slice(0, 10),
+                        }}
+                        onDataChange={setNutritionData}
+                      />
+                    )}
+                  </div>
+                </CollapsibleSection>
+
+                {/* ── PAST VISITS (collapsed by default) ── */}
+                {patientVisits.length > 0 && (
+                  <CollapsibleSection title="Past Visits" count={patientVisits.length}>
+                    <PreviousVisitsPanel
+                      visits={patientVisits}
+                      currentVisitId={appointment.id}
+                      onVisitClick={(visitId) => router.push(`/dashboard/appointments/${patient.id}/${visitId}`)}
+                    />
+                  </CollapsibleSection>
+                )}
+              </InsightsTimeline>
+            </div>
+
           </div>
         </div>
       </div>
 
-      {/* Floating Action Buttons */}
-      <div className="fixed right-6 bottom-6 z-50 flex flex-col gap-3">
-        {/* Visit History Button */}
-        <button
-          onClick={() => setShowVisitHistory(true)}
-          className="group relative p-4 bg-purple-600 text-white rounded-full shadow-lg hover:bg-purple-700 transition-all hover:scale-110"
-          title="Visit History"
-        >
-          <History className="h-5 w-5" />
-          <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-            Visit History
-          </span>
-        </button>
+      {/* ── Modals ────────────────────────────────────────────── */}
 
-        {/* Add Visit Note Button (Primary) */}
-        <button
-          onClick={() => setVisitNoteModalOpen(true)}
-          className="group relative p-5 bg-brand-teal text-white rounded-full shadow-lg hover:bg-brand-teal/90 transition-all hover:scale-110"
-          title="Add Visit Note"
-        >
-          <FileText className="h-6 w-6" />
-          <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-            Add Visit Note
-          </span>
-        </button>
-
-        {/* Nutrition Button */}
-        <button
-          onClick={() => setShowNutrition(true)}
-          className="group relative p-4 bg-emerald-600 text-white rounded-full shadow-lg hover:bg-emerald-700 transition-all hover:scale-110"
-          title="Nutrition Guide"
-        >
-          <Utensils className="h-5 w-5" />
-          <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-            Nutrition Guide
-          </span>
-        </button>
-      </div>
-
-      {/* Slide-in Panel: Visit History */}
-      {showVisitHistory && (
-        <>
-          <div
-            className="fixed inset-0 bg-black/20 z-50 transition-opacity"
-            onClick={() => setShowVisitHistory(false)}
-          />
-          <div className="fixed right-0 top-0 bottom-0 w-full max-w-md bg-white shadow-2xl z-50 transform transition-transform duration-300 overflow-y-auto">
-            <div className="sticky top-0 bg-white border-b border-gray-200 p-5 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-lg bg-purple-100 flex items-center justify-center">
-                  <History className="h-5 w-5 text-purple-600" />
-                </div>
-                <div>
-                  <h2 className="text-lg font-semibold text-gray-900">Visit History</h2>
-                  <p className="text-sm text-gray-600">{patientVisits.length} visit{patientVisits.length !== 1 ? 's' : ''}</p>
-                </div>
-              </div>
-              <button
-                onClick={() => setShowVisitHistory(false)}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-              >
-                <X className="h-5 w-5 text-gray-600" />
-              </button>
-            </div>
-
-            <div className="p-5">
-              {patientVisits.length === 0 ? (
-                <div className="text-center py-12 bg-gray-50 rounded-lg border border-dashed border-gray-200">
-                  <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-3" />
-                  <p className="text-gray-600 font-medium">No visit history</p>
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  {patientVisits
-                    .filter(visit => visit.id !== appointment.id)
-                    .map((visit) => {
-                      const visitDate = new Date(visit.scheduled_date)
-
-                      return (
-                        <div
-                          key={visit.id}
-                          onClick={() => {
-                            setShowVisitHistory(false)
-                            router.push(`/dashboard/appointments/${patient.id}/${visit.id}`)
-                          }}
-                          className="group bg-white border border-gray-200 rounded-lg hover:border-brand-teal hover:shadow-md transition-all cursor-pointer p-4"
-                        >
-                          <div className="flex items-start justify-between">
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center gap-2 mb-1.5">
-                                <h4 className="font-semibold text-gray-900 text-sm truncate">
-                                  {visit.visit_type?.split('_').map(word =>
-                                    word.charAt(0) + word.slice(1).toLowerCase()
-                                  ).join(' ')}
-                                </h4>
-                                <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${getStatusBadge(visit.status)}`}>
-                                  {visit.status.replace('_', ' ')}
-                                </span>
-                              </div>
-                              <div className="text-xs text-gray-600 mb-1.5">
-                                {format(visitDate, 'MMM dd, yyyy')} • {visit.scheduled_time}
-                              </div>
-                              {visit.chief_complaint && (
-                                <p className="text-xs text-gray-600 italic line-clamp-2">
-                                  "{visit.chief_complaint}"
-                                </p>
-                              )}
-                            </div>
-                            <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-brand-teal transition-colors flex-shrink-0 ml-2" />
-                          </div>
-                        </div>
-                      )
-                    })}
-                </div>
-              )}
-            </div>
-          </div>
-        </>
-      )}
-
-      {/* Slide-in Panel: Nutrition */}
-      {showNutrition && (
-        <>
-          <div
-            className="fixed inset-0 bg-black/20 z-50 transition-opacity"
-            onClick={() => setShowNutrition(false)}
-          />
-          <div className="fixed right-0 top-0 bottom-0 w-full max-w-md bg-white shadow-2xl z-50 transform transition-transform duration-300 overflow-y-auto">
-            <div className="sticky top-0 bg-white border-b border-gray-200 p-5 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-lg bg-emerald-100 flex items-center justify-center">
-                  <Utensils className="h-5 w-5 text-emerald-600" />
-                </div>
-                <div>
-                  <h2 className="text-lg font-semibold text-gray-900">Nutrition Guide</h2>
-                  <p className="text-sm text-gray-600">Dietary recommendations</p>
-                </div>
-              </div>
-              <button
-                onClick={() => setShowNutrition(false)}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-              >
-                <X className="h-5 w-5 text-gray-600" />
-              </button>
-            </div>
-
-            <div className="p-5">
-              {patient && (
-                <NutritionSuggestions
-                  patientData={{
-                    age: calculateAge(patient.date_of_birth),
-                    gender: patient.gender === 'M' ? 'Male' : patient.gender === 'F' ? 'Female' : 'Other',
-                    allergies: patient.allergies,
-                    currentMedications: patient.current_medications,
-                    medicalHistory: patient.medical_history,
-                    chiefComplaints: appointment.chief_complaint ? [appointment.chief_complaint] : [],
-                    recentNotes: patientVisits
-                      .filter(visit => visit.note)
-                      .slice(0, 5)
-                      .map(visit => JSON.stringify(visit.note?.note_data)),
-                    visitHistory: patientVisits.slice(0, 10)
-                  }}
-                  onDataChange={setNutritionData}
-                />
-              )}
-            </div>
-          </div>
-        </>
-      )}
-
-      {/* Modals */}
       <AddInsightModal
         open={insightModal.open}
         onClose={closeInsightModal}
@@ -1103,16 +711,11 @@ export default function AppointmentDetailsPage() {
             setShowPatientDetailsModal(false)
             toast.info('Schedule visit from appointments page')
           }}
-          onPatientUpdate={() => {
-            const fetchPatient = async () => {
-              if (appointment?.patient_id) {
-                const response = await ApiManager.getPatient(appointment.patient_id)
-                if (response.success && response.data) {
-                  dispatch(setPatient(response.data))
-                }
-              }
+          onPatientUpdate={async () => {
+            if (appointment?.patient_id) {
+              const response = await ApiManager.getPatient(appointment.patient_id)
+              if (response.success && response.data) dispatch(setPatient(response.data))
             }
-            fetchPatient()
           }}
         />
       )}
@@ -1123,47 +726,7 @@ export default function AppointmentDetailsPage() {
           onClose={async () => {
             setShowProtocolGenerator(false)
             setSelectedConditionForProtocol(null)
-
-            try {
-              const response = await ApiManager.getTreatmentProtocols({
-                visit_id: params.appointmentId as string
-              })
-
-              if (response.success && response.data) {
-                const protocols = response.data.protocols || response.data || []
-                const protocolMap: Record<string, { home?: any; clinical?: any }> = {}
-
-                protocols.forEach((protocol: any) => {
-                  let matchingCondition = visitConditions.find(vc =>
-                    protocol.visit_condition_id && vc.id === protocol.visit_condition_id
-                  )
-
-                  if (!matchingCondition && protocol.patient_condition_id) {
-                    matchingCondition = visitConditions.find(vc =>
-                      vc.patient_condition_id === protocol.patient_condition_id
-                    )
-                  }
-
-                  if (!matchingCondition && protocol.condition_id) {
-                    matchingCondition = visitConditions.find(vc =>
-                      vc.condition_id === protocol.condition_id
-                    )
-                  }
-
-                  if (matchingCondition) {
-                    if (!protocolMap[matchingCondition.id]) {
-                      protocolMap[matchingCondition.id] = {}
-                    }
-                    const protocolType = protocol.protocol_type || 'home'
-                    protocolMap[matchingCondition.id][protocolType] = protocol
-                  }
-                })
-
-                setConditionProtocols(protocolMap)
-              }
-            } catch (error) {
-              console.error('Failed to refresh protocols:', error)
-            }
+            await refreshProtocols()
           }}
           patientId={patient?.id}
           conditionId={selectedConditionForProtocol.patientConditionId}
@@ -1177,10 +740,7 @@ export default function AppointmentDetailsPage() {
       {conditionToDischarge && (
         <DischargeConditionDialog
           isOpen={showDischargeDialog}
-          onClose={() => {
-            setShowDischargeDialog(false)
-            setConditionToDischarge(null)
-          }}
+          onClose={() => { setShowDischargeDialog(false); setConditionToDischarge(null) }}
           patientId={patient?.id}
           conditionId={conditionToDischarge.patient_condition_id}
           conditionName={conditionToDischarge.condition_name}

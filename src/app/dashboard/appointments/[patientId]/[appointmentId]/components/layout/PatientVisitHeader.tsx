@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { ArrowLeft, Calendar, Clock, User, Video, Phone, Mail } from 'lucide-react'
+import { ArrowLeft, Calendar, Clock, User, Video, Download } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { format, parseISO } from 'date-fns'
 
@@ -26,17 +26,15 @@ interface PatientVisitHeaderProps {
       full_name: string
     }
   }
-  onContactClick?: () => void
+  onExportPDF?: () => void
+  onShowFullProfile?: () => void
 }
 
-/**
- * PatientVisitHeader - Displays patient demographics and visit information
- * with status banner and metadata
- */
 export default function PatientVisitHeader({
   patient,
   appointment,
-  onContactClick
+  onExportPDF,
+  onShowFullProfile
 }: PatientVisitHeaderProps) {
   const router = useRouter()
 
@@ -54,19 +52,19 @@ export default function PatientVisitHeader({
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'SCHEDULED':
-        return 'bg-blue-100 text-blue-800 border-blue-200'
+        return 'bg-teal-50 text-brand-teal border-brand-light-teal'
       case 'CHECKED_IN':
-        return 'bg-[#c8eaeb] text-[#1e5f79] border-[#1e5f79]/30'
+        return 'bg-teal-100 text-brand-teal border-brand-teal/30'
       case 'IN_PROGRESS':
-        return 'bg-amber-100 text-amber-800 border-amber-200'
+        return 'bg-amber-50 text-amber-700 border-amber-200'
       case 'COMPLETED':
-        return 'bg-green-100 text-green-800 border-green-200'
+        return 'bg-teal-50 text-teal-700 border-teal-200'
       case 'CANCELLED':
-        return 'bg-red-100 text-red-800 border-red-200'
+        return 'bg-red-50 text-red-600 border-red-200'
       case 'NO_SHOW':
-        return 'bg-gray-100 text-gray-800 border-gray-200'
+        return 'bg-gray-50 text-gray-600 border-gray-200'
       default:
-        return 'bg-gray-100 text-gray-800 border-gray-200'
+        return 'bg-gray-50 text-gray-600 border-gray-200'
     }
   }
 
@@ -77,15 +75,16 @@ export default function PatientVisitHeader({
   }
 
   return (
-    <div className="bg-white border border-[#000000]/10 rounded-lg shadow-sm mb-3 overflow-hidden">
-      {/* Main Header */}
-      <div className="px-5 py-3.5">
+    <div className={`bg-white sticky top-0 z-40 shadow-sm border-b ${
+      appointment.status === 'IN_PROGRESS' ? 'border-b-2 border-b-amber-400' : 'border-b-gray-200'
+    }`}>
+      <div className="max-w-7xl mx-auto px-6 py-3">
         <div className="flex items-center justify-between">
           {/* Left: Back Button + Patient Info */}
           <div className="flex items-center gap-3 flex-1 min-w-0">
             <button
               onClick={() => router.back()}
-              className="p-1.5 text-[#000000] hover:text-[#1e5f79] hover:bg-[#eff8ff] rounded-lg transition-colors"
+              className="p-1.5 text-gray-600 hover:text-brand-teal hover:bg-teal-50 rounded-lg transition-colors"
               aria-label="Go back"
             >
               <ArrowLeft className="h-5 w-5" />
@@ -93,12 +92,14 @@ export default function PatientVisitHeader({
 
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2 flex-wrap">
-                <h1 className="text-xl font-semibold text-[#000000] truncate">
+                <h1 className="text-lg font-semibold text-gray-900 truncate">
                   {patient.full_name}
                 </h1>
-                <span className="text-sm text-gray-600">
-                  • {calculateAge(patient.date_of_birth)}y {patient.gender}
-                </span>
+                {patient.date_of_birth && (
+                  <span className="text-sm text-gray-500">
+                    {calculateAge(patient.date_of_birth)}y {patient.gender === 'M' ? 'Male' : patient.gender === 'F' ? 'Female' : patient.gender}
+                  </span>
+                )}
                 {appointment.visit_source === 'MARKETPLACE' && (
                   <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-700">
                     Marketplace
@@ -106,92 +107,59 @@ export default function PatientVisitHeader({
                 )}
               </div>
 
-              <div className="flex items-center gap-3 text-sm text-gray-600 mt-1 flex-wrap">
+              <div className="flex items-center gap-2.5 text-xs text-gray-500 mt-0.5 flex-wrap">
                 <span className="inline-flex items-center gap-1">
-                  <Calendar className="h-3.5 w-3.5" />
+                  <Calendar className="h-3 w-3" />
                   {format(parseISO(appointment.scheduled_date), 'MMM dd, yyyy')}
                 </span>
-                <span>•</span>
                 <span className="inline-flex items-center gap-1">
-                  <Clock className="h-3.5 w-3.5" />
+                  <Clock className="h-3 w-3" />
                   {appointment.scheduled_time}
                 </span>
-                <span>•</span>
                 <span className="inline-flex items-center gap-1">
-                  Dr. {appointment.physiotherapist.full_name}
+                  {appointment.visit_mode === 'ONLINE' ? <Video className="h-3 w-3" /> : <User className="h-3 w-3" />}
+                  {formatVisitType(appointment.visit_type)}
                 </span>
+                {appointment.chief_complaint && (
+                  <>
+                    <span className="text-gray-300">|</span>
+                    <span className="text-amber-700 font-medium truncate max-w-[300px]" title={appointment.chief_complaint}>
+                      {appointment.chief_complaint}
+                    </span>
+                  </>
+                )}
               </div>
             </div>
           </div>
 
-          {/* Right: Status + Mode + Contact */}
+          {/* Right: Action Buttons + Status */}
           <div className="flex items-center gap-2 ml-3">
-            {/* Visit Mode */}
-            <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
-              appointment.visit_mode === 'ONLINE'
-                ? 'bg-blue-100 text-blue-700'
-                : 'bg-gray-100 text-gray-700'
-            }`}>
-              {appointment.visit_mode === 'ONLINE' ? (
-                <>
-                  <Video className="h-3.5 w-3.5" />
-                  <span className="hidden sm:inline">Virtual</span>
-                </>
-              ) : (
-                <>
-                  <User className="h-3.5 w-3.5" />
-                  <span className="hidden sm:inline">Walk-in</span>
-                </>
-              )}
-            </span>
-
-            {/* Visit Type - Hidden on mobile */}
-            <span className="hidden md:inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-[#c8eaeb] text-[#1e5f79]">
-              {formatVisitType(appointment.visit_type)}
-            </span>
-
-            {/* Status */}
-            <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(appointment.status)}`}>
-              {appointment.status.replace('_', ' ').toLowerCase()}
-            </span>
-
-            {/* Contact Button */}
-            {onContactClick && (
+            {onExportPDF && (
               <button
-                onClick={onContactClick}
-                className="p-1.5 text-[#000000] hover:text-[#1e5f79] hover:bg-[#eff8ff] rounded-lg transition-colors"
-                title="View Contact Details"
+                onClick={onExportPDF}
+                className="p-2 text-gray-500 hover:text-brand-teal hover:bg-teal-50 rounded-lg transition-colors"
+                title="Export Report"
               >
-                <Phone className="h-4 w-4" />
+                <Download className="h-4 w-4" />
               </button>
             )}
+
+            {onShowFullProfile && (
+              <button
+                onClick={onShowFullProfile}
+                className="p-2 text-gray-500 hover:text-brand-teal hover:bg-teal-50 rounded-lg transition-colors"
+                title="View Profile"
+              >
+                <User className="h-4 w-4" />
+              </button>
+            )}
+
+            <span className={`inline-flex items-center px-2 py-1 rounded-md text-xs font-medium border ${getStatusColor(appointment.status)}`}>
+              {appointment.status.replace('_', ' ')}
+            </span>
           </div>
         </div>
       </div>
-
-      {/* Chief Complaint Section */}
-      {appointment.chief_complaint && (
-        <div className="px-5 py-3 bg-[#eff8ff] border-t border-[#000000]/10">
-          <div className="flex items-start gap-2">
-            <span className="text-xs font-semibold text-gray-600 uppercase tracking-wider">
-              Chief Complaint:
-            </span>
-            <p className="text-sm text-[#000000] flex-1">
-              {appointment.chief_complaint}
-            </p>
-          </div>
-        </div>
-      )}
-
-      {/* Visit Status Banner for IN_PROGRESS */}
-      {appointment.status === 'IN_PROGRESS' && (
-        <div className="px-5 py-2 bg-gradient-to-r from-[#1e5f79] to-[#1e5f79]/80 text-white">
-          <div className="flex items-center justify-center gap-2">
-            <div className="h-2 w-2 bg-white rounded-full animate-pulse"></div>
-            <span className="text-sm font-medium">Visit in Progress</span>
-          </div>
-        </div>
-      )}
     </div>
   )
 }

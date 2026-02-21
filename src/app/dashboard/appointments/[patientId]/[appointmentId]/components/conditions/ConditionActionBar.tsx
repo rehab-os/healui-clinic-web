@@ -1,116 +1,72 @@
 'use client'
 
 import React from 'react'
-import { Sparkles, RefreshCw, History, StickyNote, FileText } from 'lucide-react'
+import { Sparkles, Brain } from 'lucide-react'
 
 interface ConditionActionBarProps {
   hasProtocol: boolean
   hasUnusedInsights?: boolean
   unusedInsightsCount?: number
   onGenerateFromInsights?: () => void
-  onUpdateProtocol?: () => void
-  onViewHistory?: () => void
-  onAddNote?: () => void
-  onViewProtocolDetails?: () => void
+  onAddInsight?: () => void
   loading?: boolean
 }
 
-/**
- * ConditionActionBar - High-visibility CTA buttons for condition actions
- * Primary: Generate Protocol from Insights (Brand Teal, prominent)
- * Secondary: Update Protocol, View History, Add Note
- */
 export default function ConditionActionBar({
   hasProtocol,
   hasUnusedInsights = false,
   unusedInsightsCount = 0,
   onGenerateFromInsights,
-  onUpdateProtocol,
-  onViewHistory,
-  onAddNote,
-  onViewProtocolDetails,
+  onAddInsight,
   loading = false
 }: ConditionActionBarProps) {
+  const showGenerateCTA = hasUnusedInsights && unusedInsightsCount > 0 && !hasProtocol
+  const showUpdateCTA = hasProtocol && hasUnusedInsights && unusedInsightsCount > 0
+
   return (
-    <div className="p-5 bg-[#eff8ff] border-t border-[#000000]/10">
-      {/* Primary Action - Generate from Insights */}
-      {hasUnusedInsights && unusedInsightsCount > 0 && (
-        <div className="mb-3">
-          <button
-            onClick={onGenerateFromInsights}
-            disabled={loading}
-            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-gradient-to-r from-[#1e5f79] to-[#164557] text-white rounded-lg hover:from-[#164557] hover:to-[#0f3340] transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed font-medium"
-          >
-            <Sparkles className="h-5 w-5" />
-            <span>Generate Protocol from {unusedInsightsCount} Insight{unusedInsightsCount !== 1 ? 's' : ''}</span>
-            {loading && (
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white ml-2"></div>
-            )}
-          </button>
-          <p className="text-xs text-gray-600 mt-2 text-center">
-            AI will analyze recent clinical observations to create an optimized treatment plan
-          </p>
-        </div>
+    <div className="px-4 py-3 bg-white border-t border-gray-100 flex items-center gap-2">
+      {/* Generate Protocol — no protocol yet + insights exist */}
+      {showGenerateCTA && onGenerateFromInsights && (
+        <button
+          onClick={onGenerateFromInsights}
+          disabled={loading}
+          className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-brand-teal text-white rounded-xl hover:bg-brand-teal/90 transition-colors shadow-sm disabled:opacity-50 text-sm font-medium"
+        >
+          <Sparkles className="h-4 w-4" />
+          Generate Protocol ({unusedInsightsCount} insight{unusedInsightsCount !== 1 ? 's' : ''})
+        </button>
       )}
 
-      {/* Secondary Actions */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-        {/* Update Protocol */}
-        {hasProtocol && onUpdateProtocol && (
-          <button
-            onClick={onUpdateProtocol}
-            disabled={loading}
-            className="inline-flex items-center justify-center gap-2 px-3.5 py-2 bg-white text-gray-700 rounded-lg hover:bg-[#c8eaeb] hover:text-[#1e5f79] transition-colors border border-[#000000]/10 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
-          >
-            <RefreshCw className="h-4 w-4" />
-            <span className="hidden sm:inline">Update</span>
-          </button>
-        )}
+      {/* Update Protocol — protocol exists + new insights */}
+      {showUpdateCTA && onGenerateFromInsights && (
+        <button
+          onClick={onGenerateFromInsights}
+          disabled={loading}
+          className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-colors disabled:opacity-50 text-sm font-medium"
+        >
+          <Sparkles className="h-4 w-4" />
+          Update Protocol ({unusedInsightsCount} new insight{unusedInsightsCount !== 1 ? 's' : ''})
+        </button>
+      )}
 
-        {/* View Protocol Details */}
-        {hasProtocol && onViewProtocolDetails && (
-          <button
-            onClick={onViewProtocolDetails}
-            disabled={loading}
-            className="inline-flex items-center justify-center gap-2 px-3.5 py-2 bg-white text-gray-700 rounded-lg hover:bg-[#c8eaeb] hover:text-[#1e5f79] transition-colors border border-[#000000]/10 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
-          >
-            <FileText className="h-4 w-4" />
-            <span className="hidden sm:inline">Details</span>
-          </button>
-        )}
+      {/* Add Insight — always visible */}
+      {onAddInsight && (
+        <button
+          onClick={onAddInsight}
+          className={`flex items-center justify-center gap-2 px-4 py-2.5 text-brand-teal border border-brand-light-teal rounded-xl hover:bg-teal-50 transition-colors text-sm font-medium ${
+            !showGenerateCTA && !showUpdateCTA ? 'flex-1' : ''
+          }`}
+        >
+          <Brain className="h-4 w-4" />
+          Add Insight
+        </button>
+      )}
 
-        {/* View History */}
-        {onViewHistory && (
-          <button
-            onClick={onViewHistory}
-            disabled={loading}
-            className="inline-flex items-center justify-center gap-2 px-3.5 py-2 bg-white text-gray-700 rounded-lg hover:bg-[#c8eaeb] hover:text-[#1e5f79] transition-colors border border-[#000000]/10 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
-          >
-            <History className="h-4 w-4" />
-            <span className="hidden sm:inline">History</span>
-          </button>
-        )}
-
-        {/* Add Note */}
-        {onAddNote && (
-          <button
-            onClick={onAddNote}
-            disabled={loading}
-            className="inline-flex items-center justify-center gap-2 px-3.5 py-2 bg-white text-gray-700 rounded-lg hover:bg-[#c8eaeb] hover:text-[#1e5f79] transition-colors border border-[#000000]/10 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
-          >
-            <StickyNote className="h-4 w-4" />
-            <span className="hidden sm:inline">Note</span>
-          </button>
-        )}
-      </div>
-
-      {/* No Protocol Message */}
-      {!hasProtocol && !hasUnusedInsights && (
-        <div className="text-center py-3">
-          <p className="text-sm text-gray-600">
-            Add clinical insights to generate an AI-powered treatment protocol
-          </p>
-        </div>
+      {/* Hint when no data at all */}
+      {!hasProtocol && !hasUnusedInsights && !onAddInsight && (
+        <p className="text-xs text-gray-500 text-center w-full">
+          Add clinical insights to generate a treatment protocol
+        </p>
       )}
     </div>
   )

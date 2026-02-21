@@ -13,11 +13,14 @@ interface InsightTimelineItemProps {
   showActions?: boolean
 }
 
-/**
- * InsightTimelineItem - Single insight display in timeline
- * Shows timestamp, type badge, insight text, context metadata
- * "Used in generation" indicator, hover actions (edit, delete)
- */
+const typeConfig: Record<string, { bg: string; text: string; dot: string }> = {
+  OBSERVATION: { bg: 'bg-blue-50', text: 'text-blue-700', dot: 'bg-blue-400' },
+  PROGRESS: { bg: 'bg-green-50', text: 'text-green-700', dot: 'bg-green-400' },
+  SETBACK: { bg: 'bg-red-50', text: 'text-red-700', dot: 'bg-red-400' },
+  MILESTONE: { bg: 'bg-purple-50', text: 'text-purple-700', dot: 'bg-purple-400' },
+  PATIENT_FEEDBACK: { bg: 'bg-amber-50', text: 'text-amber-700', dot: 'bg-amber-400' },
+}
+
 export default function InsightTimelineItem({
   insight,
   onEdit,
@@ -26,93 +29,69 @@ export default function InsightTimelineItem({
 }: InsightTimelineItemProps) {
   const [showMenu, setShowMenu] = useState(false)
 
-  const getTypeColor = (type: ClinicalInsightType) => {
-    switch (type) {
-      case ClinicalInsightType.OBSERVATION:
-        return 'bg-blue-100 text-blue-800'
-      case ClinicalInsightType.PROGRESS:
-        return 'bg-green-100 text-green-800'
-      case ClinicalInsightType.SETBACK:
-        return 'bg-red-100 text-red-800'
-      case ClinicalInsightType.MILESTONE:
-        return 'bg-purple-100 text-purple-800'
-      case ClinicalInsightType.PATIENT_FEEDBACK:
-        return 'bg-amber-100 text-amber-800'
-      default:
-        return 'bg-gray-100 text-gray-800'
-    }
-  }
+  const config = typeConfig[insight.insight_type] || { bg: 'bg-gray-50', text: 'text-gray-700', dot: 'bg-gray-400' }
 
-  const formatType = (type: string) => {
-    return type.split('_').map(word =>
-      word.charAt(0) + word.slice(1).toLowerCase()
-    ).join(' ')
-  }
+  const formatType = (type: string) =>
+    type.split('_').map(w => w.charAt(0) + w.slice(1).toLowerCase()).join(' ')
+
+  const hasMetadata = insight.context_metadata && (
+    insight.context_metadata.pain_level !== undefined ||
+    insight.context_metadata.functional_status ||
+    insight.context_metadata.patient_compliance
+  )
 
   return (
-    <div className="relative p-3 hover:bg-[#eff8ff] rounded-lg transition-colors group">
-      {/* Timeline Connector */}
-      <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-[#c8eaeb]"></div>
+    <div className="relative flex gap-3 py-2.5 group">
+      {/* Timeline dot + connector */}
+      <div className="flex flex-col items-center pt-1.5">
+        <div className={`w-2 h-2 rounded-full ${config.dot} ring-2 ring-white`} />
+        <div className="flex-1 w-px bg-gray-200 mt-1" />
+      </div>
 
-      <div className="pl-3">
-        {/* Header */}
-        <div className="flex items-start justify-between mb-2">
-          <div className="flex-1">
-            <div className="flex items-center gap-2 mb-1">
-              <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${getTypeColor(insight.insight_type)}`}>
-                {formatType(insight.insight_type)}
-              </span>
-              {insight.used_in_protocol_generation && (
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium bg-[#1e5f79] text-white">
-                  <CheckCircle className="h-3 w-3" />
-                  Used in Protocol
-                </span>
-              )}
-            </div>
-            <p className="text-xs text-gray-500">
-              {format(new Date(insight.created_at), 'MMM dd, yyyy • h:mm a')}
-            </p>
-          </div>
+      {/* Content */}
+      <div className="flex-1 min-w-0 pb-1">
+        {/* Header row */}
+        <div className="flex items-center gap-2 mb-1">
+          <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-semibold ${config.bg} ${config.text}`}>
+            {formatType(insight.insight_type)}
+          </span>
+          {insight.used_in_protocol_generation && (
+            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-xs font-medium bg-brand-teal text-white">
+              <CheckCircle className="h-3 w-3" />
+              Used
+            </span>
+          )}
+          <span className="text-xs text-gray-400 ml-auto whitespace-nowrap">
+            {format(new Date(insight.created_at), 'MMM dd · h:mm a')}
+          </span>
 
-          {/* Actions Menu */}
+          {/* Actions */}
           {showActions && (onEdit || onDelete) && (
             <div className="relative">
               <button
                 onClick={() => setShowMenu(!showMenu)}
-                className="p-1 text-gray-400 hover:text-[#1e5f79] hover:bg-white rounded opacity-0 group-hover:opacity-100 transition-opacity"
+                className="p-0.5 text-gray-400 hover:text-brand-teal rounded opacity-0 group-hover:opacity-100 transition-opacity"
               >
-                <MoreVertical className="h-4 w-4" />
+                <MoreVertical className="h-3.5 w-3.5" />
               </button>
-
               {showMenu && (
                 <>
-                  <div
-                    className="fixed inset-0 z-10"
-                    onClick={() => setShowMenu(false)}
-                  />
-                  <div className="absolute right-0 top-full mt-1 w-32 bg-white rounded-lg shadow-lg border border-[#000000]/10 py-1 z-20">
+                  <div className="fixed inset-0 z-10" onClick={() => setShowMenu(false)} />
+                  <div className="absolute right-0 top-full mt-1 w-28 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-20">
                     {onEdit && (
                       <button
-                        onClick={() => {
-                          onEdit(insight)
-                          setShowMenu(false)
-                        }}
-                        className="w-full text-left px-3 py-1.5 text-sm text-gray-700 hover:bg-[#eff8ff] flex items-center gap-2"
+                        onClick={() => { onEdit(insight); setShowMenu(false) }}
+                        className="w-full text-left px-3 py-1.5 text-sm text-gray-700 hover:bg-teal-50 flex items-center gap-2"
                       >
-                        <Edit2 className="h-3.5 w-3.5" />
-                        Edit
+                        <Edit2 className="h-3.5 w-3.5" /> Edit
                       </button>
                     )}
                     {onDelete && !insight.used_in_protocol_generation && (
                       <button
-                        onClick={() => {
-                          onDelete(insight.id)
-                          setShowMenu(false)
-                        }}
+                        onClick={() => { onDelete(insight.id); setShowMenu(false) }}
                         className="w-full text-left px-3 py-1.5 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
                       >
-                        <Trash2 className="h-3.5 w-3.5" />
-                        Delete
+                        <Trash2 className="h-3.5 w-3.5" /> Delete
                       </button>
                     )}
                   </div>
@@ -122,54 +101,27 @@ export default function InsightTimelineItem({
           )}
         </div>
 
-        {/* Insight Text */}
-        <p className="text-sm text-[#000000] mb-2 leading-relaxed">
+        {/* Insight text */}
+        <p className="text-sm text-gray-700 leading-relaxed">
           {insight.insight_text}
         </p>
 
-        {/* Context Metadata */}
-        {insight.context_metadata && Object.keys(insight.context_metadata).length > 0 && (
-          <div className="mt-2 p-2 bg-white rounded border border-[#000000]/10">
-            <div className="grid grid-cols-2 gap-2 text-xs">
-              {insight.context_metadata.pain_level !== undefined && (
-                <div>
-                  <span className="text-gray-500">Pain Level:</span>
-                  <span className="ml-1 font-medium text-[#000000]">
-                    {insight.context_metadata.pain_level}/10
-                  </span>
-                </div>
-              )}
-              {insight.context_metadata.functional_status && (
-                <div>
-                  <span className="text-gray-500">Functional Status:</span>
-                  <span className="ml-1 font-medium text-[#000000]">
-                    {insight.context_metadata.functional_status}
-                  </span>
-                </div>
-              )}
-              {insight.context_metadata.patient_compliance && (
-                <div className="col-span-2">
-                  <span className="text-gray-500">Compliance:</span>
-                  <span className="ml-1 font-medium text-[#000000]">
-                    {insight.context_metadata.patient_compliance}
-                  </span>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* Phase and Goals */}
-        {(insight.current_phase || (insight.current_goals && insight.current_goals.length > 0)) && (
-          <div className="mt-2 flex items-center gap-2 text-xs text-gray-600">
-            {insight.current_phase && (
-              <span className="px-2 py-0.5 bg-white rounded border border-[#000000]/10">
-                Phase: {insight.current_phase}
+        {/* Metadata chips */}
+        {hasMetadata && (
+          <div className="flex flex-wrap gap-2 mt-1.5">
+            {insight.context_metadata.pain_level !== undefined && (
+              <span className="inline-flex items-center gap-1 text-xs text-gray-500 bg-gray-50 rounded px-2 py-0.5">
+                Pain <span className="font-mono font-semibold text-gray-800">{insight.context_metadata.pain_level}/10</span>
               </span>
             )}
-            {insight.current_goals && insight.current_goals.length > 0 && (
-              <span className="px-2 py-0.5 bg-white rounded border border-[#000000]/10">
-                {insight.current_goals.length} goal{insight.current_goals.length !== 1 ? 's' : ''}
+            {insight.context_metadata.patient_compliance && (
+              <span className="inline-flex items-center gap-1 text-xs text-gray-500 bg-gray-50 rounded px-2 py-0.5">
+                Compliance <span className="font-semibold text-gray-700">{insight.context_metadata.patient_compliance}</span>
+              </span>
+            )}
+            {insight.context_metadata.functional_status && (
+              <span className="inline-flex items-center gap-1 text-xs text-gray-500 bg-gray-50 rounded px-2 py-0.5">
+                {insight.context_metadata.functional_status}
               </span>
             )}
           </div>

@@ -139,6 +139,8 @@ export const ENDPOINTS = {
     GET_NOTE: (id: string) => `patients/notes/${id}`,
     UPDATE_NOTE: (id: string) => `patients/notes/${id}`,
     SIGN_NOTE: (id: string) => `patients/notes/${id}/sign`,
+    GET_VISIT_NOTES: (visitId: string) => `notes/visits/${visitId}`,
+    GET_VISIT_CONDITION_NOTES: (visitConditionId: string) => `notes/visit-conditions/${visitConditionId}`,
 
     // Static Data - Conditions
     GET_ALL_STATIC_CONDITIONS: () => 'static-data/conditions',
