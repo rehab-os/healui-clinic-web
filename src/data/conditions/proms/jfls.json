@@ -1,0 +1,396 @@
+{
+  "prom_id": "JFLS",
+  "full_name": "Jaw Functional Limitation Scale",
+  "version": "JFLS-20",
+  "copyright": "© Ohrbach et al., 2008",
+  "language": "English",
+  "total_items": 20,
+  "estimated_time_minutes": 5,
+  "description": "A 20-item self-report measure designed to assess functional limitations of the jaw in patients with temporomandibular disorders (TMD). It consists of three subscales: Mastication, Jaw Mobility, and Verbal/Emotional Communication. Higher scores indicate greater limitation.",
+  "instructions": "In the past month, how much have the following activities been limited by problems with your jaw?",
+  "scoring": {
+    "method": "subscale_average",
+    "total_score": {
+      "min": 0,
+      "max": 10,
+      "calculation": "Mean of all items (each 0-10). Can also calculate subscale scores separately.",
+      "interpretation": {
+        "0-2": "No to minimal limitation",
+        "2.1-4": "Mild limitation",
+        "4.1-6": "Moderate limitation",
+        "6.1-10": "Severe limitation"
+      },
+      "higher_is_better": false,
+      "mcid": 1.5
+    },
+    "subscales": [
+      {
+        "id": "mastication",
+        "name": "Mastication",
+        "items": 8,
+        "min": 0,
+        "max": 10,
+        "questions": [1, 2, 3, 4, 5, 6, 7, 8]
+      },
+      {
+        "id": "mobility",
+        "name": "Jaw Mobility",
+        "items": 7,
+        "min": 0,
+        "max": 10,
+        "questions": [9, 10, 11, 12, 13, 14, 15]
+      },
+      {
+        "id": "communication",
+        "name": "Verbal and Emotional Communication",
+        "items": 5,
+        "min": 0,
+        "max": 10,
+        "questions": [16, 17, 18, 19, 20]
+      }
+    ]
+  },
+  "sections": [
+    {
+      "id": "jfls_mastication",
+      "title": "Mastication (Chewing)",
+      "description": "How much have the following chewing activities been limited by your jaw?",
+      "questions": [
+        {
+          "id": "jfls_1",
+          "question": "Chewing tough or chewy foods",
+          "ui_component": "slider",
+          "required": true,
+          "order": 1,
+          "subscale": "mastication",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No limitation",
+            "5": "Moderate limitation",
+            "10": "Severe limitation"
+          }
+        },
+        {
+          "id": "jfls_2",
+          "question": "Chewing hard foods (such as raw carrots, apples, hard rolls)",
+          "ui_component": "slider",
+          "required": true,
+          "order": 2,
+          "subscale": "mastication",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No limitation",
+            "5": "Moderate limitation",
+            "10": "Severe limitation"
+          }
+        },
+        {
+          "id": "jfls_3",
+          "question": "Chewing soft foods",
+          "ui_component": "slider",
+          "required": true,
+          "order": 3,
+          "subscale": "mastication",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No limitation",
+            "5": "Moderate limitation",
+            "10": "Severe limitation"
+          }
+        },
+        {
+          "id": "jfls_4",
+          "question": "Eating foods that require opening your mouth wide (such as an apple or corn on the cob)",
+          "ui_component": "slider",
+          "required": true,
+          "order": 4,
+          "subscale": "mastication",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No limitation",
+            "5": "Moderate limitation",
+            "10": "Severe limitation"
+          }
+        },
+        {
+          "id": "jfls_5",
+          "question": "Swallowing",
+          "ui_component": "slider",
+          "required": true,
+          "order": 5,
+          "subscale": "mastication",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No limitation",
+            "5": "Moderate limitation",
+            "10": "Severe limitation"
+          }
+        },
+        {
+          "id": "jfls_6",
+          "question": "Drinking",
+          "ui_component": "slider",
+          "required": true,
+          "order": 6,
+          "subscale": "mastication",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No limitation",
+            "5": "Moderate limitation",
+            "10": "Severe limitation"
+          }
+        },
+        {
+          "id": "jfls_7",
+          "question": "Chewing on both sides of your mouth at the same time",
+          "ui_component": "slider",
+          "required": true,
+          "order": 7,
+          "subscale": "mastication",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No limitation",
+            "5": "Moderate limitation",
+            "10": "Severe limitation"
+          }
+        },
+        {
+          "id": "jfls_8",
+          "question": "Eating a regular diet (not modified for your jaw)",
+          "ui_component": "slider",
+          "required": true,
+          "order": 8,
+          "subscale": "mastication",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No limitation",
+            "5": "Moderate limitation",
+            "10": "Severe limitation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "jfls_mobility",
+      "title": "Jaw Mobility",
+      "description": "How much have the following jaw movements been limited?",
+      "questions": [
+        {
+          "id": "jfls_9",
+          "question": "Opening your mouth wide enough",
+          "ui_component": "slider",
+          "required": true,
+          "order": 9,
+          "subscale": "mobility",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No limitation",
+            "5": "Moderate limitation",
+            "10": "Severe limitation"
+          }
+        },
+        {
+          "id": "jfls_10",
+          "question": "Opening your mouth when waking up in the morning",
+          "ui_component": "slider",
+          "required": true,
+          "order": 10,
+          "subscale": "mobility",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No limitation",
+            "5": "Moderate limitation",
+            "10": "Severe limitation"
+          }
+        },
+        {
+          "id": "jfls_11",
+          "question": "Moving your jaw forward",
+          "ui_component": "slider",
+          "required": true,
+          "order": 11,
+          "subscale": "mobility",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No limitation",
+            "5": "Moderate limitation",
+            "10": "Severe limitation"
+          }
+        },
+        {
+          "id": "jfls_12",
+          "question": "Moving your jaw to the side",
+          "ui_component": "slider",
+          "required": true,
+          "order": 12,
+          "subscale": "mobility",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No limitation",
+            "5": "Moderate limitation",
+            "10": "Severe limitation"
+          }
+        },
+        {
+          "id": "jfls_13",
+          "question": "Yawning",
+          "ui_component": "slider",
+          "required": true,
+          "order": 13,
+          "subscale": "mobility",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No limitation",
+            "5": "Moderate limitation",
+            "10": "Severe limitation"
+          }
+        },
+        {
+          "id": "jfls_14",
+          "question": "Jaw movements during sleeping",
+          "ui_component": "slider",
+          "required": true,
+          "order": 14,
+          "subscale": "mobility",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No limitation",
+            "5": "Moderate limitation",
+            "10": "Severe limitation"
+          }
+        },
+        {
+          "id": "jfls_15",
+          "question": "Having your usual facial appearance",
+          "ui_component": "slider",
+          "required": true,
+          "order": 15,
+          "subscale": "mobility",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No limitation",
+            "5": "Moderate limitation",
+            "10": "Severe limitation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "jfls_communication",
+      "title": "Verbal and Emotional Communication",
+      "description": "How much have the following communication activities been limited?",
+      "questions": [
+        {
+          "id": "jfls_16",
+          "question": "Talking",
+          "ui_component": "slider",
+          "required": true,
+          "order": 16,
+          "subscale": "communication",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No limitation",
+            "5": "Moderate limitation",
+            "10": "Severe limitation"
+          }
+        },
+        {
+          "id": "jfls_17",
+          "question": "Singing",
+          "ui_component": "slider",
+          "required": true,
+          "order": 17,
+          "subscale": "communication",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No limitation",
+            "5": "Moderate limitation",
+            "10": "Severe limitation"
+          }
+        },
+        {
+          "id": "jfls_18",
+          "question": "Smiling or laughing",
+          "ui_component": "slider",
+          "required": true,
+          "order": 18,
+          "subscale": "communication",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No limitation",
+            "5": "Moderate limitation",
+            "10": "Severe limitation"
+          }
+        },
+        {
+          "id": "jfls_19",
+          "question": "Showing affection, intimacy, or sexual activity",
+          "ui_component": "slider",
+          "required": true,
+          "order": 19,
+          "subscale": "communication",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No limitation",
+            "5": "Moderate limitation",
+            "10": "Severe limitation"
+          }
+        },
+        {
+          "id": "jfls_20",
+          "question": "Clenching or grinding your teeth",
+          "ui_component": "slider",
+          "required": true,
+          "order": 20,
+          "subscale": "communication",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No limitation",
+            "5": "Moderate limitation",
+            "10": "Severe limitation"
+          }
+        }
+      ]
+    }
+  ]
+}

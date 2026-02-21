@@ -1,0 +1,240 @@
+{
+  "prom_id": "SPADI",
+  "full_name": "Shoulder Pain and Disability Index",
+  "version": "1.0",
+  "copyright": "Public domain (Roach et al., 1991)",
+  "language": "English",
+  "total_items": 13,
+  "estimated_time_minutes": 5,
+  "description": "A self-administered questionnaire that measures shoulder pain and disability in an outpatient setting.",
+  "instructions": "Please place a mark on the line that best represents your experience during the LAST WEEK.",
+  "scoring": {
+    "method": "subscale_average_to_percentage",
+    "subscales": [
+      {
+        "id": "pain",
+        "name": "Pain Subscale",
+        "items": 5,
+        "calculation": "Sum of 5 pain items divided by 50 (max possible), multiplied by 100"
+      },
+      {
+        "id": "disability",
+        "name": "Disability Subscale",
+        "items": 8,
+        "calculation": "Sum of 8 disability items divided by 80 (max possible), multiplied by 100"
+      }
+    ],
+    "total_score": {
+      "min": 0,
+      "max": 100,
+      "calculation": "Average of Pain and Disability subscale percentages",
+      "interpretation": {
+        "0-20": "Minimal disability",
+        "21-40": "Moderate disability",
+        "41-60": "Severe disability",
+        "61-100": "Complete disability"
+      },
+      "higher_is_worse": true
+    }
+  },
+  "sections": [
+    {
+      "id": "pain_subscale",
+      "title": "Pain Scale",
+      "description": "How severe is your pain in the following situations?",
+      "subscale": "pain",
+      "questions": [
+        {
+          "id": "spadi_pain_1",
+          "question": "How severe is your pain at its WORST?",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 0.5,
+          "labels": {
+            "0": "No pain at all",
+            "10": "Worst pain imaginable"
+          },
+          "required": true,
+          "order": 1
+        },
+        {
+          "id": "spadi_pain_2",
+          "question": "How severe is your pain when lying on the INVOLVED side?",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 0.5,
+          "labels": {
+            "0": "No pain",
+            "10": "Worst pain"
+          },
+          "required": true,
+          "order": 2
+        },
+        {
+          "id": "spadi_pain_3",
+          "question": "How severe is your pain when reaching for something on a HIGH shelf?",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 0.5,
+          "labels": {
+            "0": "No pain",
+            "10": "Worst pain"
+          },
+          "required": true,
+          "order": 3
+        },
+        {
+          "id": "spadi_pain_4",
+          "question": "How severe is your pain when touching the BACK of your neck?",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 0.5,
+          "labels": {
+            "0": "No pain",
+            "10": "Worst pain"
+          },
+          "required": true,
+          "order": 4
+        },
+        {
+          "id": "spadi_pain_5",
+          "question": "How severe is your pain when pushing with the INVOLVED arm?",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 0.5,
+          "labels": {
+            "0": "No pain",
+            "10": "Worst pain"
+          },
+          "required": true,
+          "order": 5
+        }
+      ]
+    },
+    {
+      "id": "disability_subscale",
+      "title": "Disability Scale",
+      "description": "How much DIFFICULTY do you have in the following situations?",
+      "subscale": "disability",
+      "questions": [
+        {
+          "id": "spadi_disability_1",
+          "question": "Washing your BACK",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 0.5,
+          "labels": {
+            "0": "No difficulty",
+            "10": "So difficult it required help"
+          },
+          "required": true,
+          "order": 6
+        },
+        {
+          "id": "spadi_disability_2",
+          "question": "Washing your HAIR",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 0.5,
+          "labels": {
+            "0": "No difficulty",
+            "10": "So difficult it required help"
+          },
+          "required": true,
+          "order": 7
+        },
+        {
+          "id": "spadi_disability_3",
+          "question": "Putting on a SHIRT or BLOUSE",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 0.5,
+          "labels": {
+            "0": "No difficulty",
+            "10": "So difficult it required help"
+          },
+          "required": true,
+          "order": 8
+        },
+        {
+          "id": "spadi_disability_4",
+          "question": "Putting on your PANTS",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 0.5,
+          "labels": {
+            "0": "No difficulty",
+            "10": "So difficult it required help"
+          },
+          "required": true,
+          "order": 9
+        },
+        {
+          "id": "spadi_disability_5",
+          "question": "Placing an object on a HIGH shelf",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 0.5,
+          "labels": {
+            "0": "No difficulty",
+            "10": "So difficult it required help"
+          },
+          "required": true,
+          "order": 10
+        },
+        {
+          "id": "spadi_disability_6",
+          "question": "Carrying a HEAVY object of 10 pounds (4.5 kg)",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 0.5,
+          "labels": {
+            "0": "No difficulty",
+            "10": "So difficult it required help"
+          },
+          "required": true,
+          "order": 11
+        },
+        {
+          "id": "spadi_disability_7",
+          "question": "Removing something from your BACK pocket",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 0.5,
+          "labels": {
+            "0": "No difficulty",
+            "10": "So difficult it required help"
+          },
+          "required": true,
+          "order": 12
+        },
+        {
+          "id": "spadi_disability_8",
+          "question": "Doing your usual WORK (include both work outside the home and housework)",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 0.5,
+          "labels": {
+            "0": "No difficulty",
+            "10": "So difficult it required help"
+          },
+          "required": true,
+          "order": 13
+        }
+      ]
+    }
+  ]
+}

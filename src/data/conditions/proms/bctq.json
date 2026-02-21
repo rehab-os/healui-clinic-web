@@ -1,0 +1,347 @@
+{
+  "prom_id": "BCTQ",
+  "full_name": "Boston Carpal Tunnel Questionnaire",
+  "version": "1.0",
+  "copyright": "© Levine et al., 1993",
+  "language": "English",
+  "total_items": 19,
+  "estimated_time_minutes": 5,
+  "description": "A disease-specific questionnaire for carpal tunnel syndrome consisting of two distinct scales: a Symptom Severity Scale (11 items) and a Functional Status Scale (8 items). It is widely used to assess severity and treatment outcomes.",
+  "instructions": "The following questions refer to your symptoms for a typical 24-hour period during the past two weeks. Please circle one answer to each question.",
+  "scoring": {
+    "method": "subscale_average",
+    "total_score": {
+      "min": 1.0,
+      "max": 5.0,
+      "calculation": "Average of both subscale scores. Each subscale scored separately then averaged.",
+      "interpretation": {
+        "1.0-1.9": "Mild symptoms",
+        "2.0-2.9": "Moderate symptoms",
+        "3.0-5.0": "Severe symptoms"
+      },
+      "higher_is_better": false,
+      "mcid": 0.85
+    },
+    "subscales": [
+      {
+        "id": "symptom_severity",
+        "name": "Symptom Severity Scale (SSS)",
+        "items": 11,
+        "min": 1.0,
+        "max": 5.0,
+        "calculation": "Sum of 11 items / 11",
+        "mcid": 1.04
+      },
+      {
+        "id": "functional_status",
+        "name": "Functional Status Scale (FSS)",
+        "items": 8,
+        "min": 1.0,
+        "max": 5.0,
+        "calculation": "Sum of 8 items / 8",
+        "mcid": 0.74
+      }
+    ]
+  },
+  "sections": [
+    {
+      "id": "bctq_symptom_severity",
+      "title": "Symptom Severity Scale",
+      "description": "The following questions refer to your symptoms for a typical 24-hour period during the past two weeks.",
+      "questions": [
+        {
+          "id": "bctq_s1",
+          "question": "How severe is the hand or wrist pain that you have at night?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 1,
+          "subscale": "symptom_severity",
+          "options": [
+            { "value": "1", "label": "I do not have hand or wrist pain at night", "score": 1 },
+            { "value": "2", "label": "Mild pain", "score": 2 },
+            { "value": "3", "label": "Moderate pain", "score": 3 },
+            { "value": "4", "label": "Severe pain", "score": 4 },
+            { "value": "5", "label": "Very severe pain", "score": 5 }
+          ]
+        },
+        {
+          "id": "bctq_s2",
+          "question": "How often did hand or wrist pain wake you up during a typical night in the past two weeks?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 2,
+          "subscale": "symptom_severity",
+          "options": [
+            { "value": "1", "label": "Never", "score": 1 },
+            { "value": "2", "label": "Once", "score": 2 },
+            { "value": "3", "label": "Two or three times", "score": 3 },
+            { "value": "4", "label": "Four or five times", "score": 4 },
+            { "value": "5", "label": "More than five times", "score": 5 }
+          ]
+        },
+        {
+          "id": "bctq_s3",
+          "question": "Do you typically have pain in your hand or wrist during the daytime?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 3,
+          "subscale": "symptom_severity",
+          "options": [
+            { "value": "1", "label": "I never have pain during the day", "score": 1 },
+            { "value": "2", "label": "I have mild pain during the day", "score": 2 },
+            { "value": "3", "label": "I have moderate pain during the day", "score": 3 },
+            { "value": "4", "label": "I have severe pain during the day", "score": 4 },
+            { "value": "5", "label": "I have very severe pain during the day", "score": 5 }
+          ]
+        },
+        {
+          "id": "bctq_s4",
+          "question": "How often do you have hand or wrist pain during the daytime?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 4,
+          "subscale": "symptom_severity",
+          "options": [
+            { "value": "1", "label": "Never", "score": 1 },
+            { "value": "2", "label": "Once or twice a day", "score": 2 },
+            { "value": "3", "label": "Three to five times a day", "score": 3 },
+            { "value": "4", "label": "More than five times a day", "score": 4 },
+            { "value": "5", "label": "The pain is constant", "score": 5 }
+          ]
+        },
+        {
+          "id": "bctq_s5",
+          "question": "How long, on average, does an episode of pain last during the daytime?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 5,
+          "subscale": "symptom_severity",
+          "options": [
+            { "value": "1", "label": "I never get pain during the day", "score": 1 },
+            { "value": "2", "label": "Less than 10 minutes", "score": 2 },
+            { "value": "3", "label": "10 to 60 minutes", "score": 3 },
+            { "value": "4", "label": "Greater than 60 minutes", "score": 4 },
+            { "value": "5", "label": "The pain is constant throughout the day", "score": 5 }
+          ]
+        },
+        {
+          "id": "bctq_s6",
+          "question": "Do you have numbness (loss of sensation) in your hand?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 6,
+          "subscale": "symptom_severity",
+          "options": [
+            { "value": "1", "label": "No", "score": 1 },
+            { "value": "2", "label": "I have mild numbness", "score": 2 },
+            { "value": "3", "label": "I have moderate numbness", "score": 3 },
+            { "value": "4", "label": "I have severe numbness", "score": 4 },
+            { "value": "5", "label": "I have very severe numbness", "score": 5 }
+          ]
+        },
+        {
+          "id": "bctq_s7",
+          "question": "Do you have weakness in your hand or wrist?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 7,
+          "subscale": "symptom_severity",
+          "options": [
+            { "value": "1", "label": "No weakness", "score": 1 },
+            { "value": "2", "label": "Mild weakness", "score": 2 },
+            { "value": "3", "label": "Moderate weakness", "score": 3 },
+            { "value": "4", "label": "Severe weakness", "score": 4 },
+            { "value": "5", "label": "Very severe weakness", "score": 5 }
+          ]
+        },
+        {
+          "id": "bctq_s8",
+          "question": "Do you have tingling sensations in your hand?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 8,
+          "subscale": "symptom_severity",
+          "options": [
+            { "value": "1", "label": "No tingling", "score": 1 },
+            { "value": "2", "label": "Mild tingling", "score": 2 },
+            { "value": "3", "label": "Moderate tingling", "score": 3 },
+            { "value": "4", "label": "Severe tingling", "score": 4 },
+            { "value": "5", "label": "Very severe tingling", "score": 5 }
+          ]
+        },
+        {
+          "id": "bctq_s9",
+          "question": "How severe is numbness (loss of sensation) or tingling at night?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 9,
+          "subscale": "symptom_severity",
+          "options": [
+            { "value": "1", "label": "I have no numbness or tingling at night", "score": 1 },
+            { "value": "2", "label": "Mild", "score": 2 },
+            { "value": "3", "label": "Moderate", "score": 3 },
+            { "value": "4", "label": "Severe", "score": 4 },
+            { "value": "5", "label": "Very severe", "score": 5 }
+          ]
+        },
+        {
+          "id": "bctq_s10",
+          "question": "How often did hand numbness or tingling wake you up during a typical night during the past two weeks?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 10,
+          "subscale": "symptom_severity",
+          "options": [
+            { "value": "1", "label": "Never", "score": 1 },
+            { "value": "2", "label": "Once", "score": 2 },
+            { "value": "3", "label": "Two or three times", "score": 3 },
+            { "value": "4", "label": "Four or five times", "score": 4 },
+            { "value": "5", "label": "More than five times", "score": 5 }
+          ]
+        },
+        {
+          "id": "bctq_s11",
+          "question": "Do you have difficulty with the grasping and use of small objects such as keys or pens?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 11,
+          "subscale": "symptom_severity",
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "Mild difficulty", "score": 2 },
+            { "value": "3", "label": "Moderate difficulty", "score": 3 },
+            { "value": "4", "label": "Severe difficulty", "score": 4 },
+            { "value": "5", "label": "Very severe difficulty", "score": 5 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bctq_functional_status",
+      "title": "Functional Status Scale",
+      "description": "On a typical day during the past two weeks, have hand and wrist symptoms caused you to have any difficulty doing the activities listed below? Please circle one number that best describes your ability to do the activity.",
+      "questions": [
+        {
+          "id": "bctq_f1",
+          "question": "Writing",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 12,
+          "subscale": "functional_status",
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "Mild difficulty", "score": 2 },
+            { "value": "3", "label": "Moderate difficulty", "score": 3 },
+            { "value": "4", "label": "Severe difficulty", "score": 4 },
+            { "value": "5", "label": "Cannot do at all due to hand and wrist symptoms", "score": 5 }
+          ]
+        },
+        {
+          "id": "bctq_f2",
+          "question": "Buttoning of clothes",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 13,
+          "subscale": "functional_status",
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "Mild difficulty", "score": 2 },
+            { "value": "3", "label": "Moderate difficulty", "score": 3 },
+            { "value": "4", "label": "Severe difficulty", "score": 4 },
+            { "value": "5", "label": "Cannot do at all due to hand and wrist symptoms", "score": 5 }
+          ]
+        },
+        {
+          "id": "bctq_f3",
+          "question": "Holding a book while reading",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 14,
+          "subscale": "functional_status",
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "Mild difficulty", "score": 2 },
+            { "value": "3", "label": "Moderate difficulty", "score": 3 },
+            { "value": "4", "label": "Severe difficulty", "score": 4 },
+            { "value": "5", "label": "Cannot do at all due to hand and wrist symptoms", "score": 5 }
+          ]
+        },
+        {
+          "id": "bctq_f4",
+          "question": "Gripping of a telephone handle",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 15,
+          "subscale": "functional_status",
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "Mild difficulty", "score": 2 },
+            { "value": "3", "label": "Moderate difficulty", "score": 3 },
+            { "value": "4", "label": "Severe difficulty", "score": 4 },
+            { "value": "5", "label": "Cannot do at all due to hand and wrist symptoms", "score": 5 }
+          ]
+        },
+        {
+          "id": "bctq_f5",
+          "question": "Opening of jars",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 16,
+          "subscale": "functional_status",
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "Mild difficulty", "score": 2 },
+            { "value": "3", "label": "Moderate difficulty", "score": 3 },
+            { "value": "4", "label": "Severe difficulty", "score": 4 },
+            { "value": "5", "label": "Cannot do at all due to hand and wrist symptoms", "score": 5 }
+          ]
+        },
+        {
+          "id": "bctq_f6",
+          "question": "Household chores",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 17,
+          "subscale": "functional_status",
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "Mild difficulty", "score": 2 },
+            { "value": "3", "label": "Moderate difficulty", "score": 3 },
+            { "value": "4", "label": "Severe difficulty", "score": 4 },
+            { "value": "5", "label": "Cannot do at all due to hand and wrist symptoms", "score": 5 }
+          ]
+        },
+        {
+          "id": "bctq_f7",
+          "question": "Carrying of grocery bags",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 18,
+          "subscale": "functional_status",
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "Mild difficulty", "score": 2 },
+            { "value": "3", "label": "Moderate difficulty", "score": 3 },
+            { "value": "4", "label": "Severe difficulty", "score": 4 },
+            { "value": "5", "label": "Cannot do at all due to hand and wrist symptoms", "score": 5 }
+          ]
+        },
+        {
+          "id": "bctq_f8",
+          "question": "Bathing and dressing",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 19,
+          "subscale": "functional_status",
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "Mild difficulty", "score": 2 },
+            { "value": "3", "label": "Moderate difficulty", "score": 3 },
+            { "value": "4", "label": "Severe difficulty", "score": 4 },
+            { "value": "5", "label": "Cannot do at all due to hand and wrist symptoms", "score": 5 }
+          ]
+        }
+      ]
+    }
+  ]
+}

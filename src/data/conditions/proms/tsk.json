@@ -1,0 +1,261 @@
+{
+  "prom_id": "TSK",
+  "full_name": "Tampa Scale for Kinesiophobia",
+  "version": "TSK-17",
+  "copyright": "© Kori et al., 1990",
+  "language": "English",
+  "total_items": 17,
+  "estimated_time_minutes": 5,
+  "description": "A 17-item questionnaire designed to measure fear of movement or (re)injury. Originally developed for patients with chronic musculoskeletal pain, it assesses fear-avoidance beliefs and is widely used in physiotherapy and rehabilitation settings.",
+  "instructions": "Please rate how much you agree or disagree with each of the following statements.",
+  "scoring": {
+    "method": "sum_total",
+    "total_score": {
+      "min": 17,
+      "max": 68,
+      "calculation": "Sum of all items (items 4, 8, 12, 16 are reverse scored). Higher scores indicate greater fear of movement.",
+      "interpretation": {
+        "17-36": "Low kinesiophobia",
+        "37-42": "Moderate kinesiophobia",
+        "43-68": "High kinesiophobia (clinically significant fear-avoidance)"
+      },
+      "higher_is_better": false,
+      "mcid": 5.5,
+      "clinical_cutoff": 37
+    }
+  },
+  "sections": [
+    {
+      "id": "tsk_kinesiophobia",
+      "title": "Fear of Movement/Re-injury",
+      "description": "Rate your agreement with each statement about your pain and movement.",
+      "questions": [
+        {
+          "id": "tsk_1",
+          "question": "I'm afraid that I might injure myself if I exercise",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 1,
+          "options": [
+            { "value": "1", "label": "Strongly disagree", "score": 1 },
+            { "value": "2", "label": "Disagree", "score": 2 },
+            { "value": "3", "label": "Agree", "score": 3 },
+            { "value": "4", "label": "Strongly agree", "score": 4 }
+          ]
+        },
+        {
+          "id": "tsk_2",
+          "question": "If I were to try to overcome it, my pain would increase",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 2,
+          "options": [
+            { "value": "1", "label": "Strongly disagree", "score": 1 },
+            { "value": "2", "label": "Disagree", "score": 2 },
+            { "value": "3", "label": "Agree", "score": 3 },
+            { "value": "4", "label": "Strongly agree", "score": 4 }
+          ]
+        },
+        {
+          "id": "tsk_3",
+          "question": "My body is telling me I have something dangerously wrong",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 3,
+          "options": [
+            { "value": "1", "label": "Strongly disagree", "score": 1 },
+            { "value": "2", "label": "Disagree", "score": 2 },
+            { "value": "3", "label": "Agree", "score": 3 },
+            { "value": "4", "label": "Strongly agree", "score": 4 }
+          ]
+        },
+        {
+          "id": "tsk_4",
+          "question": "My pain would probably be relieved if I were to exercise",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 4,
+          "reverse_scored": true,
+          "options": [
+            { "value": "1", "label": "Strongly disagree", "score": 4 },
+            { "value": "2", "label": "Disagree", "score": 3 },
+            { "value": "3", "label": "Agree", "score": 2 },
+            { "value": "4", "label": "Strongly agree", "score": 1 }
+          ]
+        },
+        {
+          "id": "tsk_5",
+          "question": "People aren't taking my medical condition seriously enough",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 5,
+          "options": [
+            { "value": "1", "label": "Strongly disagree", "score": 1 },
+            { "value": "2", "label": "Disagree", "score": 2 },
+            { "value": "3", "label": "Agree", "score": 3 },
+            { "value": "4", "label": "Strongly agree", "score": 4 }
+          ]
+        },
+        {
+          "id": "tsk_6",
+          "question": "My accident has put my body at risk for the rest of my life",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 6,
+          "options": [
+            { "value": "1", "label": "Strongly disagree", "score": 1 },
+            { "value": "2", "label": "Disagree", "score": 2 },
+            { "value": "3", "label": "Agree", "score": 3 },
+            { "value": "4", "label": "Strongly agree", "score": 4 }
+          ]
+        },
+        {
+          "id": "tsk_7",
+          "question": "Pain always means I have injured my body",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 7,
+          "options": [
+            { "value": "1", "label": "Strongly disagree", "score": 1 },
+            { "value": "2", "label": "Disagree", "score": 2 },
+            { "value": "3", "label": "Agree", "score": 3 },
+            { "value": "4", "label": "Strongly agree", "score": 4 }
+          ]
+        },
+        {
+          "id": "tsk_8",
+          "question": "Just because something aggravates my pain does not mean it is dangerous",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 8,
+          "reverse_scored": true,
+          "options": [
+            { "value": "1", "label": "Strongly disagree", "score": 4 },
+            { "value": "2", "label": "Disagree", "score": 3 },
+            { "value": "3", "label": "Agree", "score": 2 },
+            { "value": "4", "label": "Strongly agree", "score": 1 }
+          ]
+        },
+        {
+          "id": "tsk_9",
+          "question": "I am afraid that I might injure myself accidentally",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 9,
+          "options": [
+            { "value": "1", "label": "Strongly disagree", "score": 1 },
+            { "value": "2", "label": "Disagree", "score": 2 },
+            { "value": "3", "label": "Agree", "score": 3 },
+            { "value": "4", "label": "Strongly agree", "score": 4 }
+          ]
+        },
+        {
+          "id": "tsk_10",
+          "question": "Simply being careful that I do not make any unnecessary movements is the safest thing I can do to prevent my pain from worsening",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 10,
+          "options": [
+            { "value": "1", "label": "Strongly disagree", "score": 1 },
+            { "value": "2", "label": "Disagree", "score": 2 },
+            { "value": "3", "label": "Agree", "score": 3 },
+            { "value": "4", "label": "Strongly agree", "score": 4 }
+          ]
+        },
+        {
+          "id": "tsk_11",
+          "question": "I wouldn't have this much pain if there weren't something potentially dangerous going on in my body",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 11,
+          "options": [
+            { "value": "1", "label": "Strongly disagree", "score": 1 },
+            { "value": "2", "label": "Disagree", "score": 2 },
+            { "value": "3", "label": "Agree", "score": 3 },
+            { "value": "4", "label": "Strongly agree", "score": 4 }
+          ]
+        },
+        {
+          "id": "tsk_12",
+          "question": "Although my condition is painful, I would be better off if I were physically active",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 12,
+          "reverse_scored": true,
+          "options": [
+            { "value": "1", "label": "Strongly disagree", "score": 4 },
+            { "value": "2", "label": "Disagree", "score": 3 },
+            { "value": "3", "label": "Agree", "score": 2 },
+            { "value": "4", "label": "Strongly agree", "score": 1 }
+          ]
+        },
+        {
+          "id": "tsk_13",
+          "question": "Pain lets me know when to stop exercising so that I don't injure myself",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 13,
+          "options": [
+            { "value": "1", "label": "Strongly disagree", "score": 1 },
+            { "value": "2", "label": "Disagree", "score": 2 },
+            { "value": "3", "label": "Agree", "score": 3 },
+            { "value": "4", "label": "Strongly agree", "score": 4 }
+          ]
+        },
+        {
+          "id": "tsk_14",
+          "question": "It's really not safe for a person with a condition like mine to be physically active",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 14,
+          "options": [
+            { "value": "1", "label": "Strongly disagree", "score": 1 },
+            { "value": "2", "label": "Disagree", "score": 2 },
+            { "value": "3", "label": "Agree", "score": 3 },
+            { "value": "4", "label": "Strongly agree", "score": 4 }
+          ]
+        },
+        {
+          "id": "tsk_15",
+          "question": "I can't do all the things normal people do because it's too easy for me to get injured",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 15,
+          "options": [
+            { "value": "1", "label": "Strongly disagree", "score": 1 },
+            { "value": "2", "label": "Disagree", "score": 2 },
+            { "value": "3", "label": "Agree", "score": 3 },
+            { "value": "4", "label": "Strongly agree", "score": 4 }
+          ]
+        },
+        {
+          "id": "tsk_16",
+          "question": "Even though something is causing me a lot of pain, I don't think it's actually dangerous",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 16,
+          "reverse_scored": true,
+          "options": [
+            { "value": "1", "label": "Strongly disagree", "score": 4 },
+            { "value": "2", "label": "Disagree", "score": 3 },
+            { "value": "3", "label": "Agree", "score": 2 },
+            { "value": "4", "label": "Strongly agree", "score": 1 }
+          ]
+        },
+        {
+          "id": "tsk_17",
+          "question": "No one should have to exercise when he/she is in pain",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 17,
+          "options": [
+            { "value": "1", "label": "Strongly disagree", "score": 1 },
+            { "value": "2", "label": "Disagree", "score": 2 },
+            { "value": "3", "label": "Agree", "score": 3 },
+            { "value": "4", "label": "Strongly agree", "score": 4 }
+          ]
+        }
+      ]
+    }
+  ]
+}

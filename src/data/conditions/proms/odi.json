@@ -1,0 +1,187 @@
+{
+  "prom_id": "ODI",
+  "full_name": "Oswestry Disability Index",
+  "version": "2.0",
+  "copyright": "© Fairbank et al., 1980",
+  "language": "English",
+  "total_items": 10,
+  "estimated_time_minutes": 5,
+  "description": "A patient-completed questionnaire which assesses the degree of disability and quality of life in patients with low back pain.",
+  "instructions": "Please answer every section. Mark ONE box in each section that most closely describes you TODAY.",
+  "scoring": {
+    "method": "sum_to_percentage",
+    "total_score": {
+      "min": 0,
+      "max": 50,
+      "calculation": "Sum of all 10 items (each scored 0-5)",
+      "percentage_calculation": "(total / 50) × 100",
+      "interpretation": {
+        "0-20": "Minimal disability",
+        "21-40": "Moderate disability",
+        "41-60": "Severe disability",
+        "61-80": "Crippling back pain",
+        "81-100": "Bed-bound or exaggerating symptoms"
+      },
+      "higher_is_worse": true
+    }
+  },
+  "sections": [
+    {
+      "id": "odi_questionnaire",
+      "title": "Low Back Disability Assessment",
+      "description": "Select one option for each section that best describes your current situation",
+      "questions": [
+        {
+          "id": "odi_1_pain_intensity",
+          "question": "Section 1: Pain Intensity",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 1,
+          "options": [
+            { "value": "0", "label": "I have no pain at the moment", "score": 0 },
+            { "value": "1", "label": "The pain is very mild at the moment", "score": 1 },
+            { "value": "2", "label": "The pain is moderate at the moment", "score": 2 },
+            { "value": "3", "label": "The pain is fairly severe at the moment", "score": 3 },
+            { "value": "4", "label": "The pain is very severe at the moment", "score": 4 },
+            { "value": "5", "label": "The pain is the worst imaginable at the moment", "score": 5 }
+          ]
+        },
+        {
+          "id": "odi_2_personal_care",
+          "question": "Section 2: Personal Care (washing, dressing, etc.)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 2,
+          "options": [
+            { "value": "0", "label": "I can look after myself normally without causing extra pain", "score": 0 },
+            { "value": "1", "label": "I can look after myself normally but it causes extra pain", "score": 1 },
+            { "value": "2", "label": "It is painful to look after myself and I am slow and careful", "score": 2 },
+            { "value": "3", "label": "I need some help but manage most of my personal care", "score": 3 },
+            { "value": "4", "label": "I need help every day in most aspects of self-care", "score": 4 },
+            { "value": "5", "label": "I do not get dressed, I wash with difficulty and stay in bed", "score": 5 }
+          ]
+        },
+        {
+          "id": "odi_3_lifting",
+          "question": "Section 3: Lifting",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 3,
+          "options": [
+            { "value": "0", "label": "I can lift heavy weights without extra pain", "score": 0 },
+            { "value": "1", "label": "I can lift heavy weights but it gives extra pain", "score": 1 },
+            { "value": "2", "label": "Pain prevents me from lifting heavy weights off the floor, but I can manage if they are conveniently placed (e.g., on a table)", "score": 2 },
+            { "value": "3", "label": "Pain prevents me from lifting heavy weights but I can manage light to medium weights if they are conveniently positioned", "score": 3 },
+            { "value": "4", "label": "I can lift very light weights only", "score": 4 },
+            { "value": "5", "label": "I cannot lift or carry anything", "score": 5 }
+          ]
+        },
+        {
+          "id": "odi_4_walking",
+          "question": "Section 4: Walking",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 4,
+          "options": [
+            { "value": "0", "label": "Pain does not prevent me walking any distance", "score": 0 },
+            { "value": "1", "label": "Pain prevents me from walking more than 1 mile", "score": 1 },
+            { "value": "2", "label": "Pain prevents me from walking more than 1/2 mile", "score": 2 },
+            { "value": "3", "label": "Pain prevents me from walking more than 100 yards", "score": 3 },
+            { "value": "4", "label": "I can only walk using a stick or crutches", "score": 4 },
+            { "value": "5", "label": "I am in bed most of the time", "score": 5 }
+          ]
+        },
+        {
+          "id": "odi_5_sitting",
+          "question": "Section 5: Sitting",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 5,
+          "options": [
+            { "value": "0", "label": "I can sit in any chair as long as I like", "score": 0 },
+            { "value": "1", "label": "I can only sit in my favorite chair as long as I like", "score": 1 },
+            { "value": "2", "label": "Pain prevents me sitting more than one hour", "score": 2 },
+            { "value": "3", "label": "Pain prevents me from sitting more than 30 minutes", "score": 3 },
+            { "value": "4", "label": "Pain prevents me from sitting more than 10 minutes", "score": 4 },
+            { "value": "5", "label": "Pain prevents me from sitting at all", "score": 5 }
+          ]
+        },
+        {
+          "id": "odi_6_standing",
+          "question": "Section 6: Standing",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 6,
+          "options": [
+            { "value": "0", "label": "I can stand as long as I want without extra pain", "score": 0 },
+            { "value": "1", "label": "I can stand as long as I want but it gives me extra pain", "score": 1 },
+            { "value": "2", "label": "Pain prevents me from standing for more than 1 hour", "score": 2 },
+            { "value": "3", "label": "Pain prevents me from standing for more than 30 minutes", "score": 3 },
+            { "value": "4", "label": "Pain prevents me from standing for more than 10 minutes", "score": 4 },
+            { "value": "5", "label": "Pain prevents me from standing at all", "score": 5 }
+          ]
+        },
+        {
+          "id": "odi_7_sleeping",
+          "question": "Section 7: Sleeping",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 7,
+          "options": [
+            { "value": "0", "label": "My sleep is never disturbed by pain", "score": 0 },
+            { "value": "1", "label": "My sleep is occasionally disturbed by pain", "score": 1 },
+            { "value": "2", "label": "Because of pain I have less than 6 hours sleep", "score": 2 },
+            { "value": "3", "label": "Because of pain I have less than 4 hours sleep", "score": 3 },
+            { "value": "4", "label": "Because of pain I have less than 2 hours sleep", "score": 4 },
+            { "value": "5", "label": "Pain prevents me from sleeping at all", "score": 5 }
+          ]
+        },
+        {
+          "id": "odi_8_social_life",
+          "question": "Section 8: Social Life",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 8,
+          "options": [
+            { "value": "0", "label": "My social life is normal and gives me no extra pain", "score": 0 },
+            { "value": "1", "label": "My social life is normal but increases the degree of pain", "score": 1 },
+            { "value": "2", "label": "Pain has no significant effect on my social life apart from limiting my more energetic interests (e.g., sport)", "score": 2 },
+            { "value": "3", "label": "Pain has restricted my social life and I do not go out as often", "score": 3 },
+            { "value": "4", "label": "Pain has restricted my social life to my home", "score": 4 },
+            { "value": "5", "label": "I have no social life because of pain", "score": 5 }
+          ]
+        },
+        {
+          "id": "odi_9_travelling",
+          "question": "Section 9: Travelling",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 9,
+          "options": [
+            { "value": "0", "label": "I can travel anywhere without pain", "score": 0 },
+            { "value": "1", "label": "I can travel anywhere but it gives me extra pain", "score": 1 },
+            { "value": "2", "label": "Pain is bad but I manage journeys over two hours", "score": 2 },
+            { "value": "3", "label": "Pain restricts me to journeys of less than one hour", "score": 3 },
+            { "value": "4", "label": "Pain restricts me to short necessary journeys under 30 minutes", "score": 4 },
+            { "value": "5", "label": "Pain prevents me from travelling except to receive treatment", "score": 5 }
+          ]
+        },
+        {
+          "id": "odi_10_employment",
+          "question": "Section 10: Employment/Homemaking",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 10,
+          "options": [
+            { "value": "0", "label": "My normal homemaking/job activities do not cause pain", "score": 0 },
+            { "value": "1", "label": "My normal homemaking/job activities increase my pain, but I can still perform all that is required of me", "score": 1 },
+            { "value": "2", "label": "I can perform most of my homemaking/job duties, but pain prevents me from performing more physically stressful activities", "score": 2 },
+            { "value": "3", "label": "Pain prevents me from doing anything but light duties", "score": 3 },
+            { "value": "4", "label": "Pain prevents me from doing even light duties", "score": 4 },
+            { "value": "5", "label": "Pain prevents me from performing any job or homemaking chores", "score": 5 }
+          ]
+        }
+      ]
+    }
+  ]
+}

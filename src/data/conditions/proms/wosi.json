@@ -1,0 +1,399 @@
+{
+  "prom_id": "WOSI",
+  "full_name": "Western Ontario Shoulder Instability Index",
+  "version": "1.0",
+  "copyright": "© Kirkley et al., 1998",
+  "language": "English",
+  "total_items": 21,
+  "estimated_time_minutes": 7,
+  "description": "A disease-specific quality of life measurement tool for patients with shoulder instability. The WOSI is designed to evaluate the impact of shoulder instability on physical symptoms, sports/recreation/work, lifestyle, and emotions.",
+  "instructions": "Please indicate the amount of difficulty you have experienced in the following situations during the last week by placing a mark on the line.",
+  "scoring": {
+    "method": "domain_percentage",
+    "total_score": {
+      "min": 0,
+      "max": 2100,
+      "calculation": "Sum of all VAS scores (each 0-100mm). Can be expressed as percentage: (Total/2100) × 100",
+      "interpretation": {
+        "0-525": "Excellent (0-25% disability)",
+        "526-1050": "Good (25-50% disability)",
+        "1051-1575": "Fair (50-75% disability)",
+        "1576-2100": "Poor (75-100% disability)"
+      },
+      "higher_is_better": false,
+      "mcid": 252,
+      "note": "Lower scores indicate better function"
+    },
+    "domains": [
+      {
+        "id": "physical_symptoms",
+        "name": "Physical Symptoms",
+        "items": 10,
+        "max": 1000
+      },
+      {
+        "id": "sports_recreation_work",
+        "name": "Sports/Recreation/Work",
+        "items": 4,
+        "max": 400
+      },
+      {
+        "id": "lifestyle",
+        "name": "Lifestyle",
+        "items": 4,
+        "max": 400
+      },
+      {
+        "id": "emotions",
+        "name": "Emotions",
+        "items": 3,
+        "max": 300
+      }
+    ]
+  },
+  "sections": [
+    {
+      "id": "wosi_physical",
+      "title": "Section A: Physical Symptoms",
+      "description": "How much pain/discomfort/weakness do you experience in your shoulder?",
+      "questions": [
+        {
+          "id": "wosi_p1",
+          "question": "How much pain do you experience in your shoulder with overhead activities?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 1,
+          "domain": "physical_symptoms",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "labels": {
+            "0": "No pain",
+            "100": "Extreme pain"
+          }
+        },
+        {
+          "id": "wosi_p2",
+          "question": "How much aching or throbbing do you experience in your shoulder?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 2,
+          "domain": "physical_symptoms",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "labels": {
+            "0": "No aching",
+            "100": "Extreme aching"
+          }
+        },
+        {
+          "id": "wosi_p3",
+          "question": "How weak or lacking in strength is your shoulder?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 3,
+          "domain": "physical_symptoms",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "labels": {
+            "0": "No weakness",
+            "100": "Extreme weakness"
+          }
+        },
+        {
+          "id": "wosi_p4",
+          "question": "How much fatigue or lack of stamina do you experience in your shoulder?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 4,
+          "domain": "physical_symptoms",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "labels": {
+            "0": "No fatigue",
+            "100": "Extreme fatigue"
+          }
+        },
+        {
+          "id": "wosi_p5",
+          "question": "How much clicking, cracking, or snapping do you experience in your shoulder?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 5,
+          "domain": "physical_symptoms",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "labels": {
+            "0": "None",
+            "100": "Extreme amount"
+          }
+        },
+        {
+          "id": "wosi_p6",
+          "question": "How much stiffness do you experience in your shoulder?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 6,
+          "domain": "physical_symptoms",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "labels": {
+            "0": "No stiffness",
+            "100": "Extreme stiffness"
+          }
+        },
+        {
+          "id": "wosi_p7",
+          "question": "How much discomfort do you experience in the muscles surrounding your shoulder and neck?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 7,
+          "domain": "physical_symptoms",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "labels": {
+            "0": "No discomfort",
+            "100": "Extreme discomfort"
+          }
+        },
+        {
+          "id": "wosi_p8",
+          "question": "How much loss of range of motion do you have in your shoulder?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 8,
+          "domain": "physical_symptoms",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "labels": {
+            "0": "No loss",
+            "100": "Complete loss"
+          }
+        },
+        {
+          "id": "wosi_p9",
+          "question": "How much lack of confidence do you have in your shoulder?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 9,
+          "domain": "physical_symptoms",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "labels": {
+            "0": "Completely confident",
+            "100": "No confidence"
+          }
+        },
+        {
+          "id": "wosi_p10",
+          "question": "How aware are you of your shoulder problem?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 10,
+          "domain": "physical_symptoms",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "labels": {
+            "0": "Not aware",
+            "100": "Extremely aware"
+          }
+        }
+      ]
+    },
+    {
+      "id": "wosi_sports",
+      "title": "Section B: Sports/Recreation/Work",
+      "description": "How much has your shoulder affected your ability to perform:",
+      "questions": [
+        {
+          "id": "wosi_s1",
+          "question": "How much difficulty do you experience performing your regular sport or work activities?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 11,
+          "domain": "sports_recreation_work",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "labels": {
+            "0": "No difficulty",
+            "100": "Unable to perform"
+          }
+        },
+        {
+          "id": "wosi_s2",
+          "question": "How much has your shoulder affected your ability to play your sport well?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 12,
+          "domain": "sports_recreation_work",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "labels": {
+            "0": "Not affected",
+            "100": "Completely affected"
+          }
+        },
+        {
+          "id": "wosi_s3",
+          "question": "How much has your shoulder limited the amount of time you can participate in your sport or work?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 13,
+          "domain": "sports_recreation_work",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "labels": {
+            "0": "Not limited",
+            "100": "Completely limited"
+          }
+        },
+        {
+          "id": "wosi_s4",
+          "question": "How much do you compensate with other parts of your body because of your shoulder?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 14,
+          "domain": "sports_recreation_work",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "labels": {
+            "0": "Not at all",
+            "100": "Completely"
+          }
+        }
+      ]
+    },
+    {
+      "id": "wosi_lifestyle",
+      "title": "Section C: Lifestyle",
+      "description": "To what extent has your shoulder affected:",
+      "questions": [
+        {
+          "id": "wosi_l1",
+          "question": "How much has your shoulder affected your lifestyle?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 15,
+          "domain": "lifestyle",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "labels": {
+            "0": "Not affected",
+            "100": "Completely affected"
+          }
+        },
+        {
+          "id": "wosi_l2",
+          "question": "How much has your shoulder limited your recreational activities?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 16,
+          "domain": "lifestyle",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "labels": {
+            "0": "Not limited",
+            "100": "Completely limited"
+          }
+        },
+        {
+          "id": "wosi_l3",
+          "question": "How much has your shoulder affected your ability to maintain your desired level of fitness?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 17,
+          "domain": "lifestyle",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "labels": {
+            "0": "Not affected",
+            "100": "Completely affected"
+          }
+        },
+        {
+          "id": "wosi_l4",
+          "question": "How much fear do you have of falling on your shoulder during activities?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 18,
+          "domain": "lifestyle",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "labels": {
+            "0": "No fear",
+            "100": "Extreme fear"
+          }
+        }
+      ]
+    },
+    {
+      "id": "wosi_emotions",
+      "title": "Section D: Emotions",
+      "description": "To what extent do you experience:",
+      "questions": [
+        {
+          "id": "wosi_e1",
+          "question": "How frustrating is your shoulder?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 19,
+          "domain": "emotions",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "labels": {
+            "0": "Not frustrating",
+            "100": "Extremely frustrating"
+          }
+        },
+        {
+          "id": "wosi_e2",
+          "question": "How concerned are you about your shoulder?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 20,
+          "domain": "emotions",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "labels": {
+            "0": "Not concerned",
+            "100": "Extremely concerned"
+          }
+        },
+        {
+          "id": "wosi_e3",
+          "question": "How much difficulty do you experience dealing with your shoulder on a regular basis?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 21,
+          "domain": "emotions",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "labels": {
+            "0": "No difficulty",
+            "100": "Extreme difficulty"
+          }
+        }
+      ]
+    }
+  ]
+}

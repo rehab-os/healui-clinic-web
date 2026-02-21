@@ -1,0 +1,404 @@
+{
+  "prom_id": "CPAQ",
+  "full_name": "Chronic Pain Acceptance Questionnaire",
+  "version": "CPAQ-20",
+  "copyright": "© McCracken et al., 2004",
+  "language": "English",
+  "total_items": 20,
+  "estimated_time_minutes": 5,
+  "description": "A 20-item self-report measure that assesses acceptance of chronic pain. It consists of two subscales: Activity Engagement (pursuing life activities regardless of pain) and Pain Willingness (recognition that avoidance and control are ineffective). Higher acceptance is associated with better functioning in chronic pain patients.",
+  "instructions": "Below you will find a list of statements. Please rate the truth of each statement as it applies to you. Use the following rating scale to make your choices.",
+  "scoring": {
+    "method": "subscale_sum",
+    "total_score": {
+      "min": 0,
+      "max": 120,
+      "calculation": "Sum of all 20 items (each 0-6). Higher scores = greater pain acceptance.",
+      "interpretation": {
+        "0-40": "Low acceptance",
+        "41-80": "Moderate acceptance",
+        "81-120": "High acceptance"
+      },
+      "higher_is_better": true,
+      "mcid": 10,
+      "note": "Higher scores indicate greater acceptance and better adjustment to chronic pain"
+    },
+    "subscales": [
+      {
+        "id": "activity_engagement",
+        "name": "Activity Engagement",
+        "items": 11,
+        "description": "Pursuing life activities regardless of pain",
+        "min": 0,
+        "max": 66
+      },
+      {
+        "id": "pain_willingness",
+        "name": "Pain Willingness",
+        "items": 9,
+        "description": "Recognition that avoidance and control of pain are ineffective",
+        "min": 0,
+        "max": 54
+      }
+    ]
+  },
+  "sections": [
+    {
+      "id": "cpaq_acceptance",
+      "title": "Pain Acceptance",
+      "description": "Please rate how true each statement is for you.",
+      "questions": [
+        {
+          "id": "cpaq_1",
+          "question": "I am getting on with the business of living no matter what my level of pain is",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 1,
+          "subscale": "activity_engagement",
+          "options": [
+            { "value": "0", "label": "0 - Never true", "score": 0 },
+            { "value": "1", "label": "1 - Very rarely true", "score": 1 },
+            { "value": "2", "label": "2 - Seldom true", "score": 2 },
+            { "value": "3", "label": "3 - Sometimes true", "score": 3 },
+            { "value": "4", "label": "4 - Often true", "score": 4 },
+            { "value": "5", "label": "5 - Almost always true", "score": 5 },
+            { "value": "6", "label": "6 - Always true", "score": 6 }
+          ]
+        },
+        {
+          "id": "cpaq_2",
+          "question": "My life is going well, even though I have chronic pain",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 2,
+          "subscale": "activity_engagement",
+          "options": [
+            { "value": "0", "label": "0 - Never true", "score": 0 },
+            { "value": "1", "label": "1 - Very rarely true", "score": 1 },
+            { "value": "2", "label": "2 - Seldom true", "score": 2 },
+            { "value": "3", "label": "3 - Sometimes true", "score": 3 },
+            { "value": "4", "label": "4 - Often true", "score": 4 },
+            { "value": "5", "label": "5 - Almost always true", "score": 5 },
+            { "value": "6", "label": "6 - Always true", "score": 6 }
+          ]
+        },
+        {
+          "id": "cpaq_3",
+          "question": "It's OK to experience pain",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 3,
+          "subscale": "pain_willingness",
+          "options": [
+            { "value": "0", "label": "0 - Never true", "score": 0 },
+            { "value": "1", "label": "1 - Very rarely true", "score": 1 },
+            { "value": "2", "label": "2 - Seldom true", "score": 2 },
+            { "value": "3", "label": "3 - Sometimes true", "score": 3 },
+            { "value": "4", "label": "4 - Often true", "score": 4 },
+            { "value": "5", "label": "5 - Almost always true", "score": 5 },
+            { "value": "6", "label": "6 - Always true", "score": 6 }
+          ]
+        },
+        {
+          "id": "cpaq_4",
+          "question": "I would gladly sacrifice important things in my life to control this pain better",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 4,
+          "subscale": "pain_willingness",
+          "reverse_scored": true,
+          "options": [
+            { "value": "0", "label": "0 - Never true", "score": 6 },
+            { "value": "1", "label": "1 - Very rarely true", "score": 5 },
+            { "value": "2", "label": "2 - Seldom true", "score": 4 },
+            { "value": "3", "label": "3 - Sometimes true", "score": 3 },
+            { "value": "4", "label": "4 - Often true", "score": 2 },
+            { "value": "5", "label": "5 - Almost always true", "score": 1 },
+            { "value": "6", "label": "6 - Always true", "score": 0 }
+          ]
+        },
+        {
+          "id": "cpaq_5",
+          "question": "It's not necessary for me to control my pain in order to handle my life well",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 5,
+          "subscale": "pain_willingness",
+          "options": [
+            { "value": "0", "label": "0 - Never true", "score": 0 },
+            { "value": "1", "label": "1 - Very rarely true", "score": 1 },
+            { "value": "2", "label": "2 - Seldom true", "score": 2 },
+            { "value": "3", "label": "3 - Sometimes true", "score": 3 },
+            { "value": "4", "label": "4 - Often true", "score": 4 },
+            { "value": "5", "label": "5 - Almost always true", "score": 5 },
+            { "value": "6", "label": "6 - Always true", "score": 6 }
+          ]
+        },
+        {
+          "id": "cpaq_6",
+          "question": "Although things have changed, I am living a normal life despite my chronic pain",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 6,
+          "subscale": "activity_engagement",
+          "options": [
+            { "value": "0", "label": "0 - Never true", "score": 0 },
+            { "value": "1", "label": "1 - Very rarely true", "score": 1 },
+            { "value": "2", "label": "2 - Seldom true", "score": 2 },
+            { "value": "3", "label": "3 - Sometimes true", "score": 3 },
+            { "value": "4", "label": "4 - Often true", "score": 4 },
+            { "value": "5", "label": "5 - Almost always true", "score": 5 },
+            { "value": "6", "label": "6 - Always true", "score": 6 }
+          ]
+        },
+        {
+          "id": "cpaq_7",
+          "question": "I need to concentrate on getting rid of my pain",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 7,
+          "subscale": "pain_willingness",
+          "reverse_scored": true,
+          "options": [
+            { "value": "0", "label": "0 - Never true", "score": 6 },
+            { "value": "1", "label": "1 - Very rarely true", "score": 5 },
+            { "value": "2", "label": "2 - Seldom true", "score": 4 },
+            { "value": "3", "label": "3 - Sometimes true", "score": 3 },
+            { "value": "4", "label": "4 - Often true", "score": 2 },
+            { "value": "5", "label": "5 - Almost always true", "score": 1 },
+            { "value": "6", "label": "6 - Always true", "score": 0 }
+          ]
+        },
+        {
+          "id": "cpaq_8",
+          "question": "There are many activities I do when I feel pain",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 8,
+          "subscale": "activity_engagement",
+          "options": [
+            { "value": "0", "label": "0 - Never true", "score": 0 },
+            { "value": "1", "label": "1 - Very rarely true", "score": 1 },
+            { "value": "2", "label": "2 - Seldom true", "score": 2 },
+            { "value": "3", "label": "3 - Sometimes true", "score": 3 },
+            { "value": "4", "label": "4 - Often true", "score": 4 },
+            { "value": "5", "label": "5 - Almost always true", "score": 5 },
+            { "value": "6", "label": "6 - Always true", "score": 6 }
+          ]
+        },
+        {
+          "id": "cpaq_9",
+          "question": "I live my life fully even though I have chronic pain",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 9,
+          "subscale": "activity_engagement",
+          "options": [
+            { "value": "0", "label": "0 - Never true", "score": 0 },
+            { "value": "1", "label": "1 - Very rarely true", "score": 1 },
+            { "value": "2", "label": "2 - Seldom true", "score": 2 },
+            { "value": "3", "label": "3 - Sometimes true", "score": 3 },
+            { "value": "4", "label": "4 - Often true", "score": 4 },
+            { "value": "5", "label": "5 - Almost always true", "score": 5 },
+            { "value": "6", "label": "6 - Always true", "score": 6 }
+          ]
+        },
+        {
+          "id": "cpaq_10",
+          "question": "Controlling my pain is less important than any other goals in my life",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 10,
+          "subscale": "pain_willingness",
+          "options": [
+            { "value": "0", "label": "0 - Never true", "score": 0 },
+            { "value": "1", "label": "1 - Very rarely true", "score": 1 },
+            { "value": "2", "label": "2 - Seldom true", "score": 2 },
+            { "value": "3", "label": "3 - Sometimes true", "score": 3 },
+            { "value": "4", "label": "4 - Often true", "score": 4 },
+            { "value": "5", "label": "5 - Almost always true", "score": 5 },
+            { "value": "6", "label": "6 - Always true", "score": 6 }
+          ]
+        },
+        {
+          "id": "cpaq_11",
+          "question": "My thoughts and feelings about pain must change before I can take important steps in my life",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 11,
+          "subscale": "pain_willingness",
+          "reverse_scored": true,
+          "options": [
+            { "value": "0", "label": "0 - Never true", "score": 6 },
+            { "value": "1", "label": "1 - Very rarely true", "score": 5 },
+            { "value": "2", "label": "2 - Seldom true", "score": 4 },
+            { "value": "3", "label": "3 - Sometimes true", "score": 3 },
+            { "value": "4", "label": "4 - Often true", "score": 2 },
+            { "value": "5", "label": "5 - Almost always true", "score": 1 },
+            { "value": "6", "label": "6 - Always true", "score": 0 }
+          ]
+        },
+        {
+          "id": "cpaq_12",
+          "question": "Despite the pain, I am now sticking to a certain course in my life",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 12,
+          "subscale": "activity_engagement",
+          "options": [
+            { "value": "0", "label": "0 - Never true", "score": 0 },
+            { "value": "1", "label": "1 - Very rarely true", "score": 1 },
+            { "value": "2", "label": "2 - Seldom true", "score": 2 },
+            { "value": "3", "label": "3 - Sometimes true", "score": 3 },
+            { "value": "4", "label": "4 - Often true", "score": 4 },
+            { "value": "5", "label": "5 - Almost always true", "score": 5 },
+            { "value": "6", "label": "6 - Always true", "score": 6 }
+          ]
+        },
+        {
+          "id": "cpaq_13",
+          "question": "Keeping my pain level under control takes first priority whenever I'm doing something",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 13,
+          "subscale": "pain_willingness",
+          "reverse_scored": true,
+          "options": [
+            { "value": "0", "label": "0 - Never true", "score": 6 },
+            { "value": "1", "label": "1 - Very rarely true", "score": 5 },
+            { "value": "2", "label": "2 - Seldom true", "score": 4 },
+            { "value": "3", "label": "3 - Sometimes true", "score": 3 },
+            { "value": "4", "label": "4 - Often true", "score": 2 },
+            { "value": "5", "label": "5 - Almost always true", "score": 1 },
+            { "value": "6", "label": "6 - Always true", "score": 0 }
+          ]
+        },
+        {
+          "id": "cpaq_14",
+          "question": "Before I can make any serious plans, I have to get some control over my pain",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 14,
+          "subscale": "pain_willingness",
+          "reverse_scored": true,
+          "options": [
+            { "value": "0", "label": "0 - Never true", "score": 6 },
+            { "value": "1", "label": "1 - Very rarely true", "score": 5 },
+            { "value": "2", "label": "2 - Seldom true", "score": 4 },
+            { "value": "3", "label": "3 - Sometimes true", "score": 3 },
+            { "value": "4", "label": "4 - Often true", "score": 2 },
+            { "value": "5", "label": "5 - Almost always true", "score": 1 },
+            { "value": "6", "label": "6 - Always true", "score": 0 }
+          ]
+        },
+        {
+          "id": "cpaq_15",
+          "question": "When my pain increases, I can still take care of my responsibilities",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 15,
+          "subscale": "activity_engagement",
+          "options": [
+            { "value": "0", "label": "0 - Never true", "score": 0 },
+            { "value": "1", "label": "1 - Very rarely true", "score": 1 },
+            { "value": "2", "label": "2 - Seldom true", "score": 2 },
+            { "value": "3", "label": "3 - Sometimes true", "score": 3 },
+            { "value": "4", "label": "4 - Often true", "score": 4 },
+            { "value": "5", "label": "5 - Almost always true", "score": 5 },
+            { "value": "6", "label": "6 - Always true", "score": 6 }
+          ]
+        },
+        {
+          "id": "cpaq_16",
+          "question": "I will have better control over my life if I can control my negative thoughts about pain",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 16,
+          "subscale": "pain_willingness",
+          "reverse_scored": true,
+          "options": [
+            { "value": "0", "label": "0 - Never true", "score": 6 },
+            { "value": "1", "label": "1 - Very rarely true", "score": 5 },
+            { "value": "2", "label": "2 - Seldom true", "score": 4 },
+            { "value": "3", "label": "3 - Sometimes true", "score": 3 },
+            { "value": "4", "label": "4 - Often true", "score": 2 },
+            { "value": "5", "label": "5 - Almost always true", "score": 1 },
+            { "value": "6", "label": "6 - Always true", "score": 0 }
+          ]
+        },
+        {
+          "id": "cpaq_17",
+          "question": "I avoid putting myself in situations where my pain might increase",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 17,
+          "subscale": "activity_engagement",
+          "reverse_scored": true,
+          "options": [
+            { "value": "0", "label": "0 - Never true", "score": 6 },
+            { "value": "1", "label": "1 - Very rarely true", "score": 5 },
+            { "value": "2", "label": "2 - Seldom true", "score": 4 },
+            { "value": "3", "label": "3 - Sometimes true", "score": 3 },
+            { "value": "4", "label": "4 - Often true", "score": 2 },
+            { "value": "5", "label": "5 - Almost always true", "score": 1 },
+            { "value": "6", "label": "6 - Always true", "score": 0 }
+          ]
+        },
+        {
+          "id": "cpaq_18",
+          "question": "My worries and fears about what pain will do to me are true",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 18,
+          "subscale": "pain_willingness",
+          "reverse_scored": true,
+          "options": [
+            { "value": "0", "label": "0 - Never true", "score": 6 },
+            { "value": "1", "label": "1 - Very rarely true", "score": 5 },
+            { "value": "2", "label": "2 - Seldom true", "score": 4 },
+            { "value": "3", "label": "3 - Sometimes true", "score": 3 },
+            { "value": "4", "label": "4 - Often true", "score": 2 },
+            { "value": "5", "label": "5 - Almost always true", "score": 1 },
+            { "value": "6", "label": "6 - Always true", "score": 0 }
+          ]
+        },
+        {
+          "id": "cpaq_19",
+          "question": "I have to struggle to do things when I have pain",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 19,
+          "subscale": "activity_engagement",
+          "reverse_scored": true,
+          "options": [
+            { "value": "0", "label": "0 - Never true", "score": 6 },
+            { "value": "1", "label": "1 - Very rarely true", "score": 5 },
+            { "value": "2", "label": "2 - Seldom true", "score": 4 },
+            { "value": "3", "label": "3 - Sometimes true", "score": 3 },
+            { "value": "4", "label": "4 - Often true", "score": 2 },
+            { "value": "5", "label": "5 - Almost always true", "score": 1 },
+            { "value": "6", "label": "6 - Always true", "score": 0 }
+          ]
+        },
+        {
+          "id": "cpaq_20",
+          "question": "I have made many unsuccessful attempts to control my pain",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 20,
+          "subscale": "activity_engagement",
+          "reverse_scored": true,
+          "options": [
+            { "value": "0", "label": "0 - Never true", "score": 6 },
+            { "value": "1", "label": "1 - Very rarely true", "score": 5 },
+            { "value": "2", "label": "2 - Seldom true", "score": 4 },
+            { "value": "3", "label": "3 - Sometimes true", "score": 3 },
+            { "value": "4", "label": "4 - Often true", "score": 2 },
+            { "value": "5", "label": "5 - Almost always true", "score": 1 },
+            { "value": "6", "label": "6 - Always true", "score": 0 }
+          ]
+        }
+      ]
+    }
+  ]
+}

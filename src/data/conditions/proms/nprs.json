@@ -1,0 +1,52 @@
+{
+  "prom_id": "NPRS",
+  "full_name": "Numeric Pain Rating Scale",
+  "version": "1.0",
+  "copyright": "Public domain",
+  "language": "English",
+  "total_items": 1,
+  "estimated_time_minutes": 1,
+  "description": "A simple and widely used pain assessment tool that asks patients to rate their pain intensity on a numeric scale from 0 to 10.",
+  "instructions": "Please rate your current pain level by selecting a number from 0 to 10, where 0 means no pain and 10 means the worst pain imaginable.",
+  "scoring": {
+    "method": "single_item",
+    "total_score": {
+      "min": 0,
+      "max": 10,
+      "calculation": "Single item score (0-10)",
+      "interpretation": {
+        "0": "No pain",
+        "1-3": "Mild pain",
+        "4-6": "Moderate pain",
+        "7-9": "Severe pain",
+        "10": "Worst pain imaginable"
+      },
+      "higher_is_worse": true,
+      "mcid": 2
+    }
+  },
+  "sections": [
+    {
+      "id": "nprs_pain",
+      "title": "Pain Rating",
+      "description": "Rate your current pain level",
+      "questions": [
+        {
+          "id": "nprs_1",
+          "question": "On a scale of 0 to 10, how would you rate your pain right now?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 1,
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No pain",
+            "5": "Moderate pain",
+            "10": "Worst pain imaginable"
+          }
+        }
+      ]
+    }
+  ]
+}

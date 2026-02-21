@@ -1,0 +1,169 @@
+{
+  "prom_id": "BARTHEL",
+  "full_name": "Barthel Index of Activities of Daily Living",
+  "version": "Modified Barthel Index",
+  "copyright": "© Mahoney & Barthel, 1965",
+  "language": "English",
+  "total_items": 10,
+  "estimated_time_minutes": 5,
+  "description": "A widely used measure of functional independence in activities of daily living (ADL). It assesses 10 basic activities including personal hygiene, feeding, transfers, mobility, and continence. Commonly used in stroke rehabilitation and geriatric care. Can be patient-reported or clinician-observed.",
+  "instructions": "Rate each activity based on the patient's typical performance over the past 24-48 hours. Choose the level that best describes actual performance, not potential ability.",
+  "scoring": {
+    "method": "weighted_sum",
+    "total_score": {
+      "min": 0,
+      "max": 100,
+      "calculation": "Sum of all 10 items (weighted scores). Items have different maximum values.",
+      "interpretation": {
+        "0-20": "Total dependence",
+        "21-60": "Severe dependence",
+        "61-90": "Moderate dependence",
+        "91-99": "Slight dependence",
+        "100": "Fully independent"
+      },
+      "higher_is_better": true,
+      "mcid": 10,
+      "note": "Score of 60 or less indicates significant ADL impairment"
+    }
+  },
+  "sections": [
+    {
+      "id": "barthel_assessment",
+      "title": "Activities of Daily Living",
+      "description": "Rate the patient's ability to perform each activity.",
+      "questions": [
+        {
+          "id": "barthel_1",
+          "question": "Feeding",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 1,
+          "max_score": 10,
+          "options": [
+            { "value": "10", "label": "10 - Independent (food provided within reach)", "score": 10 },
+            { "value": "5", "label": "5 - Needs help (e.g., cutting food)", "score": 5 },
+            { "value": "0", "label": "0 - Dependent", "score": 0 }
+          ]
+        },
+        {
+          "id": "barthel_2",
+          "question": "Bathing (shower/bath)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 2,
+          "max_score": 5,
+          "options": [
+            { "value": "5", "label": "5 - Independent (or in shower)", "score": 5 },
+            { "value": "0", "label": "0 - Dependent", "score": 0 }
+          ]
+        },
+        {
+          "id": "barthel_3",
+          "question": "Grooming (teeth, hair, shaving, makeup)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 3,
+          "max_score": 5,
+          "options": [
+            { "value": "5", "label": "5 - Independent (implements provided)", "score": 5 },
+            { "value": "0", "label": "0 - Dependent", "score": 0 }
+          ]
+        },
+        {
+          "id": "barthel_4",
+          "question": "Dressing",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 4,
+          "max_score": 10,
+          "options": [
+            { "value": "10", "label": "10 - Independent (including buttons, zips, laces, etc.)", "score": 10 },
+            { "value": "5", "label": "5 - Needs help, but does about half unaided", "score": 5 },
+            { "value": "0", "label": "0 - Dependent", "score": 0 }
+          ]
+        },
+        {
+          "id": "barthel_5",
+          "question": "Bowel control",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 5,
+          "max_score": 10,
+          "options": [
+            { "value": "10", "label": "10 - No accidents (continent)", "score": 10 },
+            { "value": "5", "label": "5 - Occasional accidents (less than once per week)", "score": 5 },
+            { "value": "0", "label": "0 - Incontinent (or needs enemas)", "score": 0 }
+          ]
+        },
+        {
+          "id": "barthel_6",
+          "question": "Bladder control",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 6,
+          "max_score": 10,
+          "options": [
+            { "value": "10", "label": "10 - No accidents (continent, or manages catheter independently)", "score": 10 },
+            { "value": "5", "label": "5 - Occasional accidents (max once per 24 hours)", "score": 5 },
+            { "value": "0", "label": "0 - Incontinent, or catheterized and unable to manage", "score": 0 }
+          ]
+        },
+        {
+          "id": "barthel_7",
+          "question": "Toilet use",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 7,
+          "max_score": 10,
+          "options": [
+            { "value": "10", "label": "10 - Independent (on/off, dressing, wiping)", "score": 10 },
+            { "value": "5", "label": "5 - Needs help but can do something alone", "score": 5 },
+            { "value": "0", "label": "0 - Dependent", "score": 0 }
+          ]
+        },
+        {
+          "id": "barthel_8",
+          "question": "Transfers (bed to chair and back)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 8,
+          "max_score": 15,
+          "options": [
+            { "value": "15", "label": "15 - Independent (including wheelchair)", "score": 15 },
+            { "value": "10", "label": "10 - Minor help (verbal or physical)", "score": 10 },
+            { "value": "5", "label": "5 - Major help (one or two people, physical), can sit", "score": 5 },
+            { "value": "0", "label": "0 - Unable to sit (no balance)", "score": 0 }
+          ]
+        },
+        {
+          "id": "barthel_9",
+          "question": "Mobility (walking on level surface)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 9,
+          "max_score": 15,
+          "options": [
+            { "value": "15", "label": "15 - Independent (may use aid, e.g., stick) for 50 yards", "score": 15 },
+            { "value": "10", "label": "10 - Walks with help of one person (verbal or physical) for 50 yards", "score": 10 },
+            { "value": "5", "label": "5 - Independent in wheelchair (including corners) for 50 yards", "score": 5 },
+            { "value": "0", "label": "0 - Immobile", "score": 0 }
+          ]
+        },
+        {
+          "id": "barthel_10",
+          "question": "Stairs (climbing up and down)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 10,
+          "max_score": 10,
+          "options": [
+            { "value": "10", "label": "10 - Independent (may use aid, e.g., stick)", "score": 10 },
+            { "value": "5", "label": "5 - Needs help (verbal, physical, or carrying aid)", "score": 5 },
+            { "value": "0", "label": "0 - Unable", "score": 0 }
+          ]
+        }
+      ]
+    }
+  ],
+  "note": "The Barthel Index is simple and quick but less sensitive to small changes than the FIM. Best used for initial screening and tracking major changes in ADL independence. Original version uses 0-20 scale; modified version shown here uses 0-100 scale for easier interpretation."
+}

@@ -1,0 +1,352 @@
+{
+  "prom_id": "PFDI-20",
+  "full_name": "Pelvic Floor Distress Inventory - Short Form 20",
+  "version": "1.0",
+  "copyright": "© Barber et al., 2005",
+  "language": "English",
+  "total_items": 20,
+  "estimated_time_minutes": 5,
+  "description": "A condition-specific quality of life questionnaire that assesses symptom distress and impact on activities in women with pelvic floor disorders.",
+  "instructions": "Please answer all of the questions in the following survey. These questions will ask you if you have certain bowel, bladder, or pelvic symptoms and, if you do, how much they bother you. Answer these questions by marking the response that best describes how much each symptom bothers you. Please mark only one number on each line.",
+  "scoring": {
+    "method": "subscale_sum_to_total",
+    "subscales": [
+      {
+        "id": "popdi",
+        "name": "Pelvic Organ Prolapse Distress Inventory (POPDI-6)",
+        "items": 6,
+        "max_score": 100,
+        "calculation": "[(Mean score of answered items - 1) × 25]. Mean calculated as sum/number of items answered. If < 3 items answered, subscale score not calculated."
+      },
+      {
+        "id": "cradi",
+        "name": "Colorectal-Anal Distress Inventory (CRADI-8)",
+        "items": 8,
+        "max_score": 100,
+        "calculation": "[(Mean score of answered items - 1) × 25]. Mean calculated as sum/number of items answered. If < 4 items answered, subscale score not calculated."
+      },
+      {
+        "id": "udi",
+        "name": "Urinary Distress Inventory (UDI-6)",
+        "items": 6,
+        "max_score": 100,
+        "calculation": "[(Mean score of answered items - 1) × 25]. Mean calculated as sum/number of items answered. If < 3 items answered, subscale score not calculated."
+      }
+    ],
+    "total_score": {
+      "min": 0,
+      "max": 300,
+      "calculation": "Sum of all three subscale scores (POPDI-6 + CRADI-8 + UDI-6)",
+      "interpretation": {
+        "0-50": "Minimal distress",
+        "51-150": "Mild to moderate distress",
+        "151-250": "Moderate to severe distress",
+        "251-300": "Severe distress"
+      },
+      "higher_is_worse": true
+    }
+  },
+  "sections": [
+    {
+      "id": "popdi6",
+      "title": "Pelvic Organ Prolapse Distress Inventory (POPDI-6)",
+      "description": "Do you experience any of the following? If yes, how much does it bother you?",
+      "questions": [
+        {
+          "id": "popdi_1",
+          "question": "Do you usually have a sensation of bulging or protrusion from the vaginal area?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 1,
+          "options": [
+            { "value": "0", "label": "No", "score": 0 },
+            { "value": "1", "label": "Yes, not at all bothered", "score": 1 },
+            { "value": "2", "label": "Yes, somewhat bothered", "score": 2 },
+            { "value": "3", "label": "Yes, moderately bothered", "score": 3 },
+            { "value": "4", "label": "Yes, quite a bit bothered", "score": 4 }
+          ]
+        },
+        {
+          "id": "popdi_2",
+          "question": "Do you usually have a sensation of something falling out of the vagina?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 2,
+          "options": [
+            { "value": "0", "label": "No", "score": 0 },
+            { "value": "1", "label": "Yes, not at all bothered", "score": 1 },
+            { "value": "2", "label": "Yes, somewhat bothered", "score": 2 },
+            { "value": "3", "label": "Yes, moderately bothered", "score": 3 },
+            { "value": "4", "label": "Yes, quite a bit bothered", "score": 4 }
+          ]
+        },
+        {
+          "id": "popdi_3",
+          "question": "Do you usually have to push on the vagina or around the rectum to have or complete a bowel movement?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 3,
+          "options": [
+            { "value": "0", "label": "No", "score": 0 },
+            { "value": "1", "label": "Yes, not at all bothered", "score": 1 },
+            { "value": "2", "label": "Yes, somewhat bothered", "score": 2 },
+            { "value": "3", "label": "Yes, moderately bothered", "score": 3 },
+            { "value": "4", "label": "Yes, quite a bit bothered", "score": 4 }
+          ]
+        },
+        {
+          "id": "popdi_4",
+          "question": "Do you usually experience a feeling of incomplete bladder emptying?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 4,
+          "options": [
+            { "value": "0", "label": "No", "score": 0 },
+            { "value": "1", "label": "Yes, not at all bothered", "score": 1 },
+            { "value": "2", "label": "Yes, somewhat bothered", "score": 2 },
+            { "value": "3", "label": "Yes, moderately bothered", "score": 3 },
+            { "value": "4", "label": "Yes, quite a bit bothered", "score": 4 }
+          ]
+        },
+        {
+          "id": "popdi_5",
+          "question": "Do you ever have to push up on a bulge in the vaginal area with your fingers to start or complete urination?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 5,
+          "options": [
+            { "value": "0", "label": "No", "score": 0 },
+            { "value": "1", "label": "Yes, not at all bothered", "score": 1 },
+            { "value": "2", "label": "Yes, somewhat bothered", "score": 2 },
+            { "value": "3", "label": "Yes, moderately bothered", "score": 3 },
+            { "value": "4", "label": "Yes, quite a bit bothered", "score": 4 }
+          ]
+        },
+        {
+          "id": "popdi_6",
+          "question": "Do you feel you need to strain too hard to have a bowel movement?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 6,
+          "options": [
+            { "value": "0", "label": "No", "score": 0 },
+            { "value": "1", "label": "Yes, not at all bothered", "score": 1 },
+            { "value": "2", "label": "Yes, somewhat bothered", "score": 2 },
+            { "value": "3", "label": "Yes, moderately bothered", "score": 3 },
+            { "value": "4", "label": "Yes, quite a bit bothered", "score": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cradi8",
+      "title": "Colorectal-Anal Distress Inventory (CRADI-8)",
+      "description": "Do you experience any of the following? If yes, how much does it bother you?",
+      "questions": [
+        {
+          "id": "cradi_1",
+          "question": "Do you feel you need to strain too hard to have a bowel movement?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 7,
+          "options": [
+            { "value": "0", "label": "No", "score": 0 },
+            { "value": "1", "label": "Yes, not at all bothered", "score": 1 },
+            { "value": "2", "label": "Yes, somewhat bothered", "score": 2 },
+            { "value": "3", "label": "Yes, moderately bothered", "score": 3 },
+            { "value": "4", "label": "Yes, quite a bit bothered", "score": 4 }
+          ]
+        },
+        {
+          "id": "cradi_2",
+          "question": "Do you feel you have not completely emptied your bowels at the end of a bowel movement?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 8,
+          "options": [
+            { "value": "0", "label": "No", "score": 0 },
+            { "value": "1", "label": "Yes, not at all bothered", "score": 1 },
+            { "value": "2", "label": "Yes, somewhat bothered", "score": 2 },
+            { "value": "3", "label": "Yes, moderately bothered", "score": 3 },
+            { "value": "4", "label": "Yes, quite a bit bothered", "score": 4 }
+          ]
+        },
+        {
+          "id": "cradi_3",
+          "question": "Do you usually lose stool beyond your control if your stool is well formed?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 9,
+          "options": [
+            { "value": "0", "label": "No", "score": 0 },
+            { "value": "1", "label": "Yes, not at all bothered", "score": 1 },
+            { "value": "2", "label": "Yes, somewhat bothered", "score": 2 },
+            { "value": "3", "label": "Yes, moderately bothered", "score": 3 },
+            { "value": "4", "label": "Yes, quite a bit bothered", "score": 4 }
+          ]
+        },
+        {
+          "id": "cradi_4",
+          "question": "Do you usually lose stool beyond your control if your stool is loose or liquid?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 10,
+          "options": [
+            { "value": "0", "label": "No", "score": 0 },
+            { "value": "1", "label": "Yes, not at all bothered", "score": 1 },
+            { "value": "2", "label": "Yes, somewhat bothered", "score": 2 },
+            { "value": "3", "label": "Yes, moderately bothered", "score": 3 },
+            { "value": "4", "label": "Yes, quite a bit bothered", "score": 4 }
+          ]
+        },
+        {
+          "id": "cradi_5",
+          "question": "Do you usually lose gas from the rectum beyond your control?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 11,
+          "options": [
+            { "value": "0", "label": "No", "score": 0 },
+            { "value": "1", "label": "Yes, not at all bothered", "score": 1 },
+            { "value": "2", "label": "Yes, somewhat bothered", "score": 2 },
+            { "value": "3", "label": "Yes, moderately bothered", "score": 3 },
+            { "value": "4", "label": "Yes, quite a bit bothered", "score": 4 }
+          ]
+        },
+        {
+          "id": "cradi_6",
+          "question": "Do you usually have pain when you pass your stool?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 12,
+          "options": [
+            { "value": "0", "label": "No", "score": 0 },
+            { "value": "1", "label": "Yes, not at all bothered", "score": 1 },
+            { "value": "2", "label": "Yes, somewhat bothered", "score": 2 },
+            { "value": "3", "label": "Yes, moderately bothered", "score": 3 },
+            { "value": "4", "label": "Yes, quite a bit bothered", "score": 4 }
+          ]
+        },
+        {
+          "id": "cradi_7",
+          "question": "Do you experience a strong sense of urgency and have to rush to the bathroom to have a bowel movement?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 13,
+          "options": [
+            { "value": "0", "label": "No", "score": 0 },
+            { "value": "1", "label": "Yes, not at all bothered", "score": 1 },
+            { "value": "2", "label": "Yes, somewhat bothered", "score": 2 },
+            { "value": "3", "label": "Yes, moderately bothered", "score": 3 },
+            { "value": "4", "label": "Yes, quite a bit bothered", "score": 4 }
+          ]
+        },
+        {
+          "id": "cradi_8",
+          "question": "Does part of your bowel ever pass through the rectum and bulge outside during or after a bowel movement?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 14,
+          "options": [
+            { "value": "0", "label": "No", "score": 0 },
+            { "value": "1", "label": "Yes, not at all bothered", "score": 1 },
+            { "value": "2", "label": "Yes, somewhat bothered", "score": 2 },
+            { "value": "3", "label": "Yes, moderately bothered", "score": 3 },
+            { "value": "4", "label": "Yes, quite a bit bothered", "score": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "udi6",
+      "title": "Urinary Distress Inventory (UDI-6)",
+      "description": "Do you experience any of the following? If yes, how much does it bother you?",
+      "questions": [
+        {
+          "id": "udi_1",
+          "question": "Do you usually experience frequent urination?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 15,
+          "options": [
+            { "value": "0", "label": "No", "score": 0 },
+            { "value": "1", "label": "Yes, not at all bothered", "score": 1 },
+            { "value": "2", "label": "Yes, somewhat bothered", "score": 2 },
+            { "value": "3", "label": "Yes, moderately bothered", "score": 3 },
+            { "value": "4", "label": "Yes, quite a bit bothered", "score": 4 }
+          ]
+        },
+        {
+          "id": "udi_2",
+          "question": "Do you usually experience urine leakage associated with a feeling of urgency; that is, a strong sensation of needing to go to the bathroom?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 16,
+          "options": [
+            { "value": "0", "label": "No", "score": 0 },
+            { "value": "1", "label": "Yes, not at all bothered", "score": 1 },
+            { "value": "2", "label": "Yes, somewhat bothered", "score": 2 },
+            { "value": "3", "label": "Yes, moderately bothered", "score": 3 },
+            { "value": "4", "label": "Yes, quite a bit bothered", "score": 4 }
+          ]
+        },
+        {
+          "id": "udi_3",
+          "question": "Do you usually experience urine leakage related to coughing, sneezing, or laughing?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 17,
+          "options": [
+            { "value": "0", "label": "No", "score": 0 },
+            { "value": "1", "label": "Yes, not at all bothered", "score": 1 },
+            { "value": "2", "label": "Yes, somewhat bothered", "score": 2 },
+            { "value": "3", "label": "Yes, moderately bothered", "score": 3 },
+            { "value": "4", "label": "Yes, quite a bit bothered", "score": 4 }
+          ]
+        },
+        {
+          "id": "udi_4",
+          "question": "Do you usually experience small amounts of urine leakage (that is, drops)?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 18,
+          "options": [
+            { "value": "0", "label": "No", "score": 0 },
+            { "value": "1", "label": "Yes, not at all bothered", "score": 1 },
+            { "value": "2", "label": "Yes, somewhat bothered", "score": 2 },
+            { "value": "3", "label": "Yes, moderately bothered", "score": 3 },
+            { "value": "4", "label": "Yes, quite a bit bothered", "score": 4 }
+          ]
+        },
+        {
+          "id": "udi_5",
+          "question": "Do you usually experience difficulty emptying your bladder?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 19,
+          "options": [
+            { "value": "0", "label": "No", "score": 0 },
+            { "value": "1", "label": "Yes, not at all bothered", "score": 1 },
+            { "value": "2", "label": "Yes, somewhat bothered", "score": 2 },
+            { "value": "3", "label": "Yes, moderately bothered", "score": 3 },
+            { "value": "4", "label": "Yes, quite a bit bothered", "score": 4 }
+          ]
+        },
+        {
+          "id": "udi_6",
+          "question": "Do you usually experience pain or discomfort in the lower abdomen or genital region?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 20,
+          "options": [
+            { "value": "0", "label": "No", "score": 0 },
+            { "value": "1", "label": "Yes, not at all bothered", "score": 1 },
+            { "value": "2", "label": "Yes, somewhat bothered", "score": 2 },
+            { "value": "3", "label": "Yes, moderately bothered", "score": 3 },
+            { "value": "4", "label": "Yes, quite a bit bothered", "score": 4 }
+          ]
+        }
+      ]
+    }
+  ]
+}

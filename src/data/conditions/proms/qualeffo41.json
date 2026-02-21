@@ -1,0 +1,628 @@
+{
+  "prom_id": "QUALEFFO-41",
+  "full_name": "Quality of Life Questionnaire of the European Foundation for Osteoporosis",
+  "version": "1.0",
+  "copyright": "© European Foundation for Osteoporosis, 1997",
+  "language": "English",
+  "total_items": 41,
+  "estimated_time_minutes": 10,
+  "description": "A disease-specific quality of life questionnaire for patients with vertebral osteoporosis, focusing on pain, physical function, social function, general health, and mental function.",
+  "instructions": "Please answer all questions by ticking the response that best describes your situation DURING THE LAST WEEK.",
+  "scoring": {
+    "method": "domain_average_to_percentage",
+    "domains": [
+      {
+        "id": "pain",
+        "name": "Pain",
+        "items": 5,
+        "calculation": "Sum divided by (5 × 4) × 100"
+      },
+      {
+        "id": "physical_function",
+        "name": "Physical Function",
+        "items": 17,
+        "calculation": "Sum divided by (17 × 4) × 100"
+      },
+      {
+        "id": "social_function",
+        "name": "Social Function",
+        "items": 7,
+        "calculation": "Sum divided by (7 × 4) × 100"
+      },
+      {
+        "id": "general_health",
+        "name": "General Health Perception",
+        "items": 3,
+        "calculation": "Sum divided by (3 × 4) × 100"
+      },
+      {
+        "id": "mental_function",
+        "name": "Mental Function",
+        "items": 9,
+        "calculation": "Sum divided by (9 × 4) × 100"
+      }
+    ],
+    "total_score": {
+      "min": 0,
+      "max": 100,
+      "calculation": "Average of all 5 domain scores",
+      "interpretation": {
+        "0-25": "Good quality of life",
+        "26-50": "Moderate quality of life",
+        "51-75": "Poor quality of life",
+        "76-100": "Very poor quality of life"
+      },
+      "higher_is_worse": true
+    }
+  },
+  "sections": [
+    {
+      "id": "qualeffo_pain",
+      "title": "Pain",
+      "description": "During the last week...",
+      "questions": [
+        {
+          "id": "qualeffo_1",
+          "question": "How often have you had pain in your back?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 1,
+          "options": [
+            { "value": "1", "label": "Never or seldom", "score": 1 },
+            { "value": "2", "label": "Several times", "score": 2 },
+            { "value": "3", "label": "Often", "score": 3 },
+            { "value": "4", "label": "Very often or always", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_2",
+          "question": "How often have you had pain in your arms or legs?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 2,
+          "options": [
+            { "value": "1", "label": "Never or seldom", "score": 1 },
+            { "value": "2", "label": "Several times", "score": 2 },
+            { "value": "3", "label": "Often", "score": 3 },
+            { "value": "4", "label": "Very often or always", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_3",
+          "question": "How often have you had pain in your joints?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 3,
+          "options": [
+            { "value": "1", "label": "Never or seldom", "score": 1 },
+            { "value": "2", "label": "Several times", "score": 2 },
+            { "value": "3", "label": "Often", "score": 3 },
+            { "value": "4", "label": "Very often or always", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_4",
+          "question": "How often have you had to walk carefully to avoid falling?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 4,
+          "options": [
+            { "value": "1", "label": "Never or seldom", "score": 1 },
+            { "value": "2", "label": "Several times", "score": 2 },
+            { "value": "3", "label": "Often", "score": 3 },
+            { "value": "4", "label": "Very often or always", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_5",
+          "question": "How often have you been afraid of falling?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 5,
+          "options": [
+            { "value": "1", "label": "Never or seldom", "score": 1 },
+            { "value": "2", "label": "Several times", "score": 2 },
+            { "value": "3", "label": "Often", "score": 3 },
+            { "value": "4", "label": "Very often or always", "score": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "qualeffo_physical",
+      "title": "Physical Function",
+      "description": "During the last week, have you had any difficulty with...",
+      "questions": [
+        {
+          "id": "qualeffo_6",
+          "question": "Doing the shopping?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 6,
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "A little difficulty", "score": 2 },
+            { "value": "3", "label": "Some difficulty", "score": 3 },
+            { "value": "4", "label": "A lot of difficulty or unable to do", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_7",
+          "question": "Carrying things (e.g., shopping bag, suitcase)?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 7,
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "A little difficulty", "score": 2 },
+            { "value": "3", "label": "Some difficulty", "score": 3 },
+            { "value": "4", "label": "A lot of difficulty or unable to do", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_8",
+          "question": "Doing light housework (e.g., dusting)?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 8,
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "A little difficulty", "score": 2 },
+            { "value": "3", "label": "Some difficulty", "score": 3 },
+            { "value": "4", "label": "A lot of difficulty or unable to do", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_9",
+          "question": "Doing heavier housework (e.g., vacuum cleaning, changing beds)?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 9,
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "A little difficulty", "score": 2 },
+            { "value": "3", "label": "Some difficulty", "score": 3 },
+            { "value": "4", "label": "A lot of difficulty or unable to do", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_10",
+          "question": "Walking indoors?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 10,
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "A little difficulty", "score": 2 },
+            { "value": "3", "label": "Some difficulty", "score": 3 },
+            { "value": "4", "label": "A lot of difficulty or unable to do", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_11",
+          "question": "Walking outdoors (e.g., going to the shop)?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 11,
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "A little difficulty", "score": 2 },
+            { "value": "3", "label": "Some difficulty", "score": 3 },
+            { "value": "4", "label": "A lot of difficulty or unable to do", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_12",
+          "question": "Walking for more than 100 meters?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 12,
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "A little difficulty", "score": 2 },
+            { "value": "3", "label": "Some difficulty", "score": 3 },
+            { "value": "4", "label": "A lot of difficulty or unable to do", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_13",
+          "question": "Climbing stairs?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 13,
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "A little difficulty", "score": 2 },
+            { "value": "3", "label": "Some difficulty", "score": 3 },
+            { "value": "4", "label": "A lot of difficulty or unable to do", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_14",
+          "question": "Bending forward?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 14,
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "A little difficulty", "score": 2 },
+            { "value": "3", "label": "Some difficulty", "score": 3 },
+            { "value": "4", "label": "A lot of difficulty or unable to do", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_15",
+          "question": "Reaching up to a high shelf?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 15,
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "A little difficulty", "score": 2 },
+            { "value": "3", "label": "Some difficulty", "score": 3 },
+            { "value": "4", "label": "A lot of difficulty or unable to do", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_16",
+          "question": "Picking something up from the floor?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 16,
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "A little difficulty", "score": 2 },
+            { "value": "3", "label": "Some difficulty", "score": 3 },
+            { "value": "4", "label": "A lot of difficulty or unable to do", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_17",
+          "question": "Getting in and out of a car?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 17,
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "A little difficulty", "score": 2 },
+            { "value": "3", "label": "Some difficulty", "score": 3 },
+            { "value": "4", "label": "A lot of difficulty or unable to do", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_18",
+          "question": "Getting in and out of a bath/shower?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 18,
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "A little difficulty", "score": 2 },
+            { "value": "3", "label": "Some difficulty", "score": 3 },
+            { "value": "4", "label": "A lot of difficulty or unable to do", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_19",
+          "question": "Washing and drying your whole body?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 19,
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "A little difficulty", "score": 2 },
+            { "value": "3", "label": "Some difficulty", "score": 3 },
+            { "value": "4", "label": "A lot of difficulty or unable to do", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_20",
+          "question": "Getting dressed?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 20,
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "A little difficulty", "score": 2 },
+            { "value": "3", "label": "Some difficulty", "score": 3 },
+            { "value": "4", "label": "A lot of difficulty or unable to do", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_21",
+          "question": "Putting on your shoes/stockings?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 21,
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "A little difficulty", "score": 2 },
+            { "value": "3", "label": "Some difficulty", "score": 3 },
+            { "value": "4", "label": "A lot of difficulty or unable to do", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_22",
+          "question": "Sitting for 30 minutes (e.g., at a table)?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 22,
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "A little difficulty", "score": 2 },
+            { "value": "3", "label": "Some difficulty", "score": 3 },
+            { "value": "4", "label": "A lot of difficulty or unable to do", "score": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "qualeffo_social",
+      "title": "Social Function",
+      "description": "During the last week...",
+      "questions": [
+        {
+          "id": "qualeffo_23",
+          "question": "How often have you felt isolated from other people?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 23,
+          "options": [
+            { "value": "1", "label": "Never or seldom", "score": 1 },
+            { "value": "2", "label": "Several times", "score": 2 },
+            { "value": "3", "label": "Often", "score": 3 },
+            { "value": "4", "label": "Very often or always", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_24",
+          "question": "How often have you felt a burden to your family or friends?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 24,
+          "options": [
+            { "value": "1", "label": "Never or seldom", "score": 1 },
+            { "value": "2", "label": "Several times", "score": 2 },
+            { "value": "3", "label": "Often", "score": 3 },
+            { "value": "4", "label": "Very often or always", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_25",
+          "question": "How often have you had to stop or reduce your leisure time activities?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 25,
+          "options": [
+            { "value": "1", "label": "Never or seldom", "score": 1 },
+            { "value": "2", "label": "Several times", "score": 2 },
+            { "value": "3", "label": "Often", "score": 3 },
+            { "value": "4", "label": "Very often or always", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_26",
+          "question": "How often have you had to change your daily activities?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 26,
+          "options": [
+            { "value": "1", "label": "Never or seldom", "score": 1 },
+            { "value": "2", "label": "Several times", "score": 2 },
+            { "value": "3", "label": "Often", "score": 3 },
+            { "value": "4", "label": "Very often or always", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_27",
+          "question": "How often have you had to slow down the speed at which you do things?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 27,
+          "options": [
+            { "value": "1", "label": "Never or seldom", "score": 1 },
+            { "value": "2", "label": "Several times", "score": 2 },
+            { "value": "3", "label": "Often", "score": 3 },
+            { "value": "4", "label": "Very often or always", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_28",
+          "question": "How often have you been dependent on other people?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 28,
+          "options": [
+            { "value": "1", "label": "Never or seldom", "score": 1 },
+            { "value": "2", "label": "Several times", "score": 2 },
+            { "value": "3", "label": "Often", "score": 3 },
+            { "value": "4", "label": "Very often or always", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_29",
+          "question": "How often have you needed help with everyday activities?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 29,
+          "options": [
+            { "value": "1", "label": "Never or seldom", "score": 1 },
+            { "value": "2", "label": "Several times", "score": 2 },
+            { "value": "3", "label": "Often", "score": 3 },
+            { "value": "4", "label": "Very often or always", "score": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "qualeffo_health",
+      "title": "General Health Perception",
+      "description": "During the last week...",
+      "questions": [
+        {
+          "id": "qualeffo_30",
+          "question": "How do you perceive your general state of health?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 30,
+          "options": [
+            { "value": "1", "label": "Very good", "score": 1 },
+            { "value": "2", "label": "Good", "score": 2 },
+            { "value": "3", "label": "Fair", "score": 3 },
+            { "value": "4", "label": "Poor", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_31",
+          "question": "Compared with other people of your age, how do you perceive your general state of health?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 31,
+          "options": [
+            { "value": "1", "label": "Much better", "score": 1 },
+            { "value": "2", "label": "Better", "score": 2 },
+            { "value": "3", "label": "Same", "score": 3 },
+            { "value": "4", "label": "Worse", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_32",
+          "question": "Compared with one year ago, how do you perceive your general state of health now?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 32,
+          "options": [
+            { "value": "1", "label": "Much better", "score": 1 },
+            { "value": "2", "label": "Better", "score": 2 },
+            { "value": "3", "label": "Same", "score": 3 },
+            { "value": "4", "label": "Worse", "score": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "qualeffo_mental",
+      "title": "Mental Function",
+      "description": "During the last week...",
+      "questions": [
+        {
+          "id": "qualeffo_33",
+          "question": "How often have you felt unhappy or depressed?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 33,
+          "options": [
+            { "value": "1", "label": "Never or seldom", "score": 1 },
+            { "value": "2", "label": "Several times", "score": 2 },
+            { "value": "3", "label": "Often", "score": 3 },
+            { "value": "4", "label": "Very often or always", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_34",
+          "question": "How often have you felt nervous and anxious?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 34,
+          "options": [
+            { "value": "1", "label": "Never or seldom", "score": 1 },
+            { "value": "2", "label": "Several times", "score": 2 },
+            { "value": "3", "label": "Often", "score": 3 },
+            { "value": "4", "label": "Very often or always", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_35",
+          "question": "How often have you been unable to sleep?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 35,
+          "options": [
+            { "value": "1", "label": "Never or seldom", "score": 1 },
+            { "value": "2", "label": "Several times", "score": 2 },
+            { "value": "3", "label": "Often", "score": 3 },
+            { "value": "4", "label": "Very often or always", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_36",
+          "question": "How often have you felt tired?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 36,
+          "options": [
+            { "value": "1", "label": "Never or seldom", "score": 1 },
+            { "value": "2", "label": "Several times", "score": 2 },
+            { "value": "3", "label": "Often", "score": 3 },
+            { "value": "4", "label": "Very often or always", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_37",
+          "question": "How often have you felt grumpy or bad-tempered?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 37,
+          "options": [
+            { "value": "1", "label": "Never or seldom", "score": 1 },
+            { "value": "2", "label": "Several times", "score": 2 },
+            { "value": "3", "label": "Often", "score": 3 },
+            { "value": "4", "label": "Very often or always", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_38",
+          "question": "How often have you felt worried about your health in the future?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 38,
+          "options": [
+            { "value": "1", "label": "Never or seldom", "score": 1 },
+            { "value": "2", "label": "Several times", "score": 2 },
+            { "value": "3", "label": "Often", "score": 3 },
+            { "value": "4", "label": "Very often or always", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_39",
+          "question": "How often have you had difficulty in concentrating?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 39,
+          "options": [
+            { "value": "1", "label": "Never or seldom", "score": 1 },
+            { "value": "2", "label": "Several times", "score": 2 },
+            { "value": "3", "label": "Often", "score": 3 },
+            { "value": "4", "label": "Very often or always", "score": 4 }
+          ]
+        },
+        {
+          "id": "qualeffo_40",
+          "question": "How often have you felt full of energy?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 40,
+          "options": [
+            { "value": "4", "label": "Never or seldom", "score": 4 },
+            { "value": "3", "label": "Several times", "score": 3 },
+            { "value": "2", "label": "Often", "score": 2 },
+            { "value": "1", "label": "Very often or always", "score": 1 }
+          ]
+        },
+        {
+          "id": "qualeffo_41",
+          "question": "How often have you been happy and content with your life?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 41,
+          "options": [
+            { "value": "4", "label": "Never or seldom", "score": 4 },
+            { "value": "3", "label": "Several times", "score": 3 },
+            { "value": "2", "label": "Often", "score": 2 },
+            { "value": "1", "label": "Very often or always", "score": 1 }
+          ]
+        }
+      ]
+    }
+  ]
+}

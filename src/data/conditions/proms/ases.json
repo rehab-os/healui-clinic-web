@@ -1,0 +1,188 @@
+{
+  "prom_id": "ASES",
+  "full_name": "American Shoulder and Elbow Surgeons Standardized Shoulder Assessment Form",
+  "version": "1.0",
+  "copyright": "© ASES, 1994",
+  "language": "English",
+  "total_items": 11,
+  "estimated_time_minutes": 5,
+  "description": "A region-specific outcome measure for the shoulder that includes both physician and patient-reported components. The patient self-evaluation section assesses pain and functional status of the shoulder.",
+  "instructions": "Please answer the following questions about your shoulder.",
+  "scoring": {
+    "method": "weighted_sum",
+    "total_score": {
+      "min": 0,
+      "max": 100,
+      "calculation": "Pain score (10 points scaled to 50) + Function score (30 points scaled to 50)",
+      "interpretation": {
+        "0-49": "Poor shoulder function",
+        "50-69": "Fair shoulder function",
+        "70-84": "Good shoulder function",
+        "85-100": "Excellent shoulder function"
+      },
+      "higher_is_better": true,
+      "mcid": 6.4
+    }
+  },
+  "sections": [
+    {
+      "id": "ases_pain",
+      "title": "Pain",
+      "description": "Rate your pain at its worst in the past week.",
+      "questions": [
+        {
+          "id": "ases_pain",
+          "question": "How would you rate your pain at its worst?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 1,
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "reverse_score": true,
+          "labels": {
+            "0": "No pain",
+            "10": "Pain as bad as it can be"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ases_function",
+      "title": "Function",
+      "description": "Are you able to do the following activities with your affected arm?",
+      "questions": [
+        {
+          "id": "ases_f1",
+          "question": "Put on a coat",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 2,
+          "options": [
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "1", "label": "Very difficult to do", "score": 1 },
+            { "value": "2", "label": "Somewhat difficult", "score": 2 },
+            { "value": "3", "label": "Not difficult", "score": 3 }
+          ]
+        },
+        {
+          "id": "ases_f2",
+          "question": "Sleep on your painful or affected side",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 3,
+          "options": [
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "1", "label": "Very difficult to do", "score": 1 },
+            { "value": "2", "label": "Somewhat difficult", "score": 2 },
+            { "value": "3", "label": "Not difficult", "score": 3 }
+          ]
+        },
+        {
+          "id": "ases_f3",
+          "question": "Wash back/do up bra in back",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 4,
+          "options": [
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "1", "label": "Very difficult to do", "score": 1 },
+            { "value": "2", "label": "Somewhat difficult", "score": 2 },
+            { "value": "3", "label": "Not difficult", "score": 3 }
+          ]
+        },
+        {
+          "id": "ases_f4",
+          "question": "Manage toileting",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 5,
+          "options": [
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "1", "label": "Very difficult to do", "score": 1 },
+            { "value": "2", "label": "Somewhat difficult", "score": 2 },
+            { "value": "3", "label": "Not difficult", "score": 3 }
+          ]
+        },
+        {
+          "id": "ases_f5",
+          "question": "Comb hair",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 6,
+          "options": [
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "1", "label": "Very difficult to do", "score": 1 },
+            { "value": "2", "label": "Somewhat difficult", "score": 2 },
+            { "value": "3", "label": "Not difficult", "score": 3 }
+          ]
+        },
+        {
+          "id": "ases_f6",
+          "question": "Reach a high shelf",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 7,
+          "options": [
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "1", "label": "Very difficult to do", "score": 1 },
+            { "value": "2", "label": "Somewhat difficult", "score": 2 },
+            { "value": "3", "label": "Not difficult", "score": 3 }
+          ]
+        },
+        {
+          "id": "ases_f7",
+          "question": "Lift 10 lbs (4.5 kg) above shoulder",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 8,
+          "options": [
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "1", "label": "Very difficult to do", "score": 1 },
+            { "value": "2", "label": "Somewhat difficult", "score": 2 },
+            { "value": "3", "label": "Not difficult", "score": 3 }
+          ]
+        },
+        {
+          "id": "ases_f8",
+          "question": "Throw a ball overhand/swim",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 9,
+          "options": [
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "1", "label": "Very difficult to do", "score": 1 },
+            { "value": "2", "label": "Somewhat difficult", "score": 2 },
+            { "value": "3", "label": "Not difficult", "score": 3 }
+          ]
+        },
+        {
+          "id": "ases_f9",
+          "question": "Do usual work",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 10,
+          "options": [
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "1", "label": "Very difficult to do", "score": 1 },
+            { "value": "2", "label": "Somewhat difficult", "score": 2 },
+            { "value": "3", "label": "Not difficult", "score": 3 }
+          ]
+        },
+        {
+          "id": "ases_f10",
+          "question": "Do usual sport",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 11,
+          "options": [
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "1", "label": "Very difficult to do", "score": 1 },
+            { "value": "2", "label": "Somewhat difficult", "score": 2 },
+            { "value": "3", "label": "Not difficult", "score": 3 }
+          ]
+        }
+      ]
+    }
+  ]
+}

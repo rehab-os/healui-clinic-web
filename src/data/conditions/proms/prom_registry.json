@@ -1,0 +1,467 @@
+{
+  "version": "1.0",
+  "total_proms": 47,
+  "last_updated": "2026-02-11",
+  "proms": [
+    {
+      "prom_id": "SPADI",
+      "full_name": "Shoulder Pain and Disability Index",
+      "body_region": "Upper Extremity - Shoulder",
+      "conditions": ["Adhesive Capsulitis", "Rotator Cuff Tendinopathy", "Shoulder Impingement", "Shoulder Pain"],
+      "items": 13,
+      "estimated_minutes": 5,
+      "file": "spadi.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "NDI",
+      "full_name": "Neck Disability Index",
+      "body_region": "Spine - Cervical",
+      "conditions": ["Cervical Radiculopathy", "Cervical Myelopathy", "Neck Pain", "Whiplash"],
+      "items": 10,
+      "estimated_minutes": 5,
+      "file": "ndi.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "ODI",
+      "full_name": "Oswestry Disability Index",
+      "body_region": "Spine - Lumbar",
+      "conditions": ["Low Back Pain", "Lumbar Disc Herniation", "Lumbar Stenosis", "Spondylolisthesis"],
+      "items": 10,
+      "estimated_minutes": 5,
+      "file": "odi.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "DASH",
+      "full_name": "Disabilities of Arm, Shoulder and Hand",
+      "body_region": "Upper Extremity - General",
+      "conditions": ["Upper extremity conditions"],
+      "items": 30,
+      "estimated_minutes": 10,
+      "file": "dash.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "QuickDASH",
+      "full_name": "Quick Disabilities of the Arm, Shoulder and Hand",
+      "body_region": "Upper Extremity - General",
+      "conditions": ["Upper extremity conditions"],
+      "items": 11,
+      "estimated_minutes": 5,
+      "file": "quickdash.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "LEFS",
+      "full_name": "Lower Extremity Functional Scale",
+      "body_region": "Lower Extremity - General",
+      "conditions": ["Lower extremity conditions"],
+      "items": 20,
+      "estimated_minutes": 5,
+      "file": "lefs.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "KOOS",
+      "full_name": "Knee Injury and Osteoarthritis Outcome Score",
+      "body_region": "Lower Extremity - Knee",
+      "conditions": ["Knee OA", "PFPS", "Meniscal Tear", "ACL Injury"],
+      "items": 42,
+      "estimated_minutes": 10,
+      "file": "koos.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "FAAM",
+      "full_name": "Foot and Ankle Ability Measure",
+      "body_region": "Lower Extremity - Foot/Ankle",
+      "conditions": ["Ankle Sprain", "Plantar Fasciitis", "Achilles Tendinopathy", "Foot/Ankle conditions"],
+      "items": 29,
+      "estimated_minutes": 8,
+      "file": "faam.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "PRTEE",
+      "full_name": "Patient-Rated Tennis Elbow Evaluation",
+      "body_region": "Upper Extremity - Elbow",
+      "conditions": ["Lateral Epicondylitis", "Tennis Elbow", "Elbow Tendinopathy"],
+      "items": 15,
+      "estimated_minutes": 5,
+      "file": "prtee.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "HOOS",
+      "full_name": "Hip Disability and Osteoarthritis Outcome Score",
+      "body_region": "Lower Extremity - Hip",
+      "conditions": ["Hip OA", "Hip Impingement", "Hip Labral Tear", "Hip conditions"],
+      "items": 40,
+      "estimated_minutes": 10,
+      "file": "hoos.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "NPRS",
+      "full_name": "Numeric Pain Rating Scale",
+      "body_region": "General - Pain Assessment",
+      "conditions": ["All conditions with pain"],
+      "items": 1,
+      "estimated_minutes": 1,
+      "file": "nprs.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "PFDI-20",
+      "full_name": "Pelvic Floor Distress Inventory - Short Form 20",
+      "body_region": "Pelvic Floor",
+      "conditions": ["Pelvic Organ Prolapse", "Urinary Incontinence", "Fecal Incontinence", "Pelvic Floor Dysfunction"],
+      "items": 20,
+      "estimated_minutes": 5,
+      "file": "pfdi20.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "HIT-6",
+      "full_name": "Headache Impact Test - 6",
+      "body_region": "Head/Neurological",
+      "conditions": ["Headache", "Migraine", "Tension Headache", "Cervicogenic Headache"],
+      "items": 6,
+      "estimated_minutes": 3,
+      "file": "hit6.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "HAQ-DI",
+      "full_name": "Health Assessment Questionnaire - Disability Index",
+      "body_region": "General - Rheumatology",
+      "conditions": ["Rheumatoid Arthritis", "Osteoarthritis", "Systemic Lupus Erythematosus", "Ankylosing Spondylitis"],
+      "items": 20,
+      "estimated_minutes": 5,
+      "file": "haqdi.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "SRS-22",
+      "full_name": "Scoliosis Research Society-22 Patient Questionnaire",
+      "body_region": "Spine - Thoracic/Lumbar",
+      "conditions": ["Scoliosis", "Adolescent Idiopathic Scoliosis", "Adult Scoliosis", "Spinal Deformity"],
+      "items": 22,
+      "estimated_minutes": 7,
+      "file": "srs22.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "SGRQ",
+      "full_name": "St. George's Respiratory Questionnaire",
+      "body_region": "Respiratory/Cardiopulmonary",
+      "conditions": ["COPD", "Asthma", "Chronic Bronchitis", "Respiratory Disease"],
+      "items": 50,
+      "estimated_minutes": 10,
+      "file": "sgrq.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "DSQ",
+      "full_name": "Dizziness Symptom Questionnaire",
+      "body_region": "Vestibular/Neurological",
+      "conditions": ["BPPV", "Vestibular Neuritis", "Labyrinthitis", "Dizziness", "Vertigo"],
+      "items": 10,
+      "estimated_minutes": 3,
+      "file": "dsq.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "FSFI",
+      "full_name": "Female Sexual Function Index",
+      "body_region": "Women's Health/Pelvic Floor",
+      "conditions": ["Sexual Dysfunction", "Pelvic Pain", "Postpartum", "Women's Health"],
+      "items": 19,
+      "estimated_minutes": 5,
+      "file": "fsfi.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "LYMQOL",
+      "full_name": "Lymphedema Quality of Life Questionnaire",
+      "body_region": "Lymphatic/Oncology",
+      "conditions": ["Lymphedema", "Post-mastectomy", "Chronic Venous Insufficiency"],
+      "items": 28,
+      "estimated_minutes": 7,
+      "file": "lymqol.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "QUALEFFO-41",
+      "full_name": "Quality of Life Questionnaire of the European Foundation for Osteoporosis",
+      "body_region": "Spine - General/Systemic",
+      "conditions": ["Osteoporosis", "Vertebral Fracture", "Spinal Osteoporosis"],
+      "items": 41,
+      "estimated_minutes": 10,
+      "file": "qualeffo41.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "SF-36",
+      "full_name": "Short Form 36 Health Survey",
+      "body_region": "General - Overall Health",
+      "conditions": ["All conditions requiring general health assessment", "Chronic conditions", "Quality of life measurement"],
+      "items": 36,
+      "estimated_minutes": 10,
+      "file": "sf36.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "IKDC",
+      "full_name": "International Knee Documentation Committee Subjective Knee Form",
+      "body_region": "Lower Extremity - Knee",
+      "conditions": ["ACL Injury", "Meniscal Tear", "Knee Ligament Injuries", "Knee Surgery", "Sports-related Knee Injuries"],
+      "items": 18,
+      "estimated_minutes": 5,
+      "file": "ikdc.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "VISA-A",
+      "full_name": "Victorian Institute of Sport Assessment - Achilles",
+      "body_region": "Lower Extremity - Ankle/Achilles",
+      "conditions": ["Achilles Tendinopathy", "Achilles Tendonitis", "Achilles Tendon Injuries"],
+      "items": 8,
+      "estimated_minutes": 3,
+      "file": "visaa.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "VISA-P",
+      "full_name": "Victorian Institute of Sport Assessment - Patella",
+      "body_region": "Lower Extremity - Knee",
+      "conditions": ["Patellar Tendinopathy", "Jumper's Knee", "Patellar Tendonitis"],
+      "items": 8,
+      "estimated_minutes": 3,
+      "file": "visap.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "CAIT",
+      "full_name": "Cumberland Ankle Instability Tool",
+      "body_region": "Lower Extremity - Ankle",
+      "conditions": ["Chronic Ankle Instability", "Ankle Sprain", "Recurrent Ankle Sprains", "Functional Ankle Instability"],
+      "items": 9,
+      "estimated_minutes": 3,
+      "file": "cait.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "FIQ",
+      "full_name": "Fibromyalgia Impact Questionnaire",
+      "body_region": "General - Chronic Pain/Rheumatology",
+      "conditions": ["Fibromyalgia", "Chronic Widespread Pain", "Chronic Fatigue Syndrome"],
+      "items": 21,
+      "estimated_minutes": 7,
+      "file": "fiq.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "WOMAC",
+      "full_name": "Western Ontario and McMaster Universities Osteoarthritis Index",
+      "body_region": "Lower Extremity - Knee/Hip",
+      "conditions": ["Knee OA", "Hip OA", "Osteoarthritis", "Post-arthroplasty"],
+      "items": 24,
+      "estimated_minutes": 6,
+      "file": "womac.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "ASES",
+      "full_name": "American Shoulder and Elbow Surgeons Standardized Shoulder Assessment",
+      "body_region": "Upper Extremity - Shoulder",
+      "conditions": ["All shoulder conditions", "Rotator Cuff Tears", "Shoulder Instability", "Shoulder Impingement"],
+      "items": 11,
+      "estimated_minutes": 5,
+      "file": "ases.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "PRWE",
+      "full_name": "Patient-Rated Wrist Evaluation",
+      "body_region": "Upper Extremity - Wrist",
+      "conditions": ["Distal Radius Fracture", "Wrist Injuries", "TFCC Tears", "Wrist Pain"],
+      "items": 15,
+      "estimated_minutes": 5,
+      "file": "prwe.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "RMDQ",
+      "full_name": "Roland-Morris Disability Questionnaire",
+      "body_region": "Spine - Lumbar",
+      "conditions": ["Acute Low Back Pain", "Subacute Low Back Pain", "Low Back Pain"],
+      "items": 24,
+      "estimated_minutes": 5,
+      "file": "rmdq.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "PCS",
+      "full_name": "Pain Catastrophizing Scale",
+      "body_region": "General - Pain Psychology",
+      "conditions": ["Chronic Pain", "Acute Pain", "All pain conditions"],
+      "items": 13,
+      "estimated_minutes": 5,
+      "file": "pcs.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "TSK",
+      "full_name": "Tampa Scale for Kinesiophobia",
+      "body_region": "General - Pain Psychology",
+      "conditions": ["Chronic Pain", "Fear-Avoidance", "Post-injury Rehabilitation"],
+      "items": 17,
+      "estimated_minutes": 5,
+      "file": "tsk.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "DHI",
+      "full_name": "Dizziness Handicap Inventory",
+      "body_region": "Vestibular/Neurological",
+      "conditions": ["BPPV", "Vestibular Disorders", "Dizziness", "Balance Disorders"],
+      "items": 25,
+      "estimated_minutes": 7,
+      "file": "dhi.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "WOSI",
+      "full_name": "Western Ontario Shoulder Instability Index",
+      "body_region": "Upper Extremity - Shoulder",
+      "conditions": ["Shoulder Instability", "Shoulder Dislocation", "Bankart Lesions", "Labral Tears"],
+      "items": 21,
+      "estimated_minutes": 7,
+      "file": "wosi.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "BCTQ",
+      "full_name": "Boston Carpal Tunnel Questionnaire",
+      "body_region": "Upper Extremity - Hand/Wrist",
+      "conditions": ["Carpal Tunnel Syndrome", "Median Nerve Compression"],
+      "items": 19,
+      "estimated_minutes": 5,
+      "file": "bctq.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "ABC",
+      "full_name": "Activities-Specific Balance Confidence Scale",
+      "body_region": "General - Balance/Falls",
+      "conditions": ["Fall Risk", "Balance Disorders", "Elderly Assessment", "Neurological Conditions"],
+      "items": 16,
+      "estimated_minutes": 5,
+      "file": "abc.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "LYSHOLM",
+      "full_name": "Lysholm Knee Scoring Scale",
+      "body_region": "Lower Extremity - Knee",
+      "conditions": ["ACL Injury", "Knee Ligament Injuries", "Meniscal Tears", "Knee Instability"],
+      "items": 8,
+      "estimated_minutes": 3,
+      "file": "lysholm.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "CONSTANT",
+      "full_name": "Constant-Murley Shoulder Score",
+      "body_region": "Upper Extremity - Shoulder",
+      "conditions": ["All shoulder conditions", "Shoulder Surgery Outcomes"],
+      "items": 8,
+      "estimated_minutes": 5,
+      "file": "constant.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "TEGNER",
+      "full_name": "Tegner Activity Scale",
+      "body_region": "General - Activity Level",
+      "conditions": ["Knee injuries", "All sports injuries", "Pre/post-surgery activity assessment"],
+      "items": 1,
+      "estimated_minutes": 1,
+      "file": "tegner.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "OSS",
+      "full_name": "Oxford Shoulder Score",
+      "body_region": "Upper Extremity - Shoulder",
+      "conditions": ["Shoulder Pain", "Shoulder Surgery Outcomes", "All shoulder conditions"],
+      "items": 12,
+      "estimated_minutes": 5,
+      "file": "oss.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "BERG",
+      "full_name": "Berg Balance Scale",
+      "body_region": "General - Balance/Falls",
+      "conditions": ["Fall Risk", "Stroke", "Parkinson's Disease", "MS", "Elderly Assessment", "Balance Disorders"],
+      "items": 14,
+      "estimated_minutes": 15,
+      "file": "berg.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "FIM",
+      "full_name": "Functional Independence Measure",
+      "body_region": "General - Functional Independence",
+      "conditions": ["Stroke", "TBI", "Spinal Cord Injury", "Neurological Conditions", "Rehabilitation"],
+      "items": 18,
+      "estimated_minutes": 20,
+      "file": "fim.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "CPAQ",
+      "full_name": "Chronic Pain Acceptance Questionnaire",
+      "body_region": "General - Pain Psychology",
+      "conditions": ["Chronic Pain", "Pain Management", "Pain Acceptance"],
+      "items": 20,
+      "estimated_minutes": 5,
+      "file": "cpaq.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "BARTHEL",
+      "full_name": "Barthel Index of Activities of Daily Living",
+      "body_region": "General - ADL/Functional Independence",
+      "conditions": ["Stroke", "Elderly Assessment", "Rehabilitation", "Neurological Conditions"],
+      "items": 10,
+      "estimated_minutes": 5,
+      "file": "barthel.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "EQ5D",
+      "full_name": "EQ-5D-5L",
+      "body_region": "General - Quality of Life",
+      "conditions": ["All conditions", "Health economics", "QALY assessment"],
+      "items": 6,
+      "estimated_minutes": 3,
+      "file": "eq5d.json",
+      "status": "available"
+    },
+    {
+      "prom_id": "JFLS",
+      "full_name": "Jaw Functional Limitation Scale",
+      "body_region": "Head/Face - TMJ",
+      "conditions": ["TMJ Disorders", "TMD", "Jaw Pain", "Temporomandibular Disorders"],
+      "items": 20,
+      "estimated_minutes": 5,
+      "file": "jfls.json",
+      "status": "available"
+    }
+  ]
+}

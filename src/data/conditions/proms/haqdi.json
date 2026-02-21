@@ -1,0 +1,407 @@
+{
+  "prom_id": "HAQ-DI",
+  "full_name": "Health Assessment Questionnaire - Disability Index",
+  "version": "1.0",
+  "copyright": "© Stanford University, 1980",
+  "language": "English",
+  "total_items": 20,
+  "estimated_time_minutes": 5,
+  "description": "A patient-reported questionnaire for assessing disability and functional status in patients with arthritis and rheumatic diseases.",
+  "instructions": "Please check the response which best describes your usual abilities OVER THE PAST WEEK. If you usually do an activity in more than one way, please mark the box for the way that is most difficult for you.",
+  "scoring": {
+    "method": "category_average",
+    "categories": [
+      {
+        "id": "dressing",
+        "name": "Dressing & Grooming",
+        "items": 2
+      },
+      {
+        "id": "arising",
+        "name": "Arising",
+        "items": 2
+      },
+      {
+        "id": "eating",
+        "name": "Eating",
+        "items": 3
+      },
+      {
+        "id": "walking",
+        "name": "Walking",
+        "items": 2
+      },
+      {
+        "id": "hygiene",
+        "name": "Hygiene",
+        "items": 3
+      },
+      {
+        "id": "reach",
+        "name": "Reach",
+        "items": 2
+      },
+      {
+        "id": "grip",
+        "name": "Grip",
+        "items": 3
+      },
+      {
+        "id": "activities",
+        "name": "Common Daily Activities",
+        "items": 3
+      }
+    ],
+    "total_score": {
+      "min": 0,
+      "max": 3,
+      "calculation": "Average of the 8 category scores. Each category score is the highest score within that category. If assistive devices or help from another person is used, the score is adjusted to at least 2.",
+      "interpretation": {
+        "0-0.5": "Mild difficulties to no disability",
+        "0.5-1": "Mild to moderate disability",
+        "1-2": "Moderate to severe disability",
+        "2-3": "Severe to very severe disability"
+      },
+      "higher_is_worse": true,
+      "mcid": 0.22
+    }
+  },
+  "sections": [
+    {
+      "id": "haq_dressing",
+      "title": "Dressing & Grooming",
+      "description": "Are you able to:",
+      "questions": [
+        {
+          "id": "haq_1",
+          "question": "Dress yourself, including tying shoelaces and doing buttons?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 1,
+          "category": "dressing",
+          "options": [
+            { "value": "0", "label": "Without ANY difficulty", "score": 0 },
+            { "value": "1", "label": "With SOME difficulty", "score": 1 },
+            { "value": "2", "label": "With MUCH difficulty", "score": 2 },
+            { "value": "3", "label": "UNABLE to do", "score": 3 }
+          ]
+        },
+        {
+          "id": "haq_2",
+          "question": "Shampoo your hair?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 2,
+          "category": "dressing",
+          "options": [
+            { "value": "0", "label": "Without ANY difficulty", "score": 0 },
+            { "value": "1", "label": "With SOME difficulty", "score": 1 },
+            { "value": "2", "label": "With MUCH difficulty", "score": 2 },
+            { "value": "3", "label": "UNABLE to do", "score": 3 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "haq_arising",
+      "title": "Arising",
+      "description": "Are you able to:",
+      "questions": [
+        {
+          "id": "haq_3",
+          "question": "Stand up from a straight chair?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 3,
+          "category": "arising",
+          "options": [
+            { "value": "0", "label": "Without ANY difficulty", "score": 0 },
+            { "value": "1", "label": "With SOME difficulty", "score": 1 },
+            { "value": "2", "label": "With MUCH difficulty", "score": 2 },
+            { "value": "3", "label": "UNABLE to do", "score": 3 }
+          ]
+        },
+        {
+          "id": "haq_4",
+          "question": "Get in and out of bed?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 4,
+          "category": "arising",
+          "options": [
+            { "value": "0", "label": "Without ANY difficulty", "score": 0 },
+            { "value": "1", "label": "With SOME difficulty", "score": 1 },
+            { "value": "2", "label": "With MUCH difficulty", "score": 2 },
+            { "value": "3", "label": "UNABLE to do", "score": 3 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "haq_eating",
+      "title": "Eating",
+      "description": "Are you able to:",
+      "questions": [
+        {
+          "id": "haq_5",
+          "question": "Cut your meat?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 5,
+          "category": "eating",
+          "options": [
+            { "value": "0", "label": "Without ANY difficulty", "score": 0 },
+            { "value": "1", "label": "With SOME difficulty", "score": 1 },
+            { "value": "2", "label": "With MUCH difficulty", "score": 2 },
+            { "value": "3", "label": "UNABLE to do", "score": 3 }
+          ]
+        },
+        {
+          "id": "haq_6",
+          "question": "Lift a full cup or glass to your mouth?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 6,
+          "category": "eating",
+          "options": [
+            { "value": "0", "label": "Without ANY difficulty", "score": 0 },
+            { "value": "1", "label": "With SOME difficulty", "score": 1 },
+            { "value": "2", "label": "With MUCH difficulty", "score": 2 },
+            { "value": "3", "label": "UNABLE to do", "score": 3 }
+          ]
+        },
+        {
+          "id": "haq_7",
+          "question": "Open a new milk carton?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 7,
+          "category": "eating",
+          "options": [
+            { "value": "0", "label": "Without ANY difficulty", "score": 0 },
+            { "value": "1", "label": "With SOME difficulty", "score": 1 },
+            { "value": "2", "label": "With MUCH difficulty", "score": 2 },
+            { "value": "3", "label": "UNABLE to do", "score": 3 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "haq_walking",
+      "title": "Walking",
+      "description": "Are you able to:",
+      "questions": [
+        {
+          "id": "haq_8",
+          "question": "Walk outdoors on flat ground?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 8,
+          "category": "walking",
+          "options": [
+            { "value": "0", "label": "Without ANY difficulty", "score": 0 },
+            { "value": "1", "label": "With SOME difficulty", "score": 1 },
+            { "value": "2", "label": "With MUCH difficulty", "score": 2 },
+            { "value": "3", "label": "UNABLE to do", "score": 3 }
+          ]
+        },
+        {
+          "id": "haq_9",
+          "question": "Climb up five steps?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 9,
+          "category": "walking",
+          "options": [
+            { "value": "0", "label": "Without ANY difficulty", "score": 0 },
+            { "value": "1", "label": "With SOME difficulty", "score": 1 },
+            { "value": "2", "label": "With MUCH difficulty", "score": 2 },
+            { "value": "3", "label": "UNABLE to do", "score": 3 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "haq_hygiene",
+      "title": "Hygiene",
+      "description": "Are you able to:",
+      "questions": [
+        {
+          "id": "haq_10",
+          "question": "Wash and dry your body?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 10,
+          "category": "hygiene",
+          "options": [
+            { "value": "0", "label": "Without ANY difficulty", "score": 0 },
+            { "value": "1", "label": "With SOME difficulty", "score": 1 },
+            { "value": "2", "label": "With MUCH difficulty", "score": 2 },
+            { "value": "3", "label": "UNABLE to do", "score": 3 }
+          ]
+        },
+        {
+          "id": "haq_11",
+          "question": "Take a bath?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 11,
+          "category": "hygiene",
+          "options": [
+            { "value": "0", "label": "Without ANY difficulty", "score": 0 },
+            { "value": "1", "label": "With SOME difficulty", "score": 1 },
+            { "value": "2", "label": "With MUCH difficulty", "score": 2 },
+            { "value": "3", "label": "UNABLE to do", "score": 3 }
+          ]
+        },
+        {
+          "id": "haq_12",
+          "question": "Get on and off the toilet?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 12,
+          "category": "hygiene",
+          "options": [
+            { "value": "0", "label": "Without ANY difficulty", "score": 0 },
+            { "value": "1", "label": "With SOME difficulty", "score": 1 },
+            { "value": "2", "label": "With MUCH difficulty", "score": 2 },
+            { "value": "3", "label": "UNABLE to do", "score": 3 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "haq_reach",
+      "title": "Reach",
+      "description": "Are you able to:",
+      "questions": [
+        {
+          "id": "haq_13",
+          "question": "Reach and get down a 5-pound object (such as a bag of sugar) from just above your head?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 13,
+          "category": "reach",
+          "options": [
+            { "value": "0", "label": "Without ANY difficulty", "score": 0 },
+            { "value": "1", "label": "With SOME difficulty", "score": 1 },
+            { "value": "2", "label": "With MUCH difficulty", "score": 2 },
+            { "value": "3", "label": "UNABLE to do", "score": 3 }
+          ]
+        },
+        {
+          "id": "haq_14",
+          "question": "Bend down to pick up clothing from the floor?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 14,
+          "category": "reach",
+          "options": [
+            { "value": "0", "label": "Without ANY difficulty", "score": 0 },
+            { "value": "1", "label": "With SOME difficulty", "score": 1 },
+            { "value": "2", "label": "With MUCH difficulty", "score": 2 },
+            { "value": "3", "label": "UNABLE to do", "score": 3 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "haq_grip",
+      "title": "Grip",
+      "description": "Are you able to:",
+      "questions": [
+        {
+          "id": "haq_15",
+          "question": "Open car doors?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 15,
+          "category": "grip",
+          "options": [
+            { "value": "0", "label": "Without ANY difficulty", "score": 0 },
+            { "value": "1", "label": "With SOME difficulty", "score": 1 },
+            { "value": "2", "label": "With MUCH difficulty", "score": 2 },
+            { "value": "3", "label": "UNABLE to do", "score": 3 }
+          ]
+        },
+        {
+          "id": "haq_16",
+          "question": "Open jars which have been previously opened?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 16,
+          "category": "grip",
+          "options": [
+            { "value": "0", "label": "Without ANY difficulty", "score": 0 },
+            { "value": "1", "label": "With SOME difficulty", "score": 1 },
+            { "value": "2", "label": "With MUCH difficulty", "score": 2 },
+            { "value": "3", "label": "UNABLE to do", "score": 3 }
+          ]
+        },
+        {
+          "id": "haq_17",
+          "question": "Turn faucets on and off?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 17,
+          "category": "grip",
+          "options": [
+            { "value": "0", "label": "Without ANY difficulty", "score": 0 },
+            { "value": "1", "label": "With SOME difficulty", "score": 1 },
+            { "value": "2", "label": "With MUCH difficulty", "score": 2 },
+            { "value": "3", "label": "UNABLE to do", "score": 3 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "haq_activities",
+      "title": "Common Daily Activities",
+      "description": "Are you able to:",
+      "questions": [
+        {
+          "id": "haq_18",
+          "question": "Run errands and shop?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 18,
+          "category": "activities",
+          "options": [
+            { "value": "0", "label": "Without ANY difficulty", "score": 0 },
+            { "value": "1", "label": "With SOME difficulty", "score": 1 },
+            { "value": "2", "label": "With MUCH difficulty", "score": 2 },
+            { "value": "3", "label": "UNABLE to do", "score": 3 }
+          ]
+        },
+        {
+          "id": "haq_19",
+          "question": "Get in and out of a car?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 19,
+          "category": "activities",
+          "options": [
+            { "value": "0", "label": "Without ANY difficulty", "score": 0 },
+            { "value": "1", "label": "With SOME difficulty", "score": 1 },
+            { "value": "2", "label": "With MUCH difficulty", "score": 2 },
+            { "value": "3", "label": "UNABLE to do", "score": 3 }
+          ]
+        },
+        {
+          "id": "haq_20",
+          "question": "Do chores such as vacuuming or yardwork?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 20,
+          "category": "activities",
+          "options": [
+            { "value": "0", "label": "Without ANY difficulty", "score": 0 },
+            { "value": "1", "label": "With SOME difficulty", "score": 1 },
+            { "value": "2", "label": "With MUCH difficulty", "score": 2 },
+            { "value": "3", "label": "UNABLE to do", "score": 3 }
+          ]
+        }
+      ]
+    }
+  ]
+}

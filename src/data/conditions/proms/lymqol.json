@@ -1,0 +1,446 @@
+{
+  "prom_id": "LYMQOL",
+  "full_name": "Lymphedema Quality of Life Questionnaire",
+  "version": "1.0",
+  "copyright": "© Keeley et al., 2010",
+  "language": "English",
+  "total_items": 28,
+  "estimated_time_minutes": 7,
+  "description": "A condition-specific quality of life measure for patients with lymphedema of the limbs. Assesses symptoms, function, appearance, and mood.",
+  "instructions": "Because of your swollen limb, during the PAST WEEK... Please tick ONE box for each question.",
+  "scoring": {
+    "method": "domain_sum_to_percentage",
+    "domains": [
+      {
+        "id": "function",
+        "name": "Function",
+        "items": 11,
+        "calculation": "Sum of items, convert to 0-100 scale"
+      },
+      {
+        "id": "appearance",
+        "name": "Appearance",
+        "items": 6,
+        "calculation": "Sum of items, convert to 0-100 scale"
+      },
+      {
+        "id": "symptoms",
+        "name": "Symptoms",
+        "items": 7,
+        "calculation": "Sum of items, convert to 0-100 scale"
+      },
+      {
+        "id": "mood",
+        "name": "Mood",
+        "items": 4,
+        "calculation": "Sum of items, convert to 0-100 scale"
+      }
+    ],
+    "total_score": {
+      "min": 0,
+      "max": 100,
+      "calculation": "Average of domain scores",
+      "interpretation": {
+        "0-25": "Severe impact on quality of life",
+        "26-50": "Moderate impact on quality of life",
+        "51-75": "Mild impact on quality of life",
+        "76-100": "Minimal impact on quality of life"
+      },
+      "higher_is_better": true
+    }
+  },
+  "sections": [
+    {
+      "id": "lymqol_function",
+      "title": "Function",
+      "description": "Because of your swollen limb, during the past week...",
+      "questions": [
+        {
+          "id": "lymqol_f1",
+          "question": "Have you had difficulty walking?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 1,
+          "options": [
+            { "value": "4", "label": "Not at all", "score": 4 },
+            { "value": "3", "label": "A little", "score": 3 },
+            { "value": "2", "label": "Quite a bit", "score": 2 },
+            { "value": "1", "label": "A lot", "score": 1 }
+          ]
+        },
+        {
+          "id": "lymqol_f2",
+          "question": "Have you had difficulty with stairs?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 2,
+          "options": [
+            { "value": "4", "label": "Not at all", "score": 4 },
+            { "value": "3", "label": "A little", "score": 3 },
+            { "value": "2", "label": "Quite a bit", "score": 2 },
+            { "value": "1", "label": "A lot", "score": 1 }
+          ]
+        },
+        {
+          "id": "lymqol_f3",
+          "question": "Have you had difficulty bending down?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 3,
+          "options": [
+            { "value": "4", "label": "Not at all", "score": 4 },
+            { "value": "3", "label": "A little", "score": 3 },
+            { "value": "2", "label": "Quite a bit", "score": 2 },
+            { "value": "1", "label": "A lot", "score": 1 }
+          ]
+        },
+        {
+          "id": "lymqol_f4",
+          "question": "Have you had difficulty with dressing?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 4,
+          "options": [
+            { "value": "4", "label": "Not at all", "score": 4 },
+            { "value": "3", "label": "A little", "score": 3 },
+            { "value": "2", "label": "Quite a bit", "score": 2 },
+            { "value": "1", "label": "A lot", "score": 1 }
+          ]
+        },
+        {
+          "id": "lymqol_f5",
+          "question": "Have you had difficulty getting comfortable in bed?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 5,
+          "options": [
+            { "value": "4", "label": "Not at all", "score": 4 },
+            { "value": "3", "label": "A little", "score": 3 },
+            { "value": "2", "label": "Quite a bit", "score": 2 },
+            { "value": "1", "label": "A lot", "score": 1 }
+          ]
+        },
+        {
+          "id": "lymqol_f6",
+          "question": "Have you had difficulty with housework/gardening?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 6,
+          "options": [
+            { "value": "4", "label": "Not at all", "score": 4 },
+            { "value": "3", "label": "A little", "score": 3 },
+            { "value": "2", "label": "Quite a bit", "score": 2 },
+            { "value": "1", "label": "A lot", "score": 1 }
+          ]
+        },
+        {
+          "id": "lymqol_f7",
+          "question": "Have you had difficulty with your work or daily activities?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 7,
+          "options": [
+            { "value": "4", "label": "Not at all", "score": 4 },
+            { "value": "3", "label": "A little", "score": 3 },
+            { "value": "2", "label": "Quite a bit", "score": 2 },
+            { "value": "1", "label": "A lot", "score": 1 }
+          ]
+        },
+        {
+          "id": "lymqol_f8",
+          "question": "Have you had difficulty with social or leisure activities?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 8,
+          "options": [
+            { "value": "4", "label": "Not at all", "score": 4 },
+            { "value": "3", "label": "A little", "score": 3 },
+            { "value": "2", "label": "Quite a bit", "score": 2 },
+            { "value": "1", "label": "A lot", "score": 1 }
+          ]
+        },
+        {
+          "id": "lymqol_f9",
+          "question": "Have you had difficulty washing yourself?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 9,
+          "options": [
+            { "value": "4", "label": "Not at all", "score": 4 },
+            { "value": "3", "label": "A little", "score": 3 },
+            { "value": "2", "label": "Quite a bit", "score": 2 },
+            { "value": "1", "label": "A lot", "score": 1 }
+          ]
+        },
+        {
+          "id": "lymqol_f10",
+          "question": "Have you had difficulty carrying heavy objects?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 10,
+          "options": [
+            { "value": "4", "label": "Not at all", "score": 4 },
+            { "value": "3", "label": "A little", "score": 3 },
+            { "value": "2", "label": "Quite a bit", "score": 2 },
+            { "value": "1", "label": "A lot", "score": 1 }
+          ]
+        },
+        {
+          "id": "lymqol_f11",
+          "question": "Have you had difficulty getting around?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 11,
+          "options": [
+            { "value": "4", "label": "Not at all", "score": 4 },
+            { "value": "3", "label": "A little", "score": 3 },
+            { "value": "2", "label": "Quite a bit", "score": 2 },
+            { "value": "1", "label": "A lot", "score": 1 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lymqol_appearance",
+      "title": "Appearance",
+      "description": "Because of your swollen limb, during the past week...",
+      "questions": [
+        {
+          "id": "lymqol_a1",
+          "question": "Have you felt conscious of your appearance?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 12,
+          "options": [
+            { "value": "4", "label": "Not at all", "score": 4 },
+            { "value": "3", "label": "A little", "score": 3 },
+            { "value": "2", "label": "Quite a bit", "score": 2 },
+            { "value": "1", "label": "A lot", "score": 1 }
+          ]
+        },
+        {
+          "id": "lymqol_a2",
+          "question": "Have you had difficulty finding clothes/shoes to fit?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 13,
+          "options": [
+            { "value": "4", "label": "Not at all", "score": 4 },
+            { "value": "3", "label": "A little", "score": 3 },
+            { "value": "2", "label": "Quite a bit", "score": 2 },
+            { "value": "1", "label": "A lot", "score": 1 }
+          ]
+        },
+        {
+          "id": "lymqol_a3",
+          "question": "Have you been upset by the appearance of your swollen limb?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 14,
+          "options": [
+            { "value": "4", "label": "Not at all", "score": 4 },
+            { "value": "3", "label": "A little", "score": 3 },
+            { "value": "2", "label": "Quite a bit", "score": 2 },
+            { "value": "1", "label": "A lot", "score": 1 }
+          ]
+        },
+        {
+          "id": "lymqol_a4",
+          "question": "Have you avoided wearing certain clothes/shoes because of your swollen limb?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 15,
+          "options": [
+            { "value": "4", "label": "Not at all", "score": 4 },
+            { "value": "3", "label": "A little", "score": 3 },
+            { "value": "2", "label": "Quite a bit", "score": 2 },
+            { "value": "1", "label": "A lot", "score": 1 }
+          ]
+        },
+        {
+          "id": "lymqol_a5",
+          "question": "Has your swollen limb made you feel less attractive?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 16,
+          "options": [
+            { "value": "4", "label": "Not at all", "score": 4 },
+            { "value": "3", "label": "A little", "score": 3 },
+            { "value": "2", "label": "Quite a bit", "score": 2 },
+            { "value": "1", "label": "A lot", "score": 1 }
+          ]
+        },
+        {
+          "id": "lymqol_a6",
+          "question": "Has the appearance of your swollen limb interfered with your sex life?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 17,
+          "options": [
+            { "value": "4", "label": "Not at all", "score": 4 },
+            { "value": "3", "label": "A little", "score": 3 },
+            { "value": "2", "label": "Quite a bit", "score": 2 },
+            { "value": "1", "label": "A lot", "score": 1 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lymqol_symptoms",
+      "title": "Symptoms",
+      "description": "Because of your swollen limb, during the past week...",
+      "questions": [
+        {
+          "id": "lymqol_s1",
+          "question": "Have you had feelings of heaviness in your swollen limb?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 18,
+          "options": [
+            { "value": "4", "label": "Not at all", "score": 4 },
+            { "value": "3", "label": "A little", "score": 3 },
+            { "value": "2", "label": "Quite a bit", "score": 2 },
+            { "value": "1", "label": "A lot", "score": 1 }
+          ]
+        },
+        {
+          "id": "lymqol_s2",
+          "question": "Have you had aching in your swollen limb?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 19,
+          "options": [
+            { "value": "4", "label": "Not at all", "score": 4 },
+            { "value": "3", "label": "A little", "score": 3 },
+            { "value": "2", "label": "Quite a bit", "score": 2 },
+            { "value": "1", "label": "A lot", "score": 1 }
+          ]
+        },
+        {
+          "id": "lymqol_s3",
+          "question": "Have you had soreness or tenderness in your swollen limb?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 20,
+          "options": [
+            { "value": "4", "label": "Not at all", "score": 4 },
+            { "value": "3", "label": "A little", "score": 3 },
+            { "value": "2", "label": "Quite a bit", "score": 2 },
+            { "value": "1", "label": "A lot", "score": 1 }
+          ]
+        },
+        {
+          "id": "lymqol_s4",
+          "question": "Have you had pins and needles/tingling in your swollen limb?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 21,
+          "options": [
+            { "value": "4", "label": "Not at all", "score": 4 },
+            { "value": "3", "label": "A little", "score": 3 },
+            { "value": "2", "label": "Quite a bit", "score": 2 },
+            { "value": "1", "label": "A lot", "score": 1 }
+          ]
+        },
+        {
+          "id": "lymqol_s5",
+          "question": "Have you had numbness in your swollen limb?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 22,
+          "options": [
+            { "value": "4", "label": "Not at all", "score": 4 },
+            { "value": "3", "label": "A little", "score": 3 },
+            { "value": "2", "label": "Quite a bit", "score": 2 },
+            { "value": "1", "label": "A lot", "score": 1 }
+          ]
+        },
+        {
+          "id": "lymqol_s6",
+          "question": "Have you had a feeling of tightness in your swollen limb?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 23,
+          "options": [
+            { "value": "4", "label": "Not at all", "score": 4 },
+            { "value": "3", "label": "A little", "score": 3 },
+            { "value": "2", "label": "Quite a bit", "score": 2 },
+            { "value": "1", "label": "A lot", "score": 1 }
+          ]
+        },
+        {
+          "id": "lymqol_s7",
+          "question": "Have you had a feeling of weakness in your swollen limb?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 24,
+          "options": [
+            { "value": "4", "label": "Not at all", "score": 4 },
+            { "value": "3", "label": "A little", "score": 3 },
+            { "value": "2", "label": "Quite a bit", "score": 2 },
+            { "value": "1", "label": "A lot", "score": 1 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lymqol_mood",
+      "title": "Mood",
+      "description": "Because of your swollen limb, during the past week...",
+      "questions": [
+        {
+          "id": "lymqol_m1",
+          "question": "Have you felt less confident or more self-conscious?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 25,
+          "options": [
+            { "value": "4", "label": "Not at all", "score": 4 },
+            { "value": "3", "label": "A little", "score": 3 },
+            { "value": "2", "label": "Quite a bit", "score": 2 },
+            { "value": "1", "label": "A lot", "score": 1 }
+          ]
+        },
+        {
+          "id": "lymqol_m2",
+          "question": "Have you felt anxious or worried?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 26,
+          "options": [
+            { "value": "4", "label": "Not at all", "score": 4 },
+            { "value": "3", "label": "A little", "score": 3 },
+            { "value": "2", "label": "Quite a bit", "score": 2 },
+            { "value": "1", "label": "A lot", "score": 1 }
+          ]
+        },
+        {
+          "id": "lymqol_m3",
+          "question": "Have you felt upset?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 27,
+          "options": [
+            { "value": "4", "label": "Not at all", "score": 4 },
+            { "value": "3", "label": "A little", "score": 3 },
+            { "value": "2", "label": "Quite a bit", "score": 2 },
+            { "value": "1", "label": "A lot", "score": 1 }
+          ]
+        },
+        {
+          "id": "lymqol_m4",
+          "question": "Have you felt depressed?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 28,
+          "options": [
+            { "value": "4", "label": "Not at all", "score": 4 },
+            { "value": "3", "label": "A little", "score": 3 },
+            { "value": "2", "label": "Quite a bit", "score": 2 },
+            { "value": "1", "label": "A lot", "score": 1 }
+          ]
+        }
+      ]
+    }
+  ]
+}

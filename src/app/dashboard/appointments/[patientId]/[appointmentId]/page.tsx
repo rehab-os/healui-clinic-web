@@ -44,6 +44,7 @@ import InsightsTimeline, { CollapsibleSection } from './components/layout/Insigh
 import ConditionCard from './components/conditions/ConditionCard'
 import ConditionProtocolViewer from './components/conditions/ConditionProtocolViewer'
 import ConditionActionBar from './components/conditions/ConditionActionBar'
+import ConditionTrackingPanel from './components/tracking/ConditionTrackingPanel'
 
 export default function AppointmentDetailsPage() {
   const params = useParams()
@@ -490,6 +491,10 @@ export default function AppointmentDetailsPage() {
                         protocol={currentClinicalProtocol || previousClinicalProtocol}
                         isFromPreviousVisit={!currentClinicalProtocol && !!previousClinicalProtocol}
                         onGenerateNew={() => handleGenerateProtocol(activeCondition)}
+                      />
+                      <ConditionTrackingPanel
+                        conditionName={activeCondition.condition_name}
+                        visitConditionId={activeCondition.id}
                       />
                     </ConditionCard>
 

@@ -1,0 +1,473 @@
+{
+  "prom_id": "SGRQ",
+  "full_name": "St. George's Respiratory Questionnaire",
+  "version": "2.2",
+  "copyright": "© Paul Jones, St. George's Hospital Medical School, 1991",
+  "language": "English",
+  "total_items": 50,
+  "estimated_time_minutes": 10,
+  "description": "A disease-specific instrument designed to measure impact on overall health, daily life, and perceived well-being in patients with obstructive airways disease.",
+  "instructions": "This questionnaire is designed to help us learn more about how your breathing is troubling you and affecting your life. Please read the instructions carefully and ask if you do not understand anything.",
+  "scoring": {
+    "method": "weighted_component_scores",
+    "components": [
+      {
+        "id": "symptoms",
+        "name": "Symptoms",
+        "items": 8,
+        "calculation": "Weighted score based on symptom frequency and severity"
+      },
+      {
+        "id": "activity",
+        "name": "Activity",
+        "items": 16,
+        "calculation": "Activities that cause or are limited by breathlessness"
+      },
+      {
+        "id": "impacts",
+        "name": "Impacts",
+        "items": 26,
+        "calculation": "Social and psychological impacts of respiratory disease"
+      }
+    ],
+    "total_score": {
+      "min": 0,
+      "max": 100,
+      "calculation": "Weighted sum of all components divided by maximum possible weight × 100",
+      "interpretation": {
+        "0-25": "Little impact on quality of life",
+        "26-50": "Moderate impact on quality of life",
+        "51-75": "Significant impact on quality of life",
+        "76-100": "Severe impact on quality of life"
+      },
+      "higher_is_worse": true,
+      "mcid": 4
+    }
+  },
+  "sections": [
+    {
+      "id": "sgrq_part1",
+      "title": "Part 1: Symptoms",
+      "description": "Questions about how much your chest has troubled you in the past 4 weeks",
+      "questions": [
+        {
+          "id": "sgrq_1",
+          "question": "Over the last 4 weeks, I have coughed:",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 1,
+          "options": [
+            { "value": "0", "label": "Not at all", "score": 0 },
+            { "value": "1", "label": "Only with chest infections", "score": 1 },
+            { "value": "2", "label": "A few days a month", "score": 2 },
+            { "value": "3", "label": "Several days a week", "score": 3 },
+            { "value": "4", "label": "Most days a week", "score": 4 },
+            { "value": "5", "label": "Every day", "score": 5 }
+          ]
+        },
+        {
+          "id": "sgrq_2",
+          "question": "Over the last 4 weeks, I have brought up phlegm (sputum):",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 2,
+          "options": [
+            { "value": "0", "label": "Not at all", "score": 0 },
+            { "value": "1", "label": "Only with chest infections", "score": 1 },
+            { "value": "2", "label": "A few days a month", "score": 2 },
+            { "value": "3", "label": "Several days a week", "score": 3 },
+            { "value": "4", "label": "Most days a week", "score": 4 },
+            { "value": "5", "label": "Every day", "score": 5 }
+          ]
+        },
+        {
+          "id": "sgrq_3",
+          "question": "Over the last 4 weeks, I have had shortness of breath:",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 3,
+          "options": [
+            { "value": "0", "label": "Not at all", "score": 0 },
+            { "value": "1", "label": "Only with chest infections", "score": 1 },
+            { "value": "2", "label": "A few days a month", "score": 2 },
+            { "value": "3", "label": "Several days a week", "score": 3 },
+            { "value": "4", "label": "Most days a week", "score": 4 },
+            { "value": "5", "label": "Every day", "score": 5 }
+          ]
+        },
+        {
+          "id": "sgrq_4",
+          "question": "Over the last 4 weeks, I have had attacks of wheezing:",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 4,
+          "options": [
+            { "value": "0", "label": "Not at all", "score": 0 },
+            { "value": "1", "label": "Only with chest infections", "score": 1 },
+            { "value": "2", "label": "A few days a month", "score": 2 },
+            { "value": "3", "label": "Several days a week", "score": 3 },
+            { "value": "4", "label": "Most days a week", "score": 4 },
+            { "value": "5", "label": "Every day", "score": 5 }
+          ]
+        },
+        {
+          "id": "sgrq_5",
+          "question": "During the last 4 weeks, how many severe or very unpleasant attacks of chest trouble did you have?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 5,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "1 or 2 attacks", "score": 1 },
+            { "value": "2", "label": "3 or 4 attacks", "score": 2 },
+            { "value": "3", "label": "More than 4 attacks", "score": 3 },
+            { "value": "4", "label": "My chest is bad most of the time", "score": 4 }
+          ]
+        },
+        {
+          "id": "sgrq_6",
+          "question": "How long did the worst attack of chest trouble last? (Go to Q7 if you had no severe attacks)",
+          "ui_component": "single_choice",
+          "required": false,
+          "order": 6,
+          "options": [
+            { "value": "0", "label": "Less than a day (or no severe attacks)", "score": 0 },
+            { "value": "1", "label": "1 or 2 days", "score": 1 },
+            { "value": "2", "label": "3 to 7 days", "score": 2 },
+            { "value": "3", "label": "More than a week", "score": 3 }
+          ]
+        },
+        {
+          "id": "sgrq_7",
+          "question": "Over the last 4 weeks, in an average week, how many good days (with little chest trouble) did you have?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 7,
+          "options": [
+            { "value": "0", "label": "No good days", "score": 0 },
+            { "value": "1", "label": "1 or 2 good days", "score": 1 },
+            { "value": "2", "label": "3 or 4 good days", "score": 2 },
+            { "value": "3", "label": "Nearly every day is good", "score": 3 },
+            { "value": "4", "label": "Every day is good", "score": 4 }
+          ]
+        },
+        {
+          "id": "sgrq_8",
+          "question": "If you have a wheeze, is it worse in the morning?",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 8
+        }
+      ]
+    },
+    {
+      "id": "sgrq_part2",
+      "title": "Part 2: Activity",
+      "description": "Questions about activities that usually make you feel breathless",
+      "questions": [
+        {
+          "id": "sgrq_9",
+          "question": "Sitting or lying still",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 9
+        },
+        {
+          "id": "sgrq_10",
+          "question": "Washing or dressing yourself",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 10
+        },
+        {
+          "id": "sgrq_11",
+          "question": "Walking around the home",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 11
+        },
+        {
+          "id": "sgrq_12",
+          "question": "Walking outside on level ground",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 12
+        },
+        {
+          "id": "sgrq_13",
+          "question": "Walking up a flight of stairs",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 13
+        },
+        {
+          "id": "sgrq_14",
+          "question": "Walking up hills",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 14
+        },
+        {
+          "id": "sgrq_15",
+          "question": "Playing sports or games",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 15
+        }
+      ]
+    },
+    {
+      "id": "sgrq_part3",
+      "title": "Part 3: Impact on Daily Life",
+      "description": "More questions about your chest and how it affects your life",
+      "questions": [
+        {
+          "id": "sgrq_16",
+          "question": "I get breathless when I talk",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 16
+        },
+        {
+          "id": "sgrq_17",
+          "question": "I get breathless when I bend over",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 17
+        },
+        {
+          "id": "sgrq_18",
+          "question": "My cough or breathing disturbs my sleep",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 18
+        },
+        {
+          "id": "sgrq_19",
+          "question": "I get exhausted easily",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 19
+        },
+        {
+          "id": "sgrq_20",
+          "question": "My chest condition stops me from doing things I would like to do",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 20
+        },
+        {
+          "id": "sgrq_21",
+          "question": "My chest trouble makes it difficult to sleep",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 21
+        },
+        {
+          "id": "sgrq_22",
+          "question": "I get tired very quickly",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 22
+        },
+        {
+          "id": "sgrq_23",
+          "question": "My breathing makes me feel uncomfortable in front of others",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 23
+        },
+        {
+          "id": "sgrq_24",
+          "question": "My chest condition controls my daily activities",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 24
+        },
+        {
+          "id": "sgrq_25",
+          "question": "Doing any physical activity makes me feel breathless",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 25
+        },
+        {
+          "id": "sgrq_26",
+          "question": "Going out for entertainment or recreation is difficult for me",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 26
+        },
+        {
+          "id": "sgrq_27",
+          "question": "My breathing problems make me avoid doing things like going up stairs",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 27
+        },
+        {
+          "id": "sgrq_28",
+          "question": "I cough or wheeze when I first wake up",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 28
+        },
+        {
+          "id": "sgrq_29",
+          "question": "My chest is uncomfortable most of the time",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 29
+        },
+        {
+          "id": "sgrq_30",
+          "question": "I cannot play sports or games as I would like to",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 30
+        },
+        {
+          "id": "sgrq_31",
+          "question": "I cannot go out socially as much as I would like",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 31
+        },
+        {
+          "id": "sgrq_32",
+          "question": "Sexual activity is too difficult for me",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 32
+        },
+        {
+          "id": "sgrq_33",
+          "question": "I take a long time to get washed or dressed",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 33
+        },
+        {
+          "id": "sgrq_34",
+          "question": "I cannot take care of myself the way I would like",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 34
+        },
+        {
+          "id": "sgrq_35",
+          "question": "I am often too unwell to leave the house",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 35
+        },
+        {
+          "id": "sgrq_36",
+          "question": "My chest trouble takes a long time to settle down",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 36
+        },
+        {
+          "id": "sgrq_37",
+          "question": "Everything seems too much of an effort",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 37
+        },
+        {
+          "id": "sgrq_38",
+          "question": "I am short of breath when I speak",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 38
+        },
+        {
+          "id": "sgrq_39",
+          "question": "My breathing problems make everyday activities difficult",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 39
+        },
+        {
+          "id": "sgrq_40",
+          "question": "I have to rest often",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 40
+        },
+        {
+          "id": "sgrq_41",
+          "question": "My breathing makes it difficult to do things such as walk up hills, carry things up stairs, light gardening such as weeding, dance, play bowls or golf",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 41
+        },
+        {
+          "id": "sgrq_42",
+          "question": "My breathing makes it difficult to do things such as carry heavy loads, dig the garden or shovel snow, jog or walk briskly, play tennis or swim",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 42
+        },
+        {
+          "id": "sgrq_43",
+          "question": "My breathing makes it difficult to do things such as very heavy manual labor, run, cycle, swim fast or play competitive sports",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 43
+        },
+        {
+          "id": "sgrq_44",
+          "question": "These are statements that people have made about their chest troubles. Please select which statements apply to you:",
+          "description": "My chest condition causes me a lot of problems",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 44
+        },
+        {
+          "id": "sgrq_45",
+          "question": "I exercise and keep fit despite my chest",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 45
+        },
+        {
+          "id": "sgrq_46",
+          "question": "My chest trouble does not affect me",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 46
+        },
+        {
+          "id": "sgrq_47",
+          "question": "My chest controls my life",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 47
+        },
+        {
+          "id": "sgrq_48",
+          "question": "I can do everything I want to do despite my breathlessness",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 48
+        },
+        {
+          "id": "sgrq_49",
+          "question": "My chest trouble does not stop me doing anything I want to do",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 49
+        },
+        {
+          "id": "sgrq_50",
+          "question": "I am frail or an invalid because of my chest",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 50
+        }
+      ]
+    }
+  ]
+}

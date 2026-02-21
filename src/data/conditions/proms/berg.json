@@ -1,0 +1,250 @@
+{
+  "prom_id": "BERG",
+  "full_name": "Berg Balance Scale",
+  "version": "1.0",
+  "copyright": "© Berg et al., 1989",
+  "language": "English",
+  "total_items": 14,
+  "estimated_time_minutes": 15,
+  "description": "A 14-item objective measure designed to assess static balance and fall risk in adult populations. Each item is scored on a 5-point ordinal scale (0-4) based on ability to perform specific tasks. Requires clinician observation and scoring. Widely used in neurological rehabilitation and geriatric settings.",
+  "instructions": "Please demonstrate your best effort for each item. You may need to use assistive devices for some items. The clinician will score your performance.",
+  "scoring": {
+    "method": "sum_total",
+    "total_score": {
+      "min": 0,
+      "max": 56,
+      "calculation": "Sum of all 14 items (each 0-4 points)",
+      "interpretation": {
+        "0-20": "High fall risk - wheelchair bound",
+        "21-40": "Medium fall risk - ambulatory with assistance",
+        "41-56": "Low fall risk - independent"
+      },
+      "higher_is_better": true,
+      "mcid": 6,
+      "clinical_cutoffs": {
+        "45": "Score <45 indicates increased fall risk",
+        "40": "Score <40 indicates almost 100% fall risk"
+      }
+    }
+  },
+  "sections": [
+    {
+      "id": "berg_balance",
+      "title": "Balance Performance Tasks",
+      "description": "Clinician-administered balance assessment. Each task is scored 0-4 based on performance.",
+      "questions": [
+        {
+          "id": "berg_1",
+          "question": "Sitting to standing",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 1,
+          "instructions": "Please stand up. Try not to use your hands for support.",
+          "options": [
+            { "value": "4", "label": "4 - Able to stand without using hands and stabilize independently", "score": 4 },
+            { "value": "3", "label": "3 - Able to stand independently using hands", "score": 3 },
+            { "value": "2", "label": "2 - Able to stand using hands after several tries", "score": 2 },
+            { "value": "1", "label": "1 - Needs minimal aid to stand or stabilize", "score": 1 },
+            { "value": "0", "label": "0 - Needs moderate or maximal assist to stand", "score": 0 }
+          ]
+        },
+        {
+          "id": "berg_2",
+          "question": "Standing unsupported",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 2,
+          "instructions": "Please stand for 2 minutes without holding on.",
+          "options": [
+            { "value": "4", "label": "4 - Able to stand safely for 2 minutes", "score": 4 },
+            { "value": "3", "label": "3 - Able to stand 2 minutes with supervision", "score": 3 },
+            { "value": "2", "label": "2 - Able to stand 30 seconds unsupported", "score": 2 },
+            { "value": "1", "label": "1 - Needs several tries to stand 30 seconds unsupported", "score": 1 },
+            { "value": "0", "label": "0 - Unable to stand 30 seconds unsupported", "score": 0 }
+          ]
+        },
+        {
+          "id": "berg_3",
+          "question": "Sitting with back unsupported but feet supported on floor or on a stool",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 3,
+          "instructions": "Please sit with arms folded for 2 minutes.",
+          "options": [
+            { "value": "4", "label": "4 - Able to sit safely and securely for 2 minutes", "score": 4 },
+            { "value": "3", "label": "3 - Able to sit 2 minutes under supervision", "score": 3 },
+            { "value": "2", "label": "2 - Able to sit 30 seconds", "score": 2 },
+            { "value": "1", "label": "1 - Able to sit 10 seconds", "score": 1 },
+            { "value": "0", "label": "0 - Unable to sit without support 10 seconds", "score": 0 }
+          ]
+        },
+        {
+          "id": "berg_4",
+          "question": "Standing to sitting",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 4,
+          "instructions": "Please sit down.",
+          "options": [
+            { "value": "4", "label": "4 - Sits safely with minimal use of hands", "score": 4 },
+            { "value": "3", "label": "3 - Controls descent by using hands", "score": 3 },
+            { "value": "2", "label": "2 - Uses back of legs against chair to control descent", "score": 2 },
+            { "value": "1", "label": "1 - Sits independently but has uncontrolled descent", "score": 1 },
+            { "value": "0", "label": "0 - Needs assist to sit", "score": 0 }
+          ]
+        },
+        {
+          "id": "berg_5",
+          "question": "Transfers",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 5,
+          "instructions": "Arrange chairs perpendicular or side by side. Ask patient to transfer from one chair to the other.",
+          "options": [
+            { "value": "4", "label": "4 - Able to transfer safely with minor use of hands", "score": 4 },
+            { "value": "3", "label": "3 - Able to transfer safely definite need of hands", "score": 3 },
+            { "value": "2", "label": "2 - Able to transfer with verbal cuing and/or supervision", "score": 2 },
+            { "value": "1", "label": "1 - Needs one person to assist", "score": 1 },
+            { "value": "0", "label": "0 - Needs two people to assist or supervise to be safe", "score": 0 }
+          ]
+        },
+        {
+          "id": "berg_6",
+          "question": "Standing unsupported with eyes closed",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 6,
+          "instructions": "Please close your eyes and stand still for 10 seconds.",
+          "options": [
+            { "value": "4", "label": "4 - Able to stand 10 seconds safely", "score": 4 },
+            { "value": "3", "label": "3 - Able to stand 10 seconds with supervision", "score": 3 },
+            { "value": "2", "label": "2 - Able to stand 3 seconds", "score": 2 },
+            { "value": "1", "label": "1 - Unable to keep eyes closed 3 seconds but stays safely", "score": 1 },
+            { "value": "0", "label": "0 - Needs help to keep from falling", "score": 0 }
+          ]
+        },
+        {
+          "id": "berg_7",
+          "question": "Standing unsupported with feet together",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 7,
+          "instructions": "Place your feet together and stand without holding on.",
+          "options": [
+            { "value": "4", "label": "4 - Able to place feet together independently and stand 1 minute safely", "score": 4 },
+            { "value": "3", "label": "3 - Able to place feet together independently and stand 1 minute with supervision", "score": 3 },
+            { "value": "2", "label": "2 - Able to place feet together independently but unable to hold for 30 seconds", "score": 2 },
+            { "value": "1", "label": "1 - Needs help to attain position but able to stand 15 seconds feet together", "score": 1 },
+            { "value": "0", "label": "0 - Needs help to attain position and unable to hold for 15 seconds", "score": 0 }
+          ]
+        },
+        {
+          "id": "berg_8",
+          "question": "Reaching forward with outstretched arm while standing",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 8,
+          "instructions": "Lift arm to 90 degrees. Stretch out your fingers and reach forward as far as you can. (Measure distance reached)",
+          "options": [
+            { "value": "4", "label": "4 - Can reach forward confidently >25 cm (10 inches)", "score": 4 },
+            { "value": "3", "label": "3 - Can reach forward >12.5 cm safely (5 inches)", "score": 3 },
+            { "value": "2", "label": "2 - Can reach forward >5 cm safely (2 inches)", "score": 2 },
+            { "value": "1", "label": "1 - Reaches forward but needs supervision", "score": 1 },
+            { "value": "0", "label": "0 - Loses balance while trying/requires external support", "score": 0 }
+          ]
+        },
+        {
+          "id": "berg_9",
+          "question": "Pick up object from the floor from a standing position",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 9,
+          "instructions": "Pick up the shoe/slipper in front of your feet.",
+          "options": [
+            { "value": "4", "label": "4 - Able to pick up slipper safely and easily", "score": 4 },
+            { "value": "3", "label": "3 - Able to pick up slipper but needs supervision", "score": 3 },
+            { "value": "2", "label": "2 - Unable to pick up but reaches 2-5 cm from slipper and keeps balance independently", "score": 2 },
+            { "value": "1", "label": "1 - Unable to pick up and needs supervision while trying", "score": 1 },
+            { "value": "0", "label": "0 - Unable to try/needs assist to keep from losing balance or falling", "score": 0 }
+          ]
+        },
+        {
+          "id": "berg_10",
+          "question": "Turning to look behind over left and right shoulders while standing",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 10,
+          "instructions": "Turn to look directly behind you over your left shoulder. Repeat to the right.",
+          "options": [
+            { "value": "4", "label": "4 - Looks behind from both sides and weight shifts well", "score": 4 },
+            { "value": "3", "label": "3 - Looks behind one side only, other side shows less weight shift", "score": 3 },
+            { "value": "2", "label": "2 - Turns sideways only but maintains balance", "score": 2 },
+            { "value": "1", "label": "1 - Needs supervision when turning", "score": 1 },
+            { "value": "0", "label": "0 - Needs assist to keep from losing balance or falling", "score": 0 }
+          ]
+        },
+        {
+          "id": "berg_11",
+          "question": "Turn 360 degrees",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 11,
+          "instructions": "Turn completely around in a full circle. Pause. Then turn a full circle in the other direction.",
+          "options": [
+            { "value": "4", "label": "4 - Able to turn 360 degrees safely in 4 seconds or less", "score": 4 },
+            { "value": "3", "label": "3 - Able to turn 360 degrees safely one side only 4 seconds or less", "score": 3 },
+            { "value": "2", "label": "2 - Able to turn 360 degrees safely but slowly", "score": 2 },
+            { "value": "1", "label": "1 - Needs close supervision or verbal cuing", "score": 1 },
+            { "value": "0", "label": "0 - Needs assistance while turning", "score": 0 }
+          ]
+        },
+        {
+          "id": "berg_12",
+          "question": "Place alternate foot on step or stool while standing unsupported",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 12,
+          "instructions": "Place each foot alternately on the step/stool. Continue until each foot has touched the step/stool four times.",
+          "options": [
+            { "value": "4", "label": "4 - Able to stand independently and safely and complete 8 steps in 20 seconds", "score": 4 },
+            { "value": "3", "label": "3 - Able to stand independently and complete 8 steps in >20 seconds", "score": 3 },
+            { "value": "2", "label": "2 - Able to complete 4 steps without aid with supervision", "score": 2 },
+            { "value": "1", "label": "1 - Able to complete >2 steps needs minimal assist", "score": 1 },
+            { "value": "0", "label": "0 - Needs assistance to keep from falling/unable to try", "score": 0 }
+          ]
+        },
+        {
+          "id": "berg_13",
+          "question": "Standing unsupported one foot in front",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 13,
+          "instructions": "Place one foot directly in front of the other. If you feel that you cannot place your foot directly in front, try to step far enough ahead that the heel of your forward foot is ahead of the toes of the other foot. (Demonstrate)",
+          "options": [
+            { "value": "4", "label": "4 - Able to place foot tandem independently and hold 30 seconds", "score": 4 },
+            { "value": "3", "label": "3 - Able to place foot ahead independently and hold 30 seconds", "score": 3 },
+            { "value": "2", "label": "2 - Able to take small step independently and hold 30 seconds", "score": 2 },
+            { "value": "1", "label": "1 - Needs help to step but can hold 15 seconds", "score": 1 },
+            { "value": "0", "label": "0 - Loses balance while stepping or standing", "score": 0 }
+          ]
+        },
+        {
+          "id": "berg_14",
+          "question": "Standing on one leg",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 14,
+          "instructions": "Stand on one leg as long as you can without holding on.",
+          "options": [
+            { "value": "4", "label": "4 - Able to lift leg independently and hold >10 seconds", "score": 4 },
+            { "value": "3", "label": "3 - Able to lift leg independently and hold 5-10 seconds", "score": 3 },
+            { "value": "2", "label": "2 - Able to lift leg independently and hold ≥3 seconds", "score": 2 },
+            { "value": "1", "label": "1 - Tries to lift leg unable to hold 3 seconds but remains standing independently", "score": 1 },
+            { "value": "0", "label": "0 - Unable to try or needs assist to prevent fall", "score": 0 }
+          ]
+        }
+      ]
+    }
+  ],
+  "note": "This is a performance-based assessment administered by a clinician. Requires equipment: chair with/without armrests, footstool or step, stopwatch, 15-foot walkway, ruler or measuring tape. Testing should be done in a safe environment."
+}

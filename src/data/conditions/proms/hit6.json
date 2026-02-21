@@ -1,0 +1,120 @@
+{
+  "prom_id": "HIT-6",
+  "full_name": "Headache Impact Test - 6",
+  "version": "1.1",
+  "copyright": "© QualityMetric Incorporated, 2001",
+  "language": "English",
+  "total_items": 6,
+  "estimated_time_minutes": 3,
+  "description": "A tool used to measure the impact headaches have on your ability to function on the job, at school, at home, and in social situations.",
+  "instructions": "Please answer the following questions about headaches you have had over the LAST 4 WEEKS. Please select the best answer to each question.",
+  "scoring": {
+    "method": "sum_total",
+    "total_score": {
+      "min": 36,
+      "max": 78,
+      "calculation": "Sum of all 6 items (each scored 6-13)",
+      "interpretation": {
+        "36-49": "Little or no impact",
+        "50-55": "Some impact",
+        "56-59": "Substantial impact",
+        "60-78": "Very severe impact"
+      },
+      "higher_is_worse": true,
+      "mcid": 2.5
+    }
+  },
+  "sections": [
+    {
+      "id": "hit6_impact",
+      "title": "Headache Impact",
+      "description": "Rate how often headaches affected you in the last 4 weeks",
+      "questions": [
+        {
+          "id": "hit6_1",
+          "question": "When you have headaches, how often is the pain severe?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 1,
+          "options": [
+            { "value": "6", "label": "Never", "score": 6 },
+            { "value": "8", "label": "Rarely", "score": 8 },
+            { "value": "10", "label": "Sometimes", "score": 10 },
+            { "value": "11", "label": "Very often", "score": 11 },
+            { "value": "13", "label": "Always", "score": 13 }
+          ]
+        },
+        {
+          "id": "hit6_2",
+          "question": "How often do headaches limit your ability to do usual daily activities including household work, work, school, or social activities?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 2,
+          "options": [
+            { "value": "6", "label": "Never", "score": 6 },
+            { "value": "8", "label": "Rarely", "score": 8 },
+            { "value": "10", "label": "Sometimes", "score": 10 },
+            { "value": "11", "label": "Very often", "score": 11 },
+            { "value": "13", "label": "Always", "score": 13 }
+          ]
+        },
+        {
+          "id": "hit6_3",
+          "question": "When you have a headache, how often do you wish you could lie down?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 3,
+          "options": [
+            { "value": "6", "label": "Never", "score": 6 },
+            { "value": "8", "label": "Rarely", "score": 8 },
+            { "value": "10", "label": "Sometimes", "score": 10 },
+            { "value": "11", "label": "Very often", "score": 11 },
+            { "value": "13", "label": "Always", "score": 13 }
+          ]
+        },
+        {
+          "id": "hit6_4",
+          "question": "In the past 4 weeks, how often have you felt too tired to do work or daily activities because of your headaches?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 4,
+          "options": [
+            { "value": "6", "label": "Never", "score": 6 },
+            { "value": "8", "label": "Rarely", "score": 8 },
+            { "value": "10", "label": "Sometimes", "score": 10 },
+            { "value": "11", "label": "Very often", "score": 11 },
+            { "value": "13", "label": "Always", "score": 13 }
+          ]
+        },
+        {
+          "id": "hit6_5",
+          "question": "In the past 4 weeks, how often have you felt fed up or irritated because of your headaches?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 5,
+          "options": [
+            { "value": "6", "label": "Never", "score": 6 },
+            { "value": "8", "label": "Rarely", "score": 8 },
+            { "value": "10", "label": "Sometimes", "score": 10 },
+            { "value": "11", "label": "Very often", "score": 11 },
+            { "value": "13", "label": "Always", "score": 13 }
+          ]
+        },
+        {
+          "id": "hit6_6",
+          "question": "In the past 4 weeks, how often did headaches limit your ability to concentrate on work or daily activities?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 6,
+          "options": [
+            { "value": "6", "label": "Never", "score": 6 },
+            { "value": "8", "label": "Rarely", "score": 8 },
+            { "value": "10", "label": "Sometimes", "score": 10 },
+            { "value": "11", "label": "Very often", "score": 11 },
+            { "value": "13", "label": "Always", "score": 13 }
+          ]
+        }
+      ]
+    }
+  ]
+}

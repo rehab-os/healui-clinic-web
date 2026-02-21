@@ -1,0 +1,492 @@
+{
+  "prom_id": "FAAM",
+  "full_name": "Foot and Ankle Ability Measure",
+  "version": "1.0",
+  "copyright": "© Carcia et al., 2008",
+  "language": "English",
+  "total_items": 29,
+  "estimated_time_minutes": 8,
+  "description": "A self-report outcome instrument developed to assess physical function for individuals with foot and ankle related impairments.",
+  "instructions": "Please answer every question with one response that most closely describes your condition within the PAST WEEK. If the activity in question is limited by something other than your foot or ankle, mark 'Not applicable'.",
+  "scoring": {
+    "method": "subscale_percentage",
+    "subscales": [
+      {
+        "id": "adl",
+        "name": "Activities of Daily Living (ADL)",
+        "items": 21,
+        "max_score": 84,
+        "calculation": "(total / 84) × 100"
+      },
+      {
+        "id": "sports",
+        "name": "Sports",
+        "items": 8,
+        "max_score": 32,
+        "calculation": "(total / 32) × 100"
+      }
+    ],
+    "total_score": {
+      "min": 0,
+      "max": 100,
+      "interpretation": {
+        "0-50": "Severe functional limitation",
+        "51-75": "Moderate functional limitation",
+        "76-90": "Mild functional limitation",
+        "91-100": "Normal or near-normal function"
+      },
+      "higher_is_better": true
+    }
+  },
+  "sections": [
+    {
+      "id": "faam_adl",
+      "title": "Activities of Daily Living Subscale",
+      "description": "Rate your difficulty with daily activities",
+      "questions": [
+        {
+          "id": "faam_1",
+          "question": "Standing",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 1,
+          "options": [
+            { "value": "4", "label": "No difficulty", "score": 4 },
+            { "value": "3", "label": "Slight difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate difficulty", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "N/A", "label": "Not applicable", "score": null }
+          ]
+        },
+        {
+          "id": "faam_2",
+          "question": "Walking on even ground",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 2,
+          "options": [
+            { "value": "4", "label": "No difficulty", "score": 4 },
+            { "value": "3", "label": "Slight difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate difficulty", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "N/A", "label": "Not applicable", "score": null }
+          ]
+        },
+        {
+          "id": "faam_3",
+          "question": "Walking on even ground without shoes",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 3,
+          "options": [
+            { "value": "4", "label": "No difficulty", "score": 4 },
+            { "value": "3", "label": "Slight difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate difficulty", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "N/A", "label": "Not applicable", "score": null }
+          ]
+        },
+        {
+          "id": "faam_4",
+          "question": "Walking up hills",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 4,
+          "options": [
+            { "value": "4", "label": "No difficulty", "score": 4 },
+            { "value": "3", "label": "Slight difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate difficulty", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "N/A", "label": "Not applicable", "score": null }
+          ]
+        },
+        {
+          "id": "faam_5",
+          "question": "Walking down hills",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 5,
+          "options": [
+            { "value": "4", "label": "No difficulty", "score": 4 },
+            { "value": "3", "label": "Slight difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate difficulty", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "N/A", "label": "Not applicable", "score": null }
+          ]
+        },
+        {
+          "id": "faam_6",
+          "question": "Going up stairs",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 6,
+          "options": [
+            { "value": "4", "label": "No difficulty", "score": 4 },
+            { "value": "3", "label": "Slight difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate difficulty", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "N/A", "label": "Not applicable", "score": null }
+          ]
+        },
+        {
+          "id": "faam_7",
+          "question": "Going down stairs",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 7,
+          "options": [
+            { "value": "4", "label": "No difficulty", "score": 4 },
+            { "value": "3", "label": "Slight difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate difficulty", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "N/A", "label": "Not applicable", "score": null }
+          ]
+        },
+        {
+          "id": "faam_8",
+          "question": "Walking on uneven ground",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 8,
+          "options": [
+            { "value": "4", "label": "No difficulty", "score": 4 },
+            { "value": "3", "label": "Slight difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate difficulty", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "N/A", "label": "Not applicable", "score": null }
+          ]
+        },
+        {
+          "id": "faam_9",
+          "question": "Stepping up and down curbs",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 9,
+          "options": [
+            { "value": "4", "label": "No difficulty", "score": 4 },
+            { "value": "3", "label": "Slight difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate difficulty", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "N/A", "label": "Not applicable", "score": null }
+          ]
+        },
+        {
+          "id": "faam_10",
+          "question": "Squatting",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 10,
+          "options": [
+            { "value": "4", "label": "No difficulty", "score": 4 },
+            { "value": "3", "label": "Slight difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate difficulty", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "N/A", "label": "Not applicable", "score": null }
+          ]
+        },
+        {
+          "id": "faam_11",
+          "question": "Coming up on your toes",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 11,
+          "options": [
+            { "value": "4", "label": "No difficulty", "score": 4 },
+            { "value": "3", "label": "Slight difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate difficulty", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "N/A", "label": "Not applicable", "score": null }
+          ]
+        },
+        {
+          "id": "faam_12",
+          "question": "Walking initially",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 12,
+          "options": [
+            { "value": "4", "label": "No difficulty", "score": 4 },
+            { "value": "3", "label": "Slight difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate difficulty", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "N/A", "label": "Not applicable", "score": null }
+          ]
+        },
+        {
+          "id": "faam_13",
+          "question": "Walking approximately 5 minutes",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 13,
+          "options": [
+            { "value": "4", "label": "No difficulty", "score": 4 },
+            { "value": "3", "label": "Slight difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate difficulty", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "N/A", "label": "Not applicable", "score": null }
+          ]
+        },
+        {
+          "id": "faam_14",
+          "question": "Walking approximately 10 minutes",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 14,
+          "options": [
+            { "value": "4", "label": "No difficulty", "score": 4 },
+            { "value": "3", "label": "Slight difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate difficulty", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "N/A", "label": "Not applicable", "score": null }
+          ]
+        },
+        {
+          "id": "faam_15",
+          "question": "Walking approximately 15 minutes",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 15,
+          "options": [
+            { "value": "4", "label": "No difficulty", "score": 4 },
+            { "value": "3", "label": "Slight difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate difficulty", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "N/A", "label": "Not applicable", "score": null }
+          ]
+        },
+        {
+          "id": "faam_16",
+          "question": "Home responsibilities",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 16,
+          "options": [
+            { "value": "4", "label": "No difficulty", "score": 4 },
+            { "value": "3", "label": "Slight difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate difficulty", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "N/A", "label": "Not applicable", "score": null }
+          ]
+        },
+        {
+          "id": "faam_17",
+          "question": "Activities of daily living",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 17,
+          "options": [
+            { "value": "4", "label": "No difficulty", "score": 4 },
+            { "value": "3", "label": "Slight difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate difficulty", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "N/A", "label": "Not applicable", "score": null }
+          ]
+        },
+        {
+          "id": "faam_18",
+          "question": "Personal care",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 18,
+          "options": [
+            { "value": "4", "label": "No difficulty", "score": 4 },
+            { "value": "3", "label": "Slight difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate difficulty", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "N/A", "label": "Not applicable", "score": null }
+          ]
+        },
+        {
+          "id": "faam_19",
+          "question": "Light to moderate work (standing, walking)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 19,
+          "options": [
+            { "value": "4", "label": "No difficulty", "score": 4 },
+            { "value": "3", "label": "Slight difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate difficulty", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "N/A", "label": "Not applicable", "score": null }
+          ]
+        },
+        {
+          "id": "faam_20",
+          "question": "Heavy work (pushing/pulling, climbing, carrying)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 20,
+          "options": [
+            { "value": "4", "label": "No difficulty", "score": 4 },
+            { "value": "3", "label": "Slight difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate difficulty", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "N/A", "label": "Not applicable", "score": null }
+          ]
+        },
+        {
+          "id": "faam_21",
+          "question": "Recreational activities",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 21,
+          "options": [
+            { "value": "4", "label": "No difficulty", "score": 4 },
+            { "value": "3", "label": "Slight difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate difficulty", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "N/A", "label": "Not applicable", "score": null }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faam_sports",
+      "title": "Sports Subscale",
+      "description": "Rate your difficulty with sports activities (complete only if you are an athlete)",
+      "questions": [
+        {
+          "id": "faam_22",
+          "question": "Running",
+          "ui_component": "single_choice",
+          "required": false,
+          "order": 22,
+          "options": [
+            { "value": "4", "label": "No difficulty", "score": 4 },
+            { "value": "3", "label": "Slight difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate difficulty", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "N/A", "label": "Not applicable", "score": null }
+          ]
+        },
+        {
+          "id": "faam_23",
+          "question": "Jumping",
+          "ui_component": "single_choice",
+          "required": false,
+          "order": 23,
+          "options": [
+            { "value": "4", "label": "No difficulty", "score": 4 },
+            { "value": "3", "label": "Slight difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate difficulty", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "N/A", "label": "Not applicable", "score": null }
+          ]
+        },
+        {
+          "id": "faam_24",
+          "question": "Landing",
+          "ui_component": "single_choice",
+          "required": false,
+          "order": 24,
+          "options": [
+            { "value": "4", "label": "No difficulty", "score": 4 },
+            { "value": "3", "label": "Slight difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate difficulty", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "N/A", "label": "Not applicable", "score": null }
+          ]
+        },
+        {
+          "id": "faam_25",
+          "question": "Starting and stopping quickly",
+          "ui_component": "single_choice",
+          "required": false,
+          "order": 25,
+          "options": [
+            { "value": "4", "label": "No difficulty", "score": 4 },
+            { "value": "3", "label": "Slight difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate difficulty", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "N/A", "label": "Not applicable", "score": null }
+          ]
+        },
+        {
+          "id": "faam_26",
+          "question": "Cutting/lateral movements",
+          "ui_component": "single_choice",
+          "required": false,
+          "order": 26,
+          "options": [
+            { "value": "4", "label": "No difficulty", "score": 4 },
+            { "value": "3", "label": "Slight difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate difficulty", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "N/A", "label": "Not applicable", "score": null }
+          ]
+        },
+        {
+          "id": "faam_27",
+          "question": "Low-impact activities",
+          "ui_component": "single_choice",
+          "required": false,
+          "order": 27,
+          "options": [
+            { "value": "4", "label": "No difficulty", "score": 4 },
+            { "value": "3", "label": "Slight difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate difficulty", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "N/A", "label": "Not applicable", "score": null }
+          ]
+        },
+        {
+          "id": "faam_28",
+          "question": "Ability to perform activity with your normal technique",
+          "ui_component": "single_choice",
+          "required": false,
+          "order": 28,
+          "options": [
+            { "value": "4", "label": "No difficulty", "score": 4 },
+            { "value": "3", "label": "Slight difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate difficulty", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "N/A", "label": "Not applicable", "score": null }
+          ]
+        },
+        {
+          "id": "faam_29",
+          "question": "Ability to participate in your desired sport as long as you would like",
+          "ui_component": "single_choice",
+          "required": false,
+          "order": 29,
+          "options": [
+            { "value": "4", "label": "No difficulty", "score": 4 },
+            { "value": "3", "label": "Slight difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate difficulty", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 },
+            { "value": "N/A", "label": "Not applicable", "score": null }
+          ]
+        }
+      ]
+    }
+  ]
+}

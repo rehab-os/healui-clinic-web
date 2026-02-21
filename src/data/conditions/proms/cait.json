@@ -1,0 +1,165 @@
+{
+  "prom_id": "CAIT",
+  "full_name": "Cumberland Ankle Instability Tool",
+  "version": "1.0",
+  "copyright": "© Hiller et al., 2006",
+  "language": "English",
+  "total_items": 9,
+  "estimated_time_minutes": 3,
+  "description": "A simple, valid measure for assessing the severity of functional ankle instability. The CAIT is used to screen for chronic ankle instability and measure outcomes.",
+  "instructions": "Please select the statement in each question that best describes your ankles.",
+  "scoring": {
+    "method": "sum_total",
+    "total_score": {
+      "min": 0,
+      "max": 30,
+      "calculation": "Sum of all items (max 30 points)",
+      "interpretation": {
+        "0-11": "Severe ankle instability",
+        "12-19": "Moderate ankle instability",
+        "20-24": "Mild ankle instability",
+        "25-27": "Minimal ankle instability",
+        "28-30": "Normal ankle stability"
+      },
+      "higher_is_better": true,
+      "mcid": 3,
+      "cutoff_score": 27,
+      "cutoff_interpretation": "Score ≤27 indicates chronic ankle instability"
+    }
+  },
+  "sections": [
+    {
+      "id": "cait_stability",
+      "title": "Ankle Stability Assessment",
+      "description": "Answer the following questions about your ankle(s).",
+      "questions": [
+        {
+          "id": "cait_1",
+          "question": "I have pain in my ankle",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 1,
+          "options": [
+            { "value": "0", "label": "Always", "score": 0 },
+            { "value": "1", "label": "Often", "score": 1 },
+            { "value": "2", "label": "Sometimes", "score": 2 },
+            { "value": "3", "label": "Rarely", "score": 3 },
+            { "value": "4", "label": "Never", "score": 4 }
+          ]
+        },
+        {
+          "id": "cait_2",
+          "question": "My ankle feels unstable",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 2,
+          "options": [
+            { "value": "0", "label": "Always", "score": 0 },
+            { "value": "1", "label": "Often", "score": 1 },
+            { "value": "2", "label": "Sometimes", "score": 2 },
+            { "value": "3", "label": "Rarely", "score": 3 },
+            { "value": "4", "label": "Never", "score": 4 }
+          ]
+        },
+        {
+          "id": "cait_3",
+          "question": "When making sharp turns, my ankle feels unstable",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 3,
+          "options": [
+            { "value": "0", "label": "Always", "score": 0 },
+            { "value": "1", "label": "Often", "score": 1 },
+            { "value": "2", "label": "Sometimes", "score": 2 },
+            { "value": "3", "label": "Rarely", "score": 3 },
+            { "value": "4", "label": "Never", "score": 4 }
+          ]
+        },
+        {
+          "id": "cait_4",
+          "question": "When going down the stairs, my ankle feels unstable",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 4,
+          "options": [
+            { "value": "0", "label": "Always", "score": 0 },
+            { "value": "1", "label": "Often", "score": 1 },
+            { "value": "2", "label": "Sometimes", "score": 2 },
+            { "value": "3", "label": "Rarely", "score": 3 },
+            { "value": "4", "label": "Never", "score": 4 }
+          ]
+        },
+        {
+          "id": "cait_5",
+          "question": "When standing on one leg, my ankle feels unstable",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 5,
+          "options": [
+            { "value": "0", "label": "Always", "score": 0 },
+            { "value": "1", "label": "Often", "score": 1 },
+            { "value": "2", "label": "Sometimes", "score": 2 },
+            { "value": "3", "label": "Rarely", "score": 3 },
+            { "value": "4", "label": "Never", "score": 4 }
+          ]
+        },
+        {
+          "id": "cait_6",
+          "question": "When hopping from side to side, my ankle feels unstable",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 6,
+          "options": [
+            { "value": "0", "label": "Always", "score": 0 },
+            { "value": "1", "label": "Often", "score": 1 },
+            { "value": "2", "label": "Sometimes", "score": 2 },
+            { "value": "3", "label": "Rarely", "score": 3 },
+            { "value": "4", "label": "Never", "score": 4 }
+          ]
+        },
+        {
+          "id": "cait_7",
+          "question": "When doing recreational or sporting activities, my ankle feels unstable",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 7,
+          "options": [
+            { "value": "0", "label": "Always", "score": 0 },
+            { "value": "1", "label": "Often", "score": 1 },
+            { "value": "2", "label": "Sometimes", "score": 2 },
+            { "value": "3", "label": "Rarely", "score": 3 },
+            { "value": "4", "label": "Never", "score": 4 }
+          ]
+        },
+        {
+          "id": "cait_8",
+          "question": "My ankle feels unstable when I first start to walk after I get out of bed",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 8,
+          "options": [
+            { "value": "0", "label": "Always", "score": 0 },
+            { "value": "1", "label": "Often", "score": 1 },
+            { "value": "2", "label": "Sometimes", "score": 2 },
+            { "value": "3", "label": "Rarely", "score": 3 },
+            { "value": "4", "label": "Never", "score": 4 }
+          ]
+        },
+        {
+          "id": "cait_9",
+          "question": "In general, I would say that my ankle is",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 9,
+          "options": [
+            { "value": "0", "label": "Very unstable", "score": 0 },
+            { "value": "1", "label": "Moderately unstable", "score": 1 },
+            { "value": "2", "label": "Somewhat unstable", "score": 2 },
+            { "value": "3", "label": "Nearly normal", "score": 3 },
+            { "value": "4", "label": "Normal/stable", "score": 4 }
+          ]
+        }
+      ]
+    }
+  ]
+}

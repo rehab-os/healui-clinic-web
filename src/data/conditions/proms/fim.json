@@ -1,0 +1,390 @@
+{
+  "prom_id": "FIM",
+  "full_name": "Functional Independence Measure",
+  "version": "1.0",
+  "copyright": "© Uniform Data System for Medical Rehabilitation, 1987",
+  "language": "English",
+  "total_items": 18,
+  "estimated_time_minutes": 20,
+  "description": "An 18-item clinician-rated instrument designed to assess the level of disability and burden of care for individuals with various medical conditions. It measures both motor and cognitive function across self-care, sphincter control, transfers, locomotion, communication, and social cognition domains. Widely used in rehabilitation settings.",
+  "instructions": "Rate each item based on the level of assistance required by the patient to perform the activity safely. Consider performance during the past 24-48 hours.",
+  "scoring": {
+    "method": "subscale_sum",
+    "total_score": {
+      "min": 18,
+      "max": 126,
+      "calculation": "Sum of all 18 items (each scored 1-7). Motor: 91 points max, Cognitive: 35 points max",
+      "interpretation": {
+        "18-36": "Total assistance required",
+        "37-54": "Maximal assistance required",
+        "55-72": "Moderate assistance required",
+        "73-90": "Minimal assistance to supervision required",
+        "91-108": "Modified independence (using devices)",
+        "109-126": "Complete independence"
+      },
+      "higher_is_better": true,
+      "mcid": 22,
+      "note": "7-level scale: 7=Complete Independence, 6=Modified Independence, 5=Supervision, 4=Minimal Assist, 3=Moderate Assist, 2=Maximal Assist, 1=Total Assist"
+    },
+    "subscales": [
+      {
+        "id": "motor",
+        "name": "Motor",
+        "items": 13,
+        "min": 13,
+        "max": 91
+      },
+      {
+        "id": "cognitive",
+        "name": "Cognitive",
+        "items": 5,
+        "min": 5,
+        "max": 35
+      }
+    ]
+  },
+  "sections": [
+    {
+      "id": "fim_selfcare",
+      "title": "Self-Care (Motor)",
+      "description": "Rate level of independence in self-care activities.",
+      "questions": [
+        {
+          "id": "fim_1",
+          "question": "Eating (includes use of suitable utensils to bring food to mouth, chewing, swallowing)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 1,
+          "subscale": "motor",
+          "options": [
+            { "value": "7", "label": "7 - Complete Independence", "score": 7 },
+            { "value": "6", "label": "6 - Modified Independence (device)", "score": 6 },
+            { "value": "5", "label": "5 - Supervision (cueing, coaxing)", "score": 5 },
+            { "value": "4", "label": "4 - Minimal Assistance (≥75% of task)", "score": 4 },
+            { "value": "3", "label": "3 - Moderate Assistance (50-74% of task)", "score": 3 },
+            { "value": "2", "label": "2 - Maximal Assistance (25-49% of task)", "score": 2 },
+            { "value": "1", "label": "1 - Total Assistance (<25% of task)", "score": 1 }
+          ]
+        },
+        {
+          "id": "fim_2",
+          "question": "Grooming (oral care, hair, hands, face, shaving or makeup)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 2,
+          "subscale": "motor",
+          "options": [
+            { "value": "7", "label": "7 - Complete Independence", "score": 7 },
+            { "value": "6", "label": "6 - Modified Independence (device)", "score": 6 },
+            { "value": "5", "label": "5 - Supervision", "score": 5 },
+            { "value": "4", "label": "4 - Minimal Assistance (≥75%)", "score": 4 },
+            { "value": "3", "label": "3 - Moderate Assistance (50-74%)", "score": 3 },
+            { "value": "2", "label": "2 - Maximal Assistance (25-49%)", "score": 2 },
+            { "value": "1", "label": "1 - Total Assistance (<25%)", "score": 1 }
+          ]
+        },
+        {
+          "id": "fim_3",
+          "question": "Bathing (washing, rinsing, drying body from neck down, excluding back)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 3,
+          "subscale": "motor",
+          "options": [
+            { "value": "7", "label": "7 - Complete Independence", "score": 7 },
+            { "value": "6", "label": "6 - Modified Independence (device)", "score": 6 },
+            { "value": "5", "label": "5 - Supervision", "score": 5 },
+            { "value": "4", "label": "4 - Minimal Assistance (≥75%)", "score": 4 },
+            { "value": "3", "label": "3 - Moderate Assistance (50-74%)", "score": 3 },
+            { "value": "2", "label": "2 - Maximal Assistance (25-49%)", "score": 2 },
+            { "value": "1", "label": "1 - Total Assistance (<25%)", "score": 1 }
+          ]
+        },
+        {
+          "id": "fim_4",
+          "question": "Dressing - Upper Body (above waist including prostheses/orthoses)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 4,
+          "subscale": "motor",
+          "options": [
+            { "value": "7", "label": "7 - Complete Independence", "score": 7 },
+            { "value": "6", "label": "6 - Modified Independence (device)", "score": 6 },
+            { "value": "5", "label": "5 - Supervision", "score": 5 },
+            { "value": "4", "label": "4 - Minimal Assistance (≥75%)", "score": 4 },
+            { "value": "3", "label": "3 - Moderate Assistance (50-74%)", "score": 3 },
+            { "value": "2", "label": "2 - Maximal Assistance (25-49%)", "score": 2 },
+            { "value": "1", "label": "1 - Total Assistance (<25%)", "score": 1 }
+          ]
+        },
+        {
+          "id": "fim_5",
+          "question": "Dressing - Lower Body (below waist including prostheses/orthoses)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 5,
+          "subscale": "motor",
+          "options": [
+            { "value": "7", "label": "7 - Complete Independence", "score": 7 },
+            { "value": "6", "label": "6 - Modified Independence (device)", "score": 6 },
+            { "value": "5", "label": "5 - Supervision", "score": 5 },
+            { "value": "4", "label": "4 - Minimal Assistance (≥75%)", "score": 4 },
+            { "value": "3", "label": "3 - Moderate Assistance (50-74%)", "score": 3 },
+            { "value": "2", "label": "2 - Maximal Assistance (25-49%)", "score": 2 },
+            { "value": "1", "label": "1 - Total Assistance (<25%)", "score": 1 }
+          ]
+        },
+        {
+          "id": "fim_6",
+          "question": "Toileting (perineal hygiene, adjusting clothing before/after)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 6,
+          "subscale": "motor",
+          "options": [
+            { "value": "7", "label": "7 - Complete Independence", "score": 7 },
+            { "value": "6", "label": "6 - Modified Independence (device)", "score": 6 },
+            { "value": "5", "label": "5 - Supervision", "score": 5 },
+            { "value": "4", "label": "4 - Minimal Assistance (≥75%)", "score": 4 },
+            { "value": "3", "label": "3 - Moderate Assistance (50-74%)", "score": 3 },
+            { "value": "2", "label": "2 - Maximal Assistance (25-49%)", "score": 2 },
+            { "value": "1", "label": "1 - Total Assistance (<25%)", "score": 1 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fim_sphincter",
+      "title": "Sphincter Control (Motor)",
+      "description": "Rate level of control.",
+      "questions": [
+        {
+          "id": "fim_7",
+          "question": "Bladder Management (includes catheter if used)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 7,
+          "subscale": "motor",
+          "options": [
+            { "value": "7", "label": "7 - Complete Independence (continent)", "score": 7 },
+            { "value": "6", "label": "6 - Modified Independence (device, no accidents)", "score": 6 },
+            { "value": "5", "label": "5 - Supervision (cued to use device)", "score": 5 },
+            { "value": "4", "label": "4 - Minimal Assistance", "score": 4 },
+            { "value": "3", "label": "3 - Moderate Assistance", "score": 3 },
+            { "value": "2", "label": "2 - Maximal Assistance", "score": 2 },
+            { "value": "1", "label": "1 - Total Assistance (incontinent)", "score": 1 }
+          ]
+        },
+        {
+          "id": "fim_8",
+          "question": "Bowel Management (includes colostomy/suppositories if used)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 8,
+          "subscale": "motor",
+          "options": [
+            { "value": "7", "label": "7 - Complete Independence (continent)", "score": 7 },
+            { "value": "6", "label": "6 - Modified Independence (device, no accidents)", "score": 6 },
+            { "value": "5", "label": "5 - Supervision (cued to use device)", "score": 5 },
+            { "value": "4", "label": "4 - Minimal Assistance", "score": 4 },
+            { "value": "3", "label": "3 - Moderate Assistance", "score": 3 },
+            { "value": "2", "label": "2 - Maximal Assistance", "score": 2 },
+            { "value": "1", "label": "1 - Total Assistance (incontinent)", "score": 1 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fim_mobility",
+      "title": "Mobility - Transfers and Locomotion (Motor)",
+      "description": "Rate level of assistance needed.",
+      "questions": [
+        {
+          "id": "fim_9",
+          "question": "Transfer: Bed, Chair, Wheelchair",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 9,
+          "subscale": "motor",
+          "options": [
+            { "value": "7", "label": "7 - Complete Independence", "score": 7 },
+            { "value": "6", "label": "6 - Modified Independence (device)", "score": 6 },
+            { "value": "5", "label": "5 - Supervision", "score": 5 },
+            { "value": "4", "label": "4 - Minimal Assistance (≥75%)", "score": 4 },
+            { "value": "3", "label": "3 - Moderate Assistance (50-74%)", "score": 3 },
+            { "value": "2", "label": "2 - Maximal Assistance (25-49%)", "score": 2 },
+            { "value": "1", "label": "1 - Total Assistance (<25%)", "score": 1 }
+          ]
+        },
+        {
+          "id": "fim_10",
+          "question": "Transfer: Toilet",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 10,
+          "subscale": "motor",
+          "options": [
+            { "value": "7", "label": "7 - Complete Independence", "score": 7 },
+            { "value": "6", "label": "6 - Modified Independence (device)", "score": 6 },
+            { "value": "5", "label": "5 - Supervision", "score": 5 },
+            { "value": "4", "label": "4 - Minimal Assistance (≥75%)", "score": 4 },
+            { "value": "3", "label": "3 - Moderate Assistance (50-74%)", "score": 3 },
+            { "value": "2", "label": "2 - Maximal Assistance (25-49%)", "score": 2 },
+            { "value": "1", "label": "1 - Total Assistance (<25%)", "score": 1 }
+          ]
+        },
+        {
+          "id": "fim_11",
+          "question": "Transfer: Tub or Shower",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 11,
+          "subscale": "motor",
+          "options": [
+            { "value": "7", "label": "7 - Complete Independence", "score": 7 },
+            { "value": "6", "label": "6 - Modified Independence (device)", "score": 6 },
+            { "value": "5", "label": "5 - Supervision", "score": 5 },
+            { "value": "4", "label": "4 - Minimal Assistance (≥75%)", "score": 4 },
+            { "value": "3", "label": "3 - Moderate Assistance (50-74%)", "score": 3 },
+            { "value": "2", "label": "2 - Maximal Assistance (25-49%)", "score": 2 },
+            { "value": "1", "label": "1 - Total Assistance (<25%)", "score": 1 }
+          ]
+        },
+        {
+          "id": "fim_12",
+          "question": "Locomotion: Walk/Wheelchair (W=walk, C=wheelchair)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 12,
+          "subscale": "motor",
+          "options": [
+            { "value": "7", "label": "7 - Complete Independence (walks 150 feet)", "score": 7 },
+            { "value": "6", "label": "6 - Modified Independence (walks 150 feet with device)", "score": 6 },
+            { "value": "5", "label": "5 - Supervision (walks 150 feet)", "score": 5 },
+            { "value": "4", "label": "4 - Minimal Assistance (walks 150 feet)", "score": 4 },
+            { "value": "3", "label": "3 - Moderate Assistance (walks 50 feet)", "score": 3 },
+            { "value": "2", "label": "2 - Maximal Assistance (walks <50 feet)", "score": 2 },
+            { "value": "1", "label": "1 - Total Assistance (<50 feet)", "score": 1 }
+          ]
+        },
+        {
+          "id": "fim_13",
+          "question": "Locomotion: Stairs",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 13,
+          "subscale": "motor",
+          "options": [
+            { "value": "7", "label": "7 - Complete Independence (12-14 stairs)", "score": 7 },
+            { "value": "6", "label": "6 - Modified Independence (12-14 stairs with device)", "score": 6 },
+            { "value": "5", "label": "5 - Supervision (12-14 stairs)", "score": 5 },
+            { "value": "4", "label": "4 - Minimal Assistance (12-14 stairs)", "score": 4 },
+            { "value": "3", "label": "3 - Moderate Assistance (4-6 stairs)", "score": 3 },
+            { "value": "2", "label": "2 - Maximal Assistance (4-6 stairs)", "score": 2 },
+            { "value": "1", "label": "1 - Total Assistance (<4 stairs)", "score": 1 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fim_communication",
+      "title": "Communication (Cognitive)",
+      "description": "Rate level of independence in communication.",
+      "questions": [
+        {
+          "id": "fim_14",
+          "question": "Comprehension (auditory/visual)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 14,
+          "subscale": "cognitive",
+          "options": [
+            { "value": "7", "label": "7 - Complete Independence (understands complex topics)", "score": 7 },
+            { "value": "6", "label": "6 - Modified Independence (understands complex with device)", "score": 6 },
+            { "value": "5", "label": "5 - Standby (understands basic conversation)", "score": 5 },
+            { "value": "4", "label": "4 - Minimal Prompting (90%+)", "score": 4 },
+            { "value": "3", "label": "3 - Moderate Prompting (50-90%)", "score": 3 },
+            { "value": "2", "label": "2 - Maximal Prompting (<50%)", "score": 2 },
+            { "value": "1", "label": "1 - Total Assistance (<10%)", "score": 1 }
+          ]
+        },
+        {
+          "id": "fim_15",
+          "question": "Expression (vocal/non-vocal)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 15,
+          "subscale": "cognitive",
+          "options": [
+            { "value": "7", "label": "7 - Complete Independence (expresses complex ideas)", "score": 7 },
+            { "value": "6", "label": "6 - Modified Independence (complex ideas with device)", "score": 6 },
+            { "value": "5", "label": "5 - Standby (expresses basic needs)", "score": 5 },
+            { "value": "4", "label": "4 - Minimal Prompting (90%+)", "score": 4 },
+            { "value": "3", "label": "3 - Moderate Prompting (50-90%)", "score": 3 },
+            { "value": "2", "label": "2 - Maximal Prompting (<50%)", "score": 2 },
+            { "value": "1", "label": "1 - Total Assistance (<10%)", "score": 1 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fim_social_cognition",
+      "title": "Social Cognition (Cognitive)",
+      "description": "Rate level of independence in social interaction.",
+      "questions": [
+        {
+          "id": "fim_16",
+          "question": "Social Interaction",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 16,
+          "subscale": "cognitive",
+          "options": [
+            { "value": "7", "label": "7 - Complete Independence (appropriate interaction)", "score": 7 },
+            { "value": "6", "label": "6 - Modified Independence (appropriate with device)", "score": 6 },
+            { "value": "5", "label": "5 - Supervision (appropriate with cuing)", "score": 5 },
+            { "value": "4", "label": "4 - Minimal Direction (90%+)", "score": 4 },
+            { "value": "3", "label": "3 - Moderate Direction (50-90%)", "score": 3 },
+            { "value": "2", "label": "2 - Maximal Direction (<50%)", "score": 2 },
+            { "value": "1", "label": "1 - Total Assistance (<10%)", "score": 1 }
+          ]
+        },
+        {
+          "id": "fim_17",
+          "question": "Problem Solving",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 17,
+          "subscale": "cognitive",
+          "options": [
+            { "value": "7", "label": "7 - Complete Independence (recognizes and solves problems)", "score": 7 },
+            { "value": "6", "label": "6 - Modified Independence (solves with compensatory strategies)", "score": 6 },
+            { "value": "5", "label": "5 - Supervision (solves with cuing)", "score": 5 },
+            { "value": "4", "label": "4 - Minimal Direction (90%+)", "score": 4 },
+            { "value": "3", "label": "3 - Moderate Direction (50-90%)", "score": 3 },
+            { "value": "2", "label": "2 - Maximal Direction (<50%)", "score": 2 },
+            { "value": "1", "label": "1 - Total Assistance (<10%)", "score": 1 }
+          ]
+        },
+        {
+          "id": "fim_18",
+          "question": "Memory",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 18,
+          "subscale": "cognitive",
+          "options": [
+            { "value": "7", "label": "7 - Complete Independence (recognizes people, remembers daily routines)", "score": 7 },
+            { "value": "6", "label": "6 - Modified Independence (uses memory aids)", "score": 6 },
+            { "value": "5", "label": "5 - Supervision (needs cuing)", "score": 5 },
+            { "value": "4", "label": "4 - Minimal Prompting (90%+)", "score": 4 },
+            { "value": "3", "label": "3 - Moderate Prompting (50-90%)", "score": 3 },
+            { "value": "2", "label": "2 - Maximal Prompting (<50%)", "score": 2 },
+            { "value": "1", "label": "1 - Total Assistance (<10%)", "score": 1 }
+          ]
+        }
+      ]
+    }
+  ],
+  "note": "Clinician-administered assessment. Requires training and certification for proper administration. Copyrighted instrument - formal use requires licensing from Uniform Data System for Medical Rehabilitation (UDSMR)."
+}

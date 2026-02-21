@@ -1,0 +1,136 @@
+{
+  "prom_id": "EQ5D",
+  "full_name": "EQ-5D-5L (EuroQol 5-Dimension 5-Level)",
+  "version": "5L",
+  "copyright": "© EuroQol Research Foundation",
+  "language": "English",
+  "total_items": 6,
+  "estimated_time_minutes": 3,
+  "description": "A standardized measure of health status developed by the EuroQol Group. It consists of 5 dimensions (mobility, self-care, usual activities, pain/discomfort, anxiety/depression) each rated on 5 levels, plus a visual analogue scale (VAS) for overall health. Widely used in health economics and quality of life research. Produces a health utility index score.",
+  "instructions": "Under each heading, please tick the ONE box that best describes your health TODAY.",
+  "scoring": {
+    "method": "index_value_plus_vas",
+    "total_score": {
+      "descriptive_system": {
+        "calculation": "5-digit health state profile (e.g., 11111 = no problems on all dimensions, 55555 = extreme problems on all)",
+        "interpretation": "Converted to single index value using country-specific value sets. Range varies by country (UK: -0.594 to 1.0, US: -0.109 to 1.0)",
+        "note": "Higher index values = better health. 1.0 = full health, 0 = death, negative values = worse than death"
+      },
+      "vas": {
+        "min": 0,
+        "max": 100,
+        "calculation": "Patient marks health on vertical scale",
+        "interpretation": "0 = worst health you can imagine, 100 = best health you can imagine"
+      }
+    },
+    "higher_is_better": true,
+    "mcid": 0.074
+  },
+  "sections": [
+    {
+      "id": "eq5d_dimensions",
+      "title": "EQ-5D-5L Descriptive System",
+      "description": "Please tick ONE box in each group below to indicate which statements best describe your own health state TODAY.",
+      "questions": [
+        {
+          "id": "eq5d_mobility",
+          "question": "MOBILITY",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 1,
+          "dimension": 1,
+          "options": [
+            { "value": "1", "label": "I have no problems in walking about", "score": 1 },
+            { "value": "2", "label": "I have slight problems in walking about", "score": 2 },
+            { "value": "3", "label": "I have moderate problems in walking about", "score": 3 },
+            { "value": "4", "label": "I have severe problems in walking about", "score": 4 },
+            { "value": "5", "label": "I am unable to walk about", "score": 5 }
+          ]
+        },
+        {
+          "id": "eq5d_selfcare",
+          "question": "SELF-CARE",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 2,
+          "dimension": 2,
+          "options": [
+            { "value": "1", "label": "I have no problems washing or dressing myself", "score": 1 },
+            { "value": "2", "label": "I have slight problems washing or dressing myself", "score": 2 },
+            { "value": "3", "label": "I have moderate problems washing or dressing myself", "score": 3 },
+            { "value": "4", "label": "I have severe problems washing or dressing myself", "score": 4 },
+            { "value": "5", "label": "I am unable to wash or dress myself", "score": 5 }
+          ]
+        },
+        {
+          "id": "eq5d_usual_activities",
+          "question": "USUAL ACTIVITIES (e.g., work, study, housework, family or leisure activities)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 3,
+          "dimension": 3,
+          "options": [
+            { "value": "1", "label": "I have no problems doing my usual activities", "score": 1 },
+            { "value": "2", "label": "I have slight problems doing my usual activities", "score": 2 },
+            { "value": "3", "label": "I have moderate problems doing my usual activities", "score": 3 },
+            { "value": "4", "label": "I have severe problems doing my usual activities", "score": 4 },
+            { "value": "5", "label": "I am unable to do my usual activities", "score": 5 }
+          ]
+        },
+        {
+          "id": "eq5d_pain",
+          "question": "PAIN / DISCOMFORT",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 4,
+          "dimension": 4,
+          "options": [
+            { "value": "1", "label": "I have no pain or discomfort", "score": 1 },
+            { "value": "2", "label": "I have slight pain or discomfort", "score": 2 },
+            { "value": "3", "label": "I have moderate pain or discomfort", "score": 3 },
+            { "value": "4", "label": "I have severe pain or discomfort", "score": 4 },
+            { "value": "5", "label": "I have extreme pain or discomfort", "score": 5 }
+          ]
+        },
+        {
+          "id": "eq5d_anxiety",
+          "question": "ANXIETY / DEPRESSION",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 5,
+          "dimension": 5,
+          "options": [
+            { "value": "1", "label": "I am not anxious or depressed", "score": 1 },
+            { "value": "2", "label": "I am slightly anxious or depressed", "score": 2 },
+            { "value": "3", "label": "I am moderately anxious or depressed", "score": 3 },
+            { "value": "4", "label": "I am severely anxious or depressed", "score": 4 },
+            { "value": "5", "label": "I am extremely anxious or depressed", "score": 5 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "eq5d_vas",
+      "title": "EQ Visual Analogue Scale (EQ VAS)",
+      "description": "We would like to know how good or bad your health is TODAY. This scale is numbered from 0 to 100. 100 means the best health you can imagine. 0 means the worst health you can imagine.",
+      "questions": [
+        {
+          "id": "eq5d_vas_score",
+          "question": "Please mark on the scale to indicate how your health is TODAY.",
+          "ui_component": "slider",
+          "required": true,
+          "order": 6,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "labels": {
+            "0": "The worst health you can imagine",
+            "50": "Moderate health",
+            "100": "The best health you can imagine"
+          }
+        }
+      ]
+    }
+  ],
+  "note": "The EQ-5D-5L is copyrighted. A user license agreement is required for use. The 5-digit health state profile must be converted to a utility index value using country-specific value sets. This conversion requires access to EuroQol value set algorithms. Commonly used in cost-effectiveness analyses (QALYs) and clinical trials."
+}

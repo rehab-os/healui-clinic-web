@@ -1,0 +1,654 @@
+{
+  "prom_id": "HOOS",
+  "full_name": "Hip Disability and Osteoarthritis Outcome Score",
+  "version": "2.0",
+  "copyright": "© Ewa Roos, 2012",
+  "language": "English",
+  "total_items": 40,
+  "estimated_time_minutes": 10,
+  "description": "A patient-reported outcome measure for hip disability and osteoarthritis. The HOOS evaluates both short-term and long-term symptoms and function in subjects with hip injury and osteoarthritis.",
+  "instructions": "This survey asks for your view about your hip. This information will help us keep track of how you feel about your hip and how well you are able to do your usual activities. Answer every question by ticking the appropriate box, only one box for each question.",
+  "scoring": {
+    "method": "subscale_percentage",
+    "subscales": [
+      {
+        "id": "symptoms",
+        "name": "Symptoms",
+        "items": 5,
+        "calculation": "100 - (sum of items × 100 / (4 × number of items))"
+      },
+      {
+        "id": "pain",
+        "name": "Pain",
+        "items": 10,
+        "calculation": "100 - (sum of items × 100 / (4 × number of items))"
+      },
+      {
+        "id": "adl",
+        "name": "Activities of Daily Living (ADL)",
+        "items": 17,
+        "calculation": "100 - (sum of items × 100 / (4 × number of items))"
+      },
+      {
+        "id": "sport",
+        "name": "Sport and Recreation",
+        "items": 4,
+        "calculation": "100 - (sum of items × 100 / (4 × number of items))"
+      },
+      {
+        "id": "qol",
+        "name": "Quality of Life (QOL)",
+        "items": 4,
+        "calculation": "100 - (sum of items × 100 / (4 × number of items))"
+      }
+    ],
+    "total_score": {
+      "min": 0,
+      "max": 100,
+      "interpretation": {
+        "0-39": "Severe hip problems",
+        "40-59": "Moderate hip problems",
+        "60-79": "Mild hip problems",
+        "80-100": "No hip problems"
+      },
+      "higher_is_better": true
+    }
+  },
+  "sections": [
+    {
+      "id": "hoos_symptoms",
+      "title": "Symptoms",
+      "description": "These questions should be answered thinking of your hip symptoms during the last week",
+      "questions": [
+        {
+          "id": "hoos_s1",
+          "question": "Do you feel grinding, hear clicking or any other type of noise from your hip?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 1,
+          "options": [
+            { "value": "0", "label": "Never", "score": 0 },
+            { "value": "1", "label": "Rarely", "score": 1 },
+            { "value": "2", "label": "Sometimes", "score": 2 },
+            { "value": "3", "label": "Often", "score": 3 },
+            { "value": "4", "label": "Always", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_s2",
+          "question": "Difficulties spreading legs wide apart",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 2,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_s3",
+          "question": "Difficulty to stride out fully when walking",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 3,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_s4",
+          "question": "How severe is your hip joint stiffness after first wakening in the morning?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 4,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_s5",
+          "question": "How severe is your hip stiffness after sitting, lying or resting later in the day?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 5,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hoos_pain",
+      "title": "Pain",
+      "description": "What amount of hip pain have you experienced the last week during the following activities?",
+      "questions": [
+        {
+          "id": "hoos_p1",
+          "question": "How often is your hip painful?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 6,
+          "options": [
+            { "value": "0", "label": "Never", "score": 0 },
+            { "value": "1", "label": "Monthly", "score": 1 },
+            { "value": "2", "label": "Weekly", "score": 2 },
+            { "value": "3", "label": "Daily", "score": 3 },
+            { "value": "4", "label": "Always", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_p2",
+          "question": "Straightening your hip fully",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 7,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_p3",
+          "question": "Bending your hip fully",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 8,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_p4",
+          "question": "Walking on flat surface",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 9,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_p5",
+          "question": "Going up or down stairs",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 10,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_p6",
+          "question": "At night while in bed",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 11,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_p7",
+          "question": "Sitting or lying",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 12,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_p8",
+          "question": "Standing upright",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 13,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_p9",
+          "question": "Walking on hard surface (asphalt, concrete, etc.)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 14,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_p10",
+          "question": "Walking on uneven surface",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 15,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hoos_adl",
+      "title": "Activities of Daily Living",
+      "description": "The following questions concern your physical function. What degree of difficulty have you experienced in the last week due to your hip?",
+      "questions": [
+        {
+          "id": "hoos_a1",
+          "question": "Descending stairs",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 16,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_a2",
+          "question": "Ascending stairs",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 17,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_a3",
+          "question": "Rising from sitting",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 18,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_a4",
+          "question": "Standing",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 19,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_a5",
+          "question": "Bending to floor/pick up an object",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 20,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_a6",
+          "question": "Walking on flat surface",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 21,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_a7",
+          "question": "Getting in/out of car",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 22,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_a8",
+          "question": "Going shopping",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 23,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_a9",
+          "question": "Putting on socks/stockings",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 24,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_a10",
+          "question": "Rising from bed",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 25,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_a11",
+          "question": "Taking off socks/stockings",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 26,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_a12",
+          "question": "Lying in bed (turning over, maintaining hip position)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 27,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_a13",
+          "question": "Getting in/out of bath",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 28,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_a14",
+          "question": "Sitting",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 29,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_a15",
+          "question": "Getting on/off toilet",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 30,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_a16",
+          "question": "Heavy domestic duties (moving heavy boxes, scrubbing floors, etc.)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 31,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_a17",
+          "question": "Light domestic duties (cooking, dusting, etc.)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 32,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hoos_sport",
+      "title": "Sport and Recreation Function",
+      "description": "The following questions concern your physical function when being active on a higher level",
+      "questions": [
+        {
+          "id": "hoos_sp1",
+          "question": "Squatting",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 33,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_sp2",
+          "question": "Running",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 34,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_sp3",
+          "question": "Jumping",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 35,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_sp4",
+          "question": "Twisting/pivoting on your injured hip",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 36,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hoos_qol",
+      "title": "Quality of Life",
+      "description": "These questions are about how your hip affects your quality of life",
+      "questions": [
+        {
+          "id": "hoos_q1",
+          "question": "How often are you aware of your hip problem?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 37,
+          "options": [
+            { "value": "0", "label": "Never", "score": 0 },
+            { "value": "1", "label": "Monthly", "score": 1 },
+            { "value": "2", "label": "Weekly", "score": 2 },
+            { "value": "3", "label": "Daily", "score": 3 },
+            { "value": "4", "label": "Constantly", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_q2",
+          "question": "Have you modified your life style to avoid potentially damaging activities to your hip?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 38,
+          "options": [
+            { "value": "0", "label": "Not at all", "score": 0 },
+            { "value": "1", "label": "Mildly", "score": 1 },
+            { "value": "2", "label": "Moderately", "score": 2 },
+            { "value": "3", "label": "Severely", "score": 3 },
+            { "value": "4", "label": "Totally", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_q3",
+          "question": "How much are you troubled with lack of confidence in your hip?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 39,
+          "options": [
+            { "value": "0", "label": "Not at all", "score": 0 },
+            { "value": "1", "label": "Mildly", "score": 1 },
+            { "value": "2", "label": "Moderately", "score": 2 },
+            { "value": "3", "label": "Severely", "score": 3 },
+            { "value": "4", "label": "Extremely", "score": 4 }
+          ]
+        },
+        {
+          "id": "hoos_q4",
+          "question": "In general, how much difficulty do you have with your hip?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 40,
+          "options": [
+            { "value": "0", "label": "None", "score": 0 },
+            { "value": "1", "label": "Mild", "score": 1 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "3", "label": "Severe", "score": 3 },
+            { "value": "4", "label": "Extreme", "score": 4 }
+          ]
+        }
+      ]
+    }
+  ]
+}

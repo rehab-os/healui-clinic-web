@@ -1,0 +1,277 @@
+{
+  "prom_id": "ABC",
+  "full_name": "Activities-Specific Balance Confidence Scale",
+  "version": "1.0",
+  "copyright": "© Powell & Myers, 1995",
+  "language": "English",
+  "total_items": 16,
+  "estimated_time_minutes": 5,
+  "description": "A self-report measure of balance confidence in performing various ambulatory activities without losing balance or experiencing a sense of unsteadiness. It is particularly useful for assessing perceived level of confidence in performing specific activities among older adults and individuals with balance disorders.",
+  "instructions": "For each of the following activities, please indicate your level of self-confidence by choosing a corresponding number from the following rating scale: 0% = no confidence, 100% = completely confident. If you do not currently do the activity in question, try and imagine how confident you would be if you had to do the activity. If you normally use a walking aid to do the activity or hold onto someone, rate your confidence as if you were using these supports.",
+  "scoring": {
+    "method": "average_percentage",
+    "total_score": {
+      "min": 0,
+      "max": 100,
+      "calculation": "Sum of all items / 16. Score represents percentage of confidence.",
+      "interpretation": {
+        "0-49": "Low level of physical functioning (high fall risk)",
+        "50-79": "Moderate level of physical functioning (moderate fall risk)",
+        "80-100": "High level of physical functioning (low fall risk)"
+      },
+      "higher_is_better": true,
+      "mcid": 13,
+      "clinical_cutoff": 67,
+      "cutoff_interpretation": "Score <67% indicates increased fall risk in community-dwelling older adults"
+    }
+  },
+  "sections": [
+    {
+      "id": "abc_confidence",
+      "title": "Balance Confidence Assessment",
+      "description": "How confident are you that you will not lose your balance or become unsteady when you...",
+      "questions": [
+        {
+          "id": "abc_1",
+          "question": "Walk around the house?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 1,
+          "min": 0,
+          "max": 100,
+          "step": 10,
+          "labels": {
+            "0": "No confidence (0%)",
+            "50": "Moderately confident (50%)",
+            "100": "Completely confident (100%)"
+          }
+        },
+        {
+          "id": "abc_2",
+          "question": "Walk up or down stairs?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 2,
+          "min": 0,
+          "max": 100,
+          "step": 10,
+          "labels": {
+            "0": "No confidence (0%)",
+            "50": "Moderately confident (50%)",
+            "100": "Completely confident (100%)"
+          }
+        },
+        {
+          "id": "abc_3",
+          "question": "Bend over and pick up a slipper from the front of a closet floor?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 3,
+          "min": 0,
+          "max": 100,
+          "step": 10,
+          "labels": {
+            "0": "No confidence (0%)",
+            "50": "Moderately confident (50%)",
+            "100": "Completely confident (100%)"
+          }
+        },
+        {
+          "id": "abc_4",
+          "question": "Reach for a small can off a shelf at eye level?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 4,
+          "min": 0,
+          "max": 100,
+          "step": 10,
+          "labels": {
+            "0": "No confidence (0%)",
+            "50": "Moderately confident (50%)",
+            "100": "Completely confident (100%)"
+          }
+        },
+        {
+          "id": "abc_5",
+          "question": "Stand on your tiptoes and reach for something above your head?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 5,
+          "min": 0,
+          "max": 100,
+          "step": 10,
+          "labels": {
+            "0": "No confidence (0%)",
+            "50": "Moderately confident (50%)",
+            "100": "Completely confident (100%)"
+          }
+        },
+        {
+          "id": "abc_6",
+          "question": "Stand on a chair and reach for something?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 6,
+          "min": 0,
+          "max": 100,
+          "step": 10,
+          "labels": {
+            "0": "No confidence (0%)",
+            "50": "Moderately confident (50%)",
+            "100": "Completely confident (100%)"
+          }
+        },
+        {
+          "id": "abc_7",
+          "question": "Sweep the floor?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 7,
+          "min": 0,
+          "max": 100,
+          "step": 10,
+          "labels": {
+            "0": "No confidence (0%)",
+            "50": "Moderately confident (50%)",
+            "100": "Completely confident (100%)"
+          }
+        },
+        {
+          "id": "abc_8",
+          "question": "Walk outside the house to a car parked in the driveway?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 8,
+          "min": 0,
+          "max": 100,
+          "step": 10,
+          "labels": {
+            "0": "No confidence (0%)",
+            "50": "Moderately confident (50%)",
+            "100": "Completely confident (100%)"
+          }
+        },
+        {
+          "id": "abc_9",
+          "question": "Get into or out of a car?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 9,
+          "min": 0,
+          "max": 100,
+          "step": 10,
+          "labels": {
+            "0": "No confidence (0%)",
+            "50": "Moderately confident (50%)",
+            "100": "Completely confident (100%)"
+          }
+        },
+        {
+          "id": "abc_10",
+          "question": "Walk across a parking lot to the mall?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 10,
+          "min": 0,
+          "max": 100,
+          "step": 10,
+          "labels": {
+            "0": "No confidence (0%)",
+            "50": "Moderately confident (50%)",
+            "100": "Completely confident (100%)"
+          }
+        },
+        {
+          "id": "abc_11",
+          "question": "Walk up or down a ramp?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 11,
+          "min": 0,
+          "max": 100,
+          "step": 10,
+          "labels": {
+            "0": "No confidence (0%)",
+            "50": "Moderately confident (50%)",
+            "100": "Completely confident (100%)"
+          }
+        },
+        {
+          "id": "abc_12",
+          "question": "Walk in a crowded mall where people rapidly walk past you?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 12,
+          "min": 0,
+          "max": 100,
+          "step": 10,
+          "labels": {
+            "0": "No confidence (0%)",
+            "50": "Moderately confident (50%)",
+            "100": "Completely confident (100%)"
+          }
+        },
+        {
+          "id": "abc_13",
+          "question": "Are bumped into by people as you walk through the mall?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 13,
+          "min": 0,
+          "max": 100,
+          "step": 10,
+          "labels": {
+            "0": "No confidence (0%)",
+            "50": "Moderately confident (50%)",
+            "100": "Completely confident (100%)"
+          }
+        },
+        {
+          "id": "abc_14",
+          "question": "Step onto or off an escalator while you are holding onto parcels such that you cannot hold onto the railing?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 14,
+          "min": 0,
+          "max": 100,
+          "step": 10,
+          "labels": {
+            "0": "No confidence (0%)",
+            "50": "Moderately confident (50%)",
+            "100": "Completely confident (100%)"
+          }
+        },
+        {
+          "id": "abc_15",
+          "question": "Step onto or off an escalator while holding onto the railing?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 15,
+          "min": 0,
+          "max": 100,
+          "step": 10,
+          "labels": {
+            "0": "No confidence (0%)",
+            "50": "Moderately confident (50%)",
+            "100": "Completely confident (100%)"
+          }
+        },
+        {
+          "id": "abc_16",
+          "question": "Walk outside on icy sidewalks?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 16,
+          "min": 0,
+          "max": 100,
+          "step": 10,
+          "labels": {
+            "0": "No confidence (0%)",
+            "50": "Moderately confident (50%)",
+            "100": "Completely confident (100%)"
+          }
+        }
+      ]
+    }
+  ]
+}

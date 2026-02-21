@@ -1,0 +1,292 @@
+{
+  "prom_id": "PRWE",
+  "full_name": "Patient-Rated Wrist Evaluation",
+  "version": "1.0",
+  "copyright": "© MacDermid, 1998",
+  "language": "English",
+  "total_items": 15,
+  "estimated_time_minutes": 5,
+  "description": "A 15-item questionnaire designed to measure wrist pain and disability in activities of daily living. It is a reliable, valid, and responsive outcome measure for distal radius fractures and other wrist conditions.",
+  "instructions": "Rate the average amount of pain and difficulty you have had during the past week.",
+  "scoring": {
+    "method": "subscale_sum_to_total",
+    "total_score": {
+      "min": 0,
+      "max": 100,
+      "calculation": "Pain subscore (max 50) + Function subscore (max 50). Best score = 100/100 converted to 0/100 for clinical reporting.",
+      "interpretation": {
+        "0-24": "Mild wrist disability",
+        "25-49": "Moderate wrist disability",
+        "50-100": "Severe wrist disability"
+      },
+      "higher_is_better": false,
+      "mcid": 11.5
+    },
+    "subscales": [
+      {
+        "id": "pain",
+        "name": "Pain",
+        "items": 5,
+        "min": 0,
+        "max": 50,
+        "calculation": "Sum of 5 pain items (each 0-10)"
+      },
+      {
+        "id": "function",
+        "name": "Function",
+        "items": 10,
+        "min": 0,
+        "max": 50,
+        "calculation": "Sum of 10 function items / 2 (average of specific and usual activities)"
+      }
+    ]
+  },
+  "sections": [
+    {
+      "id": "prwe_pain",
+      "title": "Pain",
+      "description": "Rate your pain for the past week.",
+      "questions": [
+        {
+          "id": "prwe_p1",
+          "question": "Pain at its worst",
+          "ui_component": "slider",
+          "required": true,
+          "order": 1,
+          "subscale": "pain",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No pain",
+            "10": "Worst ever"
+          }
+        },
+        {
+          "id": "prwe_p2",
+          "question": "Pain during your normal activities",
+          "ui_component": "slider",
+          "required": true,
+          "order": 2,
+          "subscale": "pain",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No pain",
+            "10": "Worst ever"
+          }
+        },
+        {
+          "id": "prwe_p3",
+          "question": "How often do you have pain?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 3,
+          "subscale": "pain",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "Never",
+            "10": "Always"
+          }
+        },
+        {
+          "id": "prwe_p4",
+          "question": "Pain when doing a task with a repeated wrist movement",
+          "ui_component": "slider",
+          "required": true,
+          "order": 4,
+          "subscale": "pain",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No pain",
+            "10": "Worst ever"
+          }
+        },
+        {
+          "id": "prwe_p5",
+          "question": "Pain at night",
+          "ui_component": "slider",
+          "required": true,
+          "order": 5,
+          "subscale": "pain",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No pain",
+            "10": "Worst ever"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prwe_function_specific",
+      "title": "Specific Activities",
+      "description": "How much difficulty do you have performing the following activities because of your wrist problem?",
+      "questions": [
+        {
+          "id": "prwe_f1",
+          "question": "Turn a door knob",
+          "ui_component": "slider",
+          "required": true,
+          "order": 6,
+          "subscale": "function",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No difficulty",
+            "10": "Unable to do"
+          }
+        },
+        {
+          "id": "prwe_f2",
+          "question": "Cut meat using a knife",
+          "ui_component": "slider",
+          "required": true,
+          "order": 7,
+          "subscale": "function",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No difficulty",
+            "10": "Unable to do"
+          }
+        },
+        {
+          "id": "prwe_f3",
+          "question": "Fasten buttons on a shirt",
+          "ui_component": "slider",
+          "required": true,
+          "order": 8,
+          "subscale": "function",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No difficulty",
+            "10": "Unable to do"
+          }
+        },
+        {
+          "id": "prwe_f4",
+          "question": "Use bathroom tissue",
+          "ui_component": "slider",
+          "required": true,
+          "order": 9,
+          "subscale": "function",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No difficulty",
+            "10": "Unable to do"
+          }
+        },
+        {
+          "id": "prwe_f5",
+          "question": "Carry a 10 lb (4.5 kg) object in affected hand",
+          "ui_component": "slider",
+          "required": true,
+          "order": 10,
+          "subscale": "function",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No difficulty",
+            "10": "Unable to do"
+          }
+        }
+      ]
+    },
+    {
+      "id": "prwe_function_usual",
+      "title": "Usual Activities",
+      "description": "How much difficulty do you have performing your usual activities in each of the following areas because of your wrist problem?",
+      "questions": [
+        {
+          "id": "prwe_f6",
+          "question": "Personal care activities (dressing, bathing)",
+          "ui_component": "slider",
+          "required": true,
+          "order": 11,
+          "subscale": "function",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No difficulty",
+            "10": "Unable to do"
+          }
+        },
+        {
+          "id": "prwe_f7",
+          "question": "Household work (cleaning, maintenance)",
+          "ui_component": "slider",
+          "required": true,
+          "order": 12,
+          "subscale": "function",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No difficulty",
+            "10": "Unable to do"
+          }
+        },
+        {
+          "id": "prwe_f8",
+          "question": "Work (your job or usual everyday work)",
+          "ui_component": "slider",
+          "required": true,
+          "order": 13,
+          "subscale": "function",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No difficulty",
+            "10": "Unable to do"
+          }
+        },
+        {
+          "id": "prwe_f9",
+          "question": "Recreational activities",
+          "ui_component": "slider",
+          "required": true,
+          "order": 14,
+          "subscale": "function",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No difficulty",
+            "10": "Unable to do"
+          }
+        },
+        {
+          "id": "prwe_f10",
+          "question": "How much has your wrist problem affected your activity level?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 15,
+          "subscale": "function",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "Not at all",
+            "10": "Totally limited"
+          }
+        }
+      ]
+    }
+  ]
+}

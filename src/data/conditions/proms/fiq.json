@@ -1,0 +1,299 @@
+{
+  "prom_id": "FIQ",
+  "full_name": "Fibromyalgia Impact Questionnaire",
+  "version": "1.0",
+  "copyright": "© Burckhardt et al., 1991",
+  "language": "English",
+  "total_items": 21,
+  "estimated_time_minutes": 7,
+  "description": "An assessment and evaluation instrument developed to measure fibromyalgia patient status, progress and outcomes. The FIQ is composed of 10 items measuring physical functioning, work status, depression, anxiety, morning tiredness, pain, stiffness, fatigue, and well-being.",
+  "instructions": "For questions 1-10, please mark the point on the line that best indicates how you felt overall for the past week. For question 11, circle the appropriate number.",
+  "scoring": {
+    "method": "domain_weighted_sum",
+    "total_score": {
+      "min": 0,
+      "max": 100,
+      "calculation": "Sum of 10 domain scores (each 0-10, then scaled to 0-100)",
+      "interpretation": {
+        "0-38": "Mild impact of fibromyalgia",
+        "39-58": "Moderate impact of fibromyalgia",
+        "59-100": "Severe impact of fibromyalgia"
+      },
+      "higher_is_better": false,
+      "mcid": 14
+    }
+  },
+  "sections": [
+    {
+      "id": "fiq_physical_function",
+      "title": "Physical Function",
+      "description": "Circle the number that best describes your ability to do each of the following activities over the past week. (0 = always able, 1 = usually able, 2 = sometimes able, 3 = never able)",
+      "questions": [
+        {
+          "id": "fiq_1a",
+          "question": "Do shopping",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 1,
+          "options": [
+            { "value": "0", "label": "Always able", "score": 0 },
+            { "value": "1", "label": "Usually able", "score": 1 },
+            { "value": "2", "label": "Sometimes able", "score": 2 },
+            { "value": "3", "label": "Never able", "score": 3 }
+          ]
+        },
+        {
+          "id": "fiq_1b",
+          "question": "Do laundry with a washer and dryer",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 2,
+          "options": [
+            { "value": "0", "label": "Always able", "score": 0 },
+            { "value": "1", "label": "Usually able", "score": 1 },
+            { "value": "2", "label": "Sometimes able", "score": 2 },
+            { "value": "3", "label": "Never able", "score": 3 }
+          ]
+        },
+        {
+          "id": "fiq_1c",
+          "question": "Prepare meals",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 3,
+          "options": [
+            { "value": "0", "label": "Always able", "score": 0 },
+            { "value": "1", "label": "Usually able", "score": 1 },
+            { "value": "2", "label": "Sometimes able", "score": 2 },
+            { "value": "3", "label": "Never able", "score": 3 }
+          ]
+        },
+        {
+          "id": "fiq_1d",
+          "question": "Wash dishes/cooking utensils by hand",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 4,
+          "options": [
+            { "value": "0", "label": "Always able", "score": 0 },
+            { "value": "1", "label": "Usually able", "score": 1 },
+            { "value": "2", "label": "Sometimes able", "score": 2 },
+            { "value": "3", "label": "Never able", "score": 3 }
+          ]
+        },
+        {
+          "id": "fiq_1e",
+          "question": "Vacuum a rug",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 5,
+          "options": [
+            { "value": "0", "label": "Always able", "score": 0 },
+            { "value": "1", "label": "Usually able", "score": 1 },
+            { "value": "2", "label": "Sometimes able", "score": 2 },
+            { "value": "3", "label": "Never able", "score": 3 }
+          ]
+        },
+        {
+          "id": "fiq_1f",
+          "question": "Make beds",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 6,
+          "options": [
+            { "value": "0", "label": "Always able", "score": 0 },
+            { "value": "1", "label": "Usually able", "score": 1 },
+            { "value": "2", "label": "Sometimes able", "score": 2 },
+            { "value": "3", "label": "Never able", "score": 3 }
+          ]
+        },
+        {
+          "id": "fiq_1g",
+          "question": "Walk several blocks",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 7,
+          "options": [
+            { "value": "0", "label": "Always able", "score": 0 },
+            { "value": "1", "label": "Usually able", "score": 1 },
+            { "value": "2", "label": "Sometimes able", "score": 2 },
+            { "value": "3", "label": "Never able", "score": 3 }
+          ]
+        },
+        {
+          "id": "fiq_1h",
+          "question": "Visit friends or relatives",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 8,
+          "options": [
+            { "value": "0", "label": "Always able", "score": 0 },
+            { "value": "1", "label": "Usually able", "score": 1 },
+            { "value": "2", "label": "Sometimes able", "score": 2 },
+            { "value": "3", "label": "Never able", "score": 3 }
+          ]
+        },
+        {
+          "id": "fiq_1i",
+          "question": "Do yard work",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 9,
+          "options": [
+            { "value": "0", "label": "Always able", "score": 0 },
+            { "value": "1", "label": "Usually able", "score": 1 },
+            { "value": "2", "label": "Sometimes able", "score": 2 },
+            { "value": "3", "label": "Never able", "score": 3 }
+          ]
+        },
+        {
+          "id": "fiq_1j",
+          "question": "Drive a car",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 10,
+          "options": [
+            { "value": "0", "label": "Always able", "score": 0 },
+            { "value": "1", "label": "Usually able", "score": 1 },
+            { "value": "2", "label": "Sometimes able", "score": 2 },
+            { "value": "3", "label": "Never able", "score": 3 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fiq_work_status",
+      "title": "Work Status",
+      "description": "Of the 7 days in the past week, how many days did you:",
+      "questions": [
+        {
+          "id": "fiq_2",
+          "question": "Feel good?",
+          "ui_component": "number_input",
+          "required": true,
+          "order": 11,
+          "min": 0,
+          "max": 7,
+          "unit": "days",
+          "help_text": "Enter number of days (0-7)"
+        },
+        {
+          "id": "fiq_3",
+          "question": "Miss work, including housework, because of fibromyalgia?",
+          "ui_component": "number_input",
+          "required": true,
+          "order": 12,
+          "min": 0,
+          "max": 7,
+          "unit": "days",
+          "help_text": "Enter number of days (0-7)"
+        }
+      ]
+    },
+    {
+      "id": "fiq_symptoms",
+      "title": "Symptom Severity",
+      "description": "For each of the following questions, mark the line to show how you felt overall for the past week.",
+      "questions": [
+        {
+          "id": "fiq_4",
+          "question": "How much pain have you had?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 13,
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No pain",
+            "10": "Very severe pain"
+          }
+        },
+        {
+          "id": "fiq_5",
+          "question": "How tired have you been?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 14,
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No tiredness",
+            "10": "Very tired"
+          }
+        },
+        {
+          "id": "fiq_6",
+          "question": "How have you felt when you get up in the morning?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 15,
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "Awoke well rested",
+            "10": "Awoke very tired"
+          }
+        },
+        {
+          "id": "fiq_7",
+          "question": "How much stiffness have you had?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 16,
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No stiffness",
+            "10": "Very stiff"
+          }
+        },
+        {
+          "id": "fiq_8",
+          "question": "How nervous or anxious have you felt?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 17,
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "Not anxious",
+            "10": "Very anxious"
+          }
+        },
+        {
+          "id": "fiq_9",
+          "question": "How depressed or blue have you felt?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 18,
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "Not depressed",
+            "10": "Very depressed"
+          }
+        },
+        {
+          "id": "fiq_10",
+          "question": "How well have you been able to do your usual work (including housework)?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 19,
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "Very well",
+            "10": "Very poorly"
+          }
+        }
+      ]
+    }
+  ]
+}

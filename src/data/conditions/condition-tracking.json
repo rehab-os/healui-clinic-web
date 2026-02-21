@@ -1,0 +1,9161 @@
+{
+  "Adhesive Capsulitis (Frozen Shoulder)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "spadi*",
+      "dash*",
+      "ases"
+    ],
+    "rom": [
+      "external_rotation*",
+      "shoulder_flexion*",
+      "shoulder_abduction*",
+      "internal_rotation"
+    ],
+    "strength": [],
+    "measurements": [
+      "sleep_disturbance*",
+      "capsular_pattern_ratio"
+    ],
+    "special_tests": []
+  },
+  "Rotator Cuff Tendinopathy": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "dash*",
+      "spadi*",
+      "ases"
+    ],
+    "rom": [
+      "shoulder_flexion*",
+      "shoulder_abduction*"
+    ],
+    "strength": [
+      "supraspinatus_strength*",
+      "external_rotation_strength*"
+    ],
+    "measurements": [
+      "painful_arc_range*",
+      "night_pain_severity"
+    ],
+    "special_tests": [
+      "neer_test",
+      "hawkins_kennedy_test",
+      "empty_can_test*"
+    ]
+  },
+  "Lateral Epicondylitis (Tennis Elbow)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "prtee*",
+      "dash*",
+      "quick_dash"
+    ],
+    "rom": [
+      "elbow_extension",
+      "wrist_extension*"
+    ],
+    "strength": [
+      "wrist_extension_strength*",
+      "grip_strength*",
+      "pain_free_grip_strength*"
+    ],
+    "measurements": [
+      "lateral_epicondyle_tenderness*"
+    ],
+    "special_tests": [
+      "cozen_test*",
+      "mill_test*",
+      "maudsley_test"
+    ]
+  },
+  "Patellofemoral Pain Syndrome": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "koos_pf*",
+      "akps_score*",
+      "stair_climbing_pain*"
+    ],
+    "rom": [
+      "knee_flexion*"
+    ],
+    "strength": [
+      "quadriceps_strength*",
+      "hip_abduction*",
+      "hip_external_rotation"
+    ],
+    "measurements": [],
+    "special_tests": [
+      "single_leg_squat_quality*"
+    ]
+  },
+  "Achilles Tendinopathy": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "visa_a*",
+      "lefs",
+      "faam"
+    ],
+    "rom": [
+      "ankle_dorsiflexion*",
+      "ankle_plantarflexion"
+    ],
+    "strength": [
+      "plantarflexion_strength*",
+      "single_leg_heel_raise_endurance*"
+    ],
+    "measurements": [
+      "tendon_thickening",
+      "morning_stiffness_duration"
+    ],
+    "special_tests": [
+      "single_leg_heel_raise_test*",
+      "royal_london_hospital_test",
+      "arc_sign"
+    ]
+  },
+  "Plantar Fasciitis": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "ffi*",
+      "fhsq*",
+      "faam"
+    ],
+    "rom": [
+      "ankle_dorsiflexion*",
+      "first_mtp_extension*"
+    ],
+    "strength": [
+      "plantarflexion_strength",
+      "intrinsic_foot_strength"
+    ],
+    "measurements": [
+      "first_step_pain*",
+      "medial_calcaneal_tubercle_tenderness*"
+    ],
+    "special_tests": [
+      "windlass_test*",
+      "heel_squeeze_test"
+    ]
+  },
+  "Lumbar Disc Herniation": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "odi_score*",
+      "rmdq_score",
+      "leg_pain_intensity*"
+    ],
+    "rom": [
+      "lumbar_flexion",
+      "lumbar_extension"
+    ],
+    "strength": [
+      "myotome_strength*"
+    ],
+    "measurements": [
+      "dermatomal_sensation*"
+    ],
+    "special_tests": [
+      "straight_leg_raise*",
+      "slump_test*",
+      "crossed_slr"
+    ]
+  },
+  "Cervical Radiculopathy": {
+    "essential": [
+      "nprs*"
+    ],
+    "function": [
+      "ndi*",
+      "dash"
+    ],
+    "motor": [
+      "mmt_myotome*",
+      "grip_strength"
+    ],
+    "sensation": [
+      "dermatomal_sensation*",
+      "reflex_testing"
+    ],
+    "balance": [],
+    "coordination": [],
+    "gait": [],
+    "cognition": [],
+    "tone": []
+  },
+  "Ankle Sprain (Lateral)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "faam*",
+      "cait",
+      "lefs"
+    ],
+    "rom": [
+      "ankle_dorsiflexion*",
+      "inversion"
+    ],
+    "strength": [
+      "eversion_strength*"
+    ],
+    "measurements": [
+      "swelling_figure_8*",
+      "single_leg_balance_time"
+    ],
+    "special_tests": [
+      "anterior_drawer_test",
+      "star_excursion_balance_test"
+    ]
+  },
+  "Knee Osteoarthritis": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "koos_score*",
+      "womac_score*",
+      "tug_test*"
+    ],
+    "rom": [
+      "knee_flexion*",
+      "knee_extension*"
+    ],
+    "strength": [
+      "quadriceps_strength*"
+    ],
+    "measurements": [
+      "knee_circumference"
+    ],
+    "special_tests": [
+      "30s_chair_stand_test*"
+    ]
+  },
+  "Shoulder Impingement Syndrome": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "dash*",
+      "spadi*",
+      "ases"
+    ],
+    "rom": [
+      "shoulder_flexion*",
+      "shoulder_abduction*"
+    ],
+    "strength": [
+      "supraspinatus_strength*",
+      "external_rotation_strength*"
+    ],
+    "measurements": [
+      "painful_arc_range*"
+    ],
+    "special_tests": [
+      "neer_test*",
+      "hawkins_kennedy_test*",
+      "empty_can_test"
+    ]
+  },
+  "Carpal Tunnel Syndrome": {
+    "essential": [
+      "nprs*",
+      "bctq*"
+    ],
+    "function": [
+      "dash",
+      "quick_dash"
+    ],
+    "motor": [
+      "grip_strength*",
+      "pinch_strength*",
+      "thenar_strength"
+    ],
+    "sensation": [
+      "two_point_discrimination*",
+      "semmes_weinstein*",
+      "median_nerve_territory"
+    ],
+    "balance": [],
+    "coordination": [],
+    "gait": [],
+    "cognition": [],
+    "tone": [
+      "thenar_atrophy*"
+    ]
+  },
+  "Hip Osteoarthritis": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "hoos_score*",
+      "hhs_score",
+      "walking_tolerance*"
+    ],
+    "rom": [
+      "hip_flexion*",
+      "hip_internal_rotation*",
+      "hip_abduction"
+    ],
+    "strength": [
+      "hip_abduction*",
+      "hip_extension"
+    ],
+    "measurements": [],
+    "special_tests": [
+      "tug_test*"
+    ]
+  },
+  "Chronic Low Back Pain": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "odi_score*",
+      "rmdq_score*",
+      "psfs_score"
+    ],
+    "rom": [
+      "lumbar_flexion*",
+      "lumbar_extension*",
+      "lumbar_rotation"
+    ],
+    "strength": [
+      "core_endurance*"
+    ],
+    "measurements": [
+      "fear_avoidance_beliefs*"
+    ],
+    "special_tests": []
+  },
+  "Meniscal Tear (Knee)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "stair_climbing*",
+      "squatting*",
+      "pivoting",
+      "prolonged_walking",
+      "kneeling"
+    ],
+    "rom": [
+      "knee_flexion*",
+      "knee_extension*"
+    ],
+    "strength": [
+      "quadriceps*",
+      "hamstrings",
+      "hip_abductors"
+    ],
+    "measurements": [
+      "knee_effusion*",
+      "thigh_circumference"
+    ],
+    "special_tests": [
+      "mcmurray*",
+      "thessaly*",
+      "apley_compression",
+      "joint_line_tenderness"
+    ]
+  },
+  "IT Band Syndrome": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "lefs_score*",
+      "running_tolerance*"
+    ],
+    "rom": [
+      "hip_adduction*"
+    ],
+    "strength": [
+      "hip_abduction*",
+      "hip_external_rotation"
+    ],
+    "measurements": [
+      "lateral_knee_tenderness*"
+    ],
+    "special_tests": [
+      "ober_test*",
+      "noble_compression_test"
+    ]
+  },
+  "Temporomandibular Joint Disorder (TMJ)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "chewing*",
+      "yawning*",
+      "talking_prolonged",
+      "eating_hard_foods"
+    ],
+    "rom": [
+      "mouth_opening*",
+      "lateral_excursion*",
+      "protrusion"
+    ],
+    "strength": [
+      "masseter",
+      "temporalis",
+      "pterygoids"
+    ],
+    "measurements": [
+      "interincisal_distance*",
+      "joint_crepitus",
+      "deviation_on_opening"
+    ],
+    "special_tests": [
+      "tmj_palpation*",
+      "dynamic_loading_test",
+      "cervical_screen"
+    ]
+  },
+  "Thoracic Outlet Syndrome": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "dash_score*",
+      "overhead_activity_tolerance*",
+      "carrying_tolerance"
+    ],
+    "rom": [
+      "shoulder_abduction",
+      "cervical_lateral_flexion"
+    ],
+    "strength": [
+      "grip_strength*"
+    ],
+    "measurements": [
+      "arm_sensation",
+      "pulse_assessment"
+    ],
+    "special_tests": [
+      "roos_test*",
+      "adson_test",
+      "costoclavicular_test"
+    ]
+  },
+  "Piriformis Syndrome": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "lefs_score*",
+      "sitting_tolerance*",
+      "walking_tolerance"
+    ],
+    "rom": [
+      "hip_internal_rotation*",
+      "hip_flexion"
+    ],
+    "strength": [
+      "hip_abduction*",
+      "hip_external_rotation*"
+    ],
+    "measurements": [
+      "piriformis_tenderness*"
+    ],
+    "special_tests": [
+      "fair_test*",
+      "pace_test",
+      "freiberg_test"
+    ]
+  },
+  "Biceps Tendinopathy": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "dash*",
+      "spadi",
+      "ases"
+    ],
+    "rom": [
+      "shoulder_flexion*",
+      "elbow_flexion"
+    ],
+    "strength": [
+      "elbow_flexion_strength*",
+      "shoulder_flexion_strength"
+    ],
+    "measurements": [
+      "bicipital_groove_tenderness*"
+    ],
+    "special_tests": [
+      "speed_test*",
+      "yergason_test",
+      "biceps_load_test"
+    ]
+  },
+  "Chronic Ankle Instability": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "faam*",
+      "cait*",
+      "idfai*",
+      "fadi"
+    ],
+    "rom": [
+      "ankle_dorsiflexion*",
+      "inversion",
+      "eversion"
+    ],
+    "strength": [
+      "eversion_strength*",
+      "hip_abduction_strength",
+      "single_leg_heel_raise"
+    ],
+    "measurements": [
+      "single_leg_balance_time*",
+      "giving_way_episodes*"
+    ],
+    "special_tests": [
+      "star_excursion_balance_test*",
+      "anterior_drawer_test",
+      "side_hop_test*"
+    ]
+  },
+  "Medial Epicondylitis (Golfer's Elbow)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "prtee*",
+      "dash*",
+      "quick_dash"
+    ],
+    "rom": [
+      "elbow_flexion",
+      "wrist_flexion*"
+    ],
+    "strength": [
+      "wrist_flexion_strength*",
+      "grip_strength*",
+      "forearm_pronation_strength"
+    ],
+    "measurements": [
+      "medial_epicondyle_tenderness*",
+      "pain_free_grip_strength*"
+    ],
+    "special_tests": [
+      "resisted_wrist_flexion*",
+      "golfers_elbow_test"
+    ]
+  },
+  "Fibromyalgia": {
+    "essential": [
+      "vas*",
+      "fiqr*"
+    ],
+    "function": [
+      "bpi*",
+      "pdi",
+      "sf_36_physical_function"
+    ],
+    "psychosocial": [
+      "pcs*",
+      "phq_9*",
+      "gad_7"
+    ],
+    "sleep": [
+      "psqi*",
+      "isi"
+    ],
+    "quality_of_life": [
+      "sf_36*",
+      "fiqr_qol"
+    ],
+    "central_sensitization": [
+      "csi*",
+      "wpi*",
+      "sss*"
+    ]
+  },
+  "Scoliosis (Adolescent Idiopathic)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "srs_22_score*",
+      "posture_related_symptoms",
+      "breathing_comfort"
+    ],
+    "rom": [
+      "thoracic_rotation*",
+      "lateral_flexion*"
+    ],
+    "strength": [],
+    "measurements": [
+      "cobb_angle*",
+      "rib_hump*",
+      "trunk_rotation_angle"
+    ],
+    "special_tests": [
+      "adams_forward_bend_test*"
+    ]
+  },
+  "Chronic Fatigue Syndrome": {
+    "essential": [
+      "vas",
+      "fatigue_severity_scale*"
+    ],
+    "function": [
+      "sf_36_physical_function*",
+      "fiq"
+    ],
+    "psychosocial": [
+      "phq_9*",
+      "gad_7"
+    ],
+    "sleep": [
+      "psqi*",
+      "isi"
+    ],
+    "quality_of_life": [
+      "sf_36*"
+    ],
+    "central_sensitization": [
+      "csi*"
+    ]
+  },
+  "Rheumatoid Arthritis": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "prwe*",
+      "dash*",
+      "michigan_hand_outcomes"
+    ],
+    "rom": [
+      "wrist_flexion*",
+      "wrist_extension*",
+      "forearm_pronation",
+      "forearm_supination"
+    ],
+    "strength": [
+      "grip_strength*",
+      "pinch_strength"
+    ],
+    "measurements": [
+      "swelling_circumference*",
+      "morning_stiffness_duration",
+      "joint_tenderness_count"
+    ],
+    "special_tests": [
+      "caput_ulnae_syndrome_test",
+      "piano_key_sign"
+    ]
+  },
+  "Osteoporosis": {
+    "essential": [
+      "vas*"
+    ],
+    "function": [
+      "sppb*",
+      "qualeffo*"
+    ],
+    "balance": [
+      "berg_balance_scale*"
+    ],
+    "gait": [
+      "gait_speed*"
+    ],
+    "strength": [
+      "back_extensor_strength*",
+      "grip_strength"
+    ],
+    "fall_risk": [
+      "fall_history*",
+      "frax*"
+    ],
+    "cognition": []
+  },
+  "Multiple Sclerosis": {
+    "essential": [
+      "edss*"
+    ],
+    "function": [
+      "msws_12*",
+      "mfis*",
+      "msis_29"
+    ],
+    "motor": [
+      "mmt_affected_areas*",
+      "grip_strength",
+      "9_hole_peg_test*"
+    ],
+    "sensation": [
+      "sensory_assessment*"
+    ],
+    "balance": [
+      "berg_balance_scale*"
+    ],
+    "coordination": [
+      "finger_to_nose*",
+      "heel_to_shin"
+    ],
+    "gait": [
+      "t25fw*",
+      "gait_speed*",
+      "6mwt",
+      "tug_time"
+    ],
+    "cognition": [
+      "moca",
+      "symbol_digit_modalities*"
+    ],
+    "tone": [
+      "modified_ashworth*"
+    ]
+  },
+  "Parkinson's Disease": {
+    "essential": [
+      "mds_updrs*"
+    ],
+    "function": [
+      "pdq_39*",
+      "adl_independence*"
+    ],
+    "motor": [
+      "bradykinesia_score*",
+      "rigidity_score*",
+      "tremor_score",
+      "grip_strength"
+    ],
+    "sensation": [],
+    "balance": [
+      "berg_balance_scale*",
+      "mini_best*"
+    ],
+    "coordination": [
+      "finger_tapping*",
+      "pronate_supinate*"
+    ],
+    "gait": [
+      "gait_speed*",
+      "tug_time*",
+      "fog_q*",
+      "freezing_episodes"
+    ],
+    "cognition": [
+      "moca*"
+    ],
+    "tone": [
+      "rigidity_score*"
+    ]
+  },
+  "Stroke (Hemiplegia)": {
+    "essential": [
+      "modified_rankin_scale*",
+      "nihss*"
+    ],
+    "function": [
+      "fim*",
+      "barthel_index"
+    ],
+    "motor": [
+      "mmt_bilateral*",
+      "facial_nerve_function"
+    ],
+    "sensation": [
+      "light_touch*",
+      "pain_temperature"
+    ],
+    "balance": [
+      "berg_balance_scale*",
+      "trunk_control_test"
+    ],
+    "coordination": [
+      "finger_to_nose*",
+      "heel_to_shin"
+    ],
+    "gait": [
+      "gait_speed*",
+      "fac*"
+    ],
+    "cognition": [
+      "moca"
+    ],
+    "tone": [
+      "modified_ashworth*"
+    ]
+  },
+  "Spinal Cord Injury (Incomplete)": {
+    "essential": [
+      "asia_impairment_scale*"
+    ],
+    "function": [
+      "scim*",
+      "fim"
+    ],
+    "motor": [
+      "mmt_key_muscles*",
+      "neurological_level"
+    ],
+    "sensation": [
+      "sensory_level*",
+      "no_sacral_sparing"
+    ],
+    "balance": [
+      "sitting_balance*"
+    ],
+    "coordination": [],
+    "gait": [],
+    "cognition": [],
+    "tone": [
+      "modified_ashworth*"
+    ]
+  },
+  "Cerebral Palsy (Adult)": {
+    "essential": [
+      "gmfcs_level*"
+    ],
+    "function": [
+      "gmfm*",
+      "pedi*",
+      "adl_independence*"
+    ],
+    "developmental": [
+      "gmfm_66*",
+      "gmfm_88*",
+      "quest*"
+    ],
+    "motor": [
+      "selective_motor_control*",
+      "modified_ashworth*",
+      "tardieu*",
+      "muscle_strength*"
+    ],
+    "milestones": [
+      "walking_status*",
+      "sitting_ability*",
+      "hand_function*"
+    ]
+  },
+  "Traumatic Brain Injury": {
+    "essential": [
+      "pcss*",
+      "rpq"
+    ],
+    "function": [
+      "return_to_activity_status*",
+      "adl_tolerance"
+    ],
+    "motor": [
+      "grip_strength"
+    ],
+    "sensation": [
+      "vestibular_ocular_motor_screen*"
+    ],
+    "balance": [
+      "bess*",
+      "single_leg_stance"
+    ],
+    "coordination": [
+      "saccades*",
+      "smooth_pursuit"
+    ],
+    "gait": [
+      "tandem_gait*",
+      "gait_speed"
+    ],
+    "cognition": [
+      "sac*",
+      "moca",
+      "reaction_time"
+    ],
+    "tone": []
+  },
+  "Chronic Obstructive Pulmonary Disease (COPD)": {
+    "essential": [
+      "modified_borg_dyspnea_scale*",
+      "copd_assessment_test"
+    ],
+    "function": [
+      "walking_distance*",
+      "stair_climbing*",
+      "dressing",
+      "household_tasks"
+    ],
+    "vitals": [
+      "spo2*",
+      "heart_rate",
+      "respiratory_rate*",
+      "blood_pressure"
+    ],
+    "endurance": [
+      "six_minute_walk_test*",
+      "incremental_shuttle_walk_test",
+      "timed_up_and_go"
+    ],
+    "respiratory": [
+      "fev1_fvc_ratio*",
+      "peak_expiratory_flow*",
+      "diaphragmatic_excursion",
+      "breathing_pattern",
+      "cough_effectiveness"
+    ],
+    "capacity": [
+      "mets_level",
+      "vo2_max_estimated",
+      "functional_capacity_level"
+    ]
+  },
+  "Cardiac Rehabilitation (Post-MI)": {
+    "essential": [
+      "borg_rpe*",
+      "hemodynamic_stability"
+    ],
+    "function": [
+      "icu_mobility_scale*",
+      "adl_bed_mobility"
+    ],
+    "vitals": [
+      "hr_rest*",
+      "hr_response*",
+      "bp_response*",
+      "spo2*",
+      "ecg_monitoring"
+    ],
+    "endurance": [
+      "ambulation_distance*",
+      "sitting_tolerance"
+    ],
+    "respiratory": [
+      "incentive_spirometry*",
+      "cough_effectiveness"
+    ],
+    "capacity": [
+      "mets_achieved*"
+    ]
+  },
+  "Peripheral Arterial Disease": {
+    "essential": [
+      "walking_impairment_questionnaire*",
+      "abi*"
+    ],
+    "function": [
+      "peripheral_artery_questionnaire*",
+      "adl_walking_tolerance"
+    ],
+    "vitals": [
+      "abi_rest*",
+      "abi_post_exercise",
+      "toe_brachial_index"
+    ],
+    "endurance": [
+      "claudication_distance*",
+      "maximal_walking_distance*",
+      "six_minute_walk_test"
+    ],
+    "respiratory": [],
+    "capacity": [
+      "treadmill_walking_time*"
+    ]
+  },
+  "Chronic Kidney Disease": {
+    "essential": [
+      "fatigue_severity_scale*",
+      "modified_borg_dyspnea_scale"
+    ],
+    "function": [
+      "walking_tolerance*",
+      "stair_climbing*",
+      "household_tasks",
+      "standing_tolerance"
+    ],
+    "vitals": [
+      "blood_pressure*",
+      "heart_rate",
+      "spo2",
+      "weight_fluid_status*"
+    ],
+    "endurance": [
+      "six_minute_walk_test*",
+      "timed_up_and_go",
+      "five_times_sit_to_stand"
+    ],
+    "balance": [
+      "berg_balance_scale*",
+      "single_leg_stance"
+    ],
+    "gait": [
+      "gait_speed*",
+      "assistive_device_use"
+    ],
+    "strength": [
+      "grip_strength*",
+      "quadriceps",
+      "hip_abductors"
+    ],
+    "fall_risk": [
+      "timed_up_and_go*",
+      "fall_history",
+      "medication_review"
+    ],
+    "cognition": [
+      "orientation_screen",
+      "attention_screen"
+    ]
+  },
+  "Diabetes Mellitus Type 2": {
+    "essential": [
+      "fatigue_severity_scale*",
+      "nprs"
+    ],
+    "function": [
+      "walking_tolerance*",
+      "prolonged_standing",
+      "exercise_tolerance*",
+      "foot_care_ability"
+    ],
+    "vitals": [
+      "blood_pressure*",
+      "heart_rate",
+      "resting_heart_rate",
+      "blood_glucose_pre_exercise*"
+    ],
+    "endurance": [
+      "six_minute_walk_test*",
+      "step_test",
+      "timed_up_and_go"
+    ],
+    "respiratory": [
+      "breathing_pattern",
+      "respiratory_rate"
+    ],
+    "capacity": [
+      "mets_level*",
+      "vo2_max_estimated"
+    ],
+    "psychosocial": [
+      "exercise_self_efficacy",
+      "diabetes_distress_scale"
+    ],
+    "quality_of_life": [
+      "sf_36",
+      "diabetes_quality_of_life"
+    ],
+    "measurements": [
+      "peripheral_neuropathy_screen*",
+      "monofilament_test*",
+      "ankle_brachial_index"
+    ]
+  },
+  "Lymphedema": {
+    "essential": [
+      "vas*",
+      "wound_size*",
+      "lymphedema_stage*"
+    ],
+    "wound": [
+      "bwat*",
+      "wound_bed_tissue_type*",
+      "exudate_amount*",
+      "infection_risk*"
+    ],
+    "scar": [
+      "scar_formation"
+    ],
+    "function": [
+      "limb_volume_management*",
+      "compression_tolerance*",
+      "mobility*"
+    ],
+    "measurements": [
+      "wound_surface_area*",
+      "limb_circumference*",
+      "healing_rate*"
+    ]
+  },
+  "Chronic Pain Syndrome": {
+    "essential": [
+      "nprs*",
+      "pain_catastrophizing_scale"
+    ],
+    "function": [
+      "sitting_tolerance*",
+      "walking_tolerance*",
+      "sleeping",
+      "work_tasks",
+      "recreational_activities"
+    ],
+    "psychosocial": [
+      "pain_catastrophizing_scale*",
+      "fear_avoidance_beliefs*",
+      "phq_9",
+      "gad_7",
+      "pain_self_efficacy_questionnaire"
+    ],
+    "sleep": [
+      "pittsburgh_sleep_quality_index*",
+      "sleep_onset_latency",
+      "sleep_disturbance_frequency"
+    ],
+    "quality_of_life": [
+      "sf_36*",
+      "pain_disability_index*",
+      "patient_specific_functional_scale"
+    ],
+    "central_sensitization": [
+      "central_sensitization_inventory*",
+      "pressure_pain_threshold*",
+      "temporal_summation",
+      "conditioned_pain_modulation",
+      "allodynia_mapping"
+    ]
+  },
+  "ACL Reconstruction (Post-Surgical)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "ikdc_score*",
+      "lysholm_score*",
+      "tegner_activity_scale"
+    ],
+    "rom": [
+      "knee_flexion*",
+      "knee_extension*"
+    ],
+    "strength": [
+      "quadriceps_strength*",
+      "hamstring_strength*",
+      "lsi_quadriceps"
+    ],
+    "measurements": [
+      "knee_effusion"
+    ],
+    "special_tests": [
+      "single_leg_hop_test*",
+      "y_balance_test"
+    ]
+  },
+  "Total Hip Replacement (Post-Surgical)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "hhs_score*",
+      "hoos_score*",
+      "lefs_score",
+      "tug_test*"
+    ],
+    "rom": [
+      "hip_flexion*",
+      "hip_abduction*",
+      "hip_external_rotation"
+    ],
+    "strength": [
+      "hip_abduction*",
+      "hip_extension*"
+    ],
+    "measurements": [],
+    "special_tests": [
+      "6mwt*",
+      "gait_assessment"
+    ]
+  },
+  "Total Knee Replacement (Post-Surgical)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "koos_score*",
+      "womac_score*",
+      "tug_test*"
+    ],
+    "rom": [
+      "knee_flexion*",
+      "knee_extension*"
+    ],
+    "strength": [
+      "quadriceps_strength*"
+    ],
+    "measurements": [
+      "knee_effusion"
+    ],
+    "special_tests": [
+      "30s_chair_stand_test*",
+      "6mwt"
+    ]
+  },
+  "Rotator Cuff Repair (Post-Surgical)": {
+    "essential": [
+      "vas*"
+    ],
+    "function": [
+      "barthel_index*",
+      "spadi*",
+      "quick_dash"
+    ],
+    "balance": [],
+    "gait": [
+      "gait_speed",
+      "tug"
+    ],
+    "strength": [
+      "shoulder_external_rotation_strength*",
+      "shoulder_abduction_strength"
+    ],
+    "fall_risk": [
+      "fall_history*",
+      "sling_compliance"
+    ],
+    "cognition": []
+  },
+  "Lumbar Spinal Fusion (Post-Surgical)": {
+    "essential": [
+      "vas*"
+    ],
+    "function": [
+      "sitting_tolerance*",
+      "walking_tolerance*",
+      "bending",
+      "lifting",
+      "stair_climbing",
+      "car_transfers"
+    ],
+    "rom": [
+      "lumbar_flexion*",
+      "lumbar_extension*",
+      "hip_flexion",
+      "hip_extension"
+    ],
+    "strength": [
+      "core_stability*",
+      "multifidus_activation*",
+      "gluteals",
+      "quadriceps",
+      "hamstrings"
+    ],
+    "measurements": [
+      "incision_healing_status",
+      "leg_length",
+      "lumbar_lordosis"
+    ],
+    "special_tests": [
+      "straight_leg_raise*",
+      "slump_test",
+      "neurodynamic_screen",
+      "prone_instability_test"
+    ]
+  },
+  "Meniscus Repair (Post-Surgical)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "koos_score*",
+      "lysholm_score*",
+      "tegner_activity_scale"
+    ],
+    "rom": [
+      "knee_flexion*",
+      "knee_extension*"
+    ],
+    "strength": [
+      "quadriceps_strength*"
+    ],
+    "measurements": [
+      "knee_effusion"
+    ],
+    "special_tests": []
+  },
+  "Ankle Fracture (Post-Surgical)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "faam*",
+      "faos*",
+      "lefs"
+    ],
+    "rom": [
+      "ankle_dorsiflexion*",
+      "ankle_plantarflexion*",
+      "inversion",
+      "eversion"
+    ],
+    "strength": [
+      "plantarflexion_strength*",
+      "dorsiflexion_strength*",
+      "eversion_strength"
+    ],
+    "measurements": [
+      "swelling_figure_8*",
+      "gait_parameters",
+      "weight_bearing_status"
+    ],
+    "special_tests": [
+      "single_leg_balance*",
+      "single_leg_hop_test",
+      "gait_analysis"
+    ]
+  },
+  "Mastectomy (Post-Surgical)": {
+    "essential": [
+      "vas*",
+      "posas*"
+    ],
+    "wound": [
+      "wound_closure_status"
+    ],
+    "scar": [
+      "scar_pliability*",
+      "scar_adherence*",
+      "chest_wall_tightness*",
+      "axillary_web"
+    ],
+    "function": [
+      "shoulder_flexion*",
+      "shoulder_abduction*",
+      "reaching*",
+      "adl_tolerance*"
+    ],
+    "measurements": [
+      "scar_length*",
+      "scar_mobility*",
+      "shoulder_rom*",
+      "dash*"
+    ]
+  },
+  "Amputation (Lower Limb)": {
+    "essential": [
+      "vas*",
+      "wound_stage*"
+    ],
+    "wound": [
+      "bwat*",
+      "wound_bed_tissue_type*",
+      "exudate_amount",
+      "wound_edges"
+    ],
+    "scar": [
+      "stump_scar_formation*",
+      "scar_mobility"
+    ],
+    "function": [
+      "prosthetic_readiness*",
+      "residual_limb_shaping*",
+      "transfer_ability"
+    ],
+    "measurements": [
+      "wound_surface_area*",
+      "residual_limb_circumference*",
+      "healing_rate"
+    ]
+  },
+  "Amputation (Upper Limb)": {
+    "essential": [
+      "vas*",
+      "wound_stage*"
+    ],
+    "wound": [
+      "bwat*",
+      "wound_bed_tissue_type*",
+      "exudate_amount",
+      "wound_edges"
+    ],
+    "scar": [
+      "stump_scar_formation*",
+      "scar_mobility"
+    ],
+    "function": [
+      "prosthetic_readiness*",
+      "residual_limb_shaping*",
+      "transfer_ability"
+    ],
+    "measurements": [
+      "wound_surface_area*",
+      "residual_limb_circumference*",
+      "healing_rate"
+    ]
+  },
+  "Vestibular Disorders": {
+    "essential": [
+      "nprs",
+      "dizziness_handicap_inventory*"
+    ],
+    "function": [
+      "walking_in_crowds*",
+      "head_turning_during_activity*",
+      "driving",
+      "reading_while_moving",
+      "grocery_shopping"
+    ],
+    "motor": [
+      "vestibulo_ocular_reflex*",
+      "visual_motion_sensitivity"
+    ],
+    "sensation": [
+      "subjective_visual_vertical",
+      "motion_sensitivity_quotient*"
+    ],
+    "balance": [
+      "berg_balance_scale*",
+      "clinical_test_sensory_interaction_balance*",
+      "functional_reach_test",
+      "single_leg_stance"
+    ],
+    "coordination": [
+      "dynamic_visual_acuity*",
+      "head_thrust_test",
+      "smooth_pursuit"
+    ],
+    "gait": [
+      "dynamic_gait_index*",
+      "gait_speed",
+      "tandem_walking",
+      "functional_gait_assessment"
+    ],
+    "cognition": [
+      "dual_task_performance",
+      "spatial_orientation"
+    ],
+    "tone": []
+  },
+  "Bell's Palsy (Facial Paralysis)": {
+    "essential": [
+      "nprs"
+    ],
+    "function": [
+      "fdi*",
+      "face_total*"
+    ],
+    "motor": [
+      "sunnybrook_fgs*",
+      "house_brackmann*",
+      "facial_muscle_function"
+    ],
+    "sensation": [
+      "taste_assessment",
+      "lacrimation"
+    ],
+    "balance": [],
+    "coordination": [],
+    "gait": [],
+    "cognition": [],
+    "tone": [
+      "synkinesis_assessment*"
+    ]
+  },
+  "Chronic Obstructive Sleep Apnea": {
+    "essential": [
+      "ahi*",
+      "epworth_sleepiness_scale*"
+    ],
+    "function": [
+      "functional_outcomes_of_sleep*",
+      "adl_tolerance"
+    ],
+    "vitals": [
+      "spo2_overnight*",
+      "odi*",
+      "bp"
+    ],
+    "endurance": [
+      "six_minute_walk_test"
+    ],
+    "respiratory": [
+      "cpap_compliance*",
+      "cpap_pressure",
+      "residual_ahi"
+    ],
+    "capacity": [
+      "daytime_alertness*",
+      "weight_management"
+    ]
+  },
+  "Thoracic Compression Fracture": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "odi_score*",
+      "sit_to_stand_tolerance*",
+      "walking_tolerance"
+    ],
+    "rom": [
+      "thoracic_extension",
+      "thoracic_rotation"
+    ],
+    "strength": [
+      "back_extensor_endurance*"
+    ],
+    "measurements": [
+      "kyphosis_angle*",
+      "vertebral_height_loss"
+    ],
+    "special_tests": []
+  },
+  "Guillain-Barr\u00e9 Syndrome": {
+    "essential": [
+      "gbs_disability_scale*",
+      "mrc_sum_score*"
+    ],
+    "function": [
+      "fim*",
+      "onls*",
+      "r_ods"
+    ],
+    "motor": [
+      "mmt_bilateral*",
+      "grip_strength*",
+      "respiratory_function"
+    ],
+    "sensation": [
+      "light_touch*",
+      "proprioception*"
+    ],
+    "balance": [
+      "sitting_balance*",
+      "berg_balance_scale"
+    ],
+    "coordination": [],
+    "gait": [
+      "fac*",
+      "gait_speed",
+      "6mwt"
+    ],
+    "cognition": [],
+    "tone": [
+      "areflexia_assessment*"
+    ]
+  },
+  "Myasthenia Gravis": {
+    "essential": [
+      "mg_adl*",
+      "qmg*"
+    ],
+    "function": [
+      "mg_qol_15r*",
+      "mg_composite"
+    ],
+    "motor": [
+      "proximal_muscle_strength*",
+      "neck_flexor_strength",
+      "fatigability_testing"
+    ],
+    "sensation": [],
+    "balance": [
+      "berg_balance_scale"
+    ],
+    "coordination": [
+      "ocular_motility_exam",
+      "diplopia_assessment"
+    ],
+    "gait": [
+      "six_minute_walk_test*",
+      "fatigability_during_walking"
+    ],
+    "cognition": [],
+    "tone": []
+  },
+  "Huntington's Disease": {
+    "essential": [
+      "uhdrs_motor*",
+      "tfc*"
+    ],
+    "function": [
+      "fas*",
+      "independence_scale*",
+      "adl_independence"
+    ],
+    "motor": [
+      "chorea_severity*",
+      "bradykinesia_score",
+      "grip_strength"
+    ],
+    "sensation": [],
+    "balance": [
+      "berg_balance_scale*",
+      "tandem_stance"
+    ],
+    "coordination": [
+      "finger_tapping*",
+      "pronate_supinate"
+    ],
+    "gait": [
+      "gait_speed*",
+      "tug_time*",
+      "tandem_gait"
+    ],
+    "cognition": [
+      "moca*",
+      "symbol_digit_modalities*",
+      "stroop_test"
+    ],
+    "tone": [
+      "rigidity_score",
+      "dystonia_score"
+    ]
+  },
+  "Amyotrophic Lateral Sclerosis (ALS)": {
+    "essential": [
+      "alsfrs_r*",
+      "fvc_percent_predicted*"
+    ],
+    "function": [
+      "als_specific_qol*",
+      "caregiver_burden_scale"
+    ],
+    "motor": [
+      "mmt_sum_score*",
+      "hand_grip_strength",
+      "pinch_strength"
+    ],
+    "sensation": [],
+    "balance": [
+      "berg_balance_scale"
+    ],
+    "coordination": [],
+    "gait": [
+      "gait_speed",
+      "ten_meter_walk_test"
+    ],
+    "cognition": [
+      "ecas_als_specific"
+    ],
+    "tone": [
+      "modified_ashworth_scale",
+      "fasciculation_assessment"
+    ]
+  },
+  "Muscular Dystrophy": {
+    "essential": [
+      "six_minute_walk_test*",
+      "motor_function_measure"
+    ],
+    "function": [
+      "activlim*",
+      "haq_di"
+    ],
+    "motor": [
+      "mmt_sum_score*",
+      "proximal_muscle_strength"
+    ],
+    "sensation": [],
+    "balance": [
+      "berg_balance_scale"
+    ],
+    "coordination": [],
+    "gait": [
+      "ten_meter_walk_test*",
+      "gait_speed"
+    ],
+    "cognition": [],
+    "tone": [
+      "joint_contracture_assessment*"
+    ]
+  },
+  "Post-Polio Syndrome": {
+    "essential": [
+      "post_polio_problem_list*",
+      "fatigue_severity_scale"
+    ],
+    "function": [
+      "haq_di*",
+      "sf_36_physical_function"
+    ],
+    "motor": [
+      "mmt_affected_limbs*",
+      "grip_strength"
+    ],
+    "sensation": [],
+    "balance": [
+      "berg_balance_scale"
+    ],
+    "coordination": [],
+    "gait": [
+      "six_minute_walk_test*",
+      "gait_speed",
+      "orthosis_assessment"
+    ],
+    "cognition": [],
+    "tone": [
+      "muscle_atrophy_pattern*",
+      "joint_instability"
+    ]
+  },
+  "Patellar Tendinopathy (Jumper's Knee)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "visa_p*",
+      "jumping_pain*",
+      "single_leg_decline_squat_pain"
+    ],
+    "rom": [
+      "knee_flexion"
+    ],
+    "strength": [
+      "quadriceps_strength*"
+    ],
+    "measurements": [
+      "inferior_pole_patella_tenderness*"
+    ],
+    "special_tests": []
+  },
+  "De Quervain's Tenosynovitis": {
+    "essential": [
+      "vas*"
+    ],
+    "function": [
+      "prwe",
+      "dash*",
+      "quick_dash"
+    ],
+    "rom": [
+      "thumb_abduction*",
+      "thumb_extension",
+      "wrist_ulnar_deviation"
+    ],
+    "strength": [
+      "grip_strength*",
+      "pinch_strength*"
+    ],
+    "measurements": [
+      "first_dorsal_compartment_tenderness*",
+      "swelling_radial_styloid"
+    ],
+    "special_tests": [
+      "finkelstein_test*",
+      "eichhoff_test"
+    ]
+  },
+  "Trigger Finger (Stenosing Tenosynovitis)": {
+    "essential": [
+      "vas*"
+    ],
+    "function": [
+      "mhq*",
+      "dash",
+      "quick_dash"
+    ],
+    "rom": [
+      "finger_flexion*",
+      "finger_extension*"
+    ],
+    "strength": [
+      "grip_strength*",
+      "pinch_strength"
+    ],
+    "measurements": [
+      "triggering_severity*",
+      "quinnell_grade*",
+      "a1_pulley_tenderness"
+    ],
+    "special_tests": [
+      "triggering_assessment*"
+    ]
+  },
+  "Dupuytren's Contracture": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "brief_mhq*",
+      "mhq",
+      "dash",
+      "uram"
+    ],
+    "rom": [
+      "mcp_extension*",
+      "pip_extension*",
+      "dip_extension",
+      "table_top_test*"
+    ],
+    "strength": [
+      "grip_strength"
+    ],
+    "measurements": [
+      "total_passive_extension_deficit*",
+      "cord_location",
+      "nodule_size"
+    ],
+    "special_tests": [
+      "hueston_tabletop_test*"
+    ]
+  },
+  "Chronic Fatigue Syndrome (ME/CFS)": {
+    "essential": [
+      "vas",
+      "fatigue_severity_scale*"
+    ],
+    "function": [
+      "sf_36_physical_function*",
+      "fiq"
+    ],
+    "psychosocial": [
+      "phq_9*",
+      "gad_7"
+    ],
+    "sleep": [
+      "psqi*",
+      "isi"
+    ],
+    "quality_of_life": [
+      "sf_36*"
+    ],
+    "central_sensitization": [
+      "csi*"
+    ]
+  },
+  "Complex Regional Pain Syndrome (CRPS)": {
+    "essential": [
+      "vas*",
+      "nprs"
+    ],
+    "function": [
+      "mhq*",
+      "dash*",
+      "quick_dash"
+    ],
+    "rom": [
+      "composite_finger_flexion*",
+      "wrist_flexion",
+      "wrist_extension"
+    ],
+    "strength": [
+      "grip_strength*",
+      "pinch_strength"
+    ],
+    "measurements": [
+      "swelling_circumference*",
+      "skin_temperature_difference*",
+      "skin_color_changes",
+      "sudomotor_changes"
+    ],
+    "special_tests": [
+      "allodynia_assessment*",
+      "hyperalgesia_assessment"
+    ]
+  },
+  "Hypermobility Spectrum Disorder": {
+    "essential": [
+      "vas*",
+      "beighton_score*"
+    ],
+    "function": [
+      "bpi*",
+      "sf_36_physical_function*",
+      "joint_instability_episodes*"
+    ],
+    "psychosocial": [
+      "pcs*",
+      "tsk*",
+      "phq_9"
+    ],
+    "sleep": [
+      "psqi*",
+      "fss*"
+    ],
+    "quality_of_life": [
+      "sf_36*"
+    ],
+    "central_sensitization": [
+      "csi*",
+      "proprioception_assessment*"
+    ]
+  },
+  "Ehlers-Danlos Syndrome": {
+    "essential": [
+      "vas*",
+      "beighton_score*"
+    ],
+    "function": [
+      "bpi*",
+      "sf_36_physical_function*",
+      "joint_instability_episodes*"
+    ],
+    "psychosocial": [
+      "pcs*",
+      "tsk*",
+      "phq_9"
+    ],
+    "sleep": [
+      "psqi*",
+      "fss*"
+    ],
+    "quality_of_life": [
+      "sf_36*"
+    ],
+    "central_sensitization": [
+      "csi*",
+      "proprioception_assessment*"
+    ]
+  },
+  "Chronic Venous Insufficiency": {
+    "essential": [
+      "ceap_classification*",
+      "vas"
+    ],
+    "function": [
+      "venous_clinical_severity_score*",
+      "walking_tolerance"
+    ],
+    "vitals": [],
+    "endurance": [
+      "walking_distance*",
+      "calf_muscle_pump_function"
+    ],
+    "respiratory": [],
+    "capacity": [
+      "leg_elevation_compliance",
+      "compression_compliance*"
+    ]
+  },
+  "Postural Orthostatic Tachycardia Syndrome (POTS)": {
+    "essential": [
+      "orthostatic_hr_increment*",
+      "composite_autonomic_symptom_score"
+    ],
+    "function": [
+      "dasi*",
+      "adl_tolerance",
+      "quality_of_life"
+    ],
+    "vitals": [
+      "hr_supine*",
+      "hr_standing_10min*",
+      "bp_orthostatic*"
+    ],
+    "endurance": [
+      "recumbent_exercise_tolerance*",
+      "graduated_upright_exercise"
+    ],
+    "respiratory": [],
+    "capacity": [
+      "exercise_training_progression*",
+      "countermaneuver_effectiveness"
+    ]
+  },
+  "Chronic Migraine": {
+    "essential": [
+      "vas*",
+      "hit_6*"
+    ],
+    "function": [
+      "midas*",
+      "headache_diary*"
+    ],
+    "psychosocial": [
+      "pcs*",
+      "phq_9",
+      "gad_7"
+    ],
+    "sleep": [
+      "psqi*"
+    ],
+    "quality_of_life": [
+      "msq*"
+    ],
+    "central_sensitization": [
+      "csi*",
+      "allodynia_symptom_checklist*"
+    ]
+  },
+  "Chronic Tension-Type Headache": {
+    "essential": [
+      "vas*",
+      "hit_6*"
+    ],
+    "function": [
+      "midas*",
+      "headache_diary"
+    ],
+    "psychosocial": [
+      "pcs*",
+      "phq_9"
+    ],
+    "sleep": [
+      "psqi*"
+    ],
+    "quality_of_life": [
+      "sf_36"
+    ],
+    "central_sensitization": [
+      "csi*",
+      "ppt_pericranial"
+    ]
+  },
+  "Frozen Shoulder (Idiopathic)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "spadi*",
+      "dash*",
+      "ases"
+    ],
+    "rom": [
+      "external_rotation*",
+      "shoulder_flexion*",
+      "shoulder_abduction*",
+      "internal_rotation"
+    ],
+    "strength": [],
+    "measurements": [
+      "sleep_disturbance*",
+      "capsular_pattern_ratio"
+    ],
+    "special_tests": []
+  },
+  "Posterior Tibial Tendon Dysfunction": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "ffi*",
+      "faam*",
+      "faos"
+    ],
+    "rom": [
+      "ankle_inversion*",
+      "ankle_dorsiflexion",
+      "subtalar_inversion"
+    ],
+    "strength": [
+      "tibialis_posterior_strength*",
+      "single_leg_heel_raise*"
+    ],
+    "measurements": [
+      "navicular_drop*",
+      "arch_height*",
+      "swelling_medial_ankle"
+    ],
+    "special_tests": [
+      "single_leg_heel_raise_test*",
+      "too_many_toes_sign*",
+      "first_metatarsal_rise_sign"
+    ]
+  },
+  "Metatarsalgia": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "ffi*",
+      "fhsq*",
+      "faam"
+    ],
+    "rom": [
+      "mtp_joint_rom*",
+      "ankle_dorsiflexion*"
+    ],
+    "strength": [
+      "intrinsic_foot_strength*",
+      "toe_flexor_strength"
+    ],
+    "measurements": [
+      "metatarsal_head_tenderness*",
+      "callus_assessment"
+    ],
+    "special_tests": [
+      "metatarsal_squeeze_test*",
+      "gait_analysis"
+    ]
+  },
+  "Morton's Neuroma": {
+    "essential": [
+      "nprs*"
+    ],
+    "function": [
+      "faam*",
+      "ffi"
+    ],
+    "motor": [],
+    "sensation": [
+      "interdigital_sensation*",
+      "mulder_click*"
+    ],
+    "balance": [
+      "single_leg_stance"
+    ],
+    "coordination": [],
+    "gait": [
+      "gait_speed*",
+      "walking_tolerance"
+    ],
+    "cognition": [],
+    "tone": []
+  },
+  "Hallux Valgus (Bunion)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "aofas_hallux*",
+      "ffi*",
+      "fhsq"
+    ],
+    "rom": [
+      "first_mtp_dorsiflexion*",
+      "first_mtp_abduction*"
+    ],
+    "strength": [
+      "hallux_abduction_strength*",
+      "toe_grip_strength"
+    ],
+    "measurements": [
+      "hallux_valgus_angle*",
+      "intermetatarsal_angle"
+    ],
+    "special_tests": [
+      "gait_analysis",
+      "bunion_palpation"
+    ]
+  },
+  "Hallux Rigidus": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "ffi*",
+      "fhsq*",
+      "aofas_hallux*"
+    ],
+    "rom": [
+      "first_mtp_dorsiflexion*",
+      "first_mtp_plantarflexion*"
+    ],
+    "strength": [
+      "great_toe_flexion_strength"
+    ],
+    "measurements": [
+      "joint_swelling",
+      "morning_stiffness_duration*"
+    ],
+    "special_tests": [
+      "gait_analysis*",
+      "dorsal_impingement_test"
+    ]
+  },
+  "Hammer Toe/Claw Toe": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "ffi*",
+      "fhsq",
+      "mfpdi"
+    ],
+    "rom": [
+      "mtp_extension*",
+      "pip_flexion*",
+      "dip_flexion"
+    ],
+    "strength": [
+      "intrinsic_foot_strength*",
+      "toe_flexor_strength"
+    ],
+    "measurements": [
+      "toe_deformity_severity*",
+      "callus_assessment"
+    ],
+    "special_tests": [
+      "paper_grip_test",
+      "intrinsic_muscle_assessment"
+    ]
+  },
+  "Chronic Ankle Pain": {
+    "essential": [
+      "vas*"
+    ],
+    "function": [
+      "walking_on_uneven_surfaces*",
+      "running*",
+      "stair_descent",
+      "prolonged_standing",
+      "jumping"
+    ],
+    "rom": [
+      "ankle_dorsiflexion*",
+      "ankle_plantarflexion",
+      "ankle_inversion*",
+      "ankle_eversion"
+    ],
+    "strength": [
+      "peroneals*",
+      "tibialis_posterior*",
+      "gastrocnemius_soleus",
+      "tibialis_anterior"
+    ],
+    "measurements": [
+      "figure_of_eight_circumference*",
+      "single_leg_hop_distance",
+      "foot_posture_index"
+    ],
+    "special_tests": [
+      "anterior_drawer*",
+      "talar_tilt",
+      "squeeze_test",
+      "weight_bearing_lunge_test*"
+    ]
+  },
+  "Chronic Compartment Syndrome": {
+    "essential": [
+      "vas*"
+    ],
+    "function": [
+      "running*",
+      "prolonged_walking*",
+      "hiking",
+      "sport_participation"
+    ],
+    "rom": [
+      "ankle_dorsiflexion*",
+      "ankle_plantarflexion"
+    ],
+    "strength": [
+      "anterior_compartment*",
+      "lateral_compartment",
+      "deep_posterior_compartment",
+      "superficial_posterior_compartment"
+    ],
+    "measurements": [
+      "compartment_pressure_post_exercise*",
+      "lower_leg_circumference*",
+      "symptom_onset_time_during_exercise"
+    ],
+    "special_tests": [
+      "fascial_tension_palpation*",
+      "provocative_exercise_test*",
+      "neurovascular_screen"
+    ]
+  },
+  "Thoracic Kyphosis (Postural)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "prolonged_sitting*",
+      "overhead_reaching*",
+      "workstation_tasks",
+      "driving"
+    ],
+    "rom": [
+      "thoracic_extension*",
+      "thoracic_rotation*",
+      "shoulder_flexion",
+      "cervical_extension"
+    ],
+    "strength": [
+      "middle_lower_trapezius*",
+      "rhomboids*",
+      "deep_cervical_flexors",
+      "serratus_anterior",
+      "thoracic_erector_spinae"
+    ],
+    "measurements": [
+      "kyphosis_angle_inclinometer*",
+      "tragus_to_wall_distance*",
+      "posture_grid_assessment"
+    ],
+    "special_tests": [
+      "scapular_assistance_test",
+      "thoracic_spring_test",
+      "rib_mobility_assessment"
+    ]
+  },
+  "Cervical Stenosis": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "ndi_score*",
+      "arm_symptoms",
+      "walking_tolerance"
+    ],
+    "rom": [
+      "cervical_extension",
+      "cervical_rotation"
+    ],
+    "strength": [
+      "myotome_strength"
+    ],
+    "measurements": [],
+    "special_tests": [
+      "spurling_test"
+    ]
+  },
+  "Lumbar Stenosis": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "odi_score*",
+      "zcq_score*",
+      "walking_distance*"
+    ],
+    "rom": [
+      "lumbar_extension"
+    ],
+    "strength": [
+      "lower_limb_strength"
+    ],
+    "measurements": [],
+    "special_tests": [
+      "shopping_cart_sign*",
+      "bicycle_test"
+    ]
+  },
+  "Spondylolisthesis": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "odi_score*",
+      "standing_tolerance*",
+      "walking_tolerance"
+    ],
+    "rom": [
+      "lumbar_extension",
+      "lumbar_flexion"
+    ],
+    "strength": [
+      "core_stability*",
+      "gluteal_strength"
+    ],
+    "measurements": [],
+    "special_tests": [
+      "prone_instability_test*",
+      "step_off_palpation"
+    ]
+  },
+  "Ankylosing Spondylitis": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "basfi_score*",
+      "basdai_score*",
+      "morning_stiffness_duration"
+    ],
+    "rom": [
+      "thoracic_rotation*",
+      "chest_expansion*",
+      "occiput_to_wall_distance"
+    ],
+    "strength": [],
+    "measurements": [
+      "ott_sign*",
+      "schober_test"
+    ],
+    "special_tests": []
+  },
+  "Psoriatic Arthritis": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "mhq*",
+      "dash*"
+    ],
+    "rom": [
+      "composite_finger_flexion*",
+      "finger_extension*",
+      "dip_rom"
+    ],
+    "strength": [
+      "grip_strength*",
+      "pinch_strength"
+    ],
+    "measurements": [
+      "dactylitis_severity*",
+      "joint_swelling",
+      "nail_changes"
+    ],
+    "special_tests": []
+  },
+  "Juvenile Idiopathic Arthritis": {
+    "essential": [
+      "wong_baker_faces*",
+      "jadas*",
+      "chaq*"
+    ],
+    "function": [
+      "pediatric_functional_assessment"
+    ],
+    "developmental": [],
+    "motor": [
+      "joint_rom",
+      "muscle_strength"
+    ],
+    "milestones": [
+      "disease_activity_controlled",
+      "functional_goals_met",
+      "school_participation_normalized"
+    ]
+  },
+  "Spina Bifida": {
+    "essential": [
+      "wong_baker_faces*"
+    ],
+    "function": [
+      "mobility*",
+      "adl_independence*",
+      "bladder_bowel_function*"
+    ],
+    "developmental": [
+      "gmfm*",
+      "pedi*",
+      "mmfc_level*"
+    ],
+    "motor": [
+      "lower_limb_strength*",
+      "sensation_level*",
+      "balance*",
+      "trunk_control*"
+    ],
+    "milestones": [
+      "walking_status*",
+      "wheelchair_mobility*",
+      "orthotic_use*"
+    ]
+  },
+  "Down Syndrome": {
+    "essential": [
+      "wong_baker_faces"
+    ],
+    "function": [
+      "adl_independence*",
+      "mobility*",
+      "communication*"
+    ],
+    "developmental": [
+      "bayley_iii*",
+      "pdms_2*",
+      "gmfm*",
+      "vineland_adaptive*"
+    ],
+    "motor": [
+      "muscle_tone*",
+      "balance*",
+      "gross_motor_skills*",
+      "fine_motor_skills*"
+    ],
+    "milestones": [
+      "motor_milestones*",
+      "walking_status*",
+      "functional_skills*"
+    ]
+  },
+  "Autism Spectrum Disorder (Motor Issues)": {
+    "essential": [
+      "wong_baker_faces"
+    ],
+    "function": [
+      "adl_independence*",
+      "social_participation*",
+      "play_skills*"
+    ],
+    "developmental": [
+      "mabc_2*",
+      "sensory_profile*",
+      "vineland_adaptive*"
+    ],
+    "motor": [
+      "gross_motor_skills*",
+      "fine_motor_skills*",
+      "motor_planning*",
+      "balance*"
+    ],
+    "milestones": [
+      "motor_milestones*",
+      "imitation_skills*",
+      "praxis*"
+    ]
+  },
+  "Developmental Coordination Disorder": {
+    "essential": [
+      "wong_baker_faces"
+    ],
+    "function": [
+      "adl_performance*",
+      "school_function*",
+      "play_participation*",
+      "handwriting*"
+    ],
+    "developmental": [
+      "mabc_2*",
+      "bot_2*",
+      "dcd_q*",
+      "dcd_daily*"
+    ],
+    "motor": [
+      "manual_dexterity*",
+      "ball_skills*",
+      "balance*",
+      "motor_planning*"
+    ],
+    "milestones": [
+      "age_appropriate_motor_skills*",
+      "motor_learning*"
+    ]
+  },
+  "Brachial Plexus Injury (Erb's Palsy)": {
+    "essential": [
+      "nprs*"
+    ],
+    "function": [
+      "dash*",
+      "brat*",
+      "quick_dash"
+    ],
+    "motor": [
+      "mmt_c5_t1*",
+      "grip_strength*",
+      "pinch_strength",
+      "emg_findings"
+    ],
+    "sensation": [
+      "dermatomal_sensation_upper_extremity*",
+      "two_point_discrimination"
+    ],
+    "balance": [],
+    "coordination": [
+      "finger_to_nose"
+    ],
+    "gait": [],
+    "cognition": [],
+    "tone": [
+      "muscle_atrophy*",
+      "flail_arm_assessment"
+    ]
+  },
+  "Osteogenesis Imperfecta": {
+    "essential": [
+      "wong_baker_faces*"
+    ],
+    "function": [
+      "mobility*",
+      "adl_independence*",
+      "fracture_precautions*"
+    ],
+    "developmental": [
+      "pedi*",
+      "gmfm_66*",
+      "podci*"
+    ],
+    "motor": [
+      "muscle_strength*",
+      "balance*",
+      "weight_bearing_tolerance*",
+      "bone_fragility*"
+    ],
+    "milestones": [
+      "walking_status*",
+      "wheelchair_mobility*",
+      "functional_independence*"
+    ]
+  },
+  "Marfan Syndrome": {
+    "essential": [
+      "vas*"
+    ],
+    "function": [
+      "bpi*",
+      "sf_36_physical_function*",
+      "6mwt*",
+      "cardiac_precautions_adherence*"
+    ],
+    "psychosocial": [
+      "pcs*",
+      "phq_9*",
+      "gad_7"
+    ],
+    "sleep": [
+      "psqi*",
+      "fss*"
+    ],
+    "quality_of_life": [
+      "sf_36*"
+    ],
+    "central_sensitization": [
+      "csi"
+    ]
+  },
+  "Charcot-Marie-Tooth Disease": {
+    "essential": [
+      "cmtns*",
+      "cmtes"
+    ],
+    "function": [
+      "cmt_fom*",
+      "haq_di"
+    ],
+    "motor": [
+      "ankle_dorsiflexor_strength*",
+      "intrinsic_hand_strength",
+      "grip_strength"
+    ],
+    "sensation": [
+      "vibration_sense*",
+      "monofilament_testing"
+    ],
+    "balance": [
+      "berg_balance_scale*",
+      "single_limb_stance"
+    ],
+    "coordination": [
+      "heel_shin_test"
+    ],
+    "gait": [
+      "six_minute_walk_test*",
+      "ten_meter_walk_test",
+      "gait_speed"
+    ],
+    "cognition": [],
+    "tone": [
+      "foot_deformity_assessment*",
+      "pes_cavus_grading"
+    ]
+  },
+  "Polymyositis/Dermatomyositis": {
+    "essential": [
+      "mmt8*",
+      "physician_global_vas"
+    ],
+    "function": [
+      "haq_di*",
+      "myositis_disease_activity_assessment"
+    ],
+    "motor": [
+      "proximal_muscle_strength*",
+      "neck_flexor_strength",
+      "hip_flexor_strength"
+    ],
+    "sensation": [],
+    "balance": [
+      "berg_balance_scale"
+    ],
+    "coordination": [],
+    "gait": [
+      "six_minute_walk_test*",
+      "timed_up_and_go"
+    ],
+    "cognition": [],
+    "tone": [
+      "skin_assessment*",
+      "gottron_sign",
+      "heliotrope_rash"
+    ]
+  },
+  "Inclusion Body Myositis": {
+    "essential": [
+      "ibmfrs*",
+      "mmt8"
+    ],
+    "function": [
+      "haq_di*",
+      "sf_36_physical_function"
+    ],
+    "motor": [
+      "quadriceps_strength*",
+      "finger_flexor_strength*",
+      "grip_strength"
+    ],
+    "sensation": [],
+    "balance": [
+      "berg_balance_scale"
+    ],
+    "coordination": [],
+    "gait": [
+      "six_minute_walk_test*",
+      "timed_up_and_go",
+      "two_minute_walk_test"
+    ],
+    "cognition": [],
+    "tone": [
+      "muscle_atrophy_pattern*"
+    ]
+  },
+  "Myofascial Pain Syndrome": {
+    "essential": [
+      "vas*",
+      "nprs"
+    ],
+    "function": [
+      "bpi*",
+      "pdi",
+      "region_specific_prom"
+    ],
+    "psychosocial": [
+      "pcs*",
+      "tsk"
+    ],
+    "sleep": [
+      "psqi"
+    ],
+    "quality_of_life": [
+      "sf_36"
+    ],
+    "central_sensitization": [
+      "ppt*",
+      "trigger_point_count*"
+    ]
+  },
+  "Chronic Pelvic Pain Syndrome": {
+    "essential": [
+      "vas*"
+    ],
+    "function": [
+      "bpi*",
+      "pdi"
+    ],
+    "psychosocial": [
+      "pcs*",
+      "phq_9*",
+      "gad_7"
+    ],
+    "sleep": [
+      "psqi*"
+    ],
+    "quality_of_life": [
+      "sf_36"
+    ],
+    "central_sensitization": [
+      "csi*"
+    ]
+  },
+  "Subacromial Bursitis": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "dash*",
+      "spadi*",
+      "ases"
+    ],
+    "rom": [
+      "shoulder_abduction*",
+      "shoulder_flexion*"
+    ],
+    "strength": [
+      "supraspinatus_strength",
+      "deltoid_strength"
+    ],
+    "measurements": [
+      "painful_arc_range*",
+      "subacromial_tenderness"
+    ],
+    "special_tests": [
+      "neer_test*",
+      "hawkins_kennedy_test*",
+      "painful_arc"
+    ]
+  },
+  "Calcific Tendinitis (Shoulder)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "spadi*",
+      "dash*",
+      "ases"
+    ],
+    "rom": [
+      "shoulder_abduction*",
+      "shoulder_flexion*"
+    ],
+    "strength": [
+      "supraspinatus_strength*",
+      "external_rotation_strength"
+    ],
+    "measurements": [
+      "painful_arc_range*",
+      "night_pain_severity"
+    ],
+    "special_tests": [
+      "neer_test",
+      "hawkins_kennedy_test",
+      "painful_arc*"
+    ]
+  },
+  "Labral Tear (Shoulder)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "wosi*",
+      "dash*",
+      "ases"
+    ],
+    "rom": [
+      "external_rotation*",
+      "internal_rotation",
+      "shoulder_abduction"
+    ],
+    "strength": [
+      "rotator_cuff_strength*",
+      "biceps_strength"
+    ],
+    "measurements": [
+      "clicking_catching_episodes*",
+      "instability_episodes"
+    ],
+    "special_tests": [
+      "obrien_test*",
+      "crank_test",
+      "biceps_load_test"
+    ]
+  },
+  "Anterior Cruciate Ligament (ACL) Tear": {
+    "essential": [
+      "vas*"
+    ],
+    "function": [
+      "running*",
+      "cutting_pivoting*",
+      "stair_descent",
+      "jumping_landing",
+      "sport_participation"
+    ],
+    "rom": [
+      "knee_flexion*",
+      "knee_extension*"
+    ],
+    "strength": [
+      "quadriceps*",
+      "hamstrings*",
+      "hip_abductors",
+      "gluteals"
+    ],
+    "measurements": [
+      "knee_effusion*",
+      "thigh_circumference",
+      "single_leg_hop_test*",
+      "limb_symmetry_index"
+    ],
+    "special_tests": [
+      "lachman*",
+      "anterior_drawer*",
+      "pivot_shift*",
+      "kt_1000_arthrometer"
+    ]
+  },
+  "Posterior Cruciate Ligament (PCL) Tear": {
+    "essential": [
+      "vas*"
+    ],
+    "function": [
+      "stair_descent*",
+      "kneeling*",
+      "deceleration_activities",
+      "prolonged_sitting_to_stand"
+    ],
+    "rom": [
+      "knee_flexion*",
+      "knee_extension*"
+    ],
+    "strength": [
+      "quadriceps*",
+      "hamstrings*",
+      "gastrocnemius"
+    ],
+    "measurements": [
+      "knee_effusion*",
+      "thigh_circumference",
+      "posterior_sag_observation"
+    ],
+    "special_tests": [
+      "posterior_drawer*",
+      "posterior_sag_sign*",
+      "quadriceps_active_test*",
+      "dial_test"
+    ]
+  },
+  "Medial Collateral Ligament (MCL) Sprain": {
+    "essential": [
+      "vas*"
+    ],
+    "function": [
+      "walking*",
+      "stair_climbing",
+      "lateral_movements*",
+      "sport_participation"
+    ],
+    "rom": [
+      "knee_flexion*",
+      "knee_extension"
+    ],
+    "strength": [
+      "quadriceps*",
+      "hamstrings",
+      "hip_adductors*"
+    ],
+    "measurements": [
+      "knee_effusion*",
+      "medial_joint_line_tenderness",
+      "thigh_circumference"
+    ],
+    "special_tests": [
+      "valgus_stress_0_degrees*",
+      "valgus_stress_30_degrees*",
+      "joint_line_palpation"
+    ]
+  },
+  "Lateral Collateral Ligament (LCL) Sprain": {
+    "essential": [
+      "vas*"
+    ],
+    "function": [
+      "walking*",
+      "lateral_movements*",
+      "stair_climbing",
+      "sport_participation"
+    ],
+    "rom": [
+      "knee_flexion*",
+      "knee_extension"
+    ],
+    "strength": [
+      "quadriceps*",
+      "hamstrings",
+      "hip_abductors*"
+    ],
+    "measurements": [
+      "knee_effusion*",
+      "lateral_joint_line_tenderness",
+      "thigh_circumference"
+    ],
+    "special_tests": [
+      "varus_stress_0_degrees*",
+      "varus_stress_30_degrees*",
+      "posterolateral_corner_screen",
+      "dial_test"
+    ]
+  },
+  "Chondromalacia Patella": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "koos_pf*",
+      "akps_score*",
+      "stair_climbing_pain*"
+    ],
+    "rom": [
+      "knee_flexion*"
+    ],
+    "strength": [
+      "quadriceps_strength*",
+      "vmo_activation"
+    ],
+    "measurements": [],
+    "special_tests": [
+      "patellar_grind_test"
+    ]
+  },
+  "Osgood-Schlatter Disease": {
+    "essential": [
+      "wong_baker_faces*",
+      "koos_child*"
+    ],
+    "function": [
+      "pediatric_functional_assessment"
+    ],
+    "developmental": [],
+    "motor": [
+      "quad_flexibility",
+      "hamstring_flexibility"
+    ],
+    "milestones": [
+      "pain_free_stairs",
+      "pain_free_running",
+      "pain_free_jumping",
+      "return_to_sport"
+    ]
+  },
+  "Baker's Cyst (Popliteal Cyst)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "koos_score*",
+      "knee_flexion_pain"
+    ],
+    "rom": [
+      "knee_flexion*"
+    ],
+    "strength": [],
+    "measurements": [
+      "popliteal_swelling*"
+    ],
+    "special_tests": []
+  },
+  "Shin Splints (Medial Tibial Stress Syndrome)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "lefs*",
+      "faam",
+      "patient_specific_functional_scale"
+    ],
+    "rom": [
+      "ankle_dorsiflexion*",
+      "ankle_plantarflexion"
+    ],
+    "strength": [
+      "plantarflexion_strength*",
+      "tibialis_posterior_strength",
+      "single_leg_heel_raise_endurance"
+    ],
+    "measurements": [
+      "tenderness_length*",
+      "pain_free_running_distance*",
+      "days_to_complete_running_program"
+    ],
+    "special_tests": [
+      "single_leg_hop_test*",
+      "navicular_drop_test",
+      "tuning_fork_test"
+    ]
+  },
+  "Stress Fracture (Tibia)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "walking_tolerance*",
+      "running_tolerance",
+      "weight_bearing_pain"
+    ],
+    "rom": [
+      "hip_flexion",
+      "hip_abduction"
+    ],
+    "strength": [],
+    "measurements": [
+      "pubic_ramus_tenderness*"
+    ],
+    "special_tests": [
+      "fulcrum_test",
+      "hop_test"
+    ]
+  },
+  "Compartment Syndrome (Acute)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "walking_tolerance*",
+      "pain_with_activity*"
+    ],
+    "rom": [
+      "knee_flexion",
+      "knee_extension"
+    ],
+    "strength": [
+      "quadriceps_strength*"
+    ],
+    "measurements": [
+      "thigh_circumference*",
+      "compartment_pressure"
+    ],
+    "special_tests": []
+  },
+  "Peroneal Tendinopathy": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "faam*",
+      "faos",
+      "lefs"
+    ],
+    "rom": [
+      "ankle_eversion*",
+      "ankle_inversion",
+      "ankle_dorsiflexion"
+    ],
+    "strength": [
+      "eversion_strength*",
+      "peroneal_strength*"
+    ],
+    "measurements": [
+      "lateral_ankle_tenderness*",
+      "swelling_peroneal_groove"
+    ],
+    "special_tests": [
+      "resisted_eversion_test*",
+      "peroneal_stretch_test",
+      "single_leg_balance"
+    ]
+  },
+  "Sever's Disease (Calcaneal Apophysitis)": {
+    "essential": [
+      "wong_baker_faces*",
+      "fadi"
+    ],
+    "function": [
+      "pediatric_functional_assessment"
+    ],
+    "developmental": [],
+    "motor": [
+      "ankle_dorsiflexion_rom",
+      "calf_flexibility"
+    ],
+    "milestones": [
+      "pain_free_walking",
+      "pain_free_running",
+      "return_to_sport"
+    ]
+  },
+  "Turf Toe": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "faam*",
+      "aofas_hallux*",
+      "ffi"
+    ],
+    "rom": [
+      "first_mtp_dorsiflexion*",
+      "first_mtp_plantarflexion*"
+    ],
+    "strength": [
+      "great_toe_flexion_strength*",
+      "great_toe_extension_strength"
+    ],
+    "measurements": [
+      "joint_swelling*",
+      "plantar_plate_tenderness*"
+    ],
+    "special_tests": [
+      "valgus_varus_stress_test*",
+      "drawer_test_first_mtp",
+      "gait_analysis"
+    ]
+  },
+  "Sesamoiditis": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "ffi*",
+      "faam",
+      "aofas_hallux"
+    ],
+    "rom": [
+      "first_mtp_dorsiflexion*",
+      "first_mtp_plantarflexion"
+    ],
+    "strength": [
+      "great_toe_flexion_strength*"
+    ],
+    "measurements": [
+      "sesamoid_tenderness*",
+      "pain_with_toe_off"
+    ],
+    "special_tests": [
+      "passive_dorsiflexion_test*",
+      "axial_compression_test"
+    ]
+  },
+  "Cuboid Syndrome": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "faam*",
+      "ffi",
+      "lefs"
+    ],
+    "rom": [
+      "midfoot_mobility*",
+      "ankle_inversion_eversion"
+    ],
+    "strength": [
+      "peroneal_strength*"
+    ],
+    "measurements": [
+      "lateral_midfoot_tenderness*"
+    ],
+    "special_tests": [
+      "midtarsal_adduction_test*",
+      "cuboid_manipulation_test"
+    ]
+  },
+  "Tarsal Tunnel Syndrome": {
+    "essential": [
+      "nprs*"
+    ],
+    "function": [
+      "faam*",
+      "ffi"
+    ],
+    "motor": [
+      "mmt_intrinsic_foot*"
+    ],
+    "sensation": [
+      "plantar_sensation*",
+      "tinel_sign_tarsal_tunnel*"
+    ],
+    "balance": [
+      "single_leg_stance*"
+    ],
+    "coordination": [],
+    "gait": [
+      "gait_speed*",
+      "walking_tolerance"
+    ],
+    "cognition": [],
+    "tone": [
+      "intrinsic_foot_atrophy"
+    ]
+  },
+  "Lisfranc Injury": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "faam*",
+      "ffi*",
+      "faos"
+    ],
+    "rom": [
+      "tarsometatarsal_mobility*",
+      "ankle_dorsiflexion"
+    ],
+    "strength": [
+      "plantarflexion_strength*",
+      "intrinsic_foot_strength"
+    ],
+    "measurements": [
+      "midfoot_swelling*",
+      "weight_bearing_status*",
+      "arch_height"
+    ],
+    "special_tests": [
+      "piano_key_test*",
+      "single_leg_heel_raise_test",
+      "gait_analysis"
+    ]
+  },
+  "Greater Trochanteric Pain Syndrome": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "visa_g*",
+      "side_lying_pain*",
+      "single_leg_stance_pain"
+    ],
+    "rom": [],
+    "strength": [
+      "hip_abduction*",
+      "single_leg_squat*"
+    ],
+    "measurements": [
+      "greater_trochanter_tenderness*"
+    ],
+    "special_tests": [
+      "resisted_external_derotation_test",
+      "single_leg_stance_30s"
+    ]
+  },
+  "Hip Labral Tear": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "ihot_12*",
+      "hos_adl*",
+      "deep_squatting_pain"
+    ],
+    "rom": [
+      "hip_flexion*",
+      "hip_internal_rotation*"
+    ],
+    "strength": [
+      "hip_abduction*"
+    ],
+    "measurements": [],
+    "special_tests": [
+      "fadir_test*",
+      "faber_test"
+    ]
+  },
+  "Femoroacetabular Impingement (FAI)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "ihot_12*",
+      "hos_adl*",
+      "deep_squatting_pain*"
+    ],
+    "rom": [
+      "hip_flexion*",
+      "hip_internal_rotation*"
+    ],
+    "strength": [
+      "hip_abduction*",
+      "hip_flexion"
+    ],
+    "measurements": [],
+    "special_tests": [
+      "fadir_test*",
+      "faber_test"
+    ]
+  },
+  "Snapping Hip Syndrome": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "snapping_frequency*",
+      "activity_limitation",
+      "pain_with_snapping"
+    ],
+    "rom": [
+      "hip_flexion",
+      "hip_abduction"
+    ],
+    "strength": [
+      "hip_abduction*",
+      "hip_flexion"
+    ],
+    "measurements": [],
+    "special_tests": [
+      "ober_test",
+      "dynamic_snapping_test*"
+    ]
+  },
+  "Hip Dysplasia (Adult)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "ihot_12*",
+      "hoos_score",
+      "walking_tolerance*"
+    ],
+    "rom": [
+      "hip_flexion",
+      "hip_internal_rotation*"
+    ],
+    "strength": [
+      "hip_abduction*"
+    ],
+    "measurements": [],
+    "special_tests": [
+      "fadir_test",
+      "faber_test"
+    ]
+  },
+  "Avascular Necrosis (Hip)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "hhs_score*",
+      "hoos_score",
+      "walking_tolerance*"
+    ],
+    "rom": [
+      "hip_flexion*",
+      "hip_internal_rotation*",
+      "hip_abduction"
+    ],
+    "strength": [
+      "hip_abduction"
+    ],
+    "measurements": [],
+    "special_tests": []
+  },
+  "Sacroiliac Joint Dysfunction": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "odi_score*",
+      "sit_to_stand_pain*",
+      "walking_tolerance"
+    ],
+    "rom": [
+      "hip_flexion",
+      "lumbar_rotation"
+    ],
+    "strength": [
+      "gluteal_strength*"
+    ],
+    "measurements": [
+      "sij_tenderness*"
+    ],
+    "special_tests": [
+      "sacral_thrust*",
+      "thigh_thrust*",
+      "gaenslen_test",
+      "distraction_compression_tests"
+    ]
+  },
+  "Coccydynia (Tailbone Pain)": {
+    "essential": [
+      "vas*"
+    ],
+    "function": [
+      "sitting_tolerance*",
+      "adl_impact"
+    ],
+    "strength": [
+      "pelvic_floor_relaxation*",
+      "levator_ani_assessment"
+    ],
+    "symptoms": [
+      "pain_with_sitting*",
+      "pain_with_standing",
+      "pain_with_defecation"
+    ],
+    "quality_of_life": [
+      "odi"
+    ]
+  },
+  "Facet Joint Syndrome": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "odi_score*",
+      "extension_pain*",
+      "rotation_pain"
+    ],
+    "rom": [
+      "lumbar_extension*",
+      "lumbar_rotation*",
+      "lumbar_lateral_flexion"
+    ],
+    "strength": [],
+    "measurements": [
+      "facet_joint_tenderness*"
+    ],
+    "special_tests": []
+  },
+  "Scheuermann's Disease": {
+    "essential": [
+      "wong_baker_faces*",
+      "srs_22*"
+    ],
+    "function": [
+      "pediatric_functional_assessment"
+    ],
+    "developmental": [],
+    "motor": [
+      "spinal_mobility",
+      "hamstring_flexibility",
+      "posture_assessment"
+    ],
+    "milestones": [
+      "brace_compliance",
+      "kyphosis_stabilization",
+      "pain_free_activity"
+    ]
+  },
+  "Torticollis (Wry Neck)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "twstrs_disability*",
+      "head_position_control*"
+    ],
+    "rom": [
+      "cervical_rotation*",
+      "cervical_lateral_flexion*"
+    ],
+    "strength": [],
+    "measurements": [
+      "twstrs_severity*",
+      "head_tilt_angle"
+    ],
+    "special_tests": []
+  },
+  "Whiplash Associated Disorder": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "ndi_score*",
+      "wdq_score*",
+      "driving_tolerance"
+    ],
+    "rom": [
+      "cervical_flexion*",
+      "cervical_extension*",
+      "cervical_rotation*"
+    ],
+    "strength": [
+      "deep_neck_flexor_endurance*"
+    ],
+    "measurements": [
+      "head_repositioning_accuracy"
+    ],
+    "special_tests": []
+  },
+  "Cervicogenic Headache": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "headache_frequency*",
+      "headache_duration*",
+      "ndi_score"
+    ],
+    "rom": [
+      "cervical_rotation*",
+      "cervical_extension"
+    ],
+    "strength": [
+      "deep_neck_flexor_endurance*"
+    ],
+    "measurements": [
+      "upper_cervical_segmental_mobility*"
+    ],
+    "special_tests": [
+      "cervical_flexion_rotation_test*"
+    ]
+  },
+  "Occipital Neuralgia": {
+    "essential": [
+      "nprs*",
+      "headache_impact_test"
+    ],
+    "function": [
+      "neck_disability_index*",
+      "pain_interference"
+    ],
+    "motor": [],
+    "sensation": [
+      "occipital_tenderness*",
+      "trigger_point_assessment"
+    ],
+    "balance": [],
+    "coordination": [],
+    "gait": [],
+    "cognition": [],
+    "tone": [
+      "cervical_muscle_tension*"
+    ]
+  },
+  "Eagle Syndrome": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "swallowing_pain*",
+      "head_rotation_pain*",
+      "throat_discomfort"
+    ],
+    "rom": [
+      "cervical_rotation*"
+    ],
+    "strength": [],
+    "measurements": [],
+    "special_tests": []
+  },
+  "Dystonia (Focal)": {
+    "essential": [
+      "bfmdrs*"
+    ],
+    "function": [
+      "adl_independence*"
+    ],
+    "motor": [
+      "dystonia_severity_score*"
+    ],
+    "sensation": [],
+    "balance": [
+      "berg_balance_scale"
+    ],
+    "coordination": [],
+    "gait": [
+      "gait_speed"
+    ],
+    "cognition": [],
+    "tone": [
+      "bfmdrs_motor*"
+    ]
+  },
+  "Essential Tremor": {
+    "essential": [
+      "fahn_tolosa_marin*",
+      "tetras"
+    ],
+    "function": [
+      "adl_tremor_impact*",
+      "quest*"
+    ],
+    "motor": [
+      "tremor_amplitude*",
+      "spiral_drawing"
+    ],
+    "sensation": [],
+    "balance": [
+      "berg_balance_scale"
+    ],
+    "coordination": [
+      "finger_to_nose*",
+      "cup_pouring_test"
+    ],
+    "gait": [
+      "tandem_gait*",
+      "gait_speed"
+    ],
+    "cognition": [],
+    "tone": []
+  },
+  "Restless Leg Syndrome": {
+    "essential": [
+      "nprs*",
+      "international_rls_severity_scale"
+    ],
+    "function": [
+      "sleep_initiation*",
+      "prolonged_sitting*",
+      "travel_tolerance",
+      "evening_activities"
+    ],
+    "motor": [
+      "periodic_limb_movement_index",
+      "voluntary_leg_movement_control"
+    ],
+    "sensation": [
+      "symptom_distribution_mapping*",
+      "sensory_descriptors*",
+      "circadian_pattern_assessment"
+    ],
+    "balance": [
+      "single_leg_stance",
+      "functional_reach_test"
+    ],
+    "coordination": [
+      "lower_extremity_coordination_screen"
+    ],
+    "gait": [
+      "gait_speed",
+      "gait_pattern_assessment"
+    ],
+    "cognition": [
+      "sleep_deprivation_impact_screen",
+      "attention_and_concentration"
+    ],
+    "tone": [
+      "lower_extremity_tone_screen"
+    ]
+  },
+  "Peripheral Neuropathy (Diabetic)": {
+    "essential": [
+      "nprs*",
+      "tcns*"
+    ],
+    "function": [
+      "adl_independence*",
+      "onls"
+    ],
+    "motor": [
+      "mmt_distal*",
+      "grip_strength*"
+    ],
+    "sensation": [
+      "vibration_sense*",
+      "monofilament_10g*",
+      "proprioception*"
+    ],
+    "balance": [
+      "berg_balance_scale*",
+      "single_leg_stance*"
+    ],
+    "coordination": [],
+    "gait": [
+      "gait_speed*",
+      "tug_time*"
+    ],
+    "cognition": [],
+    "tone": [
+      "areflexia_assessment"
+    ]
+  },
+  "Chemotherapy-Induced Peripheral Neuropathy": {
+    "essential": [
+      "facit_fatigue*",
+      "vas*",
+      "eortc_qlq_cipn20*"
+    ],
+    "function": [
+      "balance*",
+      "gait*",
+      "fine_motor_function*",
+      "adl_tolerance*"
+    ],
+    "strength": [
+      "grip_strength*",
+      "ankle_dorsiflexion_strength*"
+    ],
+    "endurance": [
+      "6mwt*",
+      "tug*"
+    ],
+    "lymphedema": [],
+    "quality_of_life": [
+      "fact_gog_ntx*",
+      "tns_c*",
+      "dn4*"
+    ]
+  },
+  "Post-Herpetic Neuralgia": {
+    "essential": [
+      "vas*",
+      "nprs"
+    ],
+    "function": [
+      "bpi*",
+      "pdi*"
+    ],
+    "psychosocial": [
+      "pcs*",
+      "phq_9"
+    ],
+    "sleep": [
+      "psqi*"
+    ],
+    "quality_of_life": [
+      "sf_36*"
+    ],
+    "central_sensitization": [
+      "pain_detect*",
+      "dn4*",
+      "allodynia_mapping"
+    ]
+  },
+  "Trigeminal Neuralgia": {
+    "essential": [
+      "nprs*",
+      "brief_pain_inventory*"
+    ],
+    "function": [
+      "pain_interference*",
+      "bpi_facial_pain*"
+    ],
+    "motor": [
+      "masseter_strength"
+    ],
+    "sensation": [
+      "trigeminal_territory_mapping*",
+      "trigger_zones*"
+    ],
+    "balance": [],
+    "coordination": [],
+    "gait": [],
+    "cognition": [],
+    "tone": []
+  },
+  "Pudendal Neuralgia": {
+    "essential": [
+      "vas*",
+      "nantes_criteria"
+    ],
+    "function": [
+      "sitting_tolerance*",
+      "adl_impact"
+    ],
+    "strength": [
+      "pelvic_floor_relaxation*"
+    ],
+    "symptoms": [
+      "perineal_pain*",
+      "pain_worse_sitting*",
+      "pain_distribution",
+      "allodynia"
+    ],
+    "quality_of_life": [
+      "sf_36*"
+    ]
+  },
+  "Meralgia Paresthetica": {
+    "essential": [
+      "nprs*"
+    ],
+    "function": [
+      "pain_interference*",
+      "standing_tolerance"
+    ],
+    "motor": [],
+    "sensation": [
+      "lateral_thigh_sensation*",
+      "pelvic_compression_test"
+    ],
+    "balance": [],
+    "coordination": [],
+    "gait": [
+      "gait_speed"
+    ],
+    "cognition": [],
+    "tone": []
+  },
+  "Cubital Tunnel Syndrome": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "dash*",
+      "quick_dash",
+      "psfs"
+    ],
+    "rom": [
+      "elbow_flexion*",
+      "elbow_extension"
+    ],
+    "strength": [
+      "grip_strength*",
+      "intrinsic_hand_strength*",
+      "pinch_strength"
+    ],
+    "measurements": [
+      "sensory_assessment*",
+      "two_point_discrimination*"
+    ],
+    "special_tests": [
+      "tinel_sign_elbow*",
+      "elbow_flexion_test*",
+      "scratch_collapse_test"
+    ]
+  },
+  "Radial Tunnel Syndrome": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "dash*",
+      "quick_dash"
+    ],
+    "rom": [
+      "forearm_supination*",
+      "wrist_extension"
+    ],
+    "strength": [
+      "grip_strength*",
+      "wrist_extension_strength"
+    ],
+    "measurements": [
+      "radial_tunnel_tenderness*",
+      "lateral_forearm_pain"
+    ],
+    "special_tests": [
+      "resisted_supination*",
+      "resisted_middle_finger_extension*",
+      "rule_of_nine"
+    ]
+  },
+  "Pronator Syndrome": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "dash*",
+      "quick_dash"
+    ],
+    "rom": [
+      "forearm_pronation*",
+      "elbow_flexion"
+    ],
+    "strength": [
+      "grip_strength*",
+      "thumb_opposition_strength"
+    ],
+    "measurements": [
+      "sensory_assessment*",
+      "pronator_tenderness*"
+    ],
+    "special_tests": [
+      "pronator_compression_test*",
+      "resisted_forearm_pronation*",
+      "resisted_elbow_flexion"
+    ]
+  },
+  "Intersection Syndrome": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "dash*",
+      "quick_dash"
+    ],
+    "rom": [
+      "wrist_extension*",
+      "thumb_extension*",
+      "radial_deviation"
+    ],
+    "strength": [
+      "grip_strength*",
+      "wrist_extension_strength"
+    ],
+    "measurements": [
+      "dorsal_forearm_swelling*",
+      "crepitus*",
+      "tenderness_4_8cm_proximal_to_radial_styloid"
+    ],
+    "special_tests": [
+      "resisted_wrist_extension*",
+      "finkelstein_test"
+    ]
+  },
+  "Gamekeeper's Thumb": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "mhq*",
+      "dash"
+    ],
+    "rom": [
+      "thumb_mcp_flexion*",
+      "thumb_mcp_extension"
+    ],
+    "strength": [
+      "pinch_strength*",
+      "key_pinch*",
+      "grip_strength"
+    ],
+    "measurements": [
+      "ucl_laxity_degree*",
+      "mcp_joint_stability"
+    ],
+    "special_tests": [
+      "valgus_stress_test_thumb*",
+      "stener_lesion_assessment"
+    ]
+  },
+  "Mallet Finger": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "mhq*",
+      "dash"
+    ],
+    "rom": [
+      "dip_extension*",
+      "dip_flexion",
+      "crawford_criteria*"
+    ],
+    "strength": [
+      "pinch_strength"
+    ],
+    "measurements": [
+      "dip_extension_lag*",
+      "dip_hyperextension"
+    ],
+    "special_tests": []
+  },
+  "Jersey Finger": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "mhq*",
+      "dash*"
+    ],
+    "rom": [
+      "dip_flexion*",
+      "tam*"
+    ],
+    "strength": [
+      "grip_strength*",
+      "pinch_strength"
+    ],
+    "measurements": [
+      "fdp_retraction_level*",
+      "dip_active_flexion_loss"
+    ],
+    "special_tests": [
+      "fdp_isolation_test*"
+    ]
+  },
+  "Boutonniere Deformity": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "mhq*",
+      "dash"
+    ],
+    "rom": [
+      "pip_extension*",
+      "dip_flexion*",
+      "pip_flexion"
+    ],
+    "strength": [
+      "grip_strength",
+      "pinch_strength"
+    ],
+    "measurements": [
+      "pip_extension_lag*",
+      "dip_hyperextension_angle"
+    ],
+    "special_tests": [
+      "elson_test*",
+      "boyes_test"
+    ]
+  },
+  "Swan Neck Deformity": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "mhq*",
+      "dash"
+    ],
+    "rom": [
+      "pip_flexion*",
+      "dip_extension*",
+      "pip_hyperextension"
+    ],
+    "strength": [
+      "grip_strength",
+      "pinch_strength"
+    ],
+    "measurements": [
+      "pip_hyperextension_angle*",
+      "dip_flexion_lag"
+    ],
+    "special_tests": [
+      "intrinsic_tightness_test",
+      "fds_test"
+    ]
+  },
+  "Kienbock's Disease": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "prwe*",
+      "dash*"
+    ],
+    "rom": [
+      "wrist_flexion*",
+      "wrist_extension*",
+      "radial_deviation",
+      "ulnar_deviation"
+    ],
+    "strength": [
+      "grip_strength*",
+      "pinch_strength"
+    ],
+    "measurements": [
+      "lunate_tenderness*",
+      "lichtman_stage*",
+      "carpal_height_ratio"
+    ],
+    "special_tests": [
+      "axial_loading_test"
+    ]
+  },
+  "Preiser's Disease": {
+    "essential": [
+      "vas*"
+    ],
+    "function": [
+      "gripping*",
+      "writing*",
+      "weight_bearing_through_wrist",
+      "turning_doorknobs",
+      "lifting"
+    ],
+    "rom": [
+      "wrist_flexion*",
+      "wrist_extension*",
+      "radial_deviation",
+      "ulnar_deviation"
+    ],
+    "strength": [
+      "grip_strength*",
+      "pinch_strength*",
+      "wrist_extensors"
+    ],
+    "measurements": [
+      "wrist_circumference",
+      "scaphoid_tenderness_palpation*",
+      "hand_volume"
+    ],
+    "special_tests": [
+      "scaphoid_compression_test*",
+      "wrist_provocation_tests",
+      "vascular_assessment_allens_test*"
+    ]
+  },
+  "TFCC (Triangular Fibrocartilage Complex) Tear": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "prwe*",
+      "dash*"
+    ],
+    "rom": [
+      "forearm_pronation*",
+      "forearm_supination*",
+      "wrist_ulnar_deviation*"
+    ],
+    "strength": [
+      "grip_strength*",
+      "forearm_rotation_strength"
+    ],
+    "measurements": [
+      "ulnar_fovea_tenderness*",
+      "druj_instability_grade*",
+      "palmer_classification"
+    ],
+    "special_tests": [
+      "ulnar_fovea_sign*",
+      "press_test*",
+      "tfcc_compression_test",
+      "piano_key_test"
+    ]
+  },
+  "Ganglion Cyst (Wrist)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "prwe*",
+      "quick_dash"
+    ],
+    "rom": [
+      "wrist_flexion",
+      "wrist_extension"
+    ],
+    "strength": [
+      "grip_strength"
+    ],
+    "measurements": [
+      "ganglion_size*",
+      "transillumination*"
+    ],
+    "special_tests": [
+      "occult_ganglion_test"
+    ]
+  },
+  "Pulmonary Fibrosis": {
+    "essential": [
+      "mmrc_dyspnea_scale*",
+      "k_bild*"
+    ],
+    "function": [
+      "sgrq*",
+      "adl_tolerance"
+    ],
+    "vitals": [
+      "spo2_rest*",
+      "spo2_exertion*",
+      "desaturation_nadir*"
+    ],
+    "endurance": [
+      "six_minute_walk_test*"
+    ],
+    "respiratory": [
+      "fvc*",
+      "dlco*",
+      "cough_severity",
+      "oxygen_requirement"
+    ],
+    "capacity": [
+      "mets*"
+    ]
+  },
+  "Bronchiectasis": {
+    "essential": [
+      "mmrc_dyspnea_scale*",
+      "qol_b*"
+    ],
+    "function": [
+      "adl_tolerance*",
+      "leicester_cough_questionnaire"
+    ],
+    "vitals": [
+      "spo2*",
+      "hr_response"
+    ],
+    "endurance": [
+      "six_minute_walk_test*",
+      "incremental_shuttle_walk"
+    ],
+    "respiratory": [
+      "sputum_volume*",
+      "sputum_color*",
+      "fev1",
+      "exacerbation_frequency*",
+      "airway_clearance_technique"
+    ],
+    "capacity": [
+      "mets*"
+    ]
+  },
+  "Interstitial Lung Disease": {
+    "essential": [
+      "mmrc_dyspnea_scale*",
+      "k_bild*"
+    ],
+    "function": [
+      "sgrq*",
+      "adl_tolerance"
+    ],
+    "vitals": [
+      "spo2_rest*",
+      "spo2_exertion*",
+      "desaturation_nadir*"
+    ],
+    "endurance": [
+      "six_minute_walk_test*"
+    ],
+    "respiratory": [
+      "fvc*",
+      "dlco*",
+      "oxygen_requirement"
+    ],
+    "capacity": [
+      "mets*"
+    ]
+  },
+  "Pulmonary Hypertension": {
+    "essential": [
+      "who_functional_class*",
+      "borg_dyspnea*"
+    ],
+    "function": [
+      "camphor*",
+      "adl_tolerance"
+    ],
+    "vitals": [
+      "spo2*",
+      "hr_rest*",
+      "bp_response",
+      "signs_of_right_heart_failure"
+    ],
+    "endurance": [
+      "six_minute_walk_test*"
+    ],
+    "respiratory": [
+      "dyspnea_scale*",
+      "oxygen_requirement"
+    ],
+    "capacity": [
+      "mets*",
+      "safe_exercise_intensity"
+    ]
+  },
+  "Cystic Fibrosis (Adult)": {
+    "essential": [
+      "cfq_r*",
+      "borg_dyspnea"
+    ],
+    "function": [
+      "adl_tolerance*",
+      "exercise_participation"
+    ],
+    "vitals": [
+      "spo2*",
+      "hr_response",
+      "weight_trend*"
+    ],
+    "endurance": [
+      "six_minute_walk_test*",
+      "modified_shuttle_test"
+    ],
+    "respiratory": [
+      "fev1*",
+      "sputum_clearance*",
+      "exacerbation_frequency*",
+      "airway_clearance_technique_adherence"
+    ],
+    "capacity": [
+      "vo2_peak*",
+      "mets"
+    ]
+  },
+  "Post-COVID-19 Syndrome (Long COVID)": {
+    "essential": [
+      "fatigue_severity_scale*",
+      "modified_borg_dyspnea_scale*",
+      "nprs"
+    ],
+    "function": [
+      "walking_tolerance*",
+      "stair_climbing*",
+      "work_tasks",
+      "household_tasks",
+      "exercise_tolerance"
+    ],
+    "vitals": [
+      "spo2*",
+      "heart_rate*",
+      "blood_pressure",
+      "respiratory_rate",
+      "orthostatic_heart_rate_response"
+    ],
+    "endurance": [
+      "six_minute_walk_test*",
+      "one_minute_sit_to_stand*",
+      "timed_up_and_go"
+    ],
+    "respiratory": [
+      "breathing_pattern*",
+      "dyspnea_index",
+      "cough_assessment",
+      "diaphragmatic_excursion"
+    ],
+    "capacity": [
+      "mets_level*",
+      "post_exertional_malaise_threshold"
+    ],
+    "psychosocial": [
+      "phq_9*",
+      "gad_7",
+      "cognitive_fatigue_screen"
+    ],
+    "sleep": [
+      "pittsburgh_sleep_quality_index*",
+      "sleep_disturbance_frequency"
+    ],
+    "quality_of_life": [
+      "eq_5d*",
+      "post_covid_functional_status_scale*"
+    ],
+    "central_sensitization": [
+      "central_sensitization_inventory",
+      "autonomic_dysfunction_screen"
+    ]
+  },
+  "Chronic Heart Failure": {
+    "essential": [
+      "nyha_class*",
+      "kansas_city_cardiomyopathy_questionnaire*"
+    ],
+    "function": [
+      "dasi*",
+      "adl_tolerance"
+    ],
+    "vitals": [
+      "hr_rest*",
+      "bp_response",
+      "weight_trend*",
+      "edema_assessment"
+    ],
+    "endurance": [
+      "six_minute_walk_test*"
+    ],
+    "respiratory": [
+      "dyspnea_scale*"
+    ],
+    "capacity": [
+      "mets*",
+      "peak_vo2"
+    ]
+  },
+  "Atrial Fibrillation": {
+    "essential": [
+      "ehra_score*",
+      "afeqt*"
+    ],
+    "function": [
+      "dasi*",
+      "adl_tolerance"
+    ],
+    "vitals": [
+      "hr_rest*",
+      "hr_peak*",
+      "rate_control",
+      "rhythm_status"
+    ],
+    "endurance": [
+      "six_minute_walk_test*"
+    ],
+    "respiratory": [
+      "dyspnea_scale"
+    ],
+    "capacity": [
+      "mets*",
+      "exercise_tolerance"
+    ]
+  },
+  "Deep Vein Thrombosis (Post-Acute)": {
+    "essential": [
+      "villalta_scale*",
+      "vas"
+    ],
+    "function": [
+      "walking_tolerance*",
+      "adl_tolerance"
+    ],
+    "vitals": [],
+    "endurance": [
+      "walking_distance*",
+      "graduated_activity"
+    ],
+    "respiratory": [],
+    "capacity": [
+      "compression_compliance*",
+      "anticoagulation_compliance"
+    ]
+  },
+  "Varicose Veins": {
+    "essential": [
+      "ceap_classification*",
+      "vas"
+    ],
+    "function": [
+      "aberdeen_varicose_vein_questionnaire*",
+      "walking_tolerance"
+    ],
+    "vitals": [],
+    "endurance": [
+      "walking_distance",
+      "standing_tolerance"
+    ],
+    "respiratory": [],
+    "capacity": [
+      "calf_muscle_pump_exercises*",
+      "compression_compliance"
+    ]
+  },
+  "Lipedema": {
+    "essential": [
+      "vas",
+      "nprs"
+    ],
+    "function": [
+      "prolonged_walking*",
+      "prolonged_standing*",
+      "stair_climbing",
+      "exercise_tolerance"
+    ],
+    "wound": [],
+    "scar": [],
+    "measurements": [
+      "limb_circumference_serial*",
+      "tissue_tonometry*",
+      "stemmer_sign",
+      "body_composition",
+      "limb_volume_water_displacement"
+    ],
+    "lymphedema": [
+      "limb_volume_differential*",
+      "pitting_test*",
+      "tissue_fibrosis_assessment",
+      "skin_fold_thickness"
+    ],
+    "strength": [
+      "lower_extremity_strength_screen*",
+      "hip_abductors",
+      "quadriceps"
+    ],
+    "quality_of_life": [
+      "lymph_quality_of_life_questionnaire*",
+      "body_image_scale*",
+      "phq_9"
+    ],
+    "special_tests": [
+      "venous_insufficiency_screen*",
+      "capillary_refill",
+      "blanching_test",
+      "pain_pressure_threshold"
+    ]
+  },
+  "Diastasis Recti": {
+    "essential": [
+      "inter_recti_distance*"
+    ],
+    "function": [
+      "disability_rating_index*",
+      "trunk_function"
+    ],
+    "strength": [
+      "transversus_abdominis_activation*",
+      "linea_alba_tension*",
+      "curl_up_ability"
+    ],
+    "symptoms": [
+      "abdominal_bulging*",
+      "back_pain",
+      "pelvic_floor_symptoms"
+    ],
+    "quality_of_life": [
+      "sf_36"
+    ]
+  },
+  "Pelvic Organ Prolapse": {
+    "essential": [
+      "pop_q_stage*"
+    ],
+    "function": [
+      "pfdi_20*",
+      "pop_ss"
+    ],
+    "strength": [
+      "oxford_scale*",
+      "pelvic_floor_endurance"
+    ],
+    "symptoms": [
+      "vaginal_bulge*",
+      "pelvic_heaviness*",
+      "voiding_symptoms",
+      "bowel_symptoms"
+    ],
+    "quality_of_life": [
+      "pfiq_7*",
+      "p_qol"
+    ]
+  },
+  "Stress Urinary Incontinence": {
+    "essential": [
+      "iciq_sf*"
+    ],
+    "function": [
+      "bladder_diary*",
+      "pad_test*"
+    ],
+    "strength": [
+      "oxford_scale*",
+      "perineometer*",
+      "endurance_hold*"
+    ],
+    "symptoms": [
+      "leakage_with_cough*",
+      "leakage_with_exercise*",
+      "leakage_with_sneeze"
+    ],
+    "quality_of_life": [
+      "iciq_sf*",
+      "iqol"
+    ]
+  },
+  "Overactive Bladder": {
+    "essential": [
+      "oab_q*",
+      "iciq_oab"
+    ],
+    "function": [
+      "bladder_diary*",
+      "urgency_episodes"
+    ],
+    "strength": [
+      "pelvic_floor_coordination*"
+    ],
+    "symptoms": [
+      "urgency*",
+      "frequency*",
+      "urge_incontinence",
+      "nocturia"
+    ],
+    "quality_of_life": [
+      "oab_q*",
+      "iciq_oab"
+    ]
+  },
+  "Dyspareunia": {
+    "essential": [
+      "vas*"
+    ],
+    "function": [
+      "fsfi*",
+      "sexual_activity_frequency"
+    ],
+    "strength": [
+      "pelvic_floor_relaxation*"
+    ],
+    "symptoms": [
+      "pain_with_intercourse*",
+      "pain_timing",
+      "pain_location"
+    ],
+    "quality_of_life": [
+      "fsfi*"
+    ]
+  },
+  "Endometriosis": {
+    "essential": [
+      "vas*",
+      "endometriosis_health_profile"
+    ],
+    "function": [
+      "adl_impact*",
+      "sexual_function"
+    ],
+    "strength": [
+      "pelvic_floor_relaxation*"
+    ],
+    "symptoms": [
+      "pelvic_pain*",
+      "dysmenorrhea*",
+      "dyspareunia",
+      "bowel_symptoms"
+    ],
+    "quality_of_life": [
+      "ehp_30*"
+    ]
+  },
+  "Vulvodynia": {
+    "essential": [
+      "vas*"
+    ],
+    "function": [
+      "fsfi*",
+      "sitting_tolerance",
+      "adl_impact"
+    ],
+    "strength": [
+      "pelvic_floor_relaxation*"
+    ],
+    "symptoms": [
+      "vulvar_pain*",
+      "burning*",
+      "rawness",
+      "pain_triggers"
+    ],
+    "quality_of_life": [
+      "fsfi*"
+    ]
+  },
+  "Prostatitis (Chronic)": {
+    "essential": [
+      "nih_cpsi*"
+    ],
+    "function": [
+      "adl_impact*",
+      "sitting_tolerance"
+    ],
+    "strength": [
+      "pelvic_floor_relaxation*"
+    ],
+    "symptoms": [
+      "perineal_pain*",
+      "urinary_symptoms",
+      "ejaculatory_pain"
+    ],
+    "quality_of_life": [
+      "sf_36*"
+    ]
+  },
+  "Erectile Dysfunction (Pelvic Floor Related)": {
+    "essential": [
+      "iief_5*"
+    ],
+    "function": [
+      "sexual_activity_frequency*",
+      "erection_quality"
+    ],
+    "strength": [
+      "ischiocavernosus_strength*",
+      "bulbocavernosus_strength"
+    ],
+    "symptoms": [
+      "erection_difficulty*",
+      "erection_maintenance",
+      "morning_erections"
+    ],
+    "quality_of_life": [
+      "sf_36"
+    ]
+  },
+  "Post-Prostatectomy Syndrome": {
+    "essential": [
+      "nprs",
+      "iciq_sf*"
+    ],
+    "function": [
+      "prolonged_standing*",
+      "lifting",
+      "return_to_exercise",
+      "sexual_function"
+    ],
+    "strength": [
+      "pelvic_floor_contraction*",
+      "pelvic_floor_endurance*",
+      "transverse_abdominis_activation"
+    ],
+    "symptoms": [
+      "urinary_incontinence*",
+      "stress_incontinence*",
+      "urge_incontinence",
+      "post_void_dribbling",
+      "erectile_dysfunction"
+    ],
+    "quality_of_life": [
+      "pad_usage_per_day*",
+      "expanded_prostate_cancer_index",
+      "social_participation"
+    ]
+  },
+  "Pregnancy-Related Pelvic Girdle Pain": {
+    "essential": [
+      "vas*",
+      "pgq*"
+    ],
+    "function": [
+      "aslr*",
+      "odi"
+    ],
+    "strength": [
+      "core_stability*",
+      "gluteal_strength*",
+      "hip_stabilizers"
+    ],
+    "symptoms": [
+      "si_joint_pain*",
+      "pubic_symphysis_pain",
+      "posterior_pelvic_pain"
+    ],
+    "quality_of_life": [
+      "pgq*"
+    ]
+  },
+  "Postpartum Recovery": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "adl_tolerance*",
+      "return_to_activity"
+    ],
+    "strength": [
+      "pelvic_floor_assessment*",
+      "core_activation*"
+    ],
+    "symptoms": [
+      "pain*",
+      "fatigue",
+      "pelvic_symptoms"
+    ],
+    "quality_of_life": [
+      "sf_36"
+    ]
+  },
+  "Hyperemesis Gravidarum": {
+    "essential": [
+      "nprs",
+      "puqe_score*"
+    ],
+    "function": [
+      "meal_tolerance*",
+      "hydration_status*",
+      "adl_performance",
+      "work_tolerance"
+    ],
+    "strength": [
+      "grip_strength",
+      "core_stability",
+      "proximal_limb_strength"
+    ],
+    "symptoms": [
+      "nausea_frequency*",
+      "vomiting_frequency*",
+      "weight_loss",
+      "dehydration_signs",
+      "fatigue_severity"
+    ],
+    "quality_of_life": [
+      "nvp_qol*",
+      "nutritional_intake",
+      "psychosocial_wellbeing"
+    ]
+  },
+  "Gestational Diabetes": {
+    "essential": [
+      "nprs",
+      "blood_glucose_log*"
+    ],
+    "function": [
+      "exercise_tolerance*",
+      "walking_tolerance",
+      "adl_performance",
+      "work_capacity"
+    ],
+    "strength": [
+      "lower_limb_strength",
+      "core_stability",
+      "pelvic_floor_contraction"
+    ],
+    "symptoms": [
+      "fatigue_severity*",
+      "peripheral_edema",
+      "polydipsia",
+      "polyuria"
+    ],
+    "quality_of_life": [
+      "physical_activity_level*",
+      "gestational_diabetes_qol",
+      "dietary_compliance"
+    ]
+  },
+  "Pre-eclampsia (Post-acute Management)": {
+    "essential": [
+      "nprs",
+      "borg_rpe*"
+    ],
+    "function": [
+      "walking_tolerance*",
+      "stair_climbing",
+      "infant_care_tasks*",
+      "household_adls"
+    ],
+    "vitals": [
+      "blood_pressure_rest*",
+      "blood_pressure_exercise*",
+      "heart_rate_rest",
+      "heart_rate_exercise",
+      "spo2"
+    ],
+    "endurance": [
+      "six_min_walk_test*",
+      "submaximal_exercise_tolerance",
+      "timed_up_and_go"
+    ],
+    "respiratory": [
+      "respiratory_rate",
+      "dyspnea_on_exertion",
+      "breath_sounds"
+    ],
+    "capacity": [
+      "mets_tolerance*",
+      "activity_log",
+      "exercise_duration"
+    ]
+  },
+  "Cesarean Section Recovery": {
+    "essential": [
+      "vas*"
+    ],
+    "function": [
+      "adl_tolerance*",
+      "lifting_restrictions"
+    ],
+    "strength": [
+      "transversus_abdominis_activation*",
+      "pelvic_floor_coordination"
+    ],
+    "symptoms": [
+      "incision_pain*",
+      "scar_healing",
+      "mobility_limitations"
+    ],
+    "quality_of_life": [
+      "sf_36"
+    ]
+  },
+  "Episiotomy Recovery": {
+    "essential": [
+      "vas*"
+    ],
+    "function": [
+      "sitting_tolerance*",
+      "walking_tolerance"
+    ],
+    "strength": [
+      "pelvic_floor_strength*",
+      "wound_healing"
+    ],
+    "symptoms": [
+      "perineal_pain*",
+      "swelling",
+      "scar_sensitivity"
+    ],
+    "quality_of_life": [
+      "pfdi_20"
+    ]
+  },
+  "Burn Injury Rehabilitation": {
+    "essential": [
+      "vas*",
+      "nprs"
+    ],
+    "wound": [
+      "tbsa_affected*",
+      "wound_depth*",
+      "wound_bed_status",
+      "exudate_level",
+      "graft_integrity",
+      "wound_dimensions"
+    ],
+    "scar": [
+      "vancouver_scar_scale*",
+      "scar_pliability*",
+      "scar_height",
+      "scar_vascularity",
+      "scar_pigmentation",
+      "contracture_presence"
+    ],
+    "function": [
+      "affected_limb_adls*",
+      "dressing_independence",
+      "feeding",
+      "bathing",
+      "mobility_level"
+    ],
+    "measurements": [
+      "rom_affected_joints*",
+      "edema_circumference",
+      "grip_strength",
+      "sensory_mapping"
+    ]
+  },
+  "Scar Tissue Management": {
+    "essential": [
+      "vas"
+    ],
+    "wound": [
+      "wound_closure_status",
+      "wound_maturity_phase*"
+    ],
+    "scar": [
+      "patient_and_observer_scar_scale*",
+      "scar_pliability*",
+      "scar_thickness",
+      "scar_vascularity",
+      "scar_pigmentation",
+      "adherence_to_underlying_tissue*",
+      "blanching_response"
+    ],
+    "function": [
+      "rom_limitation_from_scar*",
+      "functional_movement_restriction",
+      "adl_limitation",
+      "cosmetic_concern"
+    ],
+    "measurements": [
+      "scar_dimensions*",
+      "rom_adjacent_joints",
+      "tissue_mobility_grading",
+      "sensory_testing"
+    ]
+  },
+  "Keloid and Hypertrophic Scars": {
+    "essential": [
+      "vas*",
+      "vss*",
+      "posas*"
+    ],
+    "wound": [
+      "wound_status"
+    ],
+    "scar": [
+      "scar_height*",
+      "scar_pliability*",
+      "scar_vascularity*",
+      "scar_erythema*"
+    ],
+    "function": [
+      "rom_affected_area*",
+      "massage_compliance*",
+      "silicone_compliance*"
+    ],
+    "measurements": [
+      "scar_thickness*",
+      "scar_area*",
+      "scar_elevation*"
+    ]
+  },
+  "Pressure Ulcer Management": {
+    "essential": [
+      "vas*",
+      "push_score*",
+      "npuap_stage*",
+      "braden_scale*"
+    ],
+    "wound": [
+      "bwat*",
+      "wound_bed_tissue_type*",
+      "exudate_amount*",
+      "undermining",
+      "wound_edges*"
+    ],
+    "scar": [
+      "scar_formation"
+    ],
+    "function": [
+      "repositioning_schedule*",
+      "mobility*",
+      "sitting_tolerance*",
+      "pressure_redistribution*"
+    ],
+    "measurements": [
+      "wound_surface_area*",
+      "wound_depth*",
+      "healing_rate*"
+    ]
+  },
+  "Diabetic Foot Ulcer": {
+    "essential": [
+      "vas*",
+      "wagner_grade*",
+      "push_score*"
+    ],
+    "wound": [
+      "bwat*",
+      "wound_bed_tissue_type*",
+      "exudate_amount*",
+      "infection_status*",
+      "wound_edges"
+    ],
+    "scar": [
+      "scar_formation"
+    ],
+    "function": [
+      "offloading_compliance*",
+      "walking_tolerance*",
+      "footwear_assessment*"
+    ],
+    "measurements": [
+      "wound_surface_area*",
+      "wound_depth*",
+      "abi*",
+      "monofilament_test*",
+      "hba1c"
+    ]
+  },
+  "Cancer-Related Fatigue": {
+    "essential": [
+      "facit_fatigue*",
+      "bfi*",
+      "kps*"
+    ],
+    "function": [
+      "adl_tolerance*",
+      "mobility*",
+      "work_tolerance*"
+    ],
+    "strength": [
+      "grip_strength*",
+      "sit_to_stand_30s*"
+    ],
+    "endurance": [
+      "6mwt*",
+      "2mst*",
+      "exercise_tolerance*"
+    ],
+    "lymphedema": [],
+    "quality_of_life": [
+      "fact_g*",
+      "pfs_r*",
+      "eortc_qlq_c30*"
+    ]
+  },
+  "Radiation Fibrosis Syndrome": {
+    "essential": [
+      "vas*",
+      "facit_fatigue*",
+      "kps*"
+    ],
+    "function": [
+      "affected_area_mobility*",
+      "neuromuscular_function*",
+      "adl_tolerance*"
+    ],
+    "strength": [
+      "affected_area_strength*",
+      "grip_strength"
+    ],
+    "endurance": [
+      "6mwt*"
+    ],
+    "lymphedema": [
+      "affected_area_edema*"
+    ],
+    "quality_of_life": [
+      "fact_g*",
+      "lent_soma*"
+    ]
+  },
+  "Bone Metastases": {
+    "essential": [
+      "vas*",
+      "bpi*",
+      "kps*"
+    ],
+    "function": [
+      "mobility*",
+      "weight_bearing_status*",
+      "adl_tolerance*"
+    ],
+    "strength": [
+      "affected_limb_strength",
+      "sit_to_stand_30s"
+    ],
+    "endurance": [
+      "6mwt*",
+      "exercise_tolerance"
+    ],
+    "lymphedema": [],
+    "quality_of_life": [
+      "fact_bp*",
+      "eortc_qlq_bm22*"
+    ]
+  },
+  "Brain Tumor (Post-Surgical)": {
+    "essential": [
+      "karnofsky_performance_scale*",
+      "ecog*"
+    ],
+    "function": [
+      "fim*",
+      "barthel_index",
+      "adl_independence"
+    ],
+    "motor": [
+      "mmt_affected_areas*",
+      "grip_strength"
+    ],
+    "sensation": [
+      "sensory_assessment"
+    ],
+    "balance": [
+      "berg_balance_scale*"
+    ],
+    "coordination": [
+      "finger_to_nose",
+      "heel_to_shin"
+    ],
+    "gait": [
+      "gait_speed*",
+      "tug_time"
+    ],
+    "cognition": [
+      "moca*",
+      "mmse"
+    ],
+    "tone": [
+      "modified_ashworth"
+    ]
+  },
+  "Head and Neck Cancer Rehabilitation": {
+    "essential": [
+      "facit_fatigue*",
+      "kps*",
+      "ecog*"
+    ],
+    "function": [
+      "swallowing_function*",
+      "mouth_opening*",
+      "neck_rom*",
+      "shoulder_function*",
+      "speech*"
+    ],
+    "strength": [
+      "grip_strength*",
+      "tongue_strength*",
+      "neck_strength*",
+      "shoulder_strength*"
+    ],
+    "endurance": [
+      "6mwt*",
+      "2mst*",
+      "exercise_tolerance*"
+    ],
+    "lymphedema": [
+      "neck_edema*",
+      "facial_edema*"
+    ],
+    "quality_of_life": [
+      "fact_hn*",
+      "eortc_qlq_h_n35*",
+      "mdadi*",
+      "ndii*"
+    ]
+  },
+  "Lung Cancer Rehabilitation": {
+    "essential": [
+      "facit_fatigue*",
+      "kps*",
+      "ecog*",
+      "borg_dyspnea*"
+    ],
+    "function": [
+      "respiratory_function*",
+      "adl_tolerance*",
+      "mobility*",
+      "secretion_clearance*"
+    ],
+    "strength": [
+      "grip_strength*",
+      "sit_to_stand_30s*",
+      "respiratory_muscle_strength*"
+    ],
+    "endurance": [
+      "6mwt*",
+      "2mst*",
+      "exercise_tolerance*",
+      "spo2*"
+    ],
+    "lymphedema": [],
+    "quality_of_life": [
+      "fact_l*",
+      "eortc_qlq_lc13*",
+      "lcss*"
+    ]
+  },
+  "Breast Cancer-Related Lymphedema": {
+    "essential": [
+      "facit_fatigue*",
+      "vas*"
+    ],
+    "function": [
+      "arm_function*",
+      "adl_tolerance*",
+      "overhead_reach*"
+    ],
+    "strength": [
+      "grip_strength*"
+    ],
+    "endurance": [
+      "6mwt*"
+    ],
+    "lymphedema": [
+      "arm_circumference*",
+      "volume_difference*",
+      "lymphedema_staging*",
+      "bis_ratio*"
+    ],
+    "quality_of_life": [
+      "lymqol*",
+      "fact_b*"
+    ]
+  },
+  "Prostate Cancer Rehabilitation": {
+    "essential": [
+      "facit_fatigue*",
+      "kps*",
+      "ecog*"
+    ],
+    "function": [
+      "adl_tolerance*",
+      "pelvic_floor_function*",
+      "continence_status*",
+      "sexual_function*"
+    ],
+    "strength": [
+      "grip_strength*",
+      "sit_to_stand_30s*",
+      "pelvic_floor_strength*"
+    ],
+    "endurance": [
+      "6mwt*",
+      "2mst*",
+      "exercise_tolerance*"
+    ],
+    "lymphedema": [
+      "lower_limb_edema",
+      "genital_edema"
+    ],
+    "quality_of_life": [
+      "fact_p*",
+      "epic*",
+      "iief*",
+      "iciq_ui*"
+    ]
+  },
+  "Colorectal Cancer Rehabilitation": {
+    "essential": [
+      "facit_fatigue*",
+      "kps*",
+      "ecog*"
+    ],
+    "function": [
+      "adl_tolerance*",
+      "mobility*",
+      "bowel_function*",
+      "stoma_management*"
+    ],
+    "strength": [
+      "grip_strength*",
+      "sit_to_stand_30s*",
+      "core_strength*",
+      "pelvic_floor_strength"
+    ],
+    "endurance": [
+      "6mwt*",
+      "2mst*",
+      "exercise_tolerance*"
+    ],
+    "lymphedema": [],
+    "quality_of_life": [
+      "fact_c*",
+      "eortc_qlq_cr29*",
+      "lars_score*"
+    ]
+  },
+  "Palliative Care Physical Therapy": {
+    "essential": [
+      "nprs*",
+      "edmonton_symptom_assessment*"
+    ],
+    "function": [
+      "bed_mobility*",
+      "transfers*",
+      "toileting",
+      "feeding_independence",
+      "communication"
+    ],
+    "balance": [
+      "sitting_balance*",
+      "standing_balance",
+      "berg_balance_scale"
+    ],
+    "gait": [
+      "ambulation_status*",
+      "assistive_device_needs",
+      "gait_distance"
+    ],
+    "strength": [
+      "functional_muscle_strength",
+      "grip_strength",
+      "bed_mobility_strength"
+    ],
+    "fall_risk": [
+      "fall_history",
+      "medication_review",
+      "environmental_assessment"
+    ],
+    "cognition": [
+      "alertness_level*",
+      "orientation",
+      "ability_to_follow_commands"
+    ],
+    "endurance": [
+      "fatigue_severity_scale*",
+      "functional_capacity",
+      "activity_tolerance_minutes"
+    ],
+    "quality_of_life": [
+      "palliative_performance_scale*",
+      "karnofsky_performance_status",
+      "patient_goals_of_care*",
+      "comfort_level"
+    ]
+  },
+  "Acute Hamstring Strain": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "fash_score*",
+      "running_tolerance*",
+      "sprinting_pain"
+    ],
+    "rom": [
+      "hip_flexion_knee_extended*",
+      "active_knee_extension"
+    ],
+    "strength": [
+      "hamstring_strength*",
+      "nordic_hamstring_test*"
+    ],
+    "measurements": [
+      "hamstring_tenderness*"
+    ],
+    "special_tests": [
+      "active_knee_extension_test",
+      "askling_h_test"
+    ]
+  },
+  "Acute Quadriceps Strain": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "lefs_score*",
+      "running_tolerance*",
+      "kicking_pain"
+    ],
+    "rom": [
+      "knee_flexion*",
+      "hip_extension"
+    ],
+    "strength": [
+      "quadriceps_strength*",
+      "resisted_knee_extension"
+    ],
+    "measurements": [
+      "quadriceps_tenderness*"
+    ],
+    "special_tests": []
+  },
+  "Acute Calf Strain (Gastrocnemius)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "lefs*",
+      "patient_specific_functional_scale"
+    ],
+    "rom": [
+      "ankle_dorsiflexion*",
+      "knee_extension_with_dorsiflexion*"
+    ],
+    "strength": [
+      "plantarflexion_strength*",
+      "single_leg_heel_raise_endurance*"
+    ],
+    "measurements": [
+      "calf_circumference",
+      "tenderness_palpation"
+    ],
+    "special_tests": [
+      "single_leg_heel_raise_test*",
+      "single_leg_hop_test",
+      "pain_with_resisted_plantarflexion"
+    ]
+  },
+  "Acute Soleus Strain": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "lefs*",
+      "patient_specific_functional_scale"
+    ],
+    "rom": [
+      "ankle_dorsiflexion_knee_flexed*",
+      "ankle_dorsiflexion_knee_extended"
+    ],
+    "strength": [
+      "plantarflexion_strength_knee_flexed*",
+      "single_leg_heel_raise_endurance*"
+    ],
+    "measurements": [
+      "calf_circumference*",
+      "tenderness_palpation"
+    ],
+    "special_tests": [
+      "single_leg_heel_raise_test*",
+      "single_leg_hop_test",
+      "soleus_squeeze_test"
+    ]
+  },
+  "Acute Adductor Strain (Groin)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "hagos_score*",
+      "kicking_pain",
+      "running_tolerance*"
+    ],
+    "rom": [
+      "hip_abduction*"
+    ],
+    "strength": [
+      "adductor_squeeze_test*",
+      "resisted_adduction"
+    ],
+    "measurements": [
+      "adductor_tenderness*"
+    ],
+    "special_tests": []
+  },
+  "Acute Hip Flexor Strain": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "walking_tolerance*",
+      "stair_climbing_pain",
+      "running_tolerance"
+    ],
+    "rom": [
+      "hip_extension*",
+      "hip_flexion"
+    ],
+    "strength": [
+      "hip_flexion*",
+      "resisted_hip_flexion"
+    ],
+    "measurements": [
+      "hip_flexor_tenderness*"
+    ],
+    "special_tests": [
+      "thomas_test"
+    ]
+  },
+  "High Ankle Sprain (Syndesmosis)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "faos*",
+      "faam*",
+      "lefs"
+    ],
+    "rom": [
+      "ankle_dorsiflexion*",
+      "ankle_external_rotation*"
+    ],
+    "strength": [
+      "plantarflexion_strength",
+      "dorsiflexion_strength",
+      "eversion_strength"
+    ],
+    "measurements": [
+      "swelling_figure_8*",
+      "syndesmosis_tenderness*",
+      "weight_bearing_tolerance"
+    ],
+    "special_tests": [
+      "squeeze_test*",
+      "external_rotation_test*",
+      "dorsiflexion_compression_test"
+    ]
+  },
+  "Medial Ankle Sprain (Deltoid Ligament)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "faam*",
+      "faos",
+      "lefs"
+    ],
+    "rom": [
+      "ankle_eversion*",
+      "ankle_dorsiflexion"
+    ],
+    "strength": [
+      "inversion_strength*",
+      "tibialis_posterior_strength"
+    ],
+    "measurements": [
+      "swelling_figure_8*",
+      "medial_tenderness*"
+    ],
+    "special_tests": [
+      "eversion_stress_test*",
+      "single_leg_balance"
+    ]
+  },
+  "Concussion/Post-Concussion Syndrome": {
+    "essential": [
+      "pcss*",
+      "rpq*"
+    ],
+    "function": [
+      "return_to_activity_status*",
+      "adl_tolerance"
+    ],
+    "motor": [
+      "grip_strength",
+      "cervical_strength"
+    ],
+    "sensation": [
+      "vestibular_ocular_motor_screen*",
+      "photosensitivity"
+    ],
+    "balance": [
+      "bess*",
+      "single_leg_stance"
+    ],
+    "coordination": [
+      "saccades*",
+      "smooth_pursuit"
+    ],
+    "gait": [
+      "tandem_gait*",
+      "gait_speed",
+      "dual_task_gait"
+    ],
+    "cognition": [
+      "moca*",
+      "reaction_time",
+      "symbol_digit_modalities"
+    ],
+    "tone": []
+  },
+  "Athletic Pubalgia (Sports Hernia)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "hagos_score*",
+      "return_to_sport*",
+      "kicking_pain"
+    ],
+    "rom": [
+      "hip_internal_rotation",
+      "hip_flexion"
+    ],
+    "strength": [
+      "adductor_squeeze_test*",
+      "resisted_sit_up*",
+      "hip_flexor_strength"
+    ],
+    "measurements": [
+      "pubic_symphysis_tenderness*"
+    ],
+    "special_tests": [
+      "valsalva_pain"
+    ]
+  },
+  "Muscle Contusion (Quadriceps/Charley Horse)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "quick_dash*"
+    ],
+    "rom": [
+      "elbow_flexion*",
+      "elbow_extension*"
+    ],
+    "strength": [
+      "elbow_flexion_strength*"
+    ],
+    "measurements": [
+      "contusion_size*",
+      "ecchymosis_extent"
+    ],
+    "special_tests": [
+      "resisted_elbow_flexion"
+    ]
+  },
+  "Proximal Hamstring Tendinopathy": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "visa_h*",
+      "sitting_tolerance*",
+      "running_tolerance*"
+    ],
+    "rom": [
+      "hip_flexion_knee_extended*"
+    ],
+    "strength": [
+      "hamstring_strength*",
+      "nordic_hamstring_test"
+    ],
+    "measurements": [
+      "ischial_tuberosity_tenderness*"
+    ],
+    "special_tests": [
+      "puranen_orava_test*",
+      "bent_knee_stretch_test"
+    ]
+  },
+  "Gluteal Tendinopathy": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "visa_g*",
+      "single_leg_stance_pain*",
+      "side_lying_pain"
+    ],
+    "rom": [
+      "hip_adduction"
+    ],
+    "strength": [
+      "hip_abduction*",
+      "single_leg_squat*"
+    ],
+    "measurements": [
+      "greater_trochanter_tenderness*"
+    ],
+    "special_tests": [
+      "resisted_external_derotation_test"
+    ]
+  },
+  "Rectus Femoris Strain": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "lefs_score*",
+      "kicking_pain*",
+      "running_tolerance"
+    ],
+    "rom": [
+      "knee_flexion*",
+      "hip_extension*"
+    ],
+    "strength": [
+      "hip_flexion*",
+      "quadriceps_strength"
+    ],
+    "measurements": [
+      "rectus_femoris_tenderness*"
+    ],
+    "special_tests": []
+  },
+  "Iliopsoas Strain/Tendinopathy": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "stair_climbing*",
+      "running",
+      "sit_to_stand"
+    ],
+    "rom": [
+      "hip_flexion*",
+      "hip_extension*",
+      "lumbar_extension"
+    ],
+    "strength": [
+      "hip_flexion*",
+      "hip_adduction",
+      "core_stability"
+    ],
+    "measurements": [],
+    "special_tests": [
+      "thomas_test*",
+      "ludloff_sign",
+      "resisted_hip_flexion_in_sitting*"
+    ]
+  },
+  "Oblique Strain (Side Strain)": {
+    "essential": [
+      "vas*"
+    ],
+    "function": [
+      "throwing*",
+      "rotational_sport_activity*",
+      "coughing_sneezing",
+      "reaching_overhead",
+      "bed_mobility"
+    ],
+    "rom": [
+      "trunk_rotation*",
+      "trunk_lateral_flexion*",
+      "trunk_flexion",
+      "trunk_extension"
+    ],
+    "strength": [
+      "oblique_strength_resisted_rotation*",
+      "lateral_flexion_strength*",
+      "core_endurance",
+      "plank_hold_time"
+    ],
+    "measurements": [
+      "pain_provocation_on_contraction*",
+      "point_tenderness_location"
+    ],
+    "special_tests": [
+      "resisted_trunk_rotation*",
+      "side_plank_test",
+      "trunk_curl_with_rotation"
+    ]
+  },
+  "Pectoralis Major Strain/Tear": {
+    "essential": [
+      "vas*"
+    ],
+    "function": [
+      "pushing_activities*",
+      "bench_press",
+      "overhead_reaching",
+      "carrying_objects",
+      "dressing_upper_body"
+    ],
+    "rom": [
+      "shoulder_horizontal_adduction*",
+      "shoulder_flexion*",
+      "shoulder_internal_rotation",
+      "shoulder_extension"
+    ],
+    "strength": [
+      "horizontal_adduction*",
+      "shoulder_internal_rotation*",
+      "push_up_capacity",
+      "chest_press_strength"
+    ],
+    "measurements": [
+      "ecchymosis_location",
+      "palpable_defect*",
+      "chest_girth_comparison"
+    ],
+    "special_tests": [
+      "pectoralis_major_squeeze_test*",
+      "resisted_horizontal_adduction*",
+      "dynamic_hug_test"
+    ]
+  },
+  "Latissimus Dorsi Strain": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "dash*",
+      "quick_dash"
+    ],
+    "rom": [
+      "shoulder_flexion*",
+      "shoulder_extension*",
+      "internal_rotation"
+    ],
+    "strength": [
+      "latissimus_dorsi_strength*",
+      "shoulder_extension_strength*"
+    ],
+    "measurements": [
+      "muscle_tenderness*",
+      "ecchymosis"
+    ],
+    "special_tests": [
+      "resisted_extension_test*",
+      "resisted_adduction"
+    ]
+  },
+  "AC Joint Sprain (Acromioclavicular)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "dash*",
+      "spadi",
+      "quick_dash"
+    ],
+    "rom": [
+      "shoulder_flexion*",
+      "horizontal_adduction*"
+    ],
+    "strength": [
+      "shoulder_flexion_strength",
+      "deltoid_strength"
+    ],
+    "measurements": [
+      "ac_joint_tenderness*",
+      "swelling_assessment"
+    ],
+    "special_tests": [
+      "cross_body_adduction_test*",
+      "ac_joint_palpation"
+    ]
+  },
+  "SLAP Tear (Superior Labrum)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "dash*",
+      "wosi*",
+      "ases"
+    ],
+    "rom": [
+      "external_rotation*",
+      "internal_rotation"
+    ],
+    "strength": [
+      "biceps_strength*",
+      "rotator_cuff_strength"
+    ],
+    "measurements": [
+      "clicking_catching_episodes*"
+    ],
+    "special_tests": [
+      "obrien_test*",
+      "crank_test*",
+      "biceps_load_test"
+    ]
+  },
+  "Scapular Dyskinesis": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "dash*",
+      "spadi"
+    ],
+    "rom": [
+      "shoulder_flexion*",
+      "shoulder_abduction*"
+    ],
+    "strength": [
+      "serratus_anterior_strength*",
+      "lower_trapezius_strength*",
+      "middle_trapezius_strength"
+    ],
+    "measurements": [
+      "scapular_asymmetry*",
+      "scapular_positioning"
+    ],
+    "special_tests": [
+      "scapular_assistance_test*",
+      "scapular_retraction_test*",
+      "lateral_scapular_slide_test"
+    ]
+  },
+  "Winged Scapula (Long Thoracic Nerve)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "dash*",
+      "spadi"
+    ],
+    "rom": [
+      "shoulder_flexion*",
+      "shoulder_abduction*"
+    ],
+    "strength": [
+      "serratus_anterior_strength*",
+      "trapezius_strength"
+    ],
+    "measurements": [
+      "scapular_winging_severity*",
+      "scapular_distance_from_spine*"
+    ],
+    "special_tests": [
+      "wall_push_up_test*",
+      "scapular_winging_assessment*"
+    ]
+  },
+  "Sternoclavicular Joint Dysfunction": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "overhead_reaching*",
+      "pushing*",
+      "pulling",
+      "cross_body_activities",
+      "sleeping_on_affected_side"
+    ],
+    "rom": [
+      "shoulder_flexion*",
+      "shoulder_horizontal_adduction*",
+      "shoulder_protraction",
+      "shoulder_retraction",
+      "cervical_lateral_flexion"
+    ],
+    "strength": [
+      "serratus_anterior*",
+      "upper_trapezius",
+      "pectoralis_major",
+      "shoulder_protraction_strength"
+    ],
+    "measurements": [
+      "sc_joint_prominence*",
+      "clavicle_symmetry"
+    ],
+    "special_tests": [
+      "sc_joint_stress_test*",
+      "horizontal_adduction_provocation*",
+      "sc_joint_palpation"
+    ]
+  },
+  "Pectoralis Minor Syndrome": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "overhead_activity_tolerance*",
+      "arm_symptoms_with_posture"
+    ],
+    "rom": [
+      "shoulder_flexion",
+      "shoulder_horizontal_abduction*"
+    ],
+    "strength": [
+      "grip_strength"
+    ],
+    "measurements": [
+      "pectoralis_minor_length*"
+    ],
+    "special_tests": [
+      "roos_test",
+      "wright_hyperabduction_test*"
+    ]
+  },
+  "Biceps Tendon Rupture (Proximal/Distal)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "quick_dash*",
+      "meps*",
+      "dash"
+    ],
+    "rom": [
+      "elbow_flexion*",
+      "elbow_extension*",
+      "forearm_supination*",
+      "forearm_pronation"
+    ],
+    "strength": [
+      "elbow_flexion_strength*",
+      "forearm_supination_strength*",
+      "grip_strength"
+    ],
+    "measurements": [
+      "limb_symmetry_index*",
+      "isokinetic_peak_torque"
+    ],
+    "special_tests": [
+      "biceps_squeeze_test",
+      "functional_lifting_assessment*"
+    ]
+  },
+  "Triceps Tendinopathy": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "dash*",
+      "quick_dash",
+      "meps"
+    ],
+    "rom": [
+      "elbow_extension*",
+      "elbow_flexion"
+    ],
+    "strength": [
+      "triceps_strength*",
+      "elbow_extension_strength"
+    ],
+    "measurements": [
+      "olecranon_tenderness*",
+      "tendon_thickening"
+    ],
+    "special_tests": [
+      "resisted_elbow_extension*"
+    ]
+  },
+  "Olecranon Bursitis": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "quick_dash*"
+    ],
+    "rom": [
+      "elbow_flexion*",
+      "elbow_extension*"
+    ],
+    "strength": [
+      "elbow_extension_strength"
+    ],
+    "measurements": [
+      "bursa_swelling*",
+      "bursa_tenderness*"
+    ],
+    "special_tests": []
+  },
+  "Elbow Dislocation (Post-Reduction)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "meps*",
+      "dash*",
+      "quick_dash"
+    ],
+    "rom": [
+      "elbow_flexion*",
+      "elbow_extension*",
+      "forearm_pronation*",
+      "forearm_supination*"
+    ],
+    "strength": [
+      "elbow_flexion_strength*",
+      "grip_strength*"
+    ],
+    "measurements": [
+      "swelling_assessment*",
+      "instability_episodes"
+    ],
+    "special_tests": [
+      "elbow_stability_assessment*",
+      "valgus_varus_stress_test"
+    ]
+  },
+  "Elbow Fracture (Post-Surgical/Post-Immobilization)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "meps*",
+      "dash*",
+      "quick_dash"
+    ],
+    "rom": [
+      "elbow_flexion*",
+      "elbow_extension*",
+      "forearm_pronation*",
+      "forearm_supination*"
+    ],
+    "strength": [
+      "elbow_flexion_strength*",
+      "grip_strength*"
+    ],
+    "measurements": [
+      "swelling_assessment*",
+      "fracture_site_tenderness"
+    ],
+    "special_tests": [
+      "functional_assessment*"
+    ]
+  },
+  "Distal Radius Fracture (Colles/Smith - Post-Immobilization)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "prwe*",
+      "dash*",
+      "quick_dash"
+    ],
+    "rom": [
+      "wrist_flexion*",
+      "wrist_extension*",
+      "forearm_pronation*",
+      "forearm_supination*",
+      "radial_deviation",
+      "ulnar_deviation"
+    ],
+    "strength": [
+      "grip_strength*",
+      "pinch_strength"
+    ],
+    "measurements": [
+      "swelling_circumference*",
+      "radial_inclination",
+      "volar_tilt",
+      "ulnar_variance"
+    ],
+    "special_tests": [
+      "druj_stability_test*"
+    ]
+  },
+  "Non-Specific Low Back Pain (Acute)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "odi_score*",
+      "rmdq_score*",
+      "psfs_score"
+    ],
+    "rom": [
+      "lumbar_flexion*",
+      "lumbar_extension*",
+      "lumbar_rotation"
+    ],
+    "strength": [
+      "core_endurance"
+    ],
+    "measurements": [
+      "start_back_screening*"
+    ],
+    "special_tests": []
+  },
+  "Non-Specific Low Back Pain (Chronic)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "odi_score*",
+      "rmdq_score*",
+      "psfs_score"
+    ],
+    "rom": [
+      "lumbar_flexion*",
+      "lumbar_extension*",
+      "lumbar_rotation"
+    ],
+    "strength": [
+      "core_endurance"
+    ],
+    "measurements": [
+      "start_back_screening*"
+    ],
+    "special_tests": []
+  },
+  "Non-Specific Neck Pain (Acute)": {
+    "essential": [
+      "vas*",
+      "ndi*"
+    ],
+    "function": [
+      "driving*",
+      "computer_work*",
+      "sleeping",
+      "overhead_reaching"
+    ],
+    "rom": [
+      "cervical_flexion*",
+      "cervical_extension*",
+      "cervical_rotation*",
+      "cervical_lateral_flexion"
+    ],
+    "strength": [
+      "deep_neck_flexor_endurance*",
+      "cervical_extension_strength",
+      "scapular_stabilizers"
+    ],
+    "measurements": [
+      "ccft_score*",
+      "head_posture_assessment"
+    ],
+    "special_tests": [
+      "spurling_test",
+      "upper_limb_tension_test",
+      "cervical_distraction_test",
+      "alar_ligament_test"
+    ]
+  },
+  "Non-Specific Neck Pain (Chronic)": {
+    "essential": [
+      "vas*",
+      "ndi*",
+      "tsk_11"
+    ],
+    "function": [
+      "prolonged_sitting*",
+      "computer_work*",
+      "driving",
+      "sleeping",
+      "reading",
+      "overhead_tasks"
+    ],
+    "rom": [
+      "cervical_flexion*",
+      "cervical_extension*",
+      "cervical_rotation",
+      "cervical_lateral_flexion"
+    ],
+    "strength": [
+      "deep_neck_flexor_endurance*",
+      "cervical_extension_endurance*",
+      "lower_trapezius",
+      "serratus_anterior"
+    ],
+    "measurements": [
+      "ccft_score*",
+      "jpe_cervical*",
+      "head_posture_forward_head_distance"
+    ],
+    "special_tests": [
+      "cranio_cervical_flexion_test*",
+      "neck_flexor_endurance_test*",
+      "smooth_pursuit_neck_torsion_test",
+      "upper_limb_tension_test"
+    ]
+  },
+  "Degenerative Disc Disease (Lumbar)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "odi_score*",
+      "sitting_tolerance*",
+      "morning_stiffness"
+    ],
+    "rom": [
+      "lumbar_flexion*",
+      "lumbar_extension*"
+    ],
+    "strength": [],
+    "measurements": [],
+    "special_tests": []
+  },
+  "Degenerative Disc Disease (Cervical)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "odi_score*",
+      "sitting_tolerance*",
+      "morning_stiffness"
+    ],
+    "rom": [
+      "lumbar_flexion*",
+      "lumbar_extension*"
+    ],
+    "strength": [],
+    "measurements": [],
+    "special_tests": []
+  },
+  "Lumbar Radiculopathy": {
+    "essential": [
+      "nprs*"
+    ],
+    "function": [
+      "oswestry*",
+      "rmdq"
+    ],
+    "motor": [
+      "mmt_myotome*",
+      "heel_walk*",
+      "toe_walk*"
+    ],
+    "sensation": [
+      "dermatomal_sensation*",
+      "reflex_testing*"
+    ],
+    "balance": [
+      "single_leg_stance"
+    ],
+    "coordination": [],
+    "gait": [
+      "gait_speed*"
+    ],
+    "cognition": [],
+    "tone": []
+  },
+  "Thoracic Disc Herniation": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "sitting_tolerance*",
+      "dermatomal_symptoms*"
+    ],
+    "rom": [
+      "thoracic_rotation",
+      "thoracic_flexion"
+    ],
+    "strength": [
+      "lower_limb_strength"
+    ],
+    "measurements": [
+      "dermatomal_sensation"
+    ],
+    "special_tests": [
+      "slump_test*"
+    ]
+  },
+  "Thoracic Facet Joint Syndrome": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "odi_score*",
+      "extension_pain*",
+      "rotation_pain"
+    ],
+    "rom": [
+      "lumbar_extension*",
+      "lumbar_rotation*",
+      "lumbar_lateral_flexion"
+    ],
+    "strength": [],
+    "measurements": [
+      "facet_joint_tenderness*"
+    ],
+    "special_tests": []
+  },
+  "Rib Dysfunction/Costovertebral Joint": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "deep_breathing_pain*",
+      "trunk_rotation_tolerance*"
+    ],
+    "rom": [
+      "rib_mobility*",
+      "thoracic_rotation"
+    ],
+    "strength": [],
+    "measurements": [
+      "rib_tenderness*"
+    ],
+    "special_tests": [
+      "rib_spring_test"
+    ]
+  },
+  "Costochondritis": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "psfs_score*",
+      "deep_breathing_pain*",
+      "pushing_pulling_tolerance"
+    ],
+    "rom": [
+      "thoracic_rotation",
+      "shoulder_horizontal_adduction"
+    ],
+    "strength": [],
+    "measurements": [
+      "costochondral_tenderness*",
+      "chest_expansion"
+    ],
+    "special_tests": []
+  },
+  "Tietze Syndrome": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "deep_breathing_pain*",
+      "pushing_pulling_tolerance"
+    ],
+    "rom": [
+      "thoracic_rotation",
+      "shoulder_horizontal_adduction"
+    ],
+    "strength": [],
+    "measurements": [
+      "costochondral_swelling*",
+      "costochondral_tenderness*"
+    ],
+    "special_tests": []
+  },
+  "Failed Back Surgery Syndrome": {
+    "essential": [
+      "vas*",
+      "oswestry*"
+    ],
+    "function": [
+      "bpi*",
+      "rmdq*",
+      "pdi"
+    ],
+    "psychosocial": [
+      "pcs*",
+      "tsk*",
+      "phq_9*"
+    ],
+    "sleep": [
+      "psqi*"
+    ],
+    "quality_of_life": [
+      "sf_36*"
+    ],
+    "central_sensitization": [
+      "csi*",
+      "pain_detect"
+    ]
+  },
+  "Post-Laminectomy Syndrome": {
+    "essential": [
+      "vas*",
+      "oswestry*"
+    ],
+    "function": [
+      "bpi*",
+      "rmdq*",
+      "pdi"
+    ],
+    "psychosocial": [
+      "pcs*",
+      "tsk*",
+      "phq_9"
+    ],
+    "sleep": [
+      "psqi*"
+    ],
+    "quality_of_life": [
+      "sf_36*"
+    ],
+    "central_sensitization": [
+      "csi*",
+      "pain_detect"
+    ]
+  },
+  "Cervical Myelopathy": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "mjoa_score*",
+      "hand_dexterity*",
+      "gait_stability*"
+    ],
+    "rom": [
+      "cervical_flexion",
+      "cervical_extension"
+    ],
+    "strength": [
+      "grip_strength*",
+      "lower_limb_strength"
+    ],
+    "measurements": [
+      "nurick_grade*"
+    ],
+    "special_tests": [
+      "hoffmann_sign",
+      "inverted_supinator_reflex",
+      "gait_assessment*"
+    ]
+  },
+  "Spinal Instability (Lumbar)": {
+    "essential": [
+      "vas*",
+      "odi*"
+    ],
+    "function": [
+      "prolonged_sitting*",
+      "prolonged_standing*",
+      "lifting",
+      "bending",
+      "transitional_movements"
+    ],
+    "rom": [
+      "lumbar_flexion*",
+      "lumbar_extension*",
+      "lumbar_lateral_flexion",
+      "lumbar_rotation"
+    ],
+    "strength": [
+      "transverse_abdominis_activation*",
+      "multifidus_activation*",
+      "gluteal_strength",
+      "core_endurance"
+    ],
+    "measurements": [
+      "aberrant_movement_pattern*",
+      "prone_instability_test_response"
+    ],
+    "special_tests": [
+      "prone_instability_test*",
+      "posterior_shear_test*",
+      "aberrant_movement_assessment",
+      "passive_lumbar_extension_test",
+      "beighton_score"
+    ]
+  },
+  "Baastrup's Disease (Kissing Spine)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "odi_score*",
+      "extension_pain*"
+    ],
+    "rom": [
+      "lumbar_extension*",
+      "lumbar_flexion"
+    ],
+    "strength": [],
+    "measurements": [
+      "spinous_process_tenderness*"
+    ],
+    "special_tests": []
+  },
+  "SI Joint Sprain (Acute)": {
+    "essential": [
+      "vas*"
+    ],
+    "function": [
+      "walking*",
+      "sit_to_stand*",
+      "single_leg_stance",
+      "stair_climbing",
+      "rolling_in_bed"
+    ],
+    "rom": [
+      "hip_flexion*",
+      "hip_extension",
+      "lumbar_flexion",
+      "lumbar_extension"
+    ],
+    "strength": [
+      "gluteus_medius*",
+      "gluteus_maximus*",
+      "hip_adductors",
+      "transverse_abdominis"
+    ],
+    "measurements": [
+      "pain_location_mapping*",
+      "leg_length_assessment"
+    ],
+    "special_tests": [
+      "sacral_thrust*",
+      "compression_test*",
+      "distraction_test*",
+      "thigh_thrust",
+      "gaenslen_test",
+      "faber_test"
+    ]
+  },
+  "Coccyx Fracture": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "sitting_tolerance*",
+      "sit_to_stand_pain*"
+    ],
+    "rom": [],
+    "strength": [],
+    "measurements": [
+      "coccyx_tenderness*"
+    ],
+    "special_tests": []
+  },
+  "Transitional Vertebra Syndrome (LSTV)": {
+    "essential": [
+      "vas*",
+      "odi*"
+    ],
+    "function": [
+      "prolonged_sitting*",
+      "bending*",
+      "lifting",
+      "rotational_activities",
+      "prolonged_standing"
+    ],
+    "rom": [
+      "lumbar_flexion*",
+      "lumbar_extension*",
+      "lumbar_lateral_flexion",
+      "lumbar_rotation",
+      "hip_flexion",
+      "hip_internal_rotation"
+    ],
+    "strength": [
+      "core_stability*",
+      "gluteus_medius*",
+      "multifidus",
+      "hip_extensors"
+    ],
+    "measurements": [
+      "segmental_mobility_assessment*",
+      "leg_length_discrepancy"
+    ],
+    "special_tests": [
+      "prone_instability_test",
+      "lumbar_segmental_provocation*",
+      "si_joint_cluster_tests",
+      "slump_test"
+    ]
+  },
+  "Patella Dislocation/Subluxation": {
+    "essential": [
+      "vas*",
+      "koos*"
+    ],
+    "function": [
+      "stair_descent*",
+      "running*",
+      "squatting",
+      "pivoting_cutting",
+      "kneeling"
+    ],
+    "rom": [
+      "knee_flexion*",
+      "knee_extension*",
+      "patella_mobility"
+    ],
+    "strength": [
+      "vmo_activation*",
+      "quadriceps*",
+      "hip_external_rotation*",
+      "gluteus_medius",
+      "hip_abduction"
+    ],
+    "measurements": [
+      "q_angle*",
+      "j_sign*",
+      "patellar_tracking_observation",
+      "effusion_grade"
+    ],
+    "special_tests": [
+      "patellar_apprehension_test*",
+      "patellar_glide_test*",
+      "bassett_sign",
+      "fairbanks_apprehension"
+    ]
+  },
+  "Plica Syndrome": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "koos_pf*",
+      "activity_tolerance"
+    ],
+    "rom": [
+      "knee_flexion*"
+    ],
+    "strength": [
+      "quadriceps_strength"
+    ],
+    "measurements": [
+      "plica_tenderness*"
+    ],
+    "special_tests": [
+      "plica_snap_test"
+    ]
+  },
+  "Hoffa's Fat Pad Impingement": {
+    "essential": [
+      "vas*"
+    ],
+    "function": [
+      "prolonged_standing*",
+      "stair_climbing*",
+      "walking",
+      "full_knee_extension_activities",
+      "squatting"
+    ],
+    "rom": [
+      "knee_extension*",
+      "knee_flexion*",
+      "patellar_mobility"
+    ],
+    "strength": [
+      "quadriceps*",
+      "vmo_activation*",
+      "hamstrings",
+      "gluteals"
+    ],
+    "measurements": [
+      "effusion_grade",
+      "infrapatella_tenderness_mapping*"
+    ],
+    "special_tests": [
+      "hoffas_test*",
+      "modified_hoffas_test*",
+      "patellar_tilt_test",
+      "hyperextension_provocation"
+    ]
+  },
+  "Pes Anserine Bursitis": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "koos_score*",
+      "stair_climbing_pain*"
+    ],
+    "rom": [
+      "knee_flexion"
+    ],
+    "strength": [],
+    "measurements": [
+      "pes_anserine_tenderness*"
+    ],
+    "special_tests": []
+  },
+  "Prepatellar Bursitis": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "kneeling_tolerance*"
+    ],
+    "rom": [
+      "knee_flexion*"
+    ],
+    "strength": [],
+    "measurements": [
+      "prepatellar_swelling*",
+      "prepatellar_tenderness"
+    ],
+    "special_tests": []
+  },
+  "Infrapatellar Bursitis": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "kneeling_tolerance*",
+      "stair_climbing_pain"
+    ],
+    "rom": [
+      "knee_flexion"
+    ],
+    "strength": [],
+    "measurements": [
+      "infrapatellar_swelling*",
+      "infrapatellar_tenderness"
+    ],
+    "special_tests": []
+  },
+  "Quadriceps Tendon Rupture (Post-Surgical)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "lefs_score*",
+      "stair_climbing_ability*",
+      "sit_to_stand"
+    ],
+    "rom": [
+      "knee_flexion*",
+      "knee_extension*"
+    ],
+    "strength": [
+      "quadriceps_strength*",
+      "straight_leg_raise_ability"
+    ],
+    "measurements": [],
+    "special_tests": [
+      "extensor_lag*"
+    ]
+  },
+  "Patellar Tendon Rupture (Post-Surgical)": {
+    "essential": [
+      "vas*",
+      "koos*"
+    ],
+    "function": [
+      "walking*",
+      "stair_climbing*",
+      "sit_to_stand*",
+      "return_to_sport",
+      "kneeling",
+      "squatting"
+    ],
+    "rom": [
+      "knee_flexion*",
+      "knee_extension*",
+      "patellar_mobility"
+    ],
+    "strength": [
+      "quadriceps*",
+      "straight_leg_raise*",
+      "hip_abduction",
+      "hip_extension",
+      "calf_strength"
+    ],
+    "measurements": [
+      "extensor_lag*",
+      "thigh_girth_circumference*",
+      "effusion_grade",
+      "patellar_height_ratio"
+    ],
+    "special_tests": [
+      "active_knee_extension_lag_test*",
+      "single_leg_squat_assessment",
+      "hop_tests_late_stage"
+    ]
+  },
+  "Knee Arthrofibrosis": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "koos_score*",
+      "stair_climbing_tolerance*"
+    ],
+    "rom": [
+      "knee_flexion*",
+      "knee_extension*"
+    ],
+    "strength": [
+      "quadriceps_strength*"
+    ],
+    "measurements": [],
+    "special_tests": []
+  },
+  "Multi-Ligament Knee Injury (Post-Surgical)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "walking*",
+      "stair_climbing*",
+      "sit_to_stand*",
+      "squatting",
+      "running"
+    ],
+    "rom": [
+      "knee_flexion*",
+      "knee_extension*"
+    ],
+    "strength": [
+      "quadriceps*",
+      "hamstrings*",
+      "hip_abductors"
+    ],
+    "measurements": [
+      "swelling_circumferential*",
+      "knee_girth",
+      "thigh_girth_circumferential"
+    ],
+    "special_tests": [
+      "lachman*",
+      "posterior_drawer*",
+      "valgus_stress_test",
+      "varus_stress_test",
+      "dial_test"
+    ]
+  },
+  "Pes Planus (Flat Foot)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "ffi*",
+      "faam",
+      "fhsq"
+    ],
+    "rom": [
+      "ankle_dorsiflexion*",
+      "subtalar_inversion"
+    ],
+    "strength": [
+      "tibialis_posterior_strength*",
+      "intrinsic_foot_strength*"
+    ],
+    "measurements": [
+      "navicular_drop*",
+      "arch_height*",
+      "rearfoot_angle"
+    ],
+    "special_tests": [
+      "single_leg_heel_raise_test*",
+      "jack_test",
+      "too_many_toes_sign"
+    ]
+  },
+  "Pes Cavus (High Arch)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "ffi*",
+      "fhsq*",
+      "faam"
+    ],
+    "rom": [
+      "ankle_dorsiflexion*",
+      "first_ray_plantarflexion"
+    ],
+    "strength": [
+      "peroneal_strength*",
+      "tibialis_anterior_strength"
+    ],
+    "measurements": [
+      "arch_height*",
+      "coleman_block_test_result"
+    ],
+    "special_tests": [
+      "coleman_block_test*",
+      "gait_analysis",
+      "single_leg_balance"
+    ]
+  },
+  "Haglund's Deformity": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "visa_a*",
+      "faam",
+      "lefs"
+    ],
+    "rom": [
+      "ankle_dorsiflexion*",
+      "ankle_plantarflexion"
+    ],
+    "strength": [
+      "plantarflexion_strength*",
+      "single_leg_heel_raise_endurance"
+    ],
+    "measurements": [
+      "posterior_heel_prominence*",
+      "retrocalcaneal_tenderness*"
+    ],
+    "special_tests": [
+      "two_finger_squeeze_test*",
+      "single_leg_heel_raise_test"
+    ]
+  },
+  "Retrocalcaneal Bursitis": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "visa_a*",
+      "faam",
+      "lefs"
+    ],
+    "rom": [
+      "ankle_dorsiflexion*",
+      "ankle_plantarflexion"
+    ],
+    "strength": [
+      "plantarflexion_strength*",
+      "single_leg_heel_raise_endurance"
+    ],
+    "measurements": [
+      "posterior_heel_swelling*",
+      "tenderness_palpation"
+    ],
+    "special_tests": [
+      "two_finger_squeeze_test*",
+      "single_leg_heel_raise_test"
+    ]
+  },
+  "Calcaneal Stress Fracture": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "ffi*",
+      "faam",
+      "lefs"
+    ],
+    "rom": [
+      "ankle_dorsiflexion",
+      "ankle_plantarflexion"
+    ],
+    "strength": [
+      "plantarflexion_strength"
+    ],
+    "measurements": [
+      "calcaneal_squeeze_tenderness*",
+      "pain_free_walking_distance*"
+    ],
+    "special_tests": [
+      "calcaneal_squeeze_test*",
+      "tuning_fork_test"
+    ]
+  },
+  "Congenital Muscular Torticollis (Infant)": {
+    "essential": [
+      "wong_baker_faces"
+    ],
+    "function": [
+      "head_position_variety*",
+      "visual_tracking*",
+      "feeding*"
+    ],
+    "developmental": [
+      "cmt_severity_scale*",
+      "aims*"
+    ],
+    "motor": [
+      "cervical_rotation_prom*",
+      "cervical_lateral_flexion*",
+      "scm_tightness*",
+      "head_tilt*"
+    ],
+    "milestones": [
+      "symmetrical_head_control*",
+      "midline_orientation*",
+      "motor_symmetry*"
+    ]
+  },
+  "Plagiocephaly": {
+    "essential": [
+      "wong_baker_faces"
+    ],
+    "function": [
+      "tummy_time_tolerance*",
+      "head_position_variety*",
+      "feeding_position*"
+    ],
+    "developmental": [
+      "plagiocephaly_severity_scale*",
+      "cvai*",
+      "cranial_index*"
+    ],
+    "motor": [
+      "head_control*",
+      "cervical_rom*",
+      "trunk_symmetry*",
+      "neck_strength*"
+    ],
+    "milestones": [
+      "head_shape_improvement*",
+      "motor_symmetry*"
+    ]
+  },
+  "Developmental Delay (Gross Motor)": {
+    "essential": [
+      "wong_baker_faces"
+    ],
+    "function": [
+      "adl_independence*",
+      "play_skills*",
+      "mobility*"
+    ],
+    "developmental": [
+      "bayley_iii*",
+      "pdms_2*",
+      "aims*"
+    ],
+    "motor": [
+      "gross_motor_skills*",
+      "fine_motor_skills*",
+      "balance*",
+      "coordination*"
+    ],
+    "milestones": [
+      "motor_milestones*",
+      "functional_skills*",
+      "age_appropriate_skills*"
+    ]
+  },
+  "Toe Walking (Idiopathic)": {
+    "essential": [
+      "wong_baker_faces"
+    ],
+    "function": [
+      "gait_pattern*",
+      "heel_strike_frequency*",
+      "activity_participation*"
+    ],
+    "developmental": [
+      "itw_severity_classification*",
+      "gait_analysis*"
+    ],
+    "motor": [
+      "ankle_dorsiflexion_rom*",
+      "gastrocnemius_length*",
+      "ankle_rocker_presence*",
+      "balance*"
+    ],
+    "milestones": [
+      "heel_toe_gait_percentage*",
+      "calf_flexibility*"
+    ]
+  },
+  "Legg-Calv\u00e9-Perthes Disease": {
+    "essential": [
+      "wong_baker_faces*",
+      "chohes*"
+    ],
+    "function": [
+      "pediatric_functional_assessment",
+      "gait_analysis*"
+    ],
+    "developmental": [],
+    "motor": [
+      "hip_rom",
+      "hip_abductor_strength"
+    ],
+    "milestones": [
+      "containment_achieved",
+      "rom_maintained",
+      "reossification_progressing",
+      "return_to_activity"
+    ]
+  },
+  "Slipped Capital Femoral Epiphysis (SCFE)": {
+    "essential": [
+      "wong_baker_faces*",
+      "chohes"
+    ],
+    "function": [
+      "pediatric_functional_assessment",
+      "gait_analysis*"
+    ],
+    "developmental": [],
+    "motor": [
+      "hip_rom",
+      "gait_pattern"
+    ],
+    "milestones": [
+      "post_surgical_weight_bearing",
+      "full_rom_achieved",
+      "normal_gait_return",
+      "return_to_activity"
+    ]
+  },
+  "Developmental Dysplasia of Hip (Pediatric - Post-Treatment)": {
+    "essential": [
+      "wong_baker_faces"
+    ],
+    "function": [
+      "mobility*",
+      "gait_pattern*",
+      "play_participation*"
+    ],
+    "developmental": [
+      "aims*",
+      "pdms_2*"
+    ],
+    "motor": [
+      "hip_stability*",
+      "hip_rom*",
+      "hip_abductor_strength*",
+      "gait_symmetry*"
+    ],
+    "milestones": [
+      "walking_status*",
+      "brace_compliance*",
+      "hip_development*"
+    ]
+  },
+  "Clubfoot (Post-Casting/Post-Surgical)": {
+    "essential": [
+      "wong_baker_faces"
+    ],
+    "function": [
+      "gait_pattern*",
+      "footwear_tolerance*",
+      "play_participation*"
+    ],
+    "developmental": [
+      "pirani_score*",
+      "dimeglio_score*"
+    ],
+    "motor": [
+      "ankle_dorsiflexion*",
+      "foot_alignment*",
+      "forefoot_adduction*",
+      "hindfoot_varus*"
+    ],
+    "milestones": [
+      "walking_pattern*",
+      "brace_compliance*",
+      "standing_posture*"
+    ]
+  },
+  "Metatarsus Adductus": {
+    "essential": [
+      "wong_baker_faces"
+    ],
+    "function": [
+      "shoe_fit*",
+      "gait_pattern*",
+      "play_participation*"
+    ],
+    "developmental": [
+      "foot_assessment*"
+    ],
+    "motor": [
+      "foot_flexibility*",
+      "forefoot_adduction_angle*",
+      "heel_bisector_line*"
+    ],
+    "milestones": [
+      "walking_pattern*",
+      "standing_posture*"
+    ]
+  },
+  "Growing Pains (Pediatric)": {
+    "essential": [
+      "wong_baker_faces*"
+    ],
+    "function": [
+      "pediatric_functional_assessment"
+    ],
+    "developmental": [],
+    "motor": [
+      "flexibility_assessment"
+    ],
+    "milestones": [
+      "pain_management_strategies",
+      "activity_tolerance"
+    ]
+  },
+  "Little League Elbow": {
+    "essential": [
+      "wong_baker_faces*",
+      "pediatric_dash*",
+      "kerlan_jobe_orthopaedic_clinic_score"
+    ],
+    "function": [
+      "pediatric_functional_assessment"
+    ],
+    "developmental": [],
+    "motor": [
+      "elbow_rom",
+      "forearm_strength"
+    ],
+    "milestones": [
+      "pain_free_daily_activity",
+      "throwing_program_initiation",
+      "return_to_pitching"
+    ]
+  },
+  "Little League Shoulder": {
+    "essential": [
+      "wong_baker_faces*",
+      "pediatric_dash*"
+    ],
+    "function": [
+      "pediatric_functional_assessment"
+    ],
+    "developmental": [],
+    "motor": [
+      "shoulder_rom",
+      "rotator_cuff_strength"
+    ],
+    "milestones": [
+      "pain_free_daily_activity",
+      "throwing_program_initiation",
+      "return_to_pitching"
+    ]
+  },
+  "Sinding-Larsen-Johansson Syndrome": {
+    "essential": [
+      "wong_baker_faces*",
+      "koos_child*"
+    ],
+    "function": [
+      "pediatric_functional_assessment"
+    ],
+    "developmental": [],
+    "motor": [
+      "quad_flexibility",
+      "patellar_tendon_assessment"
+    ],
+    "milestones": [
+      "pain_free_stairs",
+      "pain_free_running",
+      "return_to_sport"
+    ]
+  },
+  "Iselin Disease (5th Metatarsal Apophysitis)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "ffi*",
+      "faam",
+      "lefs"
+    ],
+    "rom": [
+      "ankle_inversion*",
+      "ankle_eversion"
+    ],
+    "strength": [
+      "peroneal_strength*"
+    ],
+    "measurements": [
+      "fifth_metatarsal_base_tenderness*",
+      "activity_related_pain"
+    ],
+    "special_tests": [
+      "resisted_eversion_test*",
+      "palpation_test"
+    ]
+  },
+  "Kohler's Disease (Navicular AVN)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "ffi*",
+      "faam"
+    ],
+    "rom": [
+      "midfoot_mobility*",
+      "ankle_dorsiflexion"
+    ],
+    "strength": [
+      "intrinsic_foot_strength"
+    ],
+    "measurements": [
+      "navicular_tenderness*",
+      "antalgic_gait"
+    ],
+    "special_tests": [
+      "gait_analysis*",
+      "navicular_palpation"
+    ]
+  },
+  "Frailty Syndrome": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "clinical_frailty_scale*",
+      "sppb*",
+      "barthel_index"
+    ],
+    "balance": [
+      "berg_balance_scale*"
+    ],
+    "gait": [
+      "gait_speed*",
+      "tug"
+    ],
+    "strength": [
+      "grip_strength*",
+      "sit_to_stand_5x*"
+    ],
+    "fall_risk": [
+      "fall_history*",
+      "sarc_f*"
+    ],
+    "cognition": [
+      "moca"
+    ]
+  },
+  "Sarcopenia": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "sppb*",
+      "sarc_f*"
+    ],
+    "balance": [
+      "berg_balance_scale"
+    ],
+    "gait": [
+      "gait_speed*"
+    ],
+    "strength": [
+      "grip_strength*",
+      "sit_to_stand_5x*",
+      "calf_circumference*"
+    ],
+    "fall_risk": [
+      "fall_history*"
+    ],
+    "cognition": []
+  },
+  "Deconditioning (Hospital-Acquired)": {
+    "essential": [
+      "borg_rpe*"
+    ],
+    "function": [
+      "dasi*",
+      "adl_tolerance"
+    ],
+    "vitals": [
+      "hr_rest*",
+      "hr_response_to_exercise*",
+      "orthostatic_tolerance"
+    ],
+    "endurance": [
+      "six_minute_walk_test*",
+      "sit_to_stand_test"
+    ],
+    "respiratory": [],
+    "capacity": [
+      "mets*",
+      "vo2_peak"
+    ]
+  },
+  "Fall Risk/History of Falls": {
+    "essential": [
+      "nprs"
+    ],
+    "function": [
+      "transfers*",
+      "ambulation*",
+      "stair_climbing*",
+      "toileting",
+      "community_mobility"
+    ],
+    "balance": [
+      "berg_balance_scale*",
+      "single_leg_stance*",
+      "tandem_stance",
+      "functional_reach_test"
+    ],
+    "gait": [
+      "gait_speed*",
+      "timed_up_and_go*",
+      "step_length",
+      "assistive_device_use"
+    ],
+    "strength": [
+      "sit_to_stand_30s*",
+      "hip_abductors",
+      "ankle_dorsiflexors",
+      "quadriceps"
+    ],
+    "fall_risk": [
+      "falls_efficacy_scale*",
+      "fall_history_frequency*",
+      "medication_review",
+      "environmental_hazards"
+    ],
+    "cognition": [
+      "moca",
+      "dual_task_performance"
+    ]
+  },
+  "Osteoarthritis (Generalized/Polyarticular)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "chewing_tolerance*",
+      "morning_stiffness*"
+    ],
+    "rom": [
+      "mouth_opening*",
+      "protrusion",
+      "lateral_excursion"
+    ],
+    "strength": [],
+    "measurements": [
+      "joint_line_tenderness*"
+    ],
+    "special_tests": [
+      "joint_crepitus*"
+    ]
+  },
+  "Polymyalgia Rheumatica": {
+    "essential": [
+      "nprs"
+    ],
+    "function": [
+      "overhead_reaching*",
+      "dressing*",
+      "rising_from_chair*",
+      "grooming",
+      "walking"
+    ],
+    "psychosocial": [
+      "patient_health_questionnaire_phq9*",
+      "pain_catastrophizing_scale",
+      "fear_avoidance_beliefs"
+    ],
+    "sleep": [
+      "sleep_quality_index*",
+      "morning_stiffness_duration*",
+      "night_pain"
+    ],
+    "quality_of_life": [
+      "sf36*",
+      "patient_global_assessment"
+    ],
+    "central_sensitization": [
+      "central_sensitization_inventory",
+      "widespread_pain_index*",
+      "symptom_severity_scale"
+    ]
+  },
+  "Systemic Lupus Erythematosus": {
+    "essential": [
+      "vas*"
+    ],
+    "function": [
+      "bpi*",
+      "haq_di*",
+      "sf_36_physical_function"
+    ],
+    "psychosocial": [
+      "pcs*",
+      "phq_9*"
+    ],
+    "sleep": [
+      "psqi*",
+      "fss*"
+    ],
+    "quality_of_life": [
+      "sf_36*",
+      "lupusqol"
+    ],
+    "central_sensitization": [
+      "csi*"
+    ]
+  },
+  "Scleroderma/Systemic Sclerosis": {
+    "essential": [
+      "vas*"
+    ],
+    "function": [
+      "bpi*",
+      "haq_di*",
+      "shaq*"
+    ],
+    "psychosocial": [
+      "pcs*",
+      "phq_9*"
+    ],
+    "sleep": [
+      "psqi*",
+      "fss*"
+    ],
+    "quality_of_life": [
+      "sf_36*"
+    ],
+    "central_sensitization": [
+      "csi*"
+    ]
+  },
+  "Obesity (Exercise Prescription)": {
+    "essential": [
+      "epworth_sleepiness_scale*",
+      "mmrc_dyspnea_scale"
+    ],
+    "function": [
+      "adl_tolerance*",
+      "sleep_quality"
+    ],
+    "vitals": [
+      "spo2*",
+      "paco2*",
+      "nocturnal_spo2*",
+      "bmi*"
+    ],
+    "endurance": [
+      "six_minute_walk_test*"
+    ],
+    "respiratory": [
+      "niv_compliance*",
+      "fvc",
+      "ahi"
+    ],
+    "capacity": [
+      "mets*",
+      "weight_loss_progress"
+    ]
+  },
+  "ICU-Acquired Weakness": {
+    "essential": [
+      "mrc_sum_score*",
+      "borg_dyspnea"
+    ],
+    "function": [
+      "fim*",
+      "icu_mobility_scale*"
+    ],
+    "vitals": [
+      "spo2*",
+      "hr_response",
+      "bp_response"
+    ],
+    "endurance": [
+      "six_minute_walk_test*",
+      "sit_to_stand_test*",
+      "progressive_ambulation"
+    ],
+    "respiratory": [
+      "ventilator_weaning_status*",
+      "mip",
+      "mep",
+      "cough_strength"
+    ],
+    "capacity": [
+      "mets*",
+      "functional_independence"
+    ]
+  },
+  "Ankle Fracture (Bimalleolar/Trimalleolar - Post-Surgical)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "faam*",
+      "faos*",
+      "lefs"
+    ],
+    "rom": [
+      "ankle_dorsiflexion*",
+      "ankle_plantarflexion*",
+      "inversion",
+      "eversion"
+    ],
+    "strength": [
+      "plantarflexion_strength*",
+      "dorsiflexion_strength*",
+      "eversion_strength"
+    ],
+    "measurements": [
+      "swelling_figure_8*",
+      "gait_parameters",
+      "weight_bearing_status"
+    ],
+    "special_tests": [
+      "single_leg_balance*",
+      "single_leg_hop_test",
+      "gait_analysis"
+    ]
+  },
+  "Wrist Fracture (Scaphoid - Post-Immobilization)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "prwe*",
+      "dash*",
+      "quick_dash"
+    ],
+    "rom": [
+      "wrist_flexion*",
+      "wrist_extension*",
+      "forearm_pronation*",
+      "forearm_supination*",
+      "radial_deviation",
+      "ulnar_deviation"
+    ],
+    "strength": [
+      "grip_strength*",
+      "pinch_strength"
+    ],
+    "measurements": [
+      "swelling_circumference",
+      "fracture_union_status"
+    ],
+    "special_tests": [
+      "druj_stability_test"
+    ]
+  },
+  "Humeral Shaft Fracture (Post-Immobilization/Post-Surgical)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "reaching*",
+      "lifting*",
+      "dressing*",
+      "carrying",
+      "dash_score"
+    ],
+    "rom": [
+      "shoulder_flexion*",
+      "shoulder_abduction*",
+      "shoulder_external_rotation",
+      "elbow_flexion",
+      "elbow_extension"
+    ],
+    "strength": [
+      "deltoid*",
+      "biceps*",
+      "triceps",
+      "wrist_extensors"
+    ],
+    "measurements": [
+      "upper_arm_circumference*",
+      "limb_length_discrepancy"
+    ],
+    "special_tests": [
+      "fracture_union_status*",
+      "radial_nerve_integrity*",
+      "manual_muscle_testing"
+    ]
+  },
+  "Tibial Plateau Fracture (Post-Surgical)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "lefs_score*",
+      "walking_ability*",
+      "weight_bearing_status"
+    ],
+    "rom": [
+      "knee_flexion*",
+      "knee_extension*"
+    ],
+    "strength": [
+      "quadriceps_strength*"
+    ],
+    "measurements": [
+      "knee_effusion"
+    ],
+    "special_tests": [
+      "gait_assessment*"
+    ]
+  },
+  "Femoral Shaft Fracture (Post-Surgical)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "lefs_score*",
+      "walking_ability*",
+      "weight_bearing_status"
+    ],
+    "rom": [
+      "knee_flexion*",
+      "knee_extension*",
+      "hip_flexion"
+    ],
+    "strength": [
+      "quadriceps_strength*",
+      "hip_abduction"
+    ],
+    "measurements": [
+      "thigh_circumference"
+    ],
+    "special_tests": [
+      "gait_assessment*"
+    ]
+  },
+  "Pelvic Fracture (Stable - Post-Injury)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "sf_36_score*",
+      "walking_ability*",
+      "weight_bearing_status"
+    ],
+    "rom": [
+      "hip_flexion*",
+      "hip_abduction*"
+    ],
+    "strength": [
+      "hip_abduction*",
+      "hip_flexion"
+    ],
+    "measurements": [],
+    "special_tests": [
+      "gait_assessment*"
+    ]
+  },
+  "Clavicle Fracture (Post-Healing/Post-Surgical)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "dash*",
+      "spadi",
+      "ases"
+    ],
+    "rom": [
+      "shoulder_flexion*",
+      "shoulder_abduction*",
+      "external_rotation"
+    ],
+    "strength": [
+      "shoulder_flexion_strength*",
+      "deltoid_strength"
+    ],
+    "measurements": [
+      "fracture_site_tenderness*",
+      "callus_formation"
+    ],
+    "special_tests": [
+      "single_arm_activities*"
+    ]
+  },
+  "Rib Fracture (Post-Injury)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "deep_breathing_tolerance*",
+      "coughing_tolerance*",
+      "sleep_position_tolerance"
+    ],
+    "rom": [
+      "chest_expansion*"
+    ],
+    "strength": [],
+    "measurements": [
+      "incentive_spirometry*",
+      "rib_tenderness"
+    ],
+    "special_tests": []
+  },
+  "Proximal Humerus Fracture (Post-Immobilization/Post-Surgical)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "dash*",
+      "ases*",
+      "spadi"
+    ],
+    "rom": [
+      "shoulder_flexion*",
+      "shoulder_abduction*",
+      "external_rotation*"
+    ],
+    "strength": [
+      "rotator_cuff_strength*",
+      "deltoid_strength*"
+    ],
+    "measurements": [
+      "swelling_assessment",
+      "fracture_healing_status"
+    ],
+    "special_tests": [
+      "functional_assessment*"
+    ]
+  },
+  "Hip Fracture (Post-Surgical - Hemiarthroplasty/ORIF)": {
+    "essential": [
+      "wong_baker_faces*"
+    ],
+    "function": [
+      "pediatric_functional_assessment",
+      "gait_analysis"
+    ],
+    "developmental": [],
+    "motor": [
+      "hip_rom",
+      "hip_strength"
+    ],
+    "milestones": [
+      "fracture_healing_confirmed",
+      "weight_bearing_progression",
+      "full_rom_achieved",
+      "return_to_sport"
+    ]
+  },
+  "ATFL Ligament Tear (Anterior Talofibular)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "single_leg_balance*",
+      "walking_on_uneven_surface*",
+      "running",
+      "stair_descent"
+    ],
+    "rom": [
+      "inversion*",
+      "dorsiflexion*",
+      "plantarflexion"
+    ],
+    "strength": [
+      "eversion*",
+      "plantarflexion",
+      "dorsiflexion"
+    ],
+    "measurements": [
+      "swelling_figure8*",
+      "ankle_circumference"
+    ],
+    "special_tests": [
+      "anterior_drawer_ankle*",
+      "talar_tilt_test*",
+      "cumberland_ankle_instability_tool"
+    ]
+  },
+  "CFL Ligament Tear (Calcaneofibular)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "single_leg_balance*",
+      "walking_on_uneven_surface*",
+      "running",
+      "lateral_cutting"
+    ],
+    "rom": [
+      "inversion*",
+      "eversion*",
+      "dorsiflexion"
+    ],
+    "strength": [
+      "eversion*",
+      "plantarflexion",
+      "peroneals*"
+    ],
+    "measurements": [
+      "swelling_figure8*",
+      "ankle_circumference"
+    ],
+    "special_tests": [
+      "talar_tilt_test*",
+      "calcaneal_inversion_stress*",
+      "anterior_drawer_ankle"
+    ]
+  },
+  "UCL Elbow Tear (Ulnar Collateral Ligament)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "throwing*",
+      "gripping*",
+      "carrying*",
+      "pushing",
+      "dash_score"
+    ],
+    "rom": [
+      "elbow_flexion*",
+      "elbow_extension*",
+      "forearm_pronation",
+      "forearm_supination"
+    ],
+    "strength": [
+      "wrist_flexors*",
+      "grip_strength*",
+      "forearm_pronation"
+    ],
+    "measurements": [
+      "elbow_circumference*",
+      "carrying_angle"
+    ],
+    "special_tests": [
+      "valgus_stress_test_elbow*",
+      "moving_valgus_stress_test*",
+      "milking_maneuver"
+    ]
+  },
+  "RCL Elbow Sprain (Radial Collateral Ligament)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "quick_dash*",
+      "meps"
+    ],
+    "rom": [
+      "elbow_flexion*",
+      "elbow_extension*"
+    ],
+    "strength": [
+      "elbow_flexion_strength",
+      "grip_strength"
+    ],
+    "measurements": [
+      "swelling_assessment*",
+      "ligament_tenderness"
+    ],
+    "special_tests": [
+      "valgus_stress_test",
+      "varus_stress_test"
+    ]
+  },
+  "Coracoclavicular Ligament Tear": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "overhead_reaching*",
+      "lifting*",
+      "cross_body_reaching*",
+      "carrying",
+      "dash_score"
+    ],
+    "rom": [
+      "shoulder_flexion*",
+      "shoulder_abduction*",
+      "horizontal_adduction*"
+    ],
+    "strength": [
+      "upper_trapezius*",
+      "deltoid*",
+      "serratus_anterior"
+    ],
+    "measurements": [
+      "coracoclavicular_distance*",
+      "acromioclavicular_joint_step_deformity"
+    ],
+    "special_tests": [
+      "cross_body_adduction_test*",
+      "acromioclavicular_shear_test*",
+      "piano_key_sign"
+    ]
+  },
+  "Post-Cardiac Surgery Rehabilitation": {
+    "essential": [
+      "borg_rpe*",
+      "sternal_healing_status*"
+    ],
+    "function": [
+      "dasi*",
+      "kymitt_compliance",
+      "adl_independence"
+    ],
+    "vitals": [
+      "hr_rest*",
+      "hr_peak*",
+      "bp_response*",
+      "spo2"
+    ],
+    "endurance": [
+      "six_minute_walk_test*",
+      "stair_climbing"
+    ],
+    "respiratory": [
+      "incentive_spirometry*",
+      "cough_effectiveness"
+    ],
+    "capacity": [
+      "mets*"
+    ]
+  },
+  "Myocardial Infarction Recovery": {
+    "essential": [
+      "rpe_borg*"
+    ],
+    "function": [
+      "walking*",
+      "stair_climbing*",
+      "household_tasks*",
+      "return_to_work",
+      "sexual_activity"
+    ],
+    "vitals": [
+      "heart_rate_rest*",
+      "heart_rate_exercise*",
+      "blood_pressure_rest*",
+      "blood_pressure_exercise",
+      "spo2"
+    ],
+    "endurance": [
+      "six_minute_walk_test*",
+      "mets_achieved*",
+      "exercise_duration",
+      "treadmill_time"
+    ],
+    "respiratory": [
+      "rate_of_perceived_exertion*",
+      "dyspnea_on_exertion",
+      "respiratory_rate"
+    ],
+    "capacity": [
+      "vo2_peak_estimated*",
+      "metabolic_equivalents*",
+      "rate_pressure_product"
+    ]
+  },
+  "Lymphedema - Primary": {
+    "essential": [
+      "facit_fatigue*",
+      "vas*"
+    ],
+    "function": [
+      "affected_limb_function*",
+      "mobility*",
+      "adl_tolerance*"
+    ],
+    "strength": [
+      "affected_limb_strength*"
+    ],
+    "endurance": [
+      "6mwt*"
+    ],
+    "lymphedema": [
+      "limb_circumference*",
+      "volume_difference*",
+      "lymphedema_staging*",
+      "fibrosis_grade*"
+    ],
+    "quality_of_life": [
+      "lymqol*",
+      "sf_36*"
+    ]
+  },
+  "Lymphedema - Secondary": {
+    "essential": [
+      "facit_fatigue*",
+      "vas*"
+    ],
+    "function": [
+      "affected_limb_function*",
+      "mobility*",
+      "adl_tolerance*"
+    ],
+    "strength": [
+      "grip_strength*",
+      "affected_limb_strength"
+    ],
+    "endurance": [
+      "6mwt*"
+    ],
+    "lymphedema": [
+      "limb_circumference*",
+      "volume_difference*",
+      "lymphedema_staging*"
+    ],
+    "quality_of_life": [
+      "lymqol*",
+      "fact_g*"
+    ]
+  },
+  "Vestibular Neuritis": {
+    "essential": [
+      "dhi*"
+    ],
+    "function": [
+      "abc_scale*",
+      "adl_balance_tasks"
+    ],
+    "motor": [],
+    "sensation": [
+      "vertigo_severity*",
+      "head_impulse_test*"
+    ],
+    "balance": [
+      "berg_balance_scale*",
+      "dgi*",
+      "single_leg_stance*",
+      "romberg"
+    ],
+    "coordination": [],
+    "gait": [
+      "gait_speed*",
+      "dynamic_gait_index*",
+      "tug_time"
+    ],
+    "cognition": [],
+    "tone": []
+  },
+  "Benign Paroxysmal Positional Vertigo (BPPV)": {
+    "essential": [
+      "dhi*"
+    ],
+    "function": [
+      "abc_scale*",
+      "adl_balance_tasks"
+    ],
+    "motor": [],
+    "sensation": [
+      "vertigo_intensity*"
+    ],
+    "balance": [
+      "berg_balance_scale",
+      "single_leg_stance*"
+    ],
+    "coordination": [],
+    "gait": [
+      "gait_speed",
+      "tug_time"
+    ],
+    "cognition": [],
+    "tone": []
+  },
+  "Meniere's Disease": {
+    "essential": [
+      "dhi*"
+    ],
+    "function": [
+      "abc_scale*",
+      "functional_level_scale"
+    ],
+    "motor": [],
+    "sensation": [
+      "vertigo_severity*",
+      "hearing_assessment*",
+      "tinnitus_severity"
+    ],
+    "balance": [
+      "berg_balance_scale",
+      "single_leg_stance*"
+    ],
+    "coordination": [],
+    "gait": [
+      "gait_speed",
+      "dgi"
+    ],
+    "cognition": [],
+    "tone": []
+  },
+  "Cerebral Palsy - Spastic": {
+    "essential": [
+      "gmfcs_level*"
+    ],
+    "function": [
+      "gmfm*",
+      "pedi*",
+      "adl_independence"
+    ],
+    "motor": [
+      "selective_motor_control*",
+      "mmt_affected_muscles"
+    ],
+    "sensation": [],
+    "balance": [
+      "pbs*",
+      "berg_balance_scale"
+    ],
+    "coordination": [],
+    "gait": [
+      "gait_speed*",
+      "fac",
+      "gait_analysis"
+    ],
+    "cognition": [],
+    "tone": [
+      "modified_ashworth*",
+      "tardieu*"
+    ]
+  },
+  "Down Syndrome - Motor Delays": {
+    "essential": [
+      "wong_baker_faces"
+    ],
+    "function": [
+      "adl_independence*",
+      "mobility*",
+      "communication*"
+    ],
+    "developmental": [
+      "bayley_iii*",
+      "pdms_2*",
+      "gmfm*",
+      "vineland_adaptive*"
+    ],
+    "motor": [
+      "muscle_tone*",
+      "balance*",
+      "gross_motor_skills*",
+      "fine_motor_skills*"
+    ],
+    "milestones": [
+      "motor_milestones*",
+      "walking_status*",
+      "functional_skills*"
+    ]
+  },
+  "Spinal Muscular Atrophy": {
+    "essential": [
+      "hfmse*",
+      "chop_intend"
+    ],
+    "function": [
+      "activlim*",
+      "pedi"
+    ],
+    "motor": [
+      "mmt_sum_score*",
+      "proximal_muscle_strength"
+    ],
+    "sensation": [],
+    "balance": [
+      "sitting_balance_assessment"
+    ],
+    "coordination": [],
+    "gait": [
+      "motor_milestone_assessment",
+      "ambulation_status"
+    ],
+    "cognition": [],
+    "tone": [
+      "scoliosis_assessment*",
+      "joint_contracture_assessment"
+    ]
+  },
+  "Phantom Limb Pain": {
+    "essential": [
+      "vas*",
+      "nprs"
+    ],
+    "function": [
+      "bpi*",
+      "promis_pain_interference*"
+    ],
+    "psychosocial": [
+      "pcs*",
+      "phq_9*"
+    ],
+    "sleep": [
+      "psqi*"
+    ],
+    "quality_of_life": [
+      "sf_36*"
+    ],
+    "central_sensitization": [
+      "phantom_sensation_diary*",
+      "gmi_assessment"
+    ]
+  },
+  "Osteoporotic Fracture": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "transfers*",
+      "ambulation*",
+      "lifting*",
+      "stair_climbing",
+      "community_mobility"
+    ],
+    "balance": [
+      "berg_balance_scale*",
+      "single_leg_stance*",
+      "functional_reach_test"
+    ],
+    "gait": [
+      "gait_speed*",
+      "timed_up_and_go*",
+      "step_length",
+      "assistive_device_use"
+    ],
+    "strength": [
+      "sit_to_stand_30s*",
+      "grip_strength*",
+      "quadriceps",
+      "hip_extensors"
+    ],
+    "fall_risk": [
+      "falls_efficacy_scale*",
+      "fracture_risk_assessment*",
+      "medication_review"
+    ],
+    "cognition": [
+      "moca",
+      "dual_task_performance"
+    ],
+    "rom": [
+      "site_specific_rom*"
+    ],
+    "measurements": [
+      "bone_density_t_score*",
+      "kyphosis_angle",
+      "height_loss"
+    ],
+    "special_tests": [
+      "fracture_healing_status*"
+    ]
+  },
+  "Cancer Cachexia": {
+    "essential": [
+      "facit_fatigue*",
+      "kps*",
+      "weight_loss*"
+    ],
+    "function": [
+      "adl_tolerance*",
+      "mobility*",
+      "nutritional_status*"
+    ],
+    "strength": [
+      "grip_strength*",
+      "sit_to_stand_30s*",
+      "muscle_mass*"
+    ],
+    "endurance": [
+      "6mwt*",
+      "2mst*"
+    ],
+    "lymphedema": [],
+    "quality_of_life": [
+      "faact*",
+      "eortc_qlq_c30*",
+      "body_composition*"
+    ]
+  },
+  "Industrial Back Injury": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "lifting*",
+      "prolonged_sitting*",
+      "bending*",
+      "return_to_work",
+      "driving"
+    ],
+    "rom": [
+      "lumbar_flexion*",
+      "lumbar_extension*",
+      "lumbar_lateral_flexion",
+      "lumbar_rotation"
+    ],
+    "strength": [
+      "core_stability*",
+      "hip_extensors*",
+      "trunk_extensors"
+    ],
+    "measurements": [
+      "modified_schober_test*",
+      "oswestry_disability_index*",
+      "fear_avoidance_beliefs_questionnaire"
+    ],
+    "special_tests": [
+      "straight_leg_raise*",
+      "slump_test*",
+      "prone_instability_test",
+      "neurodynamic_testing"
+    ]
+  },
+  "Cervical Spondylosis": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "ndi_score*",
+      "morning_stiffness"
+    ],
+    "rom": [
+      "cervical_rotation*",
+      "cervical_extension*",
+      "cervical_lateral_flexion"
+    ],
+    "strength": [],
+    "measurements": [],
+    "special_tests": []
+  },
+  "Bicipital Tendinopathy": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "overhead_reaching*",
+      "lifting*",
+      "pulling*",
+      "carrying",
+      "dash_score"
+    ],
+    "rom": [
+      "shoulder_flexion*",
+      "shoulder_external_rotation*",
+      "shoulder_internal_rotation"
+    ],
+    "strength": [
+      "biceps*",
+      "shoulder_flexion*",
+      "elbow_supination"
+    ],
+    "measurements": [
+      "pain_on_resisted_supination*",
+      "tenderness_bicipital_groove*"
+    ],
+    "special_tests": [
+      "speed_test*",
+      "yergason_test*",
+      "upper_cut_test"
+    ]
+  },
+  "Forward Head Posture": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "prolonged_sitting*",
+      "computer_work*",
+      "driving*",
+      "reading",
+      "sleeping_position"
+    ],
+    "rom": [
+      "cervical_flexion*",
+      "cervical_extension*",
+      "cervical_retraction*",
+      "cervical_rotation",
+      "cervical_lateral_flexion"
+    ],
+    "strength": [
+      "deep_neck_flexors*",
+      "lower_trapezius*",
+      "scapular_retractors*"
+    ],
+    "measurements": [
+      "craniovertebral_angle*",
+      "tragus_to_wall_distance*",
+      "neck_disability_index"
+    ],
+    "special_tests": [
+      "deep_neck_flexor_endurance_test*",
+      "scapular_dyskinesis_assessment*",
+      "cervical_retraction_test"
+    ]
+  },
+  "Extensor Tendinopathy (Wrist)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "dash*",
+      "prtee",
+      "quick_dash"
+    ],
+    "rom": [
+      "wrist_extension*",
+      "finger_extension"
+    ],
+    "strength": [
+      "wrist_extension_strength*",
+      "grip_strength*"
+    ],
+    "measurements": [
+      "dorsal_forearm_tenderness*",
+      "tendon_thickening"
+    ],
+    "special_tests": [
+      "resisted_wrist_extension*",
+      "resisted_finger_extension"
+    ]
+  },
+  "Flexor Tendinopathy (Wrist)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "stair_climbing_pain*",
+      "running_tolerance"
+    ],
+    "rom": [
+      "hip_extension*"
+    ],
+    "strength": [
+      "hip_flexion*"
+    ],
+    "measurements": [
+      "hip_flexor_tenderness*"
+    ],
+    "special_tests": [
+      "thomas_test*",
+      "resisted_hip_flexion_test"
+    ]
+  },
+  "Quadriceps Tendinopathy": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "koos_pf*",
+      "jumping_pain*",
+      "stair_climbing_pain"
+    ],
+    "rom": [
+      "knee_flexion*"
+    ],
+    "strength": [
+      "quadriceps_strength*"
+    ],
+    "measurements": [
+      "superior_pole_patella_tenderness*"
+    ],
+    "special_tests": []
+  },
+  "Colles Fracture Recovery": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "gripping*",
+      "writing*",
+      "turning_doorknob*",
+      "lifting",
+      "dash_score"
+    ],
+    "rom": [
+      "wrist_extension*",
+      "wrist_flexion*",
+      "forearm_supination*",
+      "forearm_pronation",
+      "radial_deviation",
+      "ulnar_deviation"
+    ],
+    "strength": [
+      "grip_strength*",
+      "wrist_extensors*",
+      "pinch_strength"
+    ],
+    "measurements": [
+      "wrist_circumference*",
+      "volumetric_hand_swelling*",
+      "patient_rated_wrist_evaluation"
+    ],
+    "special_tests": [
+      "fracture_union_status*",
+      "druj_stability_test*",
+      "carpal_tunnel_screening"
+    ]
+  },
+  "Elbow Osteoarthritis": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "meps*",
+      "dash*",
+      "oxford_elbow_score"
+    ],
+    "rom": [
+      "elbow_flexion*",
+      "elbow_extension*",
+      "forearm_pronation",
+      "forearm_supination"
+    ],
+    "strength": [
+      "grip_strength*"
+    ],
+    "measurements": [
+      "morning_stiffness_duration*",
+      "crepitus",
+      "flexion_extension_arc"
+    ],
+    "special_tests": []
+  },
+  "Wrist Osteoarthritis": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "prwe*",
+      "dash*",
+      "auscan"
+    ],
+    "rom": [
+      "wrist_flexion*",
+      "wrist_extension*",
+      "radial_deviation",
+      "ulnar_deviation"
+    ],
+    "strength": [
+      "grip_strength*",
+      "pinch_strength"
+    ],
+    "measurements": [
+      "joint_space_narrowing*",
+      "osteophyte_presence",
+      "morning_stiffness_duration"
+    ],
+    "special_tests": [
+      "grind_test_wrist"
+    ]
+  },
+  "Ankle Osteoarthritis": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "faos*",
+      "faam*",
+      "aos"
+    ],
+    "rom": [
+      "ankle_dorsiflexion*",
+      "ankle_plantarflexion*"
+    ],
+    "strength": [
+      "plantarflexion_strength",
+      "dorsiflexion_strength"
+    ],
+    "measurements": [
+      "swelling_figure_8*",
+      "morning_stiffness_duration*"
+    ],
+    "special_tests": [
+      "gait_analysis*",
+      "single_leg_stance"
+    ]
+  },
+  "Radial Nerve Entrapment": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "dash*",
+      "quick_dash"
+    ],
+    "rom": [
+      "wrist_extension*",
+      "finger_extension"
+    ],
+    "strength": [
+      "wrist_extension_strength*",
+      "finger_extension_strength"
+    ],
+    "measurements": [
+      "sensory_assessment*",
+      "radial_tunnel_tenderness"
+    ],
+    "special_tests": [
+      "resisted_supination*",
+      "resisted_middle_finger_extension*"
+    ]
+  },
+  "Peroneal Nerve Entrapment": {
+    "essential": [
+      "nprs"
+    ],
+    "function": [
+      "walking*",
+      "stair_climbing*",
+      "running",
+      "standing_on_heels*"
+    ],
+    "motor": [
+      "ankle_dorsiflexion*",
+      "toe_extension*",
+      "eversion*",
+      "foot_drop_assessment"
+    ],
+    "sensation": [
+      "lateral_leg_dermatome*",
+      "dorsal_foot_dermatome*",
+      "two_point_discrimination"
+    ],
+    "balance": [
+      "single_leg_stance*",
+      "tandem_stance"
+    ],
+    "coordination": [
+      "heel_walking*",
+      "rapid_alternating_foot_movements"
+    ],
+    "gait": [
+      "steppage_gait_assessment*",
+      "gait_speed*",
+      "foot_clearance",
+      "ankle_foot_orthosis_use"
+    ],
+    "cognition": [],
+    "tone": [
+      "peroneal_muscle_tone*",
+      "tibialis_anterior_bulk"
+    ]
+  },
+  "Sternoclavicular Joint Sprain": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "dash*",
+      "quick_dash"
+    ],
+    "rom": [
+      "shoulder_flexion*",
+      "horizontal_adduction*"
+    ],
+    "strength": [
+      "shoulder_flexion_strength"
+    ],
+    "measurements": [
+      "sc_joint_tenderness*",
+      "swelling_assessment"
+    ],
+    "special_tests": [
+      "sc_joint_stress_test*"
+    ]
+  },
+  "Burn Injury - 2nd/3rd Degree": {
+    "essential": [
+      "vas"
+    ],
+    "wound": [
+      "wound_size*",
+      "wound_depth*",
+      "epithelialization_percentage*",
+      "exudate_amount",
+      "wound_bed_color",
+      "infection_signs"
+    ],
+    "scar": [
+      "vancouver_scar_scale*",
+      "scar_thickness*",
+      "scar_pliability*",
+      "scar_pigmentation",
+      "scar_vascularity"
+    ],
+    "function": [
+      "affected_area_mobility*",
+      "dressing*",
+      "gripping",
+      "adl_independence*"
+    ],
+    "measurements": [
+      "total_body_surface_area_affected*",
+      "rom_at_burn_site*",
+      "edema_circumferential"
+    ]
+  },
+  "Pressure Ulcer": {
+    "essential": [
+      "vas*",
+      "push_score*",
+      "npuap_stage*",
+      "braden_scale*"
+    ],
+    "wound": [
+      "bwat*",
+      "wound_bed_tissue_type*",
+      "exudate_amount*",
+      "undermining",
+      "wound_edges*"
+    ],
+    "scar": [
+      "scar_formation"
+    ],
+    "function": [
+      "repositioning_schedule*",
+      "mobility*",
+      "sitting_tolerance*",
+      "pressure_redistribution*"
+    ],
+    "measurements": [
+      "wound_surface_area*",
+      "wound_depth*",
+      "healing_rate*"
+    ]
+  },
+  "Post-Concussion Syndrome": {
+    "essential": [
+      "pcss*",
+      "rpq*"
+    ],
+    "function": [
+      "return_to_activity_status*",
+      "adl_tolerance"
+    ],
+    "motor": [
+      "grip_strength",
+      "cervical_strength"
+    ],
+    "sensation": [
+      "vestibular_ocular_motor_screen*",
+      "photosensitivity"
+    ],
+    "balance": [
+      "bess*",
+      "single_leg_stance"
+    ],
+    "coordination": [
+      "saccades*",
+      "smooth_pursuit"
+    ],
+    "gait": [
+      "tandem_gait*",
+      "gait_speed",
+      "dual_task_gait"
+    ],
+    "cognition": [
+      "moca*",
+      "reaction_time",
+      "symbol_digit_modalities"
+    ],
+    "tone": []
+  },
+  "Muscular Dystrophy - Duchenne": {
+    "essential": [
+      "six_minute_walk_test*",
+      "motor_function_measure"
+    ],
+    "function": [
+      "activlim*",
+      "haq_di"
+    ],
+    "motor": [
+      "mmt_sum_score*",
+      "proximal_muscle_strength"
+    ],
+    "sensation": [],
+    "balance": [
+      "berg_balance_scale"
+    ],
+    "coordination": [],
+    "gait": [
+      "ten_meter_walk_test*",
+      "gait_speed"
+    ],
+    "cognition": [],
+    "tone": [
+      "joint_contracture_assessment*"
+    ]
+  },
+  "Radiation Fibrosis": {
+    "essential": [
+      "vas*",
+      "facit_fatigue*"
+    ],
+    "function": [
+      "affected_area_mobility*",
+      "adl_tolerance*"
+    ],
+    "strength": [
+      "affected_area_strength*"
+    ],
+    "endurance": [
+      "6mwt*"
+    ],
+    "lymphedema": [
+      "affected_area_edema*"
+    ],
+    "quality_of_life": [
+      "fact_g*",
+      "lent_soma*"
+    ]
+  },
+  "Ulnar Nerve Entrapment (Cubital Tunnel)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "dash*",
+      "quick_dash",
+      "psfs"
+    ],
+    "rom": [
+      "elbow_flexion*",
+      "elbow_extension"
+    ],
+    "strength": [
+      "grip_strength*",
+      "intrinsic_hand_strength*",
+      "pinch_strength"
+    ],
+    "measurements": [
+      "sensory_assessment*",
+      "two_point_discrimination*"
+    ],
+    "special_tests": [
+      "tinel_sign_elbow*",
+      "elbow_flexion_test*",
+      "scratch_collapse_test"
+    ]
+  },
+  "Iliotibial Band Syndrome (ITBS)": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "running*",
+      "stair_descent*",
+      "prolonged_sitting*",
+      "cycling",
+      "single_leg_squat"
+    ],
+    "rom": [
+      "hip_adduction_modified_ober*",
+      "hip_internal_rotation*",
+      "knee_flexion"
+    ],
+    "strength": [
+      "hip_abductors*",
+      "gluteus_medius*",
+      "hip_external_rotators*"
+    ],
+    "measurements": [
+      "ober_test_angle*",
+      "lower_extremity_functional_scale*",
+      "single_leg_squat_quality"
+    ],
+    "special_tests": [
+      "ober_test*",
+      "noble_compression_test*",
+      "renne_test"
+    ]
+  },
+  "Quadriceps Strain": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "lefs_score*",
+      "running_tolerance*",
+      "kicking_pain"
+    ],
+    "rom": [
+      "knee_flexion*",
+      "hip_extension"
+    ],
+    "strength": [
+      "quadriceps_strength*",
+      "resisted_knee_extension"
+    ],
+    "measurements": [
+      "quadriceps_tenderness*"
+    ],
+    "special_tests": []
+  },
+  "Pectoralis Major Strain": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "pushing*",
+      "bench_press*",
+      "horizontal_adduction*",
+      "lifting_overhead",
+      "dash_score"
+    ],
+    "rom": [
+      "shoulder_horizontal_adduction*",
+      "shoulder_flexion*",
+      "shoulder_extension",
+      "shoulder_external_rotation"
+    ],
+    "strength": [
+      "pectoralis_major_clavicular*",
+      "pectoralis_major_sternal*",
+      "shoulder_internal_rotation"
+    ],
+    "measurements": [
+      "chest_wall_ecchymosis*",
+      "palpable_defect_assessment*",
+      "chest_circumference"
+    ],
+    "special_tests": [
+      "resisted_horizontal_adduction*",
+      "dynamic_hug_test*",
+      "pectoralis_major_retraction_test"
+    ]
+  },
+  "Hip Fracture Recovery": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "transfers*",
+      "ambulation*",
+      "stair_climbing*",
+      "toileting",
+      "community_mobility"
+    ],
+    "balance": [
+      "berg_balance_scale*",
+      "single_leg_stance*",
+      "functional_reach_test"
+    ],
+    "gait": [
+      "gait_speed*",
+      "timed_up_and_go*",
+      "assistive_device_use*",
+      "step_length_symmetry"
+    ],
+    "strength": [
+      "hip_abductors*",
+      "quadriceps*",
+      "hip_extensors*",
+      "sit_to_stand_30s"
+    ],
+    "fall_risk": [
+      "falls_efficacy_scale*",
+      "fall_history_frequency*",
+      "medication_review"
+    ],
+    "cognition": [
+      "moca",
+      "dual_task_performance"
+    ],
+    "rom": [
+      "hip_flexion*",
+      "hip_abduction*",
+      "hip_external_rotation",
+      "hip_internal_rotation"
+    ],
+    "measurements": [
+      "limb_length_discrepancy*",
+      "thigh_circumference*",
+      "harris_hip_score"
+    ],
+    "special_tests": [
+      "fracture_healing_status*",
+      "weight_bearing_status*",
+      "trendelenburg_sign"
+    ]
+  },
+  "Tibial Stress Fracture": {
+    "essential": [
+      "vas"
+    ],
+    "function": [
+      "lefs*",
+      "faam",
+      "patient_specific_functional_scale"
+    ],
+    "rom": [
+      "ankle_dorsiflexion*",
+      "ankle_plantarflexion"
+    ],
+    "strength": [
+      "plantarflexion_strength*",
+      "single_leg_heel_raise_endurance",
+      "hip_abductor_strength"
+    ],
+    "measurements": [
+      "point_tenderness*",
+      "pain_free_walking_distance*",
+      "pain_free_running_distance"
+    ],
+    "special_tests": [
+      "tuning_fork_test*",
+      "single_leg_hop_test*",
+      "fulcrum_test"
+    ]
+  }
+}

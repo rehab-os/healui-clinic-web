@@ -1,0 +1,204 @@
+{
+  "prom_id": "OSS",
+  "full_name": "Oxford Shoulder Score",
+  "version": "1.0",
+  "copyright": "© Dawson et al., 1996",
+  "language": "English",
+  "total_items": 12,
+  "estimated_time_minutes": 5,
+  "description": "A 12-item patient-reported questionnaire specifically designed and developed for assessing outcomes of shoulder surgery. It contains questions on pain and shoulder function, particularly activities of daily living. Widely used in the UK and internationally.",
+  "instructions": "Please answer the questions about your shoulder problem. Consider how your shoulder has been during the past 4 weeks.",
+  "scoring": {
+    "method": "sum_total",
+    "total_score": {
+      "min": 0,
+      "max": 48,
+      "calculation": "Sum of all 12 items (each scored 0-4). Original scoring was 12-60 with lower=better; modern scoring uses 0-48 with higher=better.",
+      "interpretation": {
+        "0-19": "Severe shoulder problems",
+        "20-29": "Moderate to severe shoulder problems",
+        "30-39": "Mild to moderate shoulder problems",
+        "40-48": "Satisfactory shoulder function"
+      },
+      "higher_is_better": true,
+      "mcid": 5
+    }
+  },
+  "sections": [
+    {
+      "id": "oss_assessment",
+      "title": "Shoulder Pain and Function",
+      "description": "How would you describe your shoulder problem during the last 4 weeks?",
+      "questions": [
+        {
+          "id": "oss_1",
+          "question": "How would you describe the worst pain you had from your shoulder?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 1,
+          "options": [
+            { "value": "4", "label": "None", "score": 4 },
+            { "value": "3", "label": "Mild", "score": 3 },
+            { "value": "2", "label": "Moderate", "score": 2 },
+            { "value": "1", "label": "Severe", "score": 1 },
+            { "value": "0", "label": "Unbearable", "score": 0 }
+          ]
+        },
+        {
+          "id": "oss_2",
+          "question": "Have you had any trouble dressing yourself because of your shoulder?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 2,
+          "options": [
+            { "value": "4", "label": "No trouble at all", "score": 4 },
+            { "value": "3", "label": "A little bit of trouble", "score": 3 },
+            { "value": "2", "label": "Moderate trouble", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Impossible to do", "score": 0 }
+          ]
+        },
+        {
+          "id": "oss_3",
+          "question": "Have you had any trouble getting in and out of a car or using public transport because of your shoulder?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 3,
+          "options": [
+            { "value": "4", "label": "No trouble at all", "score": 4 },
+            { "value": "3", "label": "A little bit of trouble", "score": 3 },
+            { "value": "2", "label": "Moderate trouble", "score": 2 },
+            { "value": "1", "label": "Extreme difficulty", "score": 1 },
+            { "value": "0", "label": "Impossible to do", "score": 0 }
+          ]
+        },
+        {
+          "id": "oss_4",
+          "question": "Have you been able to use a knife and fork at the same time?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 4,
+          "options": [
+            { "value": "4", "label": "Yes, easily", "score": 4 },
+            { "value": "3", "label": "With little difficulty", "score": 3 },
+            { "value": "2", "label": "With moderate difficulty", "score": 2 },
+            { "value": "1", "label": "With extreme difficulty", "score": 1 },
+            { "value": "0", "label": "No, impossible", "score": 0 }
+          ]
+        },
+        {
+          "id": "oss_5",
+          "question": "Could you do the household shopping on your own?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 5,
+          "options": [
+            { "value": "4", "label": "Yes, easily", "score": 4 },
+            { "value": "3", "label": "With little difficulty", "score": 3 },
+            { "value": "2", "label": "With moderate difficulty", "score": 2 },
+            { "value": "1", "label": "With extreme difficulty", "score": 1 },
+            { "value": "0", "label": "No, impossible", "score": 0 }
+          ]
+        },
+        {
+          "id": "oss_6",
+          "question": "Could you carry a tray containing a plate of food across a room?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 6,
+          "options": [
+            { "value": "4", "label": "Yes, easily", "score": 4 },
+            { "value": "3", "label": "With little difficulty", "score": 3 },
+            { "value": "2", "label": "With moderate difficulty", "score": 2 },
+            { "value": "1", "label": "With extreme difficulty", "score": 1 },
+            { "value": "0", "label": "No, impossible", "score": 0 }
+          ]
+        },
+        {
+          "id": "oss_7",
+          "question": "Could you brush/comb your hair with the affected arm?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 7,
+          "options": [
+            { "value": "4", "label": "Yes, easily", "score": 4 },
+            { "value": "3", "label": "With little difficulty", "score": 3 },
+            { "value": "2", "label": "With moderate difficulty", "score": 2 },
+            { "value": "1", "label": "With extreme difficulty", "score": 1 },
+            { "value": "0", "label": "No, impossible", "score": 0 }
+          ]
+        },
+        {
+          "id": "oss_8",
+          "question": "How would you describe the pain you usually had from your shoulder?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 8,
+          "options": [
+            { "value": "4", "label": "None", "score": 4 },
+            { "value": "3", "label": "Very mild", "score": 3 },
+            { "value": "2", "label": "Mild", "score": 2 },
+            { "value": "1", "label": "Moderate", "score": 1 },
+            { "value": "0", "label": "Severe", "score": 0 }
+          ]
+        },
+        {
+          "id": "oss_9",
+          "question": "Could you hang your clothes up in a wardrobe using the affected arm?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 9,
+          "options": [
+            { "value": "4", "label": "Yes, easily", "score": 4 },
+            { "value": "3", "label": "With little difficulty", "score": 3 },
+            { "value": "2", "label": "With moderate difficulty", "score": 2 },
+            { "value": "1", "label": "With extreme difficulty", "score": 1 },
+            { "value": "0", "label": "No, impossible", "score": 0 }
+          ]
+        },
+        {
+          "id": "oss_10",
+          "question": "Have you been able to wash and dry yourself under both arms?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 10,
+          "options": [
+            { "value": "4", "label": "Yes, easily", "score": 4 },
+            { "value": "3", "label": "With little difficulty", "score": 3 },
+            { "value": "2", "label": "With moderate difficulty", "score": 2 },
+            { "value": "1", "label": "With extreme difficulty", "score": 1 },
+            { "value": "0", "label": "No, impossible", "score": 0 }
+          ]
+        },
+        {
+          "id": "oss_11",
+          "question": "How much has pain from your shoulder interfered with your usual work (including housework)?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 11,
+          "options": [
+            { "value": "4", "label": "Not at all", "score": 4 },
+            { "value": "3", "label": "A little bit", "score": 3 },
+            { "value": "2", "label": "Moderately", "score": 2 },
+            { "value": "1", "label": "Greatly", "score": 1 },
+            { "value": "0", "label": "Totally", "score": 0 }
+          ]
+        },
+        {
+          "id": "oss_12",
+          "question": "Have you been troubled by pain from your shoulder in bed at night?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 12,
+          "options": [
+            { "value": "4", "label": "No nights", "score": 4 },
+            { "value": "3", "label": "Only 1 or 2 nights", "score": 3 },
+            { "value": "2", "label": "Some nights", "score": 2 },
+            { "value": "1", "label": "Most nights", "score": 1 },
+            { "value": "0", "label": "Every night", "score": 0 }
+          ]
+        }
+      ]
+    }
+  ]
+}

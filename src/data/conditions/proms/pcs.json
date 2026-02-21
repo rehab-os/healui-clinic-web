@@ -1,0 +1,254 @@
+{
+  "prom_id": "PCS",
+  "full_name": "Pain Catastrophizing Scale",
+  "version": "1.0",
+  "copyright": "© Sullivan et al., 1995",
+  "language": "English",
+  "total_items": 13,
+  "estimated_time_minutes": 5,
+  "description": "A 13-item self-report questionnaire designed to measure catastrophic thinking related to pain. It assesses three dimensions: rumination, magnification, and helplessness.",
+  "instructions": "We are interested in the types of thoughts and feelings that you have when you are in pain. Listed below are thirteen statements describing different thoughts and feelings that may be associated with pain. Using the following scale, please indicate the degree to which you have these thoughts and feelings when you are experiencing pain.",
+  "scoring": {
+    "method": "subscale_sum",
+    "total_score": {
+      "min": 0,
+      "max": 52,
+      "calculation": "Sum of all items (range 0-52). Higher scores indicate greater pain catastrophizing.",
+      "interpretation": {
+        "0-19": "Low catastrophizing",
+        "20-29": "Moderate catastrophizing",
+        "30-52": "High catastrophizing"
+      },
+      "higher_is_better": false,
+      "mcid": 9.6,
+      "clinical_cutoff": 30
+    },
+    "subscales": [
+      {
+        "id": "rumination",
+        "name": "Rumination",
+        "items": [1, 8, 9, 11],
+        "min": 0,
+        "max": 16
+      },
+      {
+        "id": "magnification",
+        "name": "Magnification",
+        "items": [6, 7, 13],
+        "min": 0,
+        "max": 12
+      },
+      {
+        "id": "helplessness",
+        "name": "Helplessness",
+        "items": [2, 3, 4, 5, 10, 12],
+        "min": 0,
+        "max": 24
+      }
+    ]
+  },
+  "sections": [
+    {
+      "id": "pcs_catastrophizing",
+      "title": "Pain Catastrophizing",
+      "description": "When I'm in pain...",
+      "questions": [
+        {
+          "id": "pcs_1",
+          "question": "I worry all the time about whether the pain will end",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 1,
+          "subscale": "rumination",
+          "options": [
+            { "value": "0", "label": "Not at all", "score": 0 },
+            { "value": "1", "label": "To a slight degree", "score": 1 },
+            { "value": "2", "label": "To a moderate degree", "score": 2 },
+            { "value": "3", "label": "To a great degree", "score": 3 },
+            { "value": "4", "label": "All the time", "score": 4 }
+          ]
+        },
+        {
+          "id": "pcs_2",
+          "question": "I feel I can't go on",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 2,
+          "subscale": "helplessness",
+          "options": [
+            { "value": "0", "label": "Not at all", "score": 0 },
+            { "value": "1", "label": "To a slight degree", "score": 1 },
+            { "value": "2", "label": "To a moderate degree", "score": 2 },
+            { "value": "3", "label": "To a great degree", "score": 3 },
+            { "value": "4", "label": "All the time", "score": 4 }
+          ]
+        },
+        {
+          "id": "pcs_3",
+          "question": "It's terrible and I think it's never going to get any better",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 3,
+          "subscale": "helplessness",
+          "options": [
+            { "value": "0", "label": "Not at all", "score": 0 },
+            { "value": "1", "label": "To a slight degree", "score": 1 },
+            { "value": "2", "label": "To a moderate degree", "score": 2 },
+            { "value": "3", "label": "To a great degree", "score": 3 },
+            { "value": "4", "label": "All the time", "score": 4 }
+          ]
+        },
+        {
+          "id": "pcs_4",
+          "question": "It's awful and I feel that it overwhelms me",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 4,
+          "subscale": "helplessness",
+          "options": [
+            { "value": "0", "label": "Not at all", "score": 0 },
+            { "value": "1", "label": "To a slight degree", "score": 1 },
+            { "value": "2", "label": "To a moderate degree", "score": 2 },
+            { "value": "3", "label": "To a great degree", "score": 3 },
+            { "value": "4", "label": "All the time", "score": 4 }
+          ]
+        },
+        {
+          "id": "pcs_5",
+          "question": "I feel I can't stand it anymore",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 5,
+          "subscale": "helplessness",
+          "options": [
+            { "value": "0", "label": "Not at all", "score": 0 },
+            { "value": "1", "label": "To a slight degree", "score": 1 },
+            { "value": "2", "label": "To a moderate degree", "score": 2 },
+            { "value": "3", "label": "To a great degree", "score": 3 },
+            { "value": "4", "label": "All the time", "score": 4 }
+          ]
+        },
+        {
+          "id": "pcs_6",
+          "question": "I become afraid that the pain will get worse",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 6,
+          "subscale": "magnification",
+          "options": [
+            { "value": "0", "label": "Not at all", "score": 0 },
+            { "value": "1", "label": "To a slight degree", "score": 1 },
+            { "value": "2", "label": "To a moderate degree", "score": 2 },
+            { "value": "3", "label": "To a great degree", "score": 3 },
+            { "value": "4", "label": "All the time", "score": 4 }
+          ]
+        },
+        {
+          "id": "pcs_7",
+          "question": "I keep thinking of other painful events",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 7,
+          "subscale": "magnification",
+          "options": [
+            { "value": "0", "label": "Not at all", "score": 0 },
+            { "value": "1", "label": "To a slight degree", "score": 1 },
+            { "value": "2", "label": "To a moderate degree", "score": 2 },
+            { "value": "3", "label": "To a great degree", "score": 3 },
+            { "value": "4", "label": "All the time", "score": 4 }
+          ]
+        },
+        {
+          "id": "pcs_8",
+          "question": "I anxiously want the pain to go away",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 8,
+          "subscale": "rumination",
+          "options": [
+            { "value": "0", "label": "Not at all", "score": 0 },
+            { "value": "1", "label": "To a slight degree", "score": 1 },
+            { "value": "2", "label": "To a moderate degree", "score": 2 },
+            { "value": "3", "label": "To a great degree", "score": 3 },
+            { "value": "4", "label": "All the time", "score": 4 }
+          ]
+        },
+        {
+          "id": "pcs_9",
+          "question": "I can't seem to keep it out of my mind",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 9,
+          "subscale": "rumination",
+          "options": [
+            { "value": "0", "label": "Not at all", "score": 0 },
+            { "value": "1", "label": "To a slight degree", "score": 1 },
+            { "value": "2", "label": "To a moderate degree", "score": 2 },
+            { "value": "3", "label": "To a great degree", "score": 3 },
+            { "value": "4", "label": "All the time", "score": 4 }
+          ]
+        },
+        {
+          "id": "pcs_10",
+          "question": "I keep thinking about how much it hurts",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 10,
+          "subscale": "helplessness",
+          "options": [
+            { "value": "0", "label": "Not at all", "score": 0 },
+            { "value": "1", "label": "To a slight degree", "score": 1 },
+            { "value": "2", "label": "To a moderate degree", "score": 2 },
+            { "value": "3", "label": "To a great degree", "score": 3 },
+            { "value": "4", "label": "All the time", "score": 4 }
+          ]
+        },
+        {
+          "id": "pcs_11",
+          "question": "I keep thinking about how badly I want the pain to stop",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 11,
+          "subscale": "rumination",
+          "options": [
+            { "value": "0", "label": "Not at all", "score": 0 },
+            { "value": "1", "label": "To a slight degree", "score": 1 },
+            { "value": "2", "label": "To a moderate degree", "score": 2 },
+            { "value": "3", "label": "To a great degree", "score": 3 },
+            { "value": "4", "label": "All the time", "score": 4 }
+          ]
+        },
+        {
+          "id": "pcs_12",
+          "question": "There's nothing I can do to reduce the intensity of the pain",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 12,
+          "subscale": "helplessness",
+          "options": [
+            { "value": "0", "label": "Not at all", "score": 0 },
+            { "value": "1", "label": "To a slight degree", "score": 1 },
+            { "value": "2", "label": "To a moderate degree", "score": 2 },
+            { "value": "3", "label": "To a great degree", "score": 3 },
+            { "value": "4", "label": "All the time", "score": 4 }
+          ]
+        },
+        {
+          "id": "pcs_13",
+          "question": "I wonder whether something serious may happen",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 13,
+          "subscale": "magnification",
+          "options": [
+            { "value": "0", "label": "Not at all", "score": 0 },
+            { "value": "1", "label": "To a slight degree", "score": 1 },
+            { "value": "2", "label": "To a moderate degree", "score": 2 },
+            { "value": "3", "label": "To a great degree", "score": 3 },
+            { "value": "4", "label": "All the time", "score": 4 }
+          ]
+        }
+      ]
+    }
+  ]
+}

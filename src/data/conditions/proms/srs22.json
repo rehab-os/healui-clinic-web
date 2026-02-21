@@ -1,0 +1,400 @@
+{
+  "prom_id": "SRS-22",
+  "full_name": "Scoliosis Research Society-22 Patient Questionnaire",
+  "version": "1.0",
+  "copyright": "© Scoliosis Research Society, 2003",
+  "language": "English",
+  "total_items": 22,
+  "estimated_time_minutes": 7,
+  "description": "A disease-specific health-related quality of life questionnaire for patients with adolescent idiopathic scoliosis and other spinal deformities.",
+  "instructions": "Please indicate your response to each question by marking one box per question that most accurately describes you.",
+  "scoring": {
+    "method": "subscale_average",
+    "subscales": [
+      {
+        "id": "function",
+        "name": "Function/Activity",
+        "items": 5,
+        "calculation": "Average of 5 items (questions 5, 9, 12, 15, 18)"
+      },
+      {
+        "id": "pain",
+        "name": "Pain",
+        "items": 5,
+        "calculation": "Average of 5 items (questions 1, 2, 8, 11, 17)"
+      },
+      {
+        "id": "self_image",
+        "name": "Self-Image/Appearance",
+        "items": 6,
+        "calculation": "Average of 6 items (questions 4, 6, 10, 14, 19, 22)"
+      },
+      {
+        "id": "mental_health",
+        "name": "Mental Health",
+        "items": 5,
+        "calculation": "Average of 5 items (questions 3, 7, 13, 16, 20)"
+      },
+      {
+        "id": "satisfaction",
+        "name": "Satisfaction with Management",
+        "items": 1,
+        "calculation": "Single item (question 21) - only for postoperative patients"
+      }
+    ],
+    "total_score": {
+      "min": 1,
+      "max": 5,
+      "calculation": "Average of all domain scores (excluding satisfaction domain for preoperative patients)",
+      "interpretation": {
+        "1-2": "Poor quality of life",
+        "2-3": "Fair quality of life",
+        "3-4": "Good quality of life",
+        "4-5": "Excellent quality of life"
+      },
+      "higher_is_better": true,
+      "mcid": 0.4
+    }
+  },
+  "sections": [
+    {
+      "id": "srs22_all",
+      "title": "Health-Related Quality of Life",
+      "description": "Please answer all questions",
+      "questions": [
+        {
+          "id": "srs22_1",
+          "question": "Which one of the following best describes the amount of pain you have experienced during the past 6 months?",
+          "domain": "pain",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 1,
+          "options": [
+            { "value": "1", "label": "Severe", "score": 1 },
+            { "value": "2", "label": "Moderate to severe", "score": 2 },
+            { "value": "3", "label": "Moderate", "score": 3 },
+            { "value": "4", "label": "Mild to moderate", "score": 4 },
+            { "value": "5", "label": "None", "score": 5 }
+          ]
+        },
+        {
+          "id": "srs22_2",
+          "question": "Which one of the following best describes the amount of pain you have experienced in the last month?",
+          "domain": "pain",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 2,
+          "options": [
+            { "value": "1", "label": "Severe", "score": 1 },
+            { "value": "2", "label": "Moderate to severe", "score": 2 },
+            { "value": "3", "label": "Moderate", "score": 3 },
+            { "value": "4", "label": "Mild to moderate", "score": 4 },
+            { "value": "5", "label": "None", "score": 5 }
+          ]
+        },
+        {
+          "id": "srs22_3",
+          "question": "How would you describe your activity level?",
+          "domain": "mental_health",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 3,
+          "options": [
+            { "value": "1", "label": "Bedridden", "score": 1 },
+            { "value": "2", "label": "Primarily no activities", "score": 2 },
+            { "value": "3", "label": "Light labor and moderate recreational activities", "score": 3 },
+            { "value": "4", "label": "Moderate manual labor, active recreational activities", "score": 4 },
+            { "value": "5", "label": "Very active, activities include athletics on a regular basis", "score": 5 }
+          ]
+        },
+        {
+          "id": "srs22_4",
+          "question": "How do you look in clothes?",
+          "domain": "self_image",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 4,
+          "options": [
+            { "value": "1", "label": "Very bad", "score": 1 },
+            { "value": "2", "label": "Bad", "score": 2 },
+            { "value": "3", "label": "Fair", "score": 3 },
+            { "value": "4", "label": "Good", "score": 4 },
+            { "value": "5", "label": "Very good", "score": 5 }
+          ]
+        },
+        {
+          "id": "srs22_5",
+          "question": "Can you do physical activities like running and sports?",
+          "domain": "function",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 5,
+          "options": [
+            { "value": "1", "label": "Never", "score": 1 },
+            { "value": "2", "label": "Very rarely", "score": 2 },
+            { "value": "3", "label": "Sometimes", "score": 3 },
+            { "value": "4", "label": "Most of the time", "score": 4 },
+            { "value": "5", "label": "All the time", "score": 5 }
+          ]
+        },
+        {
+          "id": "srs22_6",
+          "question": "How do you think your back looks?",
+          "domain": "self_image",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 6,
+          "options": [
+            { "value": "1", "label": "Very bad", "score": 1 },
+            { "value": "2", "label": "Bad", "score": 2 },
+            { "value": "3", "label": "Fair", "score": 3 },
+            { "value": "4", "label": "Good", "score": 4 },
+            { "value": "5", "label": "Very good", "score": 5 }
+          ]
+        },
+        {
+          "id": "srs22_7",
+          "question": "What do you feel about the future?",
+          "domain": "mental_health",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 7,
+          "options": [
+            { "value": "1", "label": "Terrible outlook", "score": 1 },
+            { "value": "2", "label": "Somewhat worried", "score": 2 },
+            { "value": "3", "label": "Neither worried nor optimistic", "score": 3 },
+            { "value": "4", "label": "Optimistic", "score": 4 },
+            { "value": "5", "label": "Very optimistic", "score": 5 }
+          ]
+        },
+        {
+          "id": "srs22_8",
+          "question": "Has back pain caused you to miss work/school (or you would have missed work/school if you had a job)?",
+          "domain": "pain",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 8,
+          "options": [
+            { "value": "1", "label": "All the time", "score": 1 },
+            { "value": "2", "label": "Most of the time", "score": 2 },
+            { "value": "3", "label": "Sometimes", "score": 3 },
+            { "value": "4", "label": "Very rarely", "score": 4 },
+            { "value": "5", "label": "Never", "score": 5 }
+          ]
+        },
+        {
+          "id": "srs22_9",
+          "question": "Does your back limit your ability to do things around the house?",
+          "domain": "function",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 9,
+          "options": [
+            { "value": "1", "label": "All the time", "score": 1 },
+            { "value": "2", "label": "Most of the time", "score": 2 },
+            { "value": "3", "label": "Sometimes", "score": 3 },
+            { "value": "4", "label": "Very rarely", "score": 4 },
+            { "value": "5", "label": "Never", "score": 5 }
+          ]
+        },
+        {
+          "id": "srs22_10",
+          "question": "Does the appearance of your trunk (body) bother you?",
+          "domain": "self_image",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 10,
+          "options": [
+            { "value": "1", "label": "All the time", "score": 1 },
+            { "value": "2", "label": "Most of the time", "score": 2 },
+            { "value": "3", "label": "Sometimes", "score": 3 },
+            { "value": "4", "label": "Very rarely", "score": 4 },
+            { "value": "5", "label": "Never", "score": 5 }
+          ]
+        },
+        {
+          "id": "srs22_11",
+          "question": "Do you take pain medication?",
+          "domain": "pain",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 11,
+          "options": [
+            { "value": "1", "label": "Daily or more", "score": 1 },
+            { "value": "2", "label": "Weekly", "score": 2 },
+            { "value": "3", "label": "Monthly", "score": 3 },
+            { "value": "4", "label": "Very rarely", "score": 4 },
+            { "value": "5", "label": "Never", "score": 5 }
+          ]
+        },
+        {
+          "id": "srs22_12",
+          "question": "Does your back limit going out with friends/family?",
+          "domain": "function",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 12,
+          "options": [
+            { "value": "1", "label": "All the time", "score": 1 },
+            { "value": "2", "label": "Most of the time", "score": 2 },
+            { "value": "3", "label": "Sometimes", "score": 3 },
+            { "value": "4", "label": "Very rarely", "score": 4 },
+            { "value": "5", "label": "Never", "score": 5 }
+          ]
+        },
+        {
+          "id": "srs22_13",
+          "question": "Are you and/or your family experiencing financial difficulties because of your back?",
+          "domain": "mental_health",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 13,
+          "options": [
+            { "value": "1", "label": "Severe difficulties", "score": 1 },
+            { "value": "2", "label": "Moderate difficulties", "score": 2 },
+            { "value": "3", "label": "Mild difficulties", "score": 3 },
+            { "value": "4", "label": "Very few difficulties", "score": 4 },
+            { "value": "5", "label": "No difficulties", "score": 5 }
+          ]
+        },
+        {
+          "id": "srs22_14",
+          "question": "Do you feel attractive with your current back condition?",
+          "domain": "self_image",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 14,
+          "options": [
+            { "value": "1", "label": "Never", "score": 1 },
+            { "value": "2", "label": "Very rarely", "score": 2 },
+            { "value": "3", "label": "Sometimes", "score": 3 },
+            { "value": "4", "label": "Most of the time", "score": 4 },
+            { "value": "5", "label": "All the time", "score": 5 }
+          ]
+        },
+        {
+          "id": "srs22_15",
+          "question": "Can you do most activities of daily living (for example, eating, bathing, dressing, and grooming)?",
+          "domain": "function",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 15,
+          "options": [
+            { "value": "1", "label": "Never", "score": 1 },
+            { "value": "2", "label": "Very rarely", "score": 2 },
+            { "value": "3", "label": "Sometimes", "score": 3 },
+            { "value": "4", "label": "Most of the time", "score": 4 },
+            { "value": "5", "label": "All the time", "score": 5 }
+          ]
+        },
+        {
+          "id": "srs22_16",
+          "question": "Are you as active as you want to be?",
+          "domain": "mental_health",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 16,
+          "options": [
+            { "value": "1", "label": "Never", "score": 1 },
+            { "value": "2", "label": "Very rarely", "score": 2 },
+            { "value": "3", "label": "Sometimes", "score": 3 },
+            { "value": "4", "label": "Most of the time", "score": 4 },
+            { "value": "5", "label": "All the time", "score": 5 }
+          ]
+        },
+        {
+          "id": "srs22_17",
+          "question": "Have you been nervous?",
+          "domain": "pain",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 17,
+          "options": [
+            { "value": "1", "label": "All the time", "score": 1 },
+            { "value": "2", "label": "Most of the time", "score": 2 },
+            { "value": "3", "label": "Sometimes", "score": 3 },
+            { "value": "4", "label": "Very rarely", "score": 4 },
+            { "value": "5", "label": "Never", "score": 5 }
+          ]
+        },
+        {
+          "id": "srs22_18",
+          "question": "Does your back limit the amount of work you can do around the house or at a job?",
+          "domain": "function",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 18,
+          "options": [
+            { "value": "1", "label": "All the time", "score": 1 },
+            { "value": "2", "label": "Most of the time", "score": 2 },
+            { "value": "3", "label": "Sometimes", "score": 3 },
+            { "value": "4", "label": "Very rarely", "score": 4 },
+            { "value": "5", "label": "Never", "score": 5 }
+          ]
+        },
+        {
+          "id": "srs22_19",
+          "question": "Does the appearance of your body affect your social life?",
+          "domain": "self_image",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 19,
+          "options": [
+            { "value": "1", "label": "All the time", "score": 1 },
+            { "value": "2", "label": "Most of the time", "score": 2 },
+            { "value": "3", "label": "Sometimes", "score": 3 },
+            { "value": "4", "label": "Very rarely", "score": 4 },
+            { "value": "5", "label": "Never", "score": 5 }
+          ]
+        },
+        {
+          "id": "srs22_20",
+          "question": "Are you discouraged about your future?",
+          "domain": "mental_health",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 20,
+          "options": [
+            { "value": "1", "label": "All the time", "score": 1 },
+            { "value": "2", "label": "Most of the time", "score": 2 },
+            { "value": "3", "label": "Sometimes", "score": 3 },
+            { "value": "4", "label": "Very rarely", "score": 4 },
+            { "value": "5", "label": "Never", "score": 5 }
+          ]
+        },
+        {
+          "id": "srs22_21",
+          "question": "If you have been treated for scoliosis/back problems, are you satisfied with the results?",
+          "domain": "satisfaction",
+          "ui_component": "single_choice",
+          "required": false,
+          "order": 21,
+          "options": [
+            { "value": "1", "label": "Very dissatisfied", "score": 1 },
+            { "value": "2", "label": "Dissatisfied", "score": 2 },
+            { "value": "3", "label": "Neither satisfied nor dissatisfied", "score": 3 },
+            { "value": "4", "label": "Satisfied", "score": 4 },
+            { "value": "5", "label": "Very satisfied", "score": 5 },
+            { "value": "N/A", "label": "Not applicable - I have not been treated", "score": null }
+          ]
+        },
+        {
+          "id": "srs22_22",
+          "question": "Would you have the same treatment/surgery again if you had the same condition?",
+          "domain": "self_image",
+          "ui_component": "single_choice",
+          "required": false,
+          "order": 22,
+          "options": [
+            { "value": "1", "label": "Definitely not", "score": 1 },
+            { "value": "2", "label": "Probably not", "score": 2 },
+            { "value": "3", "label": "Not sure", "score": 3 },
+            { "value": "4", "label": "Probably yes", "score": 4 },
+            { "value": "5", "label": "Definitely yes", "score": 5 },
+            { "value": "N/A", "label": "Not applicable - I have not been treated", "score": null }
+          ]
+        }
+      ]
+    }
+  ]
+}

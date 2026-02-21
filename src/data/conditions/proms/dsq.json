@@ -1,0 +1,175 @@
+{
+  "prom_id": "DSQ",
+  "full_name": "Dizziness Symptom Questionnaire",
+  "version": "1.0",
+  "copyright": "© Tusa et al., 1992",
+  "language": "English",
+  "total_items": 10,
+  "estimated_time_minutes": 3,
+  "description": "A brief questionnaire designed to assess the frequency and severity of dizziness symptoms in patients with vestibular disorders.",
+  "instructions": "Please rate how often you experience each of the following symptoms using the scale provided.",
+  "scoring": {
+    "method": "sum_total",
+    "total_score": {
+      "min": 0,
+      "max": 40,
+      "calculation": "Sum of all 10 items (each scored 0-4)",
+      "interpretation": {
+        "0-10": "Minimal dizziness symptoms",
+        "11-20": "Mild dizziness symptoms",
+        "21-30": "Moderate dizziness symptoms",
+        "31-40": "Severe dizziness symptoms"
+      },
+      "higher_is_worse": true
+    }
+  },
+  "sections": [
+    {
+      "id": "dsq_symptoms",
+      "title": "Dizziness Symptoms",
+      "description": "How often do you experience the following symptoms?",
+      "questions": [
+        {
+          "id": "dsq_1",
+          "question": "Spinning or vertigo (sensation that the room is moving around you)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 1,
+          "options": [
+            { "value": "0", "label": "Never", "score": 0 },
+            { "value": "1", "label": "Rarely", "score": 1 },
+            { "value": "2", "label": "Sometimes", "score": 2 },
+            { "value": "3", "label": "Often", "score": 3 },
+            { "value": "4", "label": "Very often/Always", "score": 4 }
+          ]
+        },
+        {
+          "id": "dsq_2",
+          "question": "Lightheadedness or feeling faint",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 2,
+          "options": [
+            { "value": "0", "label": "Never", "score": 0 },
+            { "value": "1", "label": "Rarely", "score": 1 },
+            { "value": "2", "label": "Sometimes", "score": 2 },
+            { "value": "3", "label": "Often", "score": 3 },
+            { "value": "4", "label": "Very often/Always", "score": 4 }
+          ]
+        },
+        {
+          "id": "dsq_3",
+          "question": "Unsteadiness or imbalance when walking",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 3,
+          "options": [
+            { "value": "0", "label": "Never", "score": 0 },
+            { "value": "1", "label": "Rarely", "score": 1 },
+            { "value": "2", "label": "Sometimes", "score": 2 },
+            { "value": "3", "label": "Often", "score": 3 },
+            { "value": "4", "label": "Very often/Always", "score": 4 }
+          ]
+        },
+        {
+          "id": "dsq_4",
+          "question": "Nausea or vomiting associated with dizziness",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 4,
+          "options": [
+            { "value": "0", "label": "Never", "score": 0 },
+            { "value": "1", "label": "Rarely", "score": 1 },
+            { "value": "2", "label": "Sometimes", "score": 2 },
+            { "value": "3", "label": "Often", "score": 3 },
+            { "value": "4", "label": "Very often/Always", "score": 4 }
+          ]
+        },
+        {
+          "id": "dsq_5",
+          "question": "Floating or swimming sensation",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 5,
+          "options": [
+            { "value": "0", "label": "Never", "score": 0 },
+            { "value": "1", "label": "Rarely", "score": 1 },
+            { "value": "2", "label": "Sometimes", "score": 2 },
+            { "value": "3", "label": "Often", "score": 3 },
+            { "value": "4", "label": "Very often/Always", "score": 4 }
+          ]
+        },
+        {
+          "id": "dsq_6",
+          "question": "Difficulty concentrating due to dizziness",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 6,
+          "options": [
+            { "value": "0", "label": "Never", "score": 0 },
+            { "value": "1", "label": "Rarely", "score": 1 },
+            { "value": "2", "label": "Sometimes", "score": 2 },
+            { "value": "3", "label": "Often", "score": 3 },
+            { "value": "4", "label": "Very often/Always", "score": 4 }
+          ]
+        },
+        {
+          "id": "dsq_7",
+          "question": "Visual disturbances (blurred vision, difficulty focusing)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 7,
+          "options": [
+            { "value": "0", "label": "Never", "score": 0 },
+            { "value": "1", "label": "Rarely", "score": 1 },
+            { "value": "2", "label": "Sometimes", "score": 2 },
+            { "value": "3", "label": "Often", "score": 3 },
+            { "value": "4", "label": "Very often/Always", "score": 4 }
+          ]
+        },
+        {
+          "id": "dsq_8",
+          "question": "Headache associated with dizziness",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 8,
+          "options": [
+            { "value": "0", "label": "Never", "score": 0 },
+            { "value": "1", "label": "Rarely", "score": 1 },
+            { "value": "2", "label": "Sometimes", "score": 2 },
+            { "value": "3", "label": "Often", "score": 3 },
+            { "value": "4", "label": "Very often/Always", "score": 4 }
+          ]
+        },
+        {
+          "id": "dsq_9",
+          "question": "Sensitivity to motion (car, elevator, crowds)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 9,
+          "options": [
+            { "value": "0", "label": "Never", "score": 0 },
+            { "value": "1", "label": "Rarely", "score": 1 },
+            { "value": "2", "label": "Sometimes", "score": 2 },
+            { "value": "3", "label": "Often", "score": 3 },
+            { "value": "4", "label": "Very often/Always", "score": 4 }
+          ]
+        },
+        {
+          "id": "dsq_10",
+          "question": "Anxiety or fear related to dizziness episodes",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 10,
+          "options": [
+            { "value": "0", "label": "Never", "score": 0 },
+            { "value": "1", "label": "Rarely", "score": 1 },
+            { "value": "2", "label": "Sometimes", "score": 2 },
+            { "value": "3", "label": "Often", "score": 3 },
+            { "value": "4", "label": "Very often/Always", "score": 4 }
+          ]
+        }
+      ]
+    }
+  ]
+}

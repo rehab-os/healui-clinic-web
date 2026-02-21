@@ -1,0 +1,187 @@
+{
+  "prom_id": "NDI",
+  "full_name": "Neck Disability Index",
+  "version": "1.0",
+  "copyright": "© Vernon & Mior, 1991",
+  "language": "English",
+  "total_items": 10,
+  "estimated_time_minutes": 5,
+  "description": "A patient-completed questionnaire designed to assess self-rated disability in patients with neck pain.",
+  "instructions": "This questionnaire has been designed to give us information as to how your neck pain has affected your ability to manage in everyday life. Please answer every section and mark in each section only ONE box that applies to you.",
+  "scoring": {
+    "method": "sum_to_percentage",
+    "total_score": {
+      "min": 0,
+      "max": 50,
+      "calculation": "Sum of all 10 items (each scored 0-5)",
+      "percentage_calculation": "(total / 50) × 100",
+      "interpretation": {
+        "0-8": "No disability (0-4 points or 0-8%)",
+        "10-28": "Mild disability (5-14 points or 10-28%)",
+        "30-48": "Moderate disability (15-24 points or 30-48%)",
+        "50-64": "Severe disability (25-34 points or 50-68%)",
+        "70-100": "Complete disability (35+ points or 70-100%)"
+      },
+      "higher_is_worse": true
+    }
+  },
+  "sections": [
+    {
+      "id": "ndi_questionnaire",
+      "title": "Neck Disability Assessment",
+      "description": "Select one option for each question that best describes your current situation",
+      "questions": [
+        {
+          "id": "ndi_1_pain_intensity",
+          "question": "Section 1: Pain Intensity",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 1,
+          "options": [
+            { "value": "0", "label": "I have no pain at the moment", "score": 0 },
+            { "value": "1", "label": "The pain is very mild at the moment", "score": 1 },
+            { "value": "2", "label": "The pain is moderate at the moment", "score": 2 },
+            { "value": "3", "label": "The pain is fairly severe at the moment", "score": 3 },
+            { "value": "4", "label": "The pain is very severe at the moment", "score": 4 },
+            { "value": "5", "label": "The pain is the worst imaginable at the moment", "score": 5 }
+          ]
+        },
+        {
+          "id": "ndi_2_personal_care",
+          "question": "Section 2: Personal Care (washing, dressing, etc.)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 2,
+          "options": [
+            { "value": "0", "label": "I can look after myself normally without causing extra pain", "score": 0 },
+            { "value": "1", "label": "I can look after myself normally but it causes extra pain", "score": 1 },
+            { "value": "2", "label": "It is painful to look after myself and I am slow and careful", "score": 2 },
+            { "value": "3", "label": "I need some help but manage most of my personal care", "score": 3 },
+            { "value": "4", "label": "I need help every day in most aspects of self-care", "score": 4 },
+            { "value": "5", "label": "I do not get dressed, wash with difficulty, and stay in bed", "score": 5 }
+          ]
+        },
+        {
+          "id": "ndi_3_lifting",
+          "question": "Section 3: Lifting",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 3,
+          "options": [
+            { "value": "0", "label": "I can lift heavy weights without extra pain", "score": 0 },
+            { "value": "1", "label": "I can lift heavy weights but it gives extra pain", "score": 1 },
+            { "value": "2", "label": "Pain prevents me from lifting heavy weights off the floor, but I can manage if they are conveniently positioned (e.g., on a table)", "score": 2 },
+            { "value": "3", "label": "Pain prevents me from lifting heavy weights, but I can manage light to medium weights if they are conveniently positioned", "score": 3 },
+            { "value": "4", "label": "I can lift very light weights only", "score": 4 },
+            { "value": "5", "label": "I cannot lift or carry anything at all", "score": 5 }
+          ]
+        },
+        {
+          "id": "ndi_4_reading",
+          "question": "Section 4: Reading",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 4,
+          "options": [
+            { "value": "0", "label": "I can read as much as I want with no pain in my neck", "score": 0 },
+            { "value": "1", "label": "I can read as much as I want with slight pain in my neck", "score": 1 },
+            { "value": "2", "label": "I can read as much as I want with moderate pain in my neck", "score": 2 },
+            { "value": "3", "label": "I cannot read as much as I want because of moderate pain in my neck", "score": 3 },
+            { "value": "4", "label": "I can hardly read at all because of severe pain in my neck", "score": 4 },
+            { "value": "5", "label": "I cannot read at all", "score": 5 }
+          ]
+        },
+        {
+          "id": "ndi_5_headaches",
+          "question": "Section 5: Headaches",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 5,
+          "options": [
+            { "value": "0", "label": "I have no headaches at all", "score": 0 },
+            { "value": "1", "label": "I have slight headaches which come infrequently", "score": 1 },
+            { "value": "2", "label": "I have moderate headaches which come infrequently", "score": 2 },
+            { "value": "3", "label": "I have moderate headaches which come frequently", "score": 3 },
+            { "value": "4", "label": "I have severe headaches which come frequently", "score": 4 },
+            { "value": "5", "label": "I have headaches almost all the time", "score": 5 }
+          ]
+        },
+        {
+          "id": "ndi_6_concentration",
+          "question": "Section 6: Concentration",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 6,
+          "options": [
+            { "value": "0", "label": "I can concentrate fully when I want with no difficulty", "score": 0 },
+            { "value": "1", "label": "I can concentrate fully when I want with slight difficulty", "score": 1 },
+            { "value": "2", "label": "I have a fair degree of difficulty concentrating when I want", "score": 2 },
+            { "value": "3", "label": "I have a lot of difficulty concentrating when I want", "score": 3 },
+            { "value": "4", "label": "I have a great deal of difficulty concentrating when I want", "score": 4 },
+            { "value": "5", "label": "I cannot concentrate at all", "score": 5 }
+          ]
+        },
+        {
+          "id": "ndi_7_work",
+          "question": "Section 7: Work",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 7,
+          "options": [
+            { "value": "0", "label": "I can do as much work as I want", "score": 0 },
+            { "value": "1", "label": "I can only do my usual work, but no more", "score": 1 },
+            { "value": "2", "label": "I can do most of my usual work, but no more", "score": 2 },
+            { "value": "3", "label": "I cannot do my usual work", "score": 3 },
+            { "value": "4", "label": "I can hardly do any work at all", "score": 4 },
+            { "value": "5", "label": "I cannot do any work at all", "score": 5 }
+          ]
+        },
+        {
+          "id": "ndi_8_driving",
+          "question": "Section 8: Driving",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 8,
+          "options": [
+            { "value": "0", "label": "I can drive my car without any neck pain", "score": 0 },
+            { "value": "1", "label": "I can drive my car as long as I want with slight pain in my neck", "score": 1 },
+            { "value": "2", "label": "I can drive my car as long as I want with moderate pain in my neck", "score": 2 },
+            { "value": "3", "label": "I cannot drive my car as long as I want because of moderate pain in my neck", "score": 3 },
+            { "value": "4", "label": "I can hardly drive at all because of severe pain in my neck", "score": 4 },
+            { "value": "5", "label": "I cannot drive my car at all", "score": 5 }
+          ]
+        },
+        {
+          "id": "ndi_9_sleeping",
+          "question": "Section 9: Sleeping",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 9,
+          "options": [
+            { "value": "0", "label": "I have no trouble sleeping", "score": 0 },
+            { "value": "1", "label": "My sleep is slightly disturbed (less than 1 hour sleepless)", "score": 1 },
+            { "value": "2", "label": "My sleep is mildly disturbed (1-2 hours sleepless)", "score": 2 },
+            { "value": "3", "label": "My sleep is moderately disturbed (2-3 hours sleepless)", "score": 3 },
+            { "value": "4", "label": "My sleep is greatly disturbed (3-5 hours sleepless)", "score": 4 },
+            { "value": "5", "label": "My sleep is completely disturbed (5-7 hours sleepless)", "score": 5 }
+          ]
+        },
+        {
+          "id": "ndi_10_recreation",
+          "question": "Section 10: Recreation",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 10,
+          "options": [
+            { "value": "0", "label": "I am able to engage in all my recreation activities with no neck pain at all", "score": 0 },
+            { "value": "1", "label": "I am able to engage in all my recreation activities, with some pain in my neck", "score": 1 },
+            { "value": "2", "label": "I am able to engage in most, but not all of my usual recreation activities because of pain in my neck", "score": 2 },
+            { "value": "3", "label": "I am able to engage in a few of my usual recreation activities because of pain in my neck", "score": 3 },
+            { "value": "4", "label": "I can hardly do any recreation activities because of pain in my neck", "score": 4 },
+            { "value": "5", "label": "I cannot do any recreation activities at all", "score": 5 }
+          ]
+        }
+      ]
+    }
+  ]
+}

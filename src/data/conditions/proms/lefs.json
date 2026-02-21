@@ -1,0 +1,316 @@
+{
+  "prom_id": "LEFS",
+  "full_name": "Lower Extremity Functional Scale",
+  "version": "1.0",
+  "copyright": "Public domain (Binkley et al., 1999)",
+  "language": "English",
+  "total_items": 20,
+  "estimated_time_minutes": 5,
+  "description": "A questionnaire to measure patients' initial function, ongoing progress, and outcome for a wide range of lower extremity conditions.",
+  "instructions": "We are interested in knowing whether you are having any difficulty at all with the activities listed below because of your lower limb problem. Please provide an answer for EACH activity. Today, do you or would you have any difficulty at all with:",
+  "scoring": {
+    "method": "sum_total",
+    "total_score": {
+      "min": 0,
+      "max": 80,
+      "calculation": "Sum of all 20 items (each scored 0-4)",
+      "interpretation": {
+        "0-40": "Severe functional limitation",
+        "41-60": "Moderate functional limitation",
+        "61-75": "Mild functional limitation",
+        "76-80": "Normal function"
+      },
+      "higher_is_better": true,
+      "mcid": 9
+    }
+  },
+  "sections": [
+    {
+      "id": "lefs_activities",
+      "title": "Activity Difficulty Rating",
+      "description": "Rate your difficulty with each activity (0 = Unable to perform, 4 = No difficulty)",
+      "questions": [
+        {
+          "id": "lefs_1",
+          "question": "Any of your USUAL WORK, housework, or school activities",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 1,
+          "options": [
+            { "value": "4", "label": "No Difficulty", "score": 4 },
+            { "value": "3", "label": "A Little Bit of Difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate Difficulty", "score": 2 },
+            { "value": "1", "label": "Quite a Bit of Difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to Perform", "score": 0 }
+          ]
+        },
+        {
+          "id": "lefs_2",
+          "question": "Your USUAL HOBBIES, recreational or sporting activities",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 2,
+          "options": [
+            { "value": "4", "label": "No Difficulty", "score": 4 },
+            { "value": "3", "label": "A Little Bit of Difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate Difficulty", "score": 2 },
+            { "value": "1", "label": "Quite a Bit of Difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to Perform", "score": 0 }
+          ]
+        },
+        {
+          "id": "lefs_3",
+          "question": "Getting into or out of the BATH",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 3,
+          "options": [
+            { "value": "4", "label": "No Difficulty", "score": 4 },
+            { "value": "3", "label": "A Little Bit of Difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate Difficulty", "score": 2 },
+            { "value": "1", "label": "Quite a Bit of Difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to Perform", "score": 0 }
+          ]
+        },
+        {
+          "id": "lefs_4",
+          "question": "WALKING between rooms",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 4,
+          "options": [
+            { "value": "4", "label": "No Difficulty", "score": 4 },
+            { "value": "3", "label": "A Little Bit of Difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate Difficulty", "score": 2 },
+            { "value": "1", "label": "Quite a Bit of Difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to Perform", "score": 0 }
+          ]
+        },
+        {
+          "id": "lefs_5",
+          "question": "Putting on your SHOES or SOCKS",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 5,
+          "options": [
+            { "value": "4", "label": "No Difficulty", "score": 4 },
+            { "value": "3", "label": "A Little Bit of Difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate Difficulty", "score": 2 },
+            { "value": "1", "label": "Quite a Bit of Difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to Perform", "score": 0 }
+          ]
+        },
+        {
+          "id": "lefs_6",
+          "question": "SQUATTING",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 6,
+          "options": [
+            { "value": "4", "label": "No Difficulty", "score": 4 },
+            { "value": "3", "label": "A Little Bit of Difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate Difficulty", "score": 2 },
+            { "value": "1", "label": "Quite a Bit of Difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to Perform", "score": 0 }
+          ]
+        },
+        {
+          "id": "lefs_7",
+          "question": "Lifting an object, like a bag of GROCERIES from the floor",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 7,
+          "options": [
+            { "value": "4", "label": "No Difficulty", "score": 4 },
+            { "value": "3", "label": "A Little Bit of Difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate Difficulty", "score": 2 },
+            { "value": "1", "label": "Quite a Bit of Difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to Perform", "score": 0 }
+          ]
+        },
+        {
+          "id": "lefs_8",
+          "question": "Performing LIGHT ACTIVITIES around your home",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 8,
+          "options": [
+            { "value": "4", "label": "No Difficulty", "score": 4 },
+            { "value": "3", "label": "A Little Bit of Difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate Difficulty", "score": 2 },
+            { "value": "1", "label": "Quite a Bit of Difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to Perform", "score": 0 }
+          ]
+        },
+        {
+          "id": "lefs_9",
+          "question": "Performing HEAVY ACTIVITIES around your home",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 9,
+          "options": [
+            { "value": "4", "label": "No Difficulty", "score": 4 },
+            { "value": "3", "label": "A Little Bit of Difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate Difficulty", "score": 2 },
+            { "value": "1", "label": "Quite a Bit of Difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to Perform", "score": 0 }
+          ]
+        },
+        {
+          "id": "lefs_10",
+          "question": "Getting into or out of a CAR",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 10,
+          "options": [
+            { "value": "4", "label": "No Difficulty", "score": 4 },
+            { "value": "3", "label": "A Little Bit of Difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate Difficulty", "score": 2 },
+            { "value": "1", "label": "Quite a Bit of Difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to Perform", "score": 0 }
+          ]
+        },
+        {
+          "id": "lefs_11",
+          "question": "Walking 2 BLOCKS",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 11,
+          "options": [
+            { "value": "4", "label": "No Difficulty", "score": 4 },
+            { "value": "3", "label": "A Little Bit of Difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate Difficulty", "score": 2 },
+            { "value": "1", "label": "Quite a Bit of Difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to Perform", "score": 0 }
+          ]
+        },
+        {
+          "id": "lefs_12",
+          "question": "Walking a MILE",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 12,
+          "options": [
+            { "value": "4", "label": "No Difficulty", "score": 4 },
+            { "value": "3", "label": "A Little Bit of Difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate Difficulty", "score": 2 },
+            { "value": "1", "label": "Quite a Bit of Difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to Perform", "score": 0 }
+          ]
+        },
+        {
+          "id": "lefs_13",
+          "question": "Going up or down 10 STAIRS (about 1 flight of stairs)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 13,
+          "options": [
+            { "value": "4", "label": "No Difficulty", "score": 4 },
+            { "value": "3", "label": "A Little Bit of Difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate Difficulty", "score": 2 },
+            { "value": "1", "label": "Quite a Bit of Difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to Perform", "score": 0 }
+          ]
+        },
+        {
+          "id": "lefs_14",
+          "question": "STANDING for 1 hour",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 14,
+          "options": [
+            { "value": "4", "label": "No Difficulty", "score": 4 },
+            { "value": "3", "label": "A Little Bit of Difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate Difficulty", "score": 2 },
+            { "value": "1", "label": "Quite a Bit of Difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to Perform", "score": 0 }
+          ]
+        },
+        {
+          "id": "lefs_15",
+          "question": "SITTING for 1 hour",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 15,
+          "options": [
+            { "value": "4", "label": "No Difficulty", "score": 4 },
+            { "value": "3", "label": "A Little Bit of Difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate Difficulty", "score": 2 },
+            { "value": "1", "label": "Quite a Bit of Difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to Perform", "score": 0 }
+          ]
+        },
+        {
+          "id": "lefs_16",
+          "question": "RUNNING on even ground",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 16,
+          "options": [
+            { "value": "4", "label": "No Difficulty", "score": 4 },
+            { "value": "3", "label": "A Little Bit of Difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate Difficulty", "score": 2 },
+            { "value": "1", "label": "Quite a Bit of Difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to Perform", "score": 0 }
+          ]
+        },
+        {
+          "id": "lefs_17",
+          "question": "RUNNING on uneven ground",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 17,
+          "options": [
+            { "value": "4", "label": "No Difficulty", "score": 4 },
+            { "value": "3", "label": "A Little Bit of Difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate Difficulty", "score": 2 },
+            { "value": "1", "label": "Quite a Bit of Difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to Perform", "score": 0 }
+          ]
+        },
+        {
+          "id": "lefs_18",
+          "question": "Making SHARP TURNS while running fast",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 18,
+          "options": [
+            { "value": "4", "label": "No Difficulty", "score": 4 },
+            { "value": "3", "label": "A Little Bit of Difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate Difficulty", "score": 2 },
+            { "value": "1", "label": "Quite a Bit of Difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to Perform", "score": 0 }
+          ]
+        },
+        {
+          "id": "lefs_19",
+          "question": "HOPPING",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 19,
+          "options": [
+            { "value": "4", "label": "No Difficulty", "score": 4 },
+            { "value": "3", "label": "A Little Bit of Difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate Difficulty", "score": 2 },
+            { "value": "1", "label": "Quite a Bit of Difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to Perform", "score": 0 }
+          ]
+        },
+        {
+          "id": "lefs_20",
+          "question": "ROLLING OVER in bed",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 20,
+          "options": [
+            { "value": "4", "label": "No Difficulty", "score": 4 },
+            { "value": "3", "label": "A Little Bit of Difficulty", "score": 3 },
+            { "value": "2", "label": "Moderate Difficulty", "score": 2 },
+            { "value": "1", "label": "Quite a Bit of Difficulty", "score": 1 },
+            { "value": "0", "label": "Unable to Perform", "score": 0 }
+          ]
+        }
+      ]
+    }
+  ]
+}

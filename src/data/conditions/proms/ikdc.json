@@ -1,0 +1,304 @@
+{
+  "prom_id": "IKDC",
+  "full_name": "International Knee Documentation Committee Subjective Knee Form",
+  "version": "2000",
+  "copyright": "© IKDC Committee, 2000",
+  "language": "English",
+  "total_items": 18,
+  "estimated_time_minutes": 5,
+  "description": "A knee-specific patient-reported outcome measure designed to detect improvement or deterioration in symptoms, function, and sports activity in patients with a variety of knee conditions.",
+  "instructions": "Please answer all questions. For each question, select the response that best describes you. If the activity in question is limited by something other than your knee, mark not applicable (N/A).",
+  "scoring": {
+    "method": "sum_to_percentage",
+    "total_score": {
+      "min": 0,
+      "max": 100,
+      "calculation": "(Sum of items / Maximum possible score) × 100",
+      "interpretation": {
+        "0-49": "Poor knee function",
+        "50-64": "Fair knee function",
+        "65-83": "Good knee function",
+        "84-100": "Excellent knee function"
+      },
+      "higher_is_better": true,
+      "mcid": 8.8
+    }
+  },
+  "sections": [
+    {
+      "id": "ikdc_symptoms",
+      "title": "Symptoms",
+      "description": "Grade symptoms at the highest activity level at which you think you could function without significant symptoms, even if you are not actually performing activities at this level.",
+      "questions": [
+        {
+          "id": "ikdc_1",
+          "question": "What is the highest level of activity that you can perform without significant knee pain?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 1,
+          "options": [
+            { "value": "4", "label": "Very strenuous activities like jumping or pivoting as in basketball or soccer", "score": 4 },
+            { "value": "3", "label": "Strenuous activities like heavy physical work, skiing or tennis", "score": 3 },
+            { "value": "2", "label": "Moderate activities like moderate physical work, running or jogging", "score": 2 },
+            { "value": "1", "label": "Light activities like walking, housework or yard work", "score": 1 },
+            { "value": "0", "label": "Unable to perform any of the above activities due to knee pain", "score": 0 }
+          ]
+        },
+        {
+          "id": "ikdc_2",
+          "question": "During the past 4 weeks, or since your injury, how often have you had pain?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 2,
+          "options": [
+            { "value": "0", "label": "Constantly", "score": 0 },
+            { "value": "1", "label": "Daily", "score": 1 },
+            { "value": "2", "label": "Several times a day", "score": 2 },
+            { "value": "3", "label": "Once a day", "score": 3 },
+            { "value": "4", "label": "Once or twice", "score": 4 },
+            { "value": "5", "label": "Never", "score": 5 }
+          ]
+        },
+        {
+          "id": "ikdc_3",
+          "question": "If you have pain, how severe is it?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 3,
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "No pain",
+            "10": "Worst pain imaginable"
+          }
+        },
+        {
+          "id": "ikdc_4",
+          "question": "During the past 4 weeks, or since your injury, how stiff or swollen was your knee?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 4,
+          "options": [
+            { "value": "4", "label": "Not at all", "score": 4 },
+            { "value": "3", "label": "Mildly", "score": 3 },
+            { "value": "2", "label": "Moderately", "score": 2 },
+            { "value": "1", "label": "Very", "score": 1 },
+            { "value": "0", "label": "Extremely", "score": 0 }
+          ]
+        },
+        {
+          "id": "ikdc_5",
+          "question": "What is the highest level of activity you can perform without significant swelling in your knee?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 5,
+          "options": [
+            { "value": "4", "label": "Very strenuous activities like jumping or pivoting as in basketball or soccer", "score": 4 },
+            { "value": "3", "label": "Strenuous activities like heavy physical work, skiing or tennis", "score": 3 },
+            { "value": "2", "label": "Moderate activities like moderate physical work, running or jogging", "score": 2 },
+            { "value": "1", "label": "Light activities like walking, housework or yard work", "score": 1 },
+            { "value": "0", "label": "Unable to perform any of the above activities due to knee swelling", "score": 0 }
+          ]
+        },
+        {
+          "id": "ikdc_6",
+          "question": "During the past 4 weeks, or since your injury, did your knee lock or catch?",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 6
+        },
+        {
+          "id": "ikdc_7",
+          "question": "What is the highest level of activity you can perform without significant giving way in your knee?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 7,
+          "options": [
+            { "value": "4", "label": "Very strenuous activities like jumping or pivoting as in basketball or soccer", "score": 4 },
+            { "value": "3", "label": "Strenuous activities like heavy physical work, skiing or tennis", "score": 3 },
+            { "value": "2", "label": "Moderate activities like moderate physical work, running or jogging", "score": 2 },
+            { "value": "1", "label": "Light activities like walking, housework or yard work", "score": 1 },
+            { "value": "0", "label": "Unable to perform any of the above activities due to giving way of the knee", "score": 0 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ikdc_sports_activities",
+      "title": "Sports Activities",
+      "description": "What is the highest level of activity you can participate in on a regular basis?",
+      "questions": [
+        {
+          "id": "ikdc_8",
+          "question": "What is the highest level of activity you can participate in on a regular basis?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 8,
+          "options": [
+            { "value": "4", "label": "Very strenuous activities like jumping or pivoting as in basketball or soccer", "score": 4 },
+            { "value": "3", "label": "Strenuous activities like heavy physical work, skiing or tennis", "score": 3 },
+            { "value": "2", "label": "Moderate activities like moderate physical work, running or jogging", "score": 2 },
+            { "value": "1", "label": "Light activities like walking, housework or yard work", "score": 1 },
+            { "value": "0", "label": "Unable to perform any of the above activities due to knee", "score": 0 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ikdc_function",
+      "title": "Function",
+      "description": "How does your knee affect your ability to perform the following activities?",
+      "questions": [
+        {
+          "id": "ikdc_9",
+          "question": "Go up stairs",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 9,
+          "options": [
+            { "value": "4", "label": "Not difficult at all", "score": 4 },
+            { "value": "3", "label": "Minimally difficult", "score": 3 },
+            { "value": "2", "label": "Moderately difficult", "score": 2 },
+            { "value": "1", "label": "Extremely difficult", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 }
+          ]
+        },
+        {
+          "id": "ikdc_10",
+          "question": "Go down stairs",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 10,
+          "options": [
+            { "value": "4", "label": "Not difficult at all", "score": 4 },
+            { "value": "3", "label": "Minimally difficult", "score": 3 },
+            { "value": "2", "label": "Moderately difficult", "score": 2 },
+            { "value": "1", "label": "Extremely difficult", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 }
+          ]
+        },
+        {
+          "id": "ikdc_11",
+          "question": "Kneel on the front of your knee",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 11,
+          "options": [
+            { "value": "4", "label": "Not difficult at all", "score": 4 },
+            { "value": "3", "label": "Minimally difficult", "score": 3 },
+            { "value": "2", "label": "Moderately difficult", "score": 2 },
+            { "value": "1", "label": "Extremely difficult", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 }
+          ]
+        },
+        {
+          "id": "ikdc_12",
+          "question": "Squat",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 12,
+          "options": [
+            { "value": "4", "label": "Not difficult at all", "score": 4 },
+            { "value": "3", "label": "Minimally difficult", "score": 3 },
+            { "value": "2", "label": "Moderately difficult", "score": 2 },
+            { "value": "1", "label": "Extremely difficult", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 }
+          ]
+        },
+        {
+          "id": "ikdc_13",
+          "question": "Sit with your knee bent",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 13,
+          "options": [
+            { "value": "4", "label": "Not difficult at all", "score": 4 },
+            { "value": "3", "label": "Minimally difficult", "score": 3 },
+            { "value": "2", "label": "Moderately difficult", "score": 2 },
+            { "value": "1", "label": "Extremely difficult", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 }
+          ]
+        },
+        {
+          "id": "ikdc_14",
+          "question": "Rise from a chair",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 14,
+          "options": [
+            { "value": "4", "label": "Not difficult at all", "score": 4 },
+            { "value": "3", "label": "Minimally difficult", "score": 3 },
+            { "value": "2", "label": "Moderately difficult", "score": 2 },
+            { "value": "1", "label": "Extremely difficult", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 }
+          ]
+        },
+        {
+          "id": "ikdc_15",
+          "question": "Run straight ahead",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 15,
+          "options": [
+            { "value": "4", "label": "Not difficult at all", "score": 4 },
+            { "value": "3", "label": "Minimally difficult", "score": 3 },
+            { "value": "2", "label": "Moderately difficult", "score": 2 },
+            { "value": "1", "label": "Extremely difficult", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 }
+          ]
+        },
+        {
+          "id": "ikdc_16",
+          "question": "Jump and land on your involved leg",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 16,
+          "options": [
+            { "value": "4", "label": "Not difficult at all", "score": 4 },
+            { "value": "3", "label": "Minimally difficult", "score": 3 },
+            { "value": "2", "label": "Moderately difficult", "score": 2 },
+            { "value": "1", "label": "Extremely difficult", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 }
+          ]
+        },
+        {
+          "id": "ikdc_17",
+          "question": "Stop and start quickly",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 17,
+          "options": [
+            { "value": "4", "label": "Not difficult at all", "score": 4 },
+            { "value": "3", "label": "Minimally difficult", "score": 3 },
+            { "value": "2", "label": "Moderately difficult", "score": 2 },
+            { "value": "1", "label": "Extremely difficult", "score": 1 },
+            { "value": "0", "label": "Unable to do", "score": 0 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ikdc_current_function",
+      "title": "Current Function",
+      "description": "Function prior to your knee injury and current function",
+      "questions": [
+        {
+          "id": "ikdc_18",
+          "question": "How would you rate the function of your knee on a scale of 0 to 10 with 10 being normal, excellent function and 0 being the inability to perform any of your usual daily activities which may include sports?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 18,
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "Cannot perform daily activities",
+            "5": "Moderate function",
+            "10": "Normal function"
+          }
+        }
+      ]
+    }
+  ]
+}

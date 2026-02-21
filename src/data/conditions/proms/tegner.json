@@ -1,0 +1,78 @@
+{
+  "prom_id": "TEGNER",
+  "full_name": "Tegner Activity Scale",
+  "version": "1.0",
+  "copyright": "© Tegner & Lysholm, 1985",
+  "language": "English",
+  "total_items": 1,
+  "estimated_time_minutes": 1,
+  "description": "A one-item score that grades activity level from 0 to 10, originally designed for patients with knee ligament injuries. It is used to assess activity level before and after injury/surgery, providing a complement to other functional scores. Level 0 represents sick leave/disability, while level 10 represents competitive sports at elite level.",
+  "instructions": "Please select the level that best describes your current activity level. Consider both occupational and recreational/sports activities.",
+  "scoring": {
+    "method": "single_value",
+    "total_score": {
+      "min": 0,
+      "max": 10,
+      "calculation": "Single item score (0-10 scale)",
+      "interpretation": {
+        "0": "Sick leave or disability pension because of knee problems",
+        "1": "Work - sedentary work",
+        "2": "Work - light labor (walking on uneven ground but no backpack)",
+        "3": "Work - moderate labor (e.g., heavy domestic work, nursing)",
+        "4": "Recreational sports - cycling, cross-country skiing",
+        "5": "Competitive sports - cycling, cross-country skiing / Recreational sports - jogging at least twice weekly",
+        "6": "Recreational sports - tennis, badminton, handball, basketball, downhill skiing, jogging 5 times per week",
+        "7": "Competitive sports - tennis, athletics (jumping, etc.), motocross, speedway, handball, basketball, squash, bandy, ice hockey",
+        "8": "Competitive sports - bandy, squash, athletics (jumping, etc.), downhill skiing",
+        "9": "Competitive sports - soccer (lower divisions), ice hockey, wrestling, gymnastics",
+        "10": "Competitive sports - soccer (national and international elite), football (American)"
+      },
+      "higher_is_better": true,
+      "mcid": 1,
+      "note": "Typically assessed for pre-injury level, current level, and expected level after treatment"
+    }
+  },
+  "sections": [
+    {
+      "id": "tegner_activity",
+      "title": "Activity Level",
+      "description": "Select the highest level of activity that you can perform.",
+      "questions": [
+        {
+          "id": "tegner_level",
+          "question": "What is the highest level of activity you can participate in?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 1,
+          "options": [
+            { "value": "0", "label": "Level 0 - Sick leave or disability pension because of knee problems", "score": 0 },
+            { "value": "1", "label": "Level 1 - Work: Sedentary work", "score": 1 },
+            { "value": "2", "label": "Level 2 - Work: Light labor (walking on uneven ground)", "score": 2 },
+            { "value": "3", "label": "Level 3 - Work: Moderate to heavy labor (e.g., truck driving, heavy domestic work)", "score": 3 },
+            { "value": "4", "label": "Level 4 - Recreational: Cycling, cross-country skiing", "score": 4 },
+            { "value": "5", "label": "Level 5 - Competitive: Cycling, cross-country skiing OR Recreational: Jogging at least twice weekly", "score": 5 },
+            { "value": "6", "label": "Level 6 - Recreational: Tennis, badminton, handball, basketball, downhill skiing, jogging 5x/week", "score": 6 },
+            { "value": "7", "label": "Level 7 - Competitive: Tennis, running, motorcross, handball, basketball", "score": 7 },
+            { "value": "8", "label": "Level 8 - Competitive: Squash, bandy, athletics (jumping), downhill skiing", "score": 8 },
+            { "value": "9", "label": "Level 9 - Competitive: Soccer (lower divisions), ice hockey, wrestling, gymnastics", "score": 9 },
+            { "value": "10", "label": "Level 10 - Competitive: Soccer (national/international elite level), American football", "score": 10 }
+          ]
+        }
+      ]
+    }
+  ],
+  "assessment_variants": [
+    {
+      "type": "pre_injury",
+      "question": "What was your activity level BEFORE your injury?"
+    },
+    {
+      "type": "current",
+      "question": "What is your CURRENT activity level?"
+    },
+    {
+      "type": "expected",
+      "question": "What activity level do you HOPE to achieve after treatment?"
+    }
+  ]
+}

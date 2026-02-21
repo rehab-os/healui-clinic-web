@@ -1,0 +1,570 @@
+{
+  "prom_id": "SF-36",
+  "full_name": "Short Form 36 Health Survey",
+  "version": "2.0",
+  "copyright": "© RAND Corporation, 1992-2020",
+  "language": "English",
+  "total_items": 36,
+  "estimated_time_minutes": 10,
+  "description": "A generic health status measure that assesses eight health concepts: physical functioning, role limitations due to physical health, bodily pain, general health perceptions, vitality, social functioning, role limitations due to emotional problems, and mental health.",
+  "instructions": "This survey asks for your views about your health. This information will help keep track of how you feel and how well you are able to do your usual activities. Answer every question by marking the answer as indicated. If you are unsure about how to answer a question, please give the best answer you can.",
+  "scoring": {
+    "method": "subscale_transformation",
+    "subscales": [
+      {
+        "id": "pf",
+        "name": "Physical Functioning",
+        "items": 10,
+        "calculation": "Transform to 0-100 scale"
+      },
+      {
+        "id": "rp",
+        "name": "Role Physical",
+        "items": 4,
+        "calculation": "Transform to 0-100 scale"
+      },
+      {
+        "id": "bp",
+        "name": "Bodily Pain",
+        "items": 2,
+        "calculation": "Transform to 0-100 scale"
+      },
+      {
+        "id": "gh",
+        "name": "General Health",
+        "items": 5,
+        "calculation": "Transform to 0-100 scale"
+      },
+      {
+        "id": "vt",
+        "name": "Vitality",
+        "items": 4,
+        "calculation": "Transform to 0-100 scale"
+      },
+      {
+        "id": "sf",
+        "name": "Social Functioning",
+        "items": 2,
+        "calculation": "Transform to 0-100 scale"
+      },
+      {
+        "id": "re",
+        "name": "Role Emotional",
+        "items": 3,
+        "calculation": "Transform to 0-100 scale"
+      },
+      {
+        "id": "mh",
+        "name": "Mental Health",
+        "items": 5,
+        "calculation": "Transform to 0-100 scale"
+      }
+    ],
+    "total_score": {
+      "min": 0,
+      "max": 100,
+      "calculation": "Each subscale scored 0-100, higher scores indicate better health",
+      "interpretation": {
+        "0-25": "Severe impairment",
+        "26-50": "Moderate impairment",
+        "51-75": "Mild impairment",
+        "76-100": "Good health"
+      },
+      "higher_is_better": true
+    }
+  },
+  "sections": [
+    {
+      "id": "sf36_general_health",
+      "title": "General Health",
+      "description": "These questions are about your health",
+      "questions": [
+        {
+          "id": "sf36_1",
+          "question": "In general, would you say your health is:",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 1,
+          "options": [
+            { "value": "1", "label": "Excellent", "score": 1 },
+            { "value": "2", "label": "Very good", "score": 2 },
+            { "value": "3", "label": "Good", "score": 3 },
+            { "value": "4", "label": "Fair", "score": 4 },
+            { "value": "5", "label": "Poor", "score": 5 }
+          ]
+        },
+        {
+          "id": "sf36_2",
+          "question": "Compared to one year ago, how would you rate your health in general now?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 2,
+          "options": [
+            { "value": "1", "label": "Much better now than one year ago", "score": 1 },
+            { "value": "2", "label": "Somewhat better now than one year ago", "score": 2 },
+            { "value": "3", "label": "About the same as one year ago", "score": 3 },
+            { "value": "4", "label": "Somewhat worse now than one year ago", "score": 4 },
+            { "value": "5", "label": "Much worse now than one year ago", "score": 5 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sf36_physical_function",
+      "title": "Physical Functioning",
+      "description": "The following questions are about activities you might do during a typical day. Does your health now limit you in these activities? If so, how much?",
+      "questions": [
+        {
+          "id": "sf36_3",
+          "question": "Vigorous activities, such as running, lifting heavy objects, participating in strenuous sports",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 3,
+          "options": [
+            { "value": "1", "label": "Yes, limited a lot", "score": 1 },
+            { "value": "2", "label": "Yes, limited a little", "score": 2 },
+            { "value": "3", "label": "No, not limited at all", "score": 3 }
+          ]
+        },
+        {
+          "id": "sf36_4",
+          "question": "Moderate activities, such as moving a table, pushing a vacuum cleaner, bowling, or playing golf",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 4,
+          "options": [
+            { "value": "1", "label": "Yes, limited a lot", "score": 1 },
+            { "value": "2", "label": "Yes, limited a little", "score": 2 },
+            { "value": "3", "label": "No, not limited at all", "score": 3 }
+          ]
+        },
+        {
+          "id": "sf36_5",
+          "question": "Lifting or carrying groceries",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 5,
+          "options": [
+            { "value": "1", "label": "Yes, limited a lot", "score": 1 },
+            { "value": "2", "label": "Yes, limited a little", "score": 2 },
+            { "value": "3", "label": "No, not limited at all", "score": 3 }
+          ]
+        },
+        {
+          "id": "sf36_6",
+          "question": "Climbing several flights of stairs",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 6,
+          "options": [
+            { "value": "1", "label": "Yes, limited a lot", "score": 1 },
+            { "value": "2", "label": "Yes, limited a little", "score": 2 },
+            { "value": "3", "label": "No, not limited at all", "score": 3 }
+          ]
+        },
+        {
+          "id": "sf36_7",
+          "question": "Climbing one flight of stairs",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 7,
+          "options": [
+            { "value": "1", "label": "Yes, limited a lot", "score": 1 },
+            { "value": "2", "label": "Yes, limited a little", "score": 2 },
+            { "value": "3", "label": "No, not limited at all", "score": 3 }
+          ]
+        },
+        {
+          "id": "sf36_8",
+          "question": "Bending, kneeling, or stooping",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 8,
+          "options": [
+            { "value": "1", "label": "Yes, limited a lot", "score": 1 },
+            { "value": "2", "label": "Yes, limited a little", "score": 2 },
+            { "value": "3", "label": "No, not limited at all", "score": 3 }
+          ]
+        },
+        {
+          "id": "sf36_9",
+          "question": "Walking more than a mile",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 9,
+          "options": [
+            { "value": "1", "label": "Yes, limited a lot", "score": 1 },
+            { "value": "2", "label": "Yes, limited a little", "score": 2 },
+            { "value": "3", "label": "No, not limited at all", "score": 3 }
+          ]
+        },
+        {
+          "id": "sf36_10",
+          "question": "Walking several blocks",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 10,
+          "options": [
+            { "value": "1", "label": "Yes, limited a lot", "score": 1 },
+            { "value": "2", "label": "Yes, limited a little", "score": 2 },
+            { "value": "3", "label": "No, not limited at all", "score": 3 }
+          ]
+        },
+        {
+          "id": "sf36_11",
+          "question": "Walking one block",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 11,
+          "options": [
+            { "value": "1", "label": "Yes, limited a lot", "score": 1 },
+            { "value": "2", "label": "Yes, limited a little", "score": 2 },
+            { "value": "3", "label": "No, not limited at all", "score": 3 }
+          ]
+        },
+        {
+          "id": "sf36_12",
+          "question": "Bathing or dressing yourself",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 12,
+          "options": [
+            { "value": "1", "label": "Yes, limited a lot", "score": 1 },
+            { "value": "2", "label": "Yes, limited a little", "score": 2 },
+            { "value": "3", "label": "No, not limited at all", "score": 3 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sf36_role_physical",
+      "title": "Role Limitations - Physical",
+      "description": "During the past 4 weeks, have you had any of the following problems with your work or other regular daily activities as a result of your physical health?",
+      "questions": [
+        {
+          "id": "sf36_13",
+          "question": "Cut down on the amount of time you spent on work or other activities",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 13
+        },
+        {
+          "id": "sf36_14",
+          "question": "Accomplished less than you would like",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 14
+        },
+        {
+          "id": "sf36_15",
+          "question": "Were limited in the kind of work or other activities",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 15
+        },
+        {
+          "id": "sf36_16",
+          "question": "Had difficulty performing the work or other activities (for example, it took extra effort)",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 16
+        }
+      ]
+    },
+    {
+      "id": "sf36_role_emotional",
+      "title": "Role Limitations - Emotional",
+      "description": "During the past 4 weeks, have you had any of the following problems with your work or other regular daily activities as a result of any emotional problems (such as feeling depressed or anxious)?",
+      "questions": [
+        {
+          "id": "sf36_17",
+          "question": "Cut down on the amount of time you spent on work or other activities",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 17
+        },
+        {
+          "id": "sf36_18",
+          "question": "Accomplished less than you would like",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 18
+        },
+        {
+          "id": "sf36_19",
+          "question": "Didn't do work or other activities as carefully as usual",
+          "ui_component": "yes_no",
+          "required": true,
+          "order": 19
+        }
+      ]
+    },
+    {
+      "id": "sf36_social_function",
+      "title": "Social Functioning",
+      "description": "Questions about social activities",
+      "questions": [
+        {
+          "id": "sf36_20",
+          "question": "During the past 4 weeks, to what extent has your physical health or emotional problems interfered with your normal social activities with family, friends, neighbors, or groups?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 20,
+          "options": [
+            { "value": "1", "label": "Not at all", "score": 1 },
+            { "value": "2", "label": "Slightly", "score": 2 },
+            { "value": "3", "label": "Moderately", "score": 3 },
+            { "value": "4", "label": "Quite a bit", "score": 4 },
+            { "value": "5", "label": "Extremely", "score": 5 }
+          ]
+        },
+        {
+          "id": "sf36_21",
+          "question": "During the past 4 weeks, how much did pain interfere with your normal work (including both work outside the home and housework)?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 21,
+          "options": [
+            { "value": "1", "label": "Not at all", "score": 1 },
+            { "value": "2", "label": "A little bit", "score": 2 },
+            { "value": "3", "label": "Moderately", "score": 3 },
+            { "value": "4", "label": "Quite a bit", "score": 4 },
+            { "value": "5", "label": "Extremely", "score": 5 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sf36_pain",
+      "title": "Bodily Pain",
+      "description": "Questions about pain",
+      "questions": [
+        {
+          "id": "sf36_22",
+          "question": "How much bodily pain have you had during the past 4 weeks?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 22,
+          "options": [
+            { "value": "1", "label": "None", "score": 1 },
+            { "value": "2", "label": "Very mild", "score": 2 },
+            { "value": "3", "label": "Mild", "score": 3 },
+            { "value": "4", "label": "Moderate", "score": 4 },
+            { "value": "5", "label": "Severe", "score": 5 },
+            { "value": "6", "label": "Very severe", "score": 6 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sf36_vitality_mental",
+      "title": "Vitality and Mental Health",
+      "description": "These questions are about how you feel and how things have been with you during the past 4 weeks. For each question, please give the one answer that comes closest to the way you have been feeling.",
+      "questions": [
+        {
+          "id": "sf36_23",
+          "question": "Did you feel full of life?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 23,
+          "options": [
+            { "value": "1", "label": "All of the time", "score": 1 },
+            { "value": "2", "label": "Most of the time", "score": 2 },
+            { "value": "3", "label": "Some of the time", "score": 3 },
+            { "value": "4", "label": "A little of the time", "score": 4 },
+            { "value": "5", "label": "None of the time", "score": 5 }
+          ]
+        },
+        {
+          "id": "sf36_24",
+          "question": "Have you been very nervous?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 24,
+          "options": [
+            { "value": "1", "label": "All of the time", "score": 1 },
+            { "value": "2", "label": "Most of the time", "score": 2 },
+            { "value": "3", "label": "Some of the time", "score": 3 },
+            { "value": "4", "label": "A little of the time", "score": 4 },
+            { "value": "5", "label": "None of the time", "score": 5 }
+          ]
+        },
+        {
+          "id": "sf36_25",
+          "question": "Have you felt so down in the dumps that nothing could cheer you up?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 25,
+          "options": [
+            { "value": "1", "label": "All of the time", "score": 1 },
+            { "value": "2", "label": "Most of the time", "score": 2 },
+            { "value": "3", "label": "Some of the time", "score": 3 },
+            { "value": "4", "label": "A little of the time", "score": 4 },
+            { "value": "5", "label": "None of the time", "score": 5 }
+          ]
+        },
+        {
+          "id": "sf36_26",
+          "question": "Have you felt calm and peaceful?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 26,
+          "options": [
+            { "value": "1", "label": "All of the time", "score": 1 },
+            { "value": "2", "label": "Most of the time", "score": 2 },
+            { "value": "3", "label": "Some of the time", "score": 3 },
+            { "value": "4", "label": "A little of the time", "score": 4 },
+            { "value": "5", "label": "None of the time", "score": 5 }
+          ]
+        },
+        {
+          "id": "sf36_27",
+          "question": "Did you have a lot of energy?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 27,
+          "options": [
+            { "value": "1", "label": "All of the time", "score": 1 },
+            { "value": "2", "label": "Most of the time", "score": 2 },
+            { "value": "3", "label": "Some of the time", "score": 3 },
+            { "value": "4", "label": "A little of the time", "score": 4 },
+            { "value": "5", "label": "None of the time", "score": 5 }
+          ]
+        },
+        {
+          "id": "sf36_28",
+          "question": "Have you felt downhearted and low?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 28,
+          "options": [
+            { "value": "1", "label": "All of the time", "score": 1 },
+            { "value": "2", "label": "Most of the time", "score": 2 },
+            { "value": "3", "label": "Some of the time", "score": 3 },
+            { "value": "4", "label": "A little of the time", "score": 4 },
+            { "value": "5", "label": "None of the time", "score": 5 }
+          ]
+        },
+        {
+          "id": "sf36_29",
+          "question": "Did you feel worn out?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 29,
+          "options": [
+            { "value": "1", "label": "All of the time", "score": 1 },
+            { "value": "2", "label": "Most of the time", "score": 2 },
+            { "value": "3", "label": "Some of the time", "score": 3 },
+            { "value": "4", "label": "A little of the time", "score": 4 },
+            { "value": "5", "label": "None of the time", "score": 5 }
+          ]
+        },
+        {
+          "id": "sf36_30",
+          "question": "Have you been happy?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 30,
+          "options": [
+            { "value": "1", "label": "All of the time", "score": 1 },
+            { "value": "2", "label": "Most of the time", "score": 2 },
+            { "value": "3", "label": "Some of the time", "score": 3 },
+            { "value": "4", "label": "A little of the time", "score": 4 },
+            { "value": "5", "label": "None of the time", "score": 5 }
+          ]
+        },
+        {
+          "id": "sf36_31",
+          "question": "Did you feel tired?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 31,
+          "options": [
+            { "value": "1", "label": "All of the time", "score": 1 },
+            { "value": "2", "label": "Most of the time", "score": 2 },
+            { "value": "3", "label": "Some of the time", "score": 3 },
+            { "value": "4", "label": "A little of the time", "score": 4 },
+            { "value": "5", "label": "None of the time", "score": 5 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sf36_general_health_continued",
+      "title": "General Health (Continued)",
+      "description": "How TRUE or FALSE is each of the following statements for you?",
+      "questions": [
+        {
+          "id": "sf36_32",
+          "question": "During the past 4 weeks, how much of the time has your physical health or emotional problems interfered with your social activities (like visiting friends, relatives, etc.)?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 32,
+          "options": [
+            { "value": "1", "label": "All of the time", "score": 1 },
+            { "value": "2", "label": "Most of the time", "score": 2 },
+            { "value": "3", "label": "Some of the time", "score": 3 },
+            { "value": "4", "label": "A little of the time", "score": 4 },
+            { "value": "5", "label": "None of the time", "score": 5 }
+          ]
+        },
+        {
+          "id": "sf36_33",
+          "question": "I seem to get sick a little easier than other people",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 33,
+          "options": [
+            { "value": "1", "label": "Definitely true", "score": 1 },
+            { "value": "2", "label": "Mostly true", "score": 2 },
+            { "value": "3", "label": "Don't know", "score": 3 },
+            { "value": "4", "label": "Mostly false", "score": 4 },
+            { "value": "5", "label": "Definitely false", "score": 5 }
+          ]
+        },
+        {
+          "id": "sf36_34",
+          "question": "I am as healthy as anybody I know",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 34,
+          "options": [
+            { "value": "1", "label": "Definitely true", "score": 1 },
+            { "value": "2", "label": "Mostly true", "score": 2 },
+            { "value": "3", "label": "Don't know", "score": 3 },
+            { "value": "4", "label": "Mostly false", "score": 4 },
+            { "value": "5", "label": "Definitely false", "score": 5 }
+          ]
+        },
+        {
+          "id": "sf36_35",
+          "question": "I expect my health to get worse",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 35,
+          "options": [
+            { "value": "1", "label": "Definitely true", "score": 1 },
+            { "value": "2", "label": "Mostly true", "score": 2 },
+            { "value": "3", "label": "Don't know", "score": 3 },
+            { "value": "4", "label": "Mostly false", "score": 4 },
+            { "value": "5", "label": "Definitely false", "score": 5 }
+          ]
+        },
+        {
+          "id": "sf36_36",
+          "question": "My health is excellent",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 36,
+          "options": [
+            { "value": "1", "label": "Definitely true", "score": 1 },
+            { "value": "2", "label": "Mostly true", "score": 2 },
+            { "value": "3", "label": "Don't know", "score": 3 },
+            { "value": "4", "label": "Mostly false", "score": 4 },
+            { "value": "5", "label": "Definitely false", "score": 5 }
+          ]
+        }
+      ]
+    }
+  ]
+}

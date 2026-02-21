@@ -1,0 +1,147 @@
+{
+  "prom_id": "VISA-A",
+  "full_name": "Victorian Institute of Sport Assessment - Achilles",
+  "version": "1.0",
+  "copyright": "© Robinson et al., 2001",
+  "language": "English",
+  "total_items": 8,
+  "estimated_time_minutes": 3,
+  "description": "A self-administered questionnaire designed to assess severity of Achilles tendinopathy. The VISA-A is both a measure of severity and ability to undertake sports.",
+  "instructions": "Please answer every question. Only circle ONE response for each question.",
+  "scoring": {
+    "method": "sum_total",
+    "total_score": {
+      "min": 0,
+      "max": 100,
+      "calculation": "Sum of all items (max 100 points)",
+      "interpretation": {
+        "0-39": "Severe Achilles tendinopathy",
+        "40-69": "Moderate Achilles tendinopathy",
+        "70-89": "Mild Achilles tendinopathy",
+        "90-100": "Asymptomatic or near-normal function"
+      },
+      "higher_is_better": true,
+      "mcid": 6.5
+    }
+  },
+  "sections": [
+    {
+      "id": "visaa_symptoms",
+      "title": "Achilles Tendon Symptoms and Function",
+      "description": "For these questions, please answer each question by placing a mark on the line.",
+      "questions": [
+        {
+          "id": "visaa_1",
+          "question": "For how many minutes can you sit pain-free?",
+          "ui_component": "slider",
+          "required": true,
+          "order": 1,
+          "min": 0,
+          "max": 100,
+          "step": 10,
+          "labels": {
+            "0": "0 minutes",
+            "100": "100 minutes"
+          }
+        },
+        {
+          "id": "visaa_2",
+          "question": "When walking I have pain (mark on the line)",
+          "ui_component": "slider",
+          "required": true,
+          "order": 2,
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "All the time (0 points)",
+            "10": "No pain (10 points)"
+          }
+        },
+        {
+          "id": "visaa_3",
+          "question": "When doing a heel raise I experience pain (mark on the line)",
+          "ui_component": "slider",
+          "required": true,
+          "order": 3,
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "Strong, severe pain (0 points)",
+            "10": "No pain (10 points)"
+          }
+        },
+        {
+          "id": "visaa_4",
+          "question": "I have pain when undertaking a 10-second single leg hop on the spot",
+          "ui_component": "slider",
+          "required": true,
+          "order": 4,
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "Strong, severe pain (0 points)",
+            "10": "No pain (10 points)"
+          }
+        },
+        {
+          "id": "visaa_5",
+          "question": "I have pain at the Achilles tendon after 10 repetitions of a single leg hop",
+          "ui_component": "slider",
+          "required": true,
+          "order": 5,
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": {
+            "0": "Strong, severe pain (0 points)",
+            "10": "No pain (10 points)"
+          }
+        },
+        {
+          "id": "visaa_6",
+          "question": "I have pain when undertaking 10 hops on the spot (circle one number only)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 6,
+          "options": [
+            { "value": "0", "label": "Strong, severe pain", "score": 0 },
+            { "value": "4", "label": "Moderate pain", "score": 4 },
+            { "value": "7", "label": "Some pain", "score": 7 },
+            { "value": "10", "label": "No pain", "score": 10 }
+          ]
+        },
+        {
+          "id": "visaa_7",
+          "question": "I currently undertake sport or other physical activity:",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 7,
+          "options": [
+            { "value": "0", "label": "Not at all", "score": 0 },
+            { "value": "4", "label": "Modified training ± modified competition", "score": 4 },
+            { "value": "7", "label": "Full training ± competition with some pain in the Achilles tendon", "score": 7 },
+            { "value": "10", "label": "Competitive sports without pain in the Achilles tendon", "score": 10 }
+          ]
+        },
+        {
+          "id": "visaa_8",
+          "question": "Please complete EITHER A, B or C in this question. If you have no pain while undertaking Achilles tendon loading sports, please complete Q8A ONLY. If you have pain while undertaking Achilles tendon loading sports but it does not stop you from completing the activity, please complete Q8B ONLY. If you have pain that stops you from completing Achilles tendon loading sports, please complete Q8C ONLY.",
+          "description": "Question 8A: If you have no pain while undertaking Achilles tendon loading sports, for how long can you train/practise?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 8,
+          "options": [
+            { "value": "0", "label": "N/A - I have pain", "score": 0 },
+            { "value": "7", "label": "1-10 minutes", "score": 7 },
+            { "value": "14", "label": "11-20 minutes", "score": 14 },
+            { "value": "21", "label": "21-30 minutes", "score": 21 },
+            { "value": "30", "label": "More than 30 minutes", "score": 30 }
+          ]
+        }
+      ]
+    }
+  ]
+}

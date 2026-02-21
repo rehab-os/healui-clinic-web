@@ -1,0 +1,197 @@
+{
+  "prom_id": "QuickDASH",
+  "full_name": "Quick Disabilities of the Arm, Shoulder and Hand",
+  "version": "1.0",
+  "copyright": "© Institute for Work & Health, 2005",
+  "language": "English",
+  "total_items": 11,
+  "estimated_time_minutes": 5,
+  "description": "A shortened version of the DASH outcome measure. It measures physical function and symptoms in people with any musculoskeletal disorder of the upper limb.",
+  "instructions": "Please rate your ability to do the following activities in the LAST WEEK by circling the number below the appropriate response.",
+  "scoring": {
+    "method": "sum_to_score",
+    "total_score": {
+      "min": 0,
+      "max": 100,
+      "calculation": "[(sum of n responses / n) - 1] × 25, where n is the number of completed responses",
+      "interpretation": {
+        "0-25": "Minimal disability",
+        "26-50": "Mild to moderate disability",
+        "51-75": "Moderate to severe disability",
+        "76-100": "Severe disability"
+      },
+      "higher_is_worse": true,
+      "mcid": 14
+    }
+  },
+  "sections": [
+    {
+      "id": "quickdash_function",
+      "title": "Physical Function",
+      "description": "Rate your difficulty with these activities in the last week",
+      "questions": [
+        {
+          "id": "quickdash_1",
+          "question": "Open a tight or new jar",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 1,
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "Mild difficulty", "score": 2 },
+            { "value": "3", "label": "Moderate difficulty", "score": 3 },
+            { "value": "4", "label": "Severe difficulty", "score": 4 },
+            { "value": "5", "label": "Unable", "score": 5 }
+          ]
+        },
+        {
+          "id": "quickdash_2",
+          "question": "Do heavy household chores (e.g., wash walls, wash floors)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 2,
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "Mild difficulty", "score": 2 },
+            { "value": "3", "label": "Moderate difficulty", "score": 3 },
+            { "value": "4", "label": "Severe difficulty", "score": 4 },
+            { "value": "5", "label": "Unable", "score": 5 }
+          ]
+        },
+        {
+          "id": "quickdash_3",
+          "question": "Carry a shopping bag or briefcase",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 3,
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "Mild difficulty", "score": 2 },
+            { "value": "3", "label": "Moderate difficulty", "score": 3 },
+            { "value": "4", "label": "Severe difficulty", "score": 4 },
+            { "value": "5", "label": "Unable", "score": 5 }
+          ]
+        },
+        {
+          "id": "quickdash_4",
+          "question": "Wash your back",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 4,
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "Mild difficulty", "score": 2 },
+            { "value": "3", "label": "Moderate difficulty", "score": 3 },
+            { "value": "4", "label": "Severe difficulty", "score": 4 },
+            { "value": "5", "label": "Unable", "score": 5 }
+          ]
+        },
+        {
+          "id": "quickdash_5",
+          "question": "Use a knife to cut food",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 5,
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "Mild difficulty", "score": 2 },
+            { "value": "3", "label": "Moderate difficulty", "score": 3 },
+            { "value": "4", "label": "Severe difficulty", "score": 4 },
+            { "value": "5", "label": "Unable", "score": 5 }
+          ]
+        },
+        {
+          "id": "quickdash_6",
+          "question": "Recreational activities in which you take some force or impact through your arm, shoulder or hand (e.g., golf, hammering, tennis, etc.)",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 6,
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "Mild difficulty", "score": 2 },
+            { "value": "3", "label": "Moderate difficulty", "score": 3 },
+            { "value": "4", "label": "Severe difficulty", "score": 4 },
+            { "value": "5", "label": "Unable", "score": 5 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "quickdash_symptoms",
+      "title": "Symptoms",
+      "description": "Rate the severity of your symptoms in the last week",
+      "questions": [
+        {
+          "id": "quickdash_7",
+          "question": "During the past week, to what extent has your arm, shoulder or hand problem interfered with your normal social activities with family, friends, neighbours or groups?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 7,
+          "options": [
+            { "value": "1", "label": "Not at all", "score": 1 },
+            { "value": "2", "label": "Slightly", "score": 2 },
+            { "value": "3", "label": "Moderately", "score": 3 },
+            { "value": "4", "label": "Quite a bit", "score": 4 },
+            { "value": "5", "label": "Extremely", "score": 5 }
+          ]
+        },
+        {
+          "id": "quickdash_8",
+          "question": "During the past week, were you limited in your work or other regular daily activities as a result of your arm, shoulder or hand problem?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 8,
+          "options": [
+            { "value": "1", "label": "Not limited at all", "score": 1 },
+            { "value": "2", "label": "Slightly limited", "score": 2 },
+            { "value": "3", "label": "Moderately limited", "score": 3 },
+            { "value": "4", "label": "Very limited", "score": 4 },
+            { "value": "5", "label": "Unable", "score": 5 }
+          ]
+        },
+        {
+          "id": "quickdash_9",
+          "question": "Arm, shoulder or hand pain",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 9,
+          "options": [
+            { "value": "1", "label": "None", "score": 1 },
+            { "value": "2", "label": "Mild", "score": 2 },
+            { "value": "3", "label": "Moderate", "score": 3 },
+            { "value": "4", "label": "Severe", "score": 4 },
+            { "value": "5", "label": "Extreme", "score": 5 }
+          ]
+        },
+        {
+          "id": "quickdash_10",
+          "question": "Tingling (pins and needles) in your arm, shoulder or hand",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 10,
+          "options": [
+            { "value": "1", "label": "None", "score": 1 },
+            { "value": "2", "label": "Mild", "score": 2 },
+            { "value": "3", "label": "Moderate", "score": 3 },
+            { "value": "4", "label": "Severe", "score": 4 },
+            { "value": "5", "label": "Extreme", "score": 5 }
+          ]
+        },
+        {
+          "id": "quickdash_11",
+          "question": "During the past week, how much difficulty have you had sleeping because of the pain in your arm, shoulder or hand?",
+          "ui_component": "single_choice",
+          "required": true,
+          "order": 11,
+          "options": [
+            { "value": "1", "label": "No difficulty", "score": 1 },
+            { "value": "2", "label": "Mild difficulty", "score": 2 },
+            { "value": "3", "label": "Moderate difficulty", "score": 3 },
+            { "value": "4", "label": "Severe difficulty", "score": 4 },
+            { "value": "5", "label": "So much difficulty that I can't sleep", "score": 5 }
+          ]
+        }
+      ]
+    }
+  ]
+}
