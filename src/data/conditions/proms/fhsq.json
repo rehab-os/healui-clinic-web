@@ -1,0 +1,269 @@
+{
+  "prom_id": "FHSQ",
+  "full_name": "Foot Health Status Questionnaire",
+  "version": "1.0",
+  "copyright": "(c) Bennett et al., 1998",
+  "language": "English",
+  "total_items": 13,
+  "estimated_time_minutes": 5,
+  "description": "A self-administered questionnaire to assess foot health-related quality of life across four domains: foot pain, foot function, footwear, and general foot health.",
+  "instructions": "Please answer each question based on your experience during the PAST WEEK. Select the response that best describes your foot health.",
+  "scoring": {
+    "method": "subscale_average_to_percentage",
+    "subscales": [
+      {
+        "id": "foot_pain",
+        "name": "Foot Pain",
+        "items": 4,
+        "calculation": "Reverse-score items (5 - raw + 1), then ((sum - 4) / 16) × 100"
+      },
+      {
+        "id": "foot_function",
+        "name": "Foot Function",
+        "items": 4,
+        "calculation": "Reverse-score items (5 - raw + 1), then ((sum - 4) / 16) × 100"
+      },
+      {
+        "id": "footwear",
+        "name": "Footwear",
+        "items": 3,
+        "calculation": "((sum - 3) / 12) × 100 (no reversal needed)"
+      },
+      {
+        "id": "general_foot_health",
+        "name": "General Foot Health",
+        "items": 2,
+        "calculation": "Reverse-score items (5 - raw + 1), then ((sum - 2) / 8) × 100"
+      }
+    ],
+    "total_score": {
+      "min": 0,
+      "max": 100,
+      "calculation": "Average of four domain percentages (Foot Pain, Foot Function, Footwear, General Foot Health)",
+      "interpretation": {
+        "0-25": "Poor foot health",
+        "26-50": "Fair foot health",
+        "51-75": "Good foot health",
+        "76-100": "Excellent foot health"
+      },
+      "higher_is_worse": false,
+      "mcid": 12
+    }
+  },
+  "sections": [
+    {
+      "id": "foot_pain",
+      "title": "Foot Pain",
+      "description": "The following questions are about the foot pain you have experienced during the past week.",
+      "subscale": "foot_pain",
+      "questions": [
+        {
+          "id": "fhsq_fp1",
+          "question": "What level of foot pain have you had during the past week?",
+          "ui_component": "single_choice",
+          "options": [
+            { "value": "5", "label": "None", "score": 4 },
+            { "value": "4", "label": "Mild", "score": 3 },
+            { "value": "3", "label": "Moderate", "score": 2 },
+            { "value": "2", "label": "Severe", "score": 1 },
+            { "value": "1", "label": "Very severe", "score": 0 }
+          ],
+          "required": true,
+          "order": 1
+        },
+        {
+          "id": "fhsq_fp2",
+          "question": "How often have you had foot pain?",
+          "ui_component": "single_choice",
+          "options": [
+            { "value": "5", "label": "Never", "score": 4 },
+            { "value": "4", "label": "Rarely", "score": 3 },
+            { "value": "3", "label": "Sometimes", "score": 2 },
+            { "value": "2", "label": "Often", "score": 1 },
+            { "value": "1", "label": "Always", "score": 0 }
+          ],
+          "required": true,
+          "order": 2
+        },
+        {
+          "id": "fhsq_fp3",
+          "question": "How often did your feet ache?",
+          "ui_component": "single_choice",
+          "options": [
+            { "value": "5", "label": "Never", "score": 4 },
+            { "value": "4", "label": "Rarely", "score": 3 },
+            { "value": "3", "label": "Sometimes", "score": 2 },
+            { "value": "2", "label": "Often", "score": 1 },
+            { "value": "1", "label": "Always", "score": 0 }
+          ],
+          "required": true,
+          "order": 3
+        },
+        {
+          "id": "fhsq_fp4",
+          "question": "How often did you get sharp pains in your feet?",
+          "ui_component": "single_choice",
+          "options": [
+            { "value": "5", "label": "Never", "score": 4 },
+            { "value": "4", "label": "Rarely", "score": 3 },
+            { "value": "3", "label": "Sometimes", "score": 2 },
+            { "value": "2", "label": "Often", "score": 1 },
+            { "value": "1", "label": "Always", "score": 0 }
+          ],
+          "required": true,
+          "order": 4
+        }
+      ]
+    },
+    {
+      "id": "foot_function",
+      "title": "Foot Function",
+      "description": "The following questions are about how much difficulty your feet have caused during the past week.",
+      "subscale": "foot_function",
+      "questions": [
+        {
+          "id": "fhsq_ff1",
+          "question": "Have your feet caused you to have difficulties in your work or activities?",
+          "ui_component": "single_choice",
+          "options": [
+            { "value": "5", "label": "Not at all", "score": 4 },
+            { "value": "4", "label": "A little", "score": 3 },
+            { "value": "3", "label": "A moderate amount", "score": 2 },
+            { "value": "2", "label": "Quite a lot", "score": 1 },
+            { "value": "1", "label": "Extremely", "score": 0 }
+          ],
+          "required": true,
+          "order": 5
+        },
+        {
+          "id": "fhsq_ff2",
+          "question": "Were you limited in the kind of work you could do because of your feet?",
+          "ui_component": "single_choice",
+          "options": [
+            { "value": "5", "label": "Not at all", "score": 4 },
+            { "value": "4", "label": "A little", "score": 3 },
+            { "value": "3", "label": "A moderate amount", "score": 2 },
+            { "value": "2", "label": "Quite a lot", "score": 1 },
+            { "value": "1", "label": "Extremely", "score": 0 }
+          ],
+          "required": true,
+          "order": 6
+        },
+        {
+          "id": "fhsq_ff3",
+          "question": "How much does your foot health limit you walking?",
+          "ui_component": "single_choice",
+          "options": [
+            { "value": "5", "label": "Not at all", "score": 4 },
+            { "value": "4", "label": "A little", "score": 3 },
+            { "value": "3", "label": "A moderate amount", "score": 2 },
+            { "value": "2", "label": "Quite a lot", "score": 1 },
+            { "value": "1", "label": "Cannot walk", "score": 0 }
+          ],
+          "required": true,
+          "order": 7
+        },
+        {
+          "id": "fhsq_ff4",
+          "question": "How much does your foot health limit you climbing stairs?",
+          "ui_component": "single_choice",
+          "options": [
+            { "value": "5", "label": "Not at all", "score": 4 },
+            { "value": "4", "label": "A little", "score": 3 },
+            { "value": "3", "label": "A moderate amount", "score": 2 },
+            { "value": "2", "label": "Quite a lot", "score": 1 },
+            { "value": "1", "label": "Cannot climb stairs", "score": 0 }
+          ],
+          "required": true,
+          "order": 8
+        }
+      ]
+    },
+    {
+      "id": "footwear",
+      "title": "Footwear",
+      "description": "The following questions are about your experience with footwear.",
+      "subscale": "footwear",
+      "questions": [
+        {
+          "id": "fhsq_fw1",
+          "question": "It is hard to find shoes that do not hurt my feet.",
+          "ui_component": "single_choice",
+          "options": [
+            { "value": "5", "label": "Strongly disagree", "score": 4 },
+            { "value": "4", "label": "Disagree", "score": 3 },
+            { "value": "3", "label": "Neither agree nor disagree", "score": 2 },
+            { "value": "2", "label": "Agree", "score": 1 },
+            { "value": "1", "label": "Strongly agree", "score": 0 }
+          ],
+          "required": true,
+          "order": 9
+        },
+        {
+          "id": "fhsq_fw2",
+          "question": "I have difficulty finding shoes that fit my feet.",
+          "ui_component": "single_choice",
+          "options": [
+            { "value": "5", "label": "Strongly disagree", "score": 4 },
+            { "value": "4", "label": "Disagree", "score": 3 },
+            { "value": "3", "label": "Neither agree nor disagree", "score": 2 },
+            { "value": "2", "label": "Agree", "score": 1 },
+            { "value": "1", "label": "Strongly agree", "score": 0 }
+          ],
+          "required": true,
+          "order": 10
+        },
+        {
+          "id": "fhsq_fw3",
+          "question": "I am limited in the number of shoes I can wear.",
+          "ui_component": "single_choice",
+          "options": [
+            { "value": "5", "label": "Strongly disagree", "score": 4 },
+            { "value": "4", "label": "Disagree", "score": 3 },
+            { "value": "3", "label": "Neither agree nor disagree", "score": 2 },
+            { "value": "2", "label": "Agree", "score": 1 },
+            { "value": "1", "label": "Strongly agree", "score": 0 }
+          ],
+          "required": true,
+          "order": 11
+        }
+      ]
+    },
+    {
+      "id": "general_foot_health",
+      "title": "General Foot Health",
+      "description": "The following questions are about your overall perception of your foot health.",
+      "subscale": "general_foot_health",
+      "questions": [
+        {
+          "id": "fhsq_gfh1",
+          "question": "How would you rate your overall foot health?",
+          "ui_component": "single_choice",
+          "options": [
+            { "value": "5", "label": "Excellent", "score": 4 },
+            { "value": "4", "label": "Very good", "score": 3 },
+            { "value": "3", "label": "Good", "score": 2 },
+            { "value": "2", "label": "Fair", "score": 1 },
+            { "value": "1", "label": "Poor", "score": 0 }
+          ],
+          "required": true,
+          "order": 12
+        },
+        {
+          "id": "fhsq_gfh2",
+          "question": "In general, what condition would you say your feet are in?",
+          "ui_component": "single_choice",
+          "options": [
+            { "value": "5", "label": "Excellent", "score": 4 },
+            { "value": "4", "label": "Very good", "score": 3 },
+            { "value": "3", "label": "Good", "score": 2 },
+            { "value": "2", "label": "Fair", "score": 1 },
+            { "value": "1", "label": "Poor", "score": 0 }
+          ],
+          "required": true,
+          "order": 13
+        }
+      ]
+    }
+  ]
+}

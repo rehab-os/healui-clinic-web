@@ -36,6 +36,25 @@ const ITEM_KEY_TO_PROM_FILE: Record<string, string> = {
   pfdi_20: 'pfdi20',
   wosi: 'wosi',
   qualeffo: 'qualeffo41',
+  // newly wired items
+  abc_scale: 'abc',
+  ases: 'ases',
+  barthel_index: 'barthel',
+  bctq: 'bctq',
+  berg_balance_scale: 'berg',
+  cait: 'cait',
+  dash: 'dash',
+  dhi: 'dhi',
+  eq_5d: 'eq5d',
+  faam: 'faam',
+  fim: 'fim',
+  fiq: 'fiq',
+  fsfi: 'fsfi',
+  lymqol: 'lymqol',
+  pain_catastrophizing_scale: 'pcs',
+  pcs: 'pcs',
+  ffi: 'ffi',
+  fhsq: 'fhsq',
 }
 
 // Dynamic imports for each PROM file
@@ -85,6 +104,8 @@ const PROM_IMPORTS: Record<string, () => Promise<any>> = {
   jfls: () => import('@/data/conditions/proms/jfls.json'),
   lymqol: () => import('@/data/conditions/proms/lymqol.json'),
   pcs: () => import('@/data/conditions/proms/pcs.json'),
+  ffi: () => import('@/data/conditions/proms/ffi.json'),
+  fhsq: () => import('@/data/conditions/proms/fhsq.json'),
 }
 
 export interface PROMQuestion {

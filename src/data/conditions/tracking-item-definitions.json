@@ -60,7 +60,7 @@
   "abc_scale": {
     "display_name": "Activities-Specific Balance Confidence Scale",
     "type": "prom",
-    "input": "numeric",
+    "input": "questionnaire",
     "score_range": [
       0,
       100
@@ -1266,7 +1266,7 @@
   "ases": {
     "display_name": "American Shoulder and Elbow Surgeons Score",
     "type": "prom",
-    "input": "numeric",
+    "input": "questionnaire",
     "score_range": [
       0,
       100
@@ -1483,7 +1483,7 @@
   "barthel_index": {
     "display_name": "Barthel Index",
     "type": "prom",
-    "input": "numeric",
+    "input": "questionnaire",
     "score_range": [
       0,
       100
@@ -1564,7 +1564,7 @@
   "bctq": {
     "display_name": "Boston Carpal Tunnel Questionnaire",
     "type": "prom",
-    "input": "numeric",
+    "input": "questionnaire",
     "score_range": [
       1,
       5
@@ -1671,7 +1671,7 @@
   "berg_balance_scale": {
     "display_name": "Berg Balance Scale",
     "type": "special_test",
-    "input": "numeric",
+    "input": "questionnaire",
     "unit": "score",
     "bilateral": false,
     "min": 0,
@@ -2272,7 +2272,7 @@
   "cait": {
     "display_name": "CAIT",
     "type": "prom",
-    "input": "numeric",
+    "input": "questionnaire",
     "score_range": [
       0,
       30
@@ -3855,7 +3855,7 @@
   "dash": {
     "display_name": "Disabilities of the Arm, Shoulder and Hand",
     "type": "prom",
-    "input": "numeric",
+    "input": "questionnaire",
     "score_range": [
       0,
       100
@@ -4342,7 +4342,7 @@
   "dhi": {
     "display_name": "Dizziness Handicap Inventory",
     "type": "prom",
-    "input": "numeric",
+    "input": "questionnaire",
     "score_range": [
       0,
       100
@@ -5460,7 +5460,7 @@
   "eq_5d": {
     "display_name": "EQ-5D Quality of Life",
     "type": "quality_of_life",
-    "input": "numeric",
+    "input": "questionnaire",
     "unit": "score",
     "bilateral": false,
     "score_range": [
@@ -5755,7 +5755,7 @@
   "faam": {
     "display_name": "Foot and Ankle Ability Measure",
     "type": "prom",
-    "input": "numeric",
+    "input": "questionnaire",
     "score_range": [
       0,
       100
@@ -6333,7 +6333,8 @@
   "ffi": {
     "display_name": "Foot Function Index",
     "type": "prom",
-    "input": "numeric",
+    "input": "questionnaire",
+    "prom_file": "ffi",
     "score_range": [
       0,
       100
@@ -6347,7 +6348,8 @@
   "fhsq": {
     "display_name": "Foot Health Status Questionnaire",
     "type": "prom",
-    "input": "numeric",
+    "input": "questionnaire",
+    "prom_file": "fhsq",
     "score_range": [
       0,
       100
@@ -6397,7 +6399,7 @@
   "fim": {
     "display_name": "Functional Independence Measure",
     "type": "prom",
-    "input": "numeric",
+    "input": "questionnaire",
     "score_range": [
       18,
       126
@@ -6530,7 +6532,7 @@
   "fiq": {
     "display_name": "Fibromyalgia Impact Questionnaire",
     "type": "prom",
-    "input": "numeric",
+    "input": "questionnaire",
     "score_range": [
       0,
       100
@@ -7089,7 +7091,7 @@
   "fsfi": {
     "display_name": "Female Sexual Function Index",
     "type": "prom",
-    "input": "numeric",
+    "input": "questionnaire",
     "score_range": [
       2,
       36
@@ -10984,7 +10986,7 @@
   "lymqol": {
     "display_name": "LYMQOL Quality of Life",
     "type": "quality_of_life",
-    "input": "numeric",
+    "input": "questionnaire",
     "unit": "score",
     "bilateral": false,
     "score_range": [
@@ -13503,7 +13505,7 @@
   "pain_catastrophizing_scale": {
     "display_name": "Pain Catastrophizing Scale",
     "type": "psychosocial",
-    "input": "numeric",
+    "input": "questionnaire",
     "unit": "score",
     "bilateral": false,
     "score_range": [
@@ -14092,7 +14094,7 @@
   "pcs": {
     "display_name": "PCS",
     "type": "psychosocial",
-    "input": "numeric",
+    "input": "questionnaire",
     "unit": "score",
     "bilateral": false,
     "score_range": [

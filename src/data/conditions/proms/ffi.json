@@ -1,0 +1,326 @@
+{
+  "prom_id": "FFI",
+  "full_name": "Foot Function Index",
+  "version": "1.0",
+  "copyright": "Public domain (Budiman-Mak, Conrad, Roach, 1991)",
+  "language": "English",
+  "total_items": 23,
+  "estimated_time_minutes": 7,
+  "description": "A self-report measure of foot pain, disability, and activity limitation. Originally developed for rheumatoid arthritis, now validated across foot pathology populations.",
+  "instructions": "Please rate each item based on your experience during the PAST WEEK. If an item does not apply to you, select 'Not applicable'.",
+  "scoring": {
+    "method": "subscale_average_to_percentage",
+    "subscales": [
+      {
+        "id": "pain",
+        "name": "Pain",
+        "items": 9,
+        "calculation": "Sum of applicable pain items divided by maximum possible (applicable items × 10), multiplied by 100"
+      },
+      {
+        "id": "disability",
+        "name": "Disability",
+        "items": 9,
+        "calculation": "Sum of applicable disability items divided by maximum possible (applicable items × 10), multiplied by 100"
+      },
+      {
+        "id": "activity_limitation",
+        "name": "Activity Limitation",
+        "items": 5,
+        "calculation": "Sum of applicable activity limitation items divided by maximum possible (applicable items × 10), multiplied by 100"
+      }
+    ],
+    "total_score": {
+      "min": 0,
+      "max": 100,
+      "calculation": "Average of Pain, Disability, and Activity Limitation subscale percentages",
+      "interpretation": {
+        "0-9": "Minimal functional limitation",
+        "10-30": "Mild impairment",
+        "31-60": "Moderate impairment",
+        "61-100": "Severe dysfunction"
+      },
+      "higher_is_worse": true,
+      "mcid": 7
+    }
+  },
+  "sections": [
+    {
+      "id": "pain_subscale",
+      "title": "Pain",
+      "description": "How severe is your foot pain:",
+      "subscale": "pain",
+      "questions": [
+        {
+          "id": "ffi_p1",
+          "question": "Foot pain at its worst?",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": { "0": "No pain", "10": "Worst pain imaginable" },
+          "required": true,
+          "order": 1
+        },
+        {
+          "id": "ffi_p2",
+          "question": "Foot pain in the morning?",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": { "0": "No pain", "10": "Worst pain imaginable" },
+          "required": true,
+          "order": 2
+        },
+        {
+          "id": "ffi_p3",
+          "question": "Pain walking barefoot?",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": { "0": "No pain", "10": "Worst pain imaginable" },
+          "required": true,
+          "order": 3
+        },
+        {
+          "id": "ffi_p4",
+          "question": "Pain standing barefoot?",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": { "0": "No pain", "10": "Worst pain imaginable" },
+          "required": true,
+          "order": 4
+        },
+        {
+          "id": "ffi_p5",
+          "question": "Pain walking with shoes?",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": { "0": "No pain", "10": "Worst pain imaginable" },
+          "required": true,
+          "order": 5
+        },
+        {
+          "id": "ffi_p6",
+          "question": "Pain standing with shoes?",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": { "0": "No pain", "10": "Worst pain imaginable" },
+          "required": true,
+          "order": 6
+        },
+        {
+          "id": "ffi_p7",
+          "question": "Pain walking with orthotics?",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": { "0": "No pain", "10": "Worst pain imaginable" },
+          "required": false,
+          "order": 7
+        },
+        {
+          "id": "ffi_p8",
+          "question": "Pain standing with orthotics?",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": { "0": "No pain", "10": "Worst pain imaginable" },
+          "required": false,
+          "order": 8
+        },
+        {
+          "id": "ffi_p9",
+          "question": "Foot pain at end of day?",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": { "0": "No pain", "10": "Worst pain imaginable" },
+          "required": true,
+          "order": 9
+        }
+      ]
+    },
+    {
+      "id": "disability_subscale",
+      "title": "Disability",
+      "description": "How much difficulty did you have:",
+      "subscale": "disability",
+      "questions": [
+        {
+          "id": "ffi_d1",
+          "question": "Walking in the house?",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": { "0": "No difficulty", "10": "So difficult, unable" },
+          "required": true,
+          "order": 10
+        },
+        {
+          "id": "ffi_d2",
+          "question": "Walking outside on uneven ground?",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": { "0": "No difficulty", "10": "So difficult, unable" },
+          "required": true,
+          "order": 11
+        },
+        {
+          "id": "ffi_d3",
+          "question": "Walking four blocks or more?",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": { "0": "No difficulty", "10": "So difficult, unable" },
+          "required": true,
+          "order": 12
+        },
+        {
+          "id": "ffi_d4",
+          "question": "Climbing stairs?",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": { "0": "No difficulty", "10": "So difficult, unable" },
+          "required": true,
+          "order": 13
+        },
+        {
+          "id": "ffi_d5",
+          "question": "Descending stairs?",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": { "0": "No difficulty", "10": "So difficult, unable" },
+          "required": true,
+          "order": 14
+        },
+        {
+          "id": "ffi_d6",
+          "question": "Standing on tip toe?",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": { "0": "No difficulty", "10": "So difficult, unable" },
+          "required": true,
+          "order": 15
+        },
+        {
+          "id": "ffi_d7",
+          "question": "Getting up from a chair?",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": { "0": "No difficulty", "10": "So difficult, unable" },
+          "required": true,
+          "order": 16
+        },
+        {
+          "id": "ffi_d8",
+          "question": "Climbing curbs?",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": { "0": "No difficulty", "10": "So difficult, unable" },
+          "required": true,
+          "order": 17
+        },
+        {
+          "id": "ffi_d9",
+          "question": "Walking fast?",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": { "0": "No difficulty", "10": "So difficult, unable" },
+          "required": true,
+          "order": 18
+        }
+      ]
+    },
+    {
+      "id": "activity_limitation_subscale",
+      "title": "Activity Limitation",
+      "description": "How much of the time did you:",
+      "subscale": "activity_limitation",
+      "questions": [
+        {
+          "id": "ffi_al1",
+          "question": "Stay inside all day because of your feet?",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": { "0": "None of the time", "10": "All of the time" },
+          "required": true,
+          "order": 19
+        },
+        {
+          "id": "ffi_al2",
+          "question": "Stay in bed all day because of your feet?",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": { "0": "None of the time", "10": "All of the time" },
+          "required": true,
+          "order": 20
+        },
+        {
+          "id": "ffi_al3",
+          "question": "Limit your activities because of your feet?",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": { "0": "None of the time", "10": "All of the time" },
+          "required": true,
+          "order": 21
+        },
+        {
+          "id": "ffi_al4",
+          "question": "Use an assistive device indoors?",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": { "0": "None of the time", "10": "All of the time" },
+          "required": false,
+          "order": 22
+        },
+        {
+          "id": "ffi_al5",
+          "question": "Use an assistive device outdoors?",
+          "ui_component": "slider",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "labels": { "0": "None of the time", "10": "All of the time" },
+          "required": false,
+          "order": 23
+        }
+      ]
+    }
+  ]
+}
