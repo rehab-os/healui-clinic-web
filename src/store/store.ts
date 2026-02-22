@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { authSlice, organizationSlice, clinicSlice, userSlice, analyticsSlice, availabilitySlice, treatmentProtocolSlice, appointmentDetailsSlice } from './slices'
+import { authSlice, organizationSlice, clinicSlice, userSlice, analyticsSlice, availabilitySlice, treatmentProtocolSlice } from './slices'
+import { appointmentDetailsSlice } from './slices/appointmentDetails.slice'
 import practiceReducer from './slices/practice.slice'
 
 export const store = configureStore({

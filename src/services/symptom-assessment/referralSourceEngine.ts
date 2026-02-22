@@ -835,6 +835,13 @@ export class ReferralSourceEngine {
   }
 
   /**
+   * Check if already initialized for a specific region (prevents double-init)
+   */
+  isInitializedForRegion(bodyRegion: string): boolean {
+    return this.state.bodyRegion === bodyRegion && this.state.sourceProbabilities.size > 0;
+  }
+
+  /**
    * Check if source identification is complete
    */
   isComplete(): boolean {

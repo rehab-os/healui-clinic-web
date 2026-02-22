@@ -44,6 +44,9 @@ interface DiagnosticState {
   // Source identification state
   sourceIdentificationComplete: boolean;
   identifiedSource: SourceIdentificationResult | null;
+  // Pre-region evidence: answers collected before body region is selected
+  // These are replayed after regional priors initialize for carry-forward
+  earlyPhaseEvidence: Array<{symptomId: string, isPresent: boolean}>;
 }
 
 export class PhysioBayesianEngine {
@@ -78,7 +81,8 @@ export class PhysioBayesianEngine {
       redFlagDetected: false,
       confidenceLevel: 0,
       sourceIdentificationComplete: false,
-      identifiedSource: null
+      identifiedSource: null,
+      earlyPhaseEvidence: []
     };
 
     // Initialize source engine if data provided
@@ -97,6 +101,9 @@ export class PhysioBayesianEngine {
       const likelihood = this.getLikelihood(conditionId, symptomId, isPresent);
       evidenceProb += likelihood * priorProb;
     }
+
+    // Prevent division by zero (matches guard in updateProbabilitiesWithValue)
+    if (evidenceProb === 0) evidenceProb = 0.001;
 
     // Update posteriors using Bayes' rule: P(C|S) = P(S|C) * P(C) / P(S)
     for (const [conditionId, priorProb] of this.state.conditionProbabilities) {
@@ -125,32 +132,54 @@ export class PhysioBayesianEngine {
     return 0.5;
   }
 
-  // Calculate likelihood ratios for diagnostic accuracy
-  private calculateLikelihoodRatio(symptomId: string, isPresent: boolean): {positive: number, negative: number} {
-    let truePositives = 0;
-    let falsePositives = 0;
-    let trueNegatives = 0;
-    let falseNegatives = 0;
+  // Calculate likelihood ratios using CPT table values directly
+  // LR+ = P(symptom present | condition) / P(symptom present | NOT condition)
+  // Weighted by condition priors to get a population-level LR estimate
+  private calculateLikelihoodRatio(symptomId: string, _isPresent: boolean): {positive: number, negative: number} {
+    // Compute prior-weighted average likelihoods across conditions that
+    // DO vs DON'T have this symptom as characteristic (weight > 0.5)
+    let weightedPresentGivenRelevant = 0;
+    let weightedPresentGivenIrrelevant = 0;
+    let totalRelevantPrior = 0;
+    let totalIrrelevantPrior = 0;
 
-    for (const [conditionId] of this.state.conditionProbabilities) {
-      const likelihood = this.getLikelihood(conditionId, symptomId, isPresent);
+    for (const [conditionId, prior] of this.state.conditionProbabilities) {
+      const conditionData = this.cptTables.cpt_tables?.[conditionId];
+      const symptomProb = conditionData?.symptom_probabilities?.[symptomId];
 
-      if (likelihood > 0.5) {
-        if (isPresent) truePositives++;
-        else falseNegatives++;
+      if (symptomProb && typeof symptomProb === 'object' && 'present' in symptomProb) {
+        const isRelevant = (symptomProb.weight || 0.5) > 0.5;
+        if (isRelevant) {
+          weightedPresentGivenRelevant += symptomProb.present * prior;
+          totalRelevantPrior += prior;
+        } else {
+          weightedPresentGivenIrrelevant += symptomProb.present * prior;
+          totalIrrelevantPrior += prior;
+        }
       } else {
-        if (isPresent) falsePositives++;
-        else trueNegatives++;
+        // No CPT entry = irrelevant, assume 0.5 (neutral)
+        weightedPresentGivenIrrelevant += 0.5 * prior;
+        totalIrrelevantPrior += prior;
       }
     }
 
-    const sensitivity = truePositives / (truePositives + falseNegatives) || 0;
-    const specificity = trueNegatives / (trueNegatives + falsePositives) || 0;
+    // Compute average P(present) for relevant vs irrelevant conditions
+    const avgPresentRelevant = totalRelevantPrior > 0
+      ? weightedPresentGivenRelevant / totalRelevantPrior
+      : 0.5;
+    const avgPresentIrrelevant = totalIrrelevantPrior > 0
+      ? weightedPresentGivenIrrelevant / totalIrrelevantPrior
+      : 0.5;
 
-    const positiveLR = sensitivity / (1 - specificity) || 1;
-    const negativeLR = (1 - sensitivity) / specificity || 1;
+    // LR+ = P(S+|D+) / P(S+|D-), LR- = P(S-|D+) / P(S-|D-)
+    const positiveLR = avgPresentIrrelevant > 0
+      ? avgPresentRelevant / avgPresentIrrelevant
+      : 1;
+    const negativeLR = (1 - avgPresentIrrelevant) > 0
+      ? (1 - avgPresentRelevant) / (1 - avgPresentIrrelevant)
+      : 1;
 
-    return {positive: positiveLR, negative: negativeLR};
+    return { positive: positiveLR, negative: negativeLR };
   }
 
   private normalize(): void {
@@ -210,10 +239,14 @@ export class PhysioBayesianEngine {
         if (!this.state.bodyRegion) {
           return this.getBodyRegionQuestion();
         }
-        // If body region selected, move to SOURCE IDENTIFICATION phase (NEW!)
+        // If body region selected, move to SOURCE IDENTIFICATION phase
+        // (updatePhaseBasedOnContext normally handles this, but this is the fallback)
         if (this.referralSourceEngine && !this.state.sourceIdentificationComplete) {
           this.state.currentPhase = 'source_identification';
-          this.referralSourceEngine.initializeForRegion(this.state.bodyRegion);
+          // Only initialize if not already initialized for this region
+          if (!this.referralSourceEngine.isInitializedForRegion(this.state.bodyRegion)) {
+            this.referralSourceEngine.initializeForRegion(this.state.bodyRegion);
+          }
           return this.getNextQuestion();
         }
         // If no source engine, skip to functional
@@ -318,8 +351,9 @@ export class PhysioBayesianEngine {
       return true;
     }
 
-    // Stop if we've asked enough questions (but allow more for complex cases)
-    const maxQuestions = this.state.bodyRegion === 'ankle' ? 15 : 12; // More questions for ankle complexity
+    // Stop if we've asked enough questions (scaled for 345-condition coverage)
+    const systemicRegions = ['neurological', 'cardiopulmonary', 'systemic', 'rheumatology', 'pediatric'];
+    const maxQuestions = systemicRegions.includes(this.state.bodyRegion || '') ? 20 : 15;
     if (this.state.askedQuestions.size > maxQuestions) {
       return true;
     }
@@ -520,10 +554,10 @@ export class PhysioBayesianEngine {
     }
 
     const baseInfoGain = currentEntropy - expectedEntropy;
-    const clinicalWeight = question.diagnostic_weight || 1;
-    const informationGainPotential = question.information_gain_potential || 1;
 
-    return baseInfoGain * likelihoodRatioWeight * clinicalWeight * informationGainPotential;
+    // Only apply LR boost here — diagnostic_weight and information_gain_potential
+    // are applied in selectOptimalQuestion() to avoid double-multiplication
+    return Math.max(0, baseInfoGain * likelihoodRatioWeight);
   }
 
   private calculateEntropy(probabilities: Map<string, number>): number {
@@ -613,6 +647,14 @@ export class PhysioBayesianEngine {
   }
 
   private processYesNoAnswer(question: Question, answer: boolean): void {
+    // If body region not yet selected, store evidence for replay after region initialization
+    if (!this.state.bodyRegion) {
+      for (const symptomId of question.tests_symptoms) {
+        this.state.earlyPhaseEvidence.push({ symptomId, isPresent: answer });
+      }
+      return; // Don't update probabilities yet — no regional priors to update
+    }
+
     for (const symptomId of question.tests_symptoms) {
       this.updateProbabilities(symptomId, answer);
     }
@@ -711,9 +753,15 @@ export class PhysioBayesianEngine {
     // ADAPTIVE PHASE MANAGEMENT: Intelligently progress through clinical phases
     // based on what information we have and what we still need
 
-    // If body region was just selected and we're in region phase, move to functional
+    // If body region was just selected and we're in region phase,
+    // route through source identification if engine exists, otherwise skip to functional
     if (this.state.bodyRegion && this.state.currentPhase === 'region') {
-      this.state.currentPhase = 'functional';
+      if (this.referralSourceEngine && !this.state.sourceIdentificationComplete) {
+        this.state.currentPhase = 'source_identification';
+        this.referralSourceEngine.initializeForRegion(this.state.bodyRegion);
+      } else {
+        this.state.currentPhase = 'functional';
+      }
     }
 
     // If body region is selected and we're still in functional phase,
@@ -754,6 +802,13 @@ export class PhysioBayesianEngine {
       }
     }
 
+    // Add "other/unknown" condition bucket (5-10% based on region complexity)
+    // This represents conditions not in the system — when highest posterior,
+    // the UI surfaces "symptoms don't clearly match — recommend clinical evaluation"
+    const otherPrior = (regionalPriors as Record<string, number>)['other'];
+    const otherBucketPrior = typeof otherPrior === 'number' ? otherPrior : 0.05;
+    this.state.conditionProbabilities.set('OTHER_UNKNOWN', otherBucketPrior);
+
     // Normalize probabilities to sum to 1
     const total = Array.from(this.state.conditionProbabilities.values()).reduce((sum, prob) => sum + prob, 0);
     if (total > 0) {
@@ -762,7 +817,12 @@ export class PhysioBayesianEngine {
       }
     }
 
-    // Initialized conditions for selected body region
+    // Replay any pre-region evidence that was collected during safety/context phases
+    if (this.state.earlyPhaseEvidence.length > 0) {
+      for (const evidence of this.state.earlyPhaseEvidence) {
+        this.updateProbabilities(evidence.symptomId, evidence.isPresent);
+      }
+    }
   }
 
   // Get current diagnostic results
@@ -819,12 +879,17 @@ export class PhysioBayesianEngine {
     return 'Very Low';
   }
 
-  private generateDiagnosticSummary(topConditions: Array<{name: string, probability: number}>): string {
+  private generateDiagnosticSummary(topConditions: Array<{id: string, name: string, probability: number}>): string {
     if (topConditions.length === 0) {
       return 'Insufficient information for diagnosis. More assessment needed.';
     }
 
     const topCondition = topConditions[0];
+
+    // If "other/unknown" is the highest posterior, recommend clinical evaluation
+    if (topCondition.id === 'OTHER_UNKNOWN') {
+      return 'Your symptoms don\'t clearly match a specific condition in our system. We recommend a clinical evaluation for a thorough assessment.';
+    }
 
     if (topCondition.probability > 0.8) {
       return `Strong evidence suggests ${topCondition.name} (${Math.round(topCondition.probability * 100)}% probability)`;
@@ -909,6 +974,9 @@ export class PhysioBayesianEngine {
   }
 
   private getConditionName(conditionId: string): string {
+    if (conditionId === 'OTHER_UNKNOWN') {
+      return 'Other / Unidentified Condition';
+    }
     const conditionData = this.cptTables.cpt_tables?.[conditionId];
     if (conditionData && conditionData.name) {
       return conditionData.name;
@@ -927,7 +995,8 @@ export class PhysioBayesianEngine {
       redFlagDetected: false,
       confidenceLevel: 0,
       sourceIdentificationComplete: false,
-      identifiedSource: null
+      identifiedSource: null,
+      earlyPhaseEvidence: []
     };
 
     // Reset source engine if available

@@ -1,19 +1,23 @@
 'use client'
 
 import React, { useMemo } from 'react'
-import { Activity } from 'lucide-react'
+import { Activity, Save, Check, Loader2 } from 'lucide-react'
 import { getTrackingForCondition } from './tracking-data-loader'
-import { useTrackingState } from './useTrackingState'
+import { useTrackingPersistence } from './useTrackingPersistence'
 import TrackingItemRow from './TrackingItemRow'
 
 interface ConditionTrackingPanelProps {
   conditionName: string
   visitConditionId: string
+  patientConditionId: string
+  visitId: string
 }
 
 export default function ConditionTrackingPanel({
   conditionName,
   visitConditionId,
+  patientConditionId,
+  visitId,
 }: ConditionTrackingPanelProps) {
   const tracking = useMemo(() => getTrackingForCondition(conditionName), [conditionName])
 
@@ -22,7 +26,14 @@ export default function ConditionTrackingPanel({
     [tracking]
   )
 
-  const { values, setValue, filledCount } = useTrackingState(visitConditionId, totalCount)
+  const { values, setValue, save, filledCount, isSaving, isLoading, isDirty, lastSavedAt } =
+    useTrackingPersistence(
+      visitConditionId,
+      patientConditionId,
+      visitId,
+      tracking?.categories ?? null,
+      totalCount,
+    )
 
   // Count filled per category
   const categoryFilledCounts = useMemo(() => {
@@ -58,7 +69,7 @@ export default function ConditionTrackingPanel({
 
   return (
     <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-      {/* Header with progress bar */}
+      {/* Header with progress bar and save */}
       <div className="px-5 py-3.5 border-b border-gray-100">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
@@ -67,53 +78,87 @@ export default function ConditionTrackingPanel({
             <span className="text-xs text-gray-400 font-medium">
               {filledCount}/{totalCount}
             </span>
-          </div>
-          {/* Progress bar */}
-          <div className="flex items-center gap-2">
-            <div className="w-20 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+            {/* Progress bar */}
+            <div className="w-16 h-1.5 bg-gray-100 rounded-full overflow-hidden">
               <div
                 className="h-full bg-teal-500 rounded-full transition-all duration-300"
                 style={{ width: `${progressPercent}%` }}
               />
             </div>
-            {filledCount === totalCount && totalCount > 0 && (
-              <span className="text-[10px] font-medium text-teal-600">Complete</span>
+          </div>
+          <div className="flex items-center gap-2">
+            {/* Status */}
+            {lastSavedAt && !isDirty && (
+              <span className="text-[11px] text-teal-600 flex items-center gap-1 font-medium">
+                <Check className="h-3 w-3" />
+                Saved
+              </span>
             )}
+            {isDirty && (
+              <span className="text-[11px] text-amber-500 font-medium">Unsaved</span>
+            )}
+            {/* Save button — always visible */}
+            <button
+              onClick={save}
+              disabled={isSaving || !isDirty}
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all
+                ${isDirty
+                  ? 'bg-teal-600 text-white hover:bg-teal-700 shadow-sm'
+                  : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                }
+              `}
+            >
+              {isSaving ? (
+                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              ) : (
+                <Save className="h-3.5 w-3.5" />
+              )}
+              {isSaving ? 'Saving...' : 'Save'}
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Flat grouped list */}
-      <div>
-        {tracking.categories.map(cat => {
-          if (cat.items.length === 0) return null
-          const filled = categoryFilledCounts[cat.key] || 0
-          return (
-            <div key={cat.key}>
-              {/* Category divider */}
-              <div className="px-5 py-2 bg-gray-50/70 border-y border-gray-100 flex items-center justify-between">
-                <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">
-                  {cat.displayName}
-                </span>
-                <span className="text-[11px] text-gray-300 font-medium">
-                  {filled}/{cat.items.length}
-                </span>
+      {/* Loading skeleton */}
+      {isLoading ? (
+        <div className="px-5 py-8 flex items-center justify-center gap-2">
+          <Loader2 className="h-4 w-4 animate-spin text-teal-500" />
+          <span className="text-sm text-gray-400">Loading saved data...</span>
+        </div>
+      ) : (
+        /* Flat grouped list */
+        <div>
+          {tracking.categories.map(cat => {
+            if (cat.items.length === 0) return null
+            const filled = categoryFilledCounts[cat.key] || 0
+            return (
+              <div key={cat.key}>
+                {/* Category divider */}
+                <div className="px-5 py-2 bg-gray-50/70 border-y border-gray-100 flex items-center justify-between">
+                  <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">
+                    {cat.displayName}
+                  </span>
+                  <span className="text-[11px] text-gray-300 font-medium">
+                    {filled}/{cat.items.length}
+                  </span>
+                </div>
+                {/* Items */}
+                <div className="divide-y divide-gray-50">
+                  {cat.items.map(item => (
+                    <TrackingItemRow
+                      key={item.key}
+                      item={item}
+                      value={values[item.key]}
+                      onChange={(val) => setValue(item.key, val)}
+                    />
+                  ))}
+                </div>
               </div>
-              {/* Items */}
-              <div className="divide-y divide-gray-50">
-                {cat.items.map(item => (
-                  <TrackingItemRow
-                    key={item.key}
-                    item={item}
-                    value={values[item.key]}
-                    onChange={(val) => setValue(item.key, val)}
-                  />
-                ))}
-              </div>
-            </div>
-          )
-        })}
-      </div>
+            )
+          })}
+        </div>
+      )}
+
     </div>
   )
 }

@@ -1,6 +1,6 @@
 {
   "version": "2.1",
-  "total_conditions": 203,
+  "total_conditions": 218,
   "cpt_tables": {
     "COND_001": {
       "name": "Adhesive Capsulitis (Frozen Shoulder)",
@@ -40,16 +40,16 @@
           "weight": 0.9,
           "category": "pathognomonic"
         },
-        "SYMPTOM_GRADUAL_ONSET": {
-          "present": 0.85,
-          "absent": 0.15,
-          "weight": 0.85,
-          "category": "characteristic"
-        },
         "SYMPTOM_PAIN_LYING_ON_SIDE": {
           "present": 0.7,
           "absent": 0.3,
           "weight": 0.7,
+          "category": "characteristic"
+        },
+        "SYMPTOM_ONSET_GRADUAL": {
+          "present": 0.85,
+          "absent": 0.15,
+          "weight": 0.85,
           "category": "characteristic"
         }
       }
@@ -132,17 +132,17 @@
           "weight": 0.9,
           "category": "pathognomonic"
         },
-        "SYMPTOM_GRADUAL_ONSET": {
-          "present": 0.8,
-          "absent": 0.2,
-          "weight": 0.8,
-          "category": "characteristic"
-        },
         "SYMPTOM_WARMUP_IMPROVEMENT": {
           "present": 0.7,
           "absent": 0.3,
           "weight": 0.7,
           "category": "common"
+        },
+        "SYMPTOM_ONSET_GRADUAL": {
+          "present": 0.8,
+          "absent": 0.2,
+          "weight": 0.8,
+          "category": "characteristic"
         }
       }
     },
@@ -236,12 +236,6 @@
           "weight": 0.7,
           "category": "characteristic"
         },
-        "SYMPTOM_GRADUAL_ONSET": {
-          "present": 0.85,
-          "absent": 0.15,
-          "weight": 0.85,
-          "category": "characteristic"
-        },
         "SYMPTOM_ONSET_GRADUAL": {
           "present": 0.85,
           "absent": 0.15,
@@ -288,7 +282,7 @@
           "weight": 0.85,
           "category": "characteristic"
         },
-        "SYMPTOM_GRADUAL_ONSET": {
+        "SYMPTOM_ONSET_GRADUAL": {
           "present": 0.85,
           "absent": 0.15,
           "weight": 0.85,
@@ -862,12 +856,6 @@
           "weight": 0.85,
           "category": "characteristic"
         },
-        "SYMPTOM_GRADUAL_ONSET": {
-          "present": 0.85,
-          "absent": 0.15,
-          "weight": 0.85,
-          "category": "characteristic"
-        },
         "SYMPTOM_ONSET_GRADUAL": {
           "present": 0.85,
           "absent": 0.15,
@@ -1188,17 +1176,17 @@
           "weight": 0.8,
           "category": "characteristic"
         },
-        "SYMPTOM_GRADUAL_ONSET": {
-          "present": 0.85,
-          "absent": 0.15,
-          "weight": 0.85,
-          "category": "characteristic"
-        },
         "SYMPTOM_WARMUP_IMPROVEMENT": {
           "present": 0.7,
           "absent": 0.3,
           "weight": 0.7,
           "category": "common"
+        },
+        "SYMPTOM_ONSET_GRADUAL": {
+          "present": 0.85,
+          "absent": 0.15,
+          "weight": 0.85,
+          "category": "characteristic"
         }
       }
     },
@@ -1604,12 +1592,6 @@
           "weight": 0.75,
           "category": "characteristic"
         },
-        "SYMPTOM_SUDDEN_ONSET": {
-          "present": 0.95,
-          "absent": 0.05,
-          "weight": 0.95,
-          "category": "pathognomonic"
-        },
         "SYMPTOM_PROGRESSIVE_WEAKNESS": {
           "present": 0.1,
           "absent": 0.9,
@@ -1621,6 +1603,12 @@
           "absent": 0.95,
           "weight": 0.85,
           "category": "inverse"
+        },
+        "SYMPTOM_ONSET_ACUTE": {
+          "present": 0.95,
+          "absent": 0.05,
+          "weight": 0.95,
+          "category": "pathognomonic"
         }
       }
     },
@@ -1660,12 +1648,6 @@
           "present": 0.85,
           "absent": 0.15,
           "weight": 0.85,
-          "category": "characteristic"
-        },
-        "SYMPTOM_GRADUAL_ONSET": {
-          "present": 0.8,
-          "absent": 0.2,
-          "weight": 0.8,
           "category": "characteristic"
         },
         "SYMPTOM_ONSET_GRADUAL": {
@@ -2442,7 +2424,7 @@
           "weight": 0.85,
           "category": "characteristic"
         },
-        "SYMPTOM_SUDDEN_ONSET": {
+        "SYMPTOM_ONSET_ACUTE": {
           "present": 0.8,
           "absent": 0.2,
           "weight": 0.8,
@@ -3062,12 +3044,6 @@
           "weight": 0.8,
           "category": "characteristic"
         },
-        "SYMPTOM_GRADUAL_ONSET": {
-          "present": 0.85,
-          "absent": 0.15,
-          "weight": 0.8,
-          "category": "characteristic"
-        },
         "SYMPTOM_MORNING_STIFFNESS": {
           "present": 0.75,
           "absent": 0.25,
@@ -3592,12 +3568,6 @@
           "weight": 0.8,
           "category": "characteristic"
         },
-        "SYMPTOM_GRADUAL_ONSET": {
-          "present": 0.85,
-          "absent": 0.15,
-          "weight": 0.8,
-          "category": "characteristic"
-        },
         "SYMPTOM_MORNING_STIFFNESS": {
           "present": 0.75,
           "absent": 0.25,
@@ -3637,12 +3607,6 @@
           "absent": 0.35,
           "weight": 0.6,
           "category": "common"
-        },
-        "SYMPTOM_GRADUAL_ONSET": {
-          "present": 0.8,
-          "absent": 0.2,
-          "weight": 0.75,
-          "category": "characteristic"
         },
         "SYMPTOM_CHRONIC": {
           "present": 0.75,
@@ -3707,12 +3671,6 @@
           "absent": 0.35,
           "weight": 0.6,
           "category": "common"
-        },
-        "SYMPTOM_GRADUAL_ONSET": {
-          "present": 0.8,
-          "absent": 0.2,
-          "weight": 0.75,
-          "category": "characteristic"
         },
         "SYMPTOM_CHRONIC": {
           "present": 0.75,
@@ -4768,12 +4726,6 @@
           "weight": 0.65,
           "category": "common"
         },
-        "SYMPTOM_GRADUAL_ONSET": {
-          "present": 0.8,
-          "absent": 0.2,
-          "weight": 0.75,
-          "category": "characteristic"
-        },
         "SYMPTOM_CHRONIC": {
           "present": 0.75,
           "absent": 0.25,
@@ -4870,12 +4822,6 @@
           "weight": 0.8,
           "category": "characteristic"
         },
-        "SYMPTOM_GRADUAL_ONSET": {
-          "present": 0.85,
-          "absent": 0.15,
-          "weight": 0.8,
-          "category": "characteristic"
-        },
         "SYMPTOM_MORNING_STIFFNESS": {
           "present": 0.75,
           "absent": 0.25,
@@ -4925,12 +4871,6 @@
         "SYMPTOM_WARMUP_IMPROVEMENT": {
           "present": 0.8,
           "absent": 0.2,
-          "weight": 0.8,
-          "category": "characteristic"
-        },
-        "SYMPTOM_GRADUAL_ONSET": {
-          "present": 0.85,
-          "absent": 0.15,
           "weight": 0.8,
           "category": "characteristic"
         },
@@ -5205,6 +5145,42 @@
           "absent": 0.4,
           "weight": 0.55,
           "category": "common"
+        },
+        "SYMPTOM_ANTERIOR_KNEE_PAIN": {
+          "present": 0.92,
+          "absent": 0.08,
+          "weight": 0.9,
+          "category": "pathognomonic"
+        },
+        "SYMPTOM_PAIN_STAIRS": {
+          "present": 0.88,
+          "absent": 0.12,
+          "weight": 0.85,
+          "category": "characteristic"
+        },
+        "SYMPTOM_CREPITUS": {
+          "present": 0.75,
+          "absent": 0.25,
+          "weight": 0.8,
+          "category": "characteristic"
+        },
+        "SYMPTOM_PAIN_PROLONGED_SITTING": {
+          "present": 0.8,
+          "absent": 0.2,
+          "weight": 0.78,
+          "category": "characteristic"
+        },
+        "SYMPTOM_ONSET_GRADUAL": {
+          "present": 0.85,
+          "absent": 0.15,
+          "weight": 0.8,
+          "category": "characteristic"
+        },
+        "SYMPTOM_PAIN_SQUATTING": {
+          "present": 0.85,
+          "absent": 0.15,
+          "weight": 0.82,
+          "category": "characteristic"
         }
       }
     },
@@ -5227,6 +5203,42 @@
           "absent": 0.4,
           "weight": 0.55,
           "category": "common"
+        },
+        "SYMPTOM_ANTERIOR_KNEE_PAIN": {
+          "present": 0.95,
+          "absent": 0.05,
+          "weight": 0.9,
+          "category": "pathognomonic"
+        },
+        "SYM_KNE_TIBIAL_TUBEROSITY_TENDERNESS": {
+          "present": 0.97,
+          "absent": 0.03,
+          "weight": 0.95,
+          "category": "pathognomonic"
+        },
+        "SYM_KNE_PEDIATRIC_AGE": {
+          "present": 0.9,
+          "absent": 0.1,
+          "weight": 0.9,
+          "category": "pathognomonic"
+        },
+        "SYMPTOM_PAIN_WITH_ACTIVITY": {
+          "present": 0.9,
+          "absent": 0.1,
+          "weight": 0.85,
+          "category": "characteristic"
+        },
+        "SYMPTOM_ONSET_GRADUAL": {
+          "present": 0.85,
+          "absent": 0.15,
+          "weight": 0.8,
+          "category": "characteristic"
+        },
+        "SYM_KNE_TIBIAL_TUBEROSITY_PROMINENCE": {
+          "present": 0.8,
+          "absent": 0.2,
+          "weight": 0.82,
+          "category": "characteristic"
         }
       }
     },
@@ -5248,6 +5260,42 @@
           "present": 0.6,
           "absent": 0.4,
           "weight": 0.55,
+          "category": "common"
+        },
+        "SYMPTOM_POSTERIOR_KNEE_PAIN": {
+          "present": 0.85,
+          "absent": 0.15,
+          "weight": 0.9,
+          "category": "pathognomonic"
+        },
+        "SYM_KNE_POSTERIOR_MASS": {
+          "present": 0.8,
+          "absent": 0.2,
+          "weight": 0.88,
+          "category": "pathognomonic"
+        },
+        "SYMPTOM_STIFFNESS": {
+          "present": 0.75,
+          "absent": 0.25,
+          "weight": 0.72,
+          "category": "characteristic"
+        },
+        "SYMPTOM_LIMITED_ROM": {
+          "present": 0.7,
+          "absent": 0.3,
+          "weight": 0.7,
+          "category": "characteristic"
+        },
+        "SYMPTOM_ONSET_GRADUAL": {
+          "present": 0.8,
+          "absent": 0.2,
+          "weight": 0.75,
+          "category": "characteristic"
+        },
+        "SYM_KNE_CALF_SWELLING": {
+          "present": 0.3,
+          "absent": 0.7,
+          "weight": 0.65,
           "category": "common"
         }
       }
@@ -5283,6 +5331,30 @@
           "absent": 0.8,
           "weight": 0.75,
           "category": "inverse"
+        },
+        "SYMPTOM_KNEE_GIVING_WAY": {
+          "present": 0.8,
+          "absent": 0.2,
+          "weight": 0.85,
+          "category": "characteristic"
+        },
+        "SYMPTOM_IMMEDIATE_SWELLING": {
+          "present": 0.85,
+          "absent": 0.15,
+          "weight": 0.88,
+          "category": "pathognomonic"
+        },
+        "SYMPTOM_AUDIBLE_POP": {
+          "present": 0.55,
+          "absent": 0.45,
+          "weight": 0.7,
+          "category": "common"
+        },
+        "SYMPTOM_INSTABILITY": {
+          "present": 0.85,
+          "absent": 0.15,
+          "weight": 0.88,
+          "category": "pathognomonic"
         }
       }
     },
@@ -5315,12 +5387,6 @@
         "SYMPTOM_WARMUP_IMPROVEMENT": {
           "present": 0.8,
           "absent": 0.2,
-          "weight": 0.8,
-          "category": "characteristic"
-        },
-        "SYMPTOM_GRADUAL_ONSET": {
-          "present": 0.85,
-          "absent": 0.15,
           "weight": 0.8,
           "category": "characteristic"
         },
@@ -5364,12 +5430,6 @@
           "weight": 0.55,
           "category": "common"
         },
-        "SYMPTOM_GRADUAL_ONSET": {
-          "present": 0.8,
-          "absent": 0.2,
-          "weight": 0.75,
-          "category": "characteristic"
-        },
         "SYMPTOM_CHRONIC": {
           "present": 0.75,
           "absent": 0.25,
@@ -5387,6 +5447,24 @@
           "absent": 0.8,
           "weight": 0.75,
           "category": "inverse"
+        },
+        "SYMPTOM_LATERAL_KNEE_PAIN": {
+          "present": 0.95,
+          "absent": 0.05,
+          "weight": 0.95,
+          "category": "pathognomonic"
+        },
+        "SYMPTOM_PAIN_RUNNING": {
+          "present": 0.9,
+          "absent": 0.1,
+          "weight": 0.88,
+          "category": "pathognomonic"
+        },
+        "SYMPTOM_PAIN_STAIRS": {
+          "present": 0.7,
+          "absent": 0.3,
+          "weight": 0.65,
+          "category": "common"
         }
       }
     },
@@ -5409,12 +5487,6 @@
           "absent": 0.05,
           "weight": 0.95,
           "category": "pathognomonic"
-        },
-        "SYMPTOM_GRADUAL_ONSET": {
-          "present": 0.8,
-          "absent": 0.2,
-          "weight": 0.75,
-          "category": "characteristic"
         },
         "SYMPTOM_CHRONIC": {
           "present": 0.75,
@@ -5472,12 +5544,6 @@
           "present": 0.75,
           "absent": 0.25,
           "weight": 0.7,
-          "category": "characteristic"
-        },
-        "SYMPTOM_GRADUAL_ONSET": {
-          "present": 0.8,
-          "absent": 0.2,
-          "weight": 0.75,
           "category": "characteristic"
         },
         "SYMPTOM_CHRONIC": {
@@ -5608,12 +5674,6 @@
           "weight": 0.85,
           "category": "characteristic"
         },
-        "SYMPTOM_GRADUAL_ONSET": {
-          "present": 0.8,
-          "absent": 0.2,
-          "weight": 0.75,
-          "category": "characteristic"
-        },
         "SYMPTOM_CHRONIC": {
           "present": 0.75,
           "absent": 0.25,
@@ -5669,12 +5729,6 @@
         "SYMPTOM_WARMUP_IMPROVEMENT": {
           "present": 0.8,
           "absent": 0.2,
-          "weight": 0.8,
-          "category": "characteristic"
-        },
-        "SYMPTOM_GRADUAL_ONSET": {
-          "present": 0.85,
-          "absent": 0.15,
           "weight": 0.8,
           "category": "characteristic"
         },
@@ -7044,12 +7098,6 @@
           "weight": 0.6,
           "category": "common"
         },
-        "SYMPTOM_GRADUAL_ONSET": {
-          "present": 0.8,
-          "absent": 0.2,
-          "weight": 0.75,
-          "category": "characteristic"
-        },
         "SYMPTOM_CHRONIC": {
           "present": 0.75,
           "absent": 0.25,
@@ -7660,12 +7708,6 @@
           "weight": 0.85,
           "category": "characteristic"
         },
-        "SYMPTOM_GRADUAL_ONSET": {
-          "present": 0.8,
-          "absent": 0.2,
-          "weight": 0.75,
-          "category": "characteristic"
-        },
         "SYMPTOM_CHRONIC": {
           "present": 0.75,
           "absent": 0.25,
@@ -7714,12 +7756,6 @@
           "present": 0.9,
           "absent": 0.1,
           "weight": 0.85,
-          "category": "characteristic"
-        },
-        "SYMPTOM_GRADUAL_ONSET": {
-          "present": 0.8,
-          "absent": 0.2,
-          "weight": 0.75,
           "category": "characteristic"
         },
         "SYMPTOM_CHRONIC": {
@@ -7962,12 +7998,6 @@
           "weight": 0.75,
           "category": "characteristic"
         },
-        "SYMPTOM_GRADUAL_ONSET": {
-          "present": 0.8,
-          "absent": 0.2,
-          "weight": 0.75,
-          "category": "characteristic"
-        },
         "SYMPTOM_CHRONIC": {
           "present": 0.75,
           "absent": 0.25,
@@ -8052,12 +8082,6 @@
           "weight": 0.75,
           "category": "characteristic"
         },
-        "SYMPTOM_GRADUAL_ONSET": {
-          "present": 0.8,
-          "absent": 0.2,
-          "weight": 0.75,
-          "category": "characteristic"
-        },
         "SYMPTOM_CHRONIC": {
           "present": 0.75,
           "absent": 0.25,
@@ -8093,12 +8117,6 @@
           "category": "characteristic"
         },
         "SYMPTOM_PELVIC_PAIN": {
-          "present": 0.8,
-          "absent": 0.2,
-          "weight": 0.75,
-          "category": "characteristic"
-        },
-        "SYMPTOM_GRADUAL_ONSET": {
           "present": 0.8,
           "absent": 0.2,
           "weight": 0.75,
@@ -8647,12 +8665,6 @@
           "absent": 0.3,
           "weight": 0.65,
           "category": "common"
-        },
-        "SYMPTOM_GRADUAL_ONSET": {
-          "present": 0.8,
-          "absent": 0.2,
-          "weight": 0.75,
-          "category": "characteristic"
         },
         "SYMPTOM_CHRONIC": {
           "present": 0.75,
@@ -9219,7 +9231,7 @@
       }
     },
     "COND_055": {
-      "name": "Guillain-Barr\u00e9 Syndrome",
+      "name": "Guillain-Barré Syndrome",
       "category": "neurological",
       "body_regions": [
         "neurological"
@@ -9237,12 +9249,6 @@
           "absent": 0.3,
           "weight": 0.65,
           "category": "common"
-        },
-        "SYMPTOM_GRADUAL_ONSET": {
-          "present": 0.8,
-          "absent": 0.2,
-          "weight": 0.75,
-          "category": "characteristic"
         },
         "SYMPTOM_CHRONIC": {
           "present": 0.75,
@@ -9936,12 +9942,6 @@
           "weight": 0.7,
           "category": "characteristic"
         },
-        "SYMPTOM_GRADUAL_ONSET": {
-          "present": 0.8,
-          "absent": 0.2,
-          "weight": 0.75,
-          "category": "characteristic"
-        },
         "SYMPTOM_CHRONIC": {
           "present": 0.75,
           "absent": 0.25,
@@ -10063,6 +10063,888 @@
           "absent": 0.25,
           "weight": 0.7,
           "category": "characteristic"
+        }
+      }
+    },
+    "COND_202": {
+      "name": "Acute Quadriceps Strain",
+      "category": "musculoskeletal",
+      "body_regions": [
+        "knee"
+      ],
+      "base_probability": 0.006,
+      "symptom_probabilities": {
+        "SYM_KNE_SHARP_ANTERIOR_THIGH_PAIN": {
+          "present": 0.9,
+          "absent": 0.1,
+          "weight": 0.9,
+          "category": "pathognomonic"
+        },
+        "SYM_KNE_PAIN_RESISTED_EXTENSION": {
+          "present": 0.9,
+          "absent": 0.1,
+          "weight": 0.88,
+          "category": "characteristic"
+        },
+        "SYM_KNE_PAIN_QUAD_STRETCH": {
+          "present": 0.85,
+          "absent": 0.15,
+          "weight": 0.85,
+          "category": "characteristic"
+        },
+        "SYM_KNE_ANTERIOR_THIGH_TENDERNESS": {
+          "present": 0.85,
+          "absent": 0.15,
+          "weight": 0.8,
+          "category": "characteristic"
+        },
+        "SYMPTOM_LIMITED_ROM": {
+          "present": 0.7,
+          "absent": 0.3,
+          "weight": 0.6,
+          "category": "common"
+        },
+        "SYM_KNE_DELAYED_ECCHYMOSIS": {
+          "present": 0.55,
+          "absent": 0.45,
+          "weight": 0.55,
+          "category": "common"
+        },
+        "SYMPTOM_ONSET_ACUTE": {
+          "present": 0.95,
+          "absent": 0.05,
+          "weight": 0.85,
+          "category": "pathognomonic"
+        },
+        "SYM_KNE_DIRECT_BLOW_HISTORY": {
+          "present": 0.05,
+          "absent": 0.95,
+          "weight": 0.8,
+          "category": "inverse"
+        }
+      }
+    },
+    "COND_211": {
+      "name": "Muscle Contusion (Quadriceps/Charley Horse)",
+      "category": "musculoskeletal",
+      "body_regions": [
+        "knee"
+      ],
+      "base_probability": 0.006,
+      "symptom_probabilities": {
+        "SYM_KNE_DIRECT_BLOW_HISTORY": {
+          "present": 0.95,
+          "absent": 0.05,
+          "weight": 0.95,
+          "category": "pathognomonic"
+        },
+        "SYM_KNE_IMPACT_SITE_PAIN": {
+          "present": 0.95,
+          "absent": 0.05,
+          "weight": 0.9,
+          "category": "pathognomonic"
+        },
+        "SYM_KNE_VISIBLE_BRUISING": {
+          "present": 0.8,
+          "absent": 0.2,
+          "weight": 0.8,
+          "category": "characteristic"
+        },
+        "SYMPTOM_LIMITED_ROM": {
+          "present": 0.85,
+          "absent": 0.15,
+          "weight": 0.75,
+          "category": "characteristic"
+        },
+        "SYM_KNE_PALPABLE_MASS_HEMATOMA": {
+          "present": 0.7,
+          "absent": 0.3,
+          "weight": 0.7,
+          "category": "characteristic"
+        },
+        "SYMPTOM_DIFFICULTY_WEIGHT_BEARING": {
+          "present": 0.6,
+          "absent": 0.4,
+          "weight": 0.55,
+          "category": "common"
+        },
+        "SYM_KNE_MORNING_AFTER_STIFFNESS": {
+          "present": 0.65,
+          "absent": 0.35,
+          "weight": 0.55,
+          "category": "common"
+        },
+        "SYM_KNE_PAIN_QUAD_STRETCH": {
+          "present": 0.05,
+          "absent": 0.95,
+          "weight": 0.75,
+          "category": "inverse"
+        }
+      }
+    },
+    "COND_254": {
+      "name": "Pes Anserine Bursitis",
+      "category": "musculoskeletal",
+      "body_regions": [
+        "knee"
+      ],
+      "base_probability": 0.004,
+      "symptom_probabilities": {
+        "SYM_KNE_MEDIAL_BELOW_JOINT_LINE_PAIN": {
+          "present": 0.9,
+          "absent": 0.1,
+          "weight": 0.92,
+          "category": "pathognomonic"
+        },
+        "SYMPTOM_PAIN_STAIRS": {
+          "present": 0.85,
+          "absent": 0.15,
+          "weight": 0.8,
+          "category": "characteristic"
+        },
+        "SYM_KNE_PAIN_RESISTED_FLEXION_INT_ROT": {
+          "present": 0.75,
+          "absent": 0.25,
+          "weight": 0.75,
+          "category": "characteristic"
+        },
+        "SYM_KNE_PAIN_RISING_FROM_SEATED": {
+          "present": 0.7,
+          "absent": 0.3,
+          "weight": 0.65,
+          "category": "common"
+        },
+        "SYM_KNE_MEDIAL_SWELLING": {
+          "present": 0.5,
+          "absent": 0.5,
+          "weight": 0.5,
+          "category": "common"
+        },
+        "SYMPTOM_ONSET_GRADUAL": {
+          "present": 0.7,
+          "absent": 0.3,
+          "weight": 0.55,
+          "category": "common"
+        },
+        "SYMPTOM_JOINT_LINE_TENDERNESS": {
+          "present": 0.15,
+          "absent": 0.85,
+          "weight": 0.8,
+          "category": "inverse"
+        },
+        "SYMPTOM_CATCHING_LOCKING": {
+          "present": 0.05,
+          "absent": 0.95,
+          "weight": 0.85,
+          "category": "inverse"
+        }
+      }
+    },
+    "COND_255": {
+      "name": "Prepatellar Bursitis",
+      "category": "musculoskeletal",
+      "body_regions": [
+        "knee"
+      ],
+      "base_probability": 0.004,
+      "symptom_probabilities": {
+        "SYM_KNE_ANTERIOR_PATELLA_SWELLING": {
+          "present": 0.95,
+          "absent": 0.05,
+          "weight": 0.95,
+          "category": "pathognomonic"
+        },
+        "SYM_KNE_KNEELING_HISTORY": {
+          "present": 0.85,
+          "absent": 0.15,
+          "weight": 0.85,
+          "category": "characteristic"
+        },
+        "SYM_KNE_PAIN_KNEELING": {
+          "present": 0.9,
+          "absent": 0.1,
+          "weight": 0.88,
+          "category": "characteristic"
+        },
+        "SYM_KNE_PATELLA_TENDERNESS": {
+          "present": 0.85,
+          "absent": 0.15,
+          "weight": 0.8,
+          "category": "characteristic"
+        },
+        "SYM_KNE_PRESERVED_ROM": {
+          "present": 0.8,
+          "absent": 0.2,
+          "weight": 0.7,
+          "category": "characteristic"
+        },
+        "SYM_KNE_WARMTH_REDNESS": {
+          "present": 0.5,
+          "absent": 0.5,
+          "weight": 0.5,
+          "category": "common"
+        },
+        "SYMPTOM_INSTABILITY": {
+          "present": 0.05,
+          "absent": 0.95,
+          "weight": 0.85,
+          "category": "inverse"
+        },
+        "SYMPTOM_CATCHING_LOCKING": {
+          "present": 0.03,
+          "absent": 0.97,
+          "weight": 0.85,
+          "category": "inverse"
+        }
+      }
+    },
+    "COND_252": {
+      "name": "Plica Syndrome",
+      "category": "musculoskeletal",
+      "body_regions": [
+        "knee"
+      ],
+      "base_probability": 0.004,
+      "symptom_probabilities": {
+        "SYM_KNE_ANTEROMEDIAL_PAIN": {
+          "present": 0.9,
+          "absent": 0.1,
+          "weight": 0.85,
+          "category": "characteristic"
+        },
+        "SYM_KNE_CLICKING_FLEXION_ARC": {
+          "present": 0.75,
+          "absent": 0.25,
+          "weight": 0.8,
+          "category": "characteristic"
+        },
+        "SYMPTOM_PAIN_STAIRS": {
+          "present": 0.85,
+          "absent": 0.15,
+          "weight": 0.6,
+          "category": "common"
+        },
+        "SYM_KNE_PALPABLE_BAND": {
+          "present": 0.65,
+          "absent": 0.35,
+          "weight": 0.9,
+          "category": "pathognomonic"
+        },
+        "SYM_KNE_PSEUDO_LOCKING": {
+          "present": 0.4,
+          "absent": 0.6,
+          "weight": 0.65,
+          "category": "common"
+        },
+        "SYMPTOM_PAIN_PROLONGED_SITTING": {
+          "present": 0.7,
+          "absent": 0.3,
+          "weight": 0.65,
+          "category": "common"
+        },
+        "SYMPTOM_ONSET_GRADUAL": {
+          "present": 0.65,
+          "absent": 0.35,
+          "weight": 0.55,
+          "category": "common"
+        },
+        "SYMPTOM_SWELLING": {
+          "present": 0.2,
+          "absent": 0.8,
+          "weight": 0.7,
+          "category": "inverse"
+        }
+      }
+    },
+    "COND_256": {
+      "name": "Infrapatellar Bursitis",
+      "category": "musculoskeletal",
+      "body_regions": [
+        "knee"
+      ],
+      "base_probability": 0.004,
+      "symptom_probabilities": {
+        "SYM_KNE_INFRAPATELLAR_PAIN": {
+          "present": 0.92,
+          "absent": 0.08,
+          "weight": 0.88,
+          "category": "characteristic"
+        },
+        "SYM_KNE_INFRAPATELLAR_SWELLING": {
+          "present": 0.8,
+          "absent": 0.2,
+          "weight": 0.9,
+          "category": "pathognomonic"
+        },
+        "SYM_KNE_KNEELING_HISTORY": {
+          "present": 0.7,
+          "absent": 0.3,
+          "weight": 0.8,
+          "category": "characteristic"
+        },
+        "SYM_KNE_PAIN_KNEELING": {
+          "present": 0.85,
+          "absent": 0.15,
+          "weight": 0.85,
+          "category": "characteristic"
+        },
+        "SYM_KNE_PRESERVED_ROM": {
+          "present": 0.7,
+          "absent": 0.3,
+          "weight": 0.6,
+          "category": "common"
+        },
+        "SYM_KNE_WARMTH_REDNESS": {
+          "present": 0.35,
+          "absent": 0.65,
+          "weight": 0.45,
+          "category": "common"
+        },
+        "SYMPTOM_CATCHING_LOCKING": {
+          "present": 0.1,
+          "absent": 0.9,
+          "weight": 0.8,
+          "category": "inverse"
+        },
+        "SYMPTOM_JOINT_LINE_TENDERNESS": {
+          "present": 0.15,
+          "absent": 0.85,
+          "weight": 0.75,
+          "category": "inverse"
+        }
+      }
+    },
+    "COND_253": {
+      "name": "Hoffa's Fat Pad Impingement",
+      "category": "musculoskeletal",
+      "body_regions": [
+        "knee"
+      ],
+      "base_probability": 0.004,
+      "symptom_probabilities": {
+        "SYM_KNE_INFRAPATELLAR_PAIN": {
+          "present": 0.92,
+          "absent": 0.08,
+          "weight": 0.85,
+          "category": "characteristic"
+        },
+        "SYM_KNE_PAIN_EXTENSION_HYPEREXT": {
+          "present": 0.85,
+          "absent": 0.15,
+          "weight": 0.92,
+          "category": "pathognomonic"
+        },
+        "SYM_KNE_PARAPATELLAR_FULLNESS": {
+          "present": 0.6,
+          "absent": 0.4,
+          "weight": 0.75,
+          "category": "characteristic"
+        },
+        "SYM_KNE_PAIN_PROLONGED_STANDING": {
+          "present": 0.7,
+          "absent": 0.3,
+          "weight": 0.65,
+          "category": "common"
+        },
+        "SYMPTOM_PAIN_SQUATTING": {
+          "present": 0.65,
+          "absent": 0.35,
+          "weight": 0.55,
+          "category": "common"
+        },
+        "SYMPTOM_ONSET_GRADUAL": {
+          "present": 0.6,
+          "absent": 0.4,
+          "weight": 0.5,
+          "category": "common"
+        },
+        "SYMPTOM_SWELLING": {
+          "present": 0.15,
+          "absent": 0.85,
+          "weight": 0.7,
+          "category": "inverse"
+        },
+        "SYMPTOM_JOINT_LINE_TENDERNESS": {
+          "present": 0.2,
+          "absent": 0.8,
+          "weight": 0.7,
+          "category": "inverse"
+        }
+      }
+    },
+    "COND_259": {
+      "name": "Knee Arthrofibrosis",
+      "category": "musculoskeletal",
+      "body_regions": [
+        "knee"
+      ],
+      "base_probability": 0.004,
+      "symptom_probabilities": {
+        "SYM_KNE_PROGRESSIVE_ROM_LOSS": {
+          "present": 0.95,
+          "absent": 0.05,
+          "weight": 0.95,
+          "category": "pathognomonic"
+        },
+        "SYM_KNE_PRIOR_SURGERY_HISTORY": {
+          "present": 0.95,
+          "absent": 0.05,
+          "weight": 0.9,
+          "category": "pathognomonic"
+        },
+        "SYM_KNE_PERSISTENT_STIFFNESS": {
+          "present": 0.92,
+          "absent": 0.08,
+          "weight": 0.88,
+          "category": "characteristic"
+        },
+        "SYM_KNE_HARD_END_FEEL_ROM": {
+          "present": 0.85,
+          "absent": 0.15,
+          "weight": 0.82,
+          "category": "characteristic"
+        },
+        "SYM_KNE_EXTENSION_DEFICIT": {
+          "present": 0.8,
+          "absent": 0.2,
+          "weight": 0.8,
+          "category": "characteristic"
+        },
+        "SYMPTOM_WEAKNESS": {
+          "present": 0.75,
+          "absent": 0.25,
+          "weight": 0.6,
+          "category": "common"
+        },
+        "SYM_KNE_ANTALGIC_GAIT": {
+          "present": 0.7,
+          "absent": 0.3,
+          "weight": 0.55,
+          "category": "common"
+        },
+        "SYMPTOM_INSTABILITY": {
+          "present": 0.1,
+          "absent": 0.9,
+          "weight": 0.8,
+          "category": "inverse"
+        }
+      }
+    },
+    "COND_278": {
+      "name": "Sinding-Larsen-Johansson Syndrome",
+      "category": "musculoskeletal",
+      "body_regions": [
+        "knee"
+      ],
+      "base_probability": 0.004,
+      "symptom_probabilities": {
+        "SYM_KNE_INFERIOR_PATELLA_TENDERNESS": {
+          "present": 0.92,
+          "absent": 0.08,
+          "weight": 0.92,
+          "category": "pathognomonic"
+        },
+        "SYM_KNE_PEDIATRIC_AGE": {
+          "present": 0.9,
+          "absent": 0.1,
+          "weight": 0.9,
+          "category": "pathognomonic"
+        },
+        "SYMPTOM_ONSET_GRADUAL": {
+          "present": 0.85,
+          "absent": 0.15,
+          "weight": 0.78,
+          "category": "characteristic"
+        },
+        "SYM_KNE_PAIN_RUNNING_JUMPING": {
+          "present": 0.9,
+          "absent": 0.1,
+          "weight": 0.85,
+          "category": "characteristic"
+        },
+        "SYM_KNE_INFERIOR_PATELLA_SWELLING": {
+          "present": 0.65,
+          "absent": 0.35,
+          "weight": 0.7,
+          "category": "common"
+        },
+        "SYMPTOM_PAIN_STAIRS": {
+          "present": 0.75,
+          "absent": 0.25,
+          "weight": 0.55,
+          "category": "common"
+        },
+        "SYMPTOM_SWELLING": {
+          "present": 0.1,
+          "absent": 0.9,
+          "weight": 0.75,
+          "category": "inverse"
+        },
+        "SYMPTOM_ONSET_ACUTE": {
+          "present": 0.15,
+          "absent": 0.85,
+          "weight": 0.8,
+          "category": "inverse"
+        }
+      }
+    },
+    "COND_257": {
+      "name": "Quadriceps Tendon Rupture (Post-Surgical)",
+      "category": "musculoskeletal",
+      "body_regions": [
+        "knee"
+      ],
+      "base_probability": 0.004,
+      "symptom_probabilities": {
+        "SYM_KNE_INABILITY_EXTEND": {
+          "present": 0.9,
+          "absent": 0.1,
+          "weight": 0.92,
+          "category": "pathognomonic"
+        },
+        "SYM_KNE_SUPRAPATELLAR_GAP": {
+          "present": 0.85,
+          "absent": 0.15,
+          "weight": 0.95,
+          "category": "pathognomonic"
+        },
+        "SYM_KNE_EXTENSOR_LAG": {
+          "present": 0.8,
+          "absent": 0.2,
+          "weight": 0.85,
+          "category": "characteristic"
+        },
+        "SYM_KNE_SUPRAPATELLAR_SWELLING": {
+          "present": 0.85,
+          "absent": 0.15,
+          "weight": 0.75,
+          "category": "characteristic"
+        },
+        "SYMPTOM_WEAKNESS": {
+          "present": 0.75,
+          "absent": 0.25,
+          "weight": 0.65,
+          "category": "common"
+        },
+        "SYM_KNE_PRIOR_SURGERY_HISTORY": {
+          "present": 0.7,
+          "absent": 0.3,
+          "weight": 0.6,
+          "category": "common"
+        },
+        "SYM_KNE_INFRAPATELLAR_PAIN": {
+          "present": 0.1,
+          "absent": 0.9,
+          "weight": 0.75,
+          "category": "inverse"
+        },
+        "SYMPTOM_JOINT_LINE_TENDERNESS": {
+          "present": 0.1,
+          "absent": 0.9,
+          "weight": 0.7,
+          "category": "inverse"
+        }
+      }
+    },
+    "COND_258": {
+      "name": "Patellar Tendon Rupture (Post-Surgical)",
+      "category": "musculoskeletal",
+      "body_regions": [
+        "knee"
+      ],
+      "base_probability": 0.004,
+      "symptom_probabilities": {
+        "SYM_KNE_INABILITY_EXTEND": {
+          "present": 0.92,
+          "absent": 0.08,
+          "weight": 0.92,
+          "category": "pathognomonic"
+        },
+        "SYM_KNE_INFRAPATELLAR_GAP": {
+          "present": 0.85,
+          "absent": 0.15,
+          "weight": 0.95,
+          "category": "pathognomonic"
+        },
+        "SYM_KNE_PATELLA_ALTA": {
+          "present": 0.8,
+          "absent": 0.2,
+          "weight": 0.88,
+          "category": "pathognomonic"
+        },
+        "SYM_KNE_EXTENSOR_LAG": {
+          "present": 0.78,
+          "absent": 0.22,
+          "weight": 0.82,
+          "category": "characteristic"
+        },
+        "SYM_KNE_INFRAPATELLAR_SWELLING": {
+          "present": 0.85,
+          "absent": 0.15,
+          "weight": 0.75,
+          "category": "characteristic"
+        },
+        "SYMPTOM_WEAKNESS": {
+          "present": 0.7,
+          "absent": 0.3,
+          "weight": 0.6,
+          "category": "common"
+        },
+        "SYM_KNE_SUPRAPATELLAR_GAP": {
+          "present": 0.05,
+          "absent": 0.95,
+          "weight": 0.85,
+          "category": "inverse"
+        },
+        "SYMPTOM_INSTABILITY": {
+          "present": 0.05,
+          "absent": 0.95,
+          "weight": 0.75,
+          "category": "inverse"
+        }
+      }
+    },
+    "COND_260": {
+      "name": "Multi-Ligament Knee Injury (Post-Surgical)",
+      "category": "musculoskeletal",
+      "body_regions": [
+        "knee"
+      ],
+      "base_probability": 0.003,
+      "symptom_probabilities": {
+        "SYM_KNE_MULTI_DIRECTIONAL_INSTABILITY": {
+          "present": 0.85,
+          "absent": 0.15,
+          "weight": 0.92,
+          "category": "pathognomonic"
+        },
+        "SYM_KNE_SEVERE_STIFFNESS": {
+          "present": 0.75,
+          "absent": 0.25,
+          "weight": 0.78,
+          "category": "characteristic"
+        },
+        "SYMPTOM_LIMITED_ROM": {
+          "present": 0.8,
+          "absent": 0.2,
+          "weight": 0.75,
+          "category": "characteristic"
+        },
+        "SYMPTOM_WEAKNESS": {
+          "present": 0.75,
+          "absent": 0.25,
+          "weight": 0.65,
+          "category": "common"
+        },
+        "SYMPTOM_SWELLING": {
+          "present": 0.7,
+          "absent": 0.3,
+          "weight": 0.55,
+          "category": "common"
+        },
+        "SYM_KNE_PERONEAL_NERVE_SYMPTOMS": {
+          "present": 0.3,
+          "absent": 0.7,
+          "weight": 0.75,
+          "category": "characteristic"
+        },
+        "SYMPTOM_DIFFICULTY_WEIGHT_BEARING": {
+          "present": 0.8,
+          "absent": 0.2,
+          "weight": 0.6,
+          "category": "common"
+        },
+        "SYM_KNE_PRIOR_SURGERY_HISTORY": {
+          "present": 0.9,
+          "absent": 0.1,
+          "weight": 0.8,
+          "category": "characteristic"
+        }
+      }
+    },
+    "COND_294": {
+      "name": "Tibial Plateau Fracture (Post-Surgical)",
+      "category": "musculoskeletal",
+      "body_regions": [
+        "knee"
+      ],
+      "base_probability": 0.003,
+      "symptom_probabilities": {
+        "SYM_KNE_PROXIMAL_TIBIA_PAIN": {
+          "present": 0.9,
+          "absent": 0.1,
+          "weight": 0.88,
+          "category": "characteristic"
+        },
+        "SYM_KNE_PERSISTENT_STIFFNESS": {
+          "present": 0.8,
+          "absent": 0.2,
+          "weight": 0.78,
+          "category": "characteristic"
+        },
+        "SYMPTOM_SWELLING": {
+          "present": 0.75,
+          "absent": 0.25,
+          "weight": 0.55,
+          "category": "common"
+        },
+        "SYM_KNE_HARDWARE_IRRITATION": {
+          "present": 0.5,
+          "absent": 0.5,
+          "weight": 0.8,
+          "category": "characteristic"
+        },
+        "SYMPTOM_PAIN_STAIRS": {
+          "present": 0.85,
+          "absent": 0.15,
+          "weight": 0.6,
+          "category": "common"
+        },
+        "SYMPTOM_WEAKNESS": {
+          "present": 0.7,
+          "absent": 0.3,
+          "weight": 0.55,
+          "category": "common"
+        },
+        "SYM_KNE_PRIOR_SURGERY_HISTORY": {
+          "present": 0.95,
+          "absent": 0.05,
+          "weight": 0.85,
+          "category": "pathognomonic"
+        },
+        "SYM_KNE_MULTI_DIRECTIONAL_INSTABILITY": {
+          "present": 0.1,
+          "absent": 0.9,
+          "weight": 0.7,
+          "category": "inverse"
+        }
+      }
+    },
+    "COND_333": {
+      "name": "Peroneal Nerve Entrapment",
+      "category": "neurological",
+      "body_regions": [
+        "knee"
+      ],
+      "base_probability": 0.003,
+      "symptom_probabilities": {
+        "SYM_KNE_FOOT_DROP": {
+          "present": 0.85,
+          "absent": 0.15,
+          "weight": 0.95,
+          "category": "pathognomonic"
+        },
+        "SYM_KNE_DORSAL_FOOT_NUMBNESS": {
+          "present": 0.8,
+          "absent": 0.2,
+          "weight": 0.85,
+          "category": "characteristic"
+        },
+        "SYM_KNE_LATERAL_LEG_NUMBNESS": {
+          "present": 0.75,
+          "absent": 0.25,
+          "weight": 0.82,
+          "category": "characteristic"
+        },
+        "SYM_KNE_STEPPAGE_GAIT": {
+          "present": 0.7,
+          "absent": 0.3,
+          "weight": 0.8,
+          "category": "characteristic"
+        },
+        "SYM_KNE_EVERSION_WEAKNESS": {
+          "present": 0.75,
+          "absent": 0.25,
+          "weight": 0.78,
+          "category": "characteristic"
+        },
+        "SYM_KNE_FIBULAR_HEAD_TENDERNESS": {
+          "present": 0.6,
+          "absent": 0.4,
+          "weight": 0.65,
+          "category": "common"
+        },
+        "SYMPTOM_ONSET_GRADUAL": {
+          "present": 0.65,
+          "absent": 0.35,
+          "weight": 0.55,
+          "category": "common"
+        },
+        "SYM_KNE_FOOT_INVERSION_WEAKNESS": {
+          "present": 0.05,
+          "absent": 0.95,
+          "weight": 0.9,
+          "category": "inverse"
+        },
+        "SYM_CRX_BACK_PAIN_RADICULAR": {
+          "present": 0.08,
+          "absent": 0.92,
+          "weight": 0.85,
+          "category": "inverse"
+        }
+      }
+    },
+    "COND_342": {
+      "name": "Quadriceps Strain",
+      "category": "musculoskeletal",
+      "body_regions": [
+        "knee"
+      ],
+      "base_probability": 0.003,
+      "symptom_probabilities": {
+        "SYM_KNE_SHARP_ANTERIOR_THIGH_PAIN": {
+          "present": 0.92,
+          "absent": 0.08,
+          "weight": 0.88,
+          "category": "characteristic"
+        },
+        "SYM_KNE_PAIN_RESISTED_EXTENSION": {
+          "present": 0.85,
+          "absent": 0.15,
+          "weight": 0.85,
+          "category": "characteristic"
+        },
+        "SYM_KNE_PAIN_QUAD_STRETCH": {
+          "present": 0.8,
+          "absent": 0.2,
+          "weight": 0.82,
+          "category": "characteristic"
+        },
+        "SYM_KNE_ANTERIOR_THIGH_TENDERNESS": {
+          "present": 0.85,
+          "absent": 0.15,
+          "weight": 0.8,
+          "category": "characteristic"
+        },
+        "SYM_KNE_ANTERIOR_THIGH_SWELLING": {
+          "present": 0.65,
+          "absent": 0.35,
+          "weight": 0.55,
+          "category": "common"
+        },
+        "SYM_KNE_DELAYED_ECCHYMOSIS": {
+          "present": 0.55,
+          "absent": 0.45,
+          "weight": 0.55,
+          "category": "common"
+        },
+        "SYMPTOM_ONSET_ACUTE": {
+          "present": 0.9,
+          "absent": 0.1,
+          "weight": 0.8,
+          "category": "characteristic"
+        },
+        "SYM_KNE_INABILITY_EXTEND": {
+          "present": 0.05,
+          "absent": 0.95,
+          "weight": 0.85,
+          "category": "inverse"
+        },
+        "SYM_KNE_SUPRAPATELLAR_GAP": {
+          "present": 0.02,
+          "absent": 0.98,
+          "weight": 0.9,
+          "category": "inverse"
         }
       }
     }
@@ -11724,26 +12606,366 @@
       "body_regions": [
         "head_face"
       ]
+    },
+    "SYM_KNE_POSTERIOR_PAIN": {
+      "name": "Posterior Knee Pain",
+      "description": "Deep aching pain behind the knee",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_DASHBOARD_MECHANISM": {
+      "name": "Dashboard / Anterior Tibial Blow Mechanism",
+      "description": "Injury from force hitting the front of the shin or falling on bent knee",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_PAIN_DECELERATION_STAIRS": {
+      "name": "Pain with Deceleration/Descending Stairs",
+      "description": "Pain specifically when slowing down or going downstairs",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_DIFFICULTY_KNEELING": {
+      "name": "Difficulty Kneeling",
+      "description": "Pain or difficulty when kneeling on the affected knee",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_ROTATIONAL_INSTABILITY": {
+      "name": "Rotational Knee Instability",
+      "description": "Knee gives way during twisting or pivoting movements",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_SHARP_ANTERIOR_THIGH_PAIN": {
+      "name": "Sharp Anterior Thigh Pain",
+      "description": "Sudden sharp pain in the front of the thigh during activity",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_PAIN_RESISTED_EXTENSION": {
+      "name": "Pain with Resisted Knee Extension",
+      "description": "Pain when trying to straighten the knee against resistance",
+      "question_type": "functional_task"
+    },
+    "SYM_KNE_PAIN_QUAD_STRETCH": {
+      "name": "Pain with Quadriceps Stretching",
+      "description": "Pain when bending the knee fully (heel to buttock)",
+      "question_type": "functional_task"
+    },
+    "SYM_KNE_ANTERIOR_THIGH_TENDERNESS": {
+      "name": "Anterior Thigh Tenderness",
+      "description": "Tenderness when pressing on the front of the thigh",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_DELAYED_ECCHYMOSIS": {
+      "name": "Delayed Bruising",
+      "description": "Bruising appearing 24-48 hours after injury on the thigh",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_DIRECT_BLOW_HISTORY": {
+      "name": "Direct Blow / Impact History",
+      "description": "Clear history of being hit directly on the thigh or knee",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_IMPACT_SITE_PAIN": {
+      "name": "Pain at Exact Impact Location",
+      "description": "Pain centered at the exact point where the blow landed",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_VISIBLE_BRUISING": {
+      "name": "Visible Bruising",
+      "description": "Black, blue, or purple discoloration at the injury site",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_PALPABLE_MASS_HEMATOMA": {
+      "name": "Palpable Swollen Mass",
+      "description": "A firm, tender lump at the injury site from internal bleeding",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_MORNING_AFTER_STIFFNESS": {
+      "name": "Day-After Stiffness",
+      "description": "Significant stiffness the morning after the injury",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_MEDIAL_BELOW_JOINT_LINE_PAIN": {
+      "name": "Medial Pain Below Joint Line",
+      "description": "Pain on inner knee, 5-7cm below the joint crease",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_PAIN_RESISTED_FLEXION_INT_ROT": {
+      "name": "Pain with Resisted Flexion + Internal Rotation",
+      "description": "Pain when bending the knee against resistance while rotating inward",
+      "question_type": "functional_task"
+    },
+    "SYM_KNE_PAIN_RISING_FROM_SEATED": {
+      "name": "Pain Rising from Seated Position",
+      "description": "Pain when standing up from a chair",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_MEDIAL_SWELLING": {
+      "name": "Medial Knee Swelling",
+      "description": "Localized swelling on the inner side of the knee",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_ANTERIOR_PATELLA_SWELLING": {
+      "name": "Anterior Patella Swelling",
+      "description": "Soft, puffy swelling directly over the front of the kneecap",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_KNEELING_HISTORY": {
+      "name": "Repetitive Kneeling History",
+      "description": "History of prolonged or repetitive kneeling (occupation/activity)",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_PAIN_KNEELING": {
+      "name": "Pain with Kneeling",
+      "description": "Pain specifically when kneeling on the affected knee",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_PATELLA_TENDERNESS": {
+      "name": "Patella Tenderness",
+      "description": "Tenderness when pressing on the kneecap",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_PRESERVED_ROM": {
+      "name": "Preserved Range of Motion",
+      "description": "Full or nearly full knee bending and straightening despite other symptoms",
+      "question_type": "functional_task"
+    },
+    "SYM_KNE_WARMTH_REDNESS": {
+      "name": "Warmth and Redness",
+      "description": "The area feels warm and looks red",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_ANTEROMEDIAL_PAIN": {
+      "name": "Anteromedial Knee Pain",
+      "description": "Pain on the front-inner side of the knee",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_CLICKING_FLEXION_ARC": {
+      "name": "Clicking in Flexion Arc",
+      "description": "Clicking or snapping during knee bending in the 30-70 degree range",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_PALPABLE_BAND": {
+      "name": "Palpable Band/Ridge on Medial Knee",
+      "description": "A tender band or ridge that can be felt rolling over the inner knee",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_PSEUDO_LOCKING": {
+      "name": "Pseudo-Locking / Transient Catching",
+      "description": "Brief catching sensation that self-resolves, not a true mechanical block",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_INFRAPATELLAR_PAIN": {
+      "name": "Infrapatellar Pain",
+      "description": "Pain just below the kneecap",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_INFRAPATELLAR_SWELLING": {
+      "name": "Infrapatellar Swelling",
+      "description": "Visible swelling just below the kneecap",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_PAIN_EXTENSION_HYPEREXT": {
+      "name": "Pain with Extension / Hyperextension",
+      "description": "Pain when fully straightening or overextending the knee",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_PARAPATELLAR_FULLNESS": {
+      "name": "Parapatellar Fullness",
+      "description": "Puffiness or fullness on either side of the kneecap tendon",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_PAIN_PROLONGED_STANDING": {
+      "name": "Pain with Prolonged Standing",
+      "description": "Pain that develops or worsens with extended standing",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_PROGRESSIVE_ROM_LOSS": {
+      "name": "Progressive Range of Motion Loss",
+      "description": "Gradual worsening of knee bending/straightening ability over weeks",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_PRIOR_SURGERY_HISTORY": {
+      "name": "Prior Knee Surgery History",
+      "description": "History of previous knee surgery",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_PERSISTENT_STIFFNESS": {
+      "name": "Persistent All-Day Stiffness",
+      "description": "Knee stiffness that lasts throughout the day, not just mornings",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_HARD_END_FEEL_ROM": {
+      "name": "Hard End-Feel at ROM Limit",
+      "description": "A firm, unyielding stop when pushing knee range of motion",
+      "question_type": "functional_task"
+    },
+    "SYM_KNE_EXTENSION_DEFICIT": {
+      "name": "Extension Deficit",
+      "description": "Inability to fully straighten the knee",
+      "question_type": "functional_task"
+    },
+    "SYM_KNE_ANTALGIC_GAIT": {
+      "name": "Limping / Antalgic Gait",
+      "description": "Walking with a limp to avoid putting weight on the affected knee",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_INFERIOR_PATELLA_TENDERNESS": {
+      "name": "Inferior Patella Pole Tenderness",
+      "description": "Pain when pressing on the bottom tip of the kneecap",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_PEDIATRIC_AGE": {
+      "name": "Pediatric Age (10-15 years)",
+      "description": "Patient is between 10 and 15 years old",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_PAIN_RUNNING_JUMPING": {
+      "name": "Pain with Running/Jumping/Kicking",
+      "description": "Pain that increases with running, jumping, or kicking activities",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_INFERIOR_PATELLA_SWELLING": {
+      "name": "Inferior Patella Swelling",
+      "description": "Localized swelling at the bottom tip of the kneecap",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_INABILITY_EXTEND": {
+      "name": "Inability to Extend Knee (SLR Failure)",
+      "description": "Cannot lift straight leg or extend knee against gravity",
+      "question_type": "functional_task"
+    },
+    "SYM_KNE_SUPRAPATELLAR_GAP": {
+      "name": "Suprapatellar Gap / Defect",
+      "description": "A palpable gap or dent just above the kneecap",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_EXTENSOR_LAG": {
+      "name": "Extensor Lag",
+      "description": "Knee drops slightly when trying to hold it straight",
+      "question_type": "functional_task"
+    },
+    "SYM_KNE_SUPRAPATELLAR_SWELLING": {
+      "name": "Suprapatellar Swelling",
+      "description": "Swelling and tenderness just above the kneecap",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_INFRAPATELLAR_GAP": {
+      "name": "Infrapatellar Gap / Defect",
+      "description": "A palpable gap or dent just below the kneecap",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_PATELLA_ALTA": {
+      "name": "High-Riding Patella",
+      "description": "The kneecap appears to sit higher than normal",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_MULTI_DIRECTIONAL_INSTABILITY": {
+      "name": "Multi-Directional Knee Instability",
+      "description": "Knee gives way in multiple directions, not just one",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_SEVERE_STIFFNESS": {
+      "name": "Severe Knee Stiffness",
+      "description": "Major restriction of knee movement in all directions",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_PERONEAL_NERVE_SYMPTOMS": {
+      "name": "Peroneal Nerve Symptoms",
+      "description": "Foot drop, numbness on top of foot, or lateral leg tingling",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_PROXIMAL_TIBIA_PAIN": {
+      "name": "Proximal Tibia Pain",
+      "description": "Pain at the top of the shin bone near the knee",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_HARDWARE_IRRITATION": {
+      "name": "Hardware Irritation Symptoms",
+      "description": "Pain or discomfort over surgical hardware (plates/screws)",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_FOOT_DROP": {
+      "name": "Foot Drop",
+      "description": "Difficulty lifting the front of the foot when walking",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_DORSAL_FOOT_NUMBNESS": {
+      "name": "Numbness on Top of Foot",
+      "description": "Numbness or tingling on the top surface of the foot",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_LATERAL_LEG_NUMBNESS": {
+      "name": "Lateral Lower Leg Numbness",
+      "description": "Numbness or tingling on the outer side of the lower leg",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_STEPPAGE_GAIT": {
+      "name": "Steppage Gait",
+      "description": "High-stepping walking pattern to clear the drooping foot",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_EVERSION_WEAKNESS": {
+      "name": "Foot Eversion Weakness",
+      "description": "Difficulty turning the foot outward",
+      "question_type": "functional_task"
+    },
+    "SYM_KNE_FIBULAR_HEAD_TENDERNESS": {
+      "name": "Fibular Head Tenderness",
+      "description": "Tenderness at the bony bump on the outer side of the knee",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_FOOT_INVERSION_WEAKNESS": {
+      "name": "Foot Inversion Weakness (Absent)",
+      "description": "Weakness turning the foot inward — if present, suggests L5 not peroneal",
+      "question_type": "functional_task"
+    },
+    "SYM_CRX_BACK_PAIN_RADICULAR": {
+      "name": "Back Pain with Radicular Pattern",
+      "description": "Low back pain radiating down the leg in a nerve pattern",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_ANTERIOR_THIGH_SWELLING": {
+      "name": "Anterior Thigh Swelling",
+      "description": "Swelling on the front of the thigh",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_TIBIAL_TUBEROSITY_TENDERNESS": {
+      "name": "Tibial Tuberosity Tenderness",
+      "description": "Pain when pressing the bony bump at the top of the shin",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_TIBIAL_TUBEROSITY_PROMINENCE": {
+      "name": "Enlarged Tibial Tuberosity",
+      "description": "Visible bump at the top of the shin bone larger than the other side",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_POSTERIOR_MASS": {
+      "name": "Posterior Knee Mass",
+      "description": "A palpable lump or bump behind the knee",
+      "question_type": "patient_report"
+    },
+    "SYM_KNE_CALF_SWELLING": {
+      "name": "Calf Swelling",
+      "description": "Swelling in the calf below the knee",
+      "question_type": "patient_report"
     }
   },
   "prior_probabilities": {
     "shoulder": {
-      "COND_001": 0.12,
-      "COND_002": 0.15,
-      "COND_011": 0.12,
-      "COND_020": 0.08,
-      "COND_044": 0.05,
-      "COND_073": 0.08,
-      "COND_101": 0.08,
-      "COND_102": 0.05,
-      "COND_103": 0.06,
-      "COND_217": 0.03,
-      "COND_219": 0.05,
-      "COND_220": 0.04,
-      "COND_221": 0.04,
-      "COND_222": 0.02,
-      "COND_225": 0.02,
-      "COND_322": 0.06,
+      "COND_001": 0.1086,
+      "COND_002": 0.1357,
+      "COND_011": 0.1086,
+      "COND_020": 0.0724,
+      "COND_044": 0.0452,
+      "COND_073": 0.0724,
+      "COND_101": 0.0724,
+      "COND_102": 0.0452,
+      "COND_103": 0.0543,
+      "COND_217": 0.0271,
+      "COND_219": 0.0452,
+      "COND_220": 0.0362,
+      "COND_221": 0.0362,
+      "COND_222": 0.0181,
+      "COND_225": 0.0181,
+      "COND_322": 0.0543,
       "other": 0.05
     },
     "elbow": {
@@ -11792,25 +13014,40 @@
       "other": 0.03
     },
     "knee": {
-      "COND_004": 0.12,
-      "COND_010": 0.12,
-      "COND_015": 0.1,
-      "COND_016": 0.08,
-      "COND_041": 0.05,
-      "COND_043": 0.05,
-      "COND_046": 0.04,
-      "COND_061": 0.08,
-      "COND_104": 0.08,
-      "COND_105": 0.03,
-      "COND_106": 0.06,
-      "COND_107": 0.03,
-      "COND_108": 0.05,
-      "COND_109": 0.04,
-      "COND_110": 0.03,
-      "COND_251": 0.03,
-      "COND_327": 0.04,
-      "COND_341": 0.05,
-      "other": 0.02
+      "COND_010": 0.2995,
+      "COND_004": 0.1713,
+      "COND_015": 0.0922,
+      "COND_041": 0.0705,
+      "COND_016": 0.0631,
+      "COND_043": 0.04,
+      "COND_046": 0.0333,
+      "COND_061": 0.0245,
+      "COND_104": 0.0118,
+      "COND_106": 0.0111,
+      "COND_108": 0.011,
+      "COND_109": 0.0104,
+      "COND_110": 0.01,
+      "COND_105": 0.0089,
+      "COND_107": 0.0087,
+      "COND_202": 0.0073,
+      "COND_211": 0.0069,
+      "COND_251": 0.0051,
+      "COND_254": 0.0051,
+      "COND_255": 0.005,
+      "COND_256": 0.0049,
+      "COND_252": 0.0047,
+      "COND_253": 0.0046,
+      "COND_259": 0.0045,
+      "COND_278": 0.0045,
+      "COND_257": 0.0043,
+      "COND_258": 0.0043,
+      "COND_294": 0.0041,
+      "COND_260": 0.0041,
+      "COND_327": 0.0037,
+      "COND_333": 0.0036,
+      "COND_341": 0.0035,
+      "COND_342": 0.0035,
+      "other": 0.05
     },
     "lower_leg": {
       "COND_081": 0.08,
@@ -11859,18 +13096,18 @@
       "COND_323": 0.02
     },
     "lumbar_spine": {
-      "COND_007": 0.12,
-      "COND_014": 0.18,
-      "COND_019": 0.08,
-      "COND_045": 0.04,
-      "COND_084": 0.1,
-      "COND_085": 0.06,
-      "COND_127": 0.1,
-      "COND_128": 0.04,
-      "COND_129": 0.08,
-      "COND_231": 0.12,
-      "COND_232": 0.05,
-      "COND_237": 0.05,
+      "COND_007": 0.1153,
+      "COND_014": 0.1729,
+      "COND_019": 0.0769,
+      "COND_045": 0.0384,
+      "COND_084": 0.0961,
+      "COND_085": 0.0576,
+      "COND_127": 0.0961,
+      "COND_128": 0.0384,
+      "COND_129": 0.0769,
+      "COND_231": 0.1153,
+      "COND_232": 0.048,
+      "COND_237": 0.048,
       "other": 0.02
     },
     "cervical_spine": {

@@ -45,6 +45,7 @@ import ConditionCard from './components/conditions/ConditionCard'
 import ConditionProtocolSummary from './components/conditions/ConditionProtocolSummary'
 import ConditionActionBar from './components/conditions/ConditionActionBar'
 import ConditionTrackingPanel from './components/tracking/ConditionTrackingPanel'
+import TrackingProgressView from '@/components/features/tracking-progress/TrackingProgressView'
 
 export default function AppointmentDetailsPage() {
   const params = useParams()
@@ -465,6 +466,14 @@ export default function AppointmentDetailsPage() {
                     <ConditionTrackingPanel
                       conditionName={activeCondition.condition_name}
                       visitConditionId={activeCondition.id}
+                      patientConditionId={activeCondition.patient_condition_id}
+                      visitId={activeCondition.visit_id}
+                    />
+
+                    {/* Progress visualization */}
+                    <TrackingProgressView
+                      patientConditionId={activeCondition.patient_condition_id}
+                      conditionName={activeCondition.condition_name}
                     />
 
                     <ConditionActionBar

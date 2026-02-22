@@ -343,6 +343,16 @@ export const ENDPOINTS = {
         return url
     },
 
+    // ============ Tracking Records ============
+    SAVE_TRACKING_RECORD: () => 'tracking-records',
+    GET_TRACKING_BY_VISIT_CONDITION: (vcId: string) => `tracking-records/visit-condition/${vcId}`,
+    GET_TRACKING_HISTORY: (pcId: string) => `tracking-records/patient-condition/${pcId}/history`,
+    GET_TRACKING_CHART_DATA: (pcId: string, itemKeys?: string) => {
+        let url = `tracking-records/patient-condition/${pcId}/chart-data`
+        if (itemKeys) url += `?item_keys=${itemKeys}`
+        return url
+    },
+
     // ============ Clinic Billing Settings ============
     GET_BILLING_SETTINGS: (clinicId: string) => `clinics/${clinicId}/billing-settings`,
     UPDATE_BILLING_SETTINGS: (clinicId: string) => `clinics/${clinicId}/billing-settings`,

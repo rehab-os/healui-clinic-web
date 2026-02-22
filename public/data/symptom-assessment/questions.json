@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "total_questions": 250,
+  "total_questions": 240,
   "questions": {
     "SAFETY_001": {
       "id": "SAFETY_001",
@@ -30,7 +30,7 @@
         "SYMPTOM_CAUDA_EQUINA",
         "SYMPTOM_CARDIAC_RED_FLAG"
       ],
-      "diagnostic_weight": 1.0,
+      "diagnostic_weight": 1,
       "red_flag": true,
       "body_regions": [
         "all"
@@ -45,7 +45,7 @@
       "tests_symptoms": [
         "SYMPTOM_SYSTEMIC_RED_FLAG"
       ],
-      "diagnostic_weight": 1.0,
+      "diagnostic_weight": 1,
       "red_flag": true,
       "body_regions": [
         "all"
@@ -3365,26 +3365,1106 @@
         "COND_261",
         "COND_074"
       ]
+    },
+    "DIFF_KNE_001": {
+      "id": "DIFF_KNE_001",
+      "phase": "differential",
+      "text": "Sit on a chair and try to straighten your leg fully. Can you lock it completely straight?",
+      "patient_guidance": "Sit on the edge of a chair. Slowly straighten your knee as far as it will go. Stop immediately if you feel sharp pain, instability, or dizziness.",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_EXTENSION_DEFICIT",
+        "SYM_KNE_EXTENSOR_LAG"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 1.3,
+      "red_flag": false,
+      "clinical_note": "Extension deficit suggests arthrofibrosis, meniscal block, or extensor mechanism injury"
+    },
+    "DIFF_KNE_002": {
+      "id": "DIFF_KNE_002",
+      "phase": "differential",
+      "text": "Squat halfway down, keeping your feet flat. Does your knee feel like it might give way or buckle?",
+      "patient_guidance": "Hold onto a counter or wall for support. Bend your knees to about half-squat depth. Stop immediately if you feel sharp pain, instability, or dizziness.",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_KNEE_GIVING_WAY",
+        "SYMPTOM_INSTABILITY"
+      ],
+      "diagnostic_weight": 0.82,
+      "information_gain_potential": 1.2,
+      "red_flag": false,
+      "clinical_note": "Giving way during squat suggests ligament insufficiency or patellar instability"
+    },
+    "DIFF_KNE_003": {
+      "id": "DIFF_KNE_003",
+      "phase": "differential",
+      "text": "Walk up 3 stairs slowly. Where exactly do you feel the pain?",
+      "patient_guidance": "Use a handrail for safety. Walk up 3 steps at a normal pace. Notice exactly where the pain is. Stop immediately if you feel sharp pain, instability, or dizziness.",
+      "type": "multiple_choice",
+      "body_regions": [
+        "knee"
+      ],
+      "options": [
+        {
+          "value": "front_kneecap",
+          "text": "Front of the kneecap"
+        },
+        {
+          "value": "below_kneecap",
+          "text": "Just below the kneecap"
+        },
+        {
+          "value": "inside_knee",
+          "text": "Inside (medial) of the knee"
+        },
+        {
+          "value": "outside_knee",
+          "text": "Outside (lateral) of the knee"
+        },
+        {
+          "value": "behind_knee",
+          "text": "Behind the knee"
+        },
+        {
+          "value": "above_knee_thigh",
+          "text": "Above the knee / front of thigh"
+        },
+        {
+          "value": "no_pain",
+          "text": "No pain with stairs"
+        }
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PAIN_STAIRS",
+        "SYMPTOM_ANTERIOR_KNEE_PAIN",
+        "SYMPTOM_LATERAL_KNEE_PAIN",
+        "SYMPTOM_MEDIAL_KNEE_PAIN",
+        "SYMPTOM_POSTERIOR_KNEE_PAIN"
+      ],
+      "diagnostic_weight": 0.8,
+      "information_gain_potential": 1.4,
+      "red_flag": false,
+      "clinical_note": "Pain location during stair climbing discriminates anterior (PFP/tendon) vs medial (pes anserine/MCL) vs lateral (ITBS/LCL)"
+    },
+    "DIFF_KNE_004": {
+      "id": "DIFF_KNE_004",
+      "phase": "differential",
+      "text": "Stand on your injured leg only for 10 seconds. Could you do it without your knee buckling?",
+      "patient_guidance": "Stand near a wall for safety. Lift your good leg off the ground and balance on the injured leg for up to 10 seconds. Stop immediately if you feel sharp pain, instability, or dizziness.",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_INSTABILITY",
+        "SYMPTOM_DIFFICULTY_WEIGHT_BEARING"
+      ],
+      "diagnostic_weight": 0.78,
+      "information_gain_potential": 1.1,
+      "red_flag": false,
+      "clinical_note": "Single-leg stance failure suggests significant instability or weight-bearing intolerance"
+    },
+    "DIFF_KNE_005": {
+      "id": "DIFF_KNE_005",
+      "phase": "differential",
+      "text": "Lie on your back and try to lift your straight leg about 30cm off the bed. Can you do it?",
+      "patient_guidance": "Lie flat on your back. Keep your knee completely straight and lift your whole leg about a foot off the surface. Stop immediately if you feel sharp pain, instability, or dizziness.",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_INABILITY_EXTEND",
+        "SYM_KNE_EXTENSOR_LAG"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 1.5,
+      "red_flag": false,
+      "clinical_note": "Straight leg raise failure is pathognomonic for extensor mechanism disruption (quad/patellar tendon rupture)"
+    },
+    "DIFF_KNE_006": {
+      "id": "DIFF_KNE_006",
+      "phase": "differential",
+      "text": "Sit on a chair, then stand up and sit back down 5 times. How does your knee feel?",
+      "patient_guidance": "Use a sturdy chair. Stand up fully and sit back down 5 times at a comfortable pace. Stop immediately if you feel sharp pain, instability, or dizziness.",
+      "type": "multiple_choice",
+      "body_regions": [
+        "knee"
+      ],
+      "options": [
+        {
+          "value": "no_issue",
+          "text": "No pain or difficulty"
+        },
+        {
+          "value": "mild_pain",
+          "text": "Mild pain but manageable"
+        },
+        {
+          "value": "significant_pain",
+          "text": "Significant pain that limited me"
+        },
+        {
+          "value": "couldnt_do",
+          "text": "Could not complete it"
+        }
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PAIN_SQUATTING",
+        "SYMPTOM_DIFFICULTY_WEIGHT_BEARING",
+        "SYMPTOM_WEAKNESS"
+      ],
+      "diagnostic_weight": 0.75,
+      "information_gain_potential": 1,
+      "red_flag": false,
+      "clinical_note": "Sit-to-stand test assesses functional knee loading capacity"
+    },
+    "DIFF_KNE_007": {
+      "id": "DIFF_KNE_007",
+      "phase": "differential",
+      "text": "Try to bend your knee as far as you can (heel towards buttock). How far can you go?",
+      "patient_guidance": "You can do this sitting or lying down. Bend your knee bringing your heel towards your buttock. Stop immediately if you feel sharp pain, instability, or dizziness.",
+      "type": "multiple_choice",
+      "body_regions": [
+        "knee"
+      ],
+      "options": [
+        {
+          "value": "full_range",
+          "text": "Heel touches buttock easily"
+        },
+        {
+          "value": "mostly",
+          "text": "Almost there but a little short"
+        },
+        {
+          "value": "halfway",
+          "text": "Only about halfway"
+        },
+        {
+          "value": "minimal",
+          "text": "Very limited — barely bends"
+        }
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_LIMITED_ROM",
+        "SYM_KNE_PROGRESSIVE_ROM_LOSS"
+      ],
+      "diagnostic_weight": 0.82,
+      "information_gain_potential": 1.3,
+      "red_flag": false,
+      "clinical_note": "ROM limitation severity helps distinguish arthrofibrosis/effusion from muscular/pain-limited restriction"
+    },
+    "DIFF_KNE_008": {
+      "id": "DIFF_KNE_008",
+      "phase": "differential",
+      "text": "Does your knee make a clicking, popping, or grinding sound when you bend and straighten it?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_CREPITUS",
+        "SYM_KNE_CLICKING_FLEXION_ARC"
+      ],
+      "diagnostic_weight": 0.72,
+      "information_gain_potential": 0.9,
+      "red_flag": false,
+      "clinical_note": "Crepitus/clicking suggests chondromalacia, plica, or meniscal pathology"
+    },
+    "DIFF_KNE_009": {
+      "id": "DIFF_KNE_009",
+      "phase": "differential",
+      "text": "Does your knee ever get stuck or lock in one position, where you can't straighten or bend it for a moment?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_CATCHING_LOCKING",
+        "SYM_KNE_PSEUDO_LOCKING"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 1.3,
+      "red_flag": false,
+      "clinical_note": "True locking = meniscal/loose body; pseudo-locking = plica, pain inhibition"
+    },
+    "DIFF_KNE_010": {
+      "id": "DIFF_KNE_010",
+      "phase": "differential",
+      "text": "Did you hear or feel a \"pop\" at the time of your injury?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_AUDIBLE_POP"
+      ],
+      "diagnostic_weight": 0.8,
+      "information_gain_potential": 1.2,
+      "red_flag": false,
+      "clinical_note": "Audible pop strongly suggests ACL tear (~70% sensitivity); less common in PCL, patellar dislocation"
+    },
+    "DIFF_KNE_011": {
+      "id": "DIFF_KNE_011",
+      "phase": "differential",
+      "text": "Did your knee swell up within the first 2 hours after the injury?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_IMMEDIATE_SWELLING"
+      ],
+      "diagnostic_weight": 0.82,
+      "information_gain_potential": 1.2,
+      "red_flag": false,
+      "clinical_note": "Rapid hemarthrosis (<2h) suggests ACL tear, patellar dislocation, or fracture"
+    },
+    "DIFF_KNE_012": {
+      "id": "DIFF_KNE_012",
+      "phase": "differential",
+      "text": "Is the pain worse when you first get up in the morning, then gradually improves as you move around?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_MORNING_STIFFNESS",
+        "SYMPTOM_MORNING_STIFFNESS_SHORT"
+      ],
+      "diagnostic_weight": 0.7,
+      "information_gain_potential": 0.9,
+      "red_flag": false,
+      "clinical_note": "Morning stiffness <30min = OA pattern; >30min suggests inflammatory arthritis"
+    },
+    "DIFF_KNE_013": {
+      "id": "DIFF_KNE_013",
+      "phase": "differential",
+      "text": "Where is the pain located most of the time?",
+      "type": "multiple_choice",
+      "body_regions": [
+        "knee"
+      ],
+      "options": [
+        {
+          "value": "front_kneecap",
+          "text": "Front of the kneecap"
+        },
+        {
+          "value": "below_kneecap",
+          "text": "Just below the kneecap"
+        },
+        {
+          "value": "above_kneecap",
+          "text": "Just above the kneecap"
+        },
+        {
+          "value": "inside_knee",
+          "text": "Inner side of the knee"
+        },
+        {
+          "value": "outside_knee",
+          "text": "Outer side of the knee"
+        },
+        {
+          "value": "behind_knee",
+          "text": "Behind the knee"
+        },
+        {
+          "value": "front_thigh",
+          "text": "Front of the thigh (above knee)"
+        },
+        {
+          "value": "shin_area",
+          "text": "Below the knee on the shin bone"
+        }
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_ANTERIOR_KNEE_PAIN",
+        "SYM_KNE_INFRAPATELLAR_PAIN",
+        "SYMPTOM_MEDIAL_KNEE_PAIN",
+        "SYMPTOM_LATERAL_KNEE_PAIN",
+        "SYMPTOM_POSTERIOR_KNEE_PAIN",
+        "SYM_KNE_SHARP_ANTERIOR_THIGH_PAIN"
+      ],
+      "diagnostic_weight": 0.88,
+      "information_gain_potential": 1.5,
+      "red_flag": false,
+      "clinical_note": "Pain location is the single highest-value discriminator across knee conditions"
+    },
+    "DIFF_KNE_014": {
+      "id": "DIFF_KNE_014",
+      "phase": "differential",
+      "text": "If the pain is on the inner side of your knee, is it right at the joint line crease, or a few inches below it?",
+      "type": "multiple_choice",
+      "body_regions": [
+        "knee"
+      ],
+      "options": [
+        {
+          "value": "at_joint_line",
+          "text": "Right at the crease of the joint"
+        },
+        {
+          "value": "below_joint_line",
+          "text": "A few inches below the joint crease"
+        },
+        {
+          "value": "not_medial",
+          "text": "My pain is not on the inner side"
+        }
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_JOINT_LINE_TENDERNESS",
+        "SYM_KNE_MEDIAL_BELOW_JOINT_LINE_PAIN"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 1.3,
+      "red_flag": false,
+      "clinical_note": "Joint line = meniscal/MCL; below joint line = pes anserine bursitis"
+    },
+    "DIFF_KNE_015": {
+      "id": "DIFF_KNE_015",
+      "phase": "differential",
+      "text": "Does the pain get worse the longer you sit with your knees bent (like watching a movie)?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PAIN_PROLONGED_SITTING"
+      ],
+      "diagnostic_weight": 0.75,
+      "information_gain_potential": 1,
+      "red_flag": false,
+      "clinical_note": "Theater sign — characteristic of PFP, chondromalacia, plica syndrome"
+    },
+    "DIFF_KNE_016": {
+      "id": "DIFF_KNE_016",
+      "phase": "differential",
+      "text": "Does the pain start after you've been running for a specific distance, and then get worse the more you run?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PAIN_RUNNING",
+        "SYMPTOM_PAIN_AT_SPECIFIC_DISTANCE"
+      ],
+      "diagnostic_weight": 0.8,
+      "information_gain_potential": 1.1,
+      "red_flag": false,
+      "clinical_note": "Distance-dependent pain is classic ITBS pattern"
+    },
+    "DIFF_KNE_017": {
+      "id": "DIFF_KNE_017",
+      "phase": "differential",
+      "text": "Did the pain start after a direct blow or impact to your knee or thigh?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_DIRECT_BLOW_HISTORY",
+        "SYM_KNE_IMPACT_SITE_PAIN"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 1.3,
+      "red_flag": false,
+      "clinical_note": "Direct trauma mechanism discriminates contusion from strain and overuse injuries"
+    },
+    "DIFF_KNE_018": {
+      "id": "DIFF_KNE_018",
+      "phase": "differential",
+      "text": "Did your knee injury happen during a twisting, pivoting, or cutting movement?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_PIVOTING_INJURY",
+        "SYMPTOM_TWISTING_INJURY",
+        "SYM_KNE_ROTATIONAL_INSTABILITY"
+      ],
+      "diagnostic_weight": 0.82,
+      "information_gain_potential": 1.2,
+      "red_flag": false,
+      "clinical_note": "Pivoting/cutting mechanism strongly suggests ACL injury"
+    },
+    "DIFF_KNE_019": {
+      "id": "DIFF_KNE_019",
+      "phase": "differential",
+      "text": "Is there visible swelling directly over the front of your kneecap (a soft, puffy bump)?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_ANTERIOR_PATELLA_SWELLING"
+      ],
+      "diagnostic_weight": 0.88,
+      "information_gain_potential": 1.4,
+      "red_flag": false,
+      "clinical_note": "Fluctuant anterior patella swelling is pathognomonic for prepatellar bursitis"
+    },
+    "DIFF_KNE_020": {
+      "id": "DIFF_KNE_020",
+      "phase": "differential",
+      "text": "Is the pain worse when you fully straighten your knee or push it into a straight (locked) position?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_PAIN_EXTENSION_HYPEREXT"
+      ],
+      "diagnostic_weight": 0.82,
+      "information_gain_potential": 1.2,
+      "red_flag": false,
+      "clinical_note": "Extension pain is characteristic of Hoffa's fat pad impingement; also meniscal block"
+    },
+    "DIFF_KNE_021": {
+      "id": "DIFF_KNE_021",
+      "phase": "differential",
+      "text": "Do you have any numbness, tingling, or weakness in your foot or lower leg?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_FOOT_DROP",
+        "SYM_KNE_DORSAL_FOOT_NUMBNESS",
+        "SYM_KNE_LATERAL_LEG_NUMBNESS",
+        "SYM_KNE_PERONEAL_NERVE_SYMPTOMS"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 1.5,
+      "red_flag": false,
+      "clinical_note": "Neurological symptoms below knee suggest peroneal nerve entrapment or lumbar radiculopathy"
+    },
+    "DIFF_KNE_022": {
+      "id": "DIFF_KNE_022",
+      "phase": "differential",
+      "text": "Have you had knee surgery in the past?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_PRIOR_SURGERY_HISTORY"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 1.4,
+      "red_flag": false,
+      "clinical_note": "Post-surgical status essential for arthrofibrosis, tendon rupture, hardware irritation diagnoses"
+    },
+    "DIFF_KNE_023": {
+      "id": "DIFF_KNE_023",
+      "phase": "differential",
+      "text": "Can you feel a bump or lump behind your knee that gets smaller when you bend your knee?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_POSTERIOR_MASS"
+      ],
+      "diagnostic_weight": 0.88,
+      "information_gain_potential": 1.4,
+      "red_flag": false,
+      "clinical_note": "Fluctuant posterior mass that changes with flexion = Baker's cyst (Foucher sign)"
+    },
+    "DIFF_KNE_024": {
+      "id": "DIFF_KNE_024",
+      "phase": "differential",
+      "text": "Is the pain mainly worse when kneeling on the affected knee?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_PAIN_KNEELING",
+        "SYM_KNE_DIFFICULTY_KNEELING"
+      ],
+      "diagnostic_weight": 0.78,
+      "information_gain_potential": 1.1,
+      "red_flag": false,
+      "clinical_note": "Kneeling-specific pain suggests prepatellar/infrapatellar bursitis or PCL"
+    },
+    "DIFF_KNE_025": {
+      "id": "DIFF_KNE_025",
+      "phase": "differential",
+      "text": "Are you between the ages of 10 and 15?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_PEDIATRIC_AGE"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 1.3,
+      "red_flag": false,
+      "clinical_note": "Pediatric age immediately narrows to Osgood-Schlatter, Sinding-Larsen-Johansson, or osteochondral conditions"
+    },
+    "DIFF_KNE_026": {
+      "id": "DIFF_KNE_026",
+      "phase": "differential",
+      "text": "Can you feel a tender bump on the bony point just below your kneecap, at the top of your shin bone?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_TIBIAL_TUBEROSITY_TENDERNESS",
+        "SYM_KNE_TIBIAL_TUBEROSITY_PROMINENCE"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 1.4,
+      "red_flag": false,
+      "clinical_note": "Tibial tuberosity tenderness/prominence is pathognomonic for Osgood-Schlatter in adolescents"
+    },
+    "DIFF_KNE_027": {
+      "id": "DIFF_KNE_027",
+      "phase": "differential",
+      "text": "Is the knee stiffness constant throughout the day (not just in the morning)?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_PERSISTENT_STIFFNESS",
+        "SYM_KNE_PROGRESSIVE_ROM_LOSS"
+      ],
+      "diagnostic_weight": 0.78,
+      "information_gain_potential": 1.1,
+      "red_flag": false,
+      "clinical_note": "All-day stiffness (vs morning only) suggests arthrofibrosis or advanced OA"
+    },
+    "DIFF_KNE_028": {
+      "id": "DIFF_KNE_028",
+      "phase": "differential",
+      "text": "Did you feel the kneecap slide out of place or shift to the side during the injury?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYMPTOM_INSTABILITY",
+        "SYM_KNE_MULTI_DIRECTIONAL_INSTABILITY"
+      ],
+      "diagnostic_weight": 0.9,
+      "information_gain_potential": 1.4,
+      "red_flag": false,
+      "clinical_note": "Patellar displacement sensation is pathognomonic for patellar dislocation/subluxation"
+    },
+    "DIFF_KNE_029": {
+      "id": "DIFF_KNE_029",
+      "phase": "differential",
+      "text": "Did the pain come on suddenly during a kicking, jumping, or sprinting movement?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_SHARP_ANTERIOR_THIGH_PAIN",
+        "SYMPTOM_ONSET_ACUTE"
+      ],
+      "diagnostic_weight": 0.82,
+      "information_gain_potential": 1.2,
+      "red_flag": false,
+      "clinical_note": "Explosive eccentric mechanism during sport = quadriceps strain/tear"
+    },
+    "DIFF_KNE_030": {
+      "id": "DIFF_KNE_030",
+      "phase": "differential",
+      "text": "Can you feel a gap or dent just above or just below your kneecap?",
+      "type": "multiple_choice",
+      "body_regions": [
+        "knee"
+      ],
+      "options": [
+        {
+          "value": "gap_above",
+          "text": "Yes, a gap ABOVE the kneecap"
+        },
+        {
+          "value": "gap_below",
+          "text": "Yes, a gap BELOW the kneecap"
+        },
+        {
+          "value": "no_gap",
+          "text": "No gap or dent"
+        }
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_SUPRAPATELLAR_GAP",
+        "SYM_KNE_INFRAPATELLAR_GAP"
+      ],
+      "diagnostic_weight": 0.92,
+      "information_gain_potential": 1.6,
+      "red_flag": false,
+      "clinical_note": "Suprapatellar gap = quad tendon rupture; infrapatellar gap = patellar tendon rupture. Highest discriminating value."
+    },
+    "DIFF_KNE_031": {
+      "id": "DIFF_KNE_031",
+      "phase": "differential",
+      "text": "Is the pain mainly behind your knee, deep inside?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_POSTERIOR_PAIN"
+      ],
+      "diagnostic_weight": 0.82,
+      "information_gain_potential": 1.2,
+      "red_flag": false,
+      "clinical_note": "Deep posterior pain suggests PCL injury, Baker's cyst, or popliteal pathology"
+    },
+    "DIFF_KNE_032": {
+      "id": "DIFF_KNE_032",
+      "phase": "differential",
+      "text": "Did you injure your knee by falling onto it while it was bent, or by hitting the front of your shin on something (like a car dashboard)?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_DASHBOARD_MECHANISM"
+      ],
+      "diagnostic_weight": 0.8,
+      "information_gain_potential": 1.2,
+      "red_flag": false,
+      "clinical_note": "Posterior-directed tibial force mechanism is classic for PCL injury"
+    },
+    "DIFF_KNE_033": {
+      "id": "DIFF_KNE_033",
+      "phase": "differential",
+      "text": "Is the pain worse when walking downhill or slowing down from a run?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_PAIN_DECELERATION_STAIRS"
+      ],
+      "diagnostic_weight": 0.75,
+      "information_gain_potential": 1,
+      "red_flag": false,
+      "clinical_note": "Deceleration pain is characteristic of PCL insufficiency"
+    },
+    "DIFF_KNE_034": {
+      "id": "DIFF_KNE_034",
+      "phase": "differential",
+      "text": "Try to bend your knee and pull your heel towards your buttock with your hand. Does this cause pain in the front of the thigh?",
+      "patient_guidance": "Stand near a wall. Pull your heel towards your buttock gently. Stop immediately if you feel sharp pain, instability, or dizziness.",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_PAIN_QUAD_STRETCH",
+        "SYM_KNE_PAIN_RESISTED_EXTENSION"
+      ],
+      "diagnostic_weight": 0.82,
+      "information_gain_potential": 1.2,
+      "red_flag": false,
+      "clinical_note": "Pain on passive quad stretch with resisted extension suggests quadriceps strain or contusion"
+    },
+    "DIFF_KNE_035": {
+      "id": "DIFF_KNE_035",
+      "phase": "differential",
+      "text": "Is there tenderness when you press on the front of your thigh (between the knee and hip)?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_ANTERIOR_THIGH_TENDERNESS",
+        "SYM_KNE_ANTERIOR_THIGH_SWELLING"
+      ],
+      "diagnostic_weight": 0.78,
+      "information_gain_potential": 1,
+      "red_flag": false,
+      "clinical_note": "Anterior thigh tenderness with swelling suggests quad strain or contusion"
+    },
+    "DIFF_KNE_036": {
+      "id": "DIFF_KNE_036",
+      "phase": "differential",
+      "text": "Did bruising appear on your thigh 1-2 days after the injury?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_DELAYED_ECCHYMOSIS",
+        "SYM_KNE_VISIBLE_BRUISING"
+      ],
+      "diagnostic_weight": 0.72,
+      "information_gain_potential": 0.9,
+      "red_flag": false,
+      "clinical_note": "Delayed ecchymosis suggests muscle strain or contusion"
+    },
+    "DIFF_KNE_037": {
+      "id": "DIFF_KNE_037",
+      "phase": "differential",
+      "text": "Can you feel a hard, tender lump at the spot where you were hit?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_PALPABLE_MASS_HEMATOMA",
+        "SYM_KNE_IMPACT_SITE_PAIN"
+      ],
+      "diagnostic_weight": 0.78,
+      "information_gain_potential": 1.1,
+      "red_flag": false,
+      "clinical_note": "Palpable hematoma mass at impact site is characteristic of quadriceps contusion"
+    },
+    "DIFF_KNE_038": {
+      "id": "DIFF_KNE_038",
+      "phase": "differential",
+      "text": "Was the knee much stiffer and more painful the morning after the injury compared to right after?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_MORNING_AFTER_STIFFNESS"
+      ],
+      "diagnostic_weight": 0.68,
+      "information_gain_potential": 0.8,
+      "red_flag": false,
+      "clinical_note": "Significant day-after worsening is common with intramuscular hematoma formation"
+    },
+    "DIFF_KNE_039": {
+      "id": "DIFF_KNE_039",
+      "phase": "differential",
+      "text": "Is the pain on the inner side of your knee worse when you stand up from a chair?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_PAIN_RISING_FROM_SEATED",
+        "SYM_KNE_MEDIAL_SWELLING"
+      ],
+      "diagnostic_weight": 0.72,
+      "information_gain_potential": 0.9,
+      "red_flag": false,
+      "clinical_note": "Medial pain with sit-to-stand suggests pes anserine bursitis"
+    },
+    "DIFF_KNE_040": {
+      "id": "DIFF_KNE_040",
+      "phase": "differential",
+      "text": "Do you kneel frequently for your work or activities (gardening, cleaning floors, etc.)?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_KNEELING_HISTORY"
+      ],
+      "diagnostic_weight": 0.78,
+      "information_gain_potential": 1.1,
+      "red_flag": false,
+      "clinical_note": "Occupational kneeling is the primary risk factor for prepatellar and infrapatellar bursitis"
+    },
+    "DIFF_KNE_041": {
+      "id": "DIFF_KNE_041",
+      "phase": "differential",
+      "text": "Does the area around your knee feel warm or look red?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_WARMTH_REDNESS"
+      ],
+      "diagnostic_weight": 0.7,
+      "information_gain_potential": 0.9,
+      "red_flag": true,
+      "clinical_note": "Warmth + redness may indicate septic bursitis or infection — requires medical evaluation"
+    },
+    "DIFF_KNE_042": {
+      "id": "DIFF_KNE_042",
+      "phase": "differential",
+      "text": "Is the pain on the front-inner part of your knee, just above the joint crease?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_ANTEROMEDIAL_PAIN",
+        "SYM_KNE_PALPABLE_BAND"
+      ],
+      "diagnostic_weight": 0.75,
+      "information_gain_potential": 1,
+      "red_flag": false,
+      "clinical_note": "Anteromedial pain with palpable band suggests plica syndrome"
+    },
+    "DIFF_KNE_043": {
+      "id": "DIFF_KNE_043",
+      "phase": "differential",
+      "text": "Is there swelling just below your kneecap (on either side of the tendon that connects the kneecap to the shin)?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_INFRAPATELLAR_SWELLING",
+        "SYM_KNE_PARAPATELLAR_FULLNESS",
+        "SYM_KNE_INFERIOR_PATELLA_SWELLING"
+      ],
+      "diagnostic_weight": 0.8,
+      "information_gain_potential": 1.2,
+      "red_flag": false,
+      "clinical_note": "Infrapatellar swelling/fullness suggests bursitis or fat pad impingement"
+    },
+    "DIFF_KNE_044": {
+      "id": "DIFF_KNE_044",
+      "phase": "differential",
+      "text": "Is the pain worse when you stand for a long time (more than 15-20 minutes)?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_PAIN_PROLONGED_STANDING"
+      ],
+      "diagnostic_weight": 0.68,
+      "information_gain_potential": 0.8,
+      "red_flag": false,
+      "clinical_note": "Prolonged standing pain suggests fat pad impingement (extension loading)"
+    },
+    "DIFF_KNE_045": {
+      "id": "DIFF_KNE_045",
+      "phase": "differential",
+      "text": "Do you walk with a noticeable limp?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_ANTALGIC_GAIT",
+        "SYM_KNE_STEPPAGE_GAIT"
+      ],
+      "diagnostic_weight": 0.65,
+      "information_gain_potential": 0.8,
+      "red_flag": false,
+      "clinical_note": "Antalgic gait = pain-avoidance; steppage gait = foot drop (peroneal nerve)"
+    },
+    "DIFF_KNE_046": {
+      "id": "DIFF_KNE_046",
+      "phase": "differential",
+      "text": "Is the pain worse with running, jumping, or kicking — and does it ease when you rest?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_PAIN_RUNNING_JUMPING",
+        "SYM_KNE_INFERIOR_PATELLA_TENDERNESS"
+      ],
+      "diagnostic_weight": 0.78,
+      "information_gain_potential": 1,
+      "red_flag": false,
+      "clinical_note": "Activity-related anterior knee pain in adolescents suggests SLJ or Osgood-Schlatter"
+    },
+    "DIFF_KNE_047": {
+      "id": "DIFF_KNE_047",
+      "phase": "differential",
+      "text": "Does your kneecap appear to sit higher than normal compared to the other knee?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_PATELLA_ALTA",
+        "SYM_KNE_SUPRAPATELLAR_SWELLING"
+      ],
+      "diagnostic_weight": 0.82,
+      "information_gain_potential": 1.2,
+      "red_flag": false,
+      "clinical_note": "Patella alta (high-riding) suggests patellar tendon rupture"
+    },
+    "DIFF_KNE_048": {
+      "id": "DIFF_KNE_048",
+      "phase": "differential",
+      "text": "Does your knee feel stiff in every direction — both bending AND straightening — and not just in the morning?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_SEVERE_STIFFNESS",
+        "SYM_KNE_HARD_END_FEEL_ROM"
+      ],
+      "diagnostic_weight": 0.8,
+      "information_gain_potential": 1.1,
+      "red_flag": false,
+      "clinical_note": "Global, persistent stiffness post-surgery is the hallmark of arthrofibrosis"
+    },
+    "DIFF_KNE_049": {
+      "id": "DIFF_KNE_049",
+      "phase": "differential",
+      "text": "Is the pain at the top of your shin bone, near where a surgical plate or screws might be?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_PROXIMAL_TIBIA_PAIN",
+        "SYM_KNE_HARDWARE_IRRITATION"
+      ],
+      "diagnostic_weight": 0.78,
+      "information_gain_potential": 1.1,
+      "red_flag": false,
+      "clinical_note": "Proximal tibial pain with hardware awareness suggests tibial plateau fracture post-op complications"
+    },
+    "DIFF_KNE_050": {
+      "id": "DIFF_KNE_050",
+      "phase": "differential",
+      "text": "Do you have difficulty turning your foot outward, or does the front of your foot seem to drop when you walk?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_EVERSION_WEAKNESS",
+        "SYM_KNE_FOOT_INVERSION_WEAKNESS"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 1.3,
+      "red_flag": false,
+      "clinical_note": "Eversion weakness with preserved inversion = peroneal nerve (not L5 root)"
+    },
+    "DIFF_KNE_051": {
+      "id": "DIFF_KNE_051",
+      "phase": "differential",
+      "text": "Is there tenderness when you press on the bony bump on the outer side of your knee (just below the joint)?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_FIBULAR_HEAD_TENDERNESS"
+      ],
+      "diagnostic_weight": 0.72,
+      "information_gain_potential": 0.9,
+      "red_flag": false,
+      "clinical_note": "Fibular head tenderness suggests peroneal nerve entrapment at the fibular tunnel"
+    },
+    "DIFF_KNE_052": {
+      "id": "DIFF_KNE_052",
+      "phase": "differential",
+      "text": "Do you also have back pain that radiates down your leg?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_CRX_BACK_PAIN_RADICULAR"
+      ],
+      "diagnostic_weight": 0.85,
+      "information_gain_potential": 1.3,
+      "red_flag": false,
+      "clinical_note": "Back pain with radicular leg symptoms suggests lumbar radiculopathy as pain source, not local knee pathology"
+    },
+    "DIFF_KNE_053": {
+      "id": "DIFF_KNE_053",
+      "phase": "differential",
+      "text": "Have you noticed any swelling in your calf (below the knee)?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_CALF_SWELLING"
+      ],
+      "diagnostic_weight": 0.75,
+      "information_gain_potential": 1,
+      "red_flag": true,
+      "clinical_note": "Calf swelling may indicate ruptured Baker's cyst or DVT — requires medical evaluation"
+    },
+    "DIFF_KNE_054": {
+      "id": "DIFF_KNE_054",
+      "phase": "differential",
+      "text": "When you press on the kneecap itself, is it tender?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_PATELLA_TENDERNESS"
+      ],
+      "diagnostic_weight": 0.7,
+      "information_gain_potential": 0.9,
+      "red_flag": false,
+      "clinical_note": "Patellar tenderness suggests chondromalacia, prepatellar bursitis, or patellar stress injury"
+    },
+    "DIFF_KNE_055": {
+      "id": "DIFF_KNE_055",
+      "phase": "differential",
+      "text": "Despite having pain, can you bend and straighten your knee through its full range without it getting stuck?",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_PRESERVED_ROM"
+      ],
+      "diagnostic_weight": 0.68,
+      "information_gain_potential": 0.8,
+      "red_flag": false,
+      "clinical_note": "Preserved ROM with focal swelling supports bursitis over intra-articular pathology"
+    },
+    "DIFF_KNE_056": {
+      "id": "DIFF_KNE_056",
+      "phase": "differential",
+      "text": "Try bending your knee against your other hand's resistance (like pushing against a door). Does this cause pain on the inside of the knee?",
+      "patient_guidance": "Sit on a chair. Place your hand behind the ankle of the painful leg. Try to bend your knee while your hand resists. Stop immediately if you feel sharp pain, instability, or dizziness.",
+      "type": "yes_no",
+      "body_regions": [
+        "knee"
+      ],
+      "tests_symptoms": [
+        "SYM_KNE_PAIN_RESISTED_FLEXION_INT_ROT"
+      ],
+      "diagnostic_weight": 0.75,
+      "information_gain_potential": 1,
+      "red_flag": false,
+      "clinical_note": "Pain with resisted flexion at medial knee suggests pes anserine involvement"
     }
   },
   "question_count_by_region": {
+    "all": 10,
     "shoulder": 17,
     "elbow": 13,
     "wrist_hand": 17,
-    "knee": 12,
+    "knee": 68,
     "ankle": 8,
     "foot": 16,
-    "hip": 6,
     "lumbar_spine": 9,
     "cervical_spine": 14,
+    "hip": 6,
     "thoracic_spine": 4,
     "head_face": 5,
     "systemic": 16,
     "neurological": 19,
-    "general": 3,
-    "safety": 3,
-    "context": 3,
-    "region": 1
+    "pelvis_groin": 6,
+    "lower_leg": 6,
+    "cardiopulmonary": 6
   },
   "phase_order": [
     "safety",
