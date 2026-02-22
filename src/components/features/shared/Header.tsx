@@ -23,7 +23,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen = false }) => 
           <div className="flex items-center">
             {/* Healui Logo */}
             <div className="flex items-center">
-              <div className="relative h-8 sm:h-10 lg:h-12 w-auto">
+              <div className="relative h-9 sm:h-11 lg:h-12 w-auto">
                 <Image
                   src="/healui-logo/Healui Logo Final-10.png"
                   alt="Healui"

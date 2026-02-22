@@ -52,13 +52,13 @@ export default function PatientVisitHeader({
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'SCHEDULED':
-        return 'bg-teal-50 text-brand-teal border-brand-light-teal'
+        return 'bg-gray-100 text-gray-700 border-gray-200'
       case 'CHECKED_IN':
-        return 'bg-teal-100 text-brand-teal border-brand-teal/30'
+        return 'bg-gray-100 text-gray-700 border-gray-200'
       case 'IN_PROGRESS':
         return 'bg-amber-50 text-amber-700 border-amber-200'
       case 'COMPLETED':
-        return 'bg-teal-50 text-teal-700 border-teal-200'
+        return 'bg-green-50 text-green-700 border-green-200'
       case 'CANCELLED':
         return 'bg-red-50 text-red-600 border-red-200'
       case 'NO_SHOW':

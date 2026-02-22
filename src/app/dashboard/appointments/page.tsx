@@ -395,7 +395,7 @@ export default function AppointmentsPage() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'SCHEDULED':
-        return 'bg-blue-50 text-blue-700 border-blue-200';
+        return 'bg-gray-100 text-gray-700 border-gray-200';
       case 'IN_PROGRESS':
         return 'bg-yellow-50 text-yellow-700 border-yellow-200';
       case 'COMPLETED':
@@ -528,60 +528,32 @@ export default function AppointmentsPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 space-y-4">
-        {/* Stats Cards */}
-        <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
-          <div className="bg-white p-3 rounded-lg">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs text-gray-500">Scheduled</p>
-                <p className="text-xl font-semibold text-[#1e5f79]">{scheduledCount}</p>
-              </div>
-              <Clock className="h-6 w-6 text-[#1e5f79]/20" />
+        {/* Stats Row */}
+        <div className="bg-white rounded-lg p-4">
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-4 sm:gap-6">
+            <div>
+              <p className="text-xs text-gray-500">Scheduled</p>
+              <p className="text-xl font-semibold text-gray-900">{scheduledCount}</p>
             </div>
-          </div>
-          <div className="bg-white p-3 rounded-lg">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs text-gray-500">Waiting</p>
-                <p className="text-xl font-semibold text-orange-600">{waitingCount}</p>
-              </div>
-              <UserCheck className="h-6 w-6 text-orange-600/20" />
+            <div>
+              <p className="text-xs text-gray-500">Waiting</p>
+              <p className="text-xl font-semibold text-orange-600">{waitingCount}</p>
             </div>
-          </div>
-          <div className="bg-white p-3 rounded-lg">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs text-gray-500">In Progress</p>
-                <p className="text-xl font-semibold text-yellow-600">{inProgressCount}</p>
-              </div>
-              <Play className="h-6 w-6 text-yellow-600/20" />
+            <div>
+              <p className="text-xs text-gray-500">In Progress</p>
+              <p className="text-xl font-semibold text-yellow-600">{inProgressCount}</p>
             </div>
-          </div>
-          <div className="bg-white p-3 rounded-lg">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs text-gray-500">Completed</p>
-                <p className="text-xl font-semibold text-green-600">{completedCount}</p>
-              </div>
-              <CheckCircle className="h-6 w-6 text-green-600/20" />
+            <div>
+              <p className="text-xs text-gray-500">Completed</p>
+              <p className="text-xl font-semibold text-green-600">{completedCount}</p>
             </div>
-          </div>
-          <div className="bg-white p-3 rounded-lg">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs text-gray-500">Cancelled</p>
-                <p className="text-xl font-semibold text-red-600">{cancelledCount}</p>
-              </div>
-              <XCircle className="h-6 w-6 text-red-600/20" />
+            <div>
+              <p className="text-xs text-gray-500">Cancelled</p>
+              <p className="text-xl font-semibold text-red-600">{cancelledCount}</p>
             </div>
-          </div>
-          <div className="bg-white p-3 rounded-lg">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs text-gray-500">No Show</p>
-                <p className="text-xl font-semibold text-gray-600">{noShowCount}</p>
-              </div>
-              <AlertCircle className="h-6 w-6 text-gray-600/20" />
+            <div>
+              <p className="text-xs text-gray-500">No Show</p>
+              <p className="text-xl font-semibold text-gray-600">{noShowCount}</p>
             </div>
           </div>
         </div>

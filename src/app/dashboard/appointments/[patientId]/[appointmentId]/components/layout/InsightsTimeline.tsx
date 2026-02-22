@@ -65,7 +65,7 @@ export default function InsightsTimeline({
 
   if (loading) {
     return (
-      <div className="bg-white rounded-xl border border-gray-200 p-5 animate-pulse">
+      <div className="bg-white rounded-lg p-5 animate-pulse">
         <div className="h-6 bg-gray-100 rounded w-1/2 mb-3" />
         <div className="space-y-2">
           <div className="h-4 bg-gray-100 rounded" />
@@ -78,9 +78,9 @@ export default function InsightsTimeline({
 
   return (
     <div className="lg:sticky lg:top-[76px]">
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+      <div className="bg-white rounded-lg overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-3 border-b border-gray-200">
+        <div className="flex items-center justify-between px-5 py-3 border-b border-gray-100">
           <h2 className="text-sm font-semibold text-gray-900">
             Clinical Timeline
           </h2>

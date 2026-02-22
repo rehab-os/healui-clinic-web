@@ -24,7 +24,7 @@ export default function ConditionActionBar({
   if (!showGenerateCTA && !showUpdateCTA) return null
 
   return (
-    <div className="px-4 py-3 bg-white border-t border-gray-100 flex items-center gap-2">
+    <div className="px-4 py-3 bg-white rounded-lg flex items-center gap-2">
       {/* Generate Protocol — no protocol yet + insights exist */}
       {showGenerateCTA && onGenerateFromInsights && (
         <button

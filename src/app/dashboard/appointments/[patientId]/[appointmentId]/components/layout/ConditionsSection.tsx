@@ -33,7 +33,7 @@ export default function ConditionsSection({
     return (
       <div className="space-y-3">
         {[1, 2].map((i) => (
-          <div key={i} className="bg-white rounded-xl border border-gray-200 p-5 animate-pulse">
+          <div key={i} className="bg-white rounded-lg p-5 animate-pulse">
             <div className="h-6 bg-gray-100 rounded w-1/3 mb-3" />
             <div className="h-4 bg-gray-100 rounded w-2/3 mb-2" />
             <div className="h-4 bg-gray-100 rounded w-1/2" />
@@ -45,7 +45,7 @@ export default function ConditionsSection({
 
   if (conditions.length === 0) {
     return (
-      <div className="bg-white rounded-xl border border-gray-200 p-5">
+      <div className="bg-white rounded-lg p-5">
         <div className="text-center py-10">
           <div className="inline-flex items-center justify-center w-14 h-14 bg-teal-50 rounded-full mb-3">
             <Stethoscope className="h-7 w-7 text-brand-teal" />
@@ -72,7 +72,7 @@ export default function ConditionsSection({
     <div className="space-y-4">
       {/* Condition Tab Bar */}
       {conditions.length > 1 && (
-        <div className="bg-white rounded-xl border border-gray-200 p-1.5">
+        <div className="bg-white rounded-lg p-1.5">
           <div className="flex items-center gap-1 overflow-x-auto">
             {conditions.map((condition) => {
               const isActive = activeConditionId === condition.id

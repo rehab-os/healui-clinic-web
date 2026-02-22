@@ -424,7 +424,7 @@ export default function AppointmentDetailsPage() {
     <>
       <Toaster position="top-right" richColors />
 
-      <div className="min-h-screen bg-brand-light-blue pb-10">
+      <div className="min-h-screen bg-gray-50 pb-10">
         <PatientVisitHeader
           patient={patient}
           appointment={appointment}
@@ -485,7 +485,7 @@ export default function AppointmentDetailsPage() {
 
                     {/* Treatment History (expandable below condition) */}
                     {expandedHistory[activeCondition.id] && (
-                      <div className="mt-3 bg-white rounded-xl border border-gray-200 shadow-sm">
+                      <div className="mt-3 bg-white rounded-lg">
                         <TreatmentHistoryViewer
                           history={conditionHistory[activeCondition.patient_condition_id]?.data || []}
                           loading={conditionHistory[activeCondition.patient_condition_id]?.loading || false}

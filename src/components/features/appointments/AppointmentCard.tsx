@@ -141,7 +141,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'SCHEDULED':
-        return 'bg-[#eff8ff] text-[#1e5f79]';
+        return 'bg-gray-100 text-gray-700';
       case 'WAITING':
         return 'bg-orange-50 text-orange-700';
       case 'IN_PROGRESS':
@@ -151,24 +151,24 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
       case 'CANCELLED':
         return 'bg-red-50 text-red-700';
       case 'NO_SHOW':
-        return 'bg-gray-50 text-[#000000]';
+        return 'bg-gray-100 text-gray-600';
       default:
-        return 'bg-gray-50 text-[#000000]';
+        return 'bg-gray-100 text-gray-600';
     }
   };
 
   const getVisitTypeColor = (type: string) => {
     switch (type) {
       case 'INITIAL_CONSULTATION':
-        return 'bg-[#c8eaeb] text-[#1e5f79]';
+        return 'bg-gray-100 text-gray-700';
       case 'FOLLOW_UP':
-        return 'bg-[#eff8ff] text-[#1e5f79]';
+        return 'bg-gray-100 text-gray-600';
       case 'REVIEW':
-        return 'bg-green-50 text-green-700';
+        return 'bg-gray-100 text-gray-600';
       case 'EMERGENCY':
         return 'bg-red-50 text-red-700';
       default:
-        return 'bg-gray-50 text-[#000000]';
+        return 'bg-gray-100 text-gray-600';
     }
   };
 
@@ -229,12 +229,8 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
   };
 
   return (
-    <div 
-      className={`bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 cursor-pointer ${
-        isOnlineVisit 
-          ? 'border-l-4 border-l-[#1e5f79]' 
-          : ''
-      }`}
+    <div
+      className="bg-white rounded-lg hover:bg-gray-50/50 transition-colors duration-200 cursor-pointer"
       onClick={() => {
         if (onViewAppointment && (visit.patient_id || visit.patient_user_id)) {
           onViewAppointment(visit.patient_id || visit.patient_user_id!, visit.id);
@@ -308,7 +304,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
           
           <div className="flex items-center flex-wrap gap-2">
             {visit.visit_source === 'MARKETPLACE' && (
-              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-[#c8eaeb] text-[#1e5f79]">
+              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
                 Marketplace
               </span>
             )}
@@ -441,7 +437,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
           )}
         </div>
         {/* Action Buttons */}
-        <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+        <div className="flex items-center justify-between pt-3 mt-3">
           <button
             onClick={(e) => {
               e.stopPropagation();

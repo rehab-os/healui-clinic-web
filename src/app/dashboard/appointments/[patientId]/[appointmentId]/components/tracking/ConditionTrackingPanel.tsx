@@ -55,7 +55,7 @@ export default function ConditionTrackingPanel({
   // Empty state
   if (!tracking) {
     return (
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm">
+      <div className="bg-white rounded-lg">
         <div className="px-5 py-4 flex items-center gap-2">
           <Activity className="h-4 w-4 text-gray-300" />
           <span className="text-sm font-semibold text-gray-400">Tracking</span>
@@ -68,7 +68,7 @@ export default function ConditionTrackingPanel({
   const progressPercent = totalCount > 0 ? (filledCount / totalCount) * 100 : 0
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+    <div className="bg-white rounded-lg overflow-hidden">
       {/* Header with progress bar and save */}
       <div className="px-5 py-3.5 border-b border-gray-100">
         <div className="flex items-center justify-between">

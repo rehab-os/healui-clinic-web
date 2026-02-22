@@ -1,6 +1,7 @@
 'use client'
 
-import React, { useState, useRef, useCallback } from 'react'
+import React, { useState, useRef, useCallback, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { Plus, Check, Loader2, Eye, Mic, Square } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useMediaRecorder } from '@/hooks/useMediaRecorder'
@@ -106,9 +107,17 @@ export default function InlineFindingInput({
   const [isListening, setIsListening] = useState(false)
   const [isTranscribing, setIsTranscribing] = useState(false)
   const [transcribeError, setTranscribeError] = useState<string | null>(null)
-  const inputRef = useRef<HTMLInputElement>(null)
+  const inputRef = useRef<HTMLTextAreaElement>(null)
 
   const canSubmit = text.trim().length >= 3 && !submitting
+
+  // Auto-resize textarea when text changes programmatically (e.g. after transcription)
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.style.height = 'auto'
+      inputRef.current.style.height = `${inputRef.current.scrollHeight}px`
+    }
+  }, [text])
 
   const handleRecordingComplete = useCallback(async (audioBlob: Blob) => {
     setIsTranscribing(true)
@@ -226,16 +235,22 @@ export default function InlineFindingInput({
           <label className="text-xs font-medium text-teal-700">{label}</label>
         </div>
       )}
-      <div className="flex items-center gap-2">
-        <input
+      <div className="flex items-end gap-2">
+        <textarea
           ref={inputRef}
-          type="text"
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          onChange={(e) => {
+            setText(e.target.value)
+            // Auto-resize
+            e.target.style.height = 'auto'
+            e.target.style.height = `${e.target.scrollHeight}px`
+          }}
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
           disabled={submitting}
-          className="flex-1 px-3 py-2 text-sm bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/30 focus:border-brand-teal placeholder:text-gray-400 disabled:opacity-50 transition-colors"
+          rows={1}
+          className="flex-1 px-3 py-2 text-sm bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/30 focus:border-brand-teal placeholder:text-gray-400 disabled:opacity-50 transition-colors resize-none overflow-hidden"
+          style={{ maxHeight: '120px', overflowY: text.length > 200 ? 'auto' : 'hidden' }}
         />
 
         {/* Mic button */}
@@ -272,7 +287,8 @@ export default function InlineFindingInput({
         </button>
       </div>
 
-      {/* ─── Fullscreen overlay — EXACT replica of demo-loaders FullScreenOverlay ─── */}
+      {/* ─── Fullscreen overlay — portaled to body so it renders above sidebar/header ─── */}
+      {typeof document !== 'undefined' && createPortal(
       <AnimatePresence>
         {isListening && (
           <motion.div
@@ -432,7 +448,9 @@ export default function InlineFindingInput({
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence>,
+      document.body
+      )}
     </div>
   )
 }

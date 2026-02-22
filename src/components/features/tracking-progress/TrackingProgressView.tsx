@@ -70,7 +70,7 @@ export default function TrackingProgressView({
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+      <div className="bg-white rounded-lg p-6">
         <div className="flex items-center justify-center gap-2">
           <Loader2 className="h-4 w-4 animate-spin text-teal-500" />
           <span className="text-sm text-gray-400">Loading progress data...</span>
@@ -81,7 +81,7 @@ export default function TrackingProgressView({
 
   if (!chartData || chartData.total_visits === 0) {
     return (
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
+      <div className="bg-white rounded-lg p-5">
         <div className="flex items-center gap-2 text-gray-400">
           <BarChart3 className="h-4 w-4" />
           <span className="text-sm">No tracking history yet</span>
@@ -97,7 +97,7 @@ export default function TrackingProgressView({
   ]
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+    <div className="bg-white rounded-lg overflow-hidden">
       {/* Tab navigation */}
       <div className="px-5 py-3 border-b border-gray-100 flex items-center justify-between">
         <div className="flex items-center gap-2">

@@ -62,9 +62,7 @@ export default function ConditionCard({
   const showChiefComplaint = condition.chief_complaint && condition.chief_complaint !== visitChiefComplaint
 
   return (
-    <div className={`bg-white border-l-4 border border-gray-200 shadow-sm rounded-xl overflow-hidden ${
-      isPrimary ? 'border-l-brand-teal' : 'border-l-teal-300'
-    }`}>
+    <div className="bg-white rounded-lg overflow-hidden">
       {/* Condition Header — compact */}
       <div className="px-5 py-3.5">
         <div className="flex items-start justify-between gap-3">
@@ -151,7 +149,7 @@ export default function ConditionCard({
 
       {/* Children: Protocol Viewers */}
       {children && (
-        <div className="border-t border-gray-200">
+        <div className="border-t border-gray-100">
           {children}
         </div>
       )}
