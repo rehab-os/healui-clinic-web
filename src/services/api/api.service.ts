@@ -310,6 +310,12 @@ class ApiManager {
         return ApiMethods.get(url, headers)
     }
 
+    static checkTeamPhone = (organizationId: string, phone: string) => {
+        const url = BASE_URL + ENDPOINTS.CHECK_TEAM_PHONE(phone)
+        const headers = { 'x-organization-id': organizationId }
+        return ApiMethods.get(url, headers)
+    }
+
     static addTeamMember = (organizationId: string, data: AddTeamMemberDto) => {
         const url = BASE_URL + ENDPOINTS.ADD_TEAM_MEMBER()
         const headers = { 'x-organization-id': organizationId }

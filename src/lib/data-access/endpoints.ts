@@ -48,6 +48,7 @@ export const ENDPOINTS = {
     // Team Management
     GET_TEAM_MEMBERS: () => 'team/members',
     ADD_TEAM_MEMBER: () => 'team/members',
+    CHECK_TEAM_PHONE: (phone: string) => `team/check-phone?phone=${encodeURIComponent(phone)}`,
     REMOVE_TEAM_MEMBER: (userId: string) => `team/members/${userId}`,
     UPDATE_TEAM_MEMBER_ROLE: (userId: string) => `team/members/${userId}/role`,
 

@@ -42,31 +42,20 @@ interface FormData {
 // Helper function to create default working hours
 const createDefaultWorkingHours = (): WorkingHours => {
   const generateId = () => `phase-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-  
-  const defaultPhase = {
-    id: generateId(),
-    start_time: '09:00',
-    end_time: '18:00'
-  };
 
-  const businessDay: DaySchedule = {
-    is_open: true,
-    phases: [defaultPhase]
-  };
-
-  const closedDay: DaySchedule = {
-    is_open: false,
-    phases: []
-  };
+  const makeDay = (isOpen: boolean): DaySchedule => ({
+    is_open: isOpen,
+    phases: [{ id: generateId(), start_time: '09:00', end_time: '18:00' }]
+  });
 
   return {
-    monday: businessDay,
-    tuesday: businessDay,
-    wednesday: businessDay,
-    thursday: businessDay,
-    friday: businessDay,
-    saturday: businessDay,
-    sunday: closedDay
+    monday: makeDay(true),
+    tuesday: makeDay(true),
+    wednesday: makeDay(true),
+    thursday: makeDay(true),
+    friday: makeDay(true),
+    saturday: makeDay(true),
+    sunday: makeDay(false)
   };
 };
 

@@ -829,9 +829,27 @@ export interface NoteResponseDto {
 
 // Team Management Types
 export interface AddTeamMemberDto {
-    user_id: string
-    role_id: string
-    clinic_id?: string
+    phone: string
+    email?: string
+    full_name?: string
+    role: 'physiotherapist' | 'receptionist'
+    clinic_ids?: string[]
+    admin_clinic_ids?: string[]
+}
+
+export interface CheckPhoneResponse {
+    exists: boolean
+    user?: {
+        id: string
+        full_name: string
+        email: string
+        clinic_assignments: Array<{
+            clinic_id: string
+            clinic_name: string
+            role: string
+            is_admin: boolean
+        }>
+    }
 }
 
 // Audio Transcription Types
