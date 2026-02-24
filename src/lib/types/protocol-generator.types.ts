@@ -128,6 +128,8 @@ export interface ExerciseProtocol {
   equipment: string[];
   progressionCues: string;
   safetyNotes: string;
+  isHomeExercise?: boolean;
+  homeExerciseNotes?: string;
 }
 
 // New editable exercise structure
@@ -156,6 +158,8 @@ export interface EditableExercise {
   contraindications: string[];
   modifications: string[];
   progressions: string[];
+  isHomeExercise?: boolean;
+  homeExerciseNotes?: string;
 }
 
 // Legacy interface for backward compatibility

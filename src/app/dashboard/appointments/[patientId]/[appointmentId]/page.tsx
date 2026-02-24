@@ -483,16 +483,7 @@ export default function AppointmentDetailsPage() {
                       onGenerateFromInsights={() => handleGenerateProtocol(activeCondition)}
                     />
 
-                    {/* Treatment History (expandable below condition) */}
-                    {expandedHistory[activeCondition.id] && (
-                      <div className="mt-3 bg-white rounded-lg">
-                        <TreatmentHistoryViewer
-                          history={conditionHistory[activeCondition.patient_condition_id]?.data || []}
-                          loading={conditionHistory[activeCondition.patient_condition_id]?.loading || false}
-                          onCompare={(currentId, previousId) => dispatch(compareProtocolVersions({ currentId, previousId }))}
-                        />
-                      </div>
-                    )}
+                    {/* Treatment History — hidden from appointment view */}
                   </>
                 )}
               </ConditionsSection>
