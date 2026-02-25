@@ -24,6 +24,7 @@ import {
  MessageSquare,
  ClipboardList,
  ChevronRight,
+ ChevronDown,
  Brain,
  Crosshair,
  MapPin,
@@ -174,6 +175,125 @@ const isReferralQuestion = (questionId: string): boolean => {
  );
 };
 
+// ==================== Question Label Helpers ====================
+
+// Short display labels for answered question history
+const QUESTION_SHORT_LABELS: Record<string, string> = {
+ chief_complaint: 'Chief Complaint',
+ symptom_onset: 'Onset Date',
+ onset_nature: 'Onset',
+ symptom_progression: 'Progression',
+ previous_episodes: 'Previous Episodes',
+ previous_episode_comparison: 'vs Previous',
+ red_flag_screening: 'Red Flags',
+ pain_screening: 'Pain',
+ weakness_screening: 'Weakness',
+ sensation_screening: 'Sensation',
+ mobility_screening: 'Mobility',
+ stiffness_screening: 'Stiffness',
+ instability_screening: 'Instability',
+ body_map: 'Body Region',
+ vas_score: 'Pain Level',
+ pain_nature: 'Pain Type',
+ aggravating_factors: 'Aggravates',
+ relieving_factors: 'Relieves',
+ functional_impact: 'Function',
+ work_impact: 'Work Impact',
+ gait_pattern: 'Gait',
+ posture_observation: 'Posture',
+ muscle_tone_observation: 'Muscle Tone',
+ swelling_observation: 'Swelling',
+ deformity_observation: 'Deformity',
+ skin_observation: 'Skin',
+ pain_location: 'Pain Location',
+};
+
+const getQuestionShortLabel = (questionId: string, questionText?: string): string => {
+ if (QUESTION_SHORT_LABELS[questionId]) return QUESTION_SHORT_LABELS[questionId];
+ // For referral/dynamic questions, derive from ID
+ return questionId
+  .replace(/_/g, ' ')
+  .replace(/\b\w/g, (c) => c.toUpperCase())
+  .replace(/^(Shoulder|Elbow|Wrist|Hip|Knee|Ankle|Lb|Neck)\s/, '')
+  .slice(0, 20);
+};
+
+// ==================== Answer History Component ====================
+
+interface AnswerHistoryEntry {
+ label: string;
+ value: string;
+ id: string;
+}
+
+const AnswerHistoryDropdown: React.FC<{
+ entries: AnswerHistoryEntry[];
+}> = ({ entries }) => {
+ const [isOpen, setIsOpen] = useState(false);
+
+ if (entries.length === 0) return null;
+
+ // Show last 2 as preview, rest in dropdown
+ const previewCount = 3;
+ const previewEntries = entries.slice(-previewCount);
+ const hiddenCount = entries.length - previewCount;
+
+ return (
+  <div className="w-full mb-6">
+   {/* Collapsed preview - always visible */}
+   <button
+    onClick={() => setIsOpen(!isOpen)}
+    className="w-full flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors duration-150 group"
+   >
+    <div className="flex-1 flex flex-wrap items-center gap-1.5 min-w-0">
+     {previewEntries.map((entry, i) => (
+      <span key={entry.id} className="inline-flex items-center gap-1 text-xs">
+       <span className="text-gray-400 font-medium">{entry.label}:</span>
+       <span className="text-gray-700 font-semibold truncate max-w-[120px]">{entry.value}</span>
+       {i < previewEntries.length - 1 && <span className="text-gray-300 mx-0.5">|</span>}
+      </span>
+     ))}
+    </div>
+    <div className="flex items-center gap-1.5 flex-shrink-0">
+     {hiddenCount > 0 && (
+      <span className="text-[10px] font-semibold text-gray-400 bg-gray-200/60 rounded-full px-1.5 py-0.5 tabular-nums">
+       {entries.length}
+      </span>
+     )}
+     <motion.div
+      animate={{ rotate: isOpen ? 180 : 0 }}
+      transition={{ duration: 0.15 }}
+     >
+      <ChevronDown className="w-3.5 h-3.5 text-gray-400 group-hover:text-gray-500" />
+     </motion.div>
+    </div>
+   </button>
+
+   {/* Expanded history */}
+   <AnimatePresence>
+    {isOpen && (
+     <motion.div
+      initial={{ height: 0, opacity: 0 }}
+      animate={{ height: 'auto', opacity: 1 }}
+      exit={{ height: 0, opacity: 0 }}
+      transition={{ duration: 0.2, ease: 'easeOut' }}
+      className="overflow-hidden"
+     >
+      <div className="mt-1.5 rounded-lg bg-white border border-gray-100 shadow-sm divide-y divide-gray-50">
+       {entries.map((entry) => (
+        <div key={entry.id} className="flex items-center justify-between px-3 py-2">
+         <span className="text-xs text-gray-400 font-medium">{entry.label}</span>
+         <span className="text-xs text-gray-700 font-semibold text-right max-w-[60%] truncate">{entry.value}</span>
+        </div>
+       ))}
+      </div>
+     </motion.div>
+    )}
+   </AnimatePresence>
+  </div>
+ );
+};
+
 // ==================== Date Picker Input ====================
 
 const DatePickerInput = ({
@@ -208,12 +328,12 @@ const DatePickerInput = ({
    (Date.now() - date.getTime()) / (1000 * 60 * 60 * 24),
   );
   if (daysSince <= 0)
-   return { label: "Today", days: 0, color: "bg-blue-100 text-blue-700" };
+   return { label: "Today", days: 0, color: "bg-teal-100 text-teal-800" };
   if (daysSince <= 7)
    return {
     label: "This week",
     days: daysSince,
-    color: "bg-blue-100 text-blue-700",
+    color: "bg-teal-100 text-teal-800",
    };
   if (daysSince <= 42)
    return { label: "Acute", days: daysSince, color: "bg-sky-100 text-sky-700" };
@@ -240,14 +360,14 @@ const DatePickerInput = ({
     onClick={() => setIsOpen(!isOpen)}
     className={`w-full flex items-center justify-between px-4 py-3.5 bg-white border-2 rounded-2xl text-left transition-all duration-200 ${
      isOpen
-      ? "border-blue-500 ring-2 ring-blue-100 shadow-lg"
-      : "border-slate-200 hover:border-blue-300 hover:shadow-md"
+      ? "border-brand-teal ring-2 ring-teal-100 shadow-lg"
+      : "border-gray-200 hover:border-teal-300 hover:shadow-md"
     }`}
    >
     <div className='flex items-center gap-2'>
-     <CalendarDays className='h-5 w-5 text-slate-400' />
+     <CalendarDays className='h-5 w-5 text-gray-400' />
      {dateValue ? (
-      <span className='text-base text-slate-800 font-medium'>
+      <span className='text-base text-gray-800 font-medium'>
        {dateValue.toLocaleDateString("en-US", {
         weekday: "short",
         day: "numeric",
@@ -256,7 +376,7 @@ const DatePickerInput = ({
        })}
       </span>
      ) : (
-      <span className='text-base text-slate-400'>Select a date...</span>
+      <span className='text-base text-gray-400'>Select a date...</span>
      )}
     </div>
     {chronicity && (
@@ -270,7 +390,7 @@ const DatePickerInput = ({
 
    {/* Calendar Dropdown */}
    {isOpen && (
-    <div className='absolute z-50 mt-2 left-0 right-0 bg-white rounded-2xl border border-slate-200 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-150'>
+    <div className='absolute z-50 mt-2 left-0 right-0 bg-white rounded-2xl border border-gray-200 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-150'>
      <CalendarPicker
       mode='single'
       selected={dateValue}
@@ -284,24 +404,24 @@ const DatePickerInput = ({
        months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
        month: "space-y-4",
        caption: "flex justify-center pt-2 pb-2 relative items-center",
-       caption_label: "text-base font-semibold text-slate-800",
+       caption_label: "text-base font-semibold text-gray-800",
        nav: "space-x-1 flex items-center",
        nav_button:
-        "h-9 w-9 bg-transparent p-0 opacity-70 hover:opacity-100 hover:bg-slate-100 rounded-md inline-flex items-center justify-center",
+        "h-9 w-9 bg-transparent p-0 opacity-70 hover:opacity-100 hover:bg-gray-100 rounded-md inline-flex items-center justify-center",
        nav_button_previous: "absolute left-2",
        nav_button_next: "absolute right-2",
        table: "w-full border-collapse",
        head_row: "flex",
-       head_cell: "text-slate-500 rounded-md w-11 font-medium text-sm",
+       head_cell: "text-gray-500 rounded-md w-11 font-medium text-sm",
        row: "flex w-full mt-1",
        cell:
-        "relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-blue-50 first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md",
-       day: "h-11 w-11 p-0 font-normal text-sm rounded-md hover:bg-slate-100 focus:bg-slate-100 aria-selected:opacity-100 inline-flex items-center justify-center",
+        "relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-teal-50 first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md",
+       day: "h-11 w-11 p-0 font-normal text-sm rounded-md hover:bg-gray-100 focus:bg-gray-100 aria-selected:opacity-100 inline-flex items-center justify-center",
        day_selected:
-        "bg-blue-600 text-white hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white",
-       day_today: "bg-slate-100 text-slate-900 font-semibold",
-       day_outside: "text-slate-300 opacity-50",
-       day_disabled: "text-slate-300 opacity-50 cursor-not-allowed",
+        "bg-brand-teal text-white hover:bg-brand-teal hover:text-white focus:bg-brand-teal focus:text-white",
+       day_today: "bg-gray-100 text-gray-900 font-semibold",
+       day_outside: "text-gray-300 opacity-50",
+       day_disabled: "text-gray-300 opacity-50 cursor-not-allowed",
        day_hidden: "invisible",
       }}
       disabled={(date) => date > new Date()}
@@ -323,11 +443,11 @@ const CompletionCelebration = () => {
   delay: Math.random() * 0.5,
   duration: 2 + Math.random(),
   color: [
-   "bg-blue-500",
-   "bg-blue-400",
-   "bg-indigo-400",
-   "bg-sky-400",
-   "bg-violet-400",
+   "bg-brand-teal",
+   "bg-teal-400",
+   "bg-teal-300",
+   "bg-emerald-400",
+   "bg-cyan-400",
   ][Math.floor(Math.random() * 5)],
  }));
 
@@ -362,25 +482,25 @@ const TypingIndicator = () => (
   animate={{ opacity: 1, scale: 1 }}
   className='flex items-center gap-2 px-3 py-2'
  >
-  <div className='flex items-center gap-2.5 px-5 py-2.5 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl border border-blue-200/60 shadow-sm'>
+  <div className='flex items-center gap-2.5 px-5 py-2.5 bg-gradient-to-r from-teal-50 to-teal-50 rounded-2xl border border-teal-200/60 shadow-sm'>
    <div className='flex gap-1.5'>
     <motion.div
      animate={{ y: [0, -5, 0] }}
      transition={{ duration: 0.6, repeat: Infinity, delay: 0 }}
-     className='w-2 h-2 bg-blue-500 rounded-full'
+     className='w-2 h-2 bg-brand-teal rounded-full'
     />
     <motion.div
      animate={{ y: [0, -5, 0] }}
      transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }}
-     className='w-2 h-2 bg-blue-500 rounded-full'
+     className='w-2 h-2 bg-brand-teal rounded-full'
     />
     <motion.div
      animate={{ y: [0, -5, 0] }}
      transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }}
-     className='w-2 h-2 bg-blue-500 rounded-full'
+     className='w-2 h-2 bg-brand-teal rounded-full'
     />
    </div>
-   <span className='text-sm font-medium text-blue-600'>Analyzing...</span>
+   <span className='text-sm font-medium text-brand-teal'>Analyzing...</span>
   </div>
  </motion.div>
 );
@@ -396,13 +516,13 @@ const SideProcessingIndicator = ({ isVisible }: { isVisible: boolean }) => {
    aria-live='polite'
    aria-label='AI is analyzing'
   >
-   <div className='bg-white/90 backdrop-blur-md rounded-2xl shadow-xl border border-blue-100 px-3 py-4 flex flex-col items-center gap-3'>
+   <div className='bg-white/90 backdrop-blur-md rounded-2xl shadow-xl border border-teal-100 px-3 py-4 flex flex-col items-center gap-3'>
     {/* Animated dots */}
     <div className='flex flex-col gap-1.5'>
      {[0, 1, 2].map((i) => (
       <div
        key={i}
-       className='w-2 h-2 rounded-full bg-blue-500'
+       className='w-2 h-2 rounded-full bg-brand-teal'
        style={{
         animation: "pulse 1.4s ease-in-out infinite",
         animationDelay: `${i * 0.2}s`,
@@ -412,7 +532,7 @@ const SideProcessingIndicator = ({ isVisible }: { isVisible: boolean }) => {
      ))}
     </div>
     <span
-     className='text-xs text-slate-500 font-medium uppercase tracking-wider writing-mode-vertical'
+     className='text-xs text-gray-500 font-medium uppercase tracking-wider writing-mode-vertical'
      style={{ writingMode: "vertical-rl" }}
     >
      Analyzing
@@ -437,14 +557,14 @@ const StageProgressSidebar = ({
 }) => {
  return (
   <div className='flex flex-col h-full'>
-   <div className='px-5 py-4 border-b border-slate-100 bg-gradient-to-r from-blue-50 to-transparent'>
-    <p className='text-sm text-blue-600 uppercase tracking-wider font-bold'>
+   <div className='px-5 py-4 border-b border-gray-100 bg-gradient-to-r from-teal-50 to-transparent'>
+    <p className='text-sm text-brand-teal uppercase tracking-wider font-bold'>
      Clinical Progress
     </p>
    </div>
    <div className='flex-1 py-4 space-y-1 overflow-y-auto relative'>
     {/* Connecting line */}
-    <div className='absolute left-9 top-8 bottom-8 w-0.5 bg-gradient-to-b from-blue-500 via-blue-300 to-slate-200' />
+    <div className='absolute left-9 top-8 bottom-8 w-0.5 bg-gradient-to-b from-brand-teal via-teal-300 to-gray-200' />
 
     {stages.map((stage, index) => {
      const isCompleted = index < currentStageIndex;
@@ -459,8 +579,8 @@ const StageProgressSidebar = ({
        transition={{ delay: index * 0.1 }}
        className={`
                 relative flex items-center gap-3 px-3 py-3 mx-2 rounded-xl transition-all duration-200
-                ${isCurrent ? "bg-gradient-to-r from-blue-50 to-indigo-50/50 shadow-md" : ""}
-                ${isCompleted ? "hover:bg-slate-50" : ""}
+                ${isCurrent ? "bg-gradient-to-r from-teal-50 to-teal-100/50 shadow-md" : ""}
+                ${isCompleted ? "hover:bg-gray-50" : ""}
               `}
       >
        {/* Status indicator */}
@@ -471,10 +591,10 @@ const StageProgressSidebar = ({
                   relative z-10 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shrink-0 transition-all duration-200
                   ${
                    isCompleted
-                    ? "bg-gradient-to-br from-blue-500 to-blue-700 text-white shadow-lg shadow-blue-500/30"
+                    ? "bg-gradient-to-br from-brand-teal to-teal-700 text-white shadow-lg shadow-teal-500/30"
                     : isCurrent
-                      ? "bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-xl shadow-blue-500/50 ring-4 ring-blue-100"
-                      : "bg-slate-200 text-slate-500 border-2 border-white"
+                      ? "bg-gradient-to-br from-brand-teal to-teal-600 text-white shadow-xl shadow-teal-500/50 ring-4 ring-teal-100"
+                      : "bg-gray-200 text-gray-500 border-2 border-white"
                   }
                 `}
        >
@@ -495,7 +615,7 @@ const StageProgressSidebar = ({
        <span
         className={`
                 text-sm truncate transition-colors duration-200 font-medium
-                ${isCurrent ? "text-blue-700 font-semibold" : isCompleted ? "text-slate-700" : "text-slate-400"}
+                ${isCurrent ? "text-teal-800 font-semibold" : isCompleted ? "text-gray-700" : "text-gray-400"}
               `}
        >
         {stage.label}
@@ -506,7 +626,7 @@ const StageProgressSidebar = ({
         <motion.div
          animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.8, 0.5] }}
          transition={{ duration: 2, repeat: Infinity }}
-         className='ml-auto w-2 h-2 rounded-full bg-blue-500'
+         className='ml-auto w-2 h-2 rounded-full bg-brand-teal'
         />
        )}
       </motion.div>
@@ -515,26 +635,26 @@ const StageProgressSidebar = ({
    </div>
 
    {/* Bottom stats */}
-   <div className='px-4 py-4 border-t border-slate-200 mt-auto bg-gradient-to-t from-slate-50 to-transparent'>
+   <div className='px-4 py-4 border-t border-gray-200 mt-auto bg-gradient-to-t from-gray-50 to-transparent'>
     <div className='flex items-center justify-between mb-3'>
-     <span className='text-xs text-slate-500 font-medium uppercase tracking-wide'>
+     <span className='text-xs text-gray-500 font-medium uppercase tracking-wide'>
       Progress
      </span>
-     <span className='text-lg font-bold text-slate-800 tabular-nums'>
+     <span className='text-lg font-bold text-gray-800 tabular-nums'>
       {answeredCount}
-      <span className='text-slate-400 text-sm'>/{totalQuestions}</span>
+      <span className='text-gray-400 text-sm'>/{totalQuestions}</span>
      </span>
     </div>
-    <div className='relative h-2 bg-slate-200 rounded-full overflow-hidden'>
+    <div className='relative h-2 bg-gray-200 rounded-full overflow-hidden'>
      <motion.div
       initial={{ width: 0 }}
       animate={{ width: `${(answeredCount / totalQuestions) * 100}%` }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className='absolute inset-y-0 left-0 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full shadow-sm'
+      className='absolute inset-y-0 left-0 bg-gradient-to-r from-brand-teal to-teal-600 rounded-full shadow-sm'
      />
     </div>
     <div className='mt-2 text-center'>
-     <span className='text-xs font-semibold text-blue-600'>
+     <span className='text-xs font-semibold text-brand-teal'>
       {Math.round((answeredCount / totalQuestions) * 100)}% Complete
      </span>
     </div>
@@ -558,7 +678,20 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
  const [messages, setMessages] = useState<ChatMessage[]>([]);
  const [currentQuestion, setCurrentQuestion] =
   useState<ScreeningQuestion | null>(null);
- const [currentResponse, setCurrentResponse] = useState<any>("");
+ const [currentResponse, _setCurrentResponse] = useState<any>("");
+ const currentResponseRef = useRef<any>("");
+ const setCurrentResponse = useCallback((val: any) => {
+  if (typeof val === 'function') {
+   _setCurrentResponse((prev: any) => {
+    const next = val(prev);
+    currentResponseRef.current = next;
+    return next;
+   });
+  } else {
+   currentResponseRef.current = val;
+   _setCurrentResponse(val);
+  }
+ }, []);
  // Clubbed questions state
  const [clubbedQuestions, setClubbedQuestions] = useState<ScreeningQuestion[]>(
   [],
@@ -569,6 +702,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
  const [currentClubLabel, setCurrentClubLabel] = useState<string>("");
  const [isProcessing, setIsProcessing] = useState(false);
  const [isTyping, setIsTyping] = useState(false);
+ const [answerHistory, setAnswerHistory] = useState<AnswerHistoryEntry[]>([]);
  const [isComplete, setIsComplete] = useState(false);
  const [diagnosisResult, setDiagnosisResult] = useState<DiagnosisResult | null>(
   null,
@@ -577,7 +711,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
  const [selectedRegions, setSelectedRegions] = useState<any[]>([]);
  const [collectedData, setCollectedData] = useState<Record<string, any>>({});
  const [detectedRedFlags, setDetectedRedFlags] = useState<string[]>([]);
- const [showSummaryPanel, setShowSummaryPanel] = useState(true); // Start open on desktop
+ const [showSummaryPanel, setShowSummaryPanel] = useState(false); // Hidden by default — toggle on demand
  const [showCloseConfirmation, setShowCloseConfirmation] = useState(false);
  const [showChatHistory, setShowChatHistory] = useState(false);
  const [isSourceTrackingPhase, setIsSourceTrackingPhase] = useState(false);
@@ -726,7 +860,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
      setCurrentClubLabel("");
      setClubbedResponses({});
      setCurrentQuestion(question);
-     await addBotMessage(question.question, question.id);
+     // Don't add a separate bot message — rendered inline below.
     }
    } else {
     // Single question (not clubbed)
@@ -734,7 +868,8 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
     setCurrentClubLabel("");
     setClubbedResponses({});
     setCurrentQuestion(question);
-    await addBotMessage(question.question, question.id);
+    // Don't add a separate bot message — the question text is already
+    // rendered by InlineClinicalQuestion / inline rendering below.
    }
   },
   [engine, addBotMessage],
@@ -932,6 +1067,17 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
   }
   setCollectedData((prev) => ({ ...prev, ...newCollectedData }));
 
+  // Track answer history for compact display
+  const newHistoryEntries = questionsToProcess.map((q) => ({
+   id: q.id,
+   label: getQuestionShortLabel(q.id, q.question),
+   value: formatUserResponse(clubbedResponses[q.id], q),
+  }));
+  setAnswerHistory((prev) => {
+   const filtered = prev.filter((e) => !newHistoryEntries.some((n) => n.id === e.id));
+   return [...filtered, ...newHistoryEntries];
+  });
+
   // Process all responses with engine
   let nextQuestionId: string | null = null;
   for (const q of questionsToProcess) {
@@ -945,16 +1091,33 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
   scrollToBottom();
  };
 
- // Handle submit for single question
+ // Handle submit for single question — uses ref to always read latest response
  const handleSubmit = async () => {
   // If we have clubbed questions, use the clubbed submit
   if (clubbedQuestions.length > 0) {
    return handleClubbedSubmit();
   }
 
-  if (!currentQuestion || !canSubmit()) return;
+  const response = currentResponseRef.current;
+  if (!currentQuestion) return;
 
-  const displayValue = formatUserResponse(currentResponse, currentQuestion);
+  // Validate using the ref value directly
+  const canProceed = (() => {
+   if (response === null || response === undefined) return false;
+   if (["multi_choice", "checklist", "body_map", "observational"].includes(currentQuestion.type)) {
+    return Array.isArray(response) && response.length > 0;
+   }
+   if (currentQuestion.type === "red_flags") return true;
+   if (["tenderness_map", "measurement", "rom_measurement", "mmt_testing", "scale_grid"].includes(currentQuestion.type)) {
+    return response && typeof response === "object" && Object.keys(response).length > 0;
+   }
+   if (typeof response === "string") return response.trim().length > 0;
+   if (currentQuestion.type === "slider") return typeof response === "number";
+   return true;
+  })();
+  if (!canProceed) return;
+
+  const displayValue = formatUserResponse(response, currentQuestion);
   addMessage("user", displayValue);
 
   setIsProcessing(true);
@@ -962,17 +1125,27 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
   // Track collected data for summary panel
   setCollectedData((prev) => ({
    ...prev,
-   [currentQuestion.id]: currentResponse,
+   [currentQuestion.id]: response,
   }));
 
+  // Track answer history for compact display
+  setAnswerHistory((prev) => [
+   ...prev.filter((e) => e.id !== currentQuestion.id),
+   {
+    id: currentQuestion.id,
+    label: getQuestionShortLabel(currentQuestion.id, currentQuestion.question),
+    value: displayValue,
+   },
+  ]);
+
   // Track selected regions from body_map
-  if (currentQuestion.type === "body_map" && currentResponse?.detailed) {
-   setSelectedRegions(currentResponse.detailed);
+  if (currentQuestion.type === "body_map" && response?.detailed) {
+   setSelectedRegions(response.detailed);
   }
 
   // Detect red flags from text responses
-  if (typeof currentResponse === "string") {
-   const flags = screeningAPI.detectRedFlags(currentResponse);
+  if (typeof response === "string") {
+   const flags = screeningAPI.detectRedFlags(response);
    if (flags.length > 0) {
     setDetectedRedFlags((prev) => [...new Set([...prev, ...flags])]);
    }
@@ -980,13 +1153,13 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
 
   // Record response in AI flow context
   if (useAIFlow) {
-   aiFlow.recordResponse(currentQuestion.id, currentResponse);
+   aiFlow.recordResponse(currentQuestion.id, response);
   }
 
   // Process response with engine
   const nextQuestionId = await engine.processResponse(
    currentQuestion.id,
-   currentResponse,
+   response,
   );
 
   // Move to next question
@@ -1313,14 +1486,15 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
   setSelectedAssessments([]);
   setCompletedAssessments([]);
   setCurrentAssessmentIndex(0);
+  setAnswerHistory([]);
+  setCollectedData({});
 
   setTimeout(async () => {
    await addBotMessage("Starting fresh assessment.");
    setTimeout(async () => {
     const question = engine.getCurrentQuestion();
     if (question) {
-     setCurrentQuestion(question);
-     await addBotMessage(question.question, question.id);
+     await loadQuestion(question);
     }
    }, 400);
   }, 200);
@@ -1451,13 +1625,13 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
 
  // Primary action button style
  const primaryBtnClass =
-  "w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 hover:shadow-xl hover:shadow-blue-500/20 hover:scale-[1.01] active:scale-[0.99] text-white rounded-2xl min-h-[56px] font-semibold text-base transition-all duration-200 border-0";
+  "w-full bg-brand-teal hover:bg-teal-700 text-white rounded-xl py-3.5 font-semibold text-sm transition-colors duration-150 border-0";
 
  // Option selected style
  const selectedOptionClass =
-  "border-blue-500 bg-gradient-to-br from-blue-50 to-indigo-50 shadow-lg shadow-blue-500/10";
+  "border-brand-teal bg-brand-teal text-white shadow-sm";
  const unselectedOptionClass =
-  "border-slate-200 bg-white hover:border-blue-300 hover:bg-blue-50/30 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0";
+  "border-gray-200 bg-white hover:border-gray-300 text-gray-700";
 
  // Render a single input for a clubbed question
  const renderClubbedInput = (question: ScreeningQuestion) => {
@@ -1473,7 +1647,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
 
    case "yes_no":
     return (
-     <div className='flex gap-4'>
+     <div className='grid grid-cols-2 gap-2.5'>
       {[
        { value: "yes", label: "Yes" },
        { value: "no", label: "No" },
@@ -1481,62 +1655,48 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
        <button
         key={value}
         onClick={() => updateResponse(value)}
-        className={`flex-1 flex items-center justify-center gap-3 min-h-[56px] rounded-2xl border-2 transition-all duration-200 font-semibold text-base ${
+        className={`flex items-center justify-center gap-1.5 py-3.5 px-4 rounded-xl border transition-all duration-150 font-semibold text-sm ${
          response === value
-          ? "border-blue-500 bg-blue-600 text-white shadow-xl shadow-blue-500/25 scale-[1.02]"
-          : `${unselectedOptionClass} text-slate-700`
+          ? "border-brand-teal bg-brand-teal text-white shadow-sm"
+          : `${unselectedOptionClass}`
         }`}
        >
-        {value === "yes" ? (
-         <Check
-          className={`h-5 w-5 ${response === value ? "text-white" : "text-slate-400"}`}
-         />
-        ) : (
-         <CircleDot
-          className={`h-5 w-5 ${response === value ? "text-white" : "text-slate-400"}`}
-         />
-        )}
+        {response === value && <Check className='h-4 w-4 text-white' />}
         <span>{label}</span>
        </button>
       ))}
      </div>
     );
 
-   case "single_choice":
+   case "single_choice": {
+    const cscCount = question.options?.length || 0;
+    const cscGridClass = cscCount <= 4 ? 'grid grid-cols-2 gap-2.5' : 'grid grid-cols-2 sm:grid-cols-3 gap-2.5';
+
     return (
-     <div className='space-y-2.5'>
+     <div className={cscGridClass}>
       {question.options?.map((option) => (
        <button
         key={option.value}
         onClick={() => updateResponse(option.value)}
-        className={`w-full flex items-center gap-4 min-h-[52px] px-5 rounded-2xl border-2 transition-all duration-200 text-left ${
+        className={`flex items-center gap-2 p-3.5 rounded-xl border transition-all duration-150 text-left ${
          response === option.value ? selectedOptionClass : unselectedOptionClass
         }`}
        >
-        <div
-         className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
-          response === option.value
-           ? "border-blue-500 bg-blue-500 scale-110"
-           : "border-slate-300"
-         }`}
-        >
-         {response === option.value && <Check className='h-3 w-3 text-white' />}
-        </div>
-        <span
-         className={`text-sm ${response === option.value ? "text-blue-700 font-semibold" : "text-slate-700 font-medium"}`}
-        >
+        {response === option.value && <Check className='h-3.5 w-3.5 flex-shrink-0' />}
+        <span className='text-sm font-medium leading-tight'>
          {option.label}
         </span>
        </button>
       ))}
      </div>
     );
+   }
 
    case "multi_choice":
    case "checklist":
     const selectedValues = Array.isArray(response) ? response : [];
     return (
-     <div className='space-y-2.5 max-h-[300px] overflow-y-auto'>
+     <div className='grid grid-cols-2 gap-2.5 max-h-[300px] overflow-y-auto'>
       {question.options?.map((option) => {
        const isSelected = selectedValues.includes(option.value);
        return (
@@ -1548,22 +1708,18 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
            : [...selectedValues, option.value];
           updateResponse(newValues);
          }}
-         className={`w-full flex items-center gap-4 min-h-[52px] px-5 rounded-2xl border-2 transition-all duration-200 text-left ${
+         className={`flex items-center gap-2.5 p-3.5 rounded-xl border transition-all duration-150 text-left ${
           isSelected ? selectedOptionClass : unselectedOptionClass
          }`}
         >
          <div
-          className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
-           isSelected
-            ? "border-blue-500 bg-blue-500 scale-110"
-            : "border-slate-300"
+          className={`w-4 h-4 rounded flex items-center justify-center flex-shrink-0 border ${
+           isSelected ? "border-white/50 bg-white/20" : "border-gray-300 bg-white"
           }`}
          >
           {isSelected && <Check className='h-3 w-3 text-white' />}
          </div>
-         <span
-          className={`text-sm ${isSelected ? "text-blue-700 font-semibold" : "text-slate-700 font-medium"}`}
-         >
+         <span className='text-sm leading-tight font-medium'>
           {option.label}
          </span>
         </button>
@@ -1578,7 +1734,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
     return (
      <div className='space-y-5'>
       <div className='flex items-center justify-between'>
-       <span className='text-5xl font-black text-slate-800 tabular-nums'>
+       <span className='text-5xl font-black text-gray-800 tabular-nums'>
         {sliderValue}
        </span>
        <span
@@ -1611,22 +1767,22 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
        max={question.max || 10}
        value={sliderValue}
        onChange={(e) => updateResponse(parseInt(e.target.value))}
-       className='w-full h-3 bg-slate-200 rounded-full appearance-none cursor-pointer touch-pan-y
+       className='w-full h-3 bg-gray-200 rounded-full appearance-none cursor-pointer touch-pan-y
                 [&::-webkit-slider-thumb]:appearance-none
                 [&::-webkit-slider-thumb]:w-8
                 [&::-webkit-slider-thumb]:h-8
                 [&::-webkit-slider-thumb]:rounded-full
-                [&::-webkit-slider-thumb]:bg-blue-600
+                [&::-webkit-slider-thumb]:bg-brand-teal
                 [&::-webkit-slider-thumb]:cursor-pointer
                 [&::-webkit-slider-thumb]:shadow-xl
-                [&::-webkit-slider-thumb]:shadow-blue-500/30
+                [&::-webkit-slider-thumb]:shadow-teal-500/30
                 [&::-webkit-slider-thumb]:border-4
                 [&::-webkit-slider-thumb]:border-white
                 [&::-webkit-slider-thumb]:transition-transform
                 [&::-webkit-slider-thumb]:hover:scale-110
                 [&::-webkit-slider-thumb]:active:scale-125'
       />
-      <div className='flex justify-between text-xs font-medium text-slate-500 px-1'>
+      <div className='flex justify-between text-xs font-medium text-gray-500 px-1'>
        <span>0</span>
        <span>5</span>
        <span>10</span>
@@ -1641,7 +1797,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
       value={response || ""}
       onChange={(e) => updateResponse(e.target.value)}
       placeholder={question.placeholder || "Enter your response..."}
-      className='min-h-[100px] bg-white border-2 border-slate-200 text-slate-800 rounded-2xl resize-none text-sm p-4 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all duration-200'
+      className='min-h-[80px] bg-white border border-gray-200 text-gray-800 rounded-xl resize-none text-sm p-4 focus:border-brand-teal focus:ring-2 focus:ring-teal-500/15 transition-colors duration-150'
      />
     );
   }
@@ -1667,20 +1823,20 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
         <span
          className={`flex-shrink-0 w-7 h-7 rounded-full text-sm font-semibold flex items-center justify-center ${
           isConditionallyDisabled
-           ? "bg-slate-100 text-slate-400"
-           : "bg-blue-100 text-blue-600"
+           ? "bg-gray-100 text-gray-400"
+           : "bg-teal-100 text-brand-teal"
          }`}
         >
          {index + 1}
         </span>
         <p
-         className={`font-semibold text-sm leading-relaxed ${
-          isConditionallyDisabled ? "text-slate-400" : "text-slate-800"
+         className={`font-semibold text-sm leading-relaxed font-display tracking-tight ${
+          isConditionallyDisabled ? "text-gray-400" : "text-gray-800"
          }`}
         >
          {question.question}
          {isConditionallyDisabled && (
-          <span className='text-xs text-slate-400 ml-2 font-normal'>
+          <span className='text-xs text-gray-400 ml-2 font-normal'>
            (only if yes above)
           </span>
          )}
@@ -1726,7 +1882,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
        value={currentResponse}
        onChange={(e) => setCurrentResponse(e.target.value)}
        placeholder={currentQuestion.placeholder || "Describe in detail..."}
-       className='min-h-[140px] bg-white border-2 border-slate-200 text-slate-800 rounded-2xl resize-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 text-sm p-5 transition-all duration-200 placeholder:text-slate-400'
+       className='min-h-[120px] bg-white border border-gray-200 text-gray-800 rounded-xl resize-none focus:border-brand-teal focus:ring-2 focus:ring-teal-500/15 text-sm p-4 transition-colors duration-150 placeholder:text-gray-400'
        autoFocus
       />
       <Button
@@ -1773,8 +1929,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
        <motion.button
         key={value}
         variants={optionVariants}
-        whileHover={{ scale: 1.02, y: -2 }}
-        whileTap={{ scale: 0.98 }}
+        whileTap={{ scale: 0.97 }}
         role='radio'
         aria-checked={currentResponse === value}
         tabIndex={
@@ -1794,28 +1949,30 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
           setTimeout(handleSubmit, 100);
          }
         }}
-        className={`flex items-center justify-center gap-3 min-h-[60px] rounded-2xl border-2 transition-all duration-200
-                  focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1 ${
+        className={`flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl border transition-all duration-150
+                  focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/30 ${
                    currentResponse === value
-                    ? "border-blue-500 bg-blue-600 text-white shadow-xl shadow-blue-500/25"
-                    : `${unselectedOptionClass} text-slate-700`
+                    ? "border-brand-teal bg-brand-teal text-white shadow-sm"
+                    : "border-gray-200 bg-white hover:border-gray-300 text-gray-700"
                   }`}
        >
-        <Icon
-         className={`h-5 w-5 ${currentResponse === value ? "text-white" : "text-slate-400"}`}
-        />
-        <span className='font-semibold text-base'>{label}</span>
+        {currentResponse === value && <Check className='h-4 w-4 text-white' />}
+        <span className='font-semibold text-sm'>{label}</span>
        </motion.button>
       ))}
      </motion.div>
     );
 
-   case "single_choice":
+   case "single_choice": {
+    const scCount = currentQuestion.options?.length || 0;
+    const scUseGrid = true; // Always use grid
+    const scGridClass = scCount <= 4 ? 'grid grid-cols-2 gap-2.5' : 'grid grid-cols-2 sm:grid-cols-3 gap-2.5';
+
     return (
      <motion.div
       role='radiogroup'
       aria-label={currentQuestion.question}
-      className='space-y-2.5'
+      className={scGridClass}
       variants={optionsContainerVariants}
       initial='initial'
       animate='animate'
@@ -1824,8 +1981,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
        <motion.button
         key={option.value}
         variants={optionVariants}
-        whileHover={{ scale: 1.01, x: 4 }}
-        whileTap={{ scale: 0.99 }}
+        whileTap={{ scale: 0.98 }}
         role='radio'
         aria-checked={currentResponse === option.value}
         tabIndex={
@@ -1855,24 +2011,18 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
           setTimeout(handleSubmit, 120);
          }
         }}
-        className={`w-full flex items-center gap-4 min-h-[52px] px-5 rounded-2xl border-2 transition-all duration-200 text-left
-                  focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1 ${
+        className={`flex items-center gap-2 ${scUseGrid ? 'justify-center text-center p-3.5' : 'text-left p-3.5'} rounded-xl border transition-all duration-150
+                  focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/30 ${
                    currentResponse === option.value
                     ? selectedOptionClass
                     : unselectedOptionClass
                   }`}
        >
-        <div
-         className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
-          currentResponse === option.value
-           ? "border-blue-500 bg-blue-500 scale-110"
-           : "border-slate-300"
-         }`}
-        >
-         <AnimatedCheckmark show={currentResponse === option.value} />
-        </div>
+        {currentResponse === option.value && (
+         <Check className='w-3.5 h-3.5 flex-shrink-0' />
+        )}
         <span
-         className={`text-sm ${currentResponse === option.value ? "text-blue-700 font-semibold" : "text-slate-700 font-medium"}`}
+         className='text-sm font-medium leading-tight'
         >
          {option.label}
         </span>
@@ -1880,6 +2030,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
       ))}
      </motion.div>
     );
+   }
 
    case "multi_choice":
    case "checklist":
@@ -1961,7 +2112,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
       <div className='space-y-4'>
        {bodyPartGroups.map((group) => (
         <div key={group.label} className='space-y-2'>
-         <h4 className='text-xs font-semibold text-slate-500 uppercase tracking-wide px-1'>
+         <h4 className='text-xs font-semibold text-gray-500 uppercase tracking-wide px-1'>
           {group.label}
          </h4>
          <div className='space-y-2'>
@@ -1988,20 +2139,20 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
               }}
               className={`w-full flex items-center justify-between min-h-[48px] px-4 rounded-xl border-2 transition-all duration-150 ${
                isSelected
-                ? "border-blue-500 bg-blue-50/60"
-                : "border-slate-200 bg-white hover:border-blue-300 hover:bg-blue-50/30"
+                ? "border-brand-teal bg-teal-50/60"
+                : "border-gray-200 bg-white hover:border-teal-300 hover:bg-teal-50/30"
               }`}
              >
               <div className='flex items-center gap-3'>
                <div
                 className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center flex-shrink-0 transition-all ${
-                 isSelected ? "border-blue-500 bg-blue-500" : "border-slate-300"
+                 isSelected ? "border-brand-teal bg-brand-teal" : "border-gray-300"
                 }`}
                >
                 {isSelected && <Check className='h-3 w-3 text-white' />}
                </div>
                <span
-                className={`text-sm ${isSelected ? "text-blue-700 font-medium" : "text-slate-700"}`}
+                className={`text-sm ${isSelected ? "text-teal-800 font-medium" : "text-gray-700"}`}
                >
                 {part.name}
                </span>
@@ -2009,7 +2160,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
               {part.hasLaterality &&
                isSelected &&
                selectedLat !== "pending" && (
-                <span className='text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full capitalize font-medium'>
+                <span className='text-xs bg-teal-100 text-teal-800 px-2 py-0.5 rounded-full capitalize font-medium'>
                  {selectedLat}
                 </span>
                )}
@@ -2025,8 +2176,8 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
                  }
                  className={`flex-1 py-2 px-3 text-xs font-medium rounded-xl border-2 transition-all ${
                   selectedLat === lat
-                   ? "border-blue-500 bg-blue-600 text-white"
-                   : "border-slate-200 bg-white hover:border-blue-300 text-slate-600"
+                   ? "border-brand-teal bg-brand-teal text-white"
+                   : "border-gray-200 bg-white hover:border-teal-300 text-gray-600"
                  }`}
                 >
                  {lat === "both"
@@ -2055,10 +2206,12 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
      );
     }
 
-    // Regular multi_choice/checklist
+    // Regular multi_choice/checklist — always grid
+    const mcGridClass = 'grid grid-cols-2 gap-2.5';
+
     return (
      <div className='space-y-3'>
-      <div className='space-y-2.5'>
+      <div className={mcGridClass}>
        {currentQuestion.options?.map((option) => {
         const isSelected =
          Array.isArray(currentResponse) &&
@@ -2074,21 +2227,21 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
              : [...arr, option.value];
            });
           }}
-          className={`w-full flex items-center gap-4 min-h-[52px] px-5 rounded-2xl border-2 transition-all duration-200 text-left ${
+          className={`flex items-center gap-2.5 p-3.5 rounded-xl border transition-all duration-150 text-left ${
            isSelected ? selectedOptionClass : unselectedOptionClass
           }`}
          >
           <div
-           className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
+           className={`w-4 h-4 rounded flex items-center justify-center flex-shrink-0 transition-all duration-150 border ${
             isSelected
-             ? "border-blue-500 bg-blue-500 scale-110"
-             : "border-slate-300"
+             ? "border-white/50 bg-white/20"
+             : "border-gray-300 bg-white"
            }`}
           >
            {isSelected && <Check className='h-3 w-3 text-white' />}
           </div>
           <span
-           className={`text-sm ${isSelected ? "text-blue-700 font-semibold" : "text-slate-700 font-medium"}`}
+           className='text-sm leading-tight font-medium'
           >
            {option.label}
           </span>
@@ -2099,7 +2252,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
       <Button
        onClick={handleSubmit}
        disabled={!canSubmit()}
-       className={`${primaryBtnClass} mt-4`}
+       className={primaryBtnClass}
       >
        Continue <ArrowRight className='ml-2 h-5 w-5' />
       </Button>
@@ -2128,7 +2281,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
     return (
      <div className='space-y-5'>
       <div
-       className={`bg-gradient-to-br ${getAmbientBg(sliderValue)} rounded-2xl p-7 sm:p-8 shadow-sm border-2 border-slate-100 transition-all duration-500`}
+       className={`bg-gradient-to-br ${getAmbientBg(sliderValue)} rounded-2xl p-7 sm:p-8 shadow-sm border-2 border-gray-100 transition-all duration-500`}
       >
        <motion.div
         className='text-center mb-8'
@@ -2137,7 +2290,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
         key={sliderValue}
        >
         <motion.div
-         className='text-7xl font-black bg-gradient-to-br from-slate-900 to-slate-600 bg-clip-text text-transparent tabular-nums'
+         className='text-7xl font-black bg-gradient-to-br from-gray-900 to-gray-600 bg-clip-text text-transparent tabular-nums'
          animate={{ scale: [1.1, 1] }}
          transition={{ duration: 0.2 }}
          key={sliderValue}
@@ -2191,7 +2344,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
                       rgb(239, 68, 68) 100%)`,
          }}
          className='w-full h-3 rounded-full appearance-none cursor-grab active:cursor-grabbing shadow-inner
-                    focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-200
+                    focus:outline-none focus-visible:ring-4 focus-visible:ring-teal-200
                     [&::-webkit-slider-thumb]:appearance-none
                     [&::-webkit-slider-thumb]:w-10
                     [&::-webkit-slider-thumb]:h-10
@@ -2199,20 +2352,20 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
                     [&::-webkit-slider-thumb]:bg-white
                     [&::-webkit-slider-thumb]:cursor-grab
                     [&::-webkit-slider-thumb]:shadow-2xl
-                    [&::-webkit-slider-thumb]:shadow-slate-900/20
+                    [&::-webkit-slider-thumb]:shadow-gray-900/20
                     [&::-webkit-slider-thumb]:border-4
-                    [&::-webkit-slider-thumb]:border-blue-500
+                    [&::-webkit-slider-thumb]:border-brand-teal
                     [&::-webkit-slider-thumb]:transition-all
                     [&::-webkit-slider-thumb]:duration-150
                     [&::-webkit-slider-thumb]:hover:scale-110
                     [&::-webkit-slider-thumb]:active:scale-125
                     [&::-webkit-slider-thumb]:active:cursor-grabbing
                     [&::-webkit-slider-thumb]:focus-visible:ring-4
-                    [&::-webkit-slider-thumb]:focus-visible:ring-blue-200'
+                    [&::-webkit-slider-thumb]:focus-visible:ring-teal-200'
         />
        </div>
 
-       <div className='flex justify-between text-sm font-semibold text-slate-500 mt-5 px-1'>
+       <div className='flex justify-between text-sm font-semibold text-gray-500 mt-5 px-1'>
         <div className='flex flex-col items-start'>
          <span className='text-xl'>😊</span>
          <span className='text-xs'>None</span>
@@ -2278,14 +2431,14 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
 
    case "red_flags":
     return (
-     <div className='space-y-4'>
-      <div className='flex items-center gap-3 px-5 py-3.5 bg-amber-50 rounded-2xl border-2 border-amber-200'>
-       <AlertCircle className='h-5 w-5 text-amber-600 flex-shrink-0' />
-       <span className='text-amber-700 text-sm font-semibold'>
+     <div className='space-y-3'>
+      <div className='flex items-center gap-2 px-3.5 py-2.5 bg-amber-50/80 rounded-lg border border-amber-200/60'>
+       <AlertCircle className='h-4 w-4 text-amber-500 flex-shrink-0' />
+       <span className='text-amber-700 text-xs font-medium'>
         Select any that apply, or continue if none
        </span>
       </div>
-      <div className='max-h-[350px] overflow-y-auto space-y-2.5'>
+      <div className='grid grid-cols-2 gap-2 max-h-[350px] overflow-y-auto'>
        {currentQuestion.options?.map((option) => {
         const isSelected =
          Array.isArray(currentResponse) &&
@@ -2301,23 +2454,23 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
              : [...arr, option.value];
            });
           }}
-          className={`w-full flex items-center gap-4 min-h-[52px] px-5 rounded-2xl border-2 transition-all duration-200 text-left ${
+          className={`flex items-center gap-2.5 p-3 rounded-xl border transition-all duration-150 text-left ${
            isSelected
-            ? "border-amber-400 bg-amber-50 shadow-lg shadow-amber-500/10"
-            : "border-slate-200 bg-white hover:border-amber-300 hover:bg-amber-50/30 hover:shadow-md hover:-translate-y-0.5"
+            ? "border-amber-400 bg-amber-50 shadow-sm"
+            : "border-gray-200 bg-white hover:border-amber-200"
           }`}
          >
           <div
-           className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
+           className={`w-4 h-4 rounded flex items-center justify-center flex-shrink-0 border ${
             isSelected
-             ? "border-amber-500 bg-amber-500 scale-110"
-             : "border-slate-300"
+             ? "border-amber-500 bg-amber-500"
+             : "border-gray-300 bg-white"
            }`}
           >
            {isSelected && <Check className='h-3 w-3 text-white' />}
           </div>
           <span
-           className={`text-sm ${isSelected ? "text-amber-800 font-semibold" : "text-slate-700 font-medium"}`}
+           className={`text-xs leading-tight ${isSelected ? "text-amber-800 font-semibold" : "text-gray-600"}`}
           >
            {option.label}
           </span>
@@ -2329,7 +2482,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
        {Array.isArray(currentResponse) && currentResponse.length === 0
         ? "None Apply — Continue"
         : "Continue"}{" "}
-       <ArrowRight className='ml-2 h-5 w-5' />
+       <ArrowRight className='ml-2 h-4 w-4' />
       </Button>
      </div>
     );
@@ -2337,16 +2490,16 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
    case "tenderness_map":
     return (
      <div className='space-y-3'>
-      <div className='text-xs text-slate-500 px-1 font-medium'>
+      <div className='text-xs text-gray-500 px-1 font-medium'>
        0 = None · 1 = Mild · 2 = Moderate · 3 = Severe
       </div>
       {["Anterior", "Posterior", "Medial", "Lateral", "Deep"].map(
        (location) => (
         <div
          key={location}
-         className='flex items-center justify-between p-4 bg-slate-50 rounded-xl'
+         className='flex items-center justify-between p-4 bg-gray-50 rounded-xl'
         >
-         <span className='font-medium text-slate-700 text-sm'>{location}</span>
+         <span className='font-medium text-gray-700 text-sm'>{location}</span>
          <div className='flex gap-2'>
           {[0, 1, 2, 3].map((grade) => (
            <button
@@ -2359,8 +2512,8 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
             }
             className={`min-w-[44px] min-h-[44px] rounded-xl font-semibold text-sm transition-all ${
              currentResponse?.[location] === grade.toString()
-              ? "bg-blue-600 text-white shadow-lg shadow-blue-200"
-              : "bg-white text-slate-600 hover:bg-blue-50 border border-slate-200"
+              ? "bg-brand-teal text-white shadow-lg shadow-teal-200"
+              : "bg-white text-gray-600 hover:bg-teal-50 border border-gray-200"
             }`}
            >
             {grade}
@@ -2385,7 +2538,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
      <div className='space-y-4'>
       <div className='grid grid-cols-2 gap-3'>
        <div>
-        <Label className='text-xs font-medium text-slate-600'>Location</Label>
+        <Label className='text-xs font-medium text-gray-600'>Location</Label>
         <Input
          placeholder='e.g. 10cm above patella'
          value={currentResponse?.location || ""}
@@ -2395,11 +2548,11 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
            location: e.target.value,
           }))
          }
-         className='mt-1 rounded-xl border-slate-200 focus:border-blue-400'
+         className='mt-1 rounded-xl border-gray-200 focus:border-brand-teal'
         />
        </div>
        <div>
-        <Label className='text-xs font-medium text-slate-600'>Value (cm)</Label>
+        <Label className='text-xs font-medium text-gray-600'>Value (cm)</Label>
         <Input
          type='number'
          placeholder='0.0'
@@ -2411,7 +2564,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
            measurement: e.target.value,
           }))
          }
-         className='mt-1 rounded-xl border-slate-200 focus:border-blue-400'
+         className='mt-1 rounded-xl border-gray-200 focus:border-brand-teal'
         />
        </div>
       </div>
@@ -2438,7 +2591,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
         "Ext. Rotation",
        ].map((movement) => (
         <div key={movement}>
-         <Label className='text-xs font-medium text-slate-500'>
+         <Label className='text-xs font-medium text-gray-500'>
           {movement} (°)
          </Label>
          <Input
@@ -2456,7 +2609,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
              e.target.value,
            }))
           }
-          className='mt-1 rounded-xl border-slate-200 focus:border-blue-400'
+          className='mt-1 rounded-xl border-gray-200 focus:border-brand-teal'
          />
         </div>
        ))}
@@ -2474,13 +2627,13 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
    case "mmt_testing":
     return (
      <div className='space-y-4'>
-      <div className='text-xs text-slate-500 px-1 font-medium'>
+      <div className='text-xs text-gray-500 px-1 font-medium'>
        Oxford Scale: 0–5 (0 = No contraction, 5 = Normal)
       </div>
       <div className='max-h-[350px] overflow-y-auto space-y-3'>
        {currentQuestion.options?.map((muscle) => (
-        <div key={muscle.value} className='p-4 bg-slate-50 rounded-xl'>
-         <span className='font-medium text-slate-700 text-sm block mb-3'>
+        <div key={muscle.value} className='p-4 bg-gray-50 rounded-xl'>
+         <span className='font-medium text-gray-700 text-sm block mb-3'>
           {muscle.label}
          </span>
          <div className='flex gap-2 flex-wrap'>
@@ -2495,8 +2648,8 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
             }
             className={`min-w-[40px] min-h-[40px] rounded-xl text-sm font-semibold transition-all ${
              currentResponse?.[muscle.value] === grade.toString()
-              ? "bg-blue-600 text-white shadow-lg shadow-blue-200"
-              : "bg-white text-slate-600 hover:bg-blue-50 border border-slate-200"
+              ? "bg-brand-teal text-white shadow-lg shadow-teal-200"
+              : "bg-white text-gray-600 hover:bg-teal-50 border border-gray-200"
             }`}
            >
             {grade}
@@ -2521,8 +2674,8 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
      <div className='space-y-4'>
       <div className='max-h-[350px] overflow-y-auto space-y-4'>
        {currentQuestion.options?.map((item) => (
-        <div key={item.value} className='p-4 bg-slate-50 rounded-xl'>
-         <Label className='font-medium text-slate-700 text-sm block mb-3'>
+        <div key={item.value} className='p-4 bg-gray-50 rounded-xl'>
+         <Label className='font-medium text-gray-700 text-sm block mb-3'>
           {item.label}
          </Label>
          <div className='flex gap-1.5 flex-wrap'>
@@ -2537,8 +2690,8 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
             }
             className={`min-w-[36px] min-h-[40px] rounded-lg text-sm font-semibold transition-all ${
              currentResponse?.[item.value] === score.toString()
-              ? "bg-blue-600 text-white shadow-lg shadow-blue-200"
-              : "bg-white text-slate-600 hover:bg-blue-50 border border-slate-200"
+              ? "bg-brand-teal text-white shadow-lg shadow-teal-200"
+              : "bg-white text-gray-600 hover:bg-teal-50 border border-gray-200"
             }`}
            >
             {score}
@@ -2561,7 +2714,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
    case "observational":
     return (
      <div className='space-y-4'>
-      <div className='max-h-[350px] overflow-y-auto space-y-2.5'>
+      <div className='max-h-[350px] overflow-y-auto grid grid-cols-2 gap-2.5'>
        {currentQuestion.options?.map((observation) => {
         const isSelected =
          Array.isArray(currentResponse) &&
@@ -2584,14 +2737,14 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
           <div
            className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
             isSelected
-             ? "border-blue-500 bg-blue-500 scale-110"
-             : "border-slate-300"
+             ? "border-brand-teal bg-brand-teal scale-110"
+             : "border-gray-300"
            }`}
           >
            {isSelected && <Check className='h-3 w-3 text-white' />}
           </div>
           <span
-           className={`text-sm ${isSelected ? "text-blue-700 font-semibold" : "text-slate-700 font-medium"}`}
+           className={`text-sm ${isSelected ? "text-teal-800 font-semibold" : "text-gray-700 font-medium"}`}
           >
            {observation.label}
           </span>
@@ -2617,7 +2770,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
        value={currentResponse}
        onChange={(e) => setCurrentResponse(e.target.value)}
        placeholder='Enter your response...'
-       className='rounded-2xl border-2 border-slate-200 min-h-[52px] text-sm px-5 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all duration-200'
+       className='rounded-2xl border-2 border-gray-200 min-h-[52px] text-sm px-5 focus:border-brand-teal focus:ring-2 focus:ring-teal-500/20 transition-all duration-200'
        autoFocus
       />
       <Button
@@ -2752,8 +2905,8 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
        classification === "ACUTE"
         ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white"
         : classification === "CHRONIC"
-          ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white"
-          : "bg-gradient-to-r from-slate-700 to-slate-800 text-white"
+          ? "bg-gradient-to-r from-brand-teal to-teal-700 text-white"
+          : "bg-gradient-to-r from-gray-700 to-gray-800 text-white"
       }`}
      >
       {classification}
@@ -2779,7 +2932,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
        initial={{ scale: 0 }}
        animate={{ scale: 1 }}
        transition={{ delay: 0.3, type: "spring" }}
-       className='px-4 py-2 rounded-xl bg-slate-100 text-slate-700 capitalize shadow-sm'
+       className='px-4 py-2 rounded-xl bg-gray-100 text-gray-700 capitalize shadow-sm'
       >
        📍 {locationStr}
       </motion.span>
@@ -2794,7 +2947,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
          ? "bg-red-100 text-red-700"
          : progression === "getting_better"
            ? "bg-sky-100 text-sky-700"
-           : "bg-slate-100 text-slate-600"
+           : "bg-gray-100 text-gray-600"
        }`}
       >
        {progression === "getting_worse"
@@ -2815,12 +2968,12 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
        <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        className='bg-gradient-to-br from-blue-50 to-white rounded-2xl border-2 border-blue-100 p-4'
+        className='bg-gradient-to-br from-teal-50/50 to-white rounded-2xl border-2 border-teal-100 p-4'
        >
-        <p className='text-xs uppercase tracking-wider text-blue-600 font-bold mb-2 flex items-center gap-2'>
+        <p className='text-xs uppercase tracking-wider text-brand-teal font-bold mb-2 flex items-center gap-2'>
          <Stethoscope className='w-3 h-3' /> Chief Complaint
         </p>
-        <p className='text-slate-800 font-semibold text-sm leading-relaxed'>
+        <p className='text-gray-800 font-semibold text-sm leading-relaxed'>
          {chiefComplaint}
         </p>
        </motion.div>
@@ -2830,52 +2983,52 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
        initial={{ opacity: 0, y: 10 }}
        animate={{ opacity: 1, y: 0 }}
        transition={{ delay: 0.1 }}
-       className='bg-white rounded-2xl border-2 border-slate-200 overflow-hidden'
+       className='bg-white rounded-2xl border-2 border-gray-200 overflow-hidden'
       >
-       <div className='px-4 py-3 bg-gradient-to-r from-slate-50 to-white border-b border-slate-100'>
-        <span className='text-sm font-bold text-slate-700'>Clinical Data</span>
+       <div className='px-4 py-3 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100'>
+        <span className='text-sm font-bold text-gray-700'>Clinical Data</span>
        </div>
-       <div className='divide-y divide-slate-50'>
+       <div className='divide-y divide-gray-50'>
         {formatOnset() && (
          <div className='px-4 py-2.5 flex justify-between'>
-          <span className='text-xs text-slate-500'>Onset</span>
-          <span className='text-xs text-slate-700 font-medium'>
+          <span className='text-xs text-gray-500'>Onset</span>
+          <span className='text-xs text-gray-700 font-medium'>
            {formatOnset()}
           </span>
          </div>
         )}
         {painNature && (
          <div className='px-4 py-2.5 flex justify-between'>
-          <span className='text-xs text-slate-500'>Pain Type</span>
-          <span className='text-xs text-slate-700 font-medium capitalize'>
+          <span className='text-xs text-gray-500'>Pain Type</span>
+          <span className='text-xs text-gray-700 font-medium capitalize'>
            {formatArray(painNature)}
           </span>
          </div>
         )}
         {behavior24hr && (
          <div className='px-4 py-2.5 flex justify-between'>
-          <span className='text-xs text-slate-500'>24hr Pattern</span>
-          <span className='text-xs text-slate-700 font-medium capitalize'>
+          <span className='text-xs text-gray-500'>24hr Pattern</span>
+          <span className='text-xs text-gray-700 font-medium capitalize'>
            {behavior24hr.replace(/_/g, " ")}
           </span>
          </div>
         )}
         {aggravating && (
          <div className='px-4 py-2.5 flex justify-between gap-4'>
-          <span className='text-xs text-slate-500 flex-shrink-0'>
+          <span className='text-xs text-gray-500 flex-shrink-0'>
            Aggravating
           </span>
-          <span className='text-xs text-slate-700 font-medium text-right capitalize'>
+          <span className='text-xs text-gray-700 font-medium text-right capitalize'>
            {formatArray(aggravating)}
           </span>
          </div>
         )}
         {relieving && (
          <div className='px-4 py-2.5 flex justify-between gap-4'>
-          <span className='text-xs text-slate-500 flex-shrink-0'>
+          <span className='text-xs text-gray-500 flex-shrink-0'>
            Relieving
           </span>
-          <span className='text-xs text-slate-700 font-medium text-right capitalize'>
+          <span className='text-xs text-gray-700 font-medium text-right capitalize'>
            {formatArray(relieving)}
           </span>
          </div>
@@ -2889,25 +3042,25 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className='bg-white rounded-2xl border-2 border-blue-200 overflow-hidden shadow-sm'
+        className='bg-white rounded-2xl border-2 border-teal-200 overflow-hidden shadow-sm'
        >
-        <div className='px-4 py-3 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100 flex items-center gap-2'>
-         <div className='w-7 h-7 bg-blue-600 rounded-xl flex items-center justify-center'>
+        <div className='px-4 py-3 bg-gradient-to-r from-teal-50 to-teal-50 border-b border-teal-100 flex items-center gap-2'>
+         <div className='w-7 h-7 bg-brand-teal rounded-xl flex items-center justify-center'>
           <Crosshair className='h-4 w-4 text-white' />
          </div>
-         <span className='text-sm font-bold text-slate-800'>
+         <span className='text-sm font-bold text-gray-800'>
           AI Source Detection
          </span>
         </div>
         {locationStr && (
-         <div className='px-4 py-1.5 bg-slate-50 border-b border-slate-100 text-xs'>
-          <span className='text-slate-400'>Pain Site:</span>
-          <span className='ml-1 font-medium text-slate-600 capitalize'>
+         <div className='px-4 py-1.5 bg-gray-50 border-b border-gray-100 text-xs'>
+          <span className='text-gray-400'>Pain Site:</span>
+          <span className='ml-1 font-medium text-gray-600 capitalize'>
            {locationStr}
           </span>
          </div>
         )}
-        <div className='divide-y divide-slate-50'>
+        <div className='divide-y divide-gray-50'>
          {identifiedSources.map((source, idx) => {
           const isUrgent =
            source.sourceRegion.toLowerCase().includes("cardiac") ||
@@ -2916,12 +3069,12 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
           return (
            <div key={idx} className='px-4 py-2.5 flex items-start gap-2'>
             <div
-             className={`w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 ${isUrgent ? "bg-red-500" : "bg-blue-500"}`}
+             className={`w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 ${isUrgent ? "bg-red-500" : "bg-brand-teal"}`}
             />
             <div className='flex-1 min-w-0'>
              <div className='flex items-center gap-1.5 flex-wrap'>
               <span
-               className={`text-xs font-bold uppercase ${isUrgent ? "text-red-600" : "text-slate-600"}`}
+               className={`text-xs font-bold uppercase ${isUrgent ? "text-red-600" : "text-gray-600"}`}
               >
                {source.sourceRegion.replace(/_/g, " ")}
               </span>
@@ -2931,7 +3084,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
                </span>
               )}
              </div>
-             <p className='text-xs text-slate-400 leading-tight'>
+             <p className='text-xs text-gray-400 leading-tight'>
               {source.implication}
              </p>
             </div>
@@ -2943,18 +3096,18 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
       )}
 
       {/* Collapsible Summary */}
-      <details className='bg-white rounded-xl border border-slate-200 overflow-hidden group'>
-       <summary className='px-4 py-2.5 cursor-pointer hover:bg-slate-50 flex items-center justify-between list-none'>
+      <details className='bg-white rounded-xl border border-gray-200 overflow-hidden group'>
+       <summary className='px-4 py-2.5 cursor-pointer hover:bg-gray-50 flex items-center justify-between list-none'>
         <div className='flex items-center gap-2'>
-         <Stethoscope className='h-3.5 w-3.5 text-slate-400' />
-         <span className='text-xs font-medium text-slate-600'>
+         <Stethoscope className='h-3.5 w-3.5 text-gray-400' />
+         <span className='text-xs font-medium text-gray-600'>
           Full Summary
          </span>
         </div>
-        <ChevronRight className='h-3.5 w-3.5 text-slate-400 transition-transform group-open:rotate-90' />
+        <ChevronRight className='h-3.5 w-3.5 text-gray-400 transition-transform group-open:rotate-90' />
        </summary>
-       <div className='px-4 py-2.5 border-t border-slate-100 bg-slate-50 max-h-60 overflow-y-auto'>
-        <pre className='text-xs text-slate-600 whitespace-pre-wrap font-mono leading-relaxed'>
+       <div className='px-4 py-2.5 border-t border-gray-100 bg-gray-50 max-h-60 overflow-y-auto'>
+        <pre className='text-xs text-gray-600 whitespace-pre-wrap font-mono leading-relaxed'>
          {diagnosisResult.clinicalSummary}
         </pre>
        </div>
@@ -2969,12 +3122,12 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
       transition={{ duration: 0.3, delay: 0.1 }}
      >
       {diagnosisResult.success && diagnosisResult.diagnosis && (
-       <div className='bg-white rounded-2xl border-2 border-slate-200 overflow-hidden h-full flex flex-col shadow-lg'>
+       <div className='bg-white rounded-2xl border-2 border-gray-200 overflow-hidden h-full flex flex-col shadow-lg'>
         <motion.div
          initial={{ opacity: 0 }}
          animate={{ opacity: 1 }}
          transition={{ delay: 0.2 }}
-         className='px-5 py-4 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 text-white flex items-center justify-between flex-shrink-0 relative overflow-hidden'
+         className='px-5 py-4 bg-gradient-to-r from-brand-teal via-teal-600 to-teal-700 text-white flex items-center justify-between flex-shrink-0 relative overflow-hidden'
         >
          <motion.div
           animate={{ x: [0, 100], opacity: [0.05, 0.15, 0.05] }}
@@ -3005,7 +3158,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
          </motion.span>
         </motion.div>
 
-        <div className='flex-1 divide-y divide-slate-100 overflow-y-auto'>
+        <div className='flex-1 divide-y divide-gray-100 overflow-y-auto'>
          {diagnosisResult.diagnosis.differential_diagnosis.map(
           (condition, index) => (
            <motion.button
@@ -3019,12 +3172,12 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
             disabled={isProcessing}
             className={`w-full px-5 py-4 transition-all duration-200 text-left group disabled:opacity-50 relative ${
              index === 0
-              ? "bg-gradient-to-r from-blue-50/40 to-transparent"
-              : "hover:bg-blue-50/20"
+              ? "bg-gradient-to-r from-teal-50/40 to-transparent"
+              : "hover:bg-teal-50/20"
             }`}
            >
             {index === 0 && (
-             <div className='absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 to-indigo-600' />
+             <div className='absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-brand-teal to-teal-600' />
             )}
             <div className='flex items-start gap-4'>
              <motion.div
@@ -3040,8 +3193,8 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
               <span
                className={`w-9 h-9 rounded-xl text-sm font-bold flex items-center justify-center flex-shrink-0 shadow-sm ${
                 index === 0
-                 ? "bg-gradient-to-br from-blue-500 to-indigo-600 text-white ring-2 ring-blue-100"
-                 : "bg-slate-200 text-slate-600"
+                 ? "bg-gradient-to-br from-brand-teal to-teal-600 text-white ring-2 ring-teal-100"
+                 : "bg-gray-200 text-gray-600"
                }`}
               >
                {index + 1}
@@ -3050,14 +3203,14 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
                <motion.div
                 animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0, 0.5] }}
                 transition={{ duration: 2, repeat: Infinity }}
-                className='absolute inset-0 rounded-xl bg-blue-500'
+                className='absolute inset-0 rounded-xl bg-brand-teal'
                />
               )}
              </motion.div>
              <div className='flex-1 min-w-0'>
               <div className='flex items-center gap-2 flex-wrap mb-1.5'>
                <span
-                className={`font-bold text-sm ${index === 0 ? "text-blue-700" : "text-slate-800"}`}
+                className={`font-bold text-sm ${index === 0 ? "text-teal-800" : "text-gray-800"}`}
                >
                 {condition.condition_name}
                </span>
@@ -3067,22 +3220,22 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
                 transition={{ delay: 0.5 + index * 0.1 }}
                 className={`text-xs px-2 py-0.5 rounded-lg font-bold overflow-hidden ${
                  index === 0
-                  ? "bg-gradient-to-r from-blue-500 to-indigo-600 text-white"
-                  : "bg-slate-200 text-slate-700"
+                  ? "bg-gradient-to-r from-brand-teal to-teal-600 text-white"
+                  : "bg-gray-200 text-gray-700"
                 }`}
                >
                 {Math.round(condition.confidence_score * 100)}%
                </motion.span>
               </div>
-              <p className='text-xs text-slate-500 leading-relaxed'>
+              <p className='text-xs text-gray-500 leading-relaxed'>
                {condition.clinical_reasoning}
               </p>
              </div>
              <ChevronRight
               className={`h-5 w-5 transition-all flex-shrink-0 ${
                index === 0
-                ? "text-blue-500"
-                : "text-slate-300 group-hover:text-blue-500 group-hover:translate-x-1"
+                ? "text-brand-teal"
+                : "text-gray-300 group-hover:text-brand-teal group-hover:translate-x-1"
               }`}
              />
             </div>
@@ -3095,9 +3248,9 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
          initial={{ opacity: 0 }}
          animate={{ opacity: 1 }}
          transition={{ delay: 0.8 }}
-         className='px-4 py-2.5 border-t border-slate-100 bg-slate-50 flex-shrink-0'
+         className='px-4 py-2.5 border-t border-gray-100 bg-gray-50 flex-shrink-0'
         >
-         <p className='text-xs text-slate-500 text-center'>
+         <p className='text-xs text-gray-500 text-center'>
           Select a diagnosis to confirm and continue
          </p>
         </motion.div>
@@ -3111,14 +3264,14 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
      <Button
       variant='outline'
       onClick={handleReset}
-      className='flex-1 rounded-xl h-11 border-slate-300 text-sm hover:bg-slate-50'
+      className='flex-1 rounded-xl h-11 border-gray-300 text-sm hover:bg-gray-50'
      >
       <RotateCcw className='mr-2 h-4 w-4' /> Start Over
      </Button>
      {onClose && (
       <Button
        onClick={onClose}
-       className='flex-1 rounded-xl h-11 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-sm'
+       className='flex-1 rounded-xl h-11 bg-gradient-to-r from-brand-teal to-teal-700 hover:from-teal-700 hover:to-teal-800 text-sm'
       >
        Close
       </Button>
@@ -3172,7 +3325,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
     onClose={handleCloseClick}
     showSummary={showSummaryPanel}
     onToggleSummary={() => setShowSummaryPanel(!showSummaryPanel)}
-    showSummaryByDefault={true}
+    showSummaryByDefault={false}
     summaryContent={
      Object.keys(collectedData).length > 0 ? (
       <SlidingSummaryPanel
@@ -3197,44 +3350,38 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
      ) : undefined
     }
    >
-    {/* Render all messages as chat bubbles */}
-    {messages.map((msg) => (
-     <ChatMessage key={msg.id} type={msg.type} content={msg.content} showAvatar={true} />
-    ))}
-
-    {/* Typing indicator */}
-    {isTyping && (
-     <ChatMessage
-      type='bot'
-      content={
-       <div className='flex gap-2'>
-        <span
-         className='w-2 h-2 bg-gray-400 rounded-full animate-bounce'
-         style={{ animationDelay: "0ms" }}
-        />
-        <span
-         className='w-2 h-2 bg-gray-400 rounded-full animate-bounce'
-         style={{ animationDelay: "150ms" }}
-        />
-        <span
-         className='w-2 h-2 bg-gray-400 rounded-full animate-bounce'
-         style={{ animationDelay: "300ms" }}
-        />
-       </div>
-      }
-      showAvatar={true}
-     />
+    {/* ===== ANSWER HISTORY — collapsible key:value dropdown ===== */}
+    {!isComplete && answerHistory.length > 0 && (
+     <AnswerHistoryDropdown entries={answerHistory} />
     )}
 
-    {/* Simple questions using InlineClinicalQuestion */}
-    {currentQuestion &&
-     !isTyping &&
-     !isProcessing &&
-     clubbedQuestions.length === 0 &&
-     isSimpleQuestionType(currentQuestion.type) && (
-      <ChatMessage
-       type='bot'
-       content={
+    {/* ===== LOADING STATE — subtle inline indicator ===== */}
+    {(isTyping || isProcessing) && !isComplete && (
+     <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="flex items-center justify-center gap-2 py-8"
+     >
+      <div className="flex gap-1.5">
+       <span className="w-1.5 h-1.5 bg-brand-teal/40 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+       <span className="w-1.5 h-1.5 bg-brand-teal/40 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+       <span className="w-1.5 h-1.5 bg-brand-teal/40 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+      </div>
+     </motion.div>
+    )}
+
+    {/* ===== CURRENT QUESTION — single question at a time, no chat ===== */}
+    {!isTyping && !isProcessing && !isComplete && (
+     <motion.div
+      key={currentQuestion?.id || 'clubbed'}
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.2, ease: 'easeOut' }}
+     >
+      {/* Simple questions via InlineClinicalQuestion */}
+      {currentQuestion &&
+       clubbedQuestions.length === 0 &&
+       isSimpleQuestionType(currentQuestion.type) && (
         <InlineClinicalQuestion
          question={currentQuestion.question}
          type={getQuestionType(currentQuestion.type)}
@@ -3245,98 +3392,70 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
          disabled={isProcessing}
          allowMultiple={false}
         />
-       }
-       showAvatar={true}
-      />
-     )}
+       )}
 
-    {/* Complex questions with specialized UI - Combined question + input */}
-    {currentQuestion &&
-     !isTyping &&
-     !isProcessing &&
-     clubbedQuestions.length === 0 &&
-     !isSimpleQuestionType(currentQuestion.type) &&
-     currentQuestion.type !== "body_map" &&
-     currentQuestion.type !== "date" && (
-      <ChatMessage
-       type='bot'
-       content={
+      {/* Complex questions — question text + renderInput */}
+      {currentQuestion &&
+       clubbedQuestions.length === 0 &&
+       !isSimpleQuestionType(currentQuestion.type) &&
+       currentQuestion.type !== "body_map" &&
+       currentQuestion.type !== "date" && (
         <div className='space-y-4'>
-         <p className='text-base leading-relaxed text-gray-800 font-medium'>
+         <p className='text-[15px] leading-snug text-gray-900 font-semibold tracking-tight'>
           {currentQuestion.question}
          </p>
          {renderInput()}
         </div>
-       }
-       showAvatar={true}
-      />
-     )}
+       )}
 
-    {/* Date question - special handling */}
-    {currentQuestion &&
-     !isTyping &&
-     !isProcessing &&
-     clubbedQuestions.length === 0 &&
-     currentQuestion.type === "date" && (
-      <ChatMessage
-       type='bot'
-       content={
+      {/* Date question */}
+      {currentQuestion &&
+       clubbedQuestions.length === 0 &&
+       currentQuestion.type === "date" && (
         <div className='space-y-4'>
-         <p className='text-base leading-relaxed text-gray-800 font-medium'>
+         <p className='text-[15px] leading-snug text-gray-900 font-semibold tracking-tight'>
           {currentQuestion.question}
          </p>
          <DatePickerInput
           value={currentResponse}
           onChange={(val) => setCurrentResponse(val)}
          />
-         <motion.button
+         <button
           type='button'
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
           onClick={(e) => {
            e.preventDefault();
            e.stopPropagation();
            handleSubmit();
           }}
           disabled={isProcessing || !canSubmit()}
-          className='w-full rounded-xl p-5 font-semibold text-base
-                    bg-brand-teal text-white
-                    hover:shadow-lg hover:shadow-teal-500/20 transition-all duration-300
+          className='w-full rounded-xl py-3.5 text-sm font-semibold
+                    bg-brand-teal text-white hover:bg-teal-700
+                    transition-colors duration-150
                     disabled:opacity-50 disabled:cursor-not-allowed'
          >
           Continue
-         </motion.button>
+         </button>
         </div>
-       }
-       showAvatar={true}
-      />
-     )}
+       )}
 
-    {/* Body map question - keep original rendering */}
-    {currentQuestion &&
-     !isTyping &&
-     !isProcessing &&
-     clubbedQuestions.length === 0 &&
-     currentQuestion.type === "body_map" && (
-      <ChatMessage
-       type='bot'
-       content={
+      {/* Body map question */}
+      {currentQuestion &&
+       clubbedQuestions.length === 0 &&
+       currentQuestion.type === "body_map" && (
         <div className='space-y-4'>
-         <p className='text-base leading-relaxed text-gray-800 font-medium'>
+         <p className='text-[15px] leading-snug text-gray-900 font-semibold tracking-tight'>
           {currentQuestion.question}
          </p>
 
-         {/* Instruction */}
-         <div className='flex items-center gap-2 px-4 py-2 bg-teal-50 border border-teal-200 rounded-lg'>
-          <CircleDot className='w-4 h-4 text-brand-teal flex-shrink-0' />
-          <p className='text-sm text-teal-800 font-medium'>
-           Click on the body diagram to select painful areas. You can select multiple regions.
+         <div className='flex items-center gap-2 px-3 py-2 bg-teal-50 border border-teal-200/60 rounded-lg'>
+          <CircleDot className='w-3.5 h-3.5 text-brand-teal flex-shrink-0' />
+          <p className='text-xs text-teal-700 font-medium'>
+           Tap on the body diagram to select areas. Select multiple if needed.
           </p>
          </div>
 
-         {/* Body Map Container with Button Inside */}
-         <div className='bg-white rounded-xl border-2 border-teal-200 shadow-sm overflow-hidden'>
-          <div className='p-6'>
+         <div className='bg-white rounded-xl border border-teal-200 shadow-sm overflow-hidden'>
+          <div className='p-4'>
            <BodyMapSelector
             onRegionSelect={(regions) => {
              setCurrentResponse(regions);
@@ -3346,97 +3465,55 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
            />
           </div>
 
-          {/* Selected regions count - Fixed at bottom of body map */}
-          <div className='border-t-2 border-teal-100 bg-teal-50 p-4 space-y-3'>
+          <div className='border-t border-teal-100 bg-teal-50/60 p-3 space-y-2.5'>
            {currentResponse && Array.isArray(currentResponse) && currentResponse.length > 0 ? (
-            <div className='flex items-center justify-center gap-2'>
-             <Check className='w-5 h-5 text-brand-teal' />
-             <p className='text-base text-teal-800 font-bold'>
+            <div className='flex items-center justify-center gap-1.5'>
+             <Check className='w-4 h-4 text-brand-teal' />
+             <p className='text-sm text-teal-800 font-semibold'>
               {currentResponse.length} region{currentResponse.length !== 1 ? 's' : ''} selected
              </p>
             </div>
            ) : (
-            <div className='flex items-center justify-center gap-2'>
-             <CircleDot className='w-5 h-5 text-teal-600' />
-             <p className='text-base text-teal-700 font-medium'>
-              Click on body areas to select
-             </p>
-            </div>
+            <p className='text-xs text-teal-600 font-medium text-center'>
+             Tap body areas to select
+            </p>
            )}
 
-           {/* Continue Button - Always visible at bottom */}
-           <motion.button
+           <button
             type='button'
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
             onClick={(e) => {
              e.preventDefault();
              e.stopPropagation();
              handleSubmit();
             }}
             disabled={isProcessing || !canSubmit()}
-            className='w-full rounded-xl p-5 font-bold text-lg
-                      bg-brand-teal text-white shadow-lg
-                      hover:shadow-xl hover:shadow-teal-500/30 transition-all duration-300
-                      disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-400'
+            className='w-full rounded-xl py-3.5 text-sm font-semibold
+                      bg-brand-teal text-white hover:bg-teal-700
+                      transition-colors duration-150
+                      disabled:opacity-50 disabled:cursor-not-allowed'
            >
             {currentResponse && currentResponse.length > 0 ?
              `Continue with ${currentResponse.length} area${currentResponse.length !== 1 ? 's' : ''}` :
              'Select at least one area'}
-           </motion.button>
+           </button>
           </div>
          </div>
         </div>
-       }
-       showAvatar={true}
-      />
-     )}
+       )}
 
-    {/* Clubbed questions - use renderClubbedQuestions which handles all types properly */}
-    {clubbedQuestions.length > 0 && !isTyping && !isProcessing && (
-     <ChatMessage
-      type='bot'
-      content={renderClubbedQuestions()}
-      showAvatar={true}
-     />
-    )}
-
-    {/* Processing indicator */}
-    {isProcessing && !isTyping && (
-     <ChatMessage type='system' content='✨ Analyzing your responses...' />
-    )}
-
-    {/* Red Flags Banner */}
-    {detectedRedFlags.length > 0 && !isComplete && (
-     <motion.div
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      className='bg-gradient-to-r from-red-50 to-orange-50 border-2 border-red-200 rounded-2xl p-5 flex items-start gap-4 shadow-sm'
-     >
-      <motion.div
-       animate={{ rotate: [0, -5, 5, -5, 0] }}
-       transition={{ duration: 0.5, repeat: 2 }}
-      >
-       <AlertTriangle className='w-5 h-5 text-red-600 flex-shrink-0' />
-      </motion.div>
-      <div className='flex-1'>
-       <h3 className='font-bold text-red-800 text-sm mb-1.5'>⚠️ Red Flags Detected</h3>
-       <ul className='space-y-1 text-xs text-red-700'>
-        {detectedRedFlags.map((flag, idx) => (
-         <li key={idx} className='flex items-start gap-2'>
-          <span className='text-red-500 mt-0.5'>•</span>
-          <span>{flag}</span>
-         </li>
-        ))}
-       </ul>
-      </div>
+      {/* Clubbed questions */}
+      {clubbedQuestions.length > 0 && renderClubbedQuestions()}
      </motion.div>
     )}
 
-    {/* Diagnosis results */}
+    {/* ===== DIAGNOSIS RESULTS ===== */}
     {isComplete && diagnosisResult && (
      <div className='space-y-4 py-4'>
-      <ChatMessage type='system' content='✨ Assessment Complete' />
+      <div className='flex justify-center'>
+       <div className='px-3 py-1.5 bg-gray-100/80 rounded-full text-xs text-gray-500 font-medium'>
+        Assessment Complete
+       </div>
+      </div>
       {renderDiagnosisResults()}
      </div>
     )}

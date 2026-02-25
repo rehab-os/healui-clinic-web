@@ -12,7 +12,7 @@ interface InlineClinicalQuestionProps {
   onChange: (value: any) => void;
   onSubmit?: () => void;
   disabled?: boolean;
-  allowMultiple?: boolean; // Allow selecting multiple options
+  allowMultiple?: boolean;
 }
 
 export const InlineClinicalQuestion: React.FC<InlineClinicalQuestionProps> = ({
@@ -27,102 +27,74 @@ export const InlineClinicalQuestion: React.FC<InlineClinicalQuestionProps> = ({
 }) => {
   const handleYesNoClick = (answer: 'yes' | 'no') => {
     onChange(answer);
-    if (onSubmit) {
-      setTimeout(() => onSubmit(), 300);
-    }
+    if (onSubmit) setTimeout(() => onSubmit(), 200);
   };
 
   const handleMultipleChoiceClick = (option: string | { value: string; label: string }) => {
     const optionValue = typeof option === 'string' ? option : option.value;
-
     if (allowMultiple) {
-      // Multi-select: toggle option in array
       const currentValues = Array.isArray(value) ? value : [];
       const newValues = currentValues.includes(optionValue)
         ? currentValues.filter((v: string) => v !== optionValue)
         : [...currentValues, optionValue];
       onChange(newValues);
-      // Don't auto-submit for multi-select
     } else {
-      // Single-select: replace value
       onChange(optionValue);
-      if (onSubmit) {
-        setTimeout(() => onSubmit(), 300);
-      }
+      if (onSubmit) setTimeout(() => onSubmit(), 200);
     }
   };
 
-  // Helper to get option value
-  const getOptionValue = (option: string | { value: string; label: string }) => {
-    return typeof option === 'string' ? option : option.value;
-  };
+  const getOptionValue = (option: string | { value: string; label: string }) =>
+    typeof option === 'string' ? option : option.value;
+  const getOptionLabel = (option: string | { value: string; label: string }) =>
+    typeof option === 'string' ? option : option.label;
 
-  // Helper to get option label
-  const getOptionLabel = (option: string | { value: string; label: string }) => {
-    return typeof option === 'string' ? option : option.label;
+  // Adaptive grid: short labels get grid, long labels stay vertical
+  const getOptionsLayout = () => {
+    const maxLen = Math.max(...options.map(o => getOptionLabel(o).length));
+    const count = options.length;
+    if (maxLen <= 30 && count <= 6) {
+      return count <= 4 ? 'grid grid-cols-2 gap-2.5' : 'grid grid-cols-2 sm:grid-cols-3 gap-2.5';
+    }
+    return 'grid grid-cols-2 gap-2.5'; // default 2-col for everything
   };
 
   return (
     <div className="space-y-4">
-      {/* Question Text */}
-      <p className="text-base leading-relaxed text-gray-800 font-medium">
+      {/* Question */}
+      <p className="text-[15px] leading-snug text-gray-900 font-semibold tracking-tight">
         {question}
       </p>
 
-      {/* Yes/No Buttons */}
+      {/* Yes/No */}
       {type === 'yes-no' && (
-        <div className="grid grid-cols-2 gap-3">
-          <motion.button
-            type="button"
-            whileHover={{ scale: disabled ? 1 : 1.02 }}
-            whileTap={{ scale: disabled ? 1 : 0.98 }}
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              if (!disabled) handleYesNoClick('yes');
-            }}
-            disabled={disabled}
-            className={`
-              relative overflow-hidden rounded-xl p-5 font-semibold text-base
-              transition-all duration-300 border-2
-              ${value === 'yes'
-                ? 'bg-brand-teal text-white border-transparent shadow-lg shadow-teal-500/20'
-                : 'bg-white text-gray-700 border-gray-200 hover:border-teal-300 hover:shadow-md'
-              }
-              ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
-            `}
-          >
-            <span className="relative z-10 flex items-center justify-center gap-2">
-              Yes
-              {value === 'yes' && <Check className="w-5 h-5" />}
-            </span>
-          </motion.button>
-
-          <motion.button
-            type="button"
-            whileHover={{ scale: disabled ? 1 : 1.02 }}
-            whileTap={{ scale: disabled ? 1 : 0.98 }}
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              if (!disabled) handleYesNoClick('no');
-            }}
-            disabled={disabled}
-            className={`
-              relative overflow-hidden rounded-xl p-5 font-semibold text-base
-              transition-all duration-300 border-2
-              ${value === 'no'
-                ? 'bg-gray-700 text-white border-transparent shadow-lg shadow-gray-500/20'
-                : 'bg-white text-gray-700 border-gray-200 hover:border-gray-300 hover:shadow-md'
-              }
-              ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
-            `}
-          >
-            <span className="relative z-10 flex items-center justify-center gap-2">
-              No
-              {value === 'no' && <Check className="w-5 h-5" />}
-            </span>
-          </motion.button>
+        <div className="grid grid-cols-2 gap-2.5">
+          {([
+            { val: 'yes' as const, label: 'Yes' },
+            { val: 'no' as const, label: 'No' },
+          ]).map(({ val, label }) => (
+            <motion.button
+              key={val}
+              type="button"
+              whileTap={{ scale: disabled ? 1 : 0.97 }}
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); if (!disabled) handleYesNoClick(val); }}
+              disabled={disabled}
+              className={`
+                rounded-xl py-3.5 px-4 text-sm font-semibold text-center
+                transition-all duration-150 border
+                ${value === val
+                  ? 'bg-brand-teal text-white border-brand-teal shadow-sm'
+                  : 'bg-white text-gray-700 border-gray-200 hover:border-gray-300'
+                }
+                ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+              `}
+            >
+              <span className="flex items-center justify-center gap-1.5">
+                {value === val && <Check className="w-4 h-4" />}
+                {label}
+              </span>
+            </motion.button>
+          ))}
         </div>
       )}
 
@@ -137,131 +109,112 @@ export const InlineClinicalQuestion: React.FC<InlineClinicalQuestionProps> = ({
               value={value || 0}
               onChange={(e) => onChange(parseInt(e.target.value))}
               disabled={disabled}
-              className="w-full h-3 rounded-full appearance-none cursor-pointer
+              className="w-full h-2 rounded-full appearance-none cursor-pointer
                 bg-gradient-to-r from-teal-100 via-amber-100 to-red-100
                 [&::-webkit-slider-thumb]:appearance-none
-                [&::-webkit-slider-thumb]:w-8
-                [&::-webkit-slider-thumb]:h-8
+                [&::-webkit-slider-thumb]:w-7
+                [&::-webkit-slider-thumb]:h-7
                 [&::-webkit-slider-thumb]:rounded-full
                 [&::-webkit-slider-thumb]:bg-brand-teal
-                [&::-webkit-slider-thumb]:shadow-lg
-                [&::-webkit-slider-thumb]:shadow-teal-500/30
+                [&::-webkit-slider-thumb]:shadow-md
                 [&::-webkit-slider-thumb]:cursor-pointer
-                [&::-webkit-slider-thumb]:border-4
+                [&::-webkit-slider-thumb]:border-3
                 [&::-webkit-slider-thumb]:border-white
-                [&::-moz-range-thumb]:w-8
-                [&::-moz-range-thumb]:h-8
+                [&::-moz-range-thumb]:w-7
+                [&::-moz-range-thumb]:h-7
                 [&::-moz-range-thumb]:rounded-full
                 [&::-moz-range-thumb]:bg-brand-teal
-                [&::-moz-range-thumb]:shadow-lg
-                [&::-moz-range-thumb]:shadow-teal-500/30
+                [&::-moz-range-thumb]:shadow-md
                 [&::-moz-range-thumb]:cursor-pointer
-                [&::-moz-range-thumb]:border-4
+                [&::-moz-range-thumb]:border-3
                 [&::-moz-range-thumb]:border-white
                 [&::-moz-range-thumb]:border-0
               "
             />
           </div>
 
-          {/* Value Display */}
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-gray-500">No pain (0)</span>
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-gray-400">No pain (0)</span>
             <motion.div
               key={value}
-              initial={{ scale: 1.2 }}
+              initial={{ scale: 1.15 }}
               animate={{ scale: 1 }}
-              className="px-4 py-2 rounded-full bg-brand-teal text-white font-bold text-lg shadow-lg"
+              className="px-3.5 py-1.5 rounded-full bg-brand-teal text-white font-bold text-base shadow-sm"
             >
               {value || 0}
             </motion.div>
-            <span className="text-gray-500">Worst pain (10)</span>
+            <span className="text-gray-400">Worst (10)</span>
           </div>
 
-          {/* Submit Button for Slider */}
           {onSubmit && (
-            <motion.button
+            <button
               type="button"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                if (onSubmit) onSubmit();
-              }}
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); if (onSubmit) onSubmit(); }}
               disabled={disabled}
-              className="w-full rounded-xl p-5 font-semibold text-base
-                bg-brand-teal text-white
-                hover:shadow-lg hover:shadow-teal-500/20 transition-all duration-300
+              className="w-full rounded-xl py-3.5 text-sm font-semibold
+                bg-brand-teal text-white hover:bg-teal-700
+                transition-colors duration-150
                 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Continue
-            </motion.button>
+            </button>
           )}
         </div>
       )}
 
       {/* Multiple Choice */}
-      {type === 'multiple-choice' && (
-        <div className="space-y-3">
-          {options.map((option, index) => {
-            const optionValue = getOptionValue(option);
-            const optionLabel = getOptionLabel(option);
-            const isSelected = allowMultiple
-              ? Array.isArray(value) && value.includes(optionValue)
-              : value === optionValue;
+      {type === 'multiple-choice' && (() => {
+        const layoutClass = getOptionsLayout();
+        return (
+          <div className="space-y-3">
+            <div className={layoutClass}>
+              {options.map((option, index) => {
+                const optionValue = getOptionValue(option);
+                const optionLabel = getOptionLabel(option);
+                const isSelected = allowMultiple
+                  ? Array.isArray(value) && value.includes(optionValue)
+                  : value === optionValue;
 
-            return (
-              <motion.button
+                return (
+                  <motion.button
+                    type="button"
+                    key={index}
+                    whileTap={{ scale: disabled ? 1 : 0.97 }}
+                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); if (!disabled) handleMultipleChoiceClick(option); }}
+                    disabled={disabled}
+                    className={`
+                      flex items-center gap-2 rounded-xl p-3.5 text-sm font-medium text-left
+                      transition-all duration-150 border
+                      ${isSelected
+                        ? 'bg-brand-teal text-white border-brand-teal shadow-sm'
+                        : 'bg-white text-gray-700 border-gray-200 hover:border-gray-300'
+                      }
+                      ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+                    `}
+                  >
+                    {isSelected && <Check className="w-3.5 h-3.5 flex-shrink-0" />}
+                    <span className="leading-tight">{optionLabel}</span>
+                  </motion.button>
+                );
+              })}
+            </div>
+
+            {allowMultiple && onSubmit && (
+              <button
                 type="button"
-                key={index}
-                whileHover={{ scale: disabled ? 1 : 1.01, x: disabled ? 0 : 4 }}
-                whileTap={{ scale: disabled ? 1 : 0.99 }}
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  if (!disabled) handleMultipleChoiceClick(option);
-                }}
-                disabled={disabled}
-                className={`
-                  w-full text-left rounded-xl p-5 font-medium text-base
-                  transition-all duration-300 border-2
-                  ${isSelected
-                    ? 'bg-brand-teal text-white border-transparent shadow-lg shadow-teal-500/20'
-                    : 'bg-white text-gray-700 border-gray-200 hover:border-teal-300 hover:shadow-md'
-                  }
-                  ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
-                `}
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); if (onSubmit) onSubmit(); }}
+                disabled={disabled || !value || (Array.isArray(value) && value.length === 0)}
+                className="w-full rounded-xl py-3.5 text-sm font-semibold
+                  bg-brand-teal text-white hover:bg-teal-700
+                  transition-colors duration-150
+                  disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <span className="flex items-center justify-between">
-                  {optionLabel}
-                  {isSelected && <Check className="w-5 h-5 flex-shrink-0" />}
-                </span>
-              </motion.button>
-            );
-          })}
-
-          {/* Continue button for multi-select */}
-          {allowMultiple && onSubmit && (
-            <motion.button
-              type="button"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                if (onSubmit) onSubmit();
-              }}
-              disabled={disabled || !value || (Array.isArray(value) && value.length === 0)}
-              className="w-full rounded-xl p-5 font-semibold text-base
-                bg-brand-teal text-white
-                hover:shadow-lg hover:shadow-teal-500/20 transition-all duration-300
-                disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Continue
-            </motion.button>
-          )}
-        </div>
-      )}
+                Continue
+              </button>
+            )}
+          </div>
+        );
+      })()}
 
       {/* Text Input */}
       {type === 'text' && (
@@ -270,31 +223,26 @@ export const InlineClinicalQuestion: React.FC<InlineClinicalQuestionProps> = ({
             value={value || ''}
             onChange={(e) => onChange(e.target.value)}
             disabled={disabled}
-            placeholder="Type your answer here..."
+            placeholder="Type your answer..."
             rows={3}
-            className="w-full rounded-xl p-5 text-base border-2 border-gray-200
-              focus:border-brand-teal focus:outline-none focus:ring-4 focus:ring-teal-500/20
-              transition-all duration-300 resize-none
+            className="w-full rounded-xl p-4 text-sm border border-gray-200
+              focus:border-brand-teal focus:outline-none focus:ring-2 focus:ring-teal-500/15
+              transition-colors duration-150 resize-none
+              placeholder:text-gray-400
               disabled:opacity-50 disabled:cursor-not-allowed"
           />
           {onSubmit && (
-            <motion.button
+            <button
               type="button"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                if (onSubmit) onSubmit();
-              }}
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); if (onSubmit) onSubmit(); }}
               disabled={disabled || !value || (typeof value === 'string' && !value.trim())}
-              className="w-full rounded-xl p-5 font-semibold text-base
-                bg-brand-teal text-white
-                hover:shadow-lg hover:shadow-teal-500/20 transition-all duration-300
+              className="w-full rounded-xl py-3.5 text-sm font-semibold
+                bg-brand-teal text-white hover:bg-teal-700
+                transition-colors duration-150
                 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Continue
-            </motion.button>
+            </button>
           )}
         </div>
       )}
