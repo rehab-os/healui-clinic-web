@@ -24,6 +24,7 @@ import {
   getPostureObservations,
   getRadiationPatterns,
   getTightnessAssessment,
+  getTendernessLandmarks,
   getBalanceAssessment,
   getRelevantReflexes,
   getRelevantDermatomes,
@@ -45,6 +46,7 @@ export interface QuestionOption {
   value: string;
   label: string;
   requiresText?: boolean;
+  normalROM?: number;
 }
 
 export interface ScreeningQuestion {
@@ -338,40 +340,9 @@ export const QUESTION_TEMPLATES: Record<string, ScreeningQuestion> = {
   // ========== PAIN PATHWAY ==========
   pain_location: {
     id: 'pain_location',
-    type: 'multi_choice',
-    question: "Where exactly do you feel the pain? Select all areas that apply.",
-    options: [
-      { value: 'head', label: 'Head' },
-      { value: 'neck', label: 'Neck' },
-      { value: 'shoulder_left', label: 'Left Shoulder' },
-      { value: 'shoulder_right', label: 'Right Shoulder' },
-      { value: 'shoulder_both', label: 'Both Shoulders' },
-      { value: 'upper_back', label: 'Upper Back (Thoracic)' },
-      { value: 'lower_back', label: 'Lower Back (Lumbar)' },
-      { value: 'chest', label: 'Chest' },
-      { value: 'arm_left', label: 'Left Arm' },
-      { value: 'arm_right', label: 'Right Arm' },
-      { value: 'elbow_left', label: 'Left Elbow' },
-      { value: 'elbow_right', label: 'Right Elbow' },
-      { value: 'wrist_left', label: 'Left Wrist' },
-      { value: 'wrist_right', label: 'Right Wrist' },
-      { value: 'hand_left', label: 'Left Hand' },
-      { value: 'hand_right', label: 'Right Hand' },
-      { value: 'hip_left', label: 'Left Hip' },
-      { value: 'hip_right', label: 'Right Hip' },
-      { value: 'hip_both', label: 'Both Hips' },
-      { value: 'thigh_left', label: 'Left Thigh' },
-      { value: 'thigh_right', label: 'Right Thigh' },
-      { value: 'knee_left', label: 'Left Knee' },
-      { value: 'knee_right', label: 'Right Knee' },
-      { value: 'knee_both', label: 'Both Knees' },
-      { value: 'leg_left', label: 'Left Lower Leg (Calf)' },
-      { value: 'leg_right', label: 'Right Lower Leg (Calf)' },
-      { value: 'ankle_left', label: 'Left Ankle' },
-      { value: 'ankle_right', label: 'Right Ankle' },
-      { value: 'foot_left', label: 'Left Foot' },
-      { value: 'foot_right', label: 'Right Foot' }
-    ]
+    type: 'body_map',
+    question: "Where exactly do you feel the pain? Tap on the body diagram to select areas.",
+    options: []
   },
 
   pain_nature: {
@@ -859,7 +830,11 @@ export class SmartScreeningEngine {
         regionOptions.forEach(opt => {
           if (!seenValues.has(opt.value)) {
             seenValues.add(opt.value);
-            combinedOptions.push({ value: opt.value, label: opt.label });
+            const option: QuestionOption = { value: opt.value, label: opt.label };
+            if ((opt as any).normalROM !== undefined) {
+              option.normalROM = (opt as any).normalROM;
+            }
+            combinedOptions.push(option);
           }
         });
       }
@@ -952,6 +927,10 @@ export class SmartScreeningEngine {
       'balance_assessment': {
         getter: getBalanceAssessment,
         questionOverride: `Assess balance related to ${regionLabel.toLowerCase()} condition:`
+      },
+      'tenderness_assessment': {
+        getter: getTendernessLandmarks,
+        questionOverride: `Mark areas of tenderness around the ${regionLabel.toLowerCase()}:`
       }
     };
 
@@ -1540,7 +1519,7 @@ export class SmartScreeningEngine {
       assessments.push('dermatome_assessment', 'myotome_assessment', 'reflex_testing');
     }
 
-    assessments.push('swelling_assessment', 'posture_assessment', 'gait_analysis', 'adl_scoring');
+    assessments.push('swelling_assessment', 'posture_assessment', 'gait_analysis');
     assessments.push('condition_classification');
 
     return assessments;
@@ -1590,7 +1569,6 @@ export class SmartScreeningEngine {
       'gait_analysis',
       // Functional
       'functional_impact',
-      'adl_scoring',
       // Final Classification
       'condition_classification'
     ];
@@ -2150,8 +2128,7 @@ export class SmartScreeningEngine {
           },
           functional: {
             impact: r.functional_impact,
-            mobility_limitations: r.mobility_limitations,
-            adl_scores: r.adl_scoring
+            mobility_limitations: r.mobility_limitations
           },
           objective: {
             swelling: r.swelling_assessment,

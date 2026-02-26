@@ -1,0 +1,1370 @@
+{
+  "version": "1.0",
+  "description": "Quick capture schemas — minimum input for maximum diagnostic gain. Each test distilled to its essential diagnostic signal with screening context awareness.",
+
+  "screening_context": {
+    "side": {
+      "source": "selectedRegions[0].laterality",
+      "description": "Auto-fills side_tested from screening region selection",
+      "transform": { "left": "left", "right": "right", "both": "bilateral", "center": null }
+    },
+    "region": {
+      "source": "selectedRegions[0].mainRegion",
+      "description": "Filters ROM joints, neuro levels, and region-specific options"
+    },
+    "pain_location": {
+      "source": "collectedData.pain_location || collectedData.pain_area",
+      "description": "Screening already captured where it hurts — absorbs pain_location fields from quick capture"
+    },
+    "symptoms": {
+      "source": "collectedData.pain_nature, collectedData.radiation_pattern",
+      "description": "Screening captured symptom quality — absorbs symptom_quality/reproduced fields"
+    },
+    "vas_score": {
+      "source": "collectedData.vas_score",
+      "description": "Pain intensity already known — absorbs pain_intensity/pain_during_test fields"
+    }
+  },
+
+  "region_alias_map": {
+    "neck": "cervical",
+    "cervical_spine": "cervical",
+    "lower-back": "lumbar",
+    "lumbar_spine": "lumbar",
+    "lower_back": "lumbar",
+    "thoracic_spine": "thoracic",
+    "forearm": "elbow",
+    "arm": "shoulder",
+    "thigh": "hip",
+    "lower-leg": "knee"
+  },
+
+  "region_joint_map": {
+    "shoulder": [
+      { "key": "shoulder_flexion", "label": "Flexion", "normal": 180, "unit": "°" },
+      { "key": "shoulder_extension", "label": "Extension", "normal": 60, "unit": "°" },
+      { "key": "shoulder_abduction", "label": "Abduction", "normal": 180, "unit": "°" },
+      { "key": "shoulder_adduction", "label": "Adduction", "normal": 45, "unit": "°" },
+      { "key": "shoulder_ir", "label": "Int. Rotation", "normal": 70, "unit": "°" },
+      { "key": "shoulder_er", "label": "Ext. Rotation", "normal": 90, "unit": "°" }
+    ],
+    "elbow": [
+      { "key": "elbow_flexion", "label": "Flexion", "normal": 150, "unit": "°" },
+      { "key": "elbow_extension", "label": "Extension", "normal": 0, "unit": "°" },
+      { "key": "elbow_pronation", "label": "Pronation", "normal": 80, "unit": "°" },
+      { "key": "elbow_supination", "label": "Supination", "normal": 80, "unit": "°" }
+    ],
+    "wrist": [
+      { "key": "wrist_flexion", "label": "Flexion", "normal": 80, "unit": "°" },
+      { "key": "wrist_extension", "label": "Extension", "normal": 70, "unit": "°" },
+      { "key": "wrist_radial_dev", "label": "Radial Deviation", "normal": 20, "unit": "°" },
+      { "key": "wrist_ulnar_dev", "label": "Ulnar Deviation", "normal": 30, "unit": "°" }
+    ],
+    "hand": [
+      { "key": "wrist_flexion", "label": "Wrist Flexion", "normal": 80, "unit": "°" },
+      { "key": "wrist_extension", "label": "Wrist Extension", "normal": 70, "unit": "°" },
+      { "key": "grip_strength", "label": "Grip Strength", "normal": 40, "unit": "kg" }
+    ],
+    "hip": [
+      { "key": "hip_flexion", "label": "Flexion", "normal": 120, "unit": "°" },
+      { "key": "hip_extension", "label": "Extension", "normal": 30, "unit": "°" },
+      { "key": "hip_abduction", "label": "Abduction", "normal": 45, "unit": "°" },
+      { "key": "hip_adduction", "label": "Adduction", "normal": 30, "unit": "°" },
+      { "key": "hip_ir", "label": "Int. Rotation", "normal": 35, "unit": "°" },
+      { "key": "hip_er", "label": "Ext. Rotation", "normal": 45, "unit": "°" }
+    ],
+    "knee": [
+      { "key": "knee_flexion", "label": "Flexion", "normal": 135, "unit": "°" },
+      { "key": "knee_extension", "label": "Extension", "normal": 0, "unit": "°" }
+    ],
+    "ankle": [
+      { "key": "ankle_dorsiflexion", "label": "Dorsiflexion", "normal": 20, "unit": "°" },
+      { "key": "ankle_plantarflexion", "label": "Plantarflexion", "normal": 50, "unit": "°" },
+      { "key": "ankle_inversion", "label": "Inversion", "normal": 35, "unit": "°" },
+      { "key": "ankle_eversion", "label": "Eversion", "normal": 20, "unit": "°" }
+    ],
+    "foot": [
+      { "key": "ankle_dorsiflexion", "label": "Dorsiflexion", "normal": 20, "unit": "°" },
+      { "key": "ankle_plantarflexion", "label": "Plantarflexion", "normal": 50, "unit": "°" },
+      { "key": "ankle_inversion", "label": "Inversion", "normal": 35, "unit": "°" },
+      { "key": "ankle_eversion", "label": "Eversion", "normal": 20, "unit": "°" }
+    ],
+    "cervical": [
+      { "key": "cervical_flexion", "label": "Flexion", "normal": 50, "unit": "°" },
+      { "key": "cervical_extension", "label": "Extension", "normal": 60, "unit": "°" },
+      { "key": "cervical_lat_flex_l", "label": "Lat. Flex (L)", "normal": 45, "unit": "°" },
+      { "key": "cervical_lat_flex_r", "label": "Lat. Flex (R)", "normal": 45, "unit": "°" },
+      { "key": "cervical_rotation_l", "label": "Rotation (L)", "normal": 80, "unit": "°" },
+      { "key": "cervical_rotation_r", "label": "Rotation (R)", "normal": 80, "unit": "°" }
+    ],
+    "thoracic": [
+      { "key": "thoracic_flexion", "label": "Flexion", "normal": 40, "unit": "°" },
+      { "key": "thoracic_extension", "label": "Extension", "normal": 20, "unit": "°" },
+      { "key": "thoracic_rotation_l", "label": "Rotation (L)", "normal": 35, "unit": "°" },
+      { "key": "thoracic_rotation_r", "label": "Rotation (R)", "normal": 35, "unit": "°" }
+    ],
+    "lumbar": [
+      { "key": "lumbar_flexion", "label": "Flexion", "normal": 60, "unit": "°" },
+      { "key": "lumbar_extension", "label": "Extension", "normal": 25, "unit": "°" },
+      { "key": "lumbar_lat_flex_l", "label": "Lat. Flex (L)", "normal": 25, "unit": "°" },
+      { "key": "lumbar_lat_flex_r", "label": "Lat. Flex (R)", "normal": 25, "unit": "°" },
+      { "key": "lumbar_rotation_l", "label": "Rotation (L)", "normal": 30, "unit": "°" },
+      { "key": "lumbar_rotation_r", "label": "Rotation (R)", "normal": 30, "unit": "°" }
+    ]
+  },
+
+  "region_neuro_map": {
+    "cervical": {
+      "dermatomes": ["C5", "C6", "C7", "C8", "T1"],
+      "myotomes": { "C5": "Shoulder abduction", "C6": "Elbow flexion / Wrist extension", "C7": "Elbow extension / Wrist flexion", "C8": "Finger flexion / Thumb opposition", "T1": "Finger abduction" },
+      "reflexes": ["biceps", "triceps"]
+    },
+    "neck": {
+      "dermatomes": ["C5", "C6", "C7", "C8", "T1"],
+      "myotomes": { "C5": "Shoulder abduction", "C6": "Elbow flexion / Wrist extension", "C7": "Elbow extension / Wrist flexion", "C8": "Finger flexion / Thumb opposition", "T1": "Finger abduction" },
+      "reflexes": ["biceps", "triceps"]
+    },
+    "thoracic": {
+      "dermatomes": ["T1", "T2", "T4", "T6", "T8", "T10", "T12"],
+      "myotomes": {},
+      "reflexes": []
+    },
+    "lumbar": {
+      "dermatomes": ["L2", "L3", "L4", "L5", "S1"],
+      "myotomes": { "L2": "Hip flexion", "L3": "Knee extension", "L4": "Ankle dorsiflexion", "L5": "Great toe extension", "S1": "Ankle plantarflexion" },
+      "reflexes": ["patellar", "achilles"]
+    },
+    "lower-back": {
+      "dermatomes": ["L2", "L3", "L4", "L5", "S1"],
+      "myotomes": { "L2": "Hip flexion", "L3": "Knee extension", "L4": "Ankle dorsiflexion", "L5": "Great toe extension", "S1": "Ankle plantarflexion" },
+      "reflexes": ["patellar", "achilles"]
+    },
+    "shoulder": {
+      "dermatomes": ["C5", "C6"],
+      "myotomes": { "C5": "Shoulder abduction", "C6": "Elbow flexion" },
+      "reflexes": ["biceps"]
+    },
+    "hip": {
+      "dermatomes": ["L2", "L3"],
+      "myotomes": { "L2": "Hip flexion", "L3": "Knee extension" },
+      "reflexes": ["patellar"]
+    },
+    "knee": {
+      "dermatomes": ["L3", "L4"],
+      "myotomes": { "L3": "Knee extension", "L4": "Ankle dorsiflexion" },
+      "reflexes": ["patellar"]
+    },
+    "ankle": {
+      "dermatomes": ["L4", "L5", "S1"],
+      "myotomes": { "L4": "Ankle dorsiflexion", "L5": "Great toe extension", "S1": "Ankle plantarflexion" },
+      "reflexes": ["achilles"]
+    },
+    "foot": {
+      "dermatomes": ["L4", "L5", "S1"],
+      "myotomes": { "L4": "Ankle dorsiflexion", "L5": "Great toe extension", "S1": "Ankle plantarflexion" },
+      "reflexes": ["achilles"]
+    }
+  },
+
+  "assessments": {
+
+    "ASSESS_001": {
+      "name": "Lachman Test",
+      "quick_type": "graded",
+      "result": {
+        "field_key": "result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "grade_1", "chip": "1+", "label": "Grade 1", "semantic": "positive", "color": "yellow" },
+          { "value": "grade_2", "chip": "2+", "label": "Grade 2", "semantic": "positive", "color": "orange" },
+          { "value": "grade_3", "chip": "3+", "label": "Grade 3", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": [],
+      "voice_template": "Lachman {result} {side}",
+      "diagnostic_value": "ACL integrity — grade indicates laxity severity"
+    },
+
+    "ASSESS_002": {
+      "name": "McMurray Test",
+      "quick_type": "binary_metric",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive", "chip": "+", "label": "Positive", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": {
+        "field_key": "pain_location",
+        "type": "select",
+        "label": "Location",
+        "options": [
+          { "value": "medial_joint_line", "label": "Medial" },
+          { "value": "lateral_joint_line", "label": "Lateral" },
+          { "value": "posterior_knee", "label": "Posterior" },
+          { "value": "diffuse", "label": "Diffuse" }
+        ],
+        "diagnostic_reason": "Medial vs lateral differentiates which meniscus"
+      },
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["symptoms_reproduced", "pain_intensity"],
+      "voice_template": "McMurray {result} {key_metric} {side}",
+      "diagnostic_value": "Meniscal tear — medial vs lateral meniscus"
+    },
+
+    "ASSESS_003": {
+      "name": "Anterior Drawer Test",
+      "quick_type": "graded",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "grade_1", "chip": "1+", "label": "Grade 1", "semantic": "positive", "color": "yellow" },
+          { "value": "grade_2", "chip": "2+", "label": "Grade 2", "semantic": "positive", "color": "orange" },
+          { "value": "grade_3", "chip": "3+", "label": "Grade 3", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["hamstring_guarding", "endpoint_quality", "pain_during_test", "bilateral_comparison"],
+      "voice_template": "Anterior Drawer {result} {side}",
+      "diagnostic_value": "ACL integrity — confirms Lachman findings"
+    },
+
+    "ASSESS_004": {
+      "name": "Pivot Shift Test",
+      "quick_type": "graded",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "grade_1", "chip": "1+", "label": "Grade 1", "semantic": "positive", "color": "yellow" },
+          { "value": "grade_2", "chip": "2+", "label": "Grade 2", "semantic": "positive", "color": "orange" },
+          { "value": "grade_3", "chip": "3+", "label": "Grade 3", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["reduction_angle", "patient_tolerance", "giving_way_sensation", "pain_during_test", "muscle_guarding"],
+      "voice_template": "Pivot Shift {result} {side}",
+      "diagnostic_value": "ACL rotational instability — most specific ACL test"
+    },
+
+    "ASSESS_005": {
+      "name": "Empty Can Test (Jobe's)",
+      "quick_type": "graded",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "pain_only", "chip": "Pain", "label": "Pain Only", "semantic": "positive", "color": "yellow" },
+          { "value": "weakness_only", "chip": "Weak", "label": "Weakness", "semantic": "positive", "color": "orange" },
+          { "value": "pain_and_weakness", "chip": "Both", "label": "Pain + Weakness", "semantic": "positive", "color": "red" },
+          { "value": "unable_to_hold", "chip": "Unable", "label": "Unable", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["pain_location", "pain_intensity", "strength_comparison", "compensatory_movements"],
+      "voice_template": "Empty Can {result} {side}",
+      "diagnostic_value": "Supraspinatus — pain only = tendinopathy, weakness = tear"
+    },
+
+    "ASSESS_006": {
+      "name": "Hawkins-Kennedy Test",
+      "quick_type": "binary",
+      "result": {
+        "field_key": "result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive", "chip": "+", "label": "Positive", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["pain_severity", "pain_location"],
+      "voice_template": "Hawkins-Kennedy {result} {side}",
+      "diagnostic_value": "Subacromial impingement — high sensitivity screening test"
+    },
+
+    "ASSESS_007": {
+      "name": "Neer Impingement Test",
+      "quick_type": "binary_metric",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive", "chip": "+", "label": "Positive", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": {
+        "field_key": "pain_onset_angle",
+        "type": "number",
+        "label": "Pain angle",
+        "unit": "°",
+        "range": [0, 180],
+        "diagnostic_reason": "Earlier onset (<90°) suggests more significant impingement"
+      },
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["pain_location", "pain_intensity"],
+      "voice_template": "Neer {result} at {key_metric} degrees {side}",
+      "diagnostic_value": "Subacromial impingement — angle indicates severity"
+    },
+
+    "ASSESS_008": {
+      "name": "Drop Arm Test",
+      "quick_type": "graded",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive_sudden_drop", "chip": "Drop", "label": "Sudden Drop", "semantic": "positive", "color": "red" },
+          { "value": "positive_unable_control", "chip": "No ctrl", "label": "Unable to Control", "semantic": "positive", "color": "red" },
+          { "value": "unable_to_position", "chip": "Unable", "label": "Unable to Position", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["drop_angle", "pain_during_test", "compensatory_mechanisms", "muscle_atrophy_visible"],
+      "voice_template": "Drop Arm {result} {side}",
+      "diagnostic_value": "Full-thickness rotator cuff tear — high specificity"
+    },
+
+    "ASSESS_009": {
+      "name": "Speed's Test",
+      "quick_type": "binary",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive", "chip": "+", "label": "Positive", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["pain_location", "pain_intensity", "resistance_strength"],
+      "voice_template": "Speed's {result} {side}",
+      "diagnostic_value": "Biceps tendinopathy / SLAP lesion"
+    },
+
+    "ASSESS_010": {
+      "name": "Straight Leg Raise (SLR)",
+      "quick_type": "binary_metric",
+      "result": {
+        "field_key": "result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive", "chip": "+", "label": "Positive", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": {
+        "field_key": "angle_of_onset",
+        "type": "number",
+        "label": "Angle",
+        "unit": "°",
+        "range": [0, 90],
+        "diagnostic_reason": "<30° = large disc herniation, 30-60° = nerve root tension, >60° = less specific"
+      },
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["pain_location"],
+      "voice_template": "SLR {result} at {key_metric} degrees {side}",
+      "diagnostic_value": "Lumbar disc herniation / nerve root compression — angle is key diagnostic discriminator"
+    },
+
+    "ASSESS_011": {
+      "name": "Slump Test",
+      "quick_type": "binary",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive", "chip": "+", "label": "Positive", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": null,
+      "side": null,
+      "screening_absorbs": ["symptoms_reproduced", "symptom_intensity"],
+      "voice_template": "Slump {result}",
+      "diagnostic_value": "Neural tension — confirms nerve root involvement alongside SLR"
+    },
+
+    "ASSESS_012": {
+      "name": "Spurling's Test",
+      "quick_type": "binary_metric",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive", "chip": "+", "label": "Positive", "semantic": "positive", "color": "red" },
+          { "value": "local_neck_pain", "chip": "Local", "label": "Neck Pain Only", "semantic": "equivocal", "color": "yellow" }
+        ]
+      },
+      "key_metric": {
+        "field_key": "pain_distribution",
+        "type": "multi_select",
+        "label": "Radiates to",
+        "options": [
+          { "value": "shoulder", "label": "Shoulder" },
+          { "value": "upper_arm", "label": "Upper arm" },
+          { "value": "forearm", "label": "Forearm" },
+          { "value": "hand", "label": "Hand" }
+        ],
+        "diagnostic_reason": "Distribution pattern identifies nerve root level"
+      },
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["pain_intensity"],
+      "voice_template": "Spurling's {result} radiating to {key_metric} {side}",
+      "diagnostic_value": "Cervical radiculopathy — distribution identifies nerve root"
+    },
+
+    "ASSESS_013": {
+      "name": "FABER Test (Patrick's)",
+      "quick_type": "graded",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive_hip", "chip": "Hip", "label": "Hip Pain", "semantic": "positive", "color": "orange" },
+          { "value": "positive_si", "chip": "SI", "label": "SI Joint", "semantic": "positive", "color": "orange" },
+          { "value": "positive_both", "chip": "Both", "label": "Hip + SI", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["range_limitation", "pain_intensity"],
+      "voice_template": "FABER {result} {side}",
+      "diagnostic_value": "Differentiates hip joint vs SI joint pathology — result tells you which"
+    },
+
+    "ASSESS_014": {
+      "name": "FADIR Test",
+      "quick_type": "graded",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive_pain", "chip": "Pain", "label": "Pain", "semantic": "positive", "color": "orange" },
+          { "value": "positive_clicking", "chip": "Click", "label": "Clicking", "semantic": "positive", "color": "orange" },
+          { "value": "positive_both", "chip": "Both", "label": "Pain + Click", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["pain_intensity"],
+      "voice_template": "FADIR {result} {side}",
+      "diagnostic_value": "Hip impingement / labral tear — clicking suggests labral pathology"
+    },
+
+    "ASSESS_015": {
+      "name": "Thomas Test",
+      "quick_type": "binary_metric",
+      "result": {
+        "field_key": "hip_position",
+        "options": [
+          { "value": "flat_on_table", "chip": "−", "label": "Flat (Neg)", "semantic": "negative", "color": "green" },
+          { "value": "slightly_elevated", "chip": "Mild", "label": "Slight Flexion", "semantic": "positive", "color": "yellow" },
+          { "value": "significantly_elevated", "chip": "Tight", "label": "Significant", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": {
+        "field_key": "knee_position",
+        "type": "select",
+        "label": "Knee",
+        "options": [
+          { "value": "flexed_90", "label": "Flexed 90°" },
+          { "value": "extends_partially", "label": "Extends partly" },
+          { "value": "extends_fully", "label": "Extends fully" }
+        ],
+        "diagnostic_reason": "Knee extension implicates rec fem tightness vs iliopsoas"
+      },
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": [],
+      "voice_template": "Thomas Test hip {result} knee {key_metric} {side}",
+      "diagnostic_value": "Hip flexor tightness — differentiates iliopsoas vs rectus femoris"
+    },
+
+    "ASSESS_016": {
+      "name": "Ober's Test",
+      "quick_type": "graded",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "mild_restriction", "chip": "Mild", "label": "Mild", "semantic": "positive", "color": "yellow" },
+          { "value": "moderate_restriction", "chip": "Mod", "label": "Moderate", "semantic": "positive", "color": "orange" },
+          { "value": "severe_restriction", "chip": "Severe", "label": "Severe", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["pain_intensity", "symptom_location", "bilateral_comparison"],
+      "voice_template": "Ober's {result} {side}",
+      "diagnostic_value": "IT band / TFL tightness"
+    },
+
+    "ASSESS_017": {
+      "name": "Tinel's Sign (Carpal Tunnel)",
+      "quick_type": "graded",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive_mild", "chip": "Mild", "label": "Mild", "semantic": "positive", "color": "yellow" },
+          { "value": "positive_moderate", "chip": "Mod", "label": "Moderate", "semantic": "positive", "color": "orange" },
+          { "value": "positive_severe", "chip": "Severe", "label": "Severe", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["symptom_distribution", "symptom_quality", "bilateral_comparison"],
+      "voice_template": "Tinel's {result} {side}",
+      "diagnostic_value": "Carpal tunnel syndrome — median nerve irritability"
+    },
+
+    "ASSESS_018": {
+      "name": "Phalen's Test",
+      "quick_type": "binary_metric",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive", "chip": "+", "label": "Positive", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": {
+        "field_key": "symptom_onset_time",
+        "type": "number",
+        "label": "Onset time",
+        "unit": "sec",
+        "range": [1, 60],
+        "diagnostic_reason": "<30 seconds = high specificity for carpal tunnel"
+      },
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["symptom_distribution", "symptom_intensity"],
+      "voice_template": "Phalen's {result} at {key_metric} seconds {side}",
+      "diagnostic_value": "Carpal tunnel syndrome — faster onset = more severe compression"
+    },
+
+    "ASSESS_019": {
+      "name": "Finkelstein's Test",
+      "quick_type": "graded",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive_mild", "chip": "Mild", "label": "Mild", "semantic": "positive", "color": "yellow" },
+          { "value": "positive_moderate", "chip": "Mod", "label": "Moderate", "semantic": "positive", "color": "orange" },
+          { "value": "positive_severe", "chip": "Severe", "label": "Severe", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["pain_intensity", "pain_location"],
+      "voice_template": "Finkelstein's {result} {side}",
+      "diagnostic_value": "De Quervain's tenosynovitis"
+    },
+
+    "ASSESS_020": {
+      "name": "Thompson Test",
+      "quick_type": "binary",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive", "chip": "+", "label": "Positive", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["bilateral_comparison"],
+      "voice_template": "Thompson {result} {side}",
+      "diagnostic_value": "Achilles tendon rupture — positive = no plantarflexion on squeeze"
+    },
+
+    "ASSESS_021": {
+      "name": "Anterior Drawer Test (Ankle)",
+      "quick_type": "graded",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "grade_1", "chip": "1+", "label": "Grade 1", "semantic": "positive", "color": "yellow" },
+          { "value": "grade_2", "chip": "2+", "label": "Grade 2", "semantic": "positive", "color": "orange" },
+          { "value": "grade_3", "chip": "3+", "label": "Grade 3", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["endpoint_quality", "patient_apprehension", "bilateral_comparison"],
+      "voice_template": "Ankle Anterior Drawer {result} {side}",
+      "diagnostic_value": "ATFL integrity — grade indicates ligament damage severity"
+    },
+
+    "ASSESS_022": {
+      "name": "Babinski Sign",
+      "quick_type": "binary",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "normal", "chip": "−", "label": "Normal", "semantic": "negative", "color": "green" },
+          { "value": "positive", "chip": "+", "label": "Positive", "semantic": "positive", "color": "red" },
+          { "value": "equivocal", "chip": "?", "label": "Equivocal", "semantic": "equivocal", "color": "gray" },
+          { "value": "no_response", "chip": "NR", "label": "No Response", "semantic": "equivocal", "color": "gray" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["toe_response_pattern", "bilateral_comparison"],
+      "voice_template": "Babinski {result} {side}",
+      "diagnostic_value": "Upper motor neuron lesion — positive = UMN pathology"
+    },
+
+    "ASSESS_023": {
+      "name": "Hoffman's Sign",
+      "quick_type": "graded",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive_mild", "chip": "Mild", "label": "Mild", "semantic": "positive", "color": "yellow" },
+          { "value": "positive_moderate", "chip": "Mod", "label": "Moderate", "semantic": "positive", "color": "orange" },
+          { "value": "positive_brisk", "chip": "Brisk", "label": "Brisk", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["response_pattern", "bilateral_comparison"],
+      "voice_template": "Hoffman's {result} {side}",
+      "diagnostic_value": "Cervical myelopathy / UMN lesion"
+    },
+
+    "ASSESS_024": {
+      "name": "Dermatome Testing",
+      "quick_type": "grid",
+      "grid_config": {
+        "rows_from_screening": true,
+        "rows_source": "region_neuro_map.{region}.dermatomes",
+        "columns": [
+          { "key": "left", "label": "L" },
+          { "key": "right", "label": "R" }
+        ],
+        "value_options": [
+          { "value": "normal", "chip": "N", "label": "Normal", "color": "green" },
+          { "value": "decreased", "chip": "↓", "label": "Decreased", "color": "orange" },
+          { "value": "absent", "chip": "−", "label": "Absent", "color": "red" },
+          { "value": "increased", "chip": "↑", "label": "Increased", "color": "yellow" }
+        ],
+        "default_value": "normal",
+        "tap_to_cycle": true
+      },
+      "key_metric": null,
+      "side": null,
+      "screening_absorbs": ["body_region_tested", "testing_method"],
+      "voice_template": "Dermatomes {level} {value} {side}",
+      "diagnostic_value": "Nerve root level identification — pattern of loss identifies root"
+    },
+
+    "ASSESS_025": {
+      "name": "Myotome Testing",
+      "quick_type": "grid",
+      "grid_config": {
+        "rows_from_screening": true,
+        "rows_source": "region_neuro_map.{region}.myotomes",
+        "row_label_includes_action": true,
+        "columns": [
+          { "key": "left", "label": "L" },
+          { "key": "right", "label": "R" }
+        ],
+        "value_options": [
+          { "value": "5", "chip": "5", "label": "Normal", "color": "green" },
+          { "value": "4", "chip": "4", "label": "Slight weakness", "color": "yellow" },
+          { "value": "3", "chip": "3", "label": "Against gravity", "color": "orange" },
+          { "value": "2", "chip": "2", "label": "Gravity eliminated", "color": "red" },
+          { "value": "1", "chip": "1", "label": "Flicker", "color": "red" },
+          { "value": "0", "chip": "0", "label": "No contraction", "color": "red" }
+        ],
+        "default_value": "5",
+        "tap_to_cycle": true
+      },
+      "key_metric": null,
+      "side": null,
+      "screening_absorbs": ["body_region_tested", "overall_strength"],
+      "voice_template": "Myotome {level} grade {value} {side}",
+      "diagnostic_value": "Nerve root motor level — weakness pattern identifies root"
+    },
+
+    "ASSESS_026": {
+      "name": "Deep Tendon Reflexes",
+      "quick_type": "grid",
+      "grid_config": {
+        "rows_from_screening": true,
+        "rows_source": "region_neuro_map.{region}.reflexes",
+        "all_rows": [
+          { "key": "biceps", "label": "Biceps", "root": "C5-C6" },
+          { "key": "triceps", "label": "Triceps", "root": "C7" },
+          { "key": "patellar", "label": "Patellar", "root": "L3-L4" },
+          { "key": "achilles", "label": "Achilles", "root": "S1" }
+        ],
+        "columns": [
+          { "key": "left", "label": "L" },
+          { "key": "right", "label": "R" }
+        ],
+        "value_options": [
+          { "value": "0", "chip": "0", "label": "Absent", "color": "red" },
+          { "value": "1+", "chip": "1+", "label": "Diminished", "color": "orange" },
+          { "value": "2+", "chip": "2+", "label": "Normal", "color": "green" },
+          { "value": "3+", "chip": "3+", "label": "Increased", "color": "yellow" },
+          { "value": "4+", "chip": "4+", "label": "Clonus", "color": "red" }
+        ],
+        "default_value": "2+",
+        "tap_to_cycle": true
+      },
+      "key_metric": null,
+      "side": null,
+      "screening_absorbs": ["reinforcement_needed", "asymmetry_noted", "clonus_duration"],
+      "voice_template": "Reflexes {reflex} {value} {side}",
+      "diagnostic_value": "Nerve root level + UMN vs LMN — diminished = LMN, increased = UMN"
+    },
+
+    "ASSESS_027": {
+      "name": "Romberg Test",
+      "quick_type": "graded",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive_mild", "chip": "Mild", "label": "Mild", "semantic": "positive", "color": "yellow" },
+          { "value": "positive_moderate", "chip": "Mod", "label": "Moderate", "semantic": "positive", "color": "orange" },
+          { "value": "positive_severe", "chip": "Severe", "label": "Severe", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": null,
+      "side": null,
+      "screening_absorbs": ["test_variation", "sway_direction"],
+      "voice_template": "Romberg {result}",
+      "diagnostic_value": "Proprioceptive / vestibular deficit"
+    },
+
+    "ASSESS_028": {
+      "name": "Dix-Hallpike Test",
+      "quick_type": "binary",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive", "chip": "+", "label": "Positive", "semantic": "positive", "color": "red" },
+          { "value": "equivocal", "chip": "?", "label": "Equivocal", "semantic": "equivocal", "color": "gray" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["nystagmus_present", "vertigo_intensity", "latency_period", "symptom_duration", "bilateral_comparison"],
+      "voice_template": "Dix-Hallpike {result} {side}",
+      "diagnostic_value": "BPPV — positive with nystagmus confirms posterior canal BPPV"
+    },
+
+    "ASSESS_029": {
+      "name": "Apprehension Test (Shoulder)",
+      "quick_type": "graded",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive_mild", "chip": "Mild", "label": "Mild", "semantic": "positive", "color": "yellow" },
+          { "value": "positive_moderate", "chip": "Mod", "label": "Moderate", "semantic": "positive", "color": "orange" },
+          { "value": "positive_severe", "chip": "Severe", "label": "Severe", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["external_rotation_angle", "patient_description", "muscle_guarding", "bilateral_comparison"],
+      "voice_template": "Apprehension {result} {side}",
+      "diagnostic_value": "Anterior shoulder instability / recurrent dislocation"
+    },
+
+    "ASSESS_030": {
+      "name": "SI Joint Compression Test",
+      "quick_type": "graded",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive_mild", "chip": "Mild", "label": "Mild", "semantic": "positive", "color": "yellow" },
+          { "value": "positive_moderate", "chip": "Mod", "label": "Moderate", "semantic": "positive", "color": "orange" },
+          { "value": "positive_severe", "chip": "Severe", "label": "Severe", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["pain_intensity", "pain_location", "bilateral_comparison"],
+      "voice_template": "SI Compression {result} {side}",
+      "diagnostic_value": "SI joint dysfunction — part of SI joint cluster testing"
+    },
+
+    "ASSESS_031": {
+      "name": "Gaenslen's Test",
+      "quick_type": "graded",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive_mild", "chip": "Mild", "label": "Mild", "semantic": "positive", "color": "yellow" },
+          { "value": "positive_moderate", "chip": "Mod", "label": "Moderate", "semantic": "positive", "color": "orange" },
+          { "value": "positive_severe", "chip": "Severe", "label": "Severe", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["pain_intensity", "pain_location", "bilateral_comparison"],
+      "voice_template": "Gaenslen's {result} {side}",
+      "diagnostic_value": "SI joint dysfunction — stresses SI joint in extension"
+    },
+
+    "ASSESS_032": {
+      "name": "Trendelenburg Test",
+      "quick_type": "graded",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive_mild", "chip": "Mild", "label": "Mild", "semantic": "positive", "color": "yellow" },
+          { "value": "positive_moderate", "chip": "Mod", "label": "Moderate", "semantic": "positive", "color": "orange" },
+          { "value": "positive_severe", "chip": "Severe", "label": "Severe", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["compensation_patterns", "bilateral_comparison"],
+      "voice_template": "Trendelenburg {result} {side}",
+      "diagnostic_value": "Gluteus medius weakness / hip abductor insufficiency"
+    },
+
+    "ASSESS_033": {
+      "name": "Adson's Test",
+      "quick_type": "graded",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive_pulse", "chip": "Pulse", "label": "Pulse Change", "semantic": "positive", "color": "orange" },
+          { "value": "positive_symptom", "chip": "Sx", "label": "Symptoms", "semantic": "positive", "color": "orange" },
+          { "value": "positive_both", "chip": "Both", "label": "Both", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["symptoms_reproduced"],
+      "voice_template": "Adson's {result} {side}",
+      "diagnostic_value": "Thoracic outlet syndrome — scalene compression"
+    },
+
+    "ASSESS_034": {
+      "name": "Lift-Off Test",
+      "quick_type": "graded",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive_inability", "chip": "Can't lift", "label": "Unable to Lift", "semantic": "positive", "color": "red" },
+          { "value": "positive_weakness", "chip": "Weak", "label": "Weakness", "semantic": "positive", "color": "orange" },
+          { "value": "unable_to_test", "chip": "N/A", "label": "Unable to Test", "semantic": "equivocal", "color": "gray" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": [],
+      "voice_template": "Lift-Off {result} {side}",
+      "diagnostic_value": "Subscapularis tear / weakness"
+    },
+
+    "ASSESS_035": {
+      "name": "Noble Compression Test",
+      "quick_type": "binary_metric",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive", "chip": "+", "label": "Positive", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": {
+        "field_key": "knee_angle_most_painful",
+        "type": "number",
+        "label": "Painful angle",
+        "unit": "°",
+        "range": [0, 135],
+        "diagnostic_reason": "~30° is classic for ITB friction syndrome"
+      },
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["pain_location", "pain_intensity"],
+      "voice_template": "Noble {result} at {key_metric} degrees {side}",
+      "diagnostic_value": "IT band friction syndrome"
+    },
+
+    "ASSESS_036": {
+      "name": "Patellar Apprehension Test",
+      "quick_type": "graded",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive_mild", "chip": "Mild", "label": "Mild", "semantic": "positive", "color": "yellow" },
+          { "value": "positive_moderate", "chip": "Mod", "label": "Moderate", "semantic": "positive", "color": "orange" },
+          { "value": "positive_severe", "chip": "Severe", "label": "Severe", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["apprehension_type"],
+      "voice_template": "Patellar Apprehension {result} {side}",
+      "diagnostic_value": "Patellar instability / subluxation history"
+    },
+
+    "ASSESS_037": {
+      "name": "Varus/Valgus Stress Test",
+      "quick_type": "graded",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "grade_1", "chip": "1+", "label": "Grade 1", "semantic": "positive", "color": "yellow" },
+          { "value": "grade_2", "chip": "2+", "label": "Grade 2", "semantic": "positive", "color": "orange" },
+          { "value": "grade_3", "chip": "3+", "label": "Grade 3", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": {
+        "field_key": "stress_direction",
+        "type": "select",
+        "label": "Direction",
+        "options": [
+          { "value": "valgus_stress", "label": "Valgus" },
+          { "value": "varus_stress", "label": "Varus" },
+          { "value": "both_directions", "label": "Both" }
+        ],
+        "diagnostic_reason": "Valgus = MCL, Varus = LCL"
+      },
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": [],
+      "voice_template": "Valgus Varus {key_metric} {result} {side}",
+      "diagnostic_value": "Collateral ligament integrity — direction identifies MCL vs LCL"
+    },
+
+    "ASSESS_038": {
+      "name": "Ottawa Ankle Rules",
+      "quick_type": "decision_rule",
+      "result": {
+        "field_key": "overall_recommendation",
+        "options": [
+          { "value": "no_xray_needed", "chip": "No Xray", "label": "No X-ray", "semantic": "negative", "color": "green" },
+          { "value": "ankle_xray_indicated", "chip": "Ankle", "label": "Ankle X-ray", "semantic": "positive", "color": "orange" },
+          { "value": "foot_xray_indicated", "chip": "Foot", "label": "Foot X-ray", "semantic": "positive", "color": "orange" },
+          { "value": "both_indicated", "chip": "Both", "label": "Both X-rays", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": {
+        "field_key": "weight_bearing_ability",
+        "type": "select",
+        "label": "Weight bearing",
+        "options": [
+          { "value": "able_to_bear_weight", "label": "Able" },
+          { "value": "unable_to_bear_weight", "label": "Unable" }
+        ],
+        "diagnostic_reason": "Inability to bear weight = x-ray criteria met"
+      },
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["ankle_pain_locations", "foot_pain_locations"],
+      "voice_template": "Ottawa Ankle {result} weight bearing {key_metric}",
+      "diagnostic_value": "Fracture screening — rules out need for imaging"
+    },
+
+    "ASSESS_039": {
+      "name": "Canadian C-Spine Rules",
+      "quick_type": "decision_rule",
+      "result": {
+        "field_key": "imaging_recommendation",
+        "options": [
+          { "value": "no_imaging_needed", "chip": "Clear", "label": "No Imaging", "semantic": "negative", "color": "green" },
+          { "value": "imaging_indicated", "chip": "Image", "label": "Imaging Needed", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": null,
+      "side": null,
+      "screening_absorbs": ["high_risk_factors_present", "rom_assessment"],
+      "voice_template": "C-Spine Rules {result}",
+      "diagnostic_value": "Cervical fracture screening — clears or indicates imaging"
+    },
+
+    "ASSESS_040": {
+      "name": "Cranial Nerve Screen",
+      "quick_type": "grid",
+      "grid_config": {
+        "rows_from_screening": false,
+        "rows": [
+          { "key": "cn_i", "label": "CN I Olfactory" },
+          { "key": "cn_ii", "label": "CN II Visual" },
+          { "key": "cn_iii_iv_vi", "label": "CN III/IV/VI Eyes" },
+          { "key": "cn_v", "label": "CN V Facial Sensation" },
+          { "key": "cn_vii", "label": "CN VII Facial" },
+          { "key": "cn_viii", "label": "CN VIII Hearing" },
+          { "key": "cn_ix_x", "label": "CN IX/X Swallow" },
+          { "key": "cn_xi", "label": "CN XI Trapezius" },
+          { "key": "cn_xii", "label": "CN XII Tongue" }
+        ],
+        "columns": [
+          { "key": "result", "label": "Status" }
+        ],
+        "value_options": [
+          { "value": "normal", "chip": "N", "label": "Normal", "color": "green" },
+          { "value": "abnormal", "chip": "Abn", "label": "Abnormal", "color": "red" },
+          { "value": "not_tested", "chip": "NT", "label": "Not Tested", "color": "gray" }
+        ],
+        "default_value": "normal",
+        "tap_to_cycle": true
+      },
+      "key_metric": null,
+      "side": null,
+      "screening_absorbs": [],
+      "voice_template": "CN {number} {result}",
+      "diagnostic_value": "Central neurological pathology screening"
+    },
+
+    "ASSESS_041": {
+      "name": "Watson's Test (Scaphoid Shift)",
+      "quick_type": "graded",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive_clunk", "chip": "Clunk", "label": "Clunk", "semantic": "positive", "color": "orange" },
+          { "value": "positive_pain", "chip": "Pain", "label": "Pain", "semantic": "positive", "color": "orange" },
+          { "value": "positive_both", "chip": "Both", "label": "Clunk + Pain", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": [],
+      "voice_template": "Watson's {result} {side}",
+      "diagnostic_value": "Scapholunate ligament instability"
+    },
+
+    "ASSESS_042": {
+      "name": "Froment's Sign",
+      "quick_type": "graded",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive_mild", "chip": "Mild", "label": "Mild", "semantic": "positive", "color": "yellow" },
+          { "value": "positive_moderate", "chip": "Mod", "label": "Moderate", "semantic": "positive", "color": "orange" },
+          { "value": "positive_severe", "chip": "Severe", "label": "Severe", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": [],
+      "voice_template": "Froment's {result} {side}",
+      "diagnostic_value": "Ulnar nerve palsy — adductor pollicis weakness"
+    },
+
+    "ASSESS_043": {
+      "name": "Allen's Test",
+      "quick_type": "binary_metric",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "normal", "chip": "N", "label": "Normal", "semantic": "negative", "color": "green" },
+          { "value": "borderline", "chip": "?", "label": "Borderline", "semantic": "equivocal", "color": "yellow" },
+          { "value": "abnormal", "chip": "Abn", "label": "Abnormal", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": {
+        "field_key": "artery_tested",
+        "type": "select",
+        "label": "Artery",
+        "options": [
+          { "value": "radial_artery", "label": "Radial" },
+          { "value": "ulnar_artery", "label": "Ulnar" },
+          { "value": "both_arteries", "label": "Both" }
+        ],
+        "diagnostic_reason": "Identifies which artery has compromised flow"
+      },
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["reperfusion_time"],
+      "voice_template": "Allen's {key_metric} {result} {side}",
+      "diagnostic_value": "Vascular patency — radial vs ulnar artery compromise"
+    },
+
+    "ASSESS_044": {
+      "name": "Prone Instability Test",
+      "quick_type": "binary",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive", "chip": "+", "label": "Positive", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": null,
+      "side": null,
+      "screening_absorbs": [],
+      "voice_template": "Prone Instability {result}",
+      "diagnostic_value": "Lumbar segmental instability — guides stabilization exercise approach"
+    },
+
+    "ASSESS_045": {
+      "name": "Stork Test (Spondylolysis)",
+      "quick_type": "graded",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive_mild", "chip": "Mild", "label": "Mild Pain", "semantic": "positive", "color": "yellow" },
+          { "value": "positive_moderate", "chip": "Mod", "label": "Moderate Pain", "semantic": "positive", "color": "orange" },
+          { "value": "positive_severe", "chip": "Severe", "label": "Severe Pain", "semantic": "positive", "color": "red" },
+          { "value": "unable_to_perform", "chip": "N/A", "label": "Unable", "semantic": "equivocal", "color": "gray" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "affected_side", "auto_from_screening": true },
+      "screening_absorbs": ["pain_location", "pain_intensity"],
+      "voice_template": "Stork {result} {side}",
+      "diagnostic_value": "Spondylolysis / pars interarticularis stress fracture"
+    },
+
+    "ASSESS_046": {
+      "name": "Quadrant Test (Kemp's)",
+      "quick_type": "graded",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive_local", "chip": "Local", "label": "Local Pain", "semantic": "positive", "color": "yellow" },
+          { "value": "positive_radiating", "chip": "Radiate", "label": "Radiating", "semantic": "positive", "color": "orange" },
+          { "value": "positive_both", "chip": "Both", "label": "Local + Radiate", "semantic": "positive", "color": "red" },
+          { "value": "unable_to_perform", "chip": "N/A", "label": "Unable", "semantic": "equivocal", "color": "gray" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "affected_side", "auto_from_screening": true },
+      "screening_absorbs": ["test_region", "pain_intensity", "radiation_distribution"],
+      "voice_template": "Quadrant {result} {side}",
+      "diagnostic_value": "Facet joint pathology — local = facet, radiating = foraminal stenosis"
+    },
+
+    "ASSESS_047": {
+      "name": "Barlow Test",
+      "quick_type": "binary",
+      "result": {
+        "field_key": "left_hip_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive_dislocation", "chip": "Disloc", "label": "Dislocation", "semantic": "positive", "color": "red" },
+          { "value": "positive_subluxation", "chip": "Sublux", "label": "Subluxation", "semantic": "positive", "color": "orange" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["patient_age", "additional_findings"],
+      "voice_template": "Barlow {result} {side}",
+      "diagnostic_value": "DDH — hip dislocatability in infants"
+    },
+
+    "ASSESS_048": {
+      "name": "Ortolani Test",
+      "quick_type": "binary",
+      "result": {
+        "field_key": "left_hip_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive_reduction", "chip": "Reduce", "label": "Reduction", "semantic": "positive", "color": "orange" },
+          { "value": "positive_irreducible", "chip": "Fixed", "label": "Irreducible", "semantic": "positive", "color": "red" },
+          { "value": "uncertain", "chip": "?", "label": "Uncertain", "semantic": "equivocal", "color": "gray" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["patient_age", "associated_findings"],
+      "voice_template": "Ortolani {result} {side}",
+      "diagnostic_value": "DDH — hip reducibility in infants"
+    },
+
+    "ASSESS_049": {
+      "name": "Galeazzi Sign (Allis Test)",
+      "quick_type": "graded",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive_left_short", "chip": "L short", "label": "Left Short", "semantic": "positive", "color": "orange" },
+          { "value": "positive_right_short", "chip": "R short", "label": "Right Short", "semantic": "positive", "color": "orange" },
+          { "value": "bilateral_shortening", "chip": "Bilat", "label": "Bilateral", "semantic": "positive", "color": "red" },
+          { "value": "unable_to_assess", "chip": "N/A", "label": "Unable", "semantic": "equivocal", "color": "gray" }
+        ]
+      },
+      "key_metric": null,
+      "side": null,
+      "screening_absorbs": ["patient_age", "height_discrepancy", "associated_findings"],
+      "voice_template": "Galeazzi {result}",
+      "diagnostic_value": "Limb length discrepancy / DDH"
+    },
+
+    "ASSESS_050": {
+      "name": "Rib Spring Test",
+      "quick_type": "grid",
+      "grid_config": {
+        "rows_from_screening": false,
+        "rows": [
+          { "key": "upper_ribs", "label": "Upper (1-4)" },
+          { "key": "middle_ribs", "label": "Middle (5-8)" },
+          { "key": "lower_ribs", "label": "Lower (9-12)" }
+        ],
+        "columns": [
+          { "key": "left", "label": "L" },
+          { "key": "right", "label": "R" }
+        ],
+        "value_options": [
+          { "value": "normal", "chip": "N", "label": "Normal", "color": "green" },
+          { "value": "mild_restriction", "chip": "Mild", "label": "Mild", "color": "yellow" },
+          { "value": "moderate_restriction", "chip": "Mod", "label": "Moderate", "color": "orange" },
+          { "value": "severe_restriction", "chip": "Sev", "label": "Severe", "color": "red" },
+          { "value": "hypermobile", "chip": "Hyp", "label": "Hypermobile", "color": "blue" }
+        ],
+        "default_value": "normal",
+        "tap_to_cycle": true
+      },
+      "key_metric": null,
+      "side": null,
+      "screening_absorbs": ["pain_response", "breathing_correlation"],
+      "voice_template": "Rib Spring {level} {value} {side}",
+      "diagnostic_value": "Rib mobility restriction — guides mobilization level"
+    },
+
+    "ASSESS_051": {
+      "name": "Breathing Pattern Assessment",
+      "quick_type": "graded",
+      "result": {
+        "field_key": "breathing_pattern",
+        "options": [
+          { "value": "diaphragmatic", "chip": "Diaphragm", "label": "Diaphragmatic", "semantic": "negative", "color": "green" },
+          { "value": "apical", "chip": "Apical", "label": "Apical", "semantic": "positive", "color": "orange" },
+          { "value": "paradoxical", "chip": "Paradox", "label": "Paradoxical", "semantic": "positive", "color": "red" },
+          { "value": "mixed_pattern", "chip": "Mixed", "label": "Mixed", "semantic": "positive", "color": "yellow" }
+        ]
+      },
+      "key_metric": {
+        "field_key": "respiratory_rate",
+        "type": "number",
+        "label": "Resp rate",
+        "unit": "/min",
+        "range": [8, 40],
+        "diagnostic_reason": ">20 = hyperventilation pattern, <12 = concerning"
+      },
+      "side": null,
+      "screening_absorbs": ["accessory_muscle_use", "symptoms_with_breathing"],
+      "voice_template": "Breathing {result} rate {key_metric}",
+      "diagnostic_value": "Breathing dysfunction — apical/paradoxical = motor control issue"
+    },
+
+    "ASSESS_052": {
+      "name": "TMJ Compression Test",
+      "quick_type": "binary",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive", "chip": "+", "label": "Positive", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["pain_location", "pain_intensity", "associated_sounds", "symptoms_reproduced"],
+      "voice_template": "TMJ Compression {result} {side}",
+      "diagnostic_value": "TMJ disc pathology — pain on compression = disc/joint surface issue"
+    },
+
+    "ASSESS_053": {
+      "name": "TMJ Lateral Deviation Test",
+      "quick_type": "measurement",
+      "measurement_config": {
+        "fields": [
+          { "field_key": "mouth_opening", "label": "Opening", "unit": "mm", "range": [10, 70], "normal": 40 },
+          { "field_key": "lateral_excursion_right", "label": "Lateral R", "unit": "mm", "range": [0, 25], "normal": 10 },
+          { "field_key": "lateral_excursion_left", "label": "Lateral L", "unit": "mm", "range": [0, 25], "normal": 10 },
+          { "field_key": "protrusion", "label": "Protrusion", "unit": "mm", "range": [0, 15], "normal": 5 }
+        ],
+        "key_observation": {
+          "field_key": "deviation_during_opening",
+          "label": "Deviation",
+          "options": [
+            { "value": "no_deviation", "label": "None" },
+            { "value": "deviates_right", "label": "Right" },
+            { "value": "deviates_left", "label": "Left" },
+            { "value": "c_curve", "label": "C-curve" },
+            { "value": "s_curve", "label": "S-curve" }
+          ]
+        }
+      },
+      "key_metric": null,
+      "side": null,
+      "screening_absorbs": ["pain_during_movement", "joint_sounds"],
+      "voice_template": "TMJ opening {opening}mm lateral right {lat_r}mm left {lat_l}mm deviation {deviation}",
+      "diagnostic_value": "TMJ movement dysfunction — deviation pattern identifies disc displacement side"
+    },
+
+    "ASSESS_054": {
+      "name": "Scapular Assistance Test",
+      "quick_type": "binary",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive", "chip": "+", "label": "Positive", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["improvement_type", "arm_elevation_tested", "impingement_signs"],
+      "voice_template": "Scapular Assistance {result} {side}",
+      "diagnostic_value": "Scapular dyskinesis — positive = scapular stabilization will help"
+    },
+
+    "ASSESS_055": {
+      "name": "Scour Test (Hip)",
+      "quick_type": "binary",
+      "result": {
+        "field_key": "test_result",
+        "options": [
+          { "value": "negative", "chip": "−", "label": "Negative", "semantic": "negative", "color": "green" },
+          { "value": "positive", "chip": "+", "label": "Positive", "semantic": "positive", "color": "red" }
+        ]
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["symptoms_reproduced", "pain_intensity"],
+      "voice_template": "Hip Scour {result} {side}",
+      "diagnostic_value": "Intra-articular hip pathology — labral tear, OA, loose body"
+    },
+
+    "ASSESS_056": {
+      "name": "Range of Motion Assessment",
+      "quick_type": "measurement",
+      "measurement_config": {
+        "joints_from_screening": true,
+        "joints_source": "region_joint_map.{region}",
+        "per_joint_fields": [
+          { "field_key": "active_rom", "label": "Active", "unit": "°" },
+          { "field_key": "passive_rom", "label": "Passive", "unit": "°" }
+        ],
+        "show_normal_reference": true
+      },
+      "key_metric": null,
+      "side": { "field_key": "side_tested", "auto_from_screening": true },
+      "screening_absorbs": ["pain_during_movement", "pain_severity", "end_feel", "movement_quality"],
+      "voice_template": "{joint} active {active} passive {passive} {side}",
+      "diagnostic_value": "Movement limitation pattern — capsular vs non-capsular pattern identifies pathology type"
+    }
+  }
+}

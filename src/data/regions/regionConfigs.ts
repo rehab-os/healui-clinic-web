@@ -9,6 +9,7 @@
 export interface QuestionOption {
   value: string;
   label: string;
+  normalROM?: number; // AAOS reference value in degrees (for ROM movements)
 }
 
 export interface MyotomeConfig {
@@ -31,6 +32,7 @@ export interface RegionConfig {
   functionalLimitations: QuestionOption[];
   romMovements: QuestionOption[];
   mmtMuscleGroups: QuestionOption[];
+  tendernessLandmarks: QuestionOption[];
   relevantDermatomes: string[];
   relevantMyotomes: MyotomeConfig[];
   gaitObservations: QuestionOption[];
@@ -81,13 +83,13 @@ export const REGION_CONFIGS: Record<string, RegionConfig> = {
       { value: 'work_tasks', label: 'Work tasks' }
     ],
     romMovements: [
-      { value: 'flexion', label: 'Flexion (arm forward/up)' },
-      { value: 'extension', label: 'Extension (arm backward)' },
-      { value: 'abduction', label: 'Abduction (arm out to side)' },
-      { value: 'adduction', label: 'Adduction (arm across body)' },
-      { value: 'internal_rotation', label: 'Internal rotation' },
-      { value: 'external_rotation', label: 'External rotation' },
-      { value: 'horizontal_adduction', label: 'Horizontal adduction' }
+      { value: 'flexion', label: 'Flexion (arm forward/up)', normalROM: 180 },
+      { value: 'extension', label: 'Extension (arm backward)', normalROM: 60 },
+      { value: 'abduction', label: 'Abduction (arm out to side)', normalROM: 180 },
+      { value: 'adduction', label: 'Adduction (arm across body)', normalROM: 45 },
+      { value: 'internal_rotation', label: 'Internal rotation', normalROM: 70 },
+      { value: 'external_rotation', label: 'External rotation', normalROM: 90 },
+      { value: 'horizontal_adduction', label: 'Horizontal adduction', normalROM: 135 }
     ],
     mmtMuscleGroups: [
       { value: 'flexors', label: 'Flexors (Anterior deltoid)' },
@@ -96,6 +98,14 @@ export const REGION_CONFIGS: Record<string, RegionConfig> = {
       { value: 'adductors', label: 'Adductors (Pectoralis, Lats)' },
       { value: 'internal_rotators', label: 'Internal rotators (Subscapularis)' },
       { value: 'external_rotators', label: 'External rotators (Infraspinatus, Teres minor)' }
+    ],
+    tendernessLandmarks: [
+      { value: 'bicipital_groove', label: 'Bicipital groove' },
+      { value: 'ac_joint', label: 'AC joint' },
+      { value: 'supraspinous_fossa', label: 'Supraspinous fossa' },
+      { value: 'greater_tuberosity', label: 'Greater tuberosity' },
+      { value: 'posterior_capsule', label: 'Posterior capsule' },
+      { value: 'coracoid_process', label: 'Coracoid process' }
     ],
     relevantDermatomes: ['C4', 'C5', 'C6'],
     relevantMyotomes: [
@@ -165,10 +175,10 @@ export const REGION_CONFIGS: Record<string, RegionConfig> = {
       { value: 'work_tasks', label: 'Work tasks' }
     ],
     romMovements: [
-      { value: 'flexion', label: 'Flexion (bending elbow)' },
-      { value: 'extension', label: 'Extension (straightening elbow)' },
-      { value: 'supination', label: 'Supination (palm up)' },
-      { value: 'pronation', label: 'Pronation (palm down)' }
+      { value: 'flexion', label: 'Flexion (bending elbow)', normalROM: 150 },
+      { value: 'extension', label: 'Extension (straightening elbow)', normalROM: 0 },
+      { value: 'supination', label: 'Supination (palm up)', normalROM: 80 },
+      { value: 'pronation', label: 'Pronation (palm down)', normalROM: 80 }
     ],
     mmtMuscleGroups: [
       { value: 'flexors', label: 'Flexors (Biceps, Brachialis)' },
@@ -177,6 +187,14 @@ export const REGION_CONFIGS: Record<string, RegionConfig> = {
       { value: 'pronators', label: 'Pronators' },
       { value: 'wrist_extensors', label: 'Wrist extensors' },
       { value: 'wrist_flexors', label: 'Wrist flexors' }
+    ],
+    tendernessLandmarks: [
+      { value: 'lateral_epicondyle', label: 'Lateral epicondyle' },
+      { value: 'medial_epicondyle', label: 'Medial epicondyle' },
+      { value: 'olecranon', label: 'Olecranon' },
+      { value: 'radial_head', label: 'Radial head' },
+      { value: 'cubital_fossa', label: 'Cubital fossa' },
+      { value: 'common_extensor_origin', label: 'Common extensor origin' }
     ],
     relevantDermatomes: ['C5', 'C6', 'C7'],
     relevantMyotomes: [
@@ -235,10 +253,10 @@ export const REGION_CONFIGS: Record<string, RegionConfig> = {
       { value: 'lifting', label: 'Lifting' }
     ],
     romMovements: [
-      { value: 'supination', label: 'Supination (palm up)' },
-      { value: 'pronation', label: 'Pronation (palm down)' },
-      { value: 'wrist_flexion', label: 'Wrist flexion' },
-      { value: 'wrist_extension', label: 'Wrist extension' }
+      { value: 'supination', label: 'Supination (palm up)', normalROM: 80 },
+      { value: 'pronation', label: 'Pronation (palm down)', normalROM: 80 },
+      { value: 'wrist_flexion', label: 'Wrist flexion', normalROM: 80 },
+      { value: 'wrist_extension', label: 'Wrist extension', normalROM: 70 }
     ],
     mmtMuscleGroups: [
       { value: 'supinators', label: 'Supinators' },
@@ -247,6 +265,13 @@ export const REGION_CONFIGS: Record<string, RegionConfig> = {
       { value: 'wrist_extensors', label: 'Wrist extensors' },
       { value: 'finger_flexors', label: 'Finger flexors' },
       { value: 'finger_extensors', label: 'Finger extensors' }
+    ],
+    tendernessLandmarks: [
+      { value: 'proximal_radioulnar', label: 'Proximal radioulnar joint' },
+      { value: 'distal_radioulnar', label: 'Distal radioulnar joint' },
+      { value: 'flexor_mass', label: 'Flexor muscle mass' },
+      { value: 'extensor_mass', label: 'Extensor muscle mass' },
+      { value: 'interosseous_membrane', label: 'Interosseous membrane' }
     ],
     relevantDermatomes: ['C6', 'C7', 'C8'],
     relevantMyotomes: [
@@ -304,10 +329,10 @@ export const REGION_CONFIGS: Record<string, RegionConfig> = {
       { value: 'carrying', label: 'Carrying heavy items' }
     ],
     romMovements: [
-      { value: 'flexion', label: 'Flexion (bending palm down)' },
-      { value: 'extension', label: 'Extension (bending palm up)' },
-      { value: 'radial_deviation', label: 'Radial deviation (thumb side)' },
-      { value: 'ulnar_deviation', label: 'Ulnar deviation (pinky side)' }
+      { value: 'flexion', label: 'Flexion (bending palm down)', normalROM: 80 },
+      { value: 'extension', label: 'Extension (bending palm up)', normalROM: 70 },
+      { value: 'radial_deviation', label: 'Radial deviation (thumb side)', normalROM: 20 },
+      { value: 'ulnar_deviation', label: 'Ulnar deviation (pinky side)', normalROM: 30 }
     ],
     mmtMuscleGroups: [
       { value: 'wrist_flexors', label: 'Wrist flexors' },
@@ -315,6 +340,14 @@ export const REGION_CONFIGS: Record<string, RegionConfig> = {
       { value: 'radial_deviators', label: 'Radial deviators' },
       { value: 'ulnar_deviators', label: 'Ulnar deviators' },
       { value: 'grip_strength', label: 'Grip strength' }
+    ],
+    tendernessLandmarks: [
+      { value: 'anatomical_snuffbox', label: 'Anatomical snuffbox' },
+      { value: 'lister_tubercle', label: "Lister's tubercle" },
+      { value: 'distal_radius', label: 'Distal radius' },
+      { value: 'distal_ulna', label: 'Distal ulna / ulnar styloid' },
+      { value: 'carpal_tunnel', label: 'Carpal tunnel area' },
+      { value: 'tfcc', label: 'TFCC (ulnar side)' }
     ],
     relevantDermatomes: ['C6', 'C7', 'C8'],
     relevantMyotomes: [
@@ -371,11 +404,11 @@ export const REGION_CONFIGS: Record<string, RegionConfig> = {
       { value: 'phone_use', label: 'Using phone' }
     ],
     romMovements: [
-      { value: 'finger_flexion', label: 'Finger flexion (making fist)' },
-      { value: 'finger_extension', label: 'Finger extension (straightening)' },
-      { value: 'finger_abduction', label: 'Finger abduction (spreading)' },
+      { value: 'finger_flexion', label: 'Finger flexion (making fist)', normalROM: 90 },
+      { value: 'finger_extension', label: 'Finger extension (straightening)', normalROM: 0 },
+      { value: 'finger_abduction', label: 'Finger abduction (spreading)', normalROM: 20 },
       { value: 'thumb_opposition', label: 'Thumb opposition' },
-      { value: 'thumb_abduction', label: 'Thumb abduction' }
+      { value: 'thumb_abduction', label: 'Thumb abduction', normalROM: 70 }
     ],
     mmtMuscleGroups: [
       { value: 'finger_flexors', label: 'Finger flexors (grip)' },
@@ -384,6 +417,14 @@ export const REGION_CONFIGS: Record<string, RegionConfig> = {
       { value: 'thenar', label: 'Thenar muscles (thumb)' },
       { value: 'hypothenar', label: 'Hypothenar muscles' },
       { value: 'pinch_strength', label: 'Pinch strength' }
+    ],
+    tendernessLandmarks: [
+      { value: 'mcp_joints', label: 'MCP joints' },
+      { value: 'pip_joints', label: 'PIP joints' },
+      { value: 'dip_joints', label: 'DIP joints' },
+      { value: 'thenar_eminence', label: 'Thenar eminence' },
+      { value: 'hypothenar_eminence', label: 'Hypothenar eminence' },
+      { value: 'first_cmc', label: 'First CMC joint (thumb base)' }
     ],
     relevantDermatomes: ['C6', 'C7', 'C8', 'T1'],
     relevantMyotomes: [
@@ -445,17 +486,24 @@ export const REGION_CONFIGS: Record<string, RegionConfig> = {
       { value: 'work_tasks', label: 'Work tasks' }
     ],
     romMovements: [
-      { value: 'shoulder_flexion', label: 'Shoulder flexion' },
-      { value: 'shoulder_extension', label: 'Shoulder extension' },
-      { value: 'shoulder_abduction', label: 'Shoulder abduction' },
-      { value: 'elbow_flexion', label: 'Elbow flexion' },
-      { value: 'elbow_extension', label: 'Elbow extension' }
+      { value: 'shoulder_flexion', label: 'Shoulder flexion', normalROM: 180 },
+      { value: 'shoulder_extension', label: 'Shoulder extension', normalROM: 60 },
+      { value: 'shoulder_abduction', label: 'Shoulder abduction', normalROM: 180 },
+      { value: 'elbow_flexion', label: 'Elbow flexion', normalROM: 150 },
+      { value: 'elbow_extension', label: 'Elbow extension', normalROM: 0 }
     ],
     mmtMuscleGroups: [
       { value: 'biceps', label: 'Biceps' },
       { value: 'triceps', label: 'Triceps' },
       { value: 'deltoid', label: 'Deltoid' },
       { value: 'brachialis', label: 'Brachialis' }
+    ],
+    tendernessLandmarks: [
+      { value: 'biceps_belly', label: 'Biceps muscle belly' },
+      { value: 'triceps_belly', label: 'Triceps muscle belly' },
+      { value: 'deltoid_insertion', label: 'Deltoid insertion' },
+      { value: 'mid_humerus', label: 'Mid-humerus' },
+      { value: 'brachialis', label: 'Brachialis area' }
     ],
     relevantDermatomes: ['C5', 'C6', 'T1'],
     relevantMyotomes: [
@@ -520,12 +568,12 @@ export const REGION_CONFIGS: Record<string, RegionConfig> = {
       { value: 'reversing_car', label: 'Reversing car' }
     ],
     romMovements: [
-      { value: 'flexion', label: 'Flexion (chin to chest)' },
-      { value: 'extension', label: 'Extension (looking up)' },
-      { value: 'rotation_left', label: 'Rotation left' },
-      { value: 'rotation_right', label: 'Rotation right' },
-      { value: 'lateral_flexion_left', label: 'Lateral flexion left' },
-      { value: 'lateral_flexion_right', label: 'Lateral flexion right' }
+      { value: 'flexion', label: 'Flexion (chin to chest)', normalROM: 80 },
+      { value: 'extension', label: 'Extension (looking up)', normalROM: 70 },
+      { value: 'rotation_left', label: 'Rotation left', normalROM: 80 },
+      { value: 'rotation_right', label: 'Rotation right', normalROM: 80 },
+      { value: 'lateral_flexion_left', label: 'Lateral flexion left', normalROM: 45 },
+      { value: 'lateral_flexion_right', label: 'Lateral flexion right', normalROM: 45 }
     ],
     mmtMuscleGroups: [
       { value: 'flexors', label: 'Neck flexors (SCM, deep flexors)' },
@@ -534,6 +582,14 @@ export const REGION_CONFIGS: Record<string, RegionConfig> = {
       { value: 'lateral_flexors', label: 'Lateral flexors' },
       { value: 'upper_trap', label: 'Upper trapezius' },
       { value: 'deep_neck_flexors', label: 'Deep neck flexors' }
+    ],
+    tendernessLandmarks: [
+      { value: 'spinous_processes', label: 'Spinous processes' },
+      { value: 'paraspinals', label: 'Paraspinals' },
+      { value: 'scm', label: 'SCM' },
+      { value: 'upper_trapezius', label: 'Upper trapezius' },
+      { value: 'scalenes', label: 'Scalenes' },
+      { value: 'suboccipital', label: 'Suboccipital' }
     ],
     relevantDermatomes: ['C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8'],
     relevantMyotomes: [
@@ -609,18 +665,25 @@ export const REGION_CONFIGS: Record<string, RegionConfig> = {
       { value: 'reaching', label: 'Reaching' }
     ],
     romMovements: [
-      { value: 'flexion', label: 'Flexion (bending forward)' },
-      { value: 'extension', label: 'Extension (bending backward)' },
-      { value: 'rotation_left', label: 'Rotation left' },
-      { value: 'rotation_right', label: 'Rotation right' },
-      { value: 'lateral_flexion_left', label: 'Lateral flexion left' },
-      { value: 'lateral_flexion_right', label: 'Lateral flexion right' }
+      { value: 'flexion', label: 'Flexion (bending forward)', normalROM: 40 },
+      { value: 'extension', label: 'Extension (bending backward)', normalROM: 20 },
+      { value: 'rotation_left', label: 'Rotation left', normalROM: 35 },
+      { value: 'rotation_right', label: 'Rotation right', normalROM: 35 },
+      { value: 'lateral_flexion_left', label: 'Lateral flexion left', normalROM: 25 },
+      { value: 'lateral_flexion_right', label: 'Lateral flexion right', normalROM: 25 }
     ],
     mmtMuscleGroups: [
       { value: 'extensors', label: 'Thoracic extensors' },
       { value: 'rotators', label: 'Rotators' },
       { value: 'scapular_retractors', label: 'Scapular retractors (Rhomboids)' },
       { value: 'serratus', label: 'Serratus anterior' }
+    ],
+    tendernessLandmarks: [
+      { value: 'spinous_processes', label: 'Spinous processes (T1–T12)' },
+      { value: 'paraspinals', label: 'Paraspinals' },
+      { value: 'costovertebral_joints', label: 'Costovertebral joints' },
+      { value: 'rhomboid_area', label: 'Rhomboid area' },
+      { value: 'scapular_border', label: 'Medial scapular border' }
     ],
     relevantDermatomes: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
     relevantMyotomes: [
@@ -688,12 +751,12 @@ export const REGION_CONFIGS: Record<string, RegionConfig> = {
       { value: 'work', label: 'Work activities' }
     ],
     romMovements: [
-      { value: 'flexion', label: 'Flexion (bending forward)' },
-      { value: 'extension', label: 'Extension (bending backward)' },
-      { value: 'lateral_flexion_left', label: 'Lateral flexion left' },
-      { value: 'lateral_flexion_right', label: 'Lateral flexion right' },
-      { value: 'rotation_left', label: 'Rotation left' },
-      { value: 'rotation_right', label: 'Rotation right' }
+      { value: 'flexion', label: 'Flexion (bending forward)', normalROM: 60 },
+      { value: 'extension', label: 'Extension (bending backward)', normalROM: 25 },
+      { value: 'lateral_flexion_left', label: 'Lateral flexion left', normalROM: 25 },
+      { value: 'lateral_flexion_right', label: 'Lateral flexion right', normalROM: 25 },
+      { value: 'rotation_left', label: 'Rotation left', normalROM: 30 },
+      { value: 'rotation_right', label: 'Rotation right', normalROM: 30 }
     ],
     mmtMuscleGroups: [
       { value: 'hip_flexors', label: 'Hip flexors (L1-L2)' },
@@ -702,6 +765,14 @@ export const REGION_CONFIGS: Record<string, RegionConfig> = {
       { value: 'big_toe_extensors', label: 'Big toe extensors (L5)' },
       { value: 'ankle_plantarflexors', label: 'Ankle plantarflexors (S1)' },
       { value: 'hip_abductors', label: 'Hip abductors (L5)' }
+    ],
+    tendernessLandmarks: [
+      { value: 'spinous_processes', label: 'Spinous processes (L1–L5)' },
+      { value: 'paraspinals', label: 'Paraspinals' },
+      { value: 'quadratus_lumborum', label: 'Quadratus lumborum' },
+      { value: 'si_joint', label: 'SI joint' },
+      { value: 'sciatic_notch', label: 'Sciatic notch' },
+      { value: 'psis', label: 'PSIS' }
     ],
     relevantDermatomes: ['L1', 'L2', 'L3', 'L4', 'L5', 'S1', 'S2'],
     relevantMyotomes: [
@@ -783,7 +854,7 @@ export const REGION_CONFIGS: Record<string, RegionConfig> = {
       { value: 'sleeping', label: 'Sleeping' }
     ],
     romMovements: [
-      { value: 'thoracic_rotation', label: 'Thoracic rotation' },
+      { value: 'thoracic_rotation', label: 'Thoracic rotation', normalROM: 35 },
       { value: 'deep_inspiration', label: 'Deep inspiration' },
       { value: 'shoulder_movements', label: 'Shoulder movements' }
     ],
@@ -791,6 +862,13 @@ export const REGION_CONFIGS: Record<string, RegionConfig> = {
       { value: 'pectoralis', label: 'Pectoralis major/minor' },
       { value: 'serratus', label: 'Serratus anterior' },
       { value: 'intercostals', label: 'Intercostals' }
+    ],
+    tendernessLandmarks: [
+      { value: 'sternum', label: 'Sternum' },
+      { value: 'costochondral_junctions', label: 'Costochondral junctions' },
+      { value: 'pectoralis_insertion', label: 'Pectoralis insertion' },
+      { value: 'intercostal_spaces', label: 'Intercostal spaces' },
+      { value: 'xiphoid', label: 'Xiphoid process' }
     ],
     relevantDermatomes: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6'],
     relevantMyotomes: [],
@@ -842,13 +920,20 @@ export const REGION_CONFIGS: Record<string, RegionConfig> = {
       { value: 'coughing', label: 'Coughing/sneezing' }
     ],
     romMovements: [
-      { value: 'trunk_flexion', label: 'Trunk flexion' },
-      { value: 'trunk_rotation', label: 'Trunk rotation' }
+      { value: 'trunk_flexion', label: 'Trunk flexion', normalROM: 60 },
+      { value: 'trunk_rotation', label: 'Trunk rotation', normalROM: 35 }
     ],
     mmtMuscleGroups: [
       { value: 'rectus_abdominis', label: 'Rectus abdominis' },
       { value: 'obliques', label: 'Obliques (internal/external)' },
       { value: 'transversus', label: 'Transversus abdominis' }
+    ],
+    tendernessLandmarks: [
+      { value: 'epigastric', label: 'Epigastric area' },
+      { value: 'periumbilical', label: 'Periumbilical area' },
+      { value: 'inguinal', label: 'Inguinal area' },
+      { value: 'rectus_abdominis', label: 'Rectus abdominis' },
+      { value: 'oblique_area', label: 'Oblique area' }
     ],
     relevantDermatomes: ['T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
     relevantMyotomes: [
@@ -908,12 +993,12 @@ export const REGION_CONFIGS: Record<string, RegionConfig> = {
       { value: 'sexual_activity', label: 'Sexual activity' }
     ],
     romMovements: [
-      { value: 'flexion', label: 'Flexion (knee to chest)' },
-      { value: 'extension', label: 'Extension (leg backward)' },
-      { value: 'abduction', label: 'Abduction (leg out to side)' },
-      { value: 'adduction', label: 'Adduction (leg across body)' },
-      { value: 'internal_rotation', label: 'Internal rotation' },
-      { value: 'external_rotation', label: 'External rotation' }
+      { value: 'flexion', label: 'Flexion (knee to chest)', normalROM: 120 },
+      { value: 'extension', label: 'Extension (leg backward)', normalROM: 20 },
+      { value: 'abduction', label: 'Abduction (leg out to side)', normalROM: 45 },
+      { value: 'adduction', label: 'Adduction (leg across body)', normalROM: 30 },
+      { value: 'internal_rotation', label: 'Internal rotation', normalROM: 35 },
+      { value: 'external_rotation', label: 'External rotation', normalROM: 45 }
     ],
     mmtMuscleGroups: [
       { value: 'flexors', label: 'Flexors (Iliopsoas, Rectus femoris)' },
@@ -922,6 +1007,14 @@ export const REGION_CONFIGS: Record<string, RegionConfig> = {
       { value: 'adductors', label: 'Adductors' },
       { value: 'internal_rotators', label: 'Internal rotators' },
       { value: 'external_rotators', label: 'External rotators (Piriformis, Deep rotators)' }
+    ],
+    tendernessLandmarks: [
+      { value: 'greater_trochanter', label: 'Greater trochanter' },
+      { value: 'inguinal_crease', label: 'Inguinal crease' },
+      { value: 'asis', label: 'ASIS' },
+      { value: 'ischial_tuberosity', label: 'Ischial tuberosity' },
+      { value: 'piriformis', label: 'Piriformis' },
+      { value: 'it_band_origin', label: 'IT band origin' }
     ],
     relevantDermatomes: ['L1', 'L2', 'L3', 'L4'],
     relevantMyotomes: [
@@ -997,16 +1090,23 @@ export const REGION_CONFIGS: Record<string, RegionConfig> = {
       { value: 'sports', label: 'Sports activities' }
     ],
     romMovements: [
-      { value: 'hip_flexion', label: 'Hip flexion' },
-      { value: 'hip_extension', label: 'Hip extension' },
-      { value: 'knee_flexion', label: 'Knee flexion' },
-      { value: 'knee_extension', label: 'Knee extension' }
+      { value: 'hip_flexion', label: 'Hip flexion', normalROM: 120 },
+      { value: 'hip_extension', label: 'Hip extension', normalROM: 20 },
+      { value: 'knee_flexion', label: 'Knee flexion', normalROM: 135 },
+      { value: 'knee_extension', label: 'Knee extension', normalROM: 0 }
     ],
     mmtMuscleGroups: [
       { value: 'quadriceps', label: 'Quadriceps' },
       { value: 'hamstrings', label: 'Hamstrings' },
       { value: 'hip_flexors', label: 'Hip flexors' },
       { value: 'adductors', label: 'Adductors' }
+    ],
+    tendernessLandmarks: [
+      { value: 'quadriceps_belly', label: 'Quadriceps muscle belly' },
+      { value: 'hamstring_belly', label: 'Hamstring muscle belly' },
+      { value: 'adductor_origin', label: 'Adductor origin' },
+      { value: 'it_band', label: 'IT band' },
+      { value: 'rectus_femoris_origin', label: 'Rectus femoris origin' }
     ],
     relevantDermatomes: ['L2', 'L3', 'L4', 'L5', 'S1'],
     relevantMyotomes: [
@@ -1082,12 +1182,20 @@ export const REGION_CONFIGS: Record<string, RegionConfig> = {
       { value: 'sports', label: 'Sports activities' }
     ],
     romMovements: [
-      { value: 'flexion', label: 'Flexion (bending knee)' },
-      { value: 'extension', label: 'Extension (straightening knee)' }
+      { value: 'flexion', label: 'Flexion (bending knee)', normalROM: 135 },
+      { value: 'extension', label: 'Extension (straightening knee)', normalROM: 0 }
     ],
     mmtMuscleGroups: [
       { value: 'extensors', label: 'Extensors (Quadriceps)' },
       { value: 'flexors', label: 'Flexors (Hamstrings)' }
+    ],
+    tendernessLandmarks: [
+      { value: 'medial_joint_line', label: 'Medial joint line' },
+      { value: 'lateral_joint_line', label: 'Lateral joint line' },
+      { value: 'patella', label: 'Patella' },
+      { value: 'patellar_tendon', label: 'Patellar tendon' },
+      { value: 'tibial_tuberosity', label: 'Tibial tuberosity' },
+      { value: 'popliteal_fossa', label: 'Popliteal fossa' }
     ],
     relevantDermatomes: ['L3', 'L4'],
     relevantMyotomes: [
@@ -1162,16 +1270,23 @@ export const REGION_CONFIGS: Record<string, RegionConfig> = {
       { value: 'sports', label: 'Sports activities' }
     ],
     romMovements: [
-      { value: 'ankle_dorsiflexion', label: 'Ankle dorsiflexion' },
-      { value: 'ankle_plantarflexion', label: 'Ankle plantarflexion' },
-      { value: 'knee_flexion', label: 'Knee flexion' },
-      { value: 'knee_extension', label: 'Knee extension' }
+      { value: 'ankle_dorsiflexion', label: 'Ankle dorsiflexion', normalROM: 20 },
+      { value: 'ankle_plantarflexion', label: 'Ankle plantarflexion', normalROM: 50 },
+      { value: 'knee_flexion', label: 'Knee flexion', normalROM: 135 },
+      { value: 'knee_extension', label: 'Knee extension', normalROM: 0 }
     ],
     mmtMuscleGroups: [
       { value: 'plantarflexors', label: 'Plantarflexors (Gastrocnemius, Soleus)' },
       { value: 'dorsiflexors', label: 'Dorsiflexors (Tibialis anterior)' },
       { value: 'invertors', label: 'Invertors (Tibialis posterior)' },
       { value: 'evertors', label: 'Evertors (Peroneals)' }
+    ],
+    tendernessLandmarks: [
+      { value: 'tibial_shaft', label: 'Tibial shaft (anterior)' },
+      { value: 'gastrocnemius_belly', label: 'Gastrocnemius muscle belly' },
+      { value: 'soleus', label: 'Soleus' },
+      { value: 'achilles_mid', label: 'Achilles tendon (mid-portion)' },
+      { value: 'tibialis_anterior', label: 'Tibialis anterior' }
     ],
     relevantDermatomes: ['L4', 'L5', 'S1'],
     relevantMyotomes: [
@@ -1244,16 +1359,24 @@ export const REGION_CONFIGS: Record<string, RegionConfig> = {
       { value: 'sports', label: 'Sports activities' }
     ],
     romMovements: [
-      { value: 'dorsiflexion', label: 'Dorsiflexion (toes up)' },
-      { value: 'plantarflexion', label: 'Plantarflexion (toes down)' },
-      { value: 'inversion', label: 'Inversion (sole inward)' },
-      { value: 'eversion', label: 'Eversion (sole outward)' }
+      { value: 'dorsiflexion', label: 'Dorsiflexion (toes up)', normalROM: 20 },
+      { value: 'plantarflexion', label: 'Plantarflexion (toes down)', normalROM: 50 },
+      { value: 'inversion', label: 'Inversion (sole inward)', normalROM: 35 },
+      { value: 'eversion', label: 'Eversion (sole outward)', normalROM: 15 }
     ],
     mmtMuscleGroups: [
       { value: 'dorsiflexors', label: 'Dorsiflexors (Tibialis anterior)' },
       { value: 'plantarflexors', label: 'Plantarflexors (Gastrocnemius, Soleus)' },
       { value: 'invertors', label: 'Invertors (Tibialis posterior)' },
       { value: 'evertors', label: 'Evertors (Peroneals)' }
+    ],
+    tendernessLandmarks: [
+      { value: 'lateral_malleolus', label: 'Lateral malleolus' },
+      { value: 'medial_malleolus', label: 'Medial malleolus' },
+      { value: 'atfl_area', label: 'ATFL area' },
+      { value: 'achilles_tendon', label: 'Achilles tendon insertion' },
+      { value: 'sinus_tarsi', label: 'Sinus tarsi' },
+      { value: 'plantar_fascia_origin', label: 'Plantar fascia origin' }
     ],
     relevantDermatomes: ['L4', 'L5', 'S1'],
     relevantMyotomes: [
@@ -1331,16 +1454,24 @@ export const REGION_CONFIGS: Record<string, RegionConfig> = {
       { value: 'barefoot', label: 'Walking barefoot' }
     ],
     romMovements: [
-      { value: 'toe_flexion', label: 'Toe flexion' },
-      { value: 'toe_extension', label: 'Toe extension' },
+      { value: 'toe_flexion', label: 'Toe flexion', normalROM: 45 },
+      { value: 'toe_extension', label: 'Toe extension', normalROM: 70 },
       { value: 'midfoot_mobility', label: 'Midfoot mobility' },
-      { value: 'first_mtp', label: 'First MTP joint (big toe)' }
+      { value: 'first_mtp', label: 'First MTP joint (big toe)', normalROM: 70 }
     ],
     mmtMuscleGroups: [
       { value: 'toe_flexors', label: 'Toe flexors' },
       { value: 'toe_extensors', label: 'Toe extensors' },
       { value: 'intrinsics', label: 'Foot intrinsics' },
       { value: 'tibialis_posterior', label: 'Tibialis posterior (arch support)' }
+    ],
+    tendernessLandmarks: [
+      { value: 'plantar_fascia', label: 'Plantar fascia (medial calcaneal tubercle)' },
+      { value: 'metatarsal_heads', label: 'Metatarsal heads' },
+      { value: 'first_mtp_joint', label: 'First MTP joint' },
+      { value: 'calcaneus', label: 'Calcaneus (heel)' },
+      { value: 'midfoot_arch', label: 'Midfoot / arch' },
+      { value: 'intermetatarsal_spaces', label: 'Intermetatarsal spaces' }
     ],
     relevantDermatomes: ['L4', 'L5', 'S1', 'S2'],
     relevantMyotomes: [
@@ -1421,17 +1552,25 @@ export const REGION_CONFIGS: Record<string, RegionConfig> = {
       { value: 'social_activities', label: 'Social activities' }
     ],
     romMovements: [
-      { value: 'cervical_flexion', label: 'Cervical flexion' },
-      { value: 'cervical_extension', label: 'Cervical extension' },
-      { value: 'cervical_rotation', label: 'Cervical rotation' },
-      { value: 'cervical_lateral_flexion', label: 'Cervical lateral flexion' },
-      { value: 'jaw_opening', label: 'Jaw opening' }
+      { value: 'cervical_flexion', label: 'Cervical flexion', normalROM: 80 },
+      { value: 'cervical_extension', label: 'Cervical extension', normalROM: 70 },
+      { value: 'cervical_rotation', label: 'Cervical rotation', normalROM: 80 },
+      { value: 'cervical_lateral_flexion', label: 'Cervical lateral flexion', normalROM: 45 },
+      { value: 'jaw_opening', label: 'Jaw opening', normalROM: 40 }
     ],
     mmtMuscleGroups: [
       { value: 'neck_flexors', label: 'Neck flexors' },
       { value: 'neck_extensors', label: 'Neck extensors' },
       { value: 'upper_trap', label: 'Upper trapezius' },
       { value: 'jaw_muscles', label: 'Jaw muscles (if TMJ involved)' }
+    ],
+    tendernessLandmarks: [
+      { value: 'temporal_area', label: 'Temporal area' },
+      { value: 'suboccipital', label: 'Suboccipital region' },
+      { value: 'tmj', label: 'TMJ' },
+      { value: 'masseter', label: 'Masseter' },
+      { value: 'frontal_area', label: 'Frontal area' },
+      { value: 'vertex', label: 'Vertex' }
     ],
     relevantDermatomes: ['C1', 'C2', 'C3', 'C4'],
     relevantMyotomes: [
@@ -1591,6 +1730,14 @@ export function getRelevantReflexes(region: string): ReflexConfig[] {
 export function getBalanceAssessment(region: string): QuestionOption[] {
   const config = getRegionConfig(region);
   return config?.balanceAssessment || [];
+}
+
+/**
+ * Get tenderness landmarks for a region
+ */
+export function getTendernessLandmarks(region: string): QuestionOption[] {
+  const config = getRegionConfig(region);
+  return config?.tendernessLandmarks || [];
 }
 
 /**

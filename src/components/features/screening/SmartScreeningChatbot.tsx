@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
@@ -12,7 +12,6 @@ import {
  Check,
  ArrowRight,
  RotateCcw,
- Stethoscope,
  Target,
  Calendar,
  Sparkles,
@@ -20,13 +19,11 @@ import {
  CircleDot,
  User,
  AlertCircle,
- Zap,
  MessageSquare,
  ClipboardList,
  ChevronRight,
  ChevronDown,
  Brain,
- Crosshair,
  MapPin,
  CalendarDays,
  Bot,
@@ -39,8 +36,8 @@ import {
 } from "@/services/ai/screening-engine.service";
 import BodyMapSelector from "../maps/BodyMapSelector";
 import FloatingSummaryPanel from "./FloatingSummaryPanel";
-import AssessmentRecommendationHub from "../assessments/AssessmentRecommendationHub";
-import AssessmentFormBuilder from "../assessments/AssessmentFormBuilder";
+import QuickAssessmentInput from "../assessments/QuickAssessmentInput";
+import { getAIAssessmentRecommendations } from "@/services/ai/diagnostic.service";
 import screeningAPI from "@/services/api/screening-api.service";
 import useAIQuestionFlow from "@/hooks/useAIQuestionFlow";
 import { motion, AnimatePresence } from "framer-motion";
@@ -66,7 +63,6 @@ import {
   ScreeningProgressBar,
   useAssessmentFlow,
   AssessmentHubDialog,
-  ChatMessage,
   InlineClinicalQuestion,
   ChatProgress,
   SlidingSummaryPanel,
@@ -117,7 +113,7 @@ const QUESTION_CLUBS: Record<string, { questions: string[]; label: string }> = {
   label: "Pain Factors",
  },
  functional: {
-  questions: ["functional_impact", "work_impact"],
+  questions: ["functional_impact"],
   label: "Functional Impact",
  },
  history: {
@@ -198,7 +194,6 @@ const QUESTION_SHORT_LABELS: Record<string, string> = {
  aggravating_factors: 'Aggravates',
  relieving_factors: 'Relieves',
  functional_impact: 'Function',
- work_impact: 'Work Impact',
  gait_pattern: 'Gait',
  posture_observation: 'Posture',
  muscle_tone_observation: 'Muscle Tone',
@@ -713,21 +708,53 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
  const [detectedRedFlags, setDetectedRedFlags] = useState<string[]>([]);
  const [showSummaryPanel, setShowSummaryPanel] = useState(false); // Hidden by default — toggle on demand
  const [showCloseConfirmation, setShowCloseConfirmation] = useState(false);
- const [showChatHistory, setShowChatHistory] = useState(false);
  const [isSourceTrackingPhase, setIsSourceTrackingPhase] = useState(false);
  const [identifiedSources, setIdentifiedSources] = useState<
   Array<{ sourceRegion: string; implication: string }>
  >([]);
 
- // Clinical Assessment states
- const [showAssessmentHub, setShowAssessmentHub] = useState(false);
- const [showDirectAssessment, setShowDirectAssessment] = useState(false);
- const [selectedAssessments, setSelectedAssessments] = useState<any[]>([]);
+ // Inline clinical assessment states
+ const [isAnalyzingForTests, setIsAnalyzingForTests] = useState(false);
+ const [analyzingPhrase, setAnalyzingPhrase] = useState("Analyzing clinical findings...");
+ const [showInlineAssessments, setShowInlineAssessments] = useState(false);
+ const [inlineRecommendations, setInlineRecommendations] = useState<any[]>([]);
+ const [inlineActiveIndex, setInlineActiveIndex] = useState(0);
+ const [inlineCapturedResults, setInlineCapturedResults] = useState<Record<string, Record<string, any>>>({});
+ const [inlineAllComplete, setInlineAllComplete] = useState(false);
  const [completedAssessments, setCompletedAssessments] = useState<any[]>([]);
- const [currentAssessmentIndex, setCurrentAssessmentIndex] = useState(0);
+ const [showAddTest, setShowAddTest] = useState(false);
+ const [addSearchTerm, setAddSearchTerm] = useState("");
+ const [availableAssessments, setAvailableAssessments] = useState<Record<string, any>>({});
+ const [showResponsesPanel, setShowResponsesPanel] = useState(false);
 
  const chatEndRef = useRef<HTMLDivElement>(null);
  const sessionStartTime = useRef<number>(Date.now());
+
+ // Screening context for inline assessment cards
+ const screeningContext = useMemo(() => ({
+  side: selectedRegions?.[0]?.laterality || null,
+  region: selectedRegions?.[0]?.mainRegion || null,
+  painLocation: collectedData?.pain_location || collectedData?.pain_area || null,
+  vasScore: collectedData?.vas_score || null,
+ }), [selectedRegions, collectedData]);
+
+ // Analyzing phrases cycle
+ useEffect(() => {
+  if (!isAnalyzingForTests) return;
+  const phrases = [
+   "Analyzing clinical findings...",
+   "Cross-referencing differential patterns...",
+   "Identifying relevant provocative tests...",
+   "Matching evidence-based protocols...",
+   "Selecting targeted assessments...",
+  ];
+  let index = 0;
+  const interval = setInterval(() => {
+   index = (index + 1) % phrases.length;
+   setAnalyzingPhrase(phrases[index]);
+  }, 2500);
+  return () => clearInterval(interval);
+ }, [isAnalyzingForTests]);
 
  // AI Question Flow Hook (used when useAIFlow is true)
  const aiFlow = useAIQuestionFlow({
@@ -1518,104 +1545,151 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
   setShowCloseConfirmation(false);
  };
 
- // ==================== Clinical Assessment Flow ====================
+ // ==================== Inline Clinical Assessment Flow ====================
 
  const completeQuestionnaire = async () => {
-  await addBotMessage(
-   "Screening complete! Now let's enhance your assessment with targeted clinical tests...",
-  );
+  await addBotMessage("Screening complete.");
   scrollToBottom();
 
-  setTimeout(() => {
-   setShowAssessmentHub(true);
-  }, 1000);
- };
+  // Show analyzing animation inline
+  setIsAnalyzingForTests(true);
+  scrollToBottom();
 
- const handleStartRecommended = (assessments: any[]) => {
-  if (!assessments || assessments.length === 0) {
-   addBotMessage("No assessments were selected. Proceeding to diagnosis...");
-   proceedToFinalDiagnosis();
-   return;
+  // Load available assessments for "Add test" search
+  try {
+   const data = await import("@/data/clinical/entities/clinical_assessments.json");
+   setAvailableAssessments(data.assessments || {});
+  } catch (e) {
+   console.error("Failed to load assessments:", e);
   }
 
-  setSelectedAssessments(assessments);
-  setCurrentAssessmentIndex(0);
-  setShowAssessmentHub(false);
+  // Fetch AI recommendations
+  try {
+   const screeningPayload = {
+    responses: engine.getSession().responses,
+    selectedRegions,
+    redFlags: detectedRedFlags,
+    collectedData,
+   };
+   const result = await getAIAssessmentRecommendations(screeningPayload);
+   if (result.success && result.recommendations?.length > 0) {
+    setInlineRecommendations(result.recommendations);
+   } else {
+    setInlineRecommendations([{
+     assessment_id: "ASSESS_056",
+     name: "Range of Motion Assessment",
+     relevance_score: 85,
+     reasoning: "Basic movement assessment recommended",
+     category: "Mobility",
+     estimated_time: "5-7 minutes",
+    }]);
+   }
+  } catch (err) {
+   console.error("Assessment recommendation error:", err);
+   setInlineRecommendations([{
+    assessment_id: "ASSESS_056",
+    name: "Range of Motion Assessment",
+    relevance_score: 85,
+    reasoning: "Basic movement assessment recommended",
+    category: "Mobility",
+    estimated_time: "5-7 minutes",
+   }]);
+  }
 
-  addBotMessage(
-   `Starting ${assessments.length} clinical assessments. Assessment 1 of ${assessments.length}: ${assessments[0].name}`,
-  );
-
-  setTimeout(() => {
-   setShowDirectAssessment(true);
-  }, 500);
+  // Transition: hide loader, show inline tests
+  setIsAnalyzingForTests(false);
+  setShowInlineAssessments(true);
+  setInlineActiveIndex(0);
+  setInlineCapturedResults({});
+  setInlineAllComplete(false);
+  scrollToBottom();
  };
 
- const handleChooseCustom = () => {
-  setShowAssessmentHub(false);
-  addBotMessage(
-   "Custom assessment selection not yet implemented. Proceeding to diagnosis...",
-  );
-  setTimeout(() => {
-   proceedToFinalDiagnosis();
-  }, 500);
- };
+ const handleInlineCapture = useCallback(
+  (assessmentId: string, data: Record<string, any>) => {
+   setInlineCapturedResults(prev => ({ ...prev, [assessmentId]: data }));
+
+   const nextIndex = inlineActiveIndex + 1;
+   if (nextIndex < inlineRecommendations.length) {
+    setTimeout(() => {
+     setInlineActiveIndex(nextIndex);
+     scrollToBottom();
+    }, 300);
+   } else {
+    setTimeout(() => {
+     setInlineAllComplete(true);
+     scrollToBottom();
+    }, 300);
+   }
+  },
+  [inlineActiveIndex, inlineRecommendations.length, scrollToBottom],
+ );
+
+ const handleInlineSkipCurrent = useCallback(() => {
+  const nextIndex = inlineActiveIndex + 1;
+  if (nextIndex < inlineRecommendations.length) {
+   setInlineActiveIndex(nextIndex);
+   scrollToBottom();
+  } else {
+   setInlineAllComplete(true);
+   scrollToBottom();
+  }
+ }, [inlineActiveIndex, inlineRecommendations.length, scrollToBottom]);
+
+ const handleInlineRemoveTest = useCallback((assessmentId: string) => {
+  setInlineRecommendations(prev => prev.filter(r => r.assessment_id !== assessmentId));
+  setInlineCapturedResults(prev => {
+   const next = { ...prev };
+   delete next[assessmentId];
+   return next;
+  });
+ }, []);
+
+ const handleInlineAddTest = useCallback((assessmentId: string) => {
+  const assessment = availableAssessments[assessmentId] as any;
+  if (!assessment) return;
+  setInlineRecommendations(prev => [...prev, {
+   assessment_id: assessmentId,
+   name: assessment.name,
+   relevance_score: 70,
+   reasoning: `Manually added — ${assessment.purpose}`,
+   category: assessment.type?.replace(/_/g, " ") || "Clinical",
+   estimated_time: "3-5 minutes",
+  }]);
+  setInlineAllComplete(false);
+  setShowAddTest(false);
+  setAddSearchTerm("");
+ }, [availableAssessments]);
 
  const handleSkipAllAssessments = () => {
-  setShowAssessmentHub(false);
-  addBotMessage(
-   "Skipping clinical assessments. Generating diagnosis based on screening data...",
-  );
-  setTimeout(() => {
-   proceedToFinalDiagnosis();
-  }, 500);
+  setShowInlineAssessments(false);
+  addBotMessage("Skipping clinical assessments. Generating diagnosis based on screening data...");
+  setTimeout(() => proceedToFinalDiagnosis(), 500);
  };
 
- const handleDirectAssessmentSubmit = (assessmentId: string, formData: any) => {
-  const assessment = selectedAssessments[currentAssessmentIndex];
-  setCompletedAssessments((prev) => [
-   ...prev,
-   {
-    assessment_id: assessmentId,
-    assessment_name: assessment?.name || assessmentId,
-    form_data: formData,
+ const handleGenerateDiagnosis = useCallback(() => {
+  // Build completed assessments from inline captured data
+  const captured = inlineRecommendations
+   .filter(rec => inlineCapturedResults[rec.assessment_id])
+   .map(rec => ({
+    assessment_id: rec.assessment_id,
+    assessment_name: rec.name,
+    category: rec.category || "Clinical",
+    form_data: inlineCapturedResults[rec.assessment_id],
     timestamp: new Date().toISOString(),
-   },
-  ]);
+   }));
+  setCompletedAssessments(captured);
+  setShowInlineAssessments(false);
 
-  if (currentAssessmentIndex < selectedAssessments.length - 1) {
-   const nextIndex = currentAssessmentIndex + 1;
-   setCurrentAssessmentIndex(nextIndex);
-   addBotMessage(
-    `Assessment ${nextIndex + 1} of ${selectedAssessments.length}: ${selectedAssessments[nextIndex].name}`,
-   );
-  } else {
-   setShowDirectAssessment(false);
-   handleDirectAssessmentsComplete();
-  }
- };
-
- const handleDirectAssessmentSkip = () => {
-  if (currentAssessmentIndex < selectedAssessments.length - 1) {
-   const nextIndex = currentAssessmentIndex + 1;
-   setCurrentAssessmentIndex(nextIndex);
-   addBotMessage(
-    `Skipped. Assessment ${nextIndex + 1} of ${selectedAssessments.length}: ${selectedAssessments[nextIndex].name}`,
-   );
-  } else {
-   setShowDirectAssessment(false);
-   handleDirectAssessmentsComplete();
-  }
- };
-
- const handleDirectAssessmentsComplete = () => {
+  const capturedCount = captured.length;
+  const totalCount = inlineRecommendations.length;
   addBotMessage(
-   `Clinical assessments completed! ${completedAssessments.length} tests documented. Generating enhanced AI diagnosis...`,
+   `${capturedCount} clinical test${capturedCount !== 1 ? "s" : ""} captured${
+    capturedCount < totalCount ? ` (${totalCount - capturedCount} skipped)` : ""
+   }. Generating enhanced AI diagnosis...`,
   );
-  setTimeout(() => {
-   proceedToFinalDiagnosis();
-  }, 1500);
- };
+  setTimeout(() => proceedToFinalDiagnosis(), 1500);
+ }, [inlineRecommendations, inlineCapturedResults]);
 
  const proceedToFinalDiagnosis = async () => {
   await generateDiagnosis();
@@ -2487,19 +2561,22 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
      </div>
     );
 
-   case "tenderness_map":
+   case "tenderness_map": {
+    const landmarks = currentQuestion.options && currentQuestion.options.length > 0
+     ? currentQuestion.options
+     : [{ value: 'anterior', label: 'Anterior' }, { value: 'posterior', label: 'Posterior' }, { value: 'medial', label: 'Medial' }, { value: 'lateral', label: 'Lateral' }, { value: 'deep', label: 'Deep' }];
     return (
      <div className='space-y-3'>
       <div className='text-xs text-gray-500 px-1 font-medium'>
        0 = None · 1 = Mild · 2 = Moderate · 3 = Severe
       </div>
-      {["Anterior", "Posterior", "Medial", "Lateral", "Deep"].map(
-       (location) => (
+      <div className='max-h-[350px] overflow-y-auto space-y-2.5'>
+       {landmarks.map((landmark) => (
         <div
-         key={location}
+         key={landmark.value}
          className='flex items-center justify-between p-4 bg-gray-50 rounded-xl'
         >
-         <span className='font-medium text-gray-700 text-sm'>{location}</span>
+         <span className='font-medium text-gray-700 text-sm'>{landmark.label}</span>
          <div className='flex gap-2'>
           {[0, 1, 2, 3].map((grade) => (
            <button
@@ -2507,11 +2584,11 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
             onClick={() =>
              setCurrentResponse((prev: any) => ({
               ...prev,
-              [location]: grade.toString(),
+              [landmark.value]: grade.toString(),
              }))
             }
             className={`min-w-[44px] min-h-[44px] rounded-xl font-semibold text-sm transition-all ${
-             currentResponse?.[location] === grade.toString()
+             currentResponse?.[landmark.value] === grade.toString()
               ? "bg-brand-teal text-white shadow-lg shadow-teal-200"
               : "bg-white text-gray-600 hover:bg-teal-50 border border-gray-200"
             }`}
@@ -2521,8 +2598,8 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
           ))}
          </div>
         </div>
-       ),
-      )}
+       ))}
+      </div>
       <Button
        onClick={handleSubmit}
        disabled={!canSubmit()}
@@ -2532,6 +2609,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
       </Button>
      </div>
     );
+   }
 
    case "measurement":
     return (
@@ -2578,35 +2656,31 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
      </div>
     );
 
-   case "rom_measurement":
+   case "rom_measurement": {
+    const romMovements = currentQuestion.options && currentQuestion.options.length > 0
+     ? currentQuestion.options
+     : [{ value: 'flexion', label: 'Flexion' }, { value: 'extension', label: 'Extension' }];
     return (
      <div className='space-y-3'>
       <div className='grid grid-cols-2 gap-3'>
-       {[
-        "Flexion",
-        "Extension",
-        "Abduction",
-        "Adduction",
-        "Int. Rotation",
-        "Ext. Rotation",
-       ].map((movement) => (
-        <div key={movement}>
+       {romMovements.map((movement) => (
+        <div key={movement.value}>
          <Label className='text-xs font-medium text-gray-500'>
-          {movement} (°)
+          {movement.label} (°)
+          {(movement as any).normalROM !== undefined && (
+           <span className='text-gray-300 ml-1 text-[10px]'>
+            norm: {(movement as any).normalROM}°
+           </span>
+          )}
          </Label>
          <Input
           type='number'
           placeholder='0'
-          value={
-           currentResponse?.[
-            movement.toLowerCase().replace(". ", "_").replace(" ", "_")
-           ] || ""
-          }
+          value={currentResponse?.[movement.value] || ""}
           onChange={(e) =>
            setCurrentResponse((prev: any) => ({
             ...prev,
-            [movement.toLowerCase().replace(". ", "_").replace(" ", "_")]:
-             e.target.value,
+            [movement.value]: e.target.value,
            }))
           }
           className='mt-1 rounded-xl border-gray-200 focus:border-brand-teal'
@@ -2623,6 +2697,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
       </Button>
      </div>
     );
+   }
 
    case "mmt_testing":
     return (
@@ -2852,27 +2927,22 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
   };
 
   return (
-   <div className='space-y-5'>
-    {/* 1. RED FLAGS BANNER */}
+   <div className='space-y-6'>
+    {/* 1. RED FLAGS — clean alert, no gradient */}
     {(engine.requiresUrgentReferral() || detectedRedFlags.length > 0) && (
      <motion.div
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className='bg-gradient-to-r from-red-600 via-red-500 to-red-600 text-white rounded-2xl p-5 shadow-2xl shadow-red-500/20 border border-red-400'
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className='border-l-2 border-red-500 bg-red-50 px-4 py-3'
      >
-      <div className='flex items-start gap-4'>
-       <motion.div
-        animate={{ rotate: [0, -10, 10, -10, 0] }}
-        transition={{ duration: 0.5, repeat: 3 }}
-       >
-        <AlertTriangle className='h-6 w-6 flex-shrink-0' />
-       </motion.div>
-       <div className='flex-1'>
-        <p className='font-bold text-lg'>
-         ⚠️ Red Flags Detected — Screen Before MSK Treatment
+      <div className='flex items-start gap-2.5'>
+       <AlertTriangle className='h-4 w-4 text-red-500 flex-shrink-0 mt-0.5' />
+       <div className='flex-1 min-w-0'>
+        <p className='text-sm font-semibold text-red-800'>
+         Red Flags Detected
         </p>
         {detectedRedFlags.length > 0 && (
-         <p className='text-red-100 text-sm mt-2 font-medium'>
+         <p className='text-xs text-red-600 mt-1'>
           {detectedRedFlags.map((f) => f.replace(/_/g, " ")).join(" · ")}
          </p>
         )}
@@ -2881,9 +2951,8 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
           s.sourceRegion.toLowerCase().includes("cardiac") ||
           s.sourceRegion.toLowerCase().includes("gallbladder"),
         ) && (
-         <p className='text-red-100 text-xs mt-3 pt-3 border-t border-red-400/50'>
-          💡 Left shoulder + exertion = cardiac · Right shoulder + meals =
-          gallbladder
+         <p className='text-xs text-red-500 mt-1.5'>
+          Screen before MSK treatment
          </p>
         )}
        </div>
@@ -2891,390 +2960,194 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
      </motion.div>
     )}
 
-    {/* 2. QUICK-SCAN TAGS */}
-    <motion.div
-     initial={{ opacity: 0, y: -10 }}
-     animate={{ opacity: 1, y: 0 }}
-     className='flex flex-wrap gap-2 text-sm font-bold'
-    >
-     <motion.span
-      initial={{ scale: 0 }}
-      animate={{ scale: 1 }}
-      transition={{ delay: 0.1, type: "spring" }}
-      className={`px-4 py-2 rounded-xl shadow-sm ${
-       classification === "ACUTE"
-        ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white"
-        : classification === "CHRONIC"
-          ? "bg-gradient-to-r from-brand-teal to-teal-700 text-white"
-          : "bg-gradient-to-r from-gray-700 to-gray-800 text-white"
-      }`}
-     >
-      {classification}
-     </motion.span>
+    {/* 2. CONTEXT LINE — inline text, not pills */}
+    <div className='flex items-center gap-2 text-xs text-gray-500 flex-wrap'>
+     <span className='font-semibold text-gray-700'>{classification}</span>
+     <span className='text-gray-300'>·</span>
      {vasScore !== undefined && (
-      <motion.span
-       initial={{ scale: 0 }}
-       animate={{ scale: 1 }}
-       transition={{ delay: 0.2, type: "spring" }}
-       className={`px-4 py-2 rounded-xl shadow-sm ${
-        vasScore >= 7
-         ? "bg-red-100 text-red-700"
-         : vasScore >= 4
-           ? "bg-amber-100 text-amber-700"
-           : "bg-sky-100 text-sky-700"
-       }`}
-      >
-       VAS {vasScore}/10
-      </motion.span>
+      <>
+       <span className={vasScore >= 7 ? 'text-red-600 font-medium' : vasScore >= 4 ? 'text-amber-600 font-medium' : ''}>
+        VAS {vasScore}/10
+       </span>
+       <span className='text-gray-300'>·</span>
+      </>
      )}
      {locationStr && (
-      <motion.span
-       initial={{ scale: 0 }}
-       animate={{ scale: 1 }}
-       transition={{ delay: 0.3, type: "spring" }}
-       className='px-4 py-2 rounded-xl bg-gray-100 text-gray-700 capitalize shadow-sm'
-      >
-       📍 {locationStr}
-      </motion.span>
+      <>
+       <span className='capitalize'>{locationStr}</span>
+       <span className='text-gray-300'>·</span>
+      </>
      )}
      {progressionText && (
-      <motion.span
-       initial={{ scale: 0 }}
-       animate={{ scale: 1 }}
-       transition={{ delay: 0.4, type: "spring" }}
-       className={`px-4 py-2 rounded-xl shadow-sm ${
-        progression === "getting_worse"
-         ? "bg-red-100 text-red-700"
-         : progression === "getting_better"
-           ? "bg-sky-100 text-sky-700"
-           : "bg-gray-100 text-gray-600"
-       }`}
-      >
-       {progression === "getting_worse"
-        ? "📈"
-        : progression === "getting_better"
-          ? "📉"
-          : "➡️"}{" "}
+      <span className={progression === 'getting_worse' ? 'text-red-600 font-medium' : progression === 'getting_better' ? 'text-teal-600 font-medium' : ''}>
        {progressionText}
-      </motion.span>
+      </span>
      )}
-    </motion.div>
-
-    {/* 3. TWO-COLUMN: Summary | Diagnosis */}
-    <div className='grid grid-cols-1 lg:grid-cols-2 gap-5'>
-     {/* LEFT: Clinical Summary */}
-     <div className='space-y-3 order-2 lg:order-1'>
-      {chiefComplaint && (
-       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className='bg-gradient-to-br from-teal-50/50 to-white rounded-2xl border-2 border-teal-100 p-4'
-       >
-        <p className='text-xs uppercase tracking-wider text-brand-teal font-bold mb-2 flex items-center gap-2'>
-         <Stethoscope className='w-3 h-3' /> Chief Complaint
-        </p>
-        <p className='text-gray-800 font-semibold text-sm leading-relaxed'>
-         {chiefComplaint}
-        </p>
-       </motion.div>
-      )}
-
-      <motion.div
-       initial={{ opacity: 0, y: 10 }}
-       animate={{ opacity: 1, y: 0 }}
-       transition={{ delay: 0.1 }}
-       className='bg-white rounded-2xl border-2 border-gray-200 overflow-hidden'
-      >
-       <div className='px-4 py-3 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100'>
-        <span className='text-sm font-bold text-gray-700'>Clinical Data</span>
-       </div>
-       <div className='divide-y divide-gray-50'>
-        {formatOnset() && (
-         <div className='px-4 py-2.5 flex justify-between'>
-          <span className='text-xs text-gray-500'>Onset</span>
-          <span className='text-xs text-gray-700 font-medium'>
-           {formatOnset()}
-          </span>
-         </div>
-        )}
-        {painNature && (
-         <div className='px-4 py-2.5 flex justify-between'>
-          <span className='text-xs text-gray-500'>Pain Type</span>
-          <span className='text-xs text-gray-700 font-medium capitalize'>
-           {formatArray(painNature)}
-          </span>
-         </div>
-        )}
-        {behavior24hr && (
-         <div className='px-4 py-2.5 flex justify-between'>
-          <span className='text-xs text-gray-500'>24hr Pattern</span>
-          <span className='text-xs text-gray-700 font-medium capitalize'>
-           {behavior24hr.replace(/_/g, " ")}
-          </span>
-         </div>
-        )}
-        {aggravating && (
-         <div className='px-4 py-2.5 flex justify-between gap-4'>
-          <span className='text-xs text-gray-500 flex-shrink-0'>
-           Aggravating
-          </span>
-          <span className='text-xs text-gray-700 font-medium text-right capitalize'>
-           {formatArray(aggravating)}
-          </span>
-         </div>
-        )}
-        {relieving && (
-         <div className='px-4 py-2.5 flex justify-between gap-4'>
-          <span className='text-xs text-gray-500 flex-shrink-0'>
-           Relieving
-          </span>
-          <span className='text-xs text-gray-700 font-medium text-right capitalize'>
-           {formatArray(relieving)}
-          </span>
-         </div>
-        )}
-       </div>
-      </motion.div>
-
-      {/* Referral Screening */}
-      {identifiedSources.length > 0 && (
-       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className='bg-white rounded-2xl border-2 border-teal-200 overflow-hidden shadow-sm'
-       >
-        <div className='px-4 py-3 bg-gradient-to-r from-teal-50 to-teal-50 border-b border-teal-100 flex items-center gap-2'>
-         <div className='w-7 h-7 bg-brand-teal rounded-xl flex items-center justify-center'>
-          <Crosshair className='h-4 w-4 text-white' />
-         </div>
-         <span className='text-sm font-bold text-gray-800'>
-          AI Source Detection
-         </span>
-        </div>
-        {locationStr && (
-         <div className='px-4 py-1.5 bg-gray-50 border-b border-gray-100 text-xs'>
-          <span className='text-gray-400'>Pain Site:</span>
-          <span className='ml-1 font-medium text-gray-600 capitalize'>
-           {locationStr}
-          </span>
-         </div>
-        )}
-        <div className='divide-y divide-gray-50'>
-         {identifiedSources.map((source, idx) => {
-          const isUrgent =
-           source.sourceRegion.toLowerCase().includes("cardiac") ||
-           source.sourceRegion.toLowerCase().includes("gallbladder") ||
-           source.sourceRegion.toLowerCase().includes("vascular");
-          return (
-           <div key={idx} className='px-4 py-2.5 flex items-start gap-2'>
-            <div
-             className={`w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 ${isUrgent ? "bg-red-500" : "bg-brand-teal"}`}
-            />
-            <div className='flex-1 min-w-0'>
-             <div className='flex items-center gap-1.5 flex-wrap'>
-              <span
-               className={`text-xs font-bold uppercase ${isUrgent ? "text-red-600" : "text-gray-600"}`}
-              >
-               {source.sourceRegion.replace(/_/g, " ")}
-              </span>
-              {isUrgent && (
-               <span className='text-xs leading-none px-1.5 py-0.5 bg-red-500 text-white rounded font-bold'>
-                SCREEN
-               </span>
-              )}
-             </div>
-             <p className='text-xs text-gray-400 leading-tight'>
-              {source.implication}
-             </p>
-            </div>
-           </div>
-          );
-         })}
-        </div>
-       </motion.div>
-      )}
-
-      {/* Collapsible Summary */}
-      <details className='bg-white rounded-xl border border-gray-200 overflow-hidden group'>
-       <summary className='px-4 py-2.5 cursor-pointer hover:bg-gray-50 flex items-center justify-between list-none'>
-        <div className='flex items-center gap-2'>
-         <Stethoscope className='h-3.5 w-3.5 text-gray-400' />
-         <span className='text-xs font-medium text-gray-600'>
-          Full Summary
-         </span>
-        </div>
-        <ChevronRight className='h-3.5 w-3.5 text-gray-400 transition-transform group-open:rotate-90' />
-       </summary>
-       <div className='px-4 py-2.5 border-t border-gray-100 bg-gray-50 max-h-60 overflow-y-auto'>
-        <pre className='text-xs text-gray-600 whitespace-pre-wrap font-mono leading-relaxed'>
-         {diagnosisResult.clinicalSummary}
-        </pre>
-       </div>
-      </details>
-     </div>
-
-     {/* RIGHT: Differential Diagnosis */}
-     <motion.div
-      className='order-1 lg:order-2'
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, delay: 0.1 }}
-     >
-      {diagnosisResult.success && diagnosisResult.diagnosis && (
-       <div className='bg-white rounded-2xl border-2 border-gray-200 overflow-hidden h-full flex flex-col shadow-lg'>
-        <motion.div
-         initial={{ opacity: 0 }}
-         animate={{ opacity: 1 }}
-         transition={{ delay: 0.2 }}
-         className='px-5 py-4 bg-gradient-to-r from-brand-teal via-teal-600 to-teal-700 text-white flex items-center justify-between flex-shrink-0 relative overflow-hidden'
-        >
-         <motion.div
-          animate={{ x: [0, 100], opacity: [0.05, 0.15, 0.05] }}
-          transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-          className='absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent'
-          style={{ width: "200%" }}
-         />
-         <div className='flex items-center gap-3 relative z-10'>
-          <motion.div
-           initial={{ rotate: -180, opacity: 0 }}
-           animate={{ rotate: 0, opacity: 1 }}
-           transition={{ delay: 0.3, type: "spring" }}
-           className='w-8 h-8 bg-white/20 rounded-xl flex items-center justify-center'
-          >
-           <Zap className='h-5 w-5' />
-          </motion.div>
-          <h3 className='font-bold text-base tracking-tight'>
-           AI Differential Diagnosis
-          </h3>
-         </div>
-         <motion.span
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 0.4, type: "spring" }}
-          className='text-xs px-3 py-1 bg-white/20 backdrop-blur-sm rounded-lg font-bold relative z-10'
-         >
-          {diagnosisResult.diagnosis.treatment_urgency?.toUpperCase()}
-         </motion.span>
-        </motion.div>
-
-        <div className='flex-1 divide-y divide-gray-100 overflow-y-auto'>
-         {diagnosisResult.diagnosis.differential_diagnosis.map(
-          (condition, index) => (
-           <motion.button
-            key={condition.condition_id}
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3 + index * 0.1, duration: 0.3 }}
-            whileHover={{ scale: 1.01, x: 4 }}
-            whileTap={{ scale: 0.99 }}
-            onClick={() => handleConditionSelect(condition)}
-            disabled={isProcessing}
-            className={`w-full px-5 py-4 transition-all duration-200 text-left group disabled:opacity-50 relative ${
-             index === 0
-              ? "bg-gradient-to-r from-teal-50/40 to-transparent"
-              : "hover:bg-teal-50/20"
-            }`}
-           >
-            {index === 0 && (
-             <div className='absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-brand-teal to-teal-600' />
-            )}
-            <div className='flex items-start gap-4'>
-             <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{
-               delay: 0.4 + index * 0.1,
-               type: "spring",
-               stiffness: 300,
-              }}
-              className='relative'
-             >
-              <span
-               className={`w-9 h-9 rounded-xl text-sm font-bold flex items-center justify-center flex-shrink-0 shadow-sm ${
-                index === 0
-                 ? "bg-gradient-to-br from-brand-teal to-teal-600 text-white ring-2 ring-teal-100"
-                 : "bg-gray-200 text-gray-600"
-               }`}
-              >
-               {index + 1}
-              </span>
-              {index === 0 && (
-               <motion.div
-                animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0, 0.5] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className='absolute inset-0 rounded-xl bg-brand-teal'
-               />
-              )}
-             </motion.div>
-             <div className='flex-1 min-w-0'>
-              <div className='flex items-center gap-2 flex-wrap mb-1.5'>
-               <span
-                className={`font-bold text-sm ${index === 0 ? "text-teal-800" : "text-gray-800"}`}
-               >
-                {condition.condition_name}
-               </span>
-               <motion.span
-                initial={{ width: 0, opacity: 0 }}
-                animate={{ width: "auto", opacity: 1 }}
-                transition={{ delay: 0.5 + index * 0.1 }}
-                className={`text-xs px-2 py-0.5 rounded-lg font-bold overflow-hidden ${
-                 index === 0
-                  ? "bg-gradient-to-r from-brand-teal to-teal-600 text-white"
-                  : "bg-gray-200 text-gray-700"
-                }`}
-               >
-                {Math.round(condition.confidence_score * 100)}%
-               </motion.span>
-              </div>
-              <p className='text-xs text-gray-500 leading-relaxed'>
-               {condition.clinical_reasoning}
-              </p>
-             </div>
-             <ChevronRight
-              className={`h-5 w-5 transition-all flex-shrink-0 ${
-               index === 0
-                ? "text-brand-teal"
-                : "text-gray-300 group-hover:text-brand-teal group-hover:translate-x-1"
-              }`}
-             />
-            </div>
-           </motion.button>
-          ),
-         )}
-        </div>
-
-        <motion.div
-         initial={{ opacity: 0 }}
-         animate={{ opacity: 1 }}
-         transition={{ delay: 0.8 }}
-         className='px-4 py-2.5 border-t border-gray-100 bg-gray-50 flex-shrink-0'
-        >
-         <p className='text-xs text-gray-500 text-center'>
-          Select a diagnosis to confirm and continue
-         </p>
-        </motion.div>
-       </div>
-      )}
-     </motion.div>
     </div>
 
-    {/* 4. ACTIONS */}
-    <div className='flex gap-3 pt-2'>
-     <Button
-      variant='outline'
-      onClick={handleReset}
-      className='flex-1 rounded-xl h-11 border-gray-300 text-sm hover:bg-gray-50'
+    {/* 3. DIFFERENTIAL DIAGNOSIS — primary content, clean list */}
+    {diagnosisResult.success && diagnosisResult.diagnosis && (
+     <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.25 }}
      >
-      <RotateCcw className='mr-2 h-4 w-4' /> Start Over
-     </Button>
+      <div className='flex items-center justify-between mb-3'>
+       <h3 className='text-[15px] font-semibold text-gray-900'>Differential Diagnosis</h3>
+       {diagnosisResult.diagnosis.treatment_urgency && (
+        <span className='text-xs text-gray-400 font-medium uppercase'>
+         {diagnosisResult.diagnosis.treatment_urgency}
+        </span>
+       )}
+      </div>
+
+      <div className='border border-gray-200 rounded-lg overflow-hidden divide-y divide-gray-100'>
+       {diagnosisResult.diagnosis.differential_diagnosis.map(
+        (condition, index) => (
+         <motion.button
+          key={condition.condition_id}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: index * 0.06 }}
+          onClick={() => handleConditionSelect(condition)}
+          disabled={isProcessing}
+          className='w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors disabled:opacity-50 group'
+         >
+          <div className='flex items-start gap-3'>
+           <span className={`text-xs font-bold tabular-nums mt-0.5 flex-shrink-0 ${
+            index === 0 ? 'text-teal-600' : 'text-gray-400'
+           }`}>
+            {index + 1}
+           </span>
+           <div className='flex-1 min-w-0'>
+            <div className='flex items-center gap-2'>
+             <span className={`text-sm font-semibold ${index === 0 ? 'text-gray-900' : 'text-gray-700'}`}>
+              {condition.condition_name}
+             </span>
+             <span className={`text-xs font-semibold tabular-nums ${
+              index === 0 ? 'text-teal-600' : 'text-gray-400'
+             }`}>
+              {Math.round(condition.confidence_score * 100)}%
+             </span>
+            </div>
+            <p className='text-xs text-gray-500 mt-0.5 leading-relaxed'>
+             {condition.clinical_reasoning}
+            </p>
+           </div>
+           <ChevronRight className='h-4 w-4 text-gray-300 group-hover:text-gray-500 flex-shrink-0 mt-0.5 transition-colors' />
+          </div>
+         </motion.button>
+        ),
+       )}
+      </div>
+
+      <p className='text-xs text-gray-400 mt-2 text-center'>
+       Select a diagnosis to confirm
+      </p>
+     </motion.div>
+    )}
+
+    {/* 4. CLINICAL SUMMARY — collapsible sections */}
+    <div className='space-y-3'>
+     {chiefComplaint && (
+      <div className='px-0'>
+       <p className='text-[10px] uppercase tracking-wider text-gray-400 font-semibold mb-1'>Chief Complaint</p>
+       <p className='text-sm text-gray-800'>{chiefComplaint}</p>
+      </div>
+     )}
+
+     {/* Clinical data — clean key-value rows */}
+     {(formatOnset() || painNature || behavior24hr || aggravating || relieving) && (
+      <div className='border border-gray-100 rounded-lg overflow-hidden divide-y divide-gray-50'>
+       {formatOnset() && (
+        <div className='px-3 py-2 flex justify-between'>
+         <span className='text-xs text-gray-400'>Onset</span>
+         <span className='text-xs text-gray-700 font-medium'>{formatOnset()}</span>
+        </div>
+       )}
+       {painNature && (
+        <div className='px-3 py-2 flex justify-between'>
+         <span className='text-xs text-gray-400'>Pain Type</span>
+         <span className='text-xs text-gray-700 font-medium capitalize'>{formatArray(painNature)}</span>
+        </div>
+       )}
+       {behavior24hr && (
+        <div className='px-3 py-2 flex justify-between'>
+         <span className='text-xs text-gray-400'>24hr Pattern</span>
+         <span className='text-xs text-gray-700 font-medium capitalize'>{behavior24hr.replace(/_/g, " ")}</span>
+        </div>
+       )}
+       {aggravating && (
+        <div className='px-3 py-2 flex justify-between gap-4'>
+         <span className='text-xs text-gray-400 flex-shrink-0'>Aggravating</span>
+         <span className='text-xs text-gray-700 font-medium text-right capitalize'>{formatArray(aggravating)}</span>
+        </div>
+       )}
+       {relieving && (
+        <div className='px-3 py-2 flex justify-between gap-4'>
+         <span className='text-xs text-gray-400 flex-shrink-0'>Relieving</span>
+         <span className='text-xs text-gray-700 font-medium text-right capitalize'>{formatArray(relieving)}</span>
+        </div>
+       )}
+      </div>
+     )}
+
+     {/* Source Detection */}
+     {identifiedSources.length > 0 && (
+      <div>
+       <p className='text-[10px] uppercase tracking-wider text-gray-400 font-semibold mb-1.5'>Source Detection</p>
+       <div className='space-y-1.5'>
+        {identifiedSources.map((source, idx) => {
+         const isUrgent =
+          source.sourceRegion.toLowerCase().includes("cardiac") ||
+          source.sourceRegion.toLowerCase().includes("gallbladder") ||
+          source.sourceRegion.toLowerCase().includes("vascular");
+         return (
+          <div key={idx} className='flex items-start gap-2'>
+           <div className={`w-1 h-1 rounded-full mt-1.5 flex-shrink-0 ${isUrgent ? "bg-red-500" : "bg-teal-500"}`} />
+           <div className='min-w-0'>
+            <span className={`text-xs font-semibold ${isUrgent ? "text-red-600" : "text-gray-600"}`}>
+             {source.sourceRegion.replace(/_/g, " ")}
+            </span>
+            {isUrgent && <span className='text-[10px] text-red-500 font-semibold ml-1.5'>SCREEN</span>}
+            <p className='text-xs text-gray-400 leading-tight'>{source.implication}</p>
+           </div>
+          </div>
+         );
+        })}
+       </div>
+      </div>
+     )}
+
+     {/* Full Summary — collapsible */}
+     <details className='group'>
+      <summary className='flex items-center gap-1.5 cursor-pointer text-xs text-gray-400 hover:text-gray-600 transition-colors list-none'>
+       <ChevronRight className='h-3 w-3 transition-transform group-open:rotate-90' />
+       <span className='font-medium'>Full summary</span>
+      </summary>
+      <div className='mt-2 bg-gray-50 rounded-md px-3 py-2.5 max-h-48 overflow-y-auto'>
+       <pre className='text-xs text-gray-600 whitespace-pre-wrap font-mono leading-relaxed'>
+        {diagnosisResult.clinicalSummary}
+       </pre>
+      </div>
+     </details>
+    </div>
+
+    {/* 5. ACTIONS — simple row */}
+    <div className='flex items-center gap-3 pt-1'>
+     <button
+      onClick={handleReset}
+      className='text-xs text-gray-400 hover:text-gray-600 transition-colors flex items-center gap-1.5'
+     >
+      <RotateCcw className='h-3 w-3' /> Start over
+     </button>
      {onClose && (
-      <Button
+      <button
        onClick={onClose}
-       className='flex-1 rounded-xl h-11 bg-gradient-to-r from-brand-teal to-teal-700 hover:from-teal-700 hover:to-teal-800 text-sm'
+       className='text-xs text-gray-400 hover:text-gray-600 transition-colors ml-auto'
       >
        Close
-      </Button>
+      </button>
      )}
     </div>
    </div>
@@ -3351,7 +3224,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
     }
    >
     {/* ===== ANSWER HISTORY — collapsible key:value dropdown ===== */}
-    {!isComplete && answerHistory.length > 0 && (
+    {!isComplete && !showInlineAssessments && !isAnalyzingForTests && answerHistory.length > 0 && (
      <AnswerHistoryDropdown entries={answerHistory} />
     )}
 
@@ -3371,7 +3244,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
     )}
 
     {/* ===== CURRENT QUESTION — single question at a time, no chat ===== */}
-    {!isTyping && !isProcessing && !isComplete && (
+    {!isTyping && !isProcessing && !isComplete && !showInlineAssessments && !isAnalyzingForTests && (
      <motion.div
       key={currentQuestion?.id || 'clubbed'}
       initial={{ opacity: 0, y: 12 }}
@@ -3457,11 +3330,12 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
          <div className='bg-white rounded-xl border border-teal-200 shadow-sm overflow-hidden'>
           <div className='p-4'>
            <BodyMapSelector
-            onRegionSelect={(regions) => {
+            onSelectionChange={(regions) => {
              setCurrentResponse(regions);
             }}
-            selectedRegions={currentResponse || []}
-            mode='detailed'
+            selectedRegions={Array.isArray(currentResponse) ? currentResponse : []}
+            onComplete={() => handleSubmit()}
+            maxSelections={5}
            />
           </div>
 
@@ -3506,14 +3380,289 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
      </motion.div>
     )}
 
-    {/* ===== DIAGNOSIS RESULTS ===== */}
-    {isComplete && diagnosisResult && (
-     <div className='space-y-4 py-4'>
-      <div className='flex justify-center'>
-       <div className='px-3 py-1.5 bg-gray-100/80 rounded-full text-xs text-gray-500 font-medium'>
-        Assessment Complete
+    {/* ===== ANALYZING FOR TESTS — inline floating dots + rotating phrases ===== */}
+    {isAnalyzingForTests && (
+     <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      className="flex flex-col items-center py-12"
+     >
+      <div className="flex gap-2 mb-5">
+       <motion.div
+        animate={{ y: [0, -6, 0], opacity: [0.4, 1, 0.4] }}
+        transition={{ duration: 1.2, repeat: Infinity, delay: 0 }}
+        className="w-2.5 h-2.5 bg-brand-teal rounded-full"
+       />
+       <motion.div
+        animate={{ y: [0, -6, 0], opacity: [0.4, 1, 0.4] }}
+        transition={{ duration: 1.2, repeat: Infinity, delay: 0.2 }}
+        className="w-2.5 h-2.5 bg-brand-teal rounded-full"
+       />
+       <motion.div
+        animate={{ y: [0, -6, 0], opacity: [0.4, 1, 0.4] }}
+        transition={{ duration: 1.2, repeat: Infinity, delay: 0.4 }}
+        className="w-2.5 h-2.5 bg-brand-teal rounded-full"
+       />
+      </div>
+      <AnimatePresence mode="wait">
+       <motion.p
+        key={analyzingPhrase}
+        initial={{ opacity: 0, y: 4 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -4 }}
+        transition={{ duration: 0.3 }}
+        className="text-sm text-gray-500 font-medium text-center"
+       >
+        {analyzingPhrase}
+       </motion.p>
+      </AnimatePresence>
+     </motion.div>
+    )}
+
+    {/* ===== INLINE CLINICAL TESTS — clean, minimal ===== */}
+    {showInlineAssessments && inlineRecommendations.length > 0 && (
+     <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      className="space-y-4"
+     >
+      {/* Header line */}
+      <div>
+       <div className="flex items-center justify-between">
+        <p className="text-[15px] leading-relaxed text-gray-800">
+         Recommended clinical tests
+        </p>
+        {answerHistory.length > 0 && (
+         <button
+          onClick={() => setShowResponsesPanel(true)}
+          className="text-xs text-teal-600 hover:text-teal-700 font-medium transition-colors"
+         >
+          {answerHistory.length} responses
+         </button>
+        )}
+       </div>
+       <div className="flex items-center gap-3 mt-2">
+        {screeningContext.region && (
+         <span className="text-xs text-gray-500">
+          {screeningContext.side === "left" ? "Left" : screeningContext.side === "right" ? "Right" : screeningContext.side === "both" ? "Bilateral" : ""}{" "}
+          {screeningContext.region?.replace(/_/g, " ").replace(/-/g, " ")}
+         </span>
+        )}
+        {screeningContext.vasScore && (
+         <span className="text-xs text-gray-500">
+          Pain {screeningContext.vasScore}/10
+         </span>
+        )}
+        {detectedRedFlags.length > 0 && (
+         <span className="text-xs text-red-500 font-medium">
+          {detectedRedFlags.length} red flag{detectedRedFlags.length !== 1 ? "s" : ""}
+         </span>
+        )}
+        <span className="text-xs text-gray-400 ml-auto tabular-nums">
+         {Object.keys(inlineCapturedResults).length}/{inlineRecommendations.length}
+        </span>
+       </div>
+       {/* Thin progress line */}
+       <div className="mt-2 h-0.5 bg-gray-100 rounded-full overflow-hidden">
+        <motion.div
+         animate={{ width: `${(Object.keys(inlineCapturedResults).length / inlineRecommendations.length) * 100}%` }}
+         transition={{ duration: 0.4, ease: "easeOut" }}
+         className="h-full bg-brand-teal rounded-full"
+        />
        </div>
       </div>
+
+      {/* Test list — clean dividers, no heavy cards */}
+      <div className="divide-y divide-gray-100">
+       {inlineRecommendations.map((rec, idx) => {
+        const isCaptured = !!inlineCapturedResults[rec.assessment_id];
+        const isActive = idx === inlineActiveIndex && !inlineAllComplete;
+
+        return (
+         <motion.div
+          key={rec.assessment_id}
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: idx * 0.06, duration: 0.2, ease: "easeOut" }}
+          className={isActive ? "py-3" : "py-1.5"}
+         >
+          <QuickAssessmentInput
+           assessmentId={rec.assessment_id}
+           screeningContext={screeningContext}
+           relevanceScore={rec.relevance_score}
+           onCapture={handleInlineCapture}
+           isActive={isActive}
+           completedData={isCaptured ? inlineCapturedResults[rec.assessment_id] : null}
+          />
+         </motion.div>
+        );
+       })}
+      </div>
+
+      {/* Actions row — minimal */}
+      <div className="flex items-center justify-between pt-2">
+       <div className="flex items-center gap-4">
+        {!inlineAllComplete && (
+         <button
+          onClick={handleInlineSkipCurrent}
+          className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
+         >
+          Skip test
+         </button>
+        )}
+        <button
+         onClick={() => setShowAddTest(true)}
+         className="text-xs text-teal-600 hover:text-teal-700 font-medium transition-colors"
+        >
+         + Add test
+        </button>
+        <button
+         onClick={handleSkipAllAssessments}
+         className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
+        >
+         Skip to diagnosis
+        </button>
+       </div>
+       {inlineAllComplete && (
+        <button
+         onClick={handleGenerateDiagnosis}
+         className="px-4 py-2 bg-brand-teal text-white text-sm font-medium rounded-lg hover:bg-teal-700 transition-colors"
+        >
+         Generate Diagnosis
+        </button>
+       )}
+      </div>
+     </motion.div>
+    )}
+
+    {/* ===== ADD TEST SIDE PANEL — slides from right ===== */}
+    <AnimatePresence>
+     {showAddTest && (
+      <>
+       <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={() => { setShowAddTest(false); setAddSearchTerm(""); }}
+        className="fixed inset-0 bg-black/20 z-[60]"
+       />
+       <motion.div
+        initial={{ x: "100%" }}
+        animate={{ x: 0 }}
+        exit={{ x: "100%" }}
+        transition={{ type: "spring", damping: 30, stiffness: 300 }}
+        className="fixed right-0 top-0 bottom-0 w-80 bg-white shadow-xl z-[61] flex flex-col"
+       >
+        {/* Panel header */}
+        <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+         <h3 className="text-sm font-semibold text-gray-900">Add Test</h3>
+         <button
+          onClick={() => { setShowAddTest(false); setAddSearchTerm(""); }}
+          className="text-gray-400 hover:text-gray-600 transition-colors"
+         >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+         </button>
+        </div>
+
+        {/* Search */}
+        <div className="px-4 py-3 border-b border-gray-100">
+         <div className="relative">
+          <input
+           type="text"
+           value={addSearchTerm}
+           onChange={e => setAddSearchTerm(e.target.value)}
+           placeholder="Search tests..."
+           autoFocus
+           className="w-full pl-8 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-400 focus:border-transparent bg-gray-50"
+          />
+          <svg className="absolute left-2.5 top-2.5 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+         </div>
+        </div>
+
+        {/* Test list */}
+        <div className="flex-1 overflow-y-auto">
+         {Object.entries(availableAssessments)
+          .filter(([id, a]: [string, any]) => {
+           const alreadyAdded = inlineRecommendations.some(r => r.assessment_id === id);
+           if (alreadyAdded) return false;
+           if (!addSearchTerm || addSearchTerm.length < 2) return true;
+           return a.name?.toLowerCase().includes(addSearchTerm.toLowerCase()) ||
+            a.purpose?.toLowerCase().includes(addSearchTerm.toLowerCase()) ||
+            a.type?.toLowerCase().includes(addSearchTerm.toLowerCase());
+          })
+          .slice(0, 30)
+          .map(([id, a]: [string, any]) => (
+           <button
+            key={id}
+            onClick={() => handleInlineAddTest(id)}
+            className="w-full text-left px-4 py-2.5 hover:bg-gray-50 transition-colors border-b border-gray-50 flex items-center justify-between gap-3"
+           >
+            <div className="min-w-0">
+             <p className="text-sm text-gray-800 truncate">{a.name}</p>
+             <p className="text-xs text-gray-400 truncate">{a.type?.replace(/_/g, " ")}</p>
+            </div>
+            <svg className="w-3.5 h-3.5 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+           </button>
+          ))}
+        </div>
+       </motion.div>
+      </>
+     )}
+    </AnimatePresence>
+
+    {/* ===== RESPONSES SIDE PANEL — slides from right ===== */}
+    <AnimatePresence>
+     {showResponsesPanel && (
+      <>
+       <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={() => setShowResponsesPanel(false)}
+        className="fixed inset-0 bg-black/20 z-[60]"
+       />
+       <motion.div
+        initial={{ x: "100%" }}
+        animate={{ x: 0 }}
+        exit={{ x: "100%" }}
+        transition={{ type: "spring", damping: 30, stiffness: 300 }}
+        className="fixed right-0 top-0 bottom-0 w-80 bg-white shadow-xl z-[61] flex flex-col"
+       >
+        <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+         <h3 className="text-sm font-semibold text-gray-900">Screening Responses</h3>
+         <button
+          onClick={() => setShowResponsesPanel(false)}
+          className="text-gray-400 hover:text-gray-600 transition-colors"
+         >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+         </button>
+        </div>
+        <div className="flex-1 overflow-y-auto">
+         {answerHistory.map((entry) => (
+          <div key={entry.id} className="flex items-start justify-between px-4 py-2.5 border-b border-gray-50">
+           <span className="text-xs text-gray-400 font-medium min-w-0 flex-shrink-0 mr-3">{entry.label}</span>
+           <span className="text-xs text-gray-800 font-medium text-right">{entry.value}</span>
+          </div>
+         ))}
+        </div>
+       </motion.div>
+      </>
+     )}
+    </AnimatePresence>
+
+    {/* ===== DIAGNOSIS RESULTS ===== */}
+    {isComplete && diagnosisResult && (
+     <div className='py-2'>
       {renderDiagnosisResults()}
      </div>
     )}
@@ -3526,32 +3675,6 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
     {isComplete && diagnosisResult?.success && <ExtractedCompletionCelebration />}
    </AnimatePresence>
 
-   <AssessmentRecommendationHub
-    isOpen={showAssessmentHub}
-    onClose={() => setShowAssessmentHub(false)}
-    screeningData={{
-     responses: engine.getSession().responses,
-     selectedRegions: selectedRegions,
-     redFlags: detectedRedFlags,
-     collectedData: collectedData,
-    }}
-    onStartRecommended={handleStartRecommended}
-    onChooseCustom={handleChooseCustom}
-    onSkipAll={handleSkipAllAssessments}
-   />
-
-   {selectedAssessments.length > 0 && (
-    <AssessmentFormBuilder
-     isOpen={showDirectAssessment}
-     onClose={() => setShowDirectAssessment(false)}
-     assessmentId={selectedAssessments[currentAssessmentIndex]?.assessment_id || ""}
-     onSubmit={handleDirectAssessmentSubmit}
-     onNext={() => {}}
-     onSkip={handleDirectAssessmentSkip}
-     currentIndex={currentAssessmentIndex}
-     totalAssessments={selectedAssessments.length}
-    />
-   )}
 
    {/* Close Confirmation Dialog */}
    <AnimatePresence>
