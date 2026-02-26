@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { Calendar, Clock, X, Check, User, FileText, AlertCircle } from 'lucide-react';
-import { format, parseISO, addDays, isBefore, startOfDay } from 'date-fns';
+import React, { useState, useEffect, useRef } from 'react';
+import { X, AlertCircle, CalendarDays } from 'lucide-react';
+import { format, parseISO, startOfDay } from 'date-fns';
 import { useAppSelector } from '../../../store/hooks';
 import ApiManager from '@/services/api/api.service';
+import { Calendar } from '@/components/ui/calendar';
 
 interface Visit {
   id: string;
@@ -31,54 +32,54 @@ interface RescheduleVisitModalProps {
   onSuccess: () => void;
 }
 
-const RescheduleVisitModal: React.FC<RescheduleVisitModalProps> = ({ 
-  visit, 
-  onClose, 
-  onSuccess 
-}) => {
-  const { currentClinic } = useAppSelector(state => state.user);
+const RescheduleVisitModal: React.FC<RescheduleVisitModalProps> = ({ visit, onClose, onSuccess }) => {
   const [selectedDate, setSelectedDate] = useState(visit.scheduled_date);
   const [selectedTime, setSelectedTime] = useState(visit.scheduled_time);
   const [duration, setDuration] = useState(visit.duration_minutes);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  // Note: Physiotherapist cannot be changed during reschedule based on current API
-  // const [availablePhysiotherapists, setAvailablePhysiotherapists] = useState<any[]>([]);
-  // const [selectedPhysiotherapist, setSelectedPhysiotherapist] = useState(visit.physiotherapist?.id || '');
+  const [slideIn, setSlideIn] = useState(false);
+  const [calendarOpen, setCalendarOpen] = useState(false);
+  const calendarRef = useRef<HTMLDivElement>(null);
 
-  // Generate time slots (9 AM to 6 PM, 30-minute intervals)
-  const generateTimeSlots = () => {
-    const slots = [];
-    for (let hour = 9; hour < 18; hour++) {
-      for (let minute = 0; minute < 60; minute += 30) {
-        const timeString = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-        slots.push(timeString);
+  // Safely parse — selectedDate may be "2026-02-26" or full ISO "2026-02-26T00:00:00.000Z"
+  const calendarDate = selectedDate ? parseISO(selectedDate.split('T')[0]) : undefined;
+
+  const durations = [
+    { value: 30, label: '30 min' },
+    { value: 45, label: '45 min' },
+    { value: 60, label: '1 hour' },
+  ];
+
+  const timeSlots = [
+    '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
+    '12:00', '12:30', '13:00', '13:30', '14:00', '14:30',
+    '15:00', '15:30', '16:00', '16:30', '17:00', '17:30',
+    '18:00', '18:30', '19:00', '19:30'
+  ];
+
+  // Slide in on mount
+  useEffect(() => {
+    requestAnimationFrame(() => setSlideIn(true));
+  }, []);
+
+  // Close calendar on outside click
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (calendarRef.current && !calendarRef.current.contains(e.target as Node)) {
+        setCalendarOpen(false);
       }
+    };
+    if (calendarOpen) {
+      document.addEventListener('mousedown', handleClick);
+      return () => document.removeEventListener('mousedown', handleClick);
     }
-    return slots;
+  }, [calendarOpen]);
+
+  const handleClose = () => {
+    setSlideIn(false);
+    setTimeout(onClose, 250);
   };
-
-  const timeSlots = generateTimeSlots();
-
-  // Generate next 30 days for date selection
-  const generateDateOptions = () => {
-    const dates = [];
-    const today = startOfDay(new Date());
-    
-    for (let i = 0; i < 30; i++) {
-      const date = addDays(today, i);
-      // Skip Sundays (0 = Sunday)
-      if (date.getDay() !== 0) {
-        dates.push(format(date, 'yyyy-MM-dd'));
-      }
-    }
-    return dates;
-  };
-
-  const dateOptions = generateDateOptions();
-
-  // Note: Removed availability check since physiotherapist cannot be changed
-  // The current physiotherapist will remain assigned to the visit
 
   const handleReschedule = async () => {
     if (!selectedDate || !selectedTime) {
@@ -89,16 +90,14 @@ const RescheduleVisitModal: React.FC<RescheduleVisitModalProps> = ({
     try {
       setLoading(true);
       setError(null);
-
       const response = await ApiManager.rescheduleVisit(visit.id, {
         scheduled_date: selectedDate,
         scheduled_time: selectedTime,
         duration_minutes: duration
       });
-
       if (response.success) {
         onSuccess();
-        onClose();
+        handleClose();
       } else {
         setError(response.message || 'Failed to reschedule appointment');
       }
@@ -109,174 +108,163 @@ const RescheduleVisitModal: React.FC<RescheduleVisitModalProps> = ({
     }
   };
 
-  const formatDate = (dateString: string) => {
-    return format(parseISO(dateString), 'EEEE, MMMM dd, yyyy');
+  const handleDateSelect = (date: Date | undefined) => {
+    if (date) {
+      setSelectedDate(date.toISOString().split('T')[0]);
+      setCalendarOpen(false);
+    }
   };
 
-  const isDateTimeChanged = selectedDate !== visit.scheduled_date || selectedTime !== visit.scheduled_time || duration !== visit.duration_minutes;
+  const formatSelectedDate = (date: Date) =>
+    date.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+
+  const isChanged = selectedDate !== visit.scheduled_date || selectedTime !== visit.scheduled_time || duration !== visit.duration_minutes;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex">
+      {/* Backdrop */}
+      <div
+        className={`absolute inset-0 bg-black/20 transition-opacity duration-250 ${slideIn ? 'opacity-100' : 'opacity-0'}`}
+        onClick={handleClose}
+      />
+
+      {/* Sliding panel */}
+      <div
+        className={`absolute inset-y-0 right-0 w-full sm:w-[440px] bg-white shadow-lg flex flex-col transform transition-transform duration-250 ease-out ${
+          slideIn ? 'translate-x-0' : 'translate-x-full'
+        }`}
+      >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
-          <div className="flex items-center space-x-3">
-            <div className="p-2 bg-orange-100 rounded-lg">
-              <Calendar className="h-5 w-5 text-orange-600" />
-            </div>
-            <div>
-              <h2 className="text-xl font-semibold text-gray-900">Reschedule Appointment</h2>
-              <p className="text-sm text-gray-500">Update appointment date and time</p>
-            </div>
+        <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between flex-shrink-0">
+          <div>
+            <h2 className="text-base font-semibold text-gray-900">Reschedule Visit</h2>
+            <p className="text-sm text-gray-500 mt-0.5">{visit.patient?.full_name}</p>
           </div>
-          <button
-            onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-          >
-            <X className="h-5 w-5 text-gray-400" />
+          <button onClick={handleClose} className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-md transition-colors">
+            <X className="h-4 w-4" />
           </button>
         </div>
 
-        {/* Content */}
-        <div className="p-6 space-y-6">
-          {/* Current Appointment Info */}
-          <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4">
-            <h3 className="font-medium text-gray-900 mb-3 flex items-center">
-              <User className="h-4 w-4 mr-2 text-blue-600" />
-              Current Appointment
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-              <div>
-                <span className="text-gray-600">Patient:</span>
-                <p className="font-medium text-gray-900">{visit.patient?.full_name}</p>
-              </div>
-              <div>
-                <span className="text-gray-600">Phone:</span>
-                <p className="font-medium text-gray-900">{visit.patient?.phone}</p>
-              </div>
-              <div>
-                <span className="text-gray-600">Current Date:</span>
-                <p className="font-medium text-gray-900">{formatDate(visit.scheduled_date)}</p>
-              </div>
-              <div>
-                <span className="text-gray-600">Current Time:</span>
-                <p className="font-medium text-gray-900">{visit.scheduled_time}</p>
-              </div>
-              {visit.chief_complaint && (
-                <div className="md:col-span-2">
-                  <span className="text-gray-600">Chief Complaint:</span>
-                  <p className="font-medium text-gray-900">{visit.chief_complaint}</p>
+        {/* Scrollable form */}
+        <div className="flex-1 overflow-y-auto px-5 py-4 space-y-5">
+          {error && (
+            <div className="flex gap-2 p-3 bg-red-50 border border-red-200 rounded-md">
+              <AlertCircle className="h-4 w-4 text-red-500 flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-red-700">{error}</p>
+            </div>
+          )}
+
+          {/* Current details — subtle reference */}
+          <div className="p-3 bg-gray-50 rounded-md text-xs text-gray-500 space-y-1">
+            <div className="flex justify-between">
+              <span>Current date</span>
+              <span className="text-gray-700 font-medium">{format(parseISO(visit.scheduled_date), 'MMM dd, yyyy')}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Current time</span>
+              <span className="text-gray-700 font-medium">{visit.scheduled_time}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Duration</span>
+              <span className="text-gray-700 font-medium">{visit.duration_minutes} min</span>
+            </div>
+          </div>
+
+          {/* Date — click-to-expand calendar */}
+          <div>
+            <label className="text-sm font-medium text-gray-900 block mb-2">New Date</label>
+            <div ref={calendarRef} className="relative">
+              <button
+                type="button"
+                onClick={() => setCalendarOpen(!calendarOpen)}
+                className={`w-full flex items-center justify-between px-3 py-2.5 bg-white border rounded-md text-left transition-colors ${
+                  calendarOpen
+                    ? 'border-brand-teal ring-1 ring-brand-teal/20'
+                    : 'border-gray-200 hover:border-gray-300'
+                }`}
+              >
+                <div className="flex items-center gap-2">
+                  <CalendarDays className="h-4 w-4 text-gray-400" />
+                  {calendarDate ? (
+                    <span className="text-sm text-gray-800 font-medium">{formatSelectedDate(calendarDate)}</span>
+                  ) : (
+                    <span className="text-sm text-gray-400">Select a date...</span>
+                  )}
+                </div>
+              </button>
+
+              {calendarOpen && (
+                <div className="absolute z-50 mt-1.5 left-0 right-0 bg-white rounded-md border border-gray-200 shadow-md">
+                  <Calendar
+                    mode="single"
+                    selected={calendarDate}
+                    onSelect={handleDateSelect}
+                    disabled={(date) => date < startOfDay(new Date())}
+                    defaultMonth={calendarDate || new Date()}
+                  />
                 </div>
               )}
             </div>
           </div>
 
-          {/* Error Message */}
-          {error && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-start space-x-3">
-              <AlertCircle className="h-5 w-5 text-red-500 flex-shrink-0 mt-0.5" />
-              <p className="text-red-700 text-sm">{error}</p>
-            </div>
-          )}
-
-          {/* New Date Selection */}
-          <div className="space-y-4">
-            <h3 className="font-medium text-gray-900 flex items-center">
-              <Calendar className="h-4 w-4 mr-2 text-blue-600" />
-              Select New Date & Time
-            </h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Date Selection */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Date
-                </label>
-                <select
-                  value={selectedDate}
-                  onChange={(e) => setSelectedDate(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                >
-                  {dateOptions.map((date) => (
-                    <option key={date} value={date}>
-                      {formatDate(date)}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Time Selection */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Time
-                </label>
-                <select
-                  value={selectedTime}
-                  onChange={(e) => setSelectedTime(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                >
-                  {timeSlots.map((time) => (
-                    <option key={time} value={time}>
-                      {time}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            {/* Duration */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Duration (minutes)
-              </label>
-              <select
-                value={duration}
-                onChange={(e) => setDuration(parseInt(e.target.value))}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              >
-                <option value={30}>30 minutes</option>
-                <option value={45}>45 minutes</option>
-                <option value={60}>60 minutes</option>
-                <option value={90}>90 minutes</option>
-              </select>
-            </div>
-
-            {/* Note about physiotherapist */}
-            {visit.physiotherapist && isDateTimeChanged && (
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-4">
-                <p className="text-blue-700 text-sm">
-                  <strong>Note:</strong> This appointment will remain with <strong>{visit.physiotherapist.full_name}</strong>. 
-                  To change the physiotherapist, please cancel this appointment and create a new one.
-                </p>
-              </div>
-            )}
+          {/* Time — select */}
+          <div>
+            <label className="text-sm font-medium text-gray-900 block mb-2">New Time</label>
+            <select
+              value={selectedTime}
+              onChange={(e) => setSelectedTime(e.target.value)}
+              className="w-full px-3 py-2.5 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-brand-teal focus:border-brand-teal bg-white"
+            >
+              {timeSlots.map(time => (
+                <option key={time} value={time}>{time}</option>
+              ))}
+            </select>
           </div>
+
+          {/* Duration — preset buttons */}
+          <div>
+            <label className="text-sm font-medium text-gray-900 block mb-2">Duration</label>
+            <div className="flex gap-2">
+              {durations.map(d => (
+                <button
+                  key={d.value}
+                  type="button"
+                  onClick={() => setDuration(d.value)}
+                  className={`flex-1 py-2 text-sm font-medium rounded-md border transition-colors ${
+                    duration === d.value
+                      ? 'border-brand-teal bg-brand-teal/5 text-brand-teal'
+                      : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                  }`}
+                >
+                  {d.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Physiotherapist note */}
+          {visit.physiotherapist && isChanged && (
+            <p className="text-xs text-gray-400">
+              This appointment will remain with {visit.physiotherapist.full_name}.
+            </p>
+          )}
         </div>
 
-        {/* Footer */}
-        <div className="flex items-center justify-end space-x-3 p-6 border-t border-gray-200 bg-gray-50 rounded-b-2xl">
+        {/* Sticky footer */}
+        <div className="px-5 py-3 border-t border-gray-100 flex items-center justify-end gap-2 flex-shrink-0">
           <button
-            onClick={onClose}
-            className="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            type="button"
+            onClick={handleClose}
+            className="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-md transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={handleReschedule}
-            disabled={loading || !isDateTimeChanged}
-            className="px-6 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg hover:from-orange-600 hover:to-red-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center space-x-2"
+            disabled={loading || !isChanged}
+            className="px-5 py-2 text-sm font-medium text-white bg-brand-teal hover:bg-teal-700 rounded-md transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           >
-            {loading ? (
-              <>
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                <span>Rescheduling...</span>
-              </>
-            ) : (
-              <>
-                <Check className="h-4 w-4" />
-                <span>Reschedule Appointment</span>
-              </>
-            )}
+            {loading ? 'Rescheduling...' : 'Reschedule'}
           </button>
         </div>
       </div>

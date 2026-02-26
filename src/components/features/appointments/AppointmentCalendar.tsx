@@ -1,34 +1,20 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import { format, parse, startOfWeek, getDay } from 'date-fns';
 import { enUS } from 'date-fns/locale';
-import { 
-  ChevronLeft, 
-  ChevronRight, 
-  Calendar as CalendarIcon, 
-  Clock, 
-  User,
-  MoreHorizontal,
-  Eye,
-  Edit3,
-  XCircle
+import {
+  ChevronLeft,
+  ChevronRight,
+  Calendar as CalendarIcon,
+  Clock,
+  X,
 } from 'lucide-react';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
-// Setup the localizer for react-big-calendar
-const locales = {
-  'en-US': enUS,
-};
-
-const localizer = dateFnsLocalizer({
-  format,
-  parse,
-  startOfWeek,
-  getDay,
-  locales,
-});
+const locales = { 'en-US': enUS };
+const localizer = dateFnsLocalizer({ format, parse, startOfWeek, getDay, locales });
 
 interface Visit {
   id: string;
@@ -39,15 +25,8 @@ interface Visit {
   visit_type: string;
   status: string;
   chief_complaint?: string;
-  patient?: {
-    id: string;
-    full_name: string;
-    phone: string;
-  };
-  physiotherapist?: {
-    id: string;
-    full_name: string;
-  };
+  patient?: { id: string; full_name: string; phone: string };
+  physiotherapist?: { id: string; full_name: string };
 }
 
 interface CalendarEvent {
@@ -66,358 +45,158 @@ interface AppointmentCalendarProps {
   onViewPatient?: (patient: any) => void;
 }
 
+const statusColors: Record<string, { bg: string; border: string }> = {
+  SCHEDULED: { bg: '#1e5f79', border: '#185266' },
+  IN_PROGRESS: { bg: '#d97706', border: '#b45309' },
+  COMPLETED: { bg: '#059669', border: '#047857' },
+  CANCELLED: { bg: '#dc2626', border: '#b91c1c' },
+  NO_SHOW: { bg: '#9ca3af', border: '#6b7280' },
+};
+
 const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({
   visits,
-  onSelectEvent,
   onReschedule,
   onCancel,
-  onViewPatient
+  onViewPatient,
 }) => {
-  const [view, setView] = useState<'month' | 'week' | 'day'>('day'); // Default to day view for mobile
+  const [view, setView] = useState<'week' | 'day'>('day');
   const [date, setDate] = useState(new Date());
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
-  const [showEventDetails, setShowEventDetails] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  
-  // Detect mobile screen size
-  React.useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
-  // Transform visits to calendar events
+  useEffect(() => {
+    const check = () => {
+      const mobile = window.innerWidth < 640;
+      setIsMobile(mobile);
+      if (mobile && view === 'week') setView('day');
+    };
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, [view]);
+
   const events: CalendarEvent[] = useMemo(() => {
     return visits.map(visit => {
       const [hours, minutes] = visit.scheduled_time.split(':').map(Number);
       const startDate = new Date(visit.scheduled_date);
       startDate.setHours(hours, minutes, 0, 0);
-      
       const endDate = new Date(startDate);
       endDate.setMinutes(startDate.getMinutes() + visit.duration_minutes);
-
       return {
         id: visit.id,
-        title: visit.patient?.full_name || 'Unknown Patient',
+        title: visit.patient?.full_name || 'Unknown',
         start: startDate,
         end: endDate,
-        resource: visit
+        resource: visit,
       };
     });
   }, [visits]);
 
-  // Custom event style getter
   const eventStyleGetter = (event: CalendarEvent) => {
-    const visit = event.resource;
-    let backgroundColor = '#3174ad';
-    let borderColor = '#3174ad';
-
-    switch (visit.status) {
-      case 'SCHEDULED':
-        backgroundColor = '#3b82f6';
-        borderColor = '#2563eb';
-        break;
-      case 'IN_PROGRESS':
-        backgroundColor = '#f59e0b';
-        borderColor = '#d97706';
-        break;
-      case 'COMPLETED':
-        backgroundColor = '#10b981';
-        borderColor = '#059669';
-        break;
-      case 'CANCELLED':
-        backgroundColor = '#ef4444';
-        borderColor = '#dc2626';
-        break;
-      case 'NO_SHOW':
-        backgroundColor = '#6b7280';
-        borderColor = '#4b5563';
-        break;
-    }
-
+    const colors = statusColors[event.resource.status] || statusColors.SCHEDULED;
     return {
       style: {
-        backgroundColor,
-        borderColor,
-        border: `2px solid ${borderColor}`,
-        borderRadius: '6px',
-        opacity: 0.9,
+        backgroundColor: colors.bg,
+        border: 'none',
+        borderLeft: `3px solid ${colors.border}`,
+        borderRadius: '4px',
         color: 'white',
-        fontSize: '12px',
-        fontWeight: '500',
-        padding: '2px 6px'
-      }
+        fontSize: '11px',
+        fontWeight: 500,
+        padding: '2px 6px',
+        opacity: 0.95,
+      },
     };
   };
 
-  // Ultra-Responsive Custom Toolbar
-  const CustomToolbar = ({ label, onNavigate, onView }: any) => {
-    // Format label for mobile
-    const getMobileLabel = (fullLabel: string) => {
-      if (view === 'day') {
-        return format(date, 'MMM d, yyyy');
-      } else if (view === 'week') {
-        return format(date, 'MMM yyyy');
-      } else {
-        return format(date, 'MMM yyyy');
-      }
-    };
-    
-    return (
-      <div className="space-y-2 mb-2 sm:mb-3">
-        {/* Mobile-Optimized Navigation Row */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-1">
-            <button
-              onClick={() => onNavigate('PREV')}
-              className="p-2 sm:p-2 hover:bg-gray-100 rounded-lg transition-colors touch-manipulation"
-            >
-              <ChevronLeft className="h-4 w-4 sm:h-4 sm:w-4 text-gray-600" />
-            </button>
-            <div className="min-w-0 flex-1 text-center px-2">
-              <h2 className="text-sm sm:text-base font-semibold text-gray-900 truncate">
-                {isMobile ? getMobileLabel(label) : label}
-              </h2>
-              {/* Show appointment count for current view */}
-              <p className="text-xs text-gray-500 mt-0.5">
-                {events.filter(event => {
-                  if (view === 'day') {
-                    return format(event.start, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd');
-                  } else if (view === 'week') {
-                    const weekStart = startOfWeek(date);
-                    const weekEnd = new Date(weekStart);
-                    weekEnd.setDate(weekStart.getDate() + 6);
-                    return event.start >= weekStart && event.start <= weekEnd;
-                  }
-                  return true;
-                }).length} appointments
-              </p>
-            </div>
-            <button
-              onClick={() => onNavigate('NEXT')}
-              className="p-2 sm:p-2 hover:bg-gray-100 rounded-lg transition-colors touch-manipulation"
-            >
-              <ChevronRight className="h-4 w-4 sm:h-4 sm:w-4 text-gray-600" />
-            </button>
-          </div>
+  const visibleCount = events.filter(e => {
+    if (view === 'day') return format(e.start, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd');
+    const ws = startOfWeek(date);
+    const we = new Date(ws);
+    we.setDate(ws.getDate() + 6);
+    return e.start >= ws && e.start <= we;
+  }).length;
+
+  const CustomToolbar = ({ onNavigate, onView }: any) => (
+    <div className="flex items-center justify-between mb-3">
+      <div className="flex items-center gap-1">
+        <button onClick={() => onNavigate('PREV')} className="p-1.5 hover:bg-gray-100 rounded-md">
+          <ChevronLeft className="h-4 w-4 text-gray-500" />
+        </button>
+        <div className="text-center min-w-[120px]">
+          <span className="text-sm font-semibold text-gray-900">
+            {view === 'day' ? format(date, 'MMM d, yyyy') : format(date, 'MMM yyyy')}
+          </span>
+          <span className="text-xs text-gray-400 ml-2">{visibleCount} appts</span>
         </div>
-        
-        {/* Mobile-First View Toggle & Today Button */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center bg-gray-100 rounded-lg p-0.5">
-            {(isMobile ? ['day', 'week'] : ['day', 'week', 'month']).map((viewType) => (
-              <button
-                key={viewType}
-                onClick={() => {
-                  setView(viewType as any);
-                  onView(viewType);
-                }}
-                className={`px-3 py-1.5 text-xs sm:text-sm rounded transition-colors capitalize touch-manipulation ${
-                  view === viewType
-                    ? 'bg-white shadow-sm text-healui-physio font-semibold'
-                    : 'text-gray-600 hover:text-gray-900'
-                }`}
-              >
-                {viewType}
-              </button>
-            ))}
-          </div>
-          <button
-            onClick={() => onNavigate('TODAY')}
-            className="px-3 py-1.5 text-xs sm:text-sm bg-healui-physio text-white rounded-lg hover:bg-healui-primary transition-colors font-medium touch-manipulation"
-          >
-            Today
-          </button>
-        </div>
+        <button onClick={() => onNavigate('NEXT')} className="p-1.5 hover:bg-gray-100 rounded-md">
+          <ChevronRight className="h-4 w-4 text-gray-500" />
+        </button>
       </div>
-    );
-  };
 
-  // Custom event component
-  const EventComponent = ({ event }: { event: CalendarEvent }) => {
-    const visit = event.resource;
-    return (
-      <div className="flex items-center space-x-1 text-xs">
-        <div className="flex-1 truncate">
-          <div className="font-medium truncate">{event.title}</div>
-          <div className="text-xs opacity-90 truncate">
-            {visit.visit_type?.replace('_', ' ')}
-          </div>
+      <div className="flex items-center gap-1.5">
+        <div className="flex items-center bg-gray-100 rounded-md p-0.5">
+          {(['day', 'week'] as const).map(v => (
+            <button
+              key={v}
+              onClick={() => { setView(v); onView(v); }}
+              className={`px-2.5 py-1 text-xs font-medium rounded transition-colors capitalize ${
+                view === v ? 'bg-white shadow-sm text-brand-teal' : 'text-gray-500'
+              }`}
+            >
+              {v}
+            </button>
+          ))}
         </div>
-        <MoreHorizontal className="h-3 w-3 opacity-75 flex-shrink-0" />
+        <button
+          onClick={() => { setDate(new Date()); onNavigate('TODAY'); }}
+          className="px-2.5 py-1 text-xs font-medium text-brand-teal border border-brand-teal/30 rounded-md hover:bg-teal-50"
+        >
+          Today
+        </button>
       </div>
-    );
-  };
+    </div>
+  );
 
-  const handleSelectEvent = (event: CalendarEvent) => {
-    setSelectedEvent(event);
-    setShowEventDetails(true);
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'SCHEDULED':
-        return 'bg-blue-100 text-blue-800';
-      case 'IN_PROGRESS':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'COMPLETED':
-        return 'bg-green-100 text-green-800';
-      case 'CANCELLED':
-        return 'bg-red-100 text-red-800';
-      case 'NO_SHOW':
-        return 'bg-gray-100 text-gray-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  };
+  const EventComponent = ({ event }: { event: CalendarEvent }) => (
+    <div className="truncate leading-tight">
+      <span className="font-medium">{event.title}</span>
+    </div>
+  );
 
   return (
-    <div className="bg-white sm:rounded-xl sm:border sm:border-gray-200 overflow-hidden">
+    <div>
       <style jsx global>{`
-        .rbc-calendar {
-          font-family: inherit;
-          font-size: 13px;
-          touch-action: manipulation;
-        }
-        .rbc-toolbar {
-          display: none;
-        }
-        .rbc-month-view, .rbc-time-view {
-          border: none;
-        }
-        .rbc-time-header {
-          border-bottom: 1px solid #e5e7eb;
-        }
-        .rbc-time-content {
-          border-top: none;
-        }
-        .rbc-time-slot {
-          border-top: 1px solid #f9fafb;
-          min-height: 20px;
-        }
-        .rbc-timeslot-group {
-          border-bottom: 1px solid #e5e7eb;
-          min-height: 40px;
-        }
-        .rbc-day-slot {
-          border-right: 1px solid #e5e7eb;
-        }
-        .rbc-today {
-          background-color: #ecfdf5;
-        }
-        .rbc-current-time-indicator {
-          background-color: #10b981;
-          height: 3px;
-          border-radius: 1px;
-          z-index: 3;
-        }
-        .rbc-event {
-          border: none !important;
-          border-radius: 6px;
-          padding: 3px 6px;
-          font-size: 11px;
-          font-weight: 500;
-          cursor: pointer;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-          min-height: 20px;
-          display: flex;
-          align-items: center;
-        }
-        .rbc-event:focus {
-          outline: 2px solid #10b981;
-          outline-offset: 1px;
-        }
-        .rbc-event:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-        }
-        .rbc-month-view .rbc-event {
-          border-radius: 4px;
-          padding: 2px 4px;
-          font-size: 10px;
-          min-height: 18px;
-        }
-        .rbc-time-header-content {
-          border-left: none;
-        }
+        .rbc-calendar { font-family: inherit; }
+        .rbc-toolbar { display: none; }
+        .rbc-month-view, .rbc-time-view { border: none; }
+        .rbc-time-header { border-bottom: 1px solid #e5e7eb; }
+        .rbc-time-content { border-top: none; }
+        .rbc-time-slot { border-top: 1px solid #f3f4f6; min-height: 20px; }
+        .rbc-timeslot-group { border-bottom: 1px solid #e5e7eb; min-height: 40px; }
+        .rbc-day-slot { border-right: 1px solid #f3f4f6; }
+        .rbc-today { background-color: #f0fdfa; }
+        .rbc-current-time-indicator { background-color: #0d9488; height: 2px; z-index: 3; }
+        .rbc-event { border: none !important; cursor: pointer; min-height: 22px; display: flex; align-items: center; }
+        .rbc-event:focus { outline: 2px solid #0d9488; outline-offset: 1px; }
+        .rbc-time-header-content { border-left: none; }
         .rbc-time-view .rbc-header {
           border-bottom: 1px solid #e5e7eb;
-          font-size: 12px;
-          font-weight: 600;
-          color: #374151;
-          padding: 10px 4px;
-          background-color: #f9fafb;
+          font-size: 11px; font-weight: 600; color: #4b5563;
+          padding: 8px 4px; background-color: #f9fafb;
         }
-        .rbc-time-view .rbc-allday-cell {
-          display: none;
-        }
+        .rbc-time-view .rbc-allday-cell { display: none; }
         .rbc-time-view .rbc-time-gutter {
-          font-size: 11px;
-          color: #6b7280;
-          background-color: #f9fafb;
-          border-right: 1px solid #e5e7eb;
+          font-size: 10px; color: #9ca3af;
+          background-color: #fafafa; border-right: 1px solid #e5e7eb;
         }
-        .rbc-day-bg {
-          background-color: #ffffff;
-        }
-        .rbc-day-bg.rbc-today {
-          background-color: #ecfdf5;
-        }
-        /* Mobile Optimizations */
-        @media (max-width: 768px) {
-          .rbc-calendar {
-            font-size: 12px;
-          }
-          .rbc-event {
-            font-size: 10px;
-            padding: 2px 4px;
-            border-radius: 4px;
-            min-height: 24px;
-          }
-          .rbc-month-view .rbc-event {
-            font-size: 9px;
-            padding: 1px 3px;
-            min-height: 20px;
-          }
-          .rbc-time-view .rbc-header {
-            font-size: 10px;
-            padding: 8px 2px;
-          }
-          .rbc-time-view .rbc-time-gutter {
-            font-size: 9px;
-            width: 45px;
-          }
-          .rbc-time-slot {
-            min-height: 24px;
-          }
-          .rbc-timeslot-group {
-            min-height: 48px;
-          }
-          /* Make events more touch-friendly */
-          .rbc-event {
-            min-height: 28px;
-            touch-action: manipulation;
-          }
-          /* Better week view on mobile */
-          .rbc-time-view .rbc-time-content {
-            min-height: 400px;
-          }
-        }
-        /* Extra small screens */
-        @media (max-width: 480px) {
-          .rbc-time-view .rbc-time-gutter {
-            width: 35px;
-            font-size: 8px;
-          }
-          .rbc-time-view .rbc-header {
-            font-size: 9px;
-            padding: 6px 1px;
-          }
-          .rbc-event {
-            font-size: 9px;
-            padding: 1px 3px;
-          }
+        .rbc-day-bg { background-color: #fff; }
+        .rbc-day-bg.rbc-today { background-color: #f0fdfa; }
+        @media (max-width: 640px) {
+          .rbc-event { font-size: 10px; padding: 1px 4px; min-height: 24px; }
+          .rbc-time-view .rbc-header { font-size: 10px; padding: 6px 2px; }
+          .rbc-time-view .rbc-time-gutter { font-size: 9px; width: 42px; }
+          .rbc-timeslot-group { min-height: 44px; }
         }
       `}</style>
 
@@ -426,160 +205,107 @@ const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({
         events={events}
         startAccessor="start"
         endAccessor="end"
-        style={{ 
-          height: isMobile ? (view === 'day' ? 450 : view === 'week' ? 400 : 350) : 550,
-          minHeight: isMobile ? 300 : 400
-        }}
+        style={{ height: isMobile ? 450 : 560 }}
         view={view}
-        onView={(newView) => {
-          setView(newView as any);
-          // Auto-adjust for mobile optimization
-          if (isMobile && newView === 'month') {
-            setView('week');
-          }
-        }}
+        onView={(v) => setView(v as any)}
         date={date}
         onNavigate={setDate}
         eventPropGetter={eventStyleGetter}
-        components={{
-          toolbar: CustomToolbar,
-          event: EventComponent,
-        }}
-        onSelectEvent={handleSelectEvent}
-        popup={!isMobile} // Disable popup on mobile, use modal instead
+        components={{ toolbar: CustomToolbar, event: EventComponent }}
+        onSelectEvent={(event) => setSelectedEvent(event as CalendarEvent)}
         showMultiDayTimes
-        step={isMobile ? 30 : 15} // Larger time slots on mobile
-        timeslots={isMobile ? 2 : 4}
+        step={30}
+        timeslots={2}
         min={new Date(2023, 0, 1, 8, 0, 0)}
-        max={new Date(2023, 0, 1, 19, 0, 0)}
+        max={new Date(2023, 0, 1, 20, 0, 0)}
         dayLayoutAlgorithm="no-overlap"
-        messages={{
-          today: 'Today',
-          previous: '‹',
-          next: '›',
-          month: 'Month',
-          week: 'Week',
-          day: 'Day',
-          agenda: 'Agenda',
-          noEventsInRange: 'No appointments in this range',
-          showMore: (total) => `+${total} more`
-        }}
+        messages={{ noEventsInRange: 'No appointments', showMore: (n) => `+${n}` }}
       />
 
-      {/* Event Details Modal */}
-      {showEventDetails && selectedEvent && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg sm:rounded-2xl shadow-2xl max-w-md w-full">
-            <div className="p-3 sm:p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-gray-900">Appointment Details</h3>
-                <button
-                  onClick={() => setShowEventDetails(false)}
-                  className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
-                >
-                  <XCircle className="h-4 w-4 text-gray-400" />
-                </button>
+      {/* Event detail — sliding panel */}
+      {selectedEvent && (
+        <div className="fixed inset-0 z-50 flex" onClick={() => setSelectedEvent(null)}>
+          <div className="absolute inset-0 bg-black/20" />
+          <div
+            className="absolute inset-y-0 right-0 w-full sm:w-[360px] bg-white shadow-lg flex flex-col animate-in slide-in-from-right duration-200"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
+              <div>
+                <h3 className="text-sm font-semibold text-gray-900">
+                  {selectedEvent.resource.patient?.full_name || 'Unknown'}
+                </h3>
+                <p className="text-xs text-gray-500 mt-0.5">
+                  {selectedEvent.resource.patient?.phone}
+                </p>
               </div>
+              <button onClick={() => setSelectedEvent(null)} className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-md">
+                <X className="h-4 w-4" />
+              </button>
+            </div>
 
-              <div className="space-y-3 sm:space-y-4">
-                {/* Patient Info */}
-                <div className="flex items-center space-x-3">
-                  <div className="h-12 w-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-medium">
-                    {selectedEvent.resource.patient?.full_name?.split(' ').map(n => n[0]).join('') || 'P'}
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900">
-                      {selectedEvent.resource.patient?.full_name || 'Unknown Patient'}
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      {selectedEvent.resource.patient?.phone}
-                    </p>
-                  </div>
+            {/* Details */}
+            <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
+              <div className="p-3 bg-gray-50 rounded-md text-xs text-gray-500 space-y-1.5">
+                <div className="flex justify-between">
+                  <span className="flex items-center gap-1"><CalendarIcon className="h-3 w-3" /> Date</span>
+                  <span className="text-gray-700 font-medium">{format(selectedEvent.start, 'MMM dd, yyyy')}</span>
                 </div>
-
-                {/* Appointment Details */}
-                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-200">
-                  <div>
-                    <div className="flex items-center space-x-2 text-sm text-gray-500 mb-1">
-                      <CalendarIcon className="h-4 w-4" />
-                      <span>Date</span>
-                    </div>
-                    <p className="font-medium text-gray-900">
-                      {format(selectedEvent.start, 'MMM dd, yyyy')}
-                    </p>
-                  </div>
-                  <div>
-                    <div className="flex items-center space-x-2 text-sm text-gray-500 mb-1">
-                      <Clock className="h-4 w-4" />
-                      <span>Time</span>
-                    </div>
-                    <p className="font-medium text-gray-900">
-                      {format(selectedEvent.start, 'HH:mm')} - {format(selectedEvent.end, 'HH:mm')}
-                    </p>
-                  </div>
+                <div className="flex justify-between">
+                  <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> Time</span>
+                  <span className="text-gray-700 font-medium">{format(selectedEvent.start, 'HH:mm')} – {format(selectedEvent.end, 'HH:mm')}</span>
                 </div>
-
-                {/* Status */}
-                <div>
-                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(selectedEvent.resource.status)}`}>
-                    {selectedEvent.resource.status.replace('_', ' ')}
-                  </span>
+                <div className="flex justify-between">
+                  <span>Status</span>
+                  <span className="text-gray-700 font-medium capitalize">{selectedEvent.resource.status.replace('_', ' ').toLowerCase()}</span>
                 </div>
-
-                {/* Chief Complaint */}
-                {selectedEvent.resource.chief_complaint && (
-                  <div className="pt-4 border-t border-gray-200">
-                    <p className="text-sm text-gray-500 mb-1">Chief Complaint</p>
-                    <p className="text-gray-900">{selectedEvent.resource.chief_complaint}</p>
+                <div className="flex justify-between">
+                  <span>Type</span>
+                  <span className="text-gray-700 font-medium capitalize">{selectedEvent.resource.visit_type.replace('_', ' ').toLowerCase()}</span>
+                </div>
+                {selectedEvent.resource.physiotherapist && (
+                  <div className="flex justify-between">
+                    <span>Physiotherapist</span>
+                    <span className="text-gray-700 font-medium">{selectedEvent.resource.physiotherapist.full_name}</span>
                   </div>
                 )}
-
-                {/* Actions */}
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 pt-3 sm:pt-4 border-t border-gray-200">
-                  {onViewPatient && (
-                    <button
-                      onClick={() => {
-                        onViewPatient(selectedEvent.resource.patient);
-                        setShowEventDetails(false);
-                      }}
-                      className="flex items-center justify-center space-x-2 px-3 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors text-sm"
-                    >
-                      <Eye className="h-4 w-4" />
-                      <span>View Patient</span>
-                    </button>
-                  )}
-                  
-                  {selectedEvent.resource.status === 'SCHEDULED' && (
-                    <>
-                      {onReschedule && (
-                        <button
-                          onClick={() => {
-                            onReschedule(selectedEvent.resource);
-                            setShowEventDetails(false);
-                          }}
-                          className="flex items-center space-x-2 px-3 py-2 bg-orange-100 text-orange-700 rounded-lg hover:bg-orange-200 transition-colors text-sm"
-                        >
-                          <Edit3 className="h-4 w-4" />
-                          <span>Reschedule</span>
-                        </button>
-                      )}
-                      
-                      {onCancel && (
-                        <button
-                          onClick={() => {
-                            onCancel(selectedEvent.resource);
-                            setShowEventDetails(false);
-                          }}
-                          className="flex items-center space-x-2 px-3 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors text-sm"
-                        >
-                          <XCircle className="h-4 w-4" />
-                          <span>Cancel</span>
-                        </button>
-                      )}
-                    </>
-                  )}
-                </div>
               </div>
+
+              {selectedEvent.resource.chief_complaint && (
+                <div>
+                  <span className="text-xs text-gray-400">Chief complaint</span>
+                  <p className="text-sm text-gray-700 mt-0.5">{selectedEvent.resource.chief_complaint}</p>
+                </div>
+              )}
+            </div>
+
+            {/* Actions */}
+            <div className="px-5 py-3 border-t border-gray-100 flex items-center gap-2">
+              {onViewPatient && (
+                <button
+                  onClick={() => { onViewPatient(selectedEvent.resource.patient); setSelectedEvent(null); }}
+                  className="flex-1 py-2 text-xs font-medium text-brand-teal border border-brand-teal/30 rounded-md hover:bg-teal-50 transition-colors text-center"
+                >
+                  View Patient
+                </button>
+              )}
+              {selectedEvent.resource.status === 'SCHEDULED' && onReschedule && (
+                <button
+                  onClick={() => { onReschedule(selectedEvent.resource); setSelectedEvent(null); }}
+                  className="flex-1 py-2 text-xs font-medium text-gray-600 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors text-center"
+                >
+                  Reschedule
+                </button>
+              )}
+              {selectedEvent.resource.status === 'SCHEDULED' && onCancel && (
+                <button
+                  onClick={() => { onCancel(selectedEvent.resource); setSelectedEvent(null); }}
+                  className="py-2 px-3 text-xs font-medium text-red-500 hover:bg-red-50 rounded-md transition-colors"
+                >
+                  Cancel
+                </button>
+              )}
             </div>
           </div>
         </div>

@@ -40,7 +40,8 @@ import {
   Stethoscope,
   IndianRupee,
   Package,
-  Crosshair
+  Crosshair,
+  Plus
 } from 'lucide-react';
 
 interface Patient {
@@ -116,6 +117,8 @@ export default function PatientsPage() {
   const [showBillingModal, setShowBillingModal] = useState(false);
   const [showDxModal, setShowDxModal] = useState(false);
   const [page, setPage] = useState(1);
+  const [showMobileSearch, setShowMobileSearch] = useState(false);
+  const [showAddMenu, setShowAddMenu] = useState(false);
   const limit = 15; // Increased for better mobile experience
 
   useEffect(() => {
@@ -241,12 +244,31 @@ export default function PatientsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Compact Header with Search */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3 py-2.5">
-            {/* Search Bar */}
-            <div className="relative flex-1 max-w-sm">
+      {/* Header — mobile: title + icons, desktop: full bar */}
+      <div className="bg-white border-b border-gray-200 sticky top-0 z-30">
+        {/* Mobile header */}
+        <div className="sm:hidden px-4 py-2.5 flex items-center justify-between">
+          <h1 className="text-base font-semibold text-gray-900">Patients</h1>
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => setShowMobileSearch(!showMobileSearch)}
+              className={`p-2 rounded-lg transition-colors ${showMobileSearch ? 'bg-gray-100 text-brand-teal' : 'text-gray-500 hover:bg-gray-100'}`}
+            >
+              <Search className="h-5 w-5" />
+            </button>
+            <button
+              onClick={() => setShowAddMenu(!showAddMenu)}
+              className="p-2 text-brand-teal hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              <Plus className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile: expandable search + filter */}
+        {showMobileSearch && (
+          <div className="sm:hidden px-4 pb-3 space-y-2 border-t border-gray-100">
+            <div className="relative mt-2">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
               <input
                 type="text"
@@ -254,81 +276,104 @@ export default function PatientsPage() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                className="w-full pl-9 pr-8 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal focus:bg-white"
+                className="w-full pl-9 pr-8 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal focus:bg-white"
+                autoFocus
               />
               {searchTerm && (
                 <button
-                  onClick={() => {
-                    setSearchTerm('');
-                    setPage(1);
-                    fetchPatients();
-                  }}
+                  onClick={() => { setSearchTerm(''); setPage(1); fetchPatients(); }}
                   className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 >
                   <XCircle className="h-4 w-4" />
                 </button>
               )}
             </div>
-
-            {/* Patient Count */}
-            <span className="text-sm text-gray-500 hidden sm:block">{patientsData.total} patients</span>
-
-            {/* Filters */}
             <select
               value={statusFilter}
-              onChange={(e) => {
-                setStatusFilter(e.target.value as any);
-                setPage(1);
-              }}
-              className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal/20"
+              onChange={(e) => { setStatusFilter(e.target.value as any); setPage(1); }}
+              className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal/20"
             >
-              <option value="all">All</option>
+              <option value="all">All Patients</option>
               <option value="ACTIVE">Active</option>
               <option value="INACTIVE">Inactive</option>
               <option value="DISCHARGED">Discharged</option>
             </select>
+          </div>
+        )}
 
-            {/* View Toggle */}
-            <div className="flex items-center bg-gray-50 border border-gray-200 rounded-lg p-0.5">
+        {/* Mobile: add menu dropdown */}
+        {showAddMenu && (
+          <div className="sm:hidden px-4 pb-3 border-t border-gray-100">
+            <div className="mt-2 space-y-1">
               <button
-                onClick={() => setViewMode('list')}
-                className={`p-1.5 rounded transition-all ${
-                  viewMode === 'list'
-                    ? 'bg-brand-teal text-white'
-                    : 'text-gray-500 hover:text-gray-700'
-                }`}
+                onClick={() => { setShowAddMenu(false); setShowQuickIntakeModal(true); }}
+                className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
               >
-                <List className="h-4 w-4" />
+                <UserPlus className="h-4 w-4 text-brand-teal" />
+                Quick Intake
               </button>
               <button
-                onClick={() => setViewMode('grid')}
-                className={`p-1.5 rounded transition-all ${
-                  viewMode === 'grid'
-                    ? 'bg-brand-teal text-white'
-                    : 'text-gray-500 hover:text-gray-700'
-                }`}
+                onClick={() => { setShowAddMenu(false); handleAddPatient(); }}
+                className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
               >
-                <Grid className="h-4 w-4" />
+                <FileText className="h-4 w-4 text-gray-400" />
+                Full Registration
               </button>
             </div>
+          </div>
+        )}
 
-            {/* Action Buttons */}
-            <div className="flex items-center gap-2 ml-auto">
-              <button
-                onClick={() => setShowQuickIntakeModal(true)}
-                className="bg-[#1e5f79] text-white inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg hover:bg-[#1e5f79]/90 transition-colors"
-              >
-                <UserPlus className="h-4 w-4 sm:mr-1.5" />
-                <span className="hidden sm:inline">Quick Intake</span>
-              </button>
+        {/* Desktop header — single row */}
+        <div className="hidden sm:block">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center gap-3 py-2.5">
+              <div className="relative flex-1 max-w-sm">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search patients..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                  className="w-full pl-9 pr-8 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal focus:bg-white"
+                />
+                {searchTerm && (
+                  <button
+                    onClick={() => { setSearchTerm(''); setPage(1); fetchPatients(); }}
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  >
+                    <XCircle className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
 
-              <button
-                onClick={handleAddPatient}
-                className="bg-white text-gray-700 border border-gray-200 inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg hover:bg-gray-50 transition-colors"
+              <select
+                value={statusFilter}
+                onChange={(e) => { setStatusFilter(e.target.value as any); setPage(1); }}
+                className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal/20"
               >
-                <FileText className="h-4 w-4 sm:mr-1.5" />
-                <span className="hidden sm:inline">Full Registration</span>
-              </button>
+                <option value="all">All</option>
+                <option value="ACTIVE">Active</option>
+                <option value="INACTIVE">Inactive</option>
+                <option value="DISCHARGED">Discharged</option>
+              </select>
+
+              <div className="flex items-center gap-2 ml-auto">
+                <button
+                  onClick={() => setShowQuickIntakeModal(true)}
+                  className="bg-brand-teal text-white inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg hover:bg-teal-700 transition-colors"
+                >
+                  <UserPlus className="h-4 w-4 mr-1.5" />
+                  Quick Intake
+                </button>
+                <button
+                  onClick={handleAddPatient}
+                  className="bg-white text-gray-700 border border-gray-200 inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  <FileText className="h-4 w-4 mr-1.5" />
+                  Full Registration
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -366,58 +411,49 @@ export default function PatientsPage() {
               </button>
             )}
           </div>
-        ) : viewMode === 'list' ? (
-          <div className="bg-white rounded-lg overflow-hidden border border-gray-200">
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Patient
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Status
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Billing
-                    </th>
-                    <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {patientsData.patients.map((patient) => (
-                    <PatientCard
-                      key={patient.id}
-                      patient={patient}
-                      viewMode={viewMode}
-                      onView={() => handleViewPatient(patient)}
-                      onSchedule={() => handleScheduleVisit(patient)}
-                      onClinicalAssessment={() => handleClinicalAssessment(patient)}
-                      onBilling={() => handleBilling(patient)}
-                      onDx={() => handleDx(patient)}
-                    />
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {patientsData.patients.map((patient) => (
-              <PatientCard
-                key={patient.id}
-                patient={patient}
-                viewMode={viewMode}
-                onView={() => handleViewPatient(patient)}
-                onSchedule={() => handleScheduleVisit(patient)}
-                onClinicalAssessment={() => handleClinicalAssessment(patient)}
-                onBilling={() => handleBilling(patient)}
-                onDx={() => handleDx(patient)}
-              />
-            ))}
-          </div>
+          <>
+            {/* Patient count */}
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs text-gray-400 font-medium">{patientsData.total} patient{patientsData.total !== 1 ? 's' : ''}</span>
+            </div>
+
+            <div className="bg-white rounded-lg overflow-hidden border border-gray-200">
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-4 py-2.5 text-left text-[11px] font-medium text-gray-400 uppercase tracking-wider">
+                        Patient
+                      </th>
+                      <th className="px-4 py-2.5 text-left text-[11px] font-medium text-gray-400 uppercase tracking-wider hidden sm:table-cell">
+                        Age
+                      </th>
+                      <th className="px-4 py-2.5 text-left text-[11px] font-medium text-gray-400 uppercase tracking-wider hidden sm:table-cell">
+                        Gender
+                      </th>
+                      <th className="px-4 py-2.5 text-right text-[11px] font-medium text-gray-400 uppercase tracking-wider">
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-100">
+                    {patientsData.patients.map((patient) => (
+                      <PatientCard
+                        key={patient.id}
+                        patient={patient}
+                        viewMode={'list'}
+                        onView={() => handleViewPatient(patient)}
+                        onSchedule={() => handleScheduleVisit(patient)}
+                        onClinicalAssessment={() => handleClinicalAssessment(patient)}
+                        onBilling={() => handleBilling(patient)}
+                        onDx={() => handleDx(patient)}
+                      />
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </>
         )}
 
             {/* Pagination */}
@@ -606,98 +642,121 @@ const PatientCard: React.FC<PatientCardProps> = ({ patient, viewMode, onView, on
     }
   };
 
+  const [showOverflow, setShowOverflow] = useState(false);
+  const overflowRef = React.useRef<HTMLDivElement>(null);
+
+  // Close overflow on outside click
+  React.useEffect(() => {
+    if (!showOverflow) return;
+    const handleClick = (e: MouseEvent) => {
+      if (overflowRef.current && !overflowRef.current.contains(e.target as Node)) {
+        setShowOverflow(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [showOverflow]);
+
   if (viewMode === 'list') {
+    const isInactive = patient.status === 'INACTIVE';
+    const isDischarged = patient.status === 'DISCHARGED';
+
     return (
-      <tr className="hover:bg-gray-50 cursor-pointer transition-colors" onClick={onView}>
-        {/* Patient - Name + Age/Gender */}
+      <tr
+        className={`cursor-pointer transition-colors ${
+          isInactive ? 'opacity-50 hover:opacity-70 hover:bg-gray-50' :
+          isDischarged ? 'bg-blue-50/20 hover:bg-blue-50/40' :
+          'hover:bg-gray-50'
+        }`}
+        onClick={onView}
+      >
+        {/* Patient — status dot + name (mobile: includes age/gender) */}
         <td className="px-4 py-2.5">
-          <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-lg bg-brand-teal/10 flex items-center justify-center text-brand-teal font-semibold text-sm flex-shrink-0">
-              {patient.full_name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
-            </div>
-            <div>
-              <div className="text-sm font-medium text-gray-900">
+          <div className="flex items-center gap-2">
+            <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${
+              patient.status === 'ACTIVE' ? 'bg-brand-teal' :
+              isDischarged ? 'bg-blue-400' : 'bg-gray-300'
+            }`} />
+            <div className="min-w-0">
+              <span className="text-sm font-medium text-gray-900 truncate block">
                 {patient.full_name}
-              </div>
-              <div className="text-xs text-gray-500">
-                {calculateAge(patient.date_of_birth)}y · {patient.gender === 'M' ? 'Male' : patient.gender === 'F' ? 'Female' : 'Other'} · <span className="font-mono">{patient.patient_code}</span>
-              </div>
+              </span>
+              <span className="text-xs text-gray-400 sm:hidden">
+                {calculateAge(patient.date_of_birth)}y · {patient.gender === 'M' ? 'M' : patient.gender === 'F' ? 'F' : 'O'}
+              </span>
             </div>
           </div>
         </td>
 
-        {/* Status */}
-        <td className="px-4 py-2.5">
-          <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
-            patient.status === 'ACTIVE' ? 'bg-green-100 text-green-700' :
-            patient.status === 'INACTIVE' ? 'bg-gray-100 text-gray-600' :
-            'bg-blue-100 text-blue-700'
-          }`}>
-            {patient.status}
-          </span>
+        {/* Age */}
+        <td className="px-4 py-2.5 hidden sm:table-cell">
+          <span className="text-xs text-gray-500">{calculateAge(patient.date_of_birth)}y</span>
         </td>
 
-        {/* Billing */}
-        <td className="px-4 py-2.5">
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onBilling();
-            }}
-            className="inline-flex items-center gap-1 px-2 py-1 bg-purple-50 hover:bg-purple-100 rounded text-xs font-medium text-purple-600 transition-colors"
-          >
-            <Package className="h-3.5 w-3.5" />
-            Billing
-          </button>
+        {/* Gender */}
+        <td className="px-4 py-2.5 hidden sm:table-cell">
+          <span className="text-xs text-gray-500">{patient.gender === 'M' ? 'Male' : patient.gender === 'F' ? 'Female' : 'Other'}</span>
         </td>
 
-        {/* Actions */}
-        <td className="px-4 py-2.5">
-          <div className="flex items-center justify-end gap-1">
-            {/* Dx Button - Primary Action */}
+        {/* Actions — responsive: icon-only on mobile, text on desktop */}
+        <td className="px-3 sm:px-4 py-2.5">
+          <div className="flex items-center justify-end gap-1 sm:gap-1.5">
+            {/* Primary — Start Assessment */}
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onDx();
-              }}
-              className="inline-flex items-center px-2.5 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 rounded-md shadow-sm transition-all"
+              onClick={(e) => { e.stopPropagation(); onDx(); }}
+              className="inline-flex items-center px-2.5 sm:px-3 py-1.5 text-xs font-medium text-white bg-brand-teal hover:bg-teal-700 rounded-md transition-colors"
             >
-              <Crosshair className="h-3.5 w-3.5 mr-1" />
-              Dx
+              <span className="hidden sm:inline">Start Assessment</span>
+              <span className="sm:hidden">Assess</span>
             </button>
 
+            {/* Secondary — Schedule: icon-only on mobile */}
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onView();
-              }}
-              className="inline-flex items-center px-2 py-1 text-xs font-medium text-brand-teal hover:bg-brand-teal/10 rounded transition-colors"
+              onClick={(e) => { e.stopPropagation(); onSchedule(); }}
+              className="inline-flex items-center justify-center p-1.5 sm:px-2.5 sm:py-1.5 text-xs font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
+              title="Schedule"
             >
-              <Eye className="h-3.5 w-3.5 mr-1" />
-              View
+              <CalendarPlus className="h-3.5 w-3.5 sm:mr-1" />
+              <span className="hidden sm:inline">Schedule</span>
             </button>
 
+            {/* Secondary — Billing: icon-only on mobile */}
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onClinicalAssessment();
-              }}
-              className="inline-flex items-center px-2 py-1 text-xs font-medium text-gray-600 hover:bg-gray-100 rounded transition-colors"
+              onClick={(e) => { e.stopPropagation(); onBilling(); }}
+              className="inline-flex items-center justify-center p-1.5 sm:px-2.5 sm:py-1.5 text-xs font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
+              title="Billing"
             >
-              <Stethoscope className="h-3.5 w-3.5 mr-1" />
-              History
+              <IndianRupee className="h-3.5 w-3.5 sm:mr-1" />
+              <span className="hidden sm:inline">Billing</span>
             </button>
 
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onSchedule();
-              }}
-              className="inline-flex items-center px-2 py-1 text-xs font-medium text-gray-600 hover:bg-gray-100 rounded transition-colors"
-            >
-              <CalendarPlus className="h-3.5 w-3.5 mr-1" />
-              Schedule
-            </button>
+            {/* Overflow */}
+            <div className="relative" ref={overflowRef}>
+              <button
+                onClick={(e) => { e.stopPropagation(); setShowOverflow(!showOverflow); }}
+                className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded transition-colors"
+              >
+                <MoreVertical className="h-3.5 w-3.5" />
+              </button>
+              {showOverflow && (
+                <div className="absolute right-0 top-full mt-1 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-20 py-1">
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setShowOverflow(false); onView(); }}
+                    className="w-full flex items-center gap-2 px-3 py-2 text-xs text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    <Eye className="h-3.5 w-3.5 text-gray-400" />
+                    View Profile
+                  </button>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setShowOverflow(false); onClinicalAssessment(); }}
+                    className="w-full flex items-center gap-2 px-3 py-2 text-xs text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    <Stethoscope className="h-3.5 w-3.5 text-gray-400" />
+                    Clinical Intake
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </td>
       </tr>
