@@ -1132,6 +1132,9 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
   const canProceed = (() => {
    if (response === null || response === undefined) return false;
    if (["multi_choice", "checklist", "body_map", "observational"].includes(currentQuestion.type)) {
+    if (currentQuestion.type === "body_map" && response?.detailed) {
+     return Array.isArray(response.detailed) && response.detailed.length > 0;
+    }
     return Array.isArray(response) && response.length > 0;
    }
    if (currentQuestion.type === "red_flags") return true;
@@ -1277,6 +1280,9 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
     currentQuestion?.type || "",
    )
   ) {
+   if (currentQuestion?.type === "body_map" && currentResponse?.detailed) {
+    return Array.isArray(currentResponse.detailed) && currentResponse.detailed.length > 0;
+   }
    return Array.isArray(currentResponse) && currentResponse.length > 0;
   }
 
@@ -2108,7 +2114,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
 
    case "multi_choice":
    case "checklist":
-    // Special case for pain_location - grouped body part selector
+    // Special case for pain_location - grouped body part grid
     if (currentQuestion.id === "pain_location") {
      const bodyPartGroups = [
       {
@@ -2116,12 +2122,8 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
        parts: [
         { id: "head", name: "Head", hasLaterality: false },
         { id: "neck", name: "Neck", hasLaterality: false },
-        {
-         id: "upper_back",
-         name: "Upper Back (Thoracic)",
-         hasLaterality: false,
-        },
-        { id: "lower_back", name: "Lower Back (Lumbar)", hasLaterality: false },
+        { id: "upper_back", name: "Upper Back", hasLaterality: false },
+        { id: "lower_back", name: "Lower Back", hasLaterality: false },
         { id: "chest", name: "Chest", hasLaterality: false },
        ],
       },
@@ -2142,32 +2144,25 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
         { id: "hip", name: "Hip", hasLaterality: true },
         { id: "thigh", name: "Thigh", hasLaterality: true },
         { id: "knee", name: "Knee", hasLaterality: true },
-        { id: "leg", name: "Lower Leg (Calf)", hasLaterality: true },
+        { id: "leg", name: "Calf", hasLaterality: true },
         { id: "ankle", name: "Ankle", hasLaterality: true },
         { id: "foot", name: "Foot", hasLaterality: true },
        ],
       },
      ];
 
-     const selectedParts = Array.isArray(currentResponse)
-      ? currentResponse
-      : [];
+     const selectedParts = Array.isArray(currentResponse) ? currentResponse : [];
 
      const togglePart = (partId: string) => {
       setCurrentResponse((prev: string[]) => {
        const arr = Array.isArray(prev) ? prev : [];
        const filtered = arr.filter((v) => !v.startsWith(partId));
-       if (arr.some((v) => v.startsWith(partId))) {
-        return filtered;
-       }
+       if (arr.some((v) => v.startsWith(partId))) return filtered;
        return [...filtered, partId];
       });
      };
 
-     const selectLaterality = (
-      partId: string,
-      laterality: "left" | "right" | "both",
-     ) => {
+     const selectLaterality = (partId: string, laterality: "left" | "right" | "both") => {
       setCurrentResponse((prev: string[]) => {
        const arr = Array.isArray(prev) ? prev : [];
        const filtered = arr.filter((v) => !v.startsWith(partId));
@@ -2185,93 +2180,66 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
      return (
       <div className='space-y-4'>
        {bodyPartGroups.map((group) => (
-        <div key={group.label} className='space-y-2'>
-         <h4 className='text-xs font-semibold text-gray-500 uppercase tracking-wide px-1'>
+        <div key={group.label}>
+         <h4 className='text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1.5'>
           {group.label}
          </h4>
-         <div className='space-y-2'>
+         <div className='grid grid-cols-3 gap-1.5'>
           {group.parts.map((part) => {
            const selectedLat = getSelectedLaterality(part.id);
            const isSelected = selectedLat !== null;
-
            return (
-            <div key={part.id} className='space-y-1'>
-             <button
-              onClick={() => {
-               if (part.hasLaterality) {
-                if (isSelected) {
-                 togglePart(part.id);
-                } else {
-                 setCurrentResponse((prev: string[]) => {
-                  const arr = Array.isArray(prev) ? prev : [];
-                  return [...arr, `${part.id}_pending`];
-                 });
-                }
-               } else {
-                togglePart(part.id);
+            <button
+             key={part.id}
+             onClick={() => {
+              if (part.hasLaterality) {
+               if (isSelected) togglePart(part.id);
+               else {
+                setCurrentResponse((prev: string[]) => {
+                 const arr = Array.isArray(prev) ? prev : [];
+                 return [...arr, `${part.id}_pending`];
+                });
                }
-              }}
-              className={`w-full flex items-center justify-between min-h-[48px] px-4 rounded-xl border-2 transition-all duration-150 ${
-               isSelected
-                ? "border-brand-teal bg-teal-50/60"
-                : "border-gray-200 bg-white hover:border-teal-300 hover:bg-teal-50/30"
-              }`}
-             >
-              <div className='flex items-center gap-3'>
-               <div
-                className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center flex-shrink-0 transition-all ${
-                 isSelected ? "border-brand-teal bg-brand-teal" : "border-gray-300"
-                }`}
-               >
-                {isSelected && <Check className='h-3 w-3 text-white' />}
-               </div>
-               <span
-                className={`text-sm ${isSelected ? "text-teal-800 font-medium" : "text-gray-700"}`}
-               >
-                {part.name}
-               </span>
-              </div>
-              {part.hasLaterality &&
-               isSelected &&
-               selectedLat !== "pending" && (
-                <span className='text-xs bg-teal-100 text-teal-800 px-2 py-0.5 rounded-full capitalize font-medium'>
-                 {selectedLat}
-                </span>
-               )}
-             </button>
-
-             {part.hasLaterality && isSelected && (
-              <div className='flex gap-2 pl-8'>
-               {["left", "right", "both"].map((lat) => (
-                <button
-                 key={lat}
-                 onClick={() =>
-                  selectLaterality(part.id, lat as "left" | "right" | "both")
-                 }
-                 className={`flex-1 py-2 px-3 text-xs font-medium rounded-xl border-2 transition-all ${
-                  selectedLat === lat
-                   ? "border-brand-teal bg-brand-teal text-white"
-                   : "border-gray-200 bg-white hover:border-teal-300 text-gray-600"
-                 }`}
-                >
-                 {lat === "both"
-                  ? "Both"
-                  : lat.charAt(0).toUpperCase() + lat.slice(1)}
-                </button>
-               ))}
-              </div>
+              } else togglePart(part.id);
+             }}
+             className={`px-2 py-2 text-xs font-medium rounded-md border transition-colors text-center ${
+              isSelected
+               ? "border-brand-teal bg-brand-teal/5 text-brand-teal"
+               : "border-gray-200 text-gray-600 hover:border-gray-300"
+             }`}
+            >
+             {part.name}
+             {isSelected && selectedLat !== "pending" && selectedLat !== "selected" && (
+              <span className='block text-[9px] text-brand-teal/70 mt-0.5 capitalize'>{selectedLat}</span>
              )}
-            </div>
+            </button>
            );
           })}
          </div>
+         {/* Laterality picker for any pending selections in this group */}
+         {group.parts.map((part) => {
+          const selectedLat = getSelectedLaterality(part.id);
+          if (!part.hasLaterality || !selectedLat || selectedLat !== "pending") return null;
+          return (
+           <div key={`${part.id}_lat`} className='flex gap-1.5 mt-1.5'>
+            <span className='text-xs text-gray-500 self-center mr-1'>{part.name}:</span>
+            {(["left", "right", "both"] as const).map((lat) => (
+             <button
+              key={lat}
+              onClick={() => selectLaterality(part.id, lat)}
+              className='flex-1 py-1.5 text-xs font-medium rounded-md border border-gray-200 text-gray-600 hover:border-brand-teal hover:text-brand-teal transition-colors capitalize'
+             >
+              {lat}
+             </button>
+            ))}
+           </div>
+          );
+         })}
         </div>
        ))}
        <Button
         onClick={handleSubmit}
-        disabled={
-         !canSubmit() || selectedParts.some((p) => p.endsWith("_pending"))
-        }
+        disabled={!canSubmit() || selectedParts.some((p) => p.endsWith("_pending"))}
         className={primaryBtnClass}
        >
         Continue <ArrowRight className='ml-2 h-4 w-4' />
@@ -2460,48 +2428,136 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
      </div>
     );
 
-   case "body_map":
-    const handleBodyMapComplete = () => {
-     if (Array.isArray(currentResponse) && currentResponse.length > 0) {
-      const flatRegions = currentResponse.flatMap((selection: any) => {
-       const mainRegion = selection.mainRegion;
-       const laterality = selection.laterality;
-       const subRegions = selection.subRegions || [];
+   case "body_map": {
+    const bmGroups = [
+     {
+      label: "Head & Spine",
+      parts: [
+       { id: "head", name: "Head", bilateral: false },
+       { id: "neck", name: "Neck", bilateral: false },
+       { id: "chest", name: "Chest", bilateral: false },
+       { id: "abdomen", name: "Abdomen", bilateral: false },
+       { id: "lower-back", name: "Lower Back", bilateral: false },
+      ],
+     },
+     {
+      label: "Upper Limb",
+      parts: [
+       { id: "shoulder", name: "Shoulder", bilateral: true },
+       { id: "upper-arm", name: "Upper Arm", bilateral: true },
+       { id: "elbow", name: "Elbow", bilateral: true },
+       { id: "forearm", name: "Forearm", bilateral: true },
+       { id: "wrist", name: "Wrist", bilateral: true },
+       { id: "hand", name: "Hand", bilateral: true },
+      ],
+     },
+     {
+      label: "Lower Limb",
+      parts: [
+       { id: "hip", name: "Hip", bilateral: true },
+       { id: "thigh", name: "Thigh", bilateral: true },
+       { id: "knee", name: "Knee", bilateral: true },
+       { id: "lower-leg", name: "Lower Leg", bilateral: true },
+       { id: "ankle", name: "Ankle", bilateral: true },
+       { id: "foot", name: "Foot", bilateral: true },
+      ],
+     },
+    ];
 
-       if (laterality === "both") {
-        return [
-         ...subRegions.map((sub: string) => `${mainRegion}_left_${sub}`),
-         ...subRegions.map((sub: string) => `${mainRegion}_right_${sub}`),
-        ];
-       } else if (laterality === "center") {
-        return subRegions.map((sub: string) => `${mainRegion}_${sub}`);
-       } else {
-        return subRegions.map(
-         (sub: string) => `${mainRegion}_${laterality}_${sub}`,
-        );
-       }
-      });
+    const bmSelections: any[] = Array.isArray(currentResponse) ? currentResponse : [];
+    const getBmSel = (id: string) => bmSelections.find((s: any) => s.mainRegion === id);
 
-      const structuredData = {
-       regions: flatRegions,
-       detailed: currentResponse,
-      };
+    const toggleBmPart = (id: string, bilateral: boolean) => {
+     setCurrentResponse((prev: any[]) => {
+      const arr = Array.isArray(prev) ? prev : [];
+      if (arr.find((s: any) => s.mainRegion === id)) return arr.filter((s: any) => s.mainRegion !== id);
+      if (!bilateral) return [...arr, { mainRegion: id, laterality: "center", subRegions: [] }];
+      return [...arr, { mainRegion: id, laterality: "pending", subRegions: [] }];
+     });
+    };
 
-      setCurrentResponse(structuredData);
-      setTimeout(() => handleSubmit(), 100);
-     }
+    const setBmLat = (id: string, lat: "left" | "right" | "both") => {
+     setCurrentResponse((prev: any[]) => {
+      const arr = Array.isArray(prev) ? prev : [];
+      return arr.map((s: any) => s.mainRegion === id ? { ...s, laterality: lat } : s);
+     });
+    };
+
+    const bmHasPending = bmSelections.some((s: any) => s.laterality === "pending");
+    const bmValid = bmSelections.filter((s: any) => s.laterality !== "pending");
+
+    const handleBmGridSubmit = () => {
+     const structuredData = {
+      regions: bmValid.flatMap((s: any) => {
+       if (s.laterality === "both") return [`${s.mainRegion}_left`, `${s.mainRegion}_right`];
+       if (s.laterality === "center") return [s.mainRegion];
+       return [`${s.mainRegion}_${s.laterality}`];
+      }),
+      detailed: bmValid,
+     };
+     setCurrentResponse(structuredData);
+     setTimeout(() => handleSubmit(), 100);
     };
 
     return (
-     <div className='h-[500px]'>
-      <BodyMapSelector
-       selectedRegions={Array.isArray(currentResponse) ? currentResponse : []}
-       onSelectionChange={(regions) => setCurrentResponse(regions)}
-       onComplete={handleBodyMapComplete}
-       maxSelections={5}
-      />
+     <div className='space-y-4'>
+      {bmGroups.map((group) => (
+       <div key={group.label}>
+        <h4 className='text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1.5'>
+         {group.label}
+        </h4>
+        <div className='grid grid-cols-3 gap-1.5'>
+         {group.parts.map((part) => {
+          const sel = getBmSel(part.id);
+          const isSelected = !!sel;
+          return (
+           <button
+            key={part.id}
+            onClick={() => toggleBmPart(part.id, part.bilateral)}
+            className={`px-2 py-2 text-xs font-medium rounded-md border transition-colors text-center ${
+             isSelected
+              ? "border-brand-teal bg-brand-teal/5 text-brand-teal"
+              : "border-gray-200 text-gray-600 hover:border-gray-300"
+            }`}
+           >
+            {part.name}
+            {sel && sel.laterality !== "pending" && sel.laterality !== "center" && (
+             <span className='block text-[9px] text-brand-teal/70 mt-0.5 capitalize'>{sel.laterality}</span>
+            )}
+           </button>
+          );
+         })}
+        </div>
+        {group.parts.map((part) => {
+         const sel = getBmSel(part.id);
+         if (!part.bilateral || !sel || sel.laterality !== "pending") return null;
+         return (
+          <div key={`${part.id}_lat`} className='flex gap-1.5 mt-1.5'>
+           <span className='text-xs text-gray-500 self-center mr-1'>{part.name}:</span>
+           {(["left", "right", "both"] as const).map((lat) => (
+            <button
+             key={lat}
+             onClick={() => setBmLat(part.id, lat)}
+             className='flex-1 py-1.5 text-xs font-medium rounded-md border border-gray-200 text-gray-600 hover:border-brand-teal hover:text-brand-teal transition-colors capitalize'
+            >
+             {lat}
+            </button>
+           ))}
+          </div>
+         );
+        })}
+       </div>
+      ))}
+      <Button
+       onClick={handleBmGridSubmit}
+       disabled={!canSubmit() || bmHasPending || bmValid.length === 0}
+       className={primaryBtnClass}
+      >
+       Continue <ArrowRight className='ml-2 h-4 w-4' />
+      </Button>
      </div>
     );
+   }
 
    case "red_flags":
     return (
@@ -3271,8 +3327,8 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
       {currentQuestion &&
        clubbedQuestions.length === 0 &&
        !isSimpleQuestionType(currentQuestion.type) &&
-       currentQuestion.type !== "body_map" &&
-       currentQuestion.type !== "date" && (
+       currentQuestion.type !== "date" &&
+       currentQuestion.type !== "body_map" && (
         <div className='space-y-4'>
          <p className='text-[15px] leading-snug text-gray-900 font-semibold tracking-tight'>
           {currentQuestion.question}
@@ -3311,7 +3367,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
         </div>
        )}
 
-      {/* Body map question */}
+      {/* Body map question — grid selector */}
       {currentQuestion &&
        clubbedQuestions.length === 0 &&
        currentQuestion.type === "body_map" && (
@@ -3319,59 +3375,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
          <p className='text-[15px] leading-snug text-gray-900 font-semibold tracking-tight'>
           {currentQuestion.question}
          </p>
-
-         <div className='flex items-center gap-2 px-3 py-2 bg-teal-50 border border-teal-200/60 rounded-lg'>
-          <CircleDot className='w-3.5 h-3.5 text-brand-teal flex-shrink-0' />
-          <p className='text-xs text-teal-700 font-medium'>
-           Tap on the body diagram to select areas. Select multiple if needed.
-          </p>
-         </div>
-
-         <div className='bg-white rounded-xl border border-teal-200 shadow-sm overflow-hidden'>
-          <div className='p-4'>
-           <BodyMapSelector
-            onSelectionChange={(regions) => {
-             setCurrentResponse(regions);
-            }}
-            selectedRegions={Array.isArray(currentResponse) ? currentResponse : []}
-            onComplete={() => handleSubmit()}
-            maxSelections={5}
-           />
-          </div>
-
-          <div className='border-t border-teal-100 bg-teal-50/60 p-3 space-y-2.5'>
-           {currentResponse && Array.isArray(currentResponse) && currentResponse.length > 0 ? (
-            <div className='flex items-center justify-center gap-1.5'>
-             <Check className='w-4 h-4 text-brand-teal' />
-             <p className='text-sm text-teal-800 font-semibold'>
-              {currentResponse.length} region{currentResponse.length !== 1 ? 's' : ''} selected
-             </p>
-            </div>
-           ) : (
-            <p className='text-xs text-teal-600 font-medium text-center'>
-             Tap body areas to select
-            </p>
-           )}
-
-           <button
-            type='button'
-            onClick={(e) => {
-             e.preventDefault();
-             e.stopPropagation();
-             handleSubmit();
-            }}
-            disabled={isProcessing || !canSubmit()}
-            className='w-full rounded-xl py-3.5 text-sm font-semibold
-                      bg-brand-teal text-white hover:bg-teal-700
-                      transition-colors duration-150
-                      disabled:opacity-50 disabled:cursor-not-allowed'
-           >
-            {currentResponse && currentResponse.length > 0 ?
-             `Continue with ${currentResponse.length} area${currentResponse.length !== 1 ? 's' : ''}` :
-             'Select at least one area'}
-           </button>
-          </div>
-         </div>
+         {renderInput()}
         </div>
        )}
 
