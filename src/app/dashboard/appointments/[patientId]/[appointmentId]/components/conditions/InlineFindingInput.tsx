@@ -16,7 +16,7 @@ interface InlineFindingInputProps {
 // ─────────────────────────────────────────────
 // EXACT DeepListenLoader from demo-loaders/page.tsx (lines 753-831)
 // ─────────────────────────────────────────────
-function DeepListenLoader() {
+export function DeepListenLoader() {
   const particleCount = 14;
   const particles = Array.from({ length: particleCount }).map((_, i) => {
     const angle = (i / particleCount) * Math.PI * 2;

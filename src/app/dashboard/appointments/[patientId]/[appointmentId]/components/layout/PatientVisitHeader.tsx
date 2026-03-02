@@ -78,7 +78,27 @@ export default function PatientVisitHeader({
     <div className={`bg-white sticky top-0 z-40 shadow-sm border-b ${
       appointment.status === 'IN_PROGRESS' ? 'border-b-2 border-b-amber-400' : 'border-b-gray-200'
     }`}>
-      <div className="max-w-7xl mx-auto px-6 py-3">
+      {/* ── Mobile compact header ── */}
+      <div className="lg:hidden max-w-7xl mx-auto px-2.5 py-1.5">
+        <div className="flex items-center justify-between gap-1.5">
+          <button
+            onClick={() => router.back()}
+            className="p-1 text-gray-600 hover:text-brand-teal hover:bg-teal-50 rounded-lg transition-colors flex-shrink-0"
+            aria-label="Go back"
+          >
+            <ArrowLeft className="h-4 w-4" />
+          </button>
+          <h1 className="text-xs font-semibold text-gray-900 truncate flex-1 min-w-0">
+            {patient.full_name}
+          </h1>
+          <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-medium border flex-shrink-0 ${getStatusColor(appointment.status)}`}>
+            {appointment.status.replace('_', ' ')}
+          </span>
+        </div>
+      </div>
+
+      {/* ── Desktop full header ── */}
+      <div className="hidden lg:block max-w-7xl mx-auto px-6 py-3">
         <div className="flex items-center justify-between">
           {/* Left: Back Button + Patient Info */}
           <div className="flex items-center gap-3 flex-1 min-w-0">

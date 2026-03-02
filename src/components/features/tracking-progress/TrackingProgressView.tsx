@@ -1,17 +1,20 @@
 'use client'
 
 import React, { useState, useMemo } from 'react'
+import dynamic from 'next/dynamic'
 import { BarChart3, TrendingUp, Table2, Loader2 } from 'lucide-react'
 import { useTrackingHistory } from './hooks/useTrackingHistory'
 import { getTrackingForCondition } from '@/app/dashboard/appointments/[patientId]/[appointmentId]/components/tracking/tracking-data-loader'
 import type { TrackingItemDefinition } from '@/app/dashboard/appointments/[patientId]/[appointmentId]/components/tracking/tracking.types'
 import { getChartType } from './utils/chartability'
 import OverallProgressSummary from './OverallProgressSummary'
-import NumericTrendChart from './charts/NumericTrendChart'
-import BilateralComparisonChart from './charts/BilateralComparisonChart'
-import PROMSubscaleRadar from './charts/PROMSubscaleRadar'
 import SpecialTestTimeline from './charts/SpecialTestTimeline'
-import MMTProgressChart from './charts/MMTProgressChart'
+
+// Dynamic imports for recharts-based charts (~200KB deferred)
+const NumericTrendChart = dynamic(() => import('./charts/NumericTrendChart'), { ssr: false })
+const BilateralComparisonChart = dynamic(() => import('./charts/BilateralComparisonChart'), { ssr: false })
+const PROMSubscaleRadar = dynamic(() => import('./charts/PROMSubscaleRadar'), { ssr: false })
+const MMTProgressChart = dynamic(() => import('./charts/MMTProgressChart'), { ssr: false })
 
 type Tab = 'summary' | 'trends' | 'raw'
 
@@ -81,10 +84,10 @@ export default function TrackingProgressView({
 
   if (!chartData || chartData.total_visits === 0) {
     return (
-      <div className="bg-white rounded-lg p-5">
+      <div className="bg-white rounded-lg px-4 py-2.5 lg:p-5">
         <div className="flex items-center gap-2 text-gray-400">
-          <BarChart3 className="h-4 w-4" />
-          <span className="text-sm">No tracking history yet</span>
+          <BarChart3 className="h-3.5 w-3.5 lg:h-4 lg:w-4" />
+          <span className="text-xs lg:text-sm">No tracking history yet</span>
         </div>
       </div>
     )
@@ -99,11 +102,11 @@ export default function TrackingProgressView({
   return (
     <div className="bg-white rounded-lg overflow-hidden">
       {/* Tab navigation */}
-      <div className="px-5 py-3 border-b border-gray-100 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <BarChart3 className="h-4 w-4 text-teal-600" />
-          <span className="text-sm font-semibold text-gray-900">Progress</span>
-          <span className="text-[10px] text-gray-400 font-medium">
+      <div className="px-3 lg:px-5 py-2 lg:py-3 border-b border-gray-100 flex items-center justify-between">
+        <div className="flex items-center gap-1.5 lg:gap-2">
+          <BarChart3 className="h-3 w-3 lg:h-4 lg:w-4 text-teal-600" />
+          <span className="text-[11px] lg:text-sm font-semibold text-gray-900">Progress</span>
+          <span className="text-[9px] lg:text-[10px] text-gray-400 font-medium">
             {chartData.total_visits} visits
           </span>
         </div>
@@ -112,14 +115,14 @@ export default function TrackingProgressView({
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-1 px-2.5 py-1 text-[11px] font-medium rounded-md transition-colors
+              className={`flex items-center gap-0.5 lg:gap-1 px-2 lg:px-2.5 py-1 text-[10px] lg:text-[11px] font-medium rounded-md transition-colors
                 ${activeTab === tab.id
                   ? 'bg-white text-gray-900 shadow-sm'
                   : 'text-gray-500 hover:text-gray-700'
                 }
               `}
             >
-              <tab.icon className="h-3 w-3" />
+              <tab.icon className="h-2.5 w-2.5 lg:h-3 lg:w-3" />
               {tab.label}
             </button>
           ))}
@@ -127,7 +130,7 @@ export default function TrackingProgressView({
       </div>
 
       {/* Tab content */}
-      <div className="p-5">
+      <div className="px-3 py-2.5 lg:p-5">
         {activeTab === 'summary' && (
           <OverallProgressSummary
             dataPoints={chartData.data_points}

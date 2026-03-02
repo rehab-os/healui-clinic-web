@@ -12,7 +12,7 @@ export default function ScaleInput({ value, onChange, definition, disabled }: Tr
   const buttons = Array.from({ length: max - min + 1 }, (_, i) => min + i)
 
   return (
-    <div className="flex gap-0.5">
+    <div className="flex gap-px lg:gap-0.5 overflow-x-auto max-w-full">
       {buttons.map(n => {
         const isActive = current === n
         const label = labels?.[String(n)]
@@ -23,7 +23,7 @@ export default function ScaleInput({ value, onChange, definition, disabled }: Tr
             onClick={() => onChange({ value: current === n ? undefined : n })}
             disabled={disabled}
             title={label || undefined}
-            className={`min-w-[26px] h-7 text-xs font-medium rounded transition-colors ${
+            className={`min-w-[22px] lg:min-w-[26px] h-6 lg:h-7 text-[10px] lg:text-xs font-medium rounded transition-colors flex-shrink-0 ${
               isActive
                 ? 'bg-teal-600 text-white'
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'

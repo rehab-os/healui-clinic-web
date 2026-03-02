@@ -26,9 +26,6 @@ import ApiManager from '@/services/api/api.service';
 import { useAppSelector } from '../../../../store/hooks';
 import type { VisitResponseDto, VisitMode } from '../../../../lib/types';
 
-// Agora Web SDK imports
-import AgoraRTC from 'agora-rtc-sdk-ng';
-
 interface VideoCallState {
   isVideoEnabled: boolean;
   isAudioEnabled: boolean;
@@ -38,8 +35,18 @@ interface VideoCallState {
 
 // Main video call component using base Agora SDK
 function VideoCallContent() {
-  // Create Agora client inside component to avoid shared instances
-  const [agoraClient] = useState(() => AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' }));
+  // Dynamically import Agora SDK to avoid loading it on non-video pages (~300KB)
+  const [agoraClient, setAgoraClient] = useState<any>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    import('agora-rtc-sdk-ng').then((AgoraRTC) => {
+      if (!cancelled) {
+        setAgoraClient(AgoraRTC.default.createClient({ mode: 'rtc', codec: 'vp8' }));
+      }
+    });
+    return () => { cancelled = true; };
+  }, []);
   const params = useParams();
   const router = useRouter();
   const { userData, currentClinic } = useAppSelector(state => state.user);

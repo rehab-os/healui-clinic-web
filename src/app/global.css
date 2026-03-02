@@ -4,9 +4,6 @@
 
 /* Fonts - Geist loaded via Next.js font optimization in layout.tsx */
 
-/* Leaflet CSS - Import globally to ensure it's available */
-@import 'leaflet/dist/leaflet.css';
-
 @layer base {
   :root {
     /* Healui.ai Brand Colors */

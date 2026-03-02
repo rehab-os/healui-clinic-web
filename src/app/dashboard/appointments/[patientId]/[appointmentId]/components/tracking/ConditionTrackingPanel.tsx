@@ -56,10 +56,9 @@ export default function ConditionTrackingPanel({
   if (!tracking) {
     return (
       <div className="bg-white rounded-lg">
-        <div className="px-5 py-4 flex items-center gap-2">
-          <Activity className="h-4 w-4 text-gray-300" />
-          <span className="text-sm font-semibold text-gray-400">Tracking</span>
-          <span className="text-xs text-gray-300 italic">No tracking items for this condition</span>
+        <div className="px-4 lg:px-5 py-2.5 lg:py-4 flex items-center gap-2">
+          <Activity className="h-3.5 w-3.5 lg:h-4 lg:w-4 text-gray-300" />
+          <span className="text-xs lg:text-sm font-medium text-gray-400">No tracking items</span>
         </div>
       </div>
     )
@@ -70,38 +69,38 @@ export default function ConditionTrackingPanel({
   return (
     <div className="bg-white rounded-lg overflow-hidden">
       {/* Header with progress bar and save */}
-      <div className="px-5 py-3.5 border-b border-gray-100">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <Activity className="h-4 w-4 text-teal-600" />
-            <span className="text-sm font-semibold text-gray-900">Tracking</span>
-            <span className="text-xs text-gray-400 font-medium">
+      <div className="px-3 lg:px-5 py-2 lg:py-3.5 border-b border-gray-100">
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-1.5 lg:gap-2.5 min-w-0">
+            <Activity className="h-3 w-3 lg:h-4 lg:w-4 text-teal-600 flex-shrink-0" />
+            <span className="text-[11px] lg:text-sm font-semibold text-gray-900">Tracking</span>
+            <span className="text-[10px] lg:text-xs text-gray-400 font-medium">
               {filledCount}/{totalCount}
             </span>
             {/* Progress bar */}
-            <div className="w-16 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+            <div className="w-10 lg:w-16 h-1 lg:h-1.5 bg-gray-100 rounded-full overflow-hidden flex-shrink-0">
               <div
                 className="h-full bg-teal-500 rounded-full transition-all duration-300"
                 style={{ width: `${progressPercent}%` }}
               />
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 lg:gap-2 flex-shrink-0">
             {/* Status */}
             {lastSavedAt && !isDirty && (
-              <span className="text-[11px] text-teal-600 flex items-center gap-1 font-medium">
-                <Check className="h-3 w-3" />
-                Saved
+              <span className="text-[10px] lg:text-[11px] text-teal-600 flex items-center gap-0.5 font-medium">
+                <Check className="h-2.5 w-2.5 lg:h-3 lg:w-3" />
+                <span className="hidden min-[400px]:inline">Saved</span>
               </span>
             )}
             {isDirty && (
-              <span className="text-[11px] text-amber-500 font-medium">Unsaved</span>
+              <span className="text-[10px] lg:text-[11px] text-amber-500 font-medium">Unsaved</span>
             )}
-            {/* Save button — always visible */}
+            {/* Save button */}
             <button
               onClick={save}
               disabled={isSaving || !isDirty}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all
+              className={`flex items-center gap-1 lg:gap-1.5 px-2 lg:px-3.5 py-1 lg:py-1.5 text-[11px] lg:text-xs font-semibold rounded-md lg:rounded-lg transition-all
                 ${isDirty
                   ? 'bg-teal-600 text-white hover:bg-teal-700 shadow-sm'
                   : 'bg-gray-100 text-gray-400 cursor-not-allowed'
@@ -109,11 +108,11 @@ export default function ConditionTrackingPanel({
               `}
             >
               {isSaving ? (
-                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                <Loader2 className="h-3 w-3 lg:h-3.5 lg:w-3.5 animate-spin" />
               ) : (
-                <Save className="h-3.5 w-3.5" />
+                <Save className="h-2.5 w-2.5 lg:h-3.5 lg:w-3.5" />
               )}
-              {isSaving ? 'Saving...' : 'Save'}
+              <span className="hidden min-[360px]:inline">{isSaving ? 'Saving...' : 'Save'}</span>
             </button>
           </div>
         </div>
@@ -134,11 +133,11 @@ export default function ConditionTrackingPanel({
             return (
               <div key={cat.key}>
                 {/* Category divider */}
-                <div className="px-5 py-2 bg-gray-50/70 border-y border-gray-100 flex items-center justify-between">
-                  <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">
+                <div className="px-3 lg:px-5 py-1.5 lg:py-2 bg-gray-50/70 border-y border-gray-100 flex items-center justify-between">
+                  <span className="text-[10px] lg:text-[11px] font-semibold text-gray-400 uppercase tracking-wider">
                     {cat.displayName}
                   </span>
-                  <span className="text-[11px] text-gray-300 font-medium">
+                  <span className="text-[10px] lg:text-[11px] text-gray-300 font-medium">
                     {filled}/{cat.items.length}
                   </span>
                 </div>

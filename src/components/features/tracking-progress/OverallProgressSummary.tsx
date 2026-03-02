@@ -137,21 +137,21 @@ export default function OverallProgressSummary({
   return (
     <div>
       {/* Summary chips */}
-      <div className="flex items-center gap-3 mb-4">
-        <span className="text-xs text-gray-500">{totalVisits} visits tracked</span>
-        <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 lg:gap-3 mb-2.5 lg:mb-4">
+        <span className="text-[11px] lg:text-xs text-gray-500">{totalVisits} visits tracked</span>
+        <div className="flex items-center gap-1.5 lg:gap-2">
           {greenCount > 0 && (
-            <span className="px-2 py-0.5 bg-green-50 text-green-700 text-[10px] font-medium rounded-full">
+            <span className="px-1.5 lg:px-2 py-0.5 bg-green-50 text-green-700 text-[9px] lg:text-[10px] font-medium rounded-full">
               {greenCount} improved
             </span>
           )}
           {amberCount > 0 && (
-            <span className="px-2 py-0.5 bg-amber-50 text-amber-700 text-[10px] font-medium rounded-full">
+            <span className="px-1.5 lg:px-2 py-0.5 bg-amber-50 text-amber-700 text-[9px] lg:text-[10px] font-medium rounded-full">
               {amberCount} stable
             </span>
           )}
           {redCount > 0 && (
-            <span className="px-2 py-0.5 bg-red-50 text-red-700 text-[10px] font-medium rounded-full">
+            <span className="px-1.5 lg:px-2 py-0.5 bg-red-50 text-red-700 text-[9px] lg:text-[10px] font-medium rounded-full">
               {redCount} worsened
             </span>
           )}
@@ -159,25 +159,25 @@ export default function OverallProgressSummary({
       </div>
 
       {/* Item rows */}
-      <div className="space-y-1">
+      <div className="space-y-0.5 lg:space-y-1">
         {summaries.map((item) => (
           <div
             key={item.key}
-            className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors"
+            className="flex items-center justify-between px-2 lg:px-3 py-1.5 lg:py-2 rounded-lg hover:bg-gray-50 transition-colors"
           >
-            <div className="flex items-center gap-2.5 min-w-0">
+            <div className="flex items-center gap-1.5 lg:gap-2.5 min-w-0 flex-1">
               {/* RAG icon */}
-              {item.rag === 'green' && <TrendingUp className="h-3.5 w-3.5 text-green-500 shrink-0" />}
-              {item.rag === 'amber' && <Minus className="h-3.5 w-3.5 text-amber-500 shrink-0" />}
-              {item.rag === 'red' && <TrendingDown className="h-3.5 w-3.5 text-red-500 shrink-0" />}
-              {item.rag === 'neutral' && <Minus className="h-3.5 w-3.5 text-gray-300 shrink-0" />}
-              <span className="text-xs text-gray-700 truncate">{item.displayName}</span>
+              {item.rag === 'green' && <TrendingUp className="h-3 w-3 lg:h-3.5 lg:w-3.5 text-green-500 shrink-0" />}
+              {item.rag === 'amber' && <Minus className="h-3 w-3 lg:h-3.5 lg:w-3.5 text-amber-500 shrink-0" />}
+              {item.rag === 'red' && <TrendingDown className="h-3 w-3 lg:h-3.5 lg:w-3.5 text-red-500 shrink-0" />}
+              {item.rag === 'neutral' && <Minus className="h-3 w-3 lg:h-3.5 lg:w-3.5 text-gray-300 shrink-0" />}
+              <span className="text-[11px] lg:text-xs text-gray-700 truncate">{item.displayName}</span>
             </div>
 
-            <div className="flex items-center gap-2 shrink-0">
+            <div className="flex items-center gap-1.5 lg:gap-2 shrink-0 ml-2">
               {/* Value change */}
               {item.change && (
-                <span className="text-xs text-gray-500">
+                <span className="text-[10px] lg:text-xs text-gray-500 whitespace-nowrap">
                   {item.baseline} &rarr; {item.current}
                   {item.unit ? ` ${item.unit}` : ''}
                 </span>
@@ -185,7 +185,7 @@ export default function OverallProgressSummary({
 
               {/* Change badge */}
               {item.change && (
-                <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded
+                <span className={`text-[9px] lg:text-[10px] font-medium px-1 lg:px-1.5 py-0.5 rounded
                   ${item.rag === 'green' ? 'bg-green-50 text-green-700' : ''}
                   ${item.rag === 'amber' ? 'bg-amber-50 text-amber-700' : ''}
                   ${item.rag === 'red' ? 'bg-red-50 text-red-700' : ''}
@@ -196,8 +196,8 @@ export default function OverallProgressSummary({
 
               {/* MCID badge */}
               {item.exceededMcid && (
-                <span className="flex items-center gap-0.5 text-[9px] font-medium text-green-600 bg-green-50 px-1.5 py-0.5 rounded">
-                  <Award className="h-2.5 w-2.5" />
+                <span className="flex items-center gap-0.5 text-[8px] lg:text-[9px] font-medium text-green-600 bg-green-50 px-1 lg:px-1.5 py-0.5 rounded">
+                  <Award className="h-2 w-2 lg:h-2.5 lg:w-2.5" />
                   MCID
                 </span>
               )}

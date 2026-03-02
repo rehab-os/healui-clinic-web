@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { MapPin, Search, Loader2, Navigation } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import 'leaflet/dist/leaflet.css';
 
 // Dynamically import Leaflet to avoid SSR issues
 let L: typeof import('leaflet') | null = null;

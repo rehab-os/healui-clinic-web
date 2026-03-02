@@ -4,6 +4,7 @@ import { setTokenCookie, removeTokenCookie } from '../../lib/utils/helpers'
 
 interface AuthState {
     isAuthenticated: boolean
+    isInitializing: boolean
     user: LoginResponseDto['user'] | null
     loading: boolean
     otpSent: boolean
@@ -12,6 +13,7 @@ interface AuthState {
 
 const initialState: AuthState = {
     isAuthenticated: false,
+    isInitializing: true,
     user: null,
     loading: false,
     otpSent: false,
@@ -36,6 +38,7 @@ export const authSlice = createSlice({
         },
         loginSuccess: (state, action: PayloadAction<LoginResponseDto>) => {
             state.isAuthenticated = true
+            state.isInitializing = false
             state.user = action.payload.user
             state.loading = false
             state.otpSent = false
@@ -50,9 +53,14 @@ export const authSlice = createSlice({
         setUser: (state, action: PayloadAction<LoginResponseDto['user']>) => {
             state.user = action.payload
             state.isAuthenticated = true
+            state.isInitializing = false
+        },
+        setAuthInitialized: (state) => {
+            state.isInitializing = false
         },
         logout: (state) => {
             state.isAuthenticated = false
+            state.isInitializing = false
             state.user = null
             state.otpSent = false
             state.otpVerifying = false
@@ -62,14 +70,15 @@ export const authSlice = createSlice({
     },
 })
 
-export const { 
-    setLoading, 
-    setOtpSent, 
-    setOtpVerifying, 
-    loginStart, 
-    loginSuccess, 
-    loginFailure, 
-    setUser, 
-    logout 
+export const {
+    setLoading,
+    setOtpSent,
+    setOtpVerifying,
+    loginStart,
+    loginSuccess,
+    loginFailure,
+    setUser,
+    setAuthInitialized,
+    logout
 } = authSlice.actions
 export default authSlice.reducer

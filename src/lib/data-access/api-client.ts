@@ -78,7 +78,12 @@ const responseMiddleware = async (response: Response): Promise<ApiResponse> => {
         return { success: true, statusCode: 204, message: 'Success', data: null }
     }
 
-    const data = await response.json()
+    let data: any
+    try {
+        data = await response.json()
+    } catch {
+        throw new Error(`Invalid JSON response (status ${response.status})`)
+    }
 
     if (response.status === 401) {
         // Let the error bubble up to be handled by AuthProvider

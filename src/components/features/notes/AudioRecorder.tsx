@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Mic, MicOff, Square, Play, Pause, Trash2, Upload, AlertCircle } from 'lucide-react';
-import { gsap } from 'gsap';
+import { motion, useAnimationControls } from 'framer-motion';
 
 interface AudioRecorderProps {
   onRecordingComplete: (audioBlob: Blob) => void;
@@ -11,11 +11,11 @@ interface AudioRecorderProps {
   disabled?: boolean;
 }
 
-export default function AudioRecorder({ 
-  onRecordingComplete, 
+export default function AudioRecorder({
+  onRecordingComplete,
   onTranscriptionComplete,
   isTranscribing = false,
-  disabled = false 
+  disabled = false
 }: AudioRecorderProps) {
   const [isRecording, setIsRecording] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
@@ -35,8 +35,8 @@ export default function AudioRecorder({
   const analyserRef = useRef<AnalyserNode | null>(null);
   const animationFrameRef = useRef<number | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
-  const aiCircleRef = useRef<HTMLDivElement | null>(null);
-  const gsapTimelineRef = useRef<gsap.core.Timeline | null>(null);
+
+  const circleControls = useAnimationControls();
 
   useEffect(() => {
     return () => {
@@ -55,107 +55,91 @@ export default function AudioRecorder({
       if (streamRef.current) {
         streamRef.current.getTracks().forEach(track => track.stop());
       }
-      if (gsapTimelineRef.current) {
-        gsapTimelineRef.current.kill();
-      }
     };
   }, [audioUrl]);
+
+  // Pulsing animation for the AI circle while recording
+  useEffect(() => {
+    if (isRecording && !isPaused) {
+      circleControls.start({
+        scale: [1, 1.1, 1],
+        transition: { duration: 1.6, repeat: Infinity, ease: 'easeInOut' },
+      });
+    } else {
+      circleControls.stop();
+      circleControls.set({ scale: 1 });
+    }
+  }, [isRecording, isPaused, circleControls]);
 
   const setupAudioAnalyser = useCallback((stream: MediaStream) => {
     const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
     const analyser = audioContext.createAnalyser();
     const source = audioContext.createMediaStreamSource(stream);
-    
+
     analyser.fftSize = 512;
     analyser.smoothingTimeConstant = 0.85;
     analyser.minDecibels = -90;
     analyser.maxDecibels = -10;
-    
+
     source.connect(analyser);
-    
+
     audioContextRef.current = audioContext;
     analyserRef.current = analyser;
-    
+
     const dataArray = new Uint8Array(analyser.frequencyBinCount);
     const frequencyArray = new Uint8Array(analyser.frequencyBinCount);
-    
-    // Initialize GSAP timeline for AI listening animations
-    gsapTimelineRef.current = gsap.timeline({ repeat: -1 });
-    
-    // Animate AI circle with pulsing effect
-    if (aiCircleRef.current) {
-      gsapTimelineRef.current
-        .to(aiCircleRef.current, {
-          scale: 1.1,
-          duration: 0.8,
-          ease: "power2.inOut"
-        })
-        .to(aiCircleRef.current, {
-          scale: 1,
-          duration: 0.8,
-          ease: "power2.inOut"
-        });
-    }
-    
+
     const updateVolume = () => {
       if (!analyserRef.current || !isRecording) return;
-      
-      // Get time domain data for volume level
+
       analyserRef.current.getByteTimeDomainData(dataArray);
-      
-      // Calculate RMS (Root Mean Square) for better volume detection
+
       let sum = 0;
       for (let i = 0; i < dataArray.length; i++) {
-        const sample = (dataArray[i] - 128) / 128; // Convert to -1 to 1 range
+        const sample = (dataArray[i] - 128) / 128;
         sum += sample * sample;
       }
       const rms = Math.sqrt(sum / dataArray.length);
-      const normalizedVolume = Math.min(rms * 5, 1); // Amplify sensitivity
+      const normalizedVolume = Math.min(rms * 5, 1);
       setVolumeLevel(normalizedVolume);
-      
-      // Get frequency data for spectrum visualization
+
       analyserRef.current.getByteFrequencyData(frequencyArray);
       const frequencies = Array.from(frequencyArray.slice(0, 32)).map(val => {
-        // Enhance sensitivity for frequency visualization
         const normalized = val / 255;
-        return Math.pow(normalized, 0.5) * 1.5; // Apply power curve and amplify
+        return Math.pow(normalized, 0.5) * 1.5;
       });
       setFrequencyData(frequencies);
-      
-      // Dynamic GSAP animations based on volume level
-      if (aiCircleRef.current && normalizedVolume > 0.02) {
+
+      // Dynamic glow via framer-motion
+      if (normalizedVolume > 0.02) {
         const intensity = Math.min(normalizedVolume * 2, 1);
-        
-        // Update circle glow and scale based on volume
-        gsap.to(aiCircleRef.current, {
-          boxShadow: `0 0 ${20 + intensity * 60}px rgba(16, 185, 129, ${0.3 + intensity * 0.7})`,
+        circleControls.start({
           scale: 1 + intensity * 0.2,
-          duration: 0.1,
-          ease: "power1.out"
+          boxShadow: `0 0 ${20 + intensity * 60}px rgba(16, 185, 129, ${0.3 + intensity * 0.7})`,
+          transition: { duration: 0.1, ease: 'easeOut' },
         });
       }
-      
+
       animationFrameRef.current = requestAnimationFrame(updateVolume);
     };
-    
+
     updateVolume();
-  }, [isRecording]);
+  }, [isRecording, circleControls]);
 
   const startRecording = async () => {
     try {
       setError(null);
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
-      
-      // Try to use audio/wav if supported, otherwise fall back to webm
-      const mimeType = MediaRecorder.isTypeSupported('audio/wav') 
-        ? 'audio/wav' 
+
+      const mimeType = MediaRecorder.isTypeSupported('audio/wav')
+        ? 'audio/wav'
         : MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
         ? 'audio/webm;codecs=opus'
         : 'audio/webm';
-      
+
       const mediaRecorder = new MediaRecorder(stream, { mimeType });
-      
+
       mediaRecorderRef.current = mediaRecorder;
       audioChunksRef.current = [];
 
@@ -167,29 +151,22 @@ export default function AudioRecorder({
 
       mediaRecorder.onstop = async () => {
         const audioBlob = new Blob(audioChunksRef.current, { type: mimeType });
-        
-        // Convert to WAV if not already in a supported format
+
         let finalBlob = audioBlob;
         if (mimeType.includes('webm')) {
-          // For now, we'll send as is and handle conversion server-side
-          // Or we can rename the file extension to match the actual format
           finalBlob = new Blob([audioBlob], { type: 'audio/webm' });
         }
-        
+
         setAudioBlob(finalBlob);
         const url = URL.createObjectURL(finalBlob);
         setAudioUrl(url);
         onRecordingComplete(finalBlob);
-        
-        // Cleanup
+
         if (animationFrameRef.current) {
           cancelAnimationFrame(animationFrameRef.current);
         }
         if (audioContextRef.current) {
           audioContextRef.current.close();
-        }
-        if (gsapTimelineRef.current) {
-          gsapTimelineRef.current.kill();
         }
         stream.getTracks().forEach(track => track.stop());
       };
@@ -197,11 +174,9 @@ export default function AudioRecorder({
       mediaRecorder.start();
       setIsRecording(true);
       setIsPaused(false);
-      
-      // Setup audio analyser for visualization
+
       setupAudioAnalyser(stream);
-      
-      // Start timer
+
       timerRef.current = setInterval(() => {
         setRecordingTime(prev => prev + 1);
       }, 1000);
@@ -216,18 +191,12 @@ export default function AudioRecorder({
       mediaRecorderRef.current.stop();
       setIsRecording(false);
       setIsPaused(false);
-      
+
       if (timerRef.current) {
         clearInterval(timerRef.current);
         timerRef.current = null;
       }
-      
-      // Clean up GSAP animations
-      if (gsapTimelineRef.current) {
-        gsapTimelineRef.current.kill();
-      }
-      
-      // Reset visual states
+
       setVolumeLevel(0);
       setFrequencyData([]);
     }
@@ -238,16 +207,14 @@ export default function AudioRecorder({
       if (isPaused) {
         mediaRecorderRef.current.resume();
         setIsPaused(false);
-        
-        // Resume timer
+
         timerRef.current = setInterval(() => {
           setRecordingTime(prev => prev + 1);
         }, 1000);
       } else {
         mediaRecorderRef.current.pause();
         setIsPaused(true);
-        
-        // Pause timer
+
         if (timerRef.current) {
           clearInterval(timerRef.current);
           timerRef.current = null;
@@ -322,7 +289,7 @@ export default function AudioRecorder({
               </>
             )}
           </div>
-          
+
           {isRecording && (
             <div className="flex flex-col items-center space-y-6">
               {/* AI Listening Indicator */}
@@ -334,39 +301,39 @@ export default function AudioRecorder({
                   </span>
                   {!isPaused && volumeLevel > 0.05 && (
                     <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full font-medium animate-pulse">
-                      📢 Detecting voice
+                      Detecting voice
                     </span>
                   )}
                 </div>
 
                 {/* Central AI Circle with Dynamic Glow */}
                 <div className="relative mb-6">
-                  <div
-                    ref={aiCircleRef}
+                  <motion.div
+                    animate={circleControls}
                     className="w-20 h-20 rounded-full bg-gradient-to-br from-healui-physio to-healui-primary flex items-center justify-center shadow-lg"
                     style={{
                       boxShadow: `0 0 ${20 + volumeLevel * 40}px rgba(16, 185, 129, ${0.4 + volumeLevel * 0.6})`
                     }}
                   >
                     <Mic className="h-8 w-8 text-white" />
-                  </div>
-                  
+                  </motion.div>
+
                   {/* Ripple Effect Rings */}
                   {!isPaused && volumeLevel > 0.1 && (
                     <>
-                      <div 
+                      <div
                         className="absolute inset-0 rounded-full border-2 border-healui-physio opacity-30 animate-ping"
-                        style={{ 
+                        style={{
                           animationDuration: '1.5s',
-                          transform: `scale(${1 + volumeLevel * 0.5})` 
+                          transform: `scale(${1 + volumeLevel * 0.5})`
                         }}
                       />
-                      <div 
+                      <div
                         className="absolute inset-0 rounded-full border border-healui-primary opacity-20 animate-ping"
-                        style={{ 
+                        style={{
                           animationDuration: '2s',
                           animationDelay: '0.3s',
-                          transform: `scale(${1.2 + volumeLevel * 0.8})` 
+                          transform: `scale(${1.2 + volumeLevel * 0.8})`
                         }}
                       />
                     </>
@@ -377,27 +344,21 @@ export default function AudioRecorder({
               {/* Enhanced Frequency Spectrum Visualization */}
               <div className="w-full max-w-md">
                 <div className="flex items-end justify-center space-x-1 h-24 bg-gray-50 rounded-xl p-4 relative overflow-hidden">
-                  {/* Background gradient overlay */}
-                  <div 
+                  <div
                     className="absolute inset-0 bg-gradient-to-r from-healui-physio/10 via-transparent to-healui-primary/10 rounded-xl"
-                    style={{
-                      opacity: volumeLevel * 0.8
-                    }}
+                    style={{ opacity: volumeLevel * 0.8 }}
                   />
-                  
-                  {/* Frequency bars */}
+
                   {Array(32).fill(0).map((_, i) => {
-                    // Use frequency data if available, otherwise use volume-based simulation
                     const frequency = frequencyData[i] || 0;
                     const simulatedFreq = volumeLevel * (0.3 + Math.sin(i * 0.3 + Date.now() * 0.005) * 0.2);
                     const normalizedFreq = isPaused ? 0 : Math.max(frequency, simulatedFreq * 0.8);
-                    
-                    // Ensure minimum visibility and better scaling
+
                     const height = Math.max(6, normalizedFreq * 80 + volumeLevel * 20);
-                    const hue = 160 + (i / 32) * 25; // Green to blue gradient
+                    const hue = 160 + (i / 32) * 25;
                     const saturation = 70 + normalizedFreq * 20;
                     const lightness = 50 + normalizedFreq * 25;
-                    
+
                     return (
                       <div
                         key={i}
@@ -414,24 +375,22 @@ export default function AudioRecorder({
                       />
                     );
                   })}
-                  
-                  {/* Volume level indicator */}
-                  <div 
+
+                  <div
                     className="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-xs font-medium text-healui-primary opacity-80"
                   >
-                    {Math.round(volumeLevel * 100)}% {!isPaused && '🎙️'}
+                    {Math.round(volumeLevel * 100)}%
                   </div>
-                  
-                  {/* Debug: Show if we're getting audio data */}
+
                   {!isPaused && (
                     <div className="absolute top-2 right-2 text-xs text-gray-500">
-                      {frequencyData.some(f => f > 0.1) ? '📊 Live' : '⚡ Ready'}
+                      {frequencyData.some(f => f > 0.1) ? 'Live' : 'Ready'}
                     </div>
                   )}
                 </div>
               </div>
 
-              {/* Recording Time with Enhanced Styling */}
+              {/* Recording Time */}
               <div className="text-center">
                 <span className="text-2xl font-mono font-bold text-gray-800 px-4 py-2 bg-white rounded-xl shadow-sm border border-gray-200">
                   {formatTime(recordingTime)}
@@ -467,7 +426,7 @@ export default function AudioRecorder({
               </button>
             </div>
           </div>
-          
+
           {audioUrl && (
             <audio
               ref={audioRef}
@@ -476,7 +435,7 @@ export default function AudioRecorder({
               className="hidden"
             />
           )}
-          
+
           <div className="flex items-center justify-center">
             <button
               onClick={() => deleteRecording()}
@@ -487,7 +446,7 @@ export default function AudioRecorder({
           </div>
         </div>
       )}
-      
+
       {isTranscribing && (
         <div className="flex items-center justify-center space-x-2 text-healui-primary">
           <div className="animate-spin h-4 w-4 border-2 border-healui-primary border-t-transparent rounded-full" />

@@ -69,10 +69,10 @@ export default function ConditionsSection({
   }
 
   return (
-    <div className="space-y-4">
-      {/* Condition Tab Bar */}
+    <div className="space-y-2 lg:space-y-4">
+      {/* Condition Tab Bar — desktop only (mobile uses swiper) */}
       {conditions.length > 1 && (
-        <div className="bg-white rounded-lg p-1.5">
+        <div className="hidden lg:block bg-white rounded-lg p-1.5">
           <div className="flex items-center gap-1 overflow-x-auto">
             {conditions.map((condition) => {
               const isActive = activeConditionId === condition.id
@@ -120,9 +120,9 @@ export default function ConditionsSection({
         </div>
       )}
 
-      {/* Single condition - just show header + add button */}
+      {/* Single condition - just show header + add button (desktop only) */}
       {conditions.length === 1 && onAddCondition && (
-        <div className="flex items-center justify-between">
+        <div className="hidden lg:flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="h-2 w-2 rounded-full bg-teal-500" />
             <h2 className="text-sm font-medium text-gray-600">

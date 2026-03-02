@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState, useMemo } from 'react'
+import React, { useEffect, useState, useMemo, useCallback } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import {
@@ -23,7 +23,7 @@ import ApiManager from '@/services/api/api.service'
 import { FileText } from 'lucide-react'
 import { format } from 'date-fns'
 import NutritionSuggestions from '@/components/features/nutrition/NutritionSuggestions'
-import InlineFindingInput from './components/conditions/InlineFindingInput'
+import InlineFindingInput, { DeepListenLoader } from './components/conditions/InlineFindingInput'
 import AddNoteModal from './components/AddNoteModal'
 import EnhancedPatientDetailsModal from '@/components/features/patients/EnhancedPatientDetailsModal'
 import ProtocolGeneratorModal from '@/components/features/conditions/ProtocolGeneratorModal'
@@ -31,8 +31,9 @@ import DischargeConditionDialog from '@/components/features/conditions/Discharge
 import TreatmentHistoryViewer from './components/history/TreatmentHistoryViewer'
 import InsightTimelineItem from './components/insights/InsightTimelineItem'
 import PreviousVisitsPanel from './components/visits/PreviousVisitsPanel'
-import { pdf } from '@react-pdf/renderer'
-import ClinicalReportPDF from '@/components/pdf/documents/ClinicalReportPDF'
+// PDF libs loaded dynamically on demand (~400KB saved from initial bundle)
+// import { pdf } from '@react-pdf/renderer'
+// import ClinicalReportPDF from '@/components/pdf/documents/ClinicalReportPDF'
 
 // Layout components
 import AppointmentPageShell from './components/layout/AppointmentPageShell'
@@ -46,6 +47,11 @@ import ConditionProtocolSummary from './components/conditions/ConditionProtocolS
 import ConditionActionBar from './components/conditions/ConditionActionBar'
 import ConditionTrackingPanel from './components/tracking/ConditionTrackingPanel'
 import TrackingProgressView from '@/components/features/tracking-progress/TrackingProgressView'
+
+// Mobile components
+import MobileBottomBar, { type MobileTab } from './components/layout/MobileBottomBar'
+import MobileConditionSwiper from './components/layout/MobileConditionSwiper'
+import { useMediaRecorder } from '@/hooks/useMediaRecorder'
 
 export default function AppointmentDetailsPage() {
   const params = useParams()
@@ -87,6 +93,14 @@ export default function AppointmentDetailsPage() {
   } | null>(null)
   const [showDischargeDialog, setShowDischargeDialog] = useState(false)
   const [conditionToDischarge, setConditionToDischarge] = useState<any>(null)
+
+  // ── Mobile state ─────────────────────────────────────────────
+  const [mobileTab, setMobileTab] = useState<MobileTab>('track')
+  const [mobileObservationText, setMobileObservationText] = useState('')
+  const [mobileObsSubmitting, setMobileObsSubmitting] = useState(false)
+  const [mobileObsSuccess, setMobileObsSuccess] = useState(false)
+  const [mobileRecording, setMobileRecording] = useState(false)
+  const [mobileTranscribing, setMobileTranscribing] = useState(false)
 
   // ── Data fetching ──────────────────────────────────────────────
 
@@ -365,6 +379,10 @@ export default function AppointmentDetailsPage() {
         protocols: conditionProtocols,
       }
 
+      const [{ pdf }, { default: ClinicalReportPDF }] = await Promise.all([
+        import('@react-pdf/renderer'),
+        import('@/components/pdf/documents/ClinicalReportPDF'),
+      ])
       const blob = await pdf(<ClinicalReportPDF data={reportData} />).toBlob()
       const url = URL.createObjectURL(blob)
       const link = document.createElement('a')
@@ -377,6 +395,86 @@ export default function AppointmentDetailsPage() {
       console.error('PDF generation error:', err)
       toast.error('Failed to generate report. Please try again.')
     }
+  }
+
+  // ── Mobile handlers ───────────────────────────────────────────
+
+  const activeConditionIndex = useMemo(
+    () => Math.max(0, visitConditions.findIndex(vc => vc.id === activeConditionId)),
+    [visitConditions, activeConditionId]
+  )
+
+  const handleMobileConditionSwipe = (index: number) => {
+    if (visitConditions[index]) setActiveConditionId(visitConditions[index].id)
+  }
+
+  const handleMobileObservationSubmit = async () => {
+    if (!activeCondition || mobileObservationText.trim().length < 3 || mobileObsSubmitting) return
+    setMobileObsSubmitting(true)
+    try {
+      await dispatch(addClinicalInsight({
+        patientConditionId: activeCondition.patient_condition_id,
+        data: {
+          insight_text: mobileObservationText.trim(),
+          insight_type: 'OBSERVATION',
+          visit_id: appointment!.id,
+          visit_condition_id: activeCondition.id,
+        },
+      })).unwrap()
+      setMobileObservationText('')
+      setMobileObsSuccess(true)
+      setTimeout(() => setMobileObsSuccess(false), 1200)
+    } catch {
+      // error handled by redux / toast
+    } finally {
+      setMobileObsSubmitting(false)
+    }
+  }
+
+  const handleMobileRecordingComplete = useCallback(async (audioBlob: Blob) => {
+    setMobileTranscribing(true)
+    try {
+      let filename = 'observation.webm'
+      let mimeType = audioBlob.type || 'audio/webm'
+      if (audioBlob.type.includes('wav')) { filename = 'observation.wav' }
+      else if (audioBlob.type.includes('mp3')) { filename = 'observation.mp3' }
+      else if (audioBlob.type.includes('m4a')) { filename = 'observation.m4a' }
+
+      const audioFile = new File([audioBlob], filename, { type: mimeType })
+      const response = await ApiManager.transcribeAudio(audioFile)
+      if (response.success && response.data?.transcription) {
+        setMobileObservationText(prev => {
+          const trimmed = prev.trim()
+          return trimmed ? `${trimmed}. ${response.data.transcription}` : response.data.transcription
+        })
+      }
+    } catch (err) {
+      console.error('[Mobile Voice] Error:', err)
+    } finally {
+      setMobileTranscribing(false)
+      setMobileRecording(false)
+    }
+  }, [])
+
+  const {
+    state: mobileRecState,
+    recordingTime: mobileRecordingTime,
+    startRecording: mobileStartRecording,
+    stopRecording: mobileStopRecording,
+    cancelRecording: mobileCancelRecording,
+    isSupported: mobileMicSupported,
+  } = useMediaRecorder({
+    onRecordingComplete: handleMobileRecordingComplete,
+    maxDuration: 120000,
+  })
+
+  const handleMobileMicClick = () => {
+    setMobileRecording(true)
+    mobileStartRecording()
+  }
+
+  const handleMobileStopRecording = () => {
+    mobileStopRecording()
   }
 
   const refreshProtocols = async () => {
@@ -420,11 +518,163 @@ export default function AppointmentDetailsPage() {
 
   // ── Render ─────────────────────────────────────────────────────
 
+  // Shared sidebar content (used in both desktop sidebar and mobile timeline tab)
+  const renderNotesContent = () => (
+    <>
+      {/* Action Buttons */}
+      {activeCondition && (
+        <div className="flex gap-1.5 px-4 py-2.5 border-b border-gray-100">
+          <button
+            onClick={() => openConditionNoteModal(activeCondition)}
+            className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium text-brand-teal border border-brand-light-teal rounded-lg hover:bg-teal-50 transition-colors"
+          >
+            <FileText className="h-3.5 w-3.5" />
+            Condition Note
+          </button>
+          <button
+            onClick={() => setVisitNoteModalOpen(true)}
+            className="flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            <FileText className="h-3.5 w-3.5" />
+            Visit Note
+          </button>
+        </div>
+      )}
+
+      <CollapsibleSection
+        title="Notes"
+        count={allNotes.length}
+        defaultExpanded
+      >
+        {allNotes.length === 0 ? (
+          <p className="text-xs text-gray-400 py-2">No notes yet for this visit</p>
+        ) : (
+          <div className="space-y-2.5">
+            {allNotes.map((note: any) => {
+              const isConditionNote = !!note.visit_condition_id
+              return (
+                <div
+                  key={note.id}
+                  className={`p-3 rounded-lg border ${
+                    isConditionNote
+                      ? 'bg-teal-50/40 border-brand-light-teal'
+                      : 'bg-white border-gray-200'
+                  }`}
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <FileText className={`h-3.5 w-3.5 ${isConditionNote ? 'text-brand-teal' : 'text-gray-400'}`} />
+                    <span className={`text-xs font-semibold ${isConditionNote ? 'text-brand-teal' : 'text-gray-600'}`}>
+                      {note.note_type || 'SOAP'}
+                    </span>
+                    {isConditionNote && (
+                      <span className="text-xs px-1.5 py-0.5 bg-teal-100 text-teal-700 rounded font-medium">
+                        Condition
+                      </span>
+                    )}
+                    {!isConditionNote && (
+                      <span className="text-xs px-1.5 py-0.5 bg-gray-100 text-gray-500 rounded font-medium">
+                        Visit
+                      </span>
+                    )}
+                    {note.is_legacy_note && (
+                      <span className="text-xs text-gray-400">(Legacy)</span>
+                    )}
+                    {note.created_at && (
+                      <span className="text-xs text-gray-400 ml-auto">
+                        {format(new Date(note.created_at), 'h:mm a')}
+                      </span>
+                    )}
+                  </div>
+                  {note.note_data && (
+                    <div className="text-sm text-gray-700 space-y-1 leading-relaxed">
+                      {note.note_data.subjective && (
+                        <p><span className="font-bold text-gray-500 text-xs uppercase tracking-wide">S</span> <span className="text-gray-700">{note.note_data.subjective}</span></p>
+                      )}
+                      {note.note_data.objective && (
+                        <p><span className="font-bold text-gray-500 text-xs uppercase tracking-wide">O</span> <span className="text-gray-700">{note.note_data.objective}</span></p>
+                      )}
+                      {note.note_data.assessment && (
+                        <p><span className="font-bold text-gray-500 text-xs uppercase tracking-wide">A</span> <span className="text-gray-700">{note.note_data.assessment}</span></p>
+                      )}
+                      {note.note_data.plan && (
+                        <p><span className="font-bold text-gray-500 text-xs uppercase tracking-wide">P</span> <span className="text-gray-700">{note.note_data.plan}</span></p>
+                      )}
+                      {note.note_data.progress && (
+                        <p><span className="font-bold text-gray-500 text-xs uppercase tracking-wide">Progress</span> <span className="text-gray-700">{note.note_data.progress}</span></p>
+                      )}
+                      {note.note_data.data && !note.note_data.subjective && (
+                        <p><span className="font-bold text-gray-500 text-xs uppercase tracking-wide">Data</span> <span className="text-gray-700">{note.note_data.data}</span></p>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        )}
+      </CollapsibleSection>
+    </>
+  )
+
+  const renderInsightsContent = () => (
+    <CollapsibleSection
+      title="Insights"
+      count={sortedInsights.length}
+      badge={activeCondition?.condition_name}
+      badgeColor="bg-teal-50 text-teal-700"
+      defaultExpanded
+    >
+      {sortedInsights.length === 0 ? (
+        <p className="text-xs text-gray-400 py-2">No insights yet — add observations to track progress</p>
+      ) : (
+        <div className="space-y-1">
+          {sortedInsights.map((insight: any) => (
+            <InsightTimelineItem key={insight.id} insight={insight} />
+          ))}
+        </div>
+      )}
+    </CollapsibleSection>
+  )
+
+  const renderDietaryContent = () => (
+    <CollapsibleSection title="Dietary" badge="AI" badgeColor="bg-purple-50 text-purple-600">
+      <div>
+        {patient && (
+          <NutritionSuggestions
+            patientData={{
+              age: calculateAge(patient.date_of_birth),
+              gender: patient.gender === 'M' ? 'Male' : patient.gender === 'F' ? 'Female' : 'Other',
+              allergies: patient.allergies,
+              currentMedications: patient.current_medications,
+              medicalHistory: patient.medical_history,
+              chiefComplaints: appointment.chief_complaint ? [appointment.chief_complaint] : [],
+              recentNotes: patientVisits.filter(v => v.note).slice(0, 5).map(v => JSON.stringify(v.note?.note_data)),
+              visitHistory: patientVisits.slice(0, 10),
+            }}
+            onDataChange={setNutritionData}
+          />
+        )}
+      </div>
+    </CollapsibleSection>
+  )
+
+  const renderPastVisitsContent = () => (
+    patientVisits.length > 0 ? (
+      <CollapsibleSection title="Past Visits" count={patientVisits.length}>
+        <PreviousVisitsPanel
+          visits={patientVisits}
+          currentVisitId={appointment.id}
+          onVisitClick={(visitId) => router.push(`/dashboard/appointments/${patient.id}/${visitId}`)}
+        />
+      </CollapsibleSection>
+    ) : null
+  )
+
   return (
     <>
       <Toaster position="top-right" richColors />
 
-      <div className="min-h-screen bg-gray-50 pb-10">
+      <div className="min-h-screen bg-gray-50 pb-[140px] lg:pb-10">
         <PatientVisitHeader
           patient={patient}
           appointment={appointment}
@@ -432,11 +682,22 @@ export default function AppointmentDetailsPage() {
           onShowFullProfile={() => setShowPatientDetailsModal(true)}
         />
 
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <div className="max-w-7xl mx-auto px-4 lg:px-6 py-4 lg:py-6">
 
-            {/* LEFT: Focused Condition (60%) */}
-            <div className="lg:col-span-3">
+          {/* ── Mobile: Condition Swiper ── */}
+          <MobileConditionSwiper
+            conditions={visitConditions}
+            activeIndex={activeConditionIndex}
+            onIndexChange={handleMobileConditionSwipe}
+            onDischarge={activeCondition ? () => handleDischargeCondition(activeCondition) : undefined}
+            onReactivate={activeCondition ? () => handleReactivateCondition(activeCondition) : undefined}
+          />
+
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 lg:gap-6">
+
+            {/* ─── LEFT COLUMN: Condition Content (60%) ─── */}
+            {/* Desktop: always visible. Mobile: only when Track tab is active */}
+            <div className={`lg:col-span-3 ${mobileTab !== 'track' ? 'hidden lg:block' : ''}`}>
               <ConditionsSection
                 conditions={visitConditions}
                 activeConditionId={activeConditionId}
@@ -445,7 +706,6 @@ export default function AppointmentDetailsPage() {
               >
                 {activeCondition && (
                   <>
-                    {/* Compact condition overview */}
                     <ConditionCard
                       condition={activeCondition}
                       visitChiefComplaint={appointment.chief_complaint}
@@ -462,7 +722,6 @@ export default function AppointmentDetailsPage() {
                       />
                     </ConditionCard>
 
-                    {/* Primary work surface — tracking always visible */}
                     <ConditionTrackingPanel
                       conditionName={activeCondition.condition_name}
                       visitConditionId={activeCondition.id}
@@ -470,7 +729,6 @@ export default function AppointmentDetailsPage() {
                       visitId={activeCondition.visit_id}
                     />
 
-                    {/* Progress visualization */}
                     <TrackingProgressView
                       patientConditionId={activeCondition.patient_condition_id}
                       conditionName={activeCondition.condition_name}
@@ -482,15 +740,33 @@ export default function AppointmentDetailsPage() {
                       unusedInsightsCount={activeUnusedInsights.length}
                       onGenerateFromInsights={() => handleGenerateProtocol(activeCondition)}
                     />
-
-                    {/* Treatment History — hidden from appointment view */}
                   </>
                 )}
               </ConditionsSection>
             </div>
 
-            {/* RIGHT: Sidebar (40%) */}
-            <div className="lg:col-span-2">
+            {/* ─── MOBILE: Notes Tab Content ─── */}
+            {mobileTab === 'notes' && (
+              <div className="lg:hidden">
+                <InsightsTimeline bare>
+                  {renderNotesContent()}
+                </InsightsTimeline>
+              </div>
+            )}
+
+            {/* ─── MOBILE: Timeline Tab Content ─── */}
+            {mobileTab === 'timeline' && (
+              <div className="lg:hidden">
+                <InsightsTimeline bare>
+                  {renderInsightsContent()}
+                  {renderDietaryContent()}
+                  {renderPastVisitsContent()}
+                </InsightsTimeline>
+              </div>
+            )}
+
+            {/* ─── RIGHT COLUMN: Desktop Sidebar (40%) ─── */}
+            <div className="hidden lg:block lg:col-span-2">
               <InsightsTimeline>
                 {/* Quick Observation — always visible at sidebar top */}
                 {activeCondition && (
@@ -512,156 +788,89 @@ export default function AppointmentDetailsPage() {
                   </div>
                 )}
 
-                {/* Action Buttons */}
-                {activeCondition && (
-                  <div className="flex gap-1.5 px-4 py-2.5 border-b border-gray-100">
-                    <button
-                      onClick={() => openConditionNoteModal(activeCondition)}
-                      className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium text-brand-teal border border-brand-light-teal rounded-lg hover:bg-teal-50 transition-colors"
-                    >
-                      <FileText className="h-3.5 w-3.5" />
-                      Condition Note
-                    </button>
-                    <button
-                      onClick={() => setVisitNoteModalOpen(true)}
-                      className="flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
-                    >
-                      <FileText className="h-3.5 w-3.5" />
-                      Visit Note
-                    </button>
-                  </div>
-                )}
-
-                {/* ── NOTES (this visit's notes — always expanded) ── */}
-                <CollapsibleSection
-                  title="Notes"
-                  count={allNotes.length}
-                  defaultExpanded
-                >
-                  {allNotes.length === 0 ? (
-                    <p className="text-xs text-gray-400 py-2">No notes yet for this visit</p>
-                  ) : (
-                    <div className="space-y-2.5">
-                      {allNotes.map((note: any) => {
-                        const isConditionNote = !!note.visit_condition_id
-                        return (
-                          <div
-                            key={note.id}
-                            className={`p-3 rounded-lg border ${
-                              isConditionNote
-                                ? 'bg-teal-50/40 border-brand-light-teal'
-                                : 'bg-white border-gray-200'
-                            }`}
-                          >
-                            <div className="flex items-center gap-2 mb-2">
-                              <FileText className={`h-3.5 w-3.5 ${isConditionNote ? 'text-brand-teal' : 'text-gray-400'}`} />
-                              <span className={`text-xs font-semibold ${isConditionNote ? 'text-brand-teal' : 'text-gray-600'}`}>
-                                {note.note_type || 'SOAP'}
-                              </span>
-                              {isConditionNote && (
-                                <span className="text-xs px-1.5 py-0.5 bg-teal-100 text-teal-700 rounded font-medium">
-                                  Condition
-                                </span>
-                              )}
-                              {!isConditionNote && (
-                                <span className="text-xs px-1.5 py-0.5 bg-gray-100 text-gray-500 rounded font-medium">
-                                  Visit
-                                </span>
-                              )}
-                              {note.is_legacy_note && (
-                                <span className="text-xs text-gray-400">(Legacy)</span>
-                              )}
-                              {note.created_at && (
-                                <span className="text-xs text-gray-400 ml-auto">
-                                  {format(new Date(note.created_at), 'h:mm a')}
-                                </span>
-                              )}
-                            </div>
-                            {note.note_data && (
-                              <div className="text-sm text-gray-700 space-y-1 leading-relaxed">
-                                {note.note_data.subjective && (
-                                  <p><span className="font-bold text-gray-500 text-xs uppercase tracking-wide">S</span> <span className="text-gray-700">{note.note_data.subjective}</span></p>
-                                )}
-                                {note.note_data.objective && (
-                                  <p><span className="font-bold text-gray-500 text-xs uppercase tracking-wide">O</span> <span className="text-gray-700">{note.note_data.objective}</span></p>
-                                )}
-                                {note.note_data.assessment && (
-                                  <p><span className="font-bold text-gray-500 text-xs uppercase tracking-wide">A</span> <span className="text-gray-700">{note.note_data.assessment}</span></p>
-                                )}
-                                {note.note_data.plan && (
-                                  <p><span className="font-bold text-gray-500 text-xs uppercase tracking-wide">P</span> <span className="text-gray-700">{note.note_data.plan}</span></p>
-                                )}
-                                {note.note_data.progress && (
-                                  <p><span className="font-bold text-gray-500 text-xs uppercase tracking-wide">Progress</span> <span className="text-gray-700">{note.note_data.progress}</span></p>
-                                )}
-                                {note.note_data.data && !note.note_data.subjective && (
-                                  <p><span className="font-bold text-gray-500 text-xs uppercase tracking-wide">Data</span> <span className="text-gray-700">{note.note_data.data}</span></p>
-                                )}
-                              </div>
-                            )}
-                          </div>
-                        )
-                      })}
-                    </div>
-                  )}
-                </CollapsibleSection>
-
-                {/* ── INSIGHTS (full condition timeline — always expanded) ── */}
-                <CollapsibleSection
-                  title="Insights"
-                  count={sortedInsights.length}
-                  badge={activeCondition?.condition_name}
-                  badgeColor="bg-teal-50 text-teal-700"
-                  defaultExpanded
-                >
-                  {sortedInsights.length === 0 ? (
-                    <p className="text-xs text-gray-400 py-2">No insights yet — add observations to track progress</p>
-                  ) : (
-                    <div className="space-y-1">
-                      {sortedInsights.map((insight: any) => (
-                        <InsightTimelineItem key={insight.id} insight={insight} />
-                      ))}
-                    </div>
-                  )}
-                </CollapsibleSection>
-
-                {/* ── DIETARY (collapsed by default) ── */}
-                <CollapsibleSection title="Dietary" badge="AI" badgeColor="bg-purple-50 text-purple-600">
-                  <div>
-                    {patient && (
-                      <NutritionSuggestions
-                        patientData={{
-                          age: calculateAge(patient.date_of_birth),
-                          gender: patient.gender === 'M' ? 'Male' : patient.gender === 'F' ? 'Female' : 'Other',
-                          allergies: patient.allergies,
-                          currentMedications: patient.current_medications,
-                          medicalHistory: patient.medical_history,
-                          chiefComplaints: appointment.chief_complaint ? [appointment.chief_complaint] : [],
-                          recentNotes: patientVisits.filter(v => v.note).slice(0, 5).map(v => JSON.stringify(v.note?.note_data)),
-                          visitHistory: patientVisits.slice(0, 10),
-                        }}
-                        onDataChange={setNutritionData}
-                      />
-                    )}
-                  </div>
-                </CollapsibleSection>
-
-                {/* ── PAST VISITS (collapsed by default) ── */}
-                {patientVisits.length > 0 && (
-                  <CollapsibleSection title="Past Visits" count={patientVisits.length}>
-                    <PreviousVisitsPanel
-                      visits={patientVisits}
-                      currentVisitId={appointment.id}
-                      onVisitClick={(visitId) => router.push(`/dashboard/appointments/${patient.id}/${visitId}`)}
-                    />
-                  </CollapsibleSection>
-                )}
+                {renderNotesContent()}
+                {renderInsightsContent()}
+                {renderDietaryContent()}
+                {renderPastVisitsContent()}
               </InsightsTimeline>
             </div>
 
           </div>
         </div>
       </div>
+
+      {/* ── Mobile Bottom Bar ── */}
+      <MobileBottomBar
+        activeTab={mobileTab}
+        onTabChange={setMobileTab}
+        observationText={mobileObservationText}
+        onObservationChange={setMobileObservationText}
+        onObservationSubmit={handleMobileObservationSubmit}
+        onMicClick={handleMobileMicClick}
+        isSubmitting={mobileObsSubmitting}
+        showSuccess={mobileObsSuccess}
+        micSupported={mobileMicSupported}
+      />
+
+      {/* ── Mobile Recording Overlay — same DeepListenLoader as desktop ── */}
+      {mobileRecording && (
+        <div
+          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center lg:hidden"
+          onClick={() => { mobileCancelRecording(); setMobileRecording(false) }}
+        >
+          <div className="absolute inset-0 bg-gray-950/60 backdrop-blur-md" />
+
+          <div className="relative z-10 flex flex-col items-center gap-12" onClick={(e) => e.stopPropagation()}>
+            {/* Ambient glow */}
+            <div
+              className="pointer-events-none absolute -top-32 h-[400px] w-[400px] rounded-full animate-pulse"
+              style={{
+                background: 'radial-gradient(circle, rgba(6,182,212,0.15) 0%, rgba(139,92,246,0.06) 40%, transparent 70%)',
+              }}
+            />
+
+            {/* Loader */}
+            <div className="flex h-48 w-48 items-center justify-center">
+              <div style={{ transform: 'scale(2.2)' }}>
+                <DeepListenLoader />
+              </div>
+            </div>
+
+            {/* Status text */}
+            <div className="text-center">
+              {mobileTranscribing ? (
+                <>
+                  <h2 className="text-3xl font-light tracking-wide text-white">Transcribing</h2>
+                  <p className="mt-3 text-sm text-white/40">Converting speech to text...</p>
+                </>
+              ) : (
+                <>
+                  <h2 className="text-3xl font-light tracking-wide text-white">Listening</h2>
+                  <p className="mt-3 text-sm text-white/40">Recording observation...</p>
+                  {mobileRecState === 'recording' && (
+                    <div className="flex items-center justify-center gap-2 mt-4">
+                      <div className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
+                      <span className="text-sm font-mono text-white/50">
+                        {Math.floor(mobileRecordingTime / 60)}:{(mobileRecordingTime % 60).toString().padStart(2, '0')}
+                      </span>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+
+            {/* Stop button */}
+            {mobileRecState === 'recording' && (
+              <button
+                onClick={handleMobileStopRecording}
+                className="flex h-16 w-16 items-center justify-center rounded-full bg-white/10 hover:bg-white/15 border border-white/20 text-white transition-all active:scale-95"
+              >
+                <div className="h-6 w-6 bg-white rounded-sm" />
+              </button>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* ── Modals ────────────────────────────────────────────── */}
 

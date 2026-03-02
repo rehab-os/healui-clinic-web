@@ -14,7 +14,10 @@ import {
   Building2,
   Info,
 } from 'lucide-react';
-import { KPICard, SimpleBarChart } from '../../../components/features/dashboard';
+import dynamic from 'next/dynamic';
+import { KPICard } from '../../../components/features/dashboard';
+
+const SimpleBarChart = dynamic(() => import('../../../components/features/dashboard/SimpleBarChart'), { ssr: false });
 import ApiManager from '@/services/api/api.service';
 
 // Types for API responses

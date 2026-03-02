@@ -6,7 +6,6 @@ import Image from 'next/image';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { logout } from '../../store/slices/auth.slice';
 import Header from '../../components/features/shared/Header';
-import ApiManager from '@/services/api/api.service';
 import firebaseAuthService from '@/services/auth/firebase-auth.service';
 import {
   LayoutDashboard,
@@ -35,32 +34,16 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const router = useRouter();
   const pathname = usePathname();
   const dispatch = useAppDispatch();
-  const { isAuthenticated } = useAppSelector(state => state.auth);
+  const { isAuthenticated, isInitializing } = useAppSelector(state => state.auth);
   const { userData, currentClinic, currentContext } = useAppSelector(state => state.user);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      if (isAuthenticated && !userData) {
-        try {
-          await ApiManager.getMe();
-        } catch (error) {
-          console.error('Failed to fetch user data:', error);
-        }
-      }
-      setLoading(false);
-    };
-
-    fetchUserData();
-  }, [isAuthenticated, userData]);
-
-  useEffect(() => {
-    if (!loading && !isAuthenticated) {
+    if (!isInitializing && !isAuthenticated) {
       router.push('/login');
     }
-  }, [isAuthenticated, loading, router]);
+  }, [isAuthenticated, isInitializing, router]);
 
   const navigationItems = [
     {
@@ -160,7 +143,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
     }
   };
 
-  if (loading) {
+  if (isInitializing) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-bg-light">
         <div className="text-center">
@@ -181,7 +164,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       <div className="flex h-[calc(100vh-60px)] relative">
         {/* Sidebar */}
         <aside className={`
-          fixed lg:static top-0 lg:top-0 bottom-0 left-0 z-50 bg-brand-white border-r border-gray-200 transform transition-all duration-300 ease-in-out lg:translate-x-0 shadow-lg lg:shadow-sm h-screen lg:h-full
+          fixed lg:static top-0 lg:top-0 bottom-0 left-0 z-[60] bg-brand-white border-r border-gray-200 transform transition-all duration-300 ease-in-out lg:translate-x-0 shadow-lg lg:shadow-sm h-screen lg:h-full
           ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
           ${isCollapsed ? 'w-16' : 'w-64'}
         `}>
@@ -390,7 +373,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
         {/* Mobile sidebar backdrop */}
         {isSidebarOpen && (
           <div 
-            className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden backdrop-blur-sm"
+            className="fixed inset-0 bg-black bg-opacity-50 z-[55] lg:hidden backdrop-blur-sm"
             onClick={() => setIsSidebarOpen(false)}
           />
         )}

@@ -55,14 +55,15 @@ function CollapsibleSection({
 interface InsightsTimelineProps {
   children: React.ReactNode
   loading?: boolean
+  /** When true, renders without wrapper/header (for mobile tab context) */
+  bare?: boolean
 }
 
 export default function InsightsTimeline({
   children,
   loading = false,
+  bare = false,
 }: InsightsTimelineProps) {
-  const [isCollapsed, setIsCollapsed] = useState(false)
-
   if (loading) {
     return (
       <div className="bg-white rounded-lg p-5 animate-pulse">
@@ -76,29 +77,25 @@ export default function InsightsTimeline({
     )
   }
 
+  // Bare mode: no wrapper, no header — used inside mobile tab
+  if (bare) {
+    return <div className="bg-white rounded-lg overflow-hidden">{children}</div>
+  }
+
   return (
     <div className="lg:sticky lg:top-[76px]">
       <div className="bg-white rounded-lg overflow-hidden">
-        {/* Header */}
-        <div className="flex items-center justify-between px-5 py-3 border-b border-gray-100">
+        {/* Header — desktop only (mobile uses tab bar) */}
+        <div className="hidden lg:flex items-center justify-between px-5 py-3 border-b border-gray-100">
           <h2 className="text-sm font-semibold text-gray-900">
             Clinical Timeline
           </h2>
-          <button
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            className="lg:hidden p-1 text-gray-600 hover:text-brand-teal hover:bg-teal-50 rounded transition-colors"
-            aria-label={isCollapsed ? 'Expand' : 'Collapse'}
-          >
-            {isCollapsed ? <ChevronDown className="h-5 w-5" /> : <ChevronUp className="h-5 w-5" />}
-          </button>
         </div>
 
         {/* Content */}
-        {!isCollapsed && (
-          <div className="max-h-[calc(100vh-200px)] overflow-y-auto">
-            {children}
-          </div>
-        )}
+        <div className="lg:max-h-[calc(100vh-200px)] lg:overflow-y-auto">
+          {children}
+        </div>
       </div>
     </div>
   )

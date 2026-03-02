@@ -13,14 +13,16 @@ import {
   Loader2,
   Calendar,
 } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import {
   KPICard,
-  AgeDistributionChart,
-  TopConditionsChart,
-  GenderChart,
   PeakHoursHeatmap,
-  SimpleBarChart,
 } from '../../../components/features/dashboard';
+
+const AgeDistributionChart = dynamic(() => import('../../../components/features/dashboard/AgeDistributionChart'), { ssr: false });
+const TopConditionsChart = dynamic(() => import('../../../components/features/dashboard/TopConditionsChart'), { ssr: false });
+const GenderChart = dynamic(() => import('../../../components/features/dashboard/GenderChart'), { ssr: false });
+const SimpleBarChart = dynamic(() => import('../../../components/features/dashboard/SimpleBarChart'), { ssr: false });
 import ApiManager from '@/services/api/api.service';
 
 // Types for API responses

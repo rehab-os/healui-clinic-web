@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useAppDispatch } from '../../store/hooks';
 import { getCookieValue } from '../../lib/utils/helpers';
 import ApiManager from '@/services/api/api.service';
-import { logout } from '../../store/slices/auth.slice';
+import { logout, setAuthInitialized } from '../../store/slices/auth.slice';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const dispatch = useAppDispatch();
@@ -12,23 +12,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const initAuth = async () => {
       const token = getCookieValue('access_token');
-      
+
       if (token) {
         try {
-          // Verify token by fetching user data
+          // Verify token by fetching user data — this also hydrates user slice
           await ApiManager.getMe();
         } catch (error) {
           console.error('Failed to fetch user data:', error);
-          // Token is invalid, clear auth state
           dispatch(logout());
         }
       } else {
-        // No token found, ensure auth state is cleared
+        // No token — ensure auth state is cleared
         dispatch(logout());
       }
+      // Signal that auth initialization is complete (regardless of outcome)
+      dispatch(setAuthInitialized());
     };
 
-    initAuth();
+    // Safety timeout: if getMe() hangs, unblock the UI after 5s
+    const timeout = setTimeout(() => {
+      dispatch(setAuthInitialized());
+    }, 5000);
+
+    initAuth().finally(() => clearTimeout(timeout));
   }, [dispatch]);
 
   return <>{children}</>;

@@ -15,15 +15,17 @@ import {
   CheckCircle,
   BarChart3,
 } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import {
   KPICard,
-  SimpleBarChart,
   AppointmentList,
   OutstandingList,
   ClinicComparisonTable,
   PatientsAttention,
   SessionsEndingSoon,
 } from '../../components/features/dashboard';
+
+const SimpleBarChart = dynamic(() => import('../../components/features/dashboard/SimpleBarChart'), { ssr: false });
 import ApiManager from '@/services/api/api.service';
 
 // Types for API responses
