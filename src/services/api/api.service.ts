@@ -3,7 +3,6 @@ import { ENDPOINTS } from '../../lib/data-access/endpoints'
 import { store } from '../../store/store'
 import {
     authSlice,
-    organizationSlice,
     clinicSlice,
     userSlice
 } from '../../store/slices'
@@ -95,12 +94,7 @@ class ApiManager {
     // Organizations
     static getOrganizations = () => {
         const url = BASE_URL + ENDPOINTS.GET_ORGANIZATIONS()
-        return ApiMethods.get(url).then((res) => {
-            if (res.success && res.data) {
-                store.dispatch(organizationSlice.actions.setOrganizations(res.data))
-            }
-            return res
-        })
+        return ApiMethods.get(url)
     }
 
     static createOrganization = (data: CreateOrganizationDto) => {

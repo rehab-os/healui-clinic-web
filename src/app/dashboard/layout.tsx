@@ -7,6 +7,7 @@ import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { logout } from '../../store/slices/auth.slice';
 import Header from '../../components/features/shared/Header';
 import firebaseAuthService from '@/services/auth/firebase-auth.service';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   LayoutDashboard,
   Users,
@@ -34,6 +35,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const router = useRouter();
   const pathname = usePathname();
   const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
   const { isAuthenticated, isInitializing } = useAppSelector(state => state.auth);
   const { userData, currentClinic, currentContext } = useAppSelector(state => state.user);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -127,17 +129,16 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   // Handle logout
   const handleLogout = async () => {
     try {
-      // Sign out from Firebase
       await firebaseAuthService.signOut();
-      
-      // Clear Redux state and cookies
+
+      // Clear all caches (Redux + TanStack Query)
+      queryClient.clear();
       dispatch(logout());
-      
-      // Redirect to login
+
       router.push('/login');
     } catch (error) {
       console.error('Logout error:', error);
-      // Even if Firebase logout fails, clear local state
+      queryClient.clear();
       dispatch(logout());
       router.push('/login');
     }

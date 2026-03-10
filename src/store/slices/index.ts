@@ -1,8 +1,3 @@
 export { authSlice } from './auth.slice'
-export { organizationSlice } from './organization.slice'
 export { clinicSlice } from './clinic.slice'
 export { userSlice } from './userSlice'
-export { analyticsSlice } from './analytics.slice'
-export { availabilitySlice } from './availability.slice'
-export { treatmentProtocolSlice } from './treatment-protocol.slice'
-export { appointmentDetailsSlice } from './appointmentDetails.slice'

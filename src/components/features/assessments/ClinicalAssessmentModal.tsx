@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { X, Heart, Activity, Briefcase, Shield, Plus, Trash2, AlertCircle, Loader2 } from 'lucide-react';
+import { X, Plus, Trash2, AlertCircle, Loader2, ChevronDown, Stethoscope, Dumbbell, Shield } from 'lucide-react';
+import ChipInput from '@/components/ui/chip-input';
 import ApiManager from '@/services/api/api.service';
 import type { 
   UpdatePatientDto, 
@@ -29,15 +30,23 @@ const ClinicalAssessmentModal: React.FC<ClinicalAssessmentModalProps> = ({
   // Initialize form data with existing patient data
   const [formData, setFormData] = useState({
     medical_history: patient.medical_history || '',
-    chronic_conditions: patient.chronic_conditions?.join(', ') || '',
     occupation: patient.occupation || '',
     activity_level: patient.activity_level || '' as ActivityLevel | '',
     family_history: patient.family_history || '',
-    allergies: patient.allergies?.join(', ') || '',
-    current_medications: patient.current_medications?.join(', ') || '',
     insurance_provider: patient.insurance_provider || '',
     insurance_policy_number: patient.insurance_policy_number || '',
   });
+
+  // Chip-based array fields
+  const [chronicConditions, setChronicConditions] = useState<string[]>(
+    patient.chronic_conditions || []
+  );
+  const [allergies, setAllergies] = useState<string[]>(
+    patient.allergies || []
+  );
+  const [currentMedications, setCurrentMedications] = useState<string[]>(
+    patient.current_medications || []
+  );
 
   // Medical history arrays
   const [previousSurgeries, setPreviousSurgeries] = useState<PreviousSurgeryDto[]>(
@@ -74,12 +83,9 @@ const ClinicalAssessmentModal: React.FC<ClinicalAssessmentModalProps> = ({
 
       const assessmentData: UpdatePatientDto = {
         ...cleanedFormData,
-        chronic_conditions: formData.chronic_conditions ? 
-          formData.chronic_conditions.split(',').map(c => c.trim()).filter(Boolean) : undefined,
-        allergies: formData.allergies ? 
-          formData.allergies.split(',').map(a => a.trim()).filter(Boolean) : undefined,
-        current_medications: formData.current_medications ? 
-          formData.current_medications.split(',').map(m => m.trim()).filter(Boolean) : undefined,
+        chronic_conditions: chronicConditions.length > 0 ? chronicConditions : undefined,
+        allergies: allergies.length > 0 ? allergies : undefined,
+        current_medications: currentMedications.length > 0 ? currentMedications : undefined,
         previous_surgeries: previousSurgeries.filter(s => s.procedure.trim()).length > 0 
           ? previousSurgeries.filter(s => s.procedure.trim()).map(s => {
               const cleaned = {
@@ -174,409 +180,383 @@ const ClinicalAssessmentModal: React.FC<ClinicalAssessmentModalProps> = ({
     setPastInvestigations(updated);
   };
 
+  const [showSurgeries, setShowSurgeries] = useState(previousSurgeries.length > 0);
+  const [showIllnesses, setShowIllnesses] = useState(pastIllnesses.length > 0);
+  const [showInvestigations, setShowInvestigations] = useState(pastInvestigations.length > 0);
+  const [showInsurance, setShowInsurance] = useState(
+    !!(formData.insurance_provider || formData.insurance_policy_number)
+  );
+
+  const inputClass = "w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]/20 focus:border-[#1e5f79] transition-all duration-200";
+  const inlineInputClass = "px-2.5 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1e5f79]/20 focus:border-[#1e5f79]";
+
+  const activityOptions = [
+    { value: 'SEDENTARY', label: 'Sedentary' },
+    { value: 'LIGHT', label: 'Light' },
+    { value: 'MODERATE', label: 'Moderate' },
+    { value: 'ACTIVE', label: 'Active' },
+    { value: 'ATHLETIC', label: 'Athletic' },
+  ] as const;
+
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl border border-gray-200">
+      <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl border border-gray-200">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-[#1e5f79] to-[#2a7a9b]">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="p-2 bg-white/20 rounded-lg">
-                <Heart className="h-6 w-6 text-white" />
-              </div>
-              <div>
-                <h2 className="text-xl font-bold text-white">Patient Medical History</h2>
-                <p className="text-white/90 text-sm">Complete medical history for {patient.full_name}</p>
-              </div>
-            </div>
-            <button
-              onClick={onClose}
-              className="p-2 text-white/80 hover:text-white hover:bg-white/20 rounded-lg transition-all duration-200"
-            >
-              <X className="h-5 w-5" />
-            </button>
+        <div className="px-5 py-3.5 border-b border-gray-200 flex items-center justify-between">
+          <div>
+            <h2 className="text-lg font-semibold text-gray-900">Medical History</h2>
+            <p className="text-xs text-gray-500">{patient.full_name}</p>
           </div>
+          <button
+            onClick={onClose}
+            className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-all duration-200"
+          >
+            <X className="h-4 w-4" />
+          </button>
         </div>
 
         {/* Form */}
         <div className="flex-1 overflow-y-auto">
-          <form onSubmit={handleSubmit} className="p-6 space-y-8">
-          {error && (
-            <div className="p-4 bg-red-50 text-red-600 rounded-lg flex items-start border border-red-200">
-              <AlertCircle className="h-5 w-5 mr-2 mt-0.5 flex-shrink-0" />
-              <span className="font-medium">{error}</span>
-            </div>
-          )}
+          <form onSubmit={handleSubmit} className="px-5 py-4 space-y-4">
+            {error && (
+              <div className="p-3 bg-red-50 text-red-600 rounded-lg flex items-center text-sm border border-red-200">
+                <AlertCircle className="h-4 w-4 mr-2 flex-shrink-0" />
+                {error}
+              </div>
+            )}
 
-          {/* Medical Information */}
-          <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-gray-900 flex items-center">
-              <Heart className="h-5 w-5 mr-2 text-[#1e5f79]" />
-              Medical Information
-            </h3>
-            
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Medical History
-                </label>
-                <textarea
-                  value={formData.medical_history}
-                  onChange={(e) => setFormData({ ...formData, medical_history: e.target.value })}
-                  className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]/20 focus:border-[#1e5f79] transition-all duration-200"
-                  rows={3}
-                  placeholder="Any relevant medical history"
+            {/* Core medical fields - always visible */}
+            <div className="space-y-3">
+              <textarea
+                value={formData.medical_history}
+                onChange={(e) => setFormData({ ...formData, medical_history: e.target.value })}
+                className={inputClass}
+                rows={2}
+                placeholder="Medical history"
+              />
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <ChipInput
+                  value={chronicConditions}
+                  onChange={setChronicConditions}
+                  placeholder="Chronic conditions"
+                />
+                <ChipInput
+                  value={allergies}
+                  onChange={setAllergies}
+                  placeholder="Allergies"
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Chronic Conditions
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.chronic_conditions}
-                    onChange={(e) => setFormData({ ...formData, chronic_conditions: e.target.value })}
-                    className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]/20 focus:border-[#1e5f79] transition-all duration-200"
-                    placeholder="Comma separated (e.g., Diabetes, Hypertension)"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Allergies
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.allergies}
-                    onChange={(e) => setFormData({ ...formData, allergies: e.target.value })}
-                    className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]/20 focus:border-[#1e5f79] transition-all duration-200"
-                    placeholder="Comma separated (e.g., Penicillin, Peanuts)"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Current Medications
-                </label>
-                <input
-                  type="text"
-                  value={formData.current_medications}
-                  onChange={(e) => setFormData({ ...formData, current_medications: e.target.value })}
-                  className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]/20 focus:border-[#1e5f79] transition-all duration-200"
-                  placeholder="Comma separated list"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Detailed Medical History */}
-          <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-gray-900 flex items-center">
-              <Activity className="h-5 w-5 mr-2 text-[#1e5f79]" />
-              Detailed Medical History
-            </h3>
-            
-            {/* Previous Surgeries */}
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <label className="block text-sm font-medium text-gray-700">
-                  Previous Surgeries
-                </label>
-                <button
-                  type="button"
-                  onClick={addPreviousSurgery}
-                  className="flex items-center text-xs text-[#1e5f79] hover:text-[#1e5f79]/80 font-medium"
-                >
-                  <Plus className="h-3 w-3 mr-1" />
-                  Add Surgery
-                </button>
-              </div>
-              {previousSurgeries.map((surgery, index) => (
-                <div key={index} className="border border-gray-200 rounded-lg p-3 mb-2 bg-gray-50">
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                    <input
-                      type="text"
-                      placeholder="Procedure *"
-                      value={surgery.procedure}
-                      onChange={(e) => updatePreviousSurgery(index, 'procedure', e.target.value)}
-                      className="px-2 py-1.5 border border-gray-300 rounded text-sm"
-                    />
-                    <input
-                      type="date"
-                      placeholder="Date"
-                      value={surgery.date || ''}
-                      onChange={(e) => updatePreviousSurgery(index, 'date', e.target.value)}
-                      className="px-2 py-1.5 border border-gray-300 rounded text-sm"
-                    />
-                    <div className="flex gap-2">
-                      <input
-                        type="text"
-                        placeholder="Body part"
-                        value={surgery.body_part}
-                        onChange={(e) => updatePreviousSurgery(index, 'body_part', e.target.value)}
-                        className="flex-1 px-2 py-1.5 border border-gray-300 rounded text-sm"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => removePreviousSurgery(index)}
-                        className="p-1.5 text-red-500 hover:bg-red-50 rounded"
-                      >
-                        <Trash2 className="h-3 w-3" />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
+              <ChipInput
+                value={currentMedications}
+                onChange={setCurrentMedications}
+                placeholder="Current medications"
+              />
             </div>
 
-            {/* Past Illnesses */}
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <label className="block text-sm font-medium text-gray-700">
-                  Past Illnesses
-                </label>
-                <button
-                  type="button"
-                  onClick={addPastIllness}
-                  className="flex items-center text-xs text-[#1e5f79] hover:text-[#1e5f79]/80 font-medium"
-                >
-                  <Plus className="h-3 w-3 mr-1" />
-                  Add Illness
-                </button>
-              </div>
-              {pastIllnesses.map((illness, index) => (
-                <div key={index} className="border border-gray-200 rounded-lg p-3 mb-2 bg-gray-50">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2">
-                    <input
-                      type="text"
-                      placeholder="Illness *"
-                      value={illness.illness}
-                      onChange={(e) => updatePastIllness(index, 'illness', e.target.value)}
-                      className="px-2 py-1.5 border border-gray-300 rounded text-sm"
-                    />
-                    <input
-                      type="date"
-                      placeholder="Date"
-                      value={illness.date || ''}
-                      onChange={(e) => updatePastIllness(index, 'date', e.target.value)}
-                      className="px-2 py-1.5 border border-gray-300 rounded text-sm"
-                    />
-                  </div>
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      placeholder="Treatment received *"
-                      value={illness.treatment}
-                      onChange={(e) => updatePastIllness(index, 'treatment', e.target.value)}
-                      className="flex-1 px-2 py-1.5 border border-gray-300 rounded text-sm"
-                    />
-                    <label className="flex items-center text-xs">
-                      <input
-                        type="checkbox"
-                        checked={illness.resolved}
-                        onChange={(e) => updatePastIllness(index, 'resolved', e.target.checked)}
-                        className="mr-1"
-                      />
-                      Resolved
-                    </label>
-                    <button
-                      type="button"
-                      onClick={() => removePastIllness(index)}
-                      className="p-1.5 text-red-500 hover:bg-red-50 rounded"
-                    >
-                      <Trash2 className="h-3 w-3" />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Past Investigations */}
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <label className="block text-sm font-medium text-gray-700">
-                  Past Investigations
-                </label>
-                <button
-                  type="button"
-                  onClick={addPastInvestigation}
-                  className="flex items-center text-xs text-[#1e5f79] hover:text-[#1e5f79]/80 font-medium"
-                >
-                  <Plus className="h-3 w-3 mr-1" />
-                  Add Investigation
-                </button>
-              </div>
-              {pastInvestigations.map((investigation, index) => (
-                <div key={index} className="border border-gray-200 rounded-lg p-3 mb-2 bg-gray-50">
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-2">
-                    <input
-                      type="text"
-                      placeholder="Type (X-Ray, MRI, etc.) *"
-                      value={investigation.type}
-                      onChange={(e) => updatePastInvestigation(index, 'type', e.target.value)}
-                      className="px-2 py-1.5 border border-gray-300 rounded text-sm"
-                    />
-                    <input
-                      type="date"
-                      placeholder="Date"
-                      value={investigation.date || ''}
-                      onChange={(e) => updatePastInvestigation(index, 'date', e.target.value)}
-                      className="px-2 py-1.5 border border-gray-300 rounded text-sm"
-                    />
-                    <input
-                      type="text"
-                      placeholder="Body part (optional)"
-                      value={investigation.body_part || ''}
-                      onChange={(e) => updatePastInvestigation(index, 'body_part', e.target.value)}
-                      className="px-2 py-1.5 border border-gray-300 rounded text-sm"
-                    />
-                  </div>
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      placeholder="Findings summary *"
-                      value={investigation.findings}
-                      onChange={(e) => updatePastInvestigation(index, 'findings', e.target.value)}
-                      className="flex-1 px-2 py-1.5 border border-gray-300 rounded text-sm"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => removePastInvestigation(index)}
-                      className="p-1.5 text-red-500 hover:bg-red-50 rounded"
-                    >
-                      <Trash2 className="h-3 w-3" />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Lifestyle Information */}
-          <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-gray-900 flex items-center">
-              <Briefcase className="h-5 w-5 mr-2 text-[#1e5f79]" />
-              Lifestyle Information
-            </h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Occupation
-                </label>
+            {/* Lifestyle - always visible */}
+            <div className="space-y-3 pt-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <input
                   type="text"
                   value={formData.occupation}
                   onChange={(e) => setFormData({ ...formData, occupation: e.target.value })}
-                  className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]/20 focus:border-[#1e5f79] transition-all duration-200"
-                  placeholder="Patient's occupation"
+                  className={inputClass}
+                  placeholder="Occupation"
+                />
+                <textarea
+                  value={formData.family_history}
+                  onChange={(e) => setFormData({ ...formData, family_history: e.target.value })}
+                  className={inputClass}
+                  rows={1}
+                  placeholder="Family history"
                 />
               </div>
 
+              {/* Activity Level - Pills */}
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-gray-500 shrink-0">Activity</span>
+                <div className="flex gap-1.5 flex-wrap">
+                  {activityOptions.map((option) => (
+                    <button
+                      key={option.value}
+                      type="button"
+                      onClick={() => setFormData({ ...formData, activity_level: option.value as ActivityLevel })}
+                      className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${
+                        formData.activity_level === option.value
+                          ? 'bg-[#1e5f79] text-white shadow-sm'
+                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      }`}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Expandable detailed sections */}
+            <div className="pt-2 space-y-1 border-t border-gray-100">
+              {/* Previous Surgeries */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Activity Level
-                </label>
-                <select
-                  value={formData.activity_level}
-                  onChange={(e) => setFormData({ ...formData, activity_level: e.target.value as ActivityLevel })}
-                  className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]/20 focus:border-[#1e5f79] transition-all duration-200"
+                <button
+                  type="button"
+                  onClick={() => setShowSurgeries(!showSurgeries)}
+                  className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 transition-colors py-1.5 w-full"
                 >
-                  <option value="">Select activity level</option>
-                  <option value="SEDENTARY">Sedentary</option>
-                  <option value="LIGHT">Light</option>
-                  <option value="MODERATE">Moderate</option>
-                  <option value="ACTIVE">Active</option>
-                  <option value="ATHLETIC">Athletic</option>
-                </select>
+                  <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${showSurgeries ? 'rotate-180' : ''}`} />
+                  <Stethoscope className="h-3.5 w-3.5" />
+                  Previous Surgeries
+                  {previousSurgeries.length > 0 && (
+                    <span className="text-xs bg-gray-200 text-gray-600 px-1.5 py-0.5 rounded-full">{previousSurgeries.length}</span>
+                  )}
+                </button>
+                {showSurgeries && (
+                  <div className="pl-5 space-y-2 pb-2">
+                    {previousSurgeries.map((surgery, index) => (
+                      <div key={index} className="flex gap-2 items-center">
+                        <input
+                          type="text"
+                          placeholder="Procedure *"
+                          value={surgery.procedure}
+                          onChange={(e) => updatePreviousSurgery(index, 'procedure', e.target.value)}
+                          className={`flex-1 ${inlineInputClass}`}
+                        />
+                        <input
+                          type="date"
+                          value={surgery.date || ''}
+                          onChange={(e) => updatePreviousSurgery(index, 'date', e.target.value)}
+                          className={`w-36 ${inlineInputClass}`}
+                        />
+                        <input
+                          type="text"
+                          placeholder="Body part"
+                          value={surgery.body_part}
+                          onChange={(e) => updatePreviousSurgery(index, 'body_part', e.target.value)}
+                          className={`w-28 ${inlineInputClass}`}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => removePreviousSurgery(index)}
+                          className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    ))}
+                    <button
+                      type="button"
+                      onClick={addPreviousSurgery}
+                      className="flex items-center text-xs text-[#1e5f79] hover:text-[#1e5f79]/80 font-medium py-1"
+                    >
+                      <Plus className="h-3 w-3 mr-1" />
+                      Add surgery
+                    </button>
+                  </div>
+                )}
               </div>
-            </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Family History
-              </label>
-              <textarea
-                value={formData.family_history}
-                onChange={(e) => setFormData({ ...formData, family_history: e.target.value })}
-                className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]/20 focus:border-[#1e5f79] transition-all duration-200"
-                rows={2}
-                placeholder="Relevant family medical history"
-              />
-            </div>
-          </div>
-
-          {/* Insurance Information */}
-          <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-gray-900 flex items-center">
-              <Shield className="h-5 w-5 mr-2 text-[#1e5f79]" />
-              Insurance Information
-            </h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Past Illnesses */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Insurance Provider
-                </label>
-                <input
-                  type="text"
-                  value={formData.insurance_provider}
-                  onChange={(e) => setFormData({ ...formData, insurance_provider: e.target.value })}
-                  className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]/20 focus:border-[#1e5f79] transition-all duration-200"
-                  placeholder="Insurance company name"
-                />
+                <button
+                  type="button"
+                  onClick={() => setShowIllnesses(!showIllnesses)}
+                  className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 transition-colors py-1.5 w-full"
+                >
+                  <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${showIllnesses ? 'rotate-180' : ''}`} />
+                  <Dumbbell className="h-3.5 w-3.5" />
+                  Past Illnesses
+                  {pastIllnesses.length > 0 && (
+                    <span className="text-xs bg-gray-200 text-gray-600 px-1.5 py-0.5 rounded-full">{pastIllnesses.length}</span>
+                  )}
+                </button>
+                {showIllnesses && (
+                  <div className="pl-5 space-y-2 pb-2">
+                    {pastIllnesses.map((illness, index) => (
+                      <div key={index} className="space-y-1.5">
+                        <div className="flex gap-2 items-center">
+                          <input
+                            type="text"
+                            placeholder="Illness *"
+                            value={illness.illness}
+                            onChange={(e) => updatePastIllness(index, 'illness', e.target.value)}
+                            className={`flex-1 ${inlineInputClass}`}
+                          />
+                          <input
+                            type="date"
+                            value={illness.date || ''}
+                            onChange={(e) => updatePastIllness(index, 'date', e.target.value)}
+                            className={`w-36 ${inlineInputClass}`}
+                          />
+                        </div>
+                        <div className="flex gap-2 items-center">
+                          <input
+                            type="text"
+                            placeholder="Treatment received *"
+                            value={illness.treatment}
+                            onChange={(e) => updatePastIllness(index, 'treatment', e.target.value)}
+                            className={`flex-1 ${inlineInputClass}`}
+                          />
+                          <label className="flex items-center gap-1.5 text-xs text-gray-600 cursor-pointer select-none shrink-0">
+                            <input
+                              type="checkbox"
+                              checked={illness.resolved}
+                              onChange={(e) => updatePastIllness(index, 'resolved', e.target.checked)}
+                              className="rounded border-gray-300 text-[#1e5f79] focus:ring-[#1e5f79]"
+                            />
+                            Resolved
+                          </label>
+                          <button
+                            type="button"
+                            onClick={() => removePastIllness(index)}
+                            className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                    <button
+                      type="button"
+                      onClick={addPastIllness}
+                      className="flex items-center text-xs text-[#1e5f79] hover:text-[#1e5f79]/80 font-medium py-1"
+                    >
+                      <Plus className="h-3 w-3 mr-1" />
+                      Add illness
+                    </button>
+                  </div>
+                )}
               </div>
 
+              {/* Past Investigations */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Policy Number
-                </label>
-                <input
-                  type="text"
-                  value={formData.insurance_policy_number}
-                  onChange={(e) => setFormData({ ...formData, insurance_policy_number: e.target.value })}
-                  className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]/20 focus:border-[#1e5f79] transition-all duration-200"
-                  placeholder="Policy number"
-                />
+                <button
+                  type="button"
+                  onClick={() => setShowInvestigations(!showInvestigations)}
+                  className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 transition-colors py-1.5 w-full"
+                >
+                  <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${showInvestigations ? 'rotate-180' : ''}`} />
+                  <Stethoscope className="h-3.5 w-3.5" />
+                  Past Investigations
+                  {pastInvestigations.length > 0 && (
+                    <span className="text-xs bg-gray-200 text-gray-600 px-1.5 py-0.5 rounded-full">{pastInvestigations.length}</span>
+                  )}
+                </button>
+                {showInvestigations && (
+                  <div className="pl-5 space-y-2 pb-2">
+                    {pastInvestigations.map((investigation, index) => (
+                      <div key={index} className="space-y-1.5">
+                        <div className="flex gap-2 items-center">
+                          <input
+                            type="text"
+                            placeholder="Type (X-Ray, MRI, etc.) *"
+                            value={investigation.type}
+                            onChange={(e) => updatePastInvestigation(index, 'type', e.target.value)}
+                            className={`flex-1 ${inlineInputClass}`}
+                          />
+                          <input
+                            type="date"
+                            value={investigation.date || ''}
+                            onChange={(e) => updatePastInvestigation(index, 'date', e.target.value)}
+                            className={`w-36 ${inlineInputClass}`}
+                          />
+                          <input
+                            type="text"
+                            placeholder="Body part"
+                            value={investigation.body_part || ''}
+                            onChange={(e) => updatePastInvestigation(index, 'body_part', e.target.value)}
+                            className={`w-28 ${inlineInputClass}`}
+                          />
+                        </div>
+                        <div className="flex gap-2 items-center">
+                          <input
+                            type="text"
+                            placeholder="Findings summary *"
+                            value={investigation.findings}
+                            onChange={(e) => updatePastInvestigation(index, 'findings', e.target.value)}
+                            className={`flex-1 ${inlineInputClass}`}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => removePastInvestigation(index)}
+                            className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                    <button
+                      type="button"
+                      onClick={addPastInvestigation}
+                      className="flex items-center text-xs text-[#1e5f79] hover:text-[#1e5f79]/80 font-medium py-1"
+                    >
+                      <Plus className="h-3 w-3 mr-1" />
+                      Add investigation
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Insurance */}
+              <div>
+                <button
+                  type="button"
+                  onClick={() => setShowInsurance(!showInsurance)}
+                  className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 transition-colors py-1.5 w-full"
+                >
+                  <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${showInsurance ? 'rotate-180' : ''}`} />
+                  <Shield className="h-3.5 w-3.5" />
+                  Insurance
+                </button>
+                {showInsurance && (
+                  <div className="pl-5 grid grid-cols-1 md:grid-cols-2 gap-3 pb-2">
+                    <input
+                      type="text"
+                      value={formData.insurance_provider}
+                      onChange={(e) => setFormData({ ...formData, insurance_provider: e.target.value })}
+                      className={inputClass}
+                      placeholder="Insurance provider"
+                    />
+                    <input
+                      type="text"
+                      value={formData.insurance_policy_number}
+                      onChange={(e) => setFormData({ ...formData, insurance_policy_number: e.target.value })}
+                      className={inputClass}
+                      placeholder="Policy number"
+                    />
+                  </div>
+                )}
               </div>
             </div>
-          </div>
           </form>
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-gray-200 bg-gray-50 flex items-center justify-between">
-          <div className="text-sm text-gray-600">
-            <span className="font-medium">Patient:</span> {patient.full_name} ({patient.patient_code})
-          </div>
-          
-          <div className="flex items-center space-x-3">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-            >
-              Cancel
-            </button>
-            
-            <button
-              onClick={handleSubmit}
-              disabled={loading}
-              className="px-6 py-2 bg-[#1e5f79] text-white rounded-lg hover:bg-[#1e5f79]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="animate-spin h-4 w-4 mr-2" />
-                  Saving Medical History...
-                </>
-              ) : (
-                'Save Medical History'
-              )}
-            </button>
-          </div>
+        <div className="px-5 py-3.5 border-t border-gray-200 flex items-center justify-end gap-3">
+          <button
+            type="button"
+            onClick={onClose}
+            className="px-4 py-2 text-sm text-gray-600 hover:text-gray-800 transition-colors"
+          >
+            Cancel
+          </button>
+
+          <button
+            onClick={handleSubmit}
+            disabled={loading}
+            className="px-5 py-2 bg-[#1e5f79] text-white text-sm font-medium rounded-lg hover:bg-[#1e5f79]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+          >
+            {loading ? (
+              <>
+                <Loader2 className="animate-spin h-4 w-4 mr-2" />
+                Saving...
+              </>
+            ) : (
+              'Save'
+            )}
+          </button>
         </div>
       </div>
     </div>

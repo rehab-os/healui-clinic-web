@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { X, AlertCircle, CalendarDays } from 'lucide-react';
 import { parseISO, startOfDay } from 'date-fns';
+import { toast } from 'sonner';
 import { useAppSelector } from '../../../store/hooks';
 import ApiManager from '@/services/api/api.service';
 import { Calendar } from '@/components/ui/calendar';
@@ -186,7 +187,7 @@ const ScheduleVisitModal: React.FC<ScheduleVisitModalProps> = ({ patient, onClos
             complaint: '',
             severity: 5,
             treatment_focus: 'PRIMARY' as TreatmentFocus,
-            patient_condition_id: condition.id,
+
           };
         })
         .filter(Boolean) as ChiefComplaintDto[];
@@ -205,6 +206,9 @@ const ScheduleVisitModal: React.FC<ScheduleVisitModalProps> = ({ patient, onClos
 
       const response = await ApiManager.createVisit(visitData);
       if (response.success) {
+        toast.success('Visit scheduled', {
+          description: `${formData.scheduled_date} at ${formData.scheduled_time}`,
+        });
         onSuccess();
       } else {
         setError(response.message || 'Failed to schedule visit');

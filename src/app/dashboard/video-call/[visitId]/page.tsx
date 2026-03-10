@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { 
   Video, 
   VideoOff, 
@@ -450,12 +451,12 @@ ${currentClinic?.name || visit?.clinic?.name || 'Your Healthcare Team'}`;
           <AlertCircle className="h-16 w-16 text-red-500 mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-text-dark mb-2">Unable to Join Call</h1>
           <p className="text-text-light mb-6">{error}</p>
-          <button
-            onClick={() => router.push('/dashboard/appointments')}
-            className="btn-primary px-6 py-3"
+          <Link
+            href="/dashboard/appointments"
+            className="btn-primary px-6 py-3 inline-block"
           >
             Back to Appointments
-          </button>
+          </Link>
         </div>
       </div>
     );

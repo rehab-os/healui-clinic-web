@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useAppSelector, useAppDispatch } from '../../../store/hooks';
+import { useAppSelector } from '../../../store/hooks';
 import ApiManager from '@/services/api/api.service';
 // Removed UI component imports - using clean custom designs
 import { 
@@ -34,33 +34,14 @@ import {
 import ServiceAreaSetup from '../../../components/features/clinics/ServiceAreaSetup';
 import LeafletMapPicker from '../../../components/features/maps/LeafletMapPicker';
 import {
-  setFetchLoading,
-  setAvailabilities,
-  setFetchError,
-  addAvailability,
-  updateAvailability,
-  removeAvailability,
-  setLocationsLoading,
-  setServiceLocations,
-  setLocationsError,
-  addServiceLocation,
-  updateServiceLocation,
-  removeServiceLocation,
   AvailabilityType,
   DayOfWeek,
-  PhysiotherapistAvailability,
-  PhysioServiceLocation,
-  ServiceZoneConfig,
-  CoordinateZoneConfig
-} from '../../../store/slices/availability.slice';
-import {
-  setPracticeSettings,
-  updatePracticeSettings,
-  updatePracticeField,
-  setUpdateLoading as setPracticeUpdateLoading,
-  setUpdateError as setPracticeUpdateError,
-  PracticeSettings
-} from '../../../store/slices/practice.slice';
+  type PhysiotherapistAvailability,
+  type PhysioServiceLocation,
+  type ServiceZoneConfig,
+  type CoordinateZoneConfig,
+  type PracticeSettings,
+} from '@/types/availability.types';
 import ProfileCompletionAlert from '../../../components/features/profile/ProfileCompletionAlert';
 import { useRouter } from 'next/navigation';
 
@@ -142,11 +123,20 @@ interface ServiceLocationFormData {
 }
 
 export default function AvailabilityPage() {
-  const dispatch = useAppDispatch();
   const router = useRouter();
-  const { availabilities, serviceLocations, loading, error } = useAppSelector(state => state.availability);
-  const { settings: practiceSettings, loading: practiceLoading, error: practiceError } = useAppSelector(state => state.practice);
   const { userData } = useAppSelector(state => state.user);
+
+  // Local state for data (previously in Redux)
+  const [availabilities, setAvailabilities] = useState<PhysiotherapistAvailability[]>([]);
+  const [serviceLocations, setServiceLocations] = useState<PhysioServiceLocation[]>([]);
+  const [loading, setLoading] = useState({ fetch: false, create: false, update: false, delete: false, slots: false, locations: false });
+  const [error, setError] = useState<{ fetch: string | null; locations: string | null }>({ fetch: null, locations: null });
+  const [practiceSettings, setPracticeSettings] = useState<PracticeSettings>({
+    online_consultation_available: false,
+    home_visit_available: false,
+  });
+  const [practiceLoading, setPracticeLoading] = useState({ fetch: false, update: false });
+  const [practiceError, setPracticeError] = useState<{ fetch: string | null; update: string | null }>({ fetch: null, update: null });
   
   // Debug user state
   console.log('🔍 Current user state:', { userData, hasId: !!userData?.id, hasUserId: !!userData?.user_id });
@@ -236,7 +226,7 @@ export default function AvailabilityPage() {
     if (!userData?.user_id) return;
     
     try {
-      dispatch(setLocationsLoading(true));
+      setLoading(prev => ({ ...prev, locations: true }));
       
       // Try to fetch from new service areas API first
       try {
@@ -259,27 +249,27 @@ export default function AvailabilityPage() {
             created_at: serviceAreaResponse.data.created_at,
             updated_at: serviceAreaResponse.data.updated_at
           };
-          dispatch(setServiceLocations([legacyLocation]));
+          setServiceLocations([legacyLocation]);
           return;
         }
       } catch (serviceAreaError) {
         console.log('No service area found, falling back to legacy service locations');
       }
-      
+
       // Fallback to legacy service locations API
       const response = await ApiManager.getServiceLocations(userData.user_id);
-      
+
       if (response.success && response.data) {
-        dispatch(setServiceLocations(response.data));
+        setServiceLocations(response.data);
       } else {
-        dispatch(setServiceLocations([]));
+        setServiceLocations([]);
       }
     } catch (error) {
       console.error('Error fetching service locations:', error);
-      dispatch(setLocationsError('Failed to fetch service locations'));
-      dispatch(setServiceLocations([]));
+      setError(prev => ({ ...prev, locations: 'Failed to fetch service locations' }));
+      setServiceLocations([]);
     } finally {
-      dispatch(setLocationsLoading(false));
+      setLoading(prev => ({ ...prev, locations: false }));
     }
   };
 
@@ -294,7 +284,7 @@ export default function AvailabilityPage() {
           marketplace_active: response.data.marketplace_active || false,
           profile_completed_at: response.data.profile_completed_at
         };
-        dispatch(setPracticeSettings(settings));
+        setPracticeSettings(settings);
         setTempPracticeSettings(settings);
         
         // Also store profile specializations for pricing
@@ -358,20 +348,20 @@ export default function AvailabilityPage() {
 
   const fetchAvailability = async () => {
     try {
-      dispatch(setFetchLoading(true));
+      setLoading(prev => ({ ...prev, fetch: true }));
       const response = await ApiManager.getMyAvailability();
-      
+
       if (response.success && response.data) {
-        dispatch(setAvailabilities(response.data));
+        setAvailabilities(response.data);
       } else {
-        dispatch(setAvailabilities([]));
+        setAvailabilities([]);
       }
     } catch (error) {
       console.error('Error fetching availability:', error);
-      dispatch(setFetchError('Failed to fetch availability'));
-      dispatch(setAvailabilities([]));
+      setError(prev => ({ ...prev, fetch: 'Failed to fetch availability' }));
+      setAvailabilities([]);
     } finally {
-      dispatch(setFetchLoading(false));
+      setLoading(prev => ({ ...prev, fetch: false }));
     }
   };
 
@@ -383,7 +373,7 @@ export default function AvailabilityPage() {
       if (editingAvailability) {
         const response = await ApiManager.updateAvailability(editingAvailability.id, formData);
         if (response.success && response.data) {
-          dispatch(updateAvailability(response.data));
+          setAvailabilities(prev => prev.map(a => a.id === response.data.id ? response.data : a));
           setShowAddModal(false);
           setEditingAvailability(null);
           resetForm();
@@ -393,7 +383,7 @@ export default function AvailabilityPage() {
       } else {
         const response = await ApiManager.createAvailability(formData);
         if (response.success && response.data) {
-          dispatch(addAvailability(response.data));
+          setAvailabilities(prev => [...prev, response.data]);
           setShowAddModal(false);
           resetForm();
         } else {
@@ -422,7 +412,7 @@ export default function AvailabilityPage() {
       try {
         const response = await ApiManager.deleteAvailability(id);
         if (response.success) {
-          dispatch(removeAvailability(id));
+          setAvailabilities(prev => prev.filter(a => a.id !== id));
         }
       } catch (error) {
         console.error('Error deleting availability:', error);
@@ -460,8 +450,8 @@ export default function AvailabilityPage() {
 
   const handleSavePracticeSettings = async () => {
     try {
-      dispatch(setPracticeUpdateLoading(true));
-      
+      setPracticeLoading(prev => ({ ...prev, update: true }));
+
       // Filter out read-only fields that shouldn't be sent to backend
       // Also remove consultation_fee and home_visit_fee as they're now managed via specialization pricing
       const { profile_completed_at, updated_at, id, consultation_fee, home_visit_fee, ...updateData } = tempPracticeSettings;
@@ -470,7 +460,7 @@ export default function AvailabilityPage() {
       const practiceResponse = await ApiManager.updatePracticeSettings(updateData);
       
       if (!practiceResponse.success) {
-        dispatch(setPracticeUpdateError(practiceResponse.message || 'Failed to update practice settings'));
+        setPracticeError(prev => ({ ...prev, update: practiceResponse.message || 'Failed to update practice settings' }));
         return;
       }
 
@@ -507,7 +497,7 @@ export default function AvailabilityPage() {
         }
       }
       
-      dispatch(updatePracticeSettings(tempPracticeSettings));
+      setPracticeSettings(tempPracticeSettings);
       setIsEditingPractice(false);
       setShowPracticeModal(false);
       
@@ -516,9 +506,9 @@ export default function AvailabilityPage() {
       
     } catch (error: any) {
       console.error('Error saving practice settings:', error);
-      dispatch(setPracticeUpdateError(error.message || 'Failed to save practice settings'));
+      setPracticeError(prev => ({ ...prev, update: error.message || 'Failed to save practice settings' }));
     } finally {
-      dispatch(setPracticeUpdateLoading(false));
+      setPracticeLoading(prev => ({ ...prev, update: false }));
     }
   };
 
@@ -606,7 +596,7 @@ export default function AvailabilityPage() {
     try {
       const response = await ApiManager.createServiceLocation(userData.user_id, locationFormData);
       if (response.success && response.data) {
-        dispatch(addServiceLocation(response.data));
+        setServiceLocations(prev => [...prev, response.data]);
         setShowLocationModal(false);
         resetLocationForm();
       } else {
@@ -629,7 +619,7 @@ export default function AvailabilityPage() {
     try {
       const response = await ApiManager.updateServiceLocation(userData.user_id, editingLocation.id, locationFormData);
       if (response.success && response.data) {
-        dispatch(updateServiceLocation(response.data));
+        setServiceLocations(prev => prev.map(l => l.id === response.data.id ? response.data : l));
         setShowLocationModal(false);
         resetLocationForm();
       } else {
@@ -653,17 +643,17 @@ export default function AvailabilityPage() {
         try {
           response = await ApiManager.deleteServiceArea();
           if (response.success) {
-            dispatch(removeServiceLocation(locationId));
+            setServiceLocations(prev => prev.filter(l => l.id !== locationId));
             return;
           }
         } catch (serviceAreaError) {
           console.log('Service area deletion failed, falling back to legacy API');
         }
-        
+
         // Fallback to legacy service locations API
         response = await ApiManager.deleteServiceLocation(userData.user_id, locationId);
         if (response.success) {
-          dispatch(removeServiceLocation(locationId));
+          setServiceLocations(prev => prev.filter(l => l.id !== locationId));
         }
       } catch (error) {
         console.error('Error deleting service location:', error);
@@ -1906,7 +1896,7 @@ export default function AvailabilityPage() {
                             created_at: response.data.created_at,
                             updated_at: response.data.updated_at
                           };
-                          dispatch(updateServiceLocation(legacyLocation));
+                          setServiceLocations(prev => prev.map(l => l.id === legacyLocation.id ? legacyLocation : l));
                         }
                       } else {
                         // Create new service area using the new coordinate-based API
@@ -1918,9 +1908,9 @@ export default function AvailabilityPage() {
                           zone_config: data.zone_config,
                           is_active: true
                         });
-                        
+
                         if (response.success && response.data) {
-                          // Convert to legacy format for Redux compatibility during transition
+                          // Convert to legacy format for local state
                           const legacyLocation = {
                             id: response.data.id,
                             physiotherapist_id: response.data.physiotherapist_id,
@@ -1935,7 +1925,7 @@ export default function AvailabilityPage() {
                             created_at: response.data.created_at,
                             updated_at: response.data.updated_at
                           };
-                          dispatch(addServiceLocation(legacyLocation));
+                          setServiceLocations(prev => [...prev, legacyLocation]);
                         }
                       }
                       

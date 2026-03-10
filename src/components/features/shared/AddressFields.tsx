@@ -16,27 +16,29 @@ interface AddressFieldsProps {
   value?: string | AddressData;
   onChange: (address: AddressData) => void;
   required?: boolean;
+  compact?: boolean;
   className?: string;
 }
 
-const AddressFields: React.FC<AddressFieldsProps> = ({ 
-  value, 
-  onChange, 
-  required = false, 
-  className = '' 
+const AddressFields: React.FC<AddressFieldsProps> = ({
+  value,
+  onChange,
+  required = false,
+  compact = false,
+  className = ''
 }) => {
-  
+
   // Parse address from string or object format
   const parseAddress = (address?: string | AddressData): AddressData => {
     if (!address) {
       return { country: 'India' };
     }
-    
+
     if (typeof address === 'string') {
       // Legacy string address - put it in line1
       return { line1: address, country: 'India' };
     }
-    
+
     return { country: 'India', ...address };
   };
 
@@ -47,16 +49,112 @@ const AddressFields: React.FC<AddressFieldsProps> = ({
       ...addressData,
       [field]: fieldValue.trim() || undefined
     };
-    
+
     // Clean up undefined values
     Object.keys(updatedAddress).forEach(key => {
       if (updatedAddress[key as keyof AddressData] === undefined) {
         delete updatedAddress[key as keyof AddressData];
       }
     });
-    
+
     onChange(updatedAddress);
   };
+
+  const inputClass = "w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200";
+
+  if (compact) {
+    return (
+      <div className={`space-y-3 ${className}`}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <input
+            type="text"
+            value={addressData.line1 || ''}
+            onChange={(e) => updateField('line1', e.target.value)}
+            className={inputClass}
+            placeholder="Street address"
+            required={required}
+          />
+          <input
+            type="text"
+            value={addressData.line2 || ''}
+            onChange={(e) => updateField('line2', e.target.value)}
+            className={inputClass}
+            placeholder="Apt / Unit (optional)"
+          />
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <input
+            type="text"
+            value={addressData.city || ''}
+            onChange={(e) => updateField('city', e.target.value)}
+            className={inputClass}
+            placeholder="City"
+            required={required}
+          />
+          <select
+            value={addressData.state || ''}
+            onChange={(e) => updateField('state', e.target.value)}
+            className={`${inputClass} ${!addressData.state ? 'text-gray-400' : ''}`}
+            required={required}
+          >
+            <option value="" disabled>State</option>
+            <option value="Andhra Pradesh">Andhra Pradesh</option>
+            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+            <option value="Assam">Assam</option>
+            <option value="Bihar">Bihar</option>
+            <option value="Chhattisgarh">Chhattisgarh</option>
+            <option value="Goa">Goa</option>
+            <option value="Gujarat">Gujarat</option>
+            <option value="Haryana">Haryana</option>
+            <option value="Himachal Pradesh">Himachal Pradesh</option>
+            <option value="Jharkhand">Jharkhand</option>
+            <option value="Karnataka">Karnataka</option>
+            <option value="Kerala">Kerala</option>
+            <option value="Madhya Pradesh">Madhya Pradesh</option>
+            <option value="Maharashtra">Maharashtra</option>
+            <option value="Manipur">Manipur</option>
+            <option value="Meghalaya">Meghalaya</option>
+            <option value="Mizoram">Mizoram</option>
+            <option value="Nagaland">Nagaland</option>
+            <option value="Odisha">Odisha</option>
+            <option value="Punjab">Punjab</option>
+            <option value="Rajasthan">Rajasthan</option>
+            <option value="Sikkim">Sikkim</option>
+            <option value="Tamil Nadu">Tamil Nadu</option>
+            <option value="Telangana">Telangana</option>
+            <option value="Tripura">Tripura</option>
+            <option value="Uttar Pradesh">Uttar Pradesh</option>
+            <option value="Uttarakhand">Uttarakhand</option>
+            <option value="West Bengal">West Bengal</option>
+            <option value="Andaman and Nicobar Islands">Andaman & Nicobar</option>
+            <option value="Chandigarh">Chandigarh</option>
+            <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra & Nagar Haveli</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Jammu and Kashmir">Jammu & Kashmir</option>
+            <option value="Ladakh">Ladakh</option>
+            <option value="Lakshadweep">Lakshadweep</option>
+            <option value="Puducherry">Puducherry</option>
+          </select>
+          <input
+            type="text"
+            value={addressData.postal_code || ''}
+            onChange={(e) => updateField('postal_code', e.target.value)}
+            className={inputClass}
+            placeholder="PIN code"
+            pattern="[0-9]{6}"
+            maxLength={6}
+            required={required}
+          />
+          <input
+            type="text"
+            value={addressData.country || 'India'}
+            className={`${inputClass} bg-gray-50 text-gray-500`}
+            readOnly
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={`space-y-4 ${className}`}>
@@ -78,7 +176,7 @@ const AddressFields: React.FC<AddressFieldsProps> = ({
             type="text"
             value={addressData.line1 || ''}
             onChange={(e) => updateField('line1', e.target.value)}
-            className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200"
+            className={inputClass}
             placeholder="House/Flat number, Street name"
             required={required}
           />
@@ -94,7 +192,7 @@ const AddressFields: React.FC<AddressFieldsProps> = ({
             type="text"
             value={addressData.line2 || ''}
             onChange={(e) => updateField('line2', e.target.value)}
-            className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200"
+            className={inputClass}
             placeholder="Apartment, suite, unit, building, floor"
           />
         </div>
@@ -109,7 +207,7 @@ const AddressFields: React.FC<AddressFieldsProps> = ({
               type="text"
               value={addressData.city || ''}
               onChange={(e) => updateField('city', e.target.value)}
-              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200"
+              className={inputClass}
               placeholder="Mumbai"
               required={required}
             />
@@ -123,7 +221,7 @@ const AddressFields: React.FC<AddressFieldsProps> = ({
             <select
               value={addressData.state || ''}
               onChange={(e) => updateField('state', e.target.value)}
-              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200"
+              className={inputClass}
               required={required}
             >
               <option value="">Select State</option>
@@ -179,7 +277,7 @@ const AddressFields: React.FC<AddressFieldsProps> = ({
               type="text"
               value={addressData.postal_code || ''}
               onChange={(e) => updateField('postal_code', e.target.value)}
-              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200"
+              className={inputClass}
               placeholder="400001"
               pattern="[0-9]{6}"
               maxLength={6}
@@ -196,7 +294,7 @@ const AddressFields: React.FC<AddressFieldsProps> = ({
               type="text"
               value={addressData.country || 'India'}
               onChange={(e) => updateField('country', e.target.value)}
-              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 bg-gray-50"
+              className={`${inputClass} bg-gray-50`}
               readOnly
             />
           </div>

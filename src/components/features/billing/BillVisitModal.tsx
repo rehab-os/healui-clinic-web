@@ -48,7 +48,7 @@ interface BillVisitModalProps {
   onSuccess: () => void;
 }
 
-type ViewMode = 'loading' | 'create-billing' | 'view-paid' | 'add-payment';
+type ViewMode = 'loading' | 'create-billing' | 'view-paid' | 'add-payment' | 'view-corporate' | 'view-session-pack' | 'view-complimentary';
 
 const BillVisitModal: React.FC<BillVisitModalProps> = ({
   visitId,
@@ -156,9 +156,18 @@ const BillVisitModal: React.FC<BillVisitModalProps> = ({
 
       if (billingRes.success && billingRes.data) {
         setExistingBilling(billingRes.data);
-        if (billingRes.data.status === 'PAID') {
+        const { status, billing_type } = billingRes.data;
+
+        if (status === 'PAID') {
           setViewMode('view-paid');
+        } else if (billing_type === 'CORPORATE') {
+          setViewMode('view-corporate');
+        } else if (billing_type === 'SESSION_DEDUCT') {
+          setViewMode('view-session-pack');
+        } else if (billing_type === 'COMPLIMENTARY') {
+          setViewMode('view-complimentary');
         } else {
+          // CHARGED, CATALOG, MANUAL — payable types
           setAddPaymentAmount(billingRes.data.amount_owed.toString());
           setViewMode('add-payment');
         }
@@ -459,15 +468,23 @@ const BillVisitModal: React.FC<BillVisitModalProps> = ({
                 </button>
                 <div className="flex items-center gap-2">
                   <div className={`p-1.5 rounded ${
-                    viewMode === 'view-paid' ? 'bg-green-50' : viewMode === 'add-payment' ? 'bg-orange-50' : 'bg-brand-teal/10'
+                    viewMode === 'view-paid' || viewMode === 'view-session-pack' || viewMode === 'view-complimentary' ? 'bg-green-50' :
+                    viewMode === 'view-corporate' ? 'bg-purple-50' :
+                    viewMode === 'add-payment' ? 'bg-orange-50' : 'bg-brand-teal/10'
                   }`}>
-                    {viewMode === 'view-paid' ? <CheckCircle className="h-4 w-4 text-green-600" /> :
+                    {viewMode === 'view-paid' || viewMode === 'view-session-pack' || viewMode === 'view-complimentary' ? <CheckCircle className="h-4 w-4 text-green-600" /> :
+                     viewMode === 'view-corporate' ? <Building className="h-4 w-4 text-purple-600" /> :
                      viewMode === 'add-payment' ? <AlertCircle className="h-4 w-4 text-orange-600" /> :
                      <Receipt className="h-4 w-4 text-brand-teal" />}
                   </div>
                   <div>
                     <h2 className="text-sm font-medium text-gray-900">
-                      {viewMode === 'view-paid' ? 'Billing Details' : viewMode === 'add-payment' ? 'Collect Payment' : multiVisitIds && multiVisitIds.length > 1 ? `Bill ${multiVisitIds.length} Visits` : 'Bill Visit'}
+                      {viewMode === 'view-paid' ? 'Billing Details' :
+                       viewMode === 'view-corporate' ? 'Corporate Billing' :
+                       viewMode === 'view-session-pack' ? 'Session Pack' :
+                       viewMode === 'view-complimentary' ? 'Complimentary' :
+                       viewMode === 'add-payment' ? 'Collect Payment' :
+                       multiVisitIds && multiVisitIds.length > 1 ? `Bill ${multiVisitIds.length} Visits` : 'Bill Visit'}
                     </h2>
                     {patientName && <p className="text-xs text-gray-500">{patientName}</p>}
                   </div>
@@ -559,6 +576,88 @@ const BillVisitModal: React.FC<BillVisitModalProps> = ({
                       </div>
                     </div>
                   )}
+                </div>
+              )}
+
+              {/* VIEW CORPORATE */}
+              {viewMode === 'view-corporate' && existingBilling && (
+                <div className="p-4 space-y-4">
+                  <div className="bg-purple-50 border border-purple-200 rounded p-4 text-center">
+                    <Building className="h-8 w-8 text-purple-600 mx-auto mb-2" />
+                    <p className="text-sm font-semibold text-purple-800">Corporate Billed</p>
+                    <p className="text-xs text-purple-600 mt-0.5">Billed to {existingBilling.corporate_company || 'company'}</p>
+                  </div>
+                  <div className="bg-gray-50 rounded p-4 space-y-3">
+                    {existingBilling.charge_amount != null && (
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs text-gray-500">Charge Amount</span>
+                        <span className="text-sm font-medium text-gray-900">{formatCurrency(existingBilling.charge_amount)}</span>
+                      </div>
+                    )}
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-gray-500">Amount Due</span>
+                      <span className="text-sm font-semibold text-purple-600">{formatCurrency(existingBilling.amount_owed)}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-gray-500">Status</span>
+                      <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
+                        existingBilling.status === 'PAID' ? 'bg-green-100 text-green-700' : 'bg-purple-100 text-purple-700'
+                      }`}>
+                        {existingBilling.status === 'PAID' ? 'Settled' : 'Pending from company'}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between pt-2 border-t border-gray-200">
+                      <span className="text-xs text-gray-500">Billed On</span>
+                      <span className="text-xs text-gray-600">{formatDate(existingBilling.created_at)}</span>
+                    </div>
+                  </div>
+                  <p className="text-xs text-gray-400 text-center">
+                    Corporate billings are settled by the company, not the patient.
+                  </p>
+                </div>
+              )}
+
+              {/* VIEW SESSION PACK */}
+              {viewMode === 'view-session-pack' && existingBilling && (
+                <div className="p-4 space-y-4">
+                  <div className="bg-green-50 border border-green-200 rounded p-4 text-center">
+                    <Package className="h-8 w-8 text-green-600 mx-auto mb-2" />
+                    <p className="text-sm font-semibold text-green-800">Paid via Session Pack</p>
+                    <p className="text-xs text-green-600 mt-0.5">1 session deducted</p>
+                  </div>
+                  <div className="bg-gray-50 rounded p-4 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-gray-500">Billing Type</span>
+                      <span className="text-sm font-medium text-gray-900">Session Pack</span>
+                    </div>
+                    <div className="flex items-center justify-between pt-2 border-t border-gray-200">
+                      <span className="text-xs text-gray-500">Billed On</span>
+                      <span className="text-xs text-gray-600">{formatDate(existingBilling.created_at)}</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* VIEW COMPLIMENTARY */}
+              {viewMode === 'view-complimentary' && existingBilling && (
+                <div className="p-4 space-y-4">
+                  <div className="bg-green-50 border border-green-200 rounded p-4 text-center">
+                    <Gift className="h-8 w-8 text-green-600 mx-auto mb-2" />
+                    <p className="text-sm font-semibold text-green-800">Complimentary Visit</p>
+                    {existingBilling.complimentary_reason && (
+                      <p className="text-xs text-green-600 mt-0.5">{existingBilling.complimentary_reason}</p>
+                    )}
+                  </div>
+                  <div className="bg-gray-50 rounded p-4 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-gray-500">Billing Type</span>
+                      <span className="text-sm font-medium text-gray-900">Complimentary</span>
+                    </div>
+                    <div className="flex items-center justify-between pt-2 border-t border-gray-200">
+                      <span className="text-xs text-gray-500">Billed On</span>
+                      <span className="text-xs text-gray-600">{formatDate(existingBilling.created_at)}</span>
+                    </div>
+                  </div>
                 </div>
               )}
 

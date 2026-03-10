@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useAppSelector } from '../../../store/hooks';
 import ApiManager from '@/services/api/api.service';
 import AppointmentCard from '../../../components/features/appointments/AppointmentCard';

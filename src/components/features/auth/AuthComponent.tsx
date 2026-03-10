@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Center, Loader } from '@mantine/core';
+import { Loader2 } from 'lucide-react';
 import { useAppSelector, useAppDispatch } from '../../../store/hooks';
 import ApiManager from '@/services/api/api.service';
 import {
@@ -57,9 +57,9 @@ export function AuthWrapper({ children }: AuthWrapperProps) {
   // Show loader during initialization
   if (isInitializing || (isAuthenticated && orgsLoading)) {
     return (
-      <Center h="100vh">
-        <Loader size="lg" />
-      </Center>
+      <div className="flex items-center justify-center h-screen">
+        <Loader2 className="h-8 w-8 animate-spin text-brand-teal" />
+      </div>
     );
   }
 

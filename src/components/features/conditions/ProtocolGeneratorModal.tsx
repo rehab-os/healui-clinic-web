@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import ApiManager from '@/services/api/api.service'
-import { showNotification } from '@mantine/notifications'
+import { toast } from 'sonner'
 import { AIBubbleLoader } from '@/components/ui/AIBubbleLoader'
 import {
   ProtocolGenerationRequest,
@@ -220,11 +220,7 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
     } catch (error: any) {
       console.error('Error fetching data:', error)
       setError(error.message || 'Failed to load required data')
-      showNotification({
-        title: 'Data Loading Failed',
-        message: error.message || 'Failed to load required data for protocol generation',
-        color: 'red'
-      })
+      toast.error(error.message || 'Failed to load required data for protocol generation')
     } finally {
       setDataLoading(false)
     }
@@ -300,41 +296,25 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
         setProtocol(response.data)
         setCustomizedProtocol(response.data)
 
-        showNotification({
-          title: 'Protocol Generated!',
-          message: 'Treatment protocol successfully generated',
-          color: 'green'
-        })
+        toast.success('Treatment protocol successfully generated')
       } else {
         throw new Error(response.message || 'Failed to generate protocol')
       }
     } catch (err: any) {
       setError(err.message || 'Failed to generate protocol')
-      showNotification({
-        title: 'Generation Failed',
-        message: err.message || 'Failed to generate protocol',
-        color: 'red'
-      })
+      toast.error(err.message || 'Failed to generate protocol')
       throw err // re-throw so handleGenerate can catch
     }
   }
 
   const handleGenerate = async () => {
     if (dataLoading) {
-      showNotification({
-        title: 'Please Wait',
-        message: 'Loading required data for protocol generation...',
-        color: 'blue'
-      })
+      toast.info('Loading required data for protocol generation...')
       return
     }
 
     if (!patientData || !conditionData) {
-      showNotification({
-        title: 'Data Not Available',
-        message: 'Required patient or condition data is not available. Please try again.',
-        color: 'red'
-      })
+      toast.error('Required patient or condition data is not available. Please try again.')
       return
     }
 
@@ -394,22 +374,13 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
       const finalProtocol = customizedProtocol || originalProtocol
 
       if (!originalProtocol || !finalProtocol) {
-        showNotification({
-          title: 'No Protocol',
-          message: 'No protocol data available to save.',
-          color: 'red',
-        })
+        toast.error('No protocol data available to save.')
         setSaving(false)
         return
       }
 
       if (!visitId) {
-        showNotification({
-          title: 'Cannot Save Protocol',
-          message: 'Protocol can only be saved during a visit. Please open from an appointment/visit page.',
-          color: 'orange',
-          autoClose: 5000,
-        })
+        toast.warning('Protocol can only be saved during a visit. Please open from an appointment/visit page.')
         setSaving(false)
         return
       }
@@ -635,23 +606,14 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
         }
       }
 
-      showNotification({
-        title: 'Protocol Saved',
-        message: includeHEP && homeExercises.length > 0
-          ? 'Clinical protocol and Home Exercise Program saved successfully'
-          : 'Treatment protocol has been saved successfully',
-        color: 'green',
-      })
+      toast.success(includeHEP && homeExercises.length > 0
+        ? 'Clinical protocol and Home Exercise Program saved successfully'
+        : 'Treatment protocol has been saved successfully')
       setSaving(false)
       onClose()
     } catch (error) {
       console.error('Failed to save protocol:', error)
-      showNotification({
-        title: 'Save Failed',
-        message: error instanceof Error ? error.message : 'Failed to save protocol. Please try again.',
-        color: 'red',
-        autoClose: 5000,
-      })
+      toast.error(error instanceof Error ? error.message : 'Failed to save protocol. Please try again.')
       setSaving(false)
     }
   }

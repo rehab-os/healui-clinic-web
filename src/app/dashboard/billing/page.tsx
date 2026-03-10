@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useAppSelector } from '../../../store/hooks';
 import ApiManager from '@/services/api/api.service';
 import BillVisitModal from '../../../components/features/billing/BillVisitModal';
@@ -191,8 +192,8 @@ export default function BillingPage() {
           </div>
         </button>
 
-        <button
-          onClick={() => router.push('/dashboard/billing/invoices')}
+        <Link
+          href="/dashboard/billing/invoices"
           className="flex items-center gap-3 p-4 bg-blue-50 border border-blue-200 rounded-xl hover:bg-blue-100 transition-colors"
         >
           <div className="p-2 bg-blue-500 rounded-lg">
@@ -202,10 +203,10 @@ export default function BillingPage() {
             <p className="font-medium text-blue-900">Invoices</p>
             <p className="text-xs text-blue-600">View all invoices</p>
           </div>
-        </button>
+        </Link>
 
-        <button
-          onClick={() => router.push('/dashboard/billing/reports')}
+        <Link
+          href="/dashboard/billing/reports"
           className="flex items-center gap-3 p-4 bg-orange-50 border border-orange-200 rounded-xl hover:bg-orange-100 transition-colors"
         >
           <div className="p-2 bg-orange-500 rounded-lg">
@@ -215,32 +216,32 @@ export default function BillingPage() {
             <p className="font-medium text-orange-900">Reports</p>
             <p className="text-xs text-orange-600">View analytics</p>
           </div>
-        </button>
+        </Link>
       </div>
 
       {/* Configuration Links */}
       <div className="flex items-center gap-2 overflow-x-auto pb-1">
-        <button
-          onClick={() => router.push('/dashboard/billing/services')}
+        <Link
+          href="/dashboard/billing/services"
           className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm whitespace-nowrap"
         >
           <ListOrdered className="h-4 w-4 text-gray-500" />
           <span className="text-gray-700">Charges Table</span>
-        </button>
-        <button
-          onClick={() => router.push('/dashboard/billing/pack-templates')}
+        </Link>
+        <Link
+          href="/dashboard/billing/pack-templates"
           className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm whitespace-nowrap"
         >
           <LayoutGrid className="h-4 w-4 text-gray-500" />
           <span className="text-gray-700">Pack Templates</span>
-        </button>
-        <button
-          onClick={() => router.push('/dashboard/billing/settings')}
+        </Link>
+        <Link
+          href="/dashboard/billing/settings"
           className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm whitespace-nowrap"
         >
           <Settings className="h-4 w-4 text-gray-500" />
           <span className="text-gray-700">Billing Settings</span>
-        </button>
+        </Link>
       </div>
 
       {/* Daily Summary Cards */}

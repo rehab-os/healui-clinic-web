@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { X, Plus, Calendar, AlertTriangle, Stethoscope, Clock, Activity, FileText } from 'lucide-react';
 import ApiManager from '@/services/api/api.service';
 import ConditionSelector from './ConditionSelector';
+import { useAddConditionsToVisit } from '@/hooks/queries/useAppointmentQueries';
 import { TreatmentFocus } from '../../../lib/types';
 import type {
   PatientConditionResponseDto,
@@ -32,7 +33,8 @@ const AddConditionToVisitModal: React.FC<AddConditionToVisitModalProps> = ({
   existingConditionIds,
   onConditionAdded
 }) => {
-  const [loading, setLoading] = useState(false);
+  const addConditionsMutation = useAddConditionsToVisit();
+  const loading = addConditionsMutation.isPending;
   const [error, setError] = useState('');
   const [mode, setMode] = useState<'existing' | 'new'>('existing');
   
@@ -114,15 +116,13 @@ const AddConditionToVisitModal: React.FC<AddConditionToVisitModalProps> = ({
   };
 
   const handleSubmit = async () => {
-    setLoading(true);
     setError('');
 
     try {
       const conditionsToAdd = Object.keys(symptomData);
-      
+
       if (conditionsToAdd.length === 0) {
         setError('Please select at least one condition');
-        setLoading(false);
         return;
       }
 
@@ -131,13 +131,12 @@ const AddConditionToVisitModal: React.FC<AddConditionToVisitModalProps> = ({
         const data = symptomData[conditionId];
         if (!data.chief_complaint.trim()) {
           setError('Please provide chief complaint for all conditions');
-          setLoading(false);
           return;
         }
       }
 
-      // Process new conditions first (create patient conditions)
-      const newConditionsToCreate = selectedNewConditions.filter(condition => 
+      // Process new conditions first (create patient conditions — needs real IDs)
+      const newConditionsToCreate = selectedNewConditions.filter(condition =>
         conditionsToAdd.includes(condition.condition_id)
       );
 
@@ -161,47 +160,45 @@ const AddConditionToVisitModal: React.FC<AddConditionToVisitModalProps> = ({
         }
       }
 
-      // Now create visit conditions for all selected conditions
-      const visitConditionPromises = conditionsToAdd.map(async (conditionId) => {
+      // Build conditions array for the batch mutation
+      const conditionsPayload = conditionsToAdd.map((conditionId) => {
         const symptoms = symptomData[conditionId];
-        
-        // Find patient condition ID
+
         let patientConditionId = createdPatientConditions[conditionId];
         if (!patientConditionId) {
           const existingCondition = patientConditions.find(c => c.condition_id === conditionId);
-          patientConditionId = existingCondition?.id;
+          patientConditionId = existingCondition?.id as string;
         }
 
         if (!patientConditionId) {
           throw new Error(`Could not find patient condition ID for ${conditionId}`);
         }
 
-        const visitConditionData: CreateVisitConditionDto = {
+        // Find condition name for optimistic display
+        const conditionName =
+          selectedNewConditions.find(c => c.condition_id === conditionId)?.condition_name ||
+          patientConditions.find(c => c.condition_id === conditionId)?.condition_name ||
+          conditionId;
+
+        const dto: CreateVisitConditionDto = {
           visit_id: visitId,
           patient_condition_id: patientConditionId,
           treatment_focus: TreatmentFocus.PRIMARY,
           chief_complaint: symptoms.chief_complaint
         };
 
-        return ApiManager.addConditionToVisit(visitId, visitConditionData);
+        return { patientConditionId, conditionName, dto };
       });
 
-      const results = await Promise.all(visitConditionPromises);
-      
-      const failedResults = results.filter(r => !r.success);
-      if (failedResults.length > 0) {
-        throw new Error(`Failed to add ${failedResults.length} condition(s) to visit`);
-      }
+      await addConditionsMutation.mutateAsync({ visitId, conditions: conditionsPayload });
 
-      console.log(`✅ Successfully added ${conditionsToAdd.length} condition(s) to visit`);
+      console.log(`Successfully added ${conditionsToAdd.length} condition(s) to visit`);
       onConditionAdded();
       onClose();
-      
+
     } catch (err: any) {
       console.error('Error adding conditions to visit:', err);
       setError(err.message || 'Failed to add conditions to visit');
-    } finally {
-      setLoading(false);
     }
   };
 

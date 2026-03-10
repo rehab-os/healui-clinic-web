@@ -1,12 +1,13 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { 
-  Mic, FileText, Sparkles, CheckCircle, AlertCircle, 
-  Edit3, RotateCcw, Save, X, ChevronDown, ChevronUp, Stethoscope 
+import {
+  Mic, FileText, Sparkles, CheckCircle, AlertCircle,
+  Edit3, RotateCcw, Save, X, ChevronDown, ChevronUp, Stethoscope
 } from 'lucide-react';
 import AudioRecorder from './AudioRecorder';
 import ApiManager from '@/services/api/api.service';
+import { useCreateNote } from '@/hooks/queries/useAppointmentQueries';
 import type { VisitConditionResponseDto } from '@/lib/types';
 
 interface SmartNoteInputProps {
@@ -40,13 +41,15 @@ export default function SmartNoteInput({
   preSelectedVisitConditionId,
   enableConditionMode = true
 }: SmartNoteInputProps) {
+  const createNoteMutation = useCreateNote();
+  const isSaving = createNoteMutation.isPending;
+
   const [inputMode, setInputMode] = useState<InputMode>('text');
   const [noteType, setNoteType] = useState<NoteType>(defaultNoteType);
   const [roughText, setRoughText] = useState('');
   const [generatedNote, setGeneratedNote] = useState<NoteData | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isTranscribing, setIsTranscribing] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [additionalNotes, setAdditionalNotes] = useState('');
@@ -185,7 +188,6 @@ export default function SmartNoteInput({
     }
 
     setError(null);
-    setIsSaving(true);
 
     try {
       const notePayload = {
@@ -203,18 +205,11 @@ export default function SmartNoteInput({
         })
       };
 
-      const response = await ApiManager.createNote(notePayload);
-
-      if (response.success) {
-        onNoteCreated?.();
-      } else {
-        setError('Failed to save note. Please try again.');
-      }
+      await createNoteMutation.mutateAsync({ notePayload });
+      onNoteCreated?.();
     } catch (err) {
       console.error('Save note error:', err);
       setError('Failed to save note. Please check your connection.');
-    } finally {
-      setIsSaving(false);
     }
   };
 

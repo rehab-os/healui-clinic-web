@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
   setOtpSent,
@@ -237,9 +238,6 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-healui-physio/5 via-white to-healui-primary/5 relative overflow-hidden">
-      {/* Invisible reCAPTCHA container */}
-      <div id="recaptcha-container"></div>
-      
       {/* Background decoration - hidden on mobile for performance */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none hidden sm:block">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-healui-physio rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-blob"></div>
@@ -277,9 +275,9 @@ export default function Login() {
           <div className="bg-black backdrop-blur-sm text-brand-white text-center py-2 sm:py-3 px-3 sm:px-4">
             <p className="text-xs sm:text-sm">
               Have your own clinic?{' '}
-              <a href="/get-started" className="underline font-semibold hover:text-brand-teal transition-colors">
+              <Link href="/get-started" className="underline font-semibold hover:text-brand-teal transition-colors">
                 Get Started Here
-              </a>
+              </Link>
               {' '}or contact{' '}
               <a href="mailto:founders@healui.com" className="underline font-semibold hover:text-brand-teal transition-colors">
                 founders@healui.com

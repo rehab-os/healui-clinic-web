@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useAppSelector } from '../../../../store/hooks';
 import ApiManager from '@/services/api/api.service';
 import {
@@ -297,12 +298,12 @@ export default function ClinicDetailPage() {
         <div className="text-center">
           <AlertCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
           <h2 className="text-xl font-semibold text-gray-900">Clinic not found</h2>
-          <button
-            onClick={() => router.push('/dashboard/clinics')}
-            className="mt-4 text-[#1e5f79] hover:underline"
+          <Link
+            href="/dashboard/clinics"
+            className="mt-4 inline-block text-[#1e5f79] hover:underline"
           >
             Back to Clinics
-          </button>
+          </Link>
         </div>
       </div>
     );
@@ -412,13 +413,13 @@ export default function ClinicDetailPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => router.push('/dashboard/clinics')}
+                  <Link
+                    href="/dashboard/clinics"
                     className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
                   >
                     <ChevronLeft className="h-5 w-5 mr-1" />
                     Back
-                  </button>
+                  </Link>
                   <button
                     onClick={() => setShowQRModal(true)}
                     className="p-2 text-[#1e5f79] hover:bg-[#1e5f79]/10 rounded-lg transition-colors"
@@ -994,12 +995,12 @@ function PatientsTab({ data, clinicId }: { data: PatientSummary | null; clinicId
       <div className="bg-white rounded-xl p-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-gray-900">Recent Patients</h3>
-          <button
-            onClick={() => router.push('/dashboard/patients')}
+          <Link
+            href="/dashboard/patients"
             className="text-sm text-[#1e5f79] hover:underline"
           >
             View All
-          </button>
+          </Link>
         </div>
         {data.recent_patients.length === 0 ? (
           <p className="text-sm text-gray-500">No patients yet</p>

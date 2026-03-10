@@ -1,18 +1,10 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
-import { authSlice, organizationSlice, clinicSlice, userSlice, analyticsSlice, availabilitySlice, treatmentProtocolSlice } from './slices'
-import { appointmentDetailsSlice } from './slices/appointmentDetails.slice'
-import practiceReducer from './slices/practice.slice'
+import { authSlice, clinicSlice, userSlice } from './slices'
 
 const appReducer = combineReducers({
     auth: authSlice.reducer,
-    organization: organizationSlice.reducer,
     clinic: clinicSlice.reducer,
     user: userSlice.reducer,
-    analytics: analyticsSlice.reducer,
-    availability: availabilitySlice.reducer,
-    practice: practiceReducer,
-    treatmentProtocol: treatmentProtocolSlice.reducer,
-    appointmentDetails: appointmentDetailsSlice.reducer,
 })
 
 // Root reducer that resets all state on logout (prevents data leaking between users)

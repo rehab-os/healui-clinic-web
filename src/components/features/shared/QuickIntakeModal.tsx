@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { X, User, Phone, Mail, Calendar, MapPin, Users, Loader2, AlertCircle } from 'lucide-react';
+import { X, Phone, Mail, Calendar, Users, Loader2, AlertCircle, ChevronDown, MapPin } from 'lucide-react';
 import { useAppSelector } from '../../../store/hooks';
 import ApiManager from '@/services/api/api.service';
 import { CreatePatientDto, Gender, AddressData, PatientIntakeStatus } from '@/lib/types';
@@ -28,6 +28,9 @@ const QuickIntakeModal: React.FC<QuickIntakeModalProps> = ({ onClose, onSuccess 
   });
 
   const [addressData, setAddressData] = useState<AddressData>({ country: 'India' });
+  const [showEmail, setShowEmail] = useState(false);
+  const [showAddress, setShowAddress] = useState(false);
+  const [showEmergency, setShowEmergency] = useState(false);
 
   const handleInputChange = (field: keyof typeof formData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -121,208 +124,196 @@ const QuickIntakeModal: React.FC<QuickIntakeModalProps> = ({ onClose, onSuccess 
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="glass rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden border border-border-color">
+      <div className="glass rounded-2xl shadow-2xl w-full max-w-xl max-h-[90vh] overflow-hidden border border-border-color">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-border-color bg-gradient-to-r from-[#1e5f79] to-[#2a7a9b]">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="p-2 bg-white/20 rounded-lg">
-                <User className="h-6 w-6 text-white" />
-              </div>
-              <div>
-                <h2 className="text-xl font-display font-bold text-white">Quick Patient Intake</h2>
-                <p className="text-white/90 text-sm">Register a new patient with essential details</p>
-              </div>
-            </div>
-            <button
-              onClick={onClose}
-              className="p-2 text-white/80 hover:text-white hover:bg-white/20 rounded-lg transition-all duration-200"
-            >
-              <X className="h-5 w-5" />
-            </button>
-          </div>
+        <div className="px-5 py-3.5 border-b border-border-color flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-gray-900">New Patient</h2>
+          <button
+            onClick={onClose}
+            className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-all duration-200"
+          >
+            <X className="h-4 w-4" />
+          </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="px-6 py-6 overflow-y-auto max-h-[60vh]">
-          <div className="space-y-6">
-            {/* Basic Information */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-gray-900 flex items-center">
-                <User className="h-5 w-5 mr-2 text-[#1e5f79]" />
-                Patient Details
-              </h3>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Full Name *
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.full_name}
-                    onChange={(e) => handleInputChange('full_name', e.target.value)}
-                    className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79] ${
-                      errors.full_name ? 'border-red-300' : 'border-gray-300'
-                    }`}
-                    placeholder="Enter patient's full name"
-                  />
-                  {errors.full_name && (
-                    <p className="mt-1 text-xs text-red-600 flex items-center">
-                      <AlertCircle className="h-3 w-3 mr-1" />
-                      {errors.full_name}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Phone Number *
-                  </label>
-                  <div className="relative">
-                    <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                    <input
-                      type="tel"
-                      value={formData.phone}
-                      onChange={(e) => handleInputChange('phone', e.target.value)}
-                      className={`w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79] ${
-                        errors.phone ? 'border-red-300' : 'border-gray-300'
-                      }`}
-                      placeholder="+91 98765 43210"
-                    />
-                  </div>
-                  {errors.phone && (
-                    <p className="mt-1 text-xs text-red-600 flex items-center">
-                      <AlertCircle className="h-3 w-3 mr-1" />
-                      {errors.phone}
-                    </p>
-                  )}
-                </div>
+        <form onSubmit={handleSubmit} className="px-5 py-4 overflow-y-auto max-h-[65vh]">
+          <div className="space-y-3">
+            {/* Name & Phone - always visible */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div>
+                <input
+                  type="text"
+                  value={formData.full_name}
+                  onChange={(e) => handleInputChange('full_name', e.target.value)}
+                  className={`w-full px-3 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79] ${
+                    errors.full_name ? 'border-red-300' : 'border-gray-300'
+                  }`}
+                  placeholder="Full name *"
+                />
+                {errors.full_name && (
+                  <p className="mt-1 text-xs text-red-600 flex items-center">
+                    <AlertCircle className="h-3 w-3 mr-1" />
+                    {errors.full_name}
+                  </p>
+                )}
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Email (Optional)
-                  </label>
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                    <input
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) => handleInputChange('email', e.target.value)}
-                      className={`w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79] ${
-                        errors.email ? 'border-red-300' : 'border-gray-300'
+              <div>
+                <div className="relative">
+                  <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <input
+                    type="tel"
+                    value={formData.phone}
+                    onChange={(e) => handleInputChange('phone', e.target.value)}
+                    className={`w-full pl-10 pr-3 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79] ${
+                      errors.phone ? 'border-red-300' : 'border-gray-300'
+                    }`}
+                    placeholder="Phone number *"
+                  />
+                </div>
+                {errors.phone && (
+                  <p className="mt-1 text-xs text-red-600 flex items-center">
+                    <AlertCircle className="h-3 w-3 mr-1" />
+                    {errors.phone}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* DOB & Gender */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 items-start">
+              <div>
+                <div className="relative">
+                  <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <input
+                    type="date"
+                    value={formData.date_of_birth}
+                    onChange={(e) => handleInputChange('date_of_birth', e.target.value)}
+                    className={`w-full pl-10 pr-3 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79] ${
+                      errors.date_of_birth ? 'border-red-300' : 'border-gray-300'
+                    }`}
+                    placeholder="Date of birth *"
+                    max={new Date().toISOString().split('T')[0]}
+                  />
+                </div>
+                {errors.date_of_birth && (
+                  <p className="mt-1 text-xs text-red-600 flex items-center">
+                    <AlertCircle className="h-3 w-3 mr-1" />
+                    {errors.date_of_birth}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <div className="flex items-center gap-2 py-1">
+                  {([
+                    { value: 'M', label: 'Male' },
+                    { value: 'F', label: 'Female' },
+                    { value: 'OTHER', label: 'Other' },
+                  ] as const).map((option) => (
+                    <button
+                      key={option.value}
+                      type="button"
+                      onClick={() => handleInputChange('gender', option.value)}
+                      className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                        formData.gender === option.value
+                          ? 'bg-[#1e5f79] text-white shadow-sm'
+                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                       }`}
-                      placeholder="patient@example.com"
-                    />
-                  </div>
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+                {errors.gender && (
+                  <p className="mt-1 text-xs text-red-600">{errors.gender}</p>
+                )}
+              </div>
+            </div>
+
+            {/* Optional expandable sections */}
+            <div className="pt-2 space-y-1">
+              {/* Email toggle */}
+              <button
+                type="button"
+                onClick={() => setShowEmail(!showEmail)}
+                className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 transition-colors py-1"
+              >
+                <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${showEmail ? 'rotate-180' : ''}`} />
+                <Mail className="h-3.5 w-3.5" />
+                Email
+              </button>
+              {showEmail && (
+                <div className="pl-5">
+                  <input
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    className={`w-full px-3 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79] ${
+                      errors.email ? 'border-red-300' : 'border-gray-300'
+                    }`}
+                    placeholder="patient@example.com"
+                    autoFocus
+                  />
                   {errors.email && (
                     <p className="mt-1 text-xs text-red-600">{errors.email}</p>
                   )}
                 </div>
+              )}
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Date of Birth *
-                  </label>
-                  <div className="relative">
-                    <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                    <input
-                      type="date"
-                      value={formData.date_of_birth}
-                      onChange={(e) => handleInputChange('date_of_birth', e.target.value)}
-                      className={`w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79] ${
-                        errors.date_of_birth ? 'border-red-300' : 'border-gray-300'
-                      }`}
-                      max={new Date().toISOString().split('T')[0]}
-                    />
-                  </div>
-                  {errors.date_of_birth && (
-                    <p className="mt-1 text-xs text-red-600 flex items-center">
-                      <AlertCircle className="h-3 w-3 mr-1" />
-                      {errors.date_of_birth}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Gender *
-                  </label>
-                  <select
-                    value={formData.gender}
-                    onChange={(e) => handleInputChange('gender', e.target.value)}
-                    className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79] ${
-                      errors.gender ? 'border-red-300' : 'border-gray-300'
-                    }`}
-                  >
-                    <option value="M">Male</option>
-                    <option value="F">Female</option>
-                    <option value="OTHER">Other</option>
-                  </select>
-                  {errors.gender && (
-                    <p className="mt-1 text-xs text-red-600">{errors.gender}</p>
-                  )}
-                </div>
-
-                <div className="sm:col-span-2">
+              {/* Address toggle */}
+              <button
+                type="button"
+                onClick={() => setShowAddress(!showAddress)}
+                className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 transition-colors py-1"
+              >
+                <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${showAddress ? 'rotate-180' : ''}`} />
+                <MapPin className="h-3.5 w-3.5" />
+                Address
+              </button>
+              {showAddress && (
+                <div className="pl-5">
                   <AddressFields
                     value={addressData}
                     onChange={setAddressData}
                     required={false}
+                    compact
                   />
                 </div>
-              </div>
-            </div>
+              )}
 
-            {/* Emergency Contact */}
-            <div className="space-y-4 pt-4 border-t border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900 flex items-center">
-                <Users className="h-5 w-5 mr-2 text-[#1e5f79]" />
-                Emergency Contact (Optional)
-              </h3>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Contact Person Name
-                  </label>
+              {/* Emergency Contact toggle */}
+              <button
+                type="button"
+                onClick={() => setShowEmergency(!showEmergency)}
+                className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 transition-colors py-1"
+              >
+                <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${showEmergency ? 'rotate-180' : ''}`} />
+                <Users className="h-3.5 w-3.5" />
+                Emergency Contact
+              </button>
+              {showEmergency && (
+                <div className="pl-5 grid grid-cols-1 md:grid-cols-2 gap-3">
                   <input
                     type="text"
                     value={formData.emergency_contact_name}
                     onChange={(e) => handleInputChange('emergency_contact_name', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]"
-                    placeholder="Emergency contact name"
+                    className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]"
+                    placeholder="Contact person name"
                   />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Contact Phone
-                  </label>
                   <div className="relative">
                     <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                     <input
                       type="tel"
                       value={formData.emergency_contact_phone}
                       onChange={(e) => handleInputChange('emergency_contact_phone', e.target.value)}
-                      className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]"
-                      placeholder="+91 98765 43210"
+                      className="w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]"
+                      placeholder="Contact phone"
                     />
                   </div>
                 </div>
-              </div>
-            </div>
-
-            {/* Info Note */}
-            <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-              <p className="text-sm text-blue-700">
-                💡 <strong>Quick Intake:</strong> This creates a basic patient record. 
-                Medical history and detailed assessment can be added later by the treating physiotherapist.
-              </p>
+              )}
             </div>
 
             {/* Submit Error */}
@@ -338,32 +329,30 @@ const QuickIntakeModal: React.FC<QuickIntakeModalProps> = ({ onClose, onSuccess 
         </form>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-border-color bg-gray-50">
-          <div className="flex items-center justify-between">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-            >
-              Cancel
-            </button>
-            
-            <button
-              type="submit"
-              onClick={handleSubmit}
-              disabled={loading}
-              className="px-6 py-2 bg-[#1e5f79] text-white rounded-lg hover:bg-[#1e5f79]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="animate-spin h-4 w-4 mr-2" />
-                  Creating...
-                </>
-              ) : (
-                'Create Patient'
-              )}
-            </button>
-          </div>
+        <div className="px-5 py-3.5 border-t border-border-color flex items-center justify-end gap-3">
+          <button
+            type="button"
+            onClick={onClose}
+            className="px-4 py-2 text-sm text-gray-600 hover:text-gray-800 transition-colors"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            onClick={handleSubmit}
+            disabled={loading}
+            className="px-5 py-2 bg-[#1e5f79] text-white text-sm font-medium rounded-lg hover:bg-[#1e5f79]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+          >
+            {loading ? (
+              <>
+                <Loader2 className="animate-spin h-4 w-4 mr-2" />
+                Creating...
+              </>
+            ) : (
+              'Create Patient'
+            )}
+          </button>
         </div>
       </div>
     </div>

@@ -141,6 +141,7 @@ class FirebaseAuthService {
   async signOut(): Promise<void> {
     try {
       await auth.signOut();
+      clearFirebaseAuthCache();
       if (this.recaptchaVerifier) {
         this.recaptchaVerifier.clear();
         this.recaptchaVerifier = null;

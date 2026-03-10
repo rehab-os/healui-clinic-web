@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useAppSelector } from '../../../../store/hooks';
 import ApiManager from '@/services/api/api.service';
 import { format, parseISO } from 'date-fns';
@@ -233,12 +234,12 @@ export default function PatientPage() {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <button
-                onClick={() => router.push(`/dashboard/visits/new?patient_id=${patient.id}`)}
+              <Link
+                href={`/dashboard/visits/new?patient_id=${patient.id}`}
                 className="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors"
               >
                 Schedule Visit
-              </button>
+              </Link>
             </div>
           </div>
 
@@ -448,7 +449,6 @@ function ConditionsTab({
   onReactivate: (id: string) => void;
   onRefresh: () => void;
 }) {
-  const router = useRouter();
   const activeConditions = conditions.filter(c => c.status !== ConditionStatus.DISCHARGED);
   const dischargedConditions = conditions.filter(c => c.status === ConditionStatus.DISCHARGED);
 
@@ -471,13 +471,13 @@ function ConditionsTab({
         <h2 className="text-lg font-light text-gray-900">
           {activeConditions.length} Active Condition{activeConditions.length !== 1 ? 's' : ''}
         </h2>
-        <button
-          onClick={() => router.push(`/dashboard/patients/${patientId}/add-condition`)}
+        <Link
+          href={`/dashboard/patients/${patientId}/add-condition`}
           className="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors flex items-center gap-2"
         >
           <Plus className="h-4 w-4" />
           Add Condition
-        </button>
+        </Link>
       </div>
 
       {/* Active Conditions */}
@@ -711,7 +711,6 @@ function ConditionDetail({
 }
 
 function VisitsTab({ visits, patientId }: { visits: Visit[]; patientId: string }) {
-  const router = useRouter();
   const upcoming = visits.filter(v => v.status === 'SCHEDULED');
   const completed = visits.filter(v => v.status === 'COMPLETED');
   const other = visits.filter(v => !['SCHEDULED', 'COMPLETED'].includes(v.status));
@@ -720,12 +719,12 @@ function VisitsTab({ visits, patientId }: { visits: Visit[]; patientId: string }
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-light text-gray-900">{visits.length} Visits</h2>
-        <button
-          onClick={() => router.push(`/dashboard/visits/new?patient_id=${patientId}`)}
+        <Link
+          href={`/dashboard/visits/new?patient_id=${patientId}`}
           className="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800"
         >
           Schedule Visit
-        </button>
+        </Link>
       </div>
 
       {upcoming.length > 0 && (
@@ -1059,7 +1058,6 @@ function ConditionCard({
 }
 
 function VisitCard({ visit }: { visit: Visit }) {
-  const router = useRouter();
   const isUpcoming = visit.status === 'SCHEDULED';
   const isCompleted = visit.status === 'COMPLETED';
 
@@ -1075,9 +1073,9 @@ function VisitCard({ visit }: { visit: Visit }) {
     type.split('_').map(w => w.charAt(0) + w.slice(1).toLowerCase()).join(' ');
 
   return (
-    <div
-      className="bg-gray-50 rounded-lg p-4 cursor-pointer hover:bg-gray-100 transition-colors"
-      onClick={() => router.push(`/dashboard/visits/${visit.id}`)}
+    <Link
+      href={`/dashboard/visits/${visit.id}`}
+      className="block bg-gray-50 rounded-lg p-4 cursor-pointer hover:bg-gray-100 transition-colors"
     >
       <div className="flex items-start justify-between">
         <div>
@@ -1107,7 +1105,7 @@ function VisitCard({ visit }: { visit: Visit }) {
           <span className="text-xs text-gray-400">{visit.notes.length} note(s)</span>
         </div>
       )}
-    </div>
+    </Link>
   );
 }
 

@@ -2,27 +2,25 @@
 
 import React, { useState, useEffect } from 'react';
 import { X, Plus, Minus, Target, Activity, Utensils, FileText, Download, Printer, User, Phone, Mail, Stethoscope, AlertCircle, Info, Pill, Loader2 } from 'lucide-react';
-import { notifications } from '@mantine/notifications';
-import { useAppSelector, useAppDispatch } from '../../../store/hooks';
-import { store } from '../../../store/store';
+import { toast } from 'sonner';
+import { useAppSelector } from '../../../store/hooks';
 import { downloadTreatmentProtocolPDF, printTreatmentProtocol } from '@/lib/utils/pdf';
 import { format, parseISO } from 'date-fns';
 import { AnatomySearchSelect } from '../shared/AnatomySearchSelect';
 import ApiManager from '@/services/api/api.service';
-import { 
-    createAndLoadTreatmentProtocol, 
-    updateAndReloadTreatmentProtocol,
-    loadProtocolForVisit,
-    finalizeTreatmentProtocol,
-    sendTreatmentProtocolToPatient,
-    generateTreatmentProtocolPDF
-} from '../../../store/actions/treatment-protocol.actions';
-import { closeProtocolModal } from '../../../store/slices/treatment-protocol.slice';
-import { 
-    CreateTreatmentProtocolDto, 
-    StructureType, 
+import {
+    useProtocolByVisit,
+    useCreateProtocol,
+    useUpdateProtocol,
+    useFinalizeProtocol,
+    useSendProtocolToPatient,
+    useGenerateProtocolPDF,
+} from '@/hooks/queries/useProtocolQueries';
+import {
+    CreateTreatmentProtocolDto,
+    StructureType,
     ProtocolStatus,
-    VisitConditionResponseDto 
+    VisitConditionResponseDto
 } from '@/lib/types';
 
 // Import database JSON files
@@ -118,14 +116,29 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
   enableConditionMode = true,
   nutritionData = null,
 }) => {
-  const dispatch = useAppDispatch();
   const { currentClinic } = useAppSelector(state => state.user);
-  const { 
-    currentProtocol, 
-    loading, 
-    error,
-    existsCache 
-  } = useAppSelector(state => state.treatmentProtocol);
+
+  // TQ queries and mutations
+  const { data: currentProtocol, isLoading: protocolLoading } = useProtocolByVisit(isOpen ? visitId : undefined);
+  const createProtocolMutation = useCreateProtocol();
+  const updateProtocolMutation = useUpdateProtocol();
+  const finalizeProtocolMutation = useFinalizeProtocol();
+  const sendToPatientMutation = useSendProtocolToPatient();
+  const generatePDFMutation = useGenerateProtocolPDF();
+
+  // Derived loading/error states
+  const loading = {
+    current: protocolLoading,
+    creating: createProtocolMutation.isPending,
+    updating: updateProtocolMutation.isPending,
+    finalizing: finalizeProtocolMutation.isPending,
+    sendingToPatient: sendToPatientMutation.isPending,
+  };
+  const error = {
+    creating: createProtocolMutation.error?.message || null,
+    updating: updateProtocolMutation.error?.message || null,
+    current: null as string | null,
+  };
   
   // State management
   const [currentStep, setCurrentStep] = useState(1);
@@ -155,15 +168,12 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
   // Determine if we're editing an existing protocol
   const isEditing = !!currentProtocol;
 
-  // Load existing protocol when modal opens
+  // Load visit conditions when modal opens (protocol loads via TQ automatically)
   useEffect(() => {
-    if (isOpen && visitId) {
-      dispatch(loadProtocolForVisit(visitId));
-      if (enableConditionMode) {
-        loadVisitConditions();
-      }
+    if (isOpen && visitId && enableConditionMode) {
+      loadVisitConditions();
     }
-  }, [isOpen, visitId, dispatch, enableConditionMode]);
+  }, [isOpen, visitId, enableConditionMode]);
 
   // Load visit conditions
   const loadVisitConditions = async () => {
@@ -201,7 +211,7 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
     }
     
     if (currentProtocol) {
-      console.log('Syncing form with protocol from Redux:', currentProtocol.protocol_title);
+      console.log('Syncing form with loaded protocol:', currentProtocol.protocol_title);
       setProtocolTitle(currentProtocol.protocol_title);
       setGeneralNotes(currentProtocol.general_notes || '');
       setNutritionRecommendations(currentProtocol.additional_manual_notes || '');
@@ -384,11 +394,7 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
   // Save protocol (create or update)
   const saveProtocol = async () => {
     if (!patient || !visitId) {
-      notifications.show({
-        title: 'Error',
-        message: 'Missing patient or visit information',
-        color: 'red',
-      });
+      toast.error('Missing patient or visit information');
       return;
     }
 
@@ -472,77 +478,27 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
       let savedProtocol;
       if (isEditing && currentProtocol) {
         // Update existing protocol
-        const result = await dispatch(updateAndReloadTreatmentProtocol(currentProtocol.id, protocolData) as any);
-        savedProtocol = result;
-        console.log('Updated protocol result:', result);
+        savedProtocol = await updateProtocolMutation.mutateAsync({ id: currentProtocol.id, data: protocolData });
+        console.log('Updated protocol result:', savedProtocol);
       } else {
         // Create new protocol
-        const result = await dispatch(createAndLoadTreatmentProtocol(protocolData) as any);
-        savedProtocol = result;
-        console.log('Created protocol result:', result);
+        savedProtocol = await createProtocolMutation.mutateAsync(protocolData);
+        console.log('Created protocol result:', savedProtocol);
       }
-      
-      console.log('SaveProtocol - saved protocol:', savedProtocol);
-      console.log('Comparing titles:');
-      console.log('- Sent title:', protocolTitle);
-      console.log('- Received title:', savedProtocol?.protocol_title);
-      
-      // Check if backend returned different data than what we sent
-      if (savedProtocol?.protocol_title !== protocolTitle) {
-        console.warn('⚠️ Backend returned different title than what was sent!');
-        console.warn(`Sent: "${protocolTitle}" | Received: "${savedProtocol?.protocol_title}"`);
-      }
-      
+
       // Mark this protocol as just saved to prevent form reset
       if (savedProtocol?.id) {
         setLastSavedProtocolId(savedProtocol.id);
       }
-      
-      // Show enhanced success notification
-      notifications.show({
-        id: 'protocol-save-success',
-        title: '✅ Protocol Saved!',
-        message: isEditing 
-          ? `"${protocolTitle}" has been updated successfully` 
-          : `"${protocolTitle}" has been saved as draft`,
-        color: 'green',
-        autoClose: 4000,
-        withCloseButton: true,
-        styles: (theme) => ({
-          root: {
-            backgroundColor: '#f0f9ff',
-            borderColor: '#22c55e',
-            borderWidth: '2px',
-            borderStyle: 'solid',
-            borderRadius: '12px',
-          },
-          title: {
-            color: '#166534',
-            fontWeight: 600,
-            fontSize: '16px',
-          },
-          description: {
-            color: '#166534',
-            fontSize: '14px',
-          },
-          icon: {
-            backgroundColor: '#22c55e',
-            color: 'white',
-          },
-        }),
-      });
-      
-      // The saved protocol should now be in Redux state via the action
-      // Return the saved protocol
+
+      toast.success(isEditing
+        ? `"${protocolTitle}" has been updated successfully`
+        : `"${protocolTitle}" has been saved as draft`);
+
       return savedProtocol;
     } catch (error: any) {
       console.error('Error saving protocol:', error);
-      notifications.show({
-        title: 'Error',
-        message: error.message || 'Failed to save protocol. Please try again.',
-        color: 'red',
-      });
-      // Error handling is done in Redux
+      toast.error(error.message || 'Failed to save protocol. Please try again.');
       throw error;
     }
   };
@@ -556,7 +512,6 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
       const savedProtocol = await saveProtocol();
       console.log('Protocol saved:', savedProtocol);
       
-      // Get the current protocol from Redux state after save
       const protocolToProcess = savedProtocol || currentProtocol;
       console.log('Protocol to process:', protocolToProcess);
 
@@ -564,98 +519,32 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
         // Finalize the protocol if it's in draft status
         if (protocolToProcess.status === ProtocolStatus.DRAFT) {
           console.log('Finalizing protocol...');
-          const finalizedProtocol = await dispatch(finalizeTreatmentProtocol(protocolToProcess.id));
+          const finalizedProtocol = await finalizeProtocolMutation.mutateAsync({ id: protocolToProcess.id, visitId });
           console.log('Protocol finalized:', finalizedProtocol);
-          
+
           // Send to patient after finalization
           if (finalizedProtocol) {
             console.log('Sending protocol to patient...');
-            await dispatch(sendTreatmentProtocolToPatient(protocolToProcess.id));
+            await sendToPatientMutation.mutateAsync({ id: protocolToProcess.id, visitId });
             console.log('Protocol sent successfully!');
-            
-            notifications.show({
-              id: 'protocol-send-success',
-              title: '🚀 Protocol Sent!',
-              message: `"${protocolTitle}" has been finalized and sent to ${patient?.full_name}`,
-              color: 'green',
-              autoClose: 5000,
-              withCloseButton: true,
-              styles: (theme) => ({
-                root: {
-                  backgroundColor: '#f0f9ff',
-                  borderColor: '#3b82f6',
-                  borderWidth: '2px',
-                  borderStyle: 'solid',
-                  borderRadius: '12px',
-                },
-                title: {
-                  color: '#1e40af',
-                  fontWeight: 600,
-                  fontSize: '16px',
-                },
-                description: {
-                  color: '#1e40af',
-                  fontSize: '14px',
-                },
-                icon: {
-                  backgroundColor: '#3b82f6',
-                  color: 'white',
-                },
-              }),
-            });
+
+            toast.success(`"${protocolTitle}" has been finalized and sent to ${patient?.full_name}`);
           }
         } else {
           // Already finalized, just send
           console.log('Protocol already finalized, sending to patient...');
-          await dispatch(sendTreatmentProtocolToPatient(protocolToProcess.id));
+          await sendToPatientMutation.mutateAsync({ id: protocolToProcess.id, visitId });
           console.log('Protocol sent successfully!');
-          
-          notifications.show({
-            id: 'protocol-send-only-success',
-            title: '📧 Protocol Sent!',
-            message: `Treatment protocol sent to ${patient?.full_name} successfully`,
-            color: 'green',
-            autoClose: 4000,
-            withCloseButton: true,
-            styles: (theme) => ({
-              root: {
-                backgroundColor: '#f0f9ff',
-                borderColor: '#3b82f6',
-                borderWidth: '2px',
-                borderStyle: 'solid',
-                borderRadius: '12px',
-              },
-              title: {
-                color: '#1e40af',
-                fontWeight: 600,
-                fontSize: '16px',
-              },
-              description: {
-                color: '#1e40af',
-                fontSize: '14px',
-              },
-              icon: {
-                backgroundColor: '#3b82f6',
-                color: 'white',
-              },
-            }),
-          });
+
+          toast.success(`Treatment protocol sent to ${patient?.full_name} successfully`);
         }
       } else {
         console.error('No protocol ID found after save');
-        notifications.show({
-          title: 'Error',
-          message: 'Failed to save protocol. Please check the form and try again.',
-          color: 'red',
-        });
+        toast.error('Failed to save protocol. Please check the form and try again.');
       }
     } catch (error) {
       console.error('Error in save and send workflow:', error);
-      notifications.show({
-        title: 'Error',
-        message: 'An error occurred during the save and send process. Please try again.',
-        color: 'red',
-      });
+      toast.error('An error occurred during the save and send process. Please try again.');
     }
   };
 
@@ -664,7 +553,7 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
     if (!patient || !currentProtocol) return;
     
     try {
-      await dispatch(generateTreatmentProtocolPDF(currentProtocol.id));
+      await generatePDFMutation.mutateAsync(currentProtocol.id);
       // Handle PDF download - this depends on backend implementation
     } catch (error) {
       console.error('Error downloading protocol:', error);
@@ -706,9 +595,9 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
   // Finalize protocol
   const finalizeProtocol = async () => {
     if (!currentProtocol) return;
-    
+
     try {
-      await dispatch(finalizeTreatmentProtocol(currentProtocol.id));
+      await finalizeProtocolMutation.mutateAsync({ id: currentProtocol.id, visitId });
     } catch (error) {
       console.error('Error finalizing protocol:', error);
     }
@@ -717,9 +606,9 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
   // Send protocol to patient
   const sendProtocolToPatient = async () => {
     if (!currentProtocol) return;
-    
+
     try {
-      await dispatch(sendTreatmentProtocolToPatient(currentProtocol.id));
+      await sendToPatientMutation.mutateAsync({ id: currentProtocol.id, visitId });
     } catch (error) {
       console.error('Error sending protocol to patient:', error);
     }
@@ -727,9 +616,7 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
 
   // Handle modal close
   const handleClose = () => {
-    // Reset the saved protocol ID so form syncs properly next time
     setLastSavedProtocolId(null);
-    dispatch(closeProtocolModal());
     onClose();
   };
 
@@ -1692,45 +1579,12 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
                       // Use the saved protocol or current protocol from state
                       const protocolToFinalize = savedProtocol || currentProtocol;
                       if (protocolToFinalize?.status === ProtocolStatus.DRAFT && protocolToFinalize?.id) {
-                        await dispatch(finalizeTreatmentProtocol(protocolToFinalize.id));
-                        notifications.show({
-                          id: 'protocol-finalize-success',
-                          title: '🎯 Protocol Finalized!',
-                          message: `"${protocolTitle}" has been saved and finalized successfully`,
-                          color: 'green',
-                          autoClose: 4000,
-                          withCloseButton: true,
-                          styles: (theme) => ({
-                            root: {
-                              backgroundColor: '#f0f9ff',
-                              borderColor: '#f59e0b',
-                              borderWidth: '2px',
-                              borderStyle: 'solid',
-                              borderRadius: '12px',
-                            },
-                            title: {
-                              color: '#92400e',
-                              fontWeight: 600,
-                              fontSize: '16px',
-                            },
-                            description: {
-                              color: '#92400e',
-                              fontSize: '14px',
-                            },
-                            icon: {
-                              backgroundColor: '#f59e0b',
-                              color: 'white',
-                            },
-                          }),
-                        });
+                        await finalizeProtocolMutation.mutateAsync({ id: protocolToFinalize.id, visitId });
+                        toast.success(`"${protocolTitle}" has been saved and finalized successfully`);
                       }
                     } catch (error) {
                       console.error('Error saving and finalizing protocol:', error);
-                      notifications.show({
-                        title: 'Error',
-                        message: 'Failed to save protocol. Please try again.',
-                        color: 'red',
-                      });
+                      toast.error('Failed to save protocol. Please try again.');
                     }
                   }}
                   disabled={loading.creating || loading.updating || loading.finalizing}

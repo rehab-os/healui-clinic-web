@@ -8,6 +8,17 @@ type ItemDefinitionsMap = Record<string, TrackingItemDefinition>
 const conditionMap = conditionTrackingData as ConditionTrackingMap
 const definitionsMap = trackingItemDefinitions as unknown as ItemDefinitionsMap
 
+// Strip trailing body-region suffix like "(ankle)" or "(shoulder)" that gets
+// appended to condition_name in the DB but doesn't exist in tracking keys
+const BODY_REGION_SUFFIX = /\s*\(\w[\w_]*\)\s*$/
+
+function normalizeConditionName(name: string): string {
+  // Only strip if the base name (without suffix) exists in the tracking map
+  const stripped = name.replace(BODY_REGION_SUFFIX, '')
+  if (stripped !== name && stripped in conditionMap) return stripped
+  return name
+}
+
 const CATEGORY_DISPLAY_NAMES: Record<string, string> = {
   essential: 'Essential',
   function: 'Function',
@@ -24,7 +35,7 @@ function parseItemKey(rawKey: string): { key: string; isPriority: boolean } {
 }
 
 export function getTrackingForCondition(conditionName: string): ConditionTracking | null {
-  const conditionData = conditionMap[conditionName]
+  const conditionData = conditionMap[conditionName] || conditionMap[normalizeConditionName(conditionName)]
   if (!conditionData) return null
 
   const categories: TrackingCategory[] = []

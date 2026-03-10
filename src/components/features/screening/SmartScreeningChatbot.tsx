@@ -40,6 +40,7 @@ import QuickAssessmentInput from "../assessments/QuickAssessmentInput";
 import { getAIAssessmentRecommendations } from "@/services/ai/diagnostic.service";
 import screeningAPI from "@/services/api/screening-api.service";
 import useAIQuestionFlow from "@/hooks/useAIQuestionFlow";
+import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 import {
  AnimatedProgress,
@@ -59,7 +60,6 @@ import {
   YesNoInput,
   VASSliderInput,
   TypingIndicator as ExtractedTypingIndicator,
-  CompletionCelebration as ExtractedCompletionCelebration,
   ScreeningProgressBar,
   useAssessmentFlow,
   AssessmentHubDialog,
@@ -429,46 +429,6 @@ const DatePickerInput = ({
  );
 };
 
-// ==================== Completion Celebration ====================
-
-const CompletionCelebration = () => {
- const confettiPieces = Array.from({ length: 30 }, (_, i) => ({
-  id: i,
-  x: Math.random() * 100,
-  delay: Math.random() * 0.5,
-  duration: 2 + Math.random(),
-  color: [
-   "bg-brand-teal",
-   "bg-teal-400",
-   "bg-teal-300",
-   "bg-emerald-400",
-   "bg-cyan-400",
-  ][Math.floor(Math.random() * 5)],
- }));
-
- return (
-  <div className='fixed inset-0 pointer-events-none z-50 overflow-hidden'>
-   {confettiPieces.map((piece) => (
-    <motion.div
-     key={piece.id}
-     initial={{ y: -20, x: `${piece.x}vw`, opacity: 1, rotate: 0 }}
-     animate={{
-      y: "110vh",
-      rotate: 360,
-      opacity: 0,
-     }}
-     transition={{
-      duration: piece.duration,
-      delay: piece.delay,
-      ease: "easeIn",
-     }}
-     className={`absolute w-3 h-3 ${piece.color} rounded-sm`}
-    />
-   ))}
-  </div>
- );
-};
-
 // ==================== Typing Indicator ====================
 
 const TypingIndicator = () => (
@@ -702,6 +662,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
  const [diagnosisResult, setDiagnosisResult] = useState<DiagnosisResult | null>(
   null,
  );
+ const [selectedCondition, setSelectedCondition] = useState<any>(null);
  const [useAIFlow, setUseAIFlow] = useState(false);
  const [selectedRegions, setSelectedRegions] = useState<any[]>([]);
  const [collectedData, setCollectedData] = useState<Record<string, any>>({});
@@ -1380,9 +1341,15 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
   scrollToBottom();
  };
 
- const handleConditionSelect = async (condition: any) => {
+ const handleConditionSelect = (condition: any) => {
+  setSelectedCondition(condition);
+ };
+
+ const handleConfirmCondition = async () => {
+  const condition = selectedCondition;
+  if (!condition) return;
+
   setIsProcessing(true);
-  addMessage("user", `Selected: ${condition.condition_name}`);
 
   const isTestMode = patientId.startsWith("test");
   const session = engine.getSession();
@@ -1391,11 +1358,9 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
    try {
     const { default: ApiManager } = await import("@/services/api/api.service");
 
-    // Build comprehensive condition payload with dual diagnosis data
     const conditionPayload = {
      condition_id: condition.condition_id,
      condition_name: condition.condition_name,
-     neo4j_condition_id: condition.condition_id,
      diagnosis_method: diagnosisMethod || "CLINICAL_ONLY",
      symptom_dx_data: symptomDxData || null,
      symptom_dx_completed: !!symptomDxData,
@@ -1448,25 +1413,6 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
      chief_complaint:
       symptomDxData?.chief_complaint || session.responses?.chief_complaint,
      vas_score: symptomDxData?.pain_level || session.responses?.vas_score,
-     primary_body_region:
-      symptomDxData?.body_regions?.[0] || session.selectedPainRegions?.[0],
-     pain_present: !!(
-      symptomDxData?.pain_level || session.responses?.vas_score
-     ),
-     night_pain:
-      session.responses?.night_pain === "yes" ||
-      session.responses?.night_pain === true,
-     unexplained_weight_loss:
-      session.responses?.weight_loss === "yes" ||
-      session.responses?.weight_loss === true,
-     neurological_symptoms:
-      session.responses?.neurological_symptoms === "yes" ||
-      session.responses?.neurological_symptoms === true,
-     recent_trauma:
-      session.responses?.trauma === "yes" || session.responses?.trauma === true,
-     bladder_bowel_changes:
-      session.responses?.cauda_equina === "yes" ||
-      session.responses?.cauda_equina === true,
      urgency_level:
       diagnosisResult?.diagnosis?.treatment_urgency?.toUpperCase() ||
       "MODERATE",
@@ -1482,17 +1428,20 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
     } else {
      await ApiManager.createPatientCondition(patientId, conditionPayload);
     }
+
+    toast.success("Condition added", {
+     description: `${condition.condition_name} has been added to patient conditions.`,
+    });
    } catch (error) {
     console.error("Error saving condition:", error);
-    addMessage("system", "Error saving diagnosis. Please try again.");
+    toast.error("Failed to save condition", {
+     description: "Please try again.",
+    });
     setIsProcessing(false);
+    setSelectedCondition(null);
     return;
    }
   }
-
-  await addBotMessage(
-   `Confirmed: "${condition.condition_name}" (${Math.round(condition.confidence_score * 100)}% confidence)`,
-  );
 
   if (onComplete) {
    onComplete({
@@ -1514,6 +1463,7 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
   setCurrentResponse("");
   setIsComplete(false);
   setDiagnosisResult(null);
+  setSelectedCondition(null);
   setShowAssessmentHub(false);
   setShowDirectAssessment(false);
   setSelectedAssessments([]);
@@ -3059,47 +3009,84 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
 
       <div className='border border-gray-200 rounded-lg overflow-hidden divide-y divide-gray-100'>
        {diagnosisResult.diagnosis.differential_diagnosis.map(
-        (condition, index) => (
-         <motion.button
-          key={condition.condition_id}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: index * 0.06 }}
-          onClick={() => handleConditionSelect(condition)}
-          disabled={isProcessing}
-          className='w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors disabled:opacity-50 group'
-         >
-          <div className='flex items-start gap-3'>
-           <span className={`text-xs font-bold tabular-nums mt-0.5 flex-shrink-0 ${
-            index === 0 ? 'text-teal-600' : 'text-gray-400'
-           }`}>
-            {index + 1}
-           </span>
-           <div className='flex-1 min-w-0'>
-            <div className='flex items-center gap-2'>
-             <span className={`text-sm font-semibold ${index === 0 ? 'text-gray-900' : 'text-gray-700'}`}>
-              {condition.condition_name}
-             </span>
-             <span className={`text-xs font-semibold tabular-nums ${
-              index === 0 ? 'text-teal-600' : 'text-gray-400'
-             }`}>
-              {Math.round(condition.confidence_score * 100)}%
-             </span>
+        (condition, index) => {
+         const isSelected = selectedCondition?.condition_id === condition.condition_id;
+         return (
+          <motion.button
+           key={condition.condition_id}
+           initial={{ opacity: 0 }}
+           animate={{ opacity: 1 }}
+           transition={{ delay: index * 0.06 }}
+           onClick={() => handleConditionSelect(condition)}
+           disabled={isProcessing}
+           className={`w-full px-4 py-3 text-left transition-colors disabled:opacity-50 group ${
+            isSelected ? 'bg-teal-50 border-l-2 border-l-teal-500' : 'hover:bg-gray-50'
+           }`}
+          >
+           <div className='flex items-start gap-3'>
+            <span className={`text-xs font-bold tabular-nums mt-0.5 flex-shrink-0 ${
+             isSelected ? 'text-teal-600' : index === 0 ? 'text-teal-600' : 'text-gray-400'
+            }`}>
+             {isSelected ? <Check className='h-3.5 w-3.5' /> : index + 1}
+            </span>
+            <div className='flex-1 min-w-0'>
+             <div className='flex items-center gap-2'>
+              <span className={`text-sm font-semibold ${isSelected ? 'text-teal-900' : index === 0 ? 'text-gray-900' : 'text-gray-700'}`}>
+               {condition.condition_name}
+              </span>
+              <span className={`text-xs font-semibold tabular-nums ${
+               isSelected ? 'text-teal-600' : index === 0 ? 'text-teal-600' : 'text-gray-400'
+              }`}>
+               {Math.round(condition.confidence_score * 100)}%
+              </span>
+             </div>
+             <p className='text-xs text-gray-500 mt-0.5 leading-relaxed'>
+              {condition.clinical_reasoning}
+             </p>
             </div>
-            <p className='text-xs text-gray-500 mt-0.5 leading-relaxed'>
-             {condition.clinical_reasoning}
-            </p>
+            {!isSelected && (
+             <ChevronRight className='h-4 w-4 text-gray-300 group-hover:text-gray-500 flex-shrink-0 mt-0.5 transition-colors' />
+            )}
            </div>
-           <ChevronRight className='h-4 w-4 text-gray-300 group-hover:text-gray-500 flex-shrink-0 mt-0.5 transition-colors' />
-          </div>
-         </motion.button>
-        ),
+          </motion.button>
+         );
+        },
        )}
       </div>
 
-      <p className='text-xs text-gray-400 mt-2 text-center'>
-       Select a diagnosis to confirm
-      </p>
+      {selectedCondition ? (
+       <div className='flex items-center justify-between mt-3'>
+        <button
+         onClick={() => setSelectedCondition(null)}
+         disabled={isProcessing}
+         className='text-xs text-gray-400 hover:text-gray-600 transition-colors disabled:opacity-50'
+        >
+         Clear selection
+        </button>
+        <Button
+         onClick={handleConfirmCondition}
+         disabled={isProcessing}
+         size='sm'
+         className='bg-teal-600 hover:bg-teal-700 text-white'
+        >
+         {isProcessing ? (
+          <span className='flex items-center gap-2'>
+           <span className='h-3.5 w-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin' />
+           Saving...
+          </span>
+         ) : (
+          <span className='flex items-center gap-1.5'>
+           <Check className='h-3.5 w-3.5' />
+           Confirm Diagnosis
+          </span>
+         )}
+        </Button>
+       </div>
+      ) : (
+       <p className='text-xs text-gray-400 mt-2 text-center'>
+        Select a diagnosis to confirm
+       </p>
+      )}
      </motion.div>
     )}
 
@@ -3675,9 +3662,6 @@ const SmartScreeningChatbot: React.FC<SmartScreeningChatbotProps> = ({
    </ClinicalChatbotLayout>
 
    {/* Keep existing modals and overlays */}
-   <AnimatePresence>
-    {isComplete && diagnosisResult?.success && <ExtractedCompletionCelebration />}
-   </AnimatePresence>
 
 
    {/* Close Confirmation Dialog */}

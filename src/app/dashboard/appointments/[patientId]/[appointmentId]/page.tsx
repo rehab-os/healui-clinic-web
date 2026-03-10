@@ -2,22 +2,19 @@
 
 import React, { useEffect, useState, useMemo, useCallback } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { useAppDispatch, useAppSelector } from '@/store/hooks'
+import { useQueryClient } from '@tanstack/react-query'
+import { useAppSelector } from '@/store/hooks'
 import {
-  fetchAppointmentDetails,
-  fetchVisitConditions,
-  fetchClinicalInsights,
-  addClinicalInsight,
-  compareProtocolVersions,
-  selectAppointment,
-  selectPatient,
-  selectVisitConditions,
-  selectClinicalInsights,
-  selectUnusedInsights,
-  selectLoadingStates,
-  selectErrors,
-  setPatient,
-} from '@/store/slices/appointmentDetails.slice'
+  useAppointment,
+  useVisitConditions,
+  useClinicalInsights,
+  useAddClinicalInsight,
+  usePatientDetails,
+  usePatientVisits,
+  useTreatmentProtocols,
+  useVisitNotes,
+  appointmentKeys,
+} from '@/hooks/queries/useAppointmentQueries'
 import { Toaster, toast } from 'sonner'
 import ApiManager from '@/services/api/api.service'
 import { FileText } from 'lucide-react'
@@ -31,9 +28,6 @@ import DischargeConditionDialog from '@/components/features/conditions/Discharge
 import TreatmentHistoryViewer from './components/history/TreatmentHistoryViewer'
 import InsightTimelineItem from './components/insights/InsightTimelineItem'
 import PreviousVisitsPanel from './components/visits/PreviousVisitsPanel'
-// PDF libs loaded dynamically on demand (~400KB saved from initial bundle)
-// import { pdf } from '@react-pdf/renderer'
-// import ClinicalReportPDF from '@/components/pdf/documents/ClinicalReportPDF'
 
 // Layout components
 import AppointmentPageShell from './components/layout/AppointmentPageShell'
@@ -56,30 +50,38 @@ import { useMediaRecorder } from '@/hooks/useMediaRecorder'
 export default function AppointmentDetailsPage() {
   const params = useParams()
   const router = useRouter()
-  const dispatch = useAppDispatch()
+  const queryClient = useQueryClient()
 
-  // Redux state
-  const appointment = useAppSelector(selectAppointment)
-  const patient = useAppSelector(selectPatient)
-  const visitConditions = useAppSelector(selectVisitConditions)
-  const clinicalInsights = useAppSelector(selectClinicalInsights)
-  const unusedInsights = useAppSelector(selectUnusedInsights)
-  const loading = useAppSelector(selectLoadingStates)
-  const errors = useAppSelector(selectErrors)
+  // Auth-level state stays in Redux
   const userClinic = useAppSelector(state => state.user.currentClinic)
   const clinicSlice = useAppSelector(state => state.clinic)
   const currentClinic = clinicSlice.clinics.find(c => c.id === userClinic?.id) || clinicSlice.currentClinic
 
+  // ── TanStack Query: parallel data fetching ─────────────────
+
+  const appointmentId = params.appointmentId as string | undefined
+  const { data: appointment, isLoading: appointmentLoading, error: appointmentError } = useAppointment(appointmentId)
+
+  // These fire in parallel as soon as appointment is available
+  const { data: visitConditions = [], isLoading: conditionsLoading } = useVisitConditions(appointment?.id)
+
+  // Patient: for marketplace visits use embedded patientUser, otherwise fetch
+  const isMarketplace = appointment?.visit_source === 'MARKETPLACE'
+  const patientIdToFetch = !isMarketplace ? appointment?.patient_id : undefined
+  const { data: fetchedPatient } = usePatientDetails(patientIdToFetch)
+  const patient = isMarketplace ? appointment?.patientUser : fetchedPatient
+
+  const { data: patientVisits = [] } = usePatientVisits(patient?.id)
+  const { data: conditionProtocols = {} } = useTreatmentProtocols(appointmentId, visitConditions)
+  const { data: visitNotes = [] } = useVisitNotes(appointment?.id)
+
   // Local state: condition focus
   const [activeConditionId, setActiveConditionId] = useState<string | null>(null)
 
-  // Protocol & history data
-  const [conditionProtocols, setConditionProtocols] = useState<Record<string, any>>({})
+  // Treatment history (on-demand, stays local)
   const [expandedHistory, setExpandedHistory] = useState<Record<string, boolean>>({})
   const [conditionHistory, setConditionHistory] = useState<Record<string, { data: any[]; loading: boolean }>>({})
-  const [patientVisits, setPatientVisits] = useState<any[]>([])
   const [nutritionData, setNutritionData] = useState<any>(null)
-  const [visitNotes, setVisitNotes] = useState<{ notes: any[]; loading: boolean }>({ notes: [], loading: false })
 
   // Modal states
   const [visitNoteModalOpen, setVisitNoteModalOpen] = useState(false)
@@ -102,74 +104,10 @@ export default function AppointmentDetailsPage() {
   const [mobileRecording, setMobileRecording] = useState(false)
   const [mobileTranscribing, setMobileTranscribing] = useState(false)
 
-  // ── Data fetching ──────────────────────────────────────────────
+  // ── Mutations ────────────────────────────────────────────────
+  const addInsightMutation = useAddClinicalInsight()
 
-  useEffect(() => {
-    if (params.appointmentId && params.patientId) {
-      dispatch(fetchAppointmentDetails({
-        patientId: params.patientId as string,
-        appointmentId: params.appointmentId as string,
-      }))
-    }
-  }, [params.appointmentId, params.patientId, dispatch])
-
-  useEffect(() => {
-    if (appointment?.id) {
-      dispatch(fetchVisitConditions(appointment.id))
-    }
-  }, [appointment?.id, dispatch])
-
-  useEffect(() => {
-    const fetchPatient = async () => {
-      if (appointment?.visit_source === 'MARKETPLACE') {
-        if (appointment.patientUser) dispatch(setPatient(appointment.patientUser))
-      } else if (appointment?.patient_id) {
-        const response = await ApiManager.getPatient(appointment.patient_id)
-        if (response.success && response.data) {
-          dispatch(setPatient(response.data))
-          fetchPatientVisits(response.data.id)
-        }
-      }
-    }
-    if (appointment) fetchPatient()
-  }, [appointment, dispatch])
-
-  const fetchPatientVisits = async (patientId: string) => {
-    try {
-      const response = await ApiManager.getPatientVisits(patientId)
-      if (response.success && response.data) setPatientVisits(response.data.visits || [])
-    } catch (error) {
-      console.error('Failed to fetch patient visits:', error)
-    }
-  }
-
-  useEffect(() => {
-    const fetchProtocols = async () => {
-      if (!params.appointmentId) return
-      try {
-        const response = await ApiManager.getTreatmentProtocols({ visit_id: params.appointmentId as string })
-        if (response.success && response.data) {
-          const protocols = response.data.protocols || response.data || []
-          const protocolMap: Record<string, { home?: any; clinical?: any }> = {}
-          protocols.forEach((protocol: any) => {
-            let match = visitConditions.find(vc => protocol.visit_condition_id && vc.id === protocol.visit_condition_id)
-            if (!match && protocol.patient_condition_id) match = visitConditions.find(vc => vc.patient_condition_id === protocol.patient_condition_id)
-            if (!match && protocol.condition_id) match = visitConditions.find(vc => vc.condition_id === protocol.condition_id)
-            if (match) {
-              if (!protocolMap[match.id]) protocolMap[match.id] = {}
-              protocolMap[match.id][protocol.protocol_type || 'home'] = protocol
-            }
-          })
-          setConditionProtocols(protocolMap)
-        }
-      } catch (error) {
-        console.error('Failed to fetch protocols:', error)
-      }
-    }
-    if (params.appointmentId && visitConditions.length > 0) fetchProtocols()
-  }, [params.appointmentId, visitConditions])
-
-  // Auto-select first condition (PRIMARY priority)
+  // ── Auto-select first condition (PRIMARY priority) ───────────
   useEffect(() => {
     if (visitConditions.length > 0 && !activeConditionId) {
       const primary = visitConditions.find(vc => vc.treatment_focus === 'PRIMARY')
@@ -177,59 +115,32 @@ export default function AppointmentDetailsPage() {
     }
   }, [visitConditions, activeConditionId])
 
-  // Fetch clinical insights when active condition changes
-  useEffect(() => {
-    const vc = visitConditions.find(c => c.id === activeConditionId)
-    if (vc?.patient_condition_id) {
-      dispatch(fetchClinicalInsights({ patientConditionId: vc.patient_condition_id }))
-    }
-  }, [activeConditionId, visitConditions, dispatch])
-
-  // Fetch visit notes when appointment loads
-  useEffect(() => {
-    if (!appointment?.id) return
-    setVisitNotes(prev => ({ ...prev, loading: true }))
-    ApiManager.getVisitNotes(appointment.id)
-      .then(response => {
-        if (response.success && response.data) {
-          setVisitNotes({ notes: response.data.notes || [], loading: false })
-        } else {
-          setVisitNotes({ notes: [], loading: false })
-        }
-      })
-      .catch(() => setVisitNotes({ notes: [], loading: false }))
-  }, [appointment?.id])
-
-  // ── Derived data ───────────────────────────────────────────────
-
+  // ── Clinical insights (reactive to active condition) ─────────
   const activeCondition = useMemo(
     () => visitConditions.find(vc => vc.id === activeConditionId) || null,
     [visitConditions, activeConditionId]
   )
 
-  // All insights for the active patient_condition (fetched via Redux)
+  const { data: clinicalInsights } = useClinicalInsights(activeCondition?.patient_condition_id)
+
+  // ── Derived data ───────────────────────────────────────────────
+
   const allInsights: any[] = clinicalInsights?.data || []
 
-  // All insights for active condition (already scoped by patient_condition_id via fetchClinicalInsights)
-  const activeConditionInsights = allInsights
-
   const activeUnusedInsights = useMemo(
-    () => (unusedInsights || []).filter((i: any) => {
-      const pcId = activeCondition?.patient_condition_id
-      return pcId && i.patient_condition_id === pcId
-    }),
-    [unusedInsights, activeCondition?.patient_condition_id]
+    () => allInsights.filter((i: any) => !i.used_in_protocol_generation),
+    [allInsights]
   )
 
   // Notes filtered to active condition (condition-specific notes + visit-level notes)
   const activeConditionNotes = useMemo(
-    () => visitNotes.notes.filter((n: any) => n.visit_condition_id === activeConditionId),
-    [visitNotes.notes, activeConditionId]
+    () => visitNotes.filter((n: any) => n.visit_condition_id === activeConditionId),
+    [visitNotes, activeConditionId]
   )
 
   const visitLevelNotes = useMemo(
-    () => visitNotes.notes.filter((n: any) => !n.visit_condition_id),
-    [visitNotes.notes]
+    () => visitNotes.filter((n: any) => !n.visit_condition_id),
+    [visitNotes]
   )
 
   // All notes for sidebar (condition + visit-level)
@@ -240,12 +151,12 @@ export default function AppointmentDetailsPage() {
     [activeConditionNotes, visitLevelNotes]
   )
 
-  // Insights sorted newest first (already scoped to condition via fetchClinicalInsights)
+  // Insights sorted newest first
   const sortedInsights = useMemo(
-    () => [...activeConditionInsights].sort(
+    () => [...allInsights].sort(
       (a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
     ),
-    [activeConditionInsights]
+    [allInsights]
   )
 
   // ── Handlers ───────────────────────────────────────────────────
@@ -270,16 +181,6 @@ export default function AppointmentDetailsPage() {
 
   const handleNoteSuccess = () => {
     toast.success('Note added successfully')
-    // Refresh visit notes to show the new note in sidebar
-    if (appointment?.id) {
-      ApiManager.getVisitNotes(appointment.id)
-        .then(response => {
-          if (response.success && response.data) {
-            setVisitNotes({ notes: response.data.notes || [], loading: false })
-          }
-        })
-        .catch(() => {})
-    }
   }
 
   const handleToggleHistory = async (condition: any) => {
@@ -318,7 +219,9 @@ export default function AppointmentDetailsPage() {
     toast.success('Condition discharged successfully')
     setShowDischargeDialog(false)
     setConditionToDischarge(null)
-    if (appointment?.id) dispatch(fetchVisitConditions(appointment.id))
+    if (appointment?.id) {
+      queryClient.invalidateQueries({ queryKey: appointmentKeys.conditions(appointment.id) })
+    }
   }
 
   const handleReactivateCondition = async (condition: any) => {
@@ -326,7 +229,7 @@ export default function AppointmentDetailsPage() {
       const response = await ApiManager.reactivateCondition(patient.id, condition.patient_condition_id)
       if (response.success) {
         toast.success('Condition reactivated')
-        dispatch(fetchVisitConditions(appointment.id))
+        queryClient.invalidateQueries({ queryKey: appointmentKeys.conditions(appointment.id) })
       }
     } catch {
       toast.error('Failed to reactivate')
@@ -375,7 +278,7 @@ export default function AppointmentDetailsPage() {
           chief_complaint: vc.chief_complaint,
           condition: vc.condition,
         })),
-        clinicalInsights: clinicalInsights?.data || [],
+        clinicalInsights: allInsights,
         protocols: conditionProtocols,
       }
 
@@ -412,7 +315,7 @@ export default function AppointmentDetailsPage() {
     if (!activeCondition || mobileObservationText.trim().length < 3 || mobileObsSubmitting) return
     setMobileObsSubmitting(true)
     try {
-      await dispatch(addClinicalInsight({
+      await addInsightMutation.mutateAsync({
         patientConditionId: activeCondition.patient_condition_id,
         data: {
           insight_text: mobileObservationText.trim(),
@@ -420,12 +323,12 @@ export default function AppointmentDetailsPage() {
           visit_id: appointment!.id,
           visit_condition_id: activeCondition.id,
         },
-      })).unwrap()
+      })
       setMobileObservationText('')
       setMobileObsSuccess(true)
       setTimeout(() => setMobileObsSuccess(false), 1200)
     } catch {
-      // error handled by redux / toast
+      toast.error('Failed to add observation')
     } finally {
       setMobileObsSubmitting(false)
     }
@@ -477,36 +380,20 @@ export default function AppointmentDetailsPage() {
     mobileStopRecording()
   }
 
-  const refreshProtocols = async () => {
-    try {
-      const response = await ApiManager.getTreatmentProtocols({ visit_id: params.appointmentId as string })
-      if (response.success && response.data) {
-        const protocols = response.data.protocols || response.data || []
-        const protocolMap: Record<string, { home?: any; clinical?: any }> = {}
-        protocols.forEach((protocol: any) => {
-          let match = visitConditions.find(vc => protocol.visit_condition_id && vc.id === protocol.visit_condition_id)
-          if (!match && protocol.patient_condition_id) match = visitConditions.find(vc => vc.patient_condition_id === protocol.patient_condition_id)
-          if (!match && protocol.condition_id) match = visitConditions.find(vc => vc.condition_id === protocol.condition_id)
-          if (match) {
-            if (!protocolMap[match.id]) protocolMap[match.id] = {}
-            protocolMap[match.id][protocol.protocol_type || 'home'] = protocol
-          }
-        })
-        setConditionProtocols(protocolMap)
-      }
-    } catch (error) {
-      console.error('Failed to refresh protocols:', error)
+  const refreshProtocols = () => {
+    if (appointmentId) {
+      queryClient.invalidateQueries({ queryKey: appointmentKeys.protocols(appointmentId) })
     }
   }
 
   // ── Loading / Error states ─────────────────────────────────────
 
-  if (loading.appointment) {
+  if (appointmentLoading) {
     return <AppointmentPageShell loading />
   }
 
-  if (errors.appointment || !appointment || !patient) {
-    return <AppointmentPageShell error={errors.appointment || 'Appointment not found'} />
+  if (appointmentError || !appointment || !patient) {
+    return <AppointmentPageShell error={appointmentError?.message || 'Appointment not found'} />
   }
 
   // ── Active condition protocol helpers ──────────────────────────
@@ -702,7 +589,7 @@ export default function AppointmentDetailsPage() {
                 conditions={visitConditions}
                 activeConditionId={activeConditionId}
                 onConditionChange={setActiveConditionId}
-                loading={loading.visitConditions}
+                loading={conditionsLoading}
               >
                 {activeCondition && (
                   <>
@@ -774,7 +661,7 @@ export default function AppointmentDetailsPage() {
                     <InlineFindingInput
                       label="Quick Observation"
                       onSubmit={async (text) => {
-                        await dispatch(addClinicalInsight({
+                        await addInsightMutation.mutateAsync({
                           patientConditionId: activeCondition.patient_condition_id,
                           data: {
                             insight_text: text,
@@ -782,7 +669,7 @@ export default function AppointmentDetailsPage() {
                             visit_id: appointment.id,
                             visit_condition_id: activeCondition.id,
                           },
-                        })).unwrap()
+                        })
                       }}
                     />
                   </div>
@@ -900,8 +787,7 @@ export default function AppointmentDetailsPage() {
           }}
           onPatientUpdate={async () => {
             if (appointment?.patient_id) {
-              const response = await ApiManager.getPatient(appointment.patient_id)
-              if (response.success && response.data) dispatch(setPatient(response.data))
+              queryClient.invalidateQueries({ queryKey: appointmentKeys.patient(appointment.patient_id) })
             }
           }}
         />
@@ -913,7 +799,7 @@ export default function AppointmentDetailsPage() {
           onClose={async () => {
             setShowProtocolGenerator(false)
             setSelectedConditionForProtocol(null)
-            await refreshProtocols()
+            refreshProtocols()
           }}
           patientId={patient?.id}
           conditionId={selectedConditionForProtocol.patientConditionId}

@@ -1,6 +1,6 @@
 import './global.css';
 import { ReduxProvider } from '../components/providers/ReduxProvider';
-import { AppMantineProvider } from '../components/providers/MantineProvider';
+import { QueryProvider } from '../components/providers/QueryProvider';
 import { AuthProvider } from '../components/providers/AuthProvider';
 import { Toaster } from '../components/ui/sonner';
 import { GeistSans } from 'geist/font/sans';
@@ -120,12 +120,12 @@ export default function RootLayout({
       </head>
       <body className={`${GeistSans.variable} ${GeistMono.variable} font-sans antialiased`}>
         <ReduxProvider>
-          <AuthProvider>
-            <AppMantineProvider>
+          <QueryProvider>
+            <AuthProvider>
               {children}
               <Toaster />
-            </AppMantineProvider>
-          </AuthProvider>
+            </AuthProvider>
+          </QueryProvider>
         </ReduxProvider>
       </body>
     </html>
