@@ -248,26 +248,16 @@ export default function Login() {
       <div className="min-h-screen relative">
         {/* Background Image */}
         <div className="absolute inset-0">
-          {/* Desktop Background */}
-          <div 
-            className="hidden sm:block absolute inset-0 bg-cover bg-center bg-no-repeat"
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')`
-            }}
-          >
-          </div>
-          {/* Mobile Background - Physiotherapist working with patient */}
-          <div 
-            className="sm:hidden absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80')`
+              backgroundImage: `url('/best_bg_physio_new.png')`
             }}
           >
           </div>
         </div>
         
         {/* Overlay - Darker for mobile to improve readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-brand-black/80 via-brand-black/60 to-brand-teal/90 sm:from-brand-black/70 sm:via-brand-black/50 sm:to-brand-teal/80"></div>
         
         {/* Content */}
         <div className="relative z-10 min-h-screen flex flex-col">

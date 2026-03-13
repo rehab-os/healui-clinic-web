@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAppSelector } from '../../../store/hooks';
 import ApiManager from '@/services/api/api.service';
-import LeafletMapPicker from '../maps/LeafletMapPicker';
+import GoogleMapPicker from '../maps/GoogleMapPicker';
 import WorkingHoursInput from '../shared/WorkingHoursInput';
 import { WorkingHours, DaySchedule } from '@/lib/types';
 import {
@@ -65,7 +65,7 @@ const CreateClinicModal: React.FC<CreateClinicModalProps> = ({ onClose, onSucces
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [selectedAddress, setSelectedAddress] = useState<string>('');
-  
+
   const [formData, setFormData] = useState<FormData>({
     name: '',
     address: '',
@@ -86,31 +86,23 @@ const CreateClinicModal: React.FC<CreateClinicModalProps> = ({ onClose, onSucces
     { id: 3, title: 'Working Hours', description: 'Set operating hours' }
   ];
 
+  const inputClass = "w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 text-sm";
+  const inputErrorClass = "w-full px-3 py-2.5 border border-red-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 text-sm";
+
   const formatPhoneNumber = (phone: string): string => {
-    // If already properly formatted, return as is
     if (/^\+91[6-9]\d{9}$/.test(phone)) {
       return phone;
     }
-    
-    // Remove all non-digits
     const digits = phone.replace(/\D/g, '');
-    
-    // If it starts with 91 and is 12 digits, add + prefix
     if (digits.startsWith('91') && digits.length === 12) {
       return '+' + digits;
     }
-    
-    // If it's a 10-digit number starting with 6-9, add +91
     if (digits.length === 10 && /^[6-9]/.test(digits)) {
       return '+91' + digits;
     }
-    
-    // If it's 11 digits starting with 9 (probably missing +)
     if (digits.length === 11 && digits.startsWith('9')) {
       return '+' + digits;
     }
-    
-    // Return the formatted version or original if can't format
     return digits.length >= 10 ? '+91' + digits.slice(-10) : phone;
   };
 
@@ -120,8 +112,6 @@ const CreateClinicModal: React.FC<CreateClinicModalProps> = ({ onClose, onSucces
     if (step === 1) {
       if (!formData.name.trim()) newErrors.name = 'Clinic name is required';
       if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
-      
-      // Validate phone format - should be +91XXXXXXXXXX
       const phoneRegex = /^\+91[6-9]\d{9}$/;
       if (formData.phone && !phoneRegex.test(formData.phone.replace(/\s/g, ''))) {
         newErrors.phone = 'Phone must be a valid Indian mobile number (+91XXXXXXXXXX)';
@@ -153,17 +143,14 @@ const CreateClinicModal: React.FC<CreateClinicModalProps> = ({ onClose, onSucces
   };
 
   const handleInputChange = (field: keyof FormData, value: string) => {
-    // Format phone numbers automatically
     if (field === 'phone') {
       value = formatPhoneNumber(value);
     }
-    
     setFormData(prev => ({ ...prev, [field]: value }));
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }));
     }
   };
-
 
   const handleLocationSelect = (lat: number, lng: number, address?: string) => {
     setFormData(prev => ({
@@ -171,14 +158,11 @@ const CreateClinicModal: React.FC<CreateClinicModalProps> = ({ onClose, onSucces
       latitude: lat,
       longitude: lng,
       address: address || prev.address,
-      // Auto-populate address fields if not manually filled
       city: prev.city || extractCityFromAddress(address || ''),
       state: prev.state || extractStateFromAddress(address || ''),
       pincode: prev.pincode || extractPincodeFromAddress(address || '')
     }));
     setSelectedAddress(address || '');
-    
-    // Clear location error if exists
     if (errors.location) {
       setErrors(prev => ({ ...prev, location: '' }));
     }
@@ -196,7 +180,6 @@ const CreateClinicModal: React.FC<CreateClinicModalProps> = ({ onClose, onSucces
 
     setLoading(true);
     try {
-      // Ensure phone number is properly formatted
       const submitData = {
         ...formData,
         phone: formatPhoneNumber(formData.phone),
@@ -204,16 +187,13 @@ const CreateClinicModal: React.FC<CreateClinicModalProps> = ({ onClose, onSucces
         latitude: formData.latitude,
         longitude: formData.longitude,
         working_hours: formData.working_hours,
-        // Extract city, state, pincode from address if not provided
         city: formData.city || extractCityFromAddress(selectedAddress),
         state: formData.state || extractStateFromAddress(selectedAddress),
         pincode: formData.pincode || extractPincodeFromAddress(selectedAddress)
       };
 
-      console.log('Submitting clinic data:', submitData);
-
       const response = await ApiManager.createClinic(userData.organization.id, submitData);
-      
+
       if (response.success) {
         onSuccess();
       } else {
@@ -227,9 +207,7 @@ const CreateClinicModal: React.FC<CreateClinicModalProps> = ({ onClose, onSucces
     }
   };
 
-  // Helper functions to extract address components
   const extractCityFromAddress = (address: string): string => {
-    // Simple extraction - in a real app, you'd use Google Places API details
     const parts = address.split(',');
     return parts.length > 2 ? parts[parts.length - 3].trim() : '';
   };
@@ -245,60 +223,49 @@ const CreateClinicModal: React.FC<CreateClinicModalProps> = ({ onClose, onSucces
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="glass rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden border border-border-color">
-        {/* Header */}
-        <div className="px-6 py-4 border-b border-border-color bg-gradient-physio">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="p-2 bg-white/20 rounded-lg">
-                <Building2 className="h-6 w-6 text-white" />
-              </div>
-              <div>
-                <h2 className="text-xl font-display font-bold text-white">Create New Clinic 🏥</h2>
-                <p className="text-white/90 font-medium">Add a new clinic location to your organization</p>
-              </div>
-            </div>
-            <button
-              onClick={onClose}
-              className="p-2 text-white/80 hover:text-white hover:bg-white/20 rounded-lg transition-all duration-200"
-            >
-              <X className="h-5 w-5" />
-            </button>
-          </div>
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+      <div className="bg-white sm:rounded-2xl shadow-2xl w-full max-w-4xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden border-0 sm:border border-gray-200">
+        {/* Header — clean white, matches other forms */}
+        <div className="px-5 py-3.5 border-b border-gray-200 flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-gray-900">Add New Clinic</h2>
+          <button
+            onClick={onClose}
+            className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+          >
+            <X className="h-4 w-4" />
+          </button>
         </div>
 
         {/* Progress Steps */}
-        <div className="px-6 py-4 bg-gray-50 border-b border-gray-200">
+        <div className="px-5 py-3 bg-gray-50 border-b border-gray-200">
           <div className="flex items-center justify-between">
             {steps.map((step, index) => (
               <div key={step.id} className="flex items-center">
                 <div className="flex items-center">
                   <div className={`
-                    w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors
-                    ${currentStep >= step.id 
-                      ? 'bg-blue-600 text-white' 
-                      : 'bg-gray-200 text-gray-600'
+                    w-7 h-7 rounded-full flex items-center justify-center text-xs font-medium transition-colors
+                    ${currentStep >= step.id
+                      ? 'bg-brand-teal text-white'
+                      : 'bg-gray-200 text-gray-500'
                     }
                   `}>
                     {currentStep > step.id ? (
-                      <CheckCircle className="h-4 w-4" />
+                      <CheckCircle className="h-3.5 w-3.5" />
                     ) : (
                       step.id
                     )}
                   </div>
-                  <div className="ml-3">
+                  <div className="ml-2.5 hidden sm:block">
                     <p className={`text-sm font-medium ${
-                      currentStep >= step.id ? 'text-gray-900' : 'text-gray-500'
+                      currentStep >= step.id ? 'text-gray-900' : 'text-gray-400'
                     }`}>
                       {step.title}
                     </p>
-                    <p className="text-xs text-gray-500">{step.description}</p>
                   </div>
                 </div>
                 {index < steps.length - 1 && (
-                  <div className={`w-12 h-px mx-4 ${
-                    currentStep > step.id ? 'bg-blue-600' : 'bg-gray-200'
+                  <div className={`w-8 sm:w-12 h-px mx-3 sm:mx-4 ${
+                    currentStep > step.id ? 'bg-brand-teal' : 'bg-gray-200'
                   }`} />
                 )}
               </div>
@@ -307,87 +274,81 @@ const CreateClinicModal: React.FC<CreateClinicModalProps> = ({ onClose, onSucces
         </div>
 
         {/* Form Content */}
-        <div className="px-6 py-6 overflow-y-auto max-h-[60vh]">
+        <div className="px-5 py-5 overflow-y-auto max-h-[60vh]">
           {/* Step 1: Basic Info */}
           {currentStep === 1 && (
-            <div className="space-y-6">
+            <div className="space-y-5">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">
                   Clinic Name *
                 </label>
                 <input
                   type="text"
                   value={formData.name}
                   onChange={(e) => handleInputChange('name', e.target.value)}
-                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                    errors.name ? 'border-red-300' : 'border-gray-300'
-                  }`}
+                  className={errors.name ? inputErrorClass : inputClass}
                   placeholder="Enter clinic name"
                 />
                 {errors.name && (
-                  <p className="mt-1 text-sm text-red-600 flex items-center">
-                    <AlertCircle className="h-4 w-4 mr-1" />
+                  <p className="mt-1 text-xs text-red-600 flex items-center">
+                    <AlertCircle className="h-3 w-3 mr-1" />
                     {errors.name}
                   </p>
                 )}
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
                     Clinic Phone *
                   </label>
                   <div className="relative">
-                    <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                     <input
                       type="tel"
                       value={formData.phone}
                       onChange={(e) => handleInputChange('phone', e.target.value)}
-                      className={`w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                        errors.phone ? 'border-red-300' : 'border-gray-300'
-                      }`}
+                      className={`pl-10 ${errors.phone ? inputErrorClass : inputClass}`}
                       placeholder="+91 98765 43210"
                     />
                   </div>
                   {errors.phone && (
-                    <p className="mt-1 text-sm text-red-600 flex items-center">
-                      <AlertCircle className="h-4 w-4 mr-1" />
+                    <p className="mt-1 text-xs text-red-600 flex items-center">
+                      <AlertCircle className="h-3 w-3 mr-1" />
                       {errors.phone}
                     </p>
                   )}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
                     Email (Optional)
                   </label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                     <input
                       type="email"
                       value={formData.email}
                       onChange={(e) => handleInputChange('email', e.target.value)}
-                      className={`w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                        errors.email ? 'border-red-300' : 'border-gray-300'
-                      }`}
+                      className={`pl-10 ${errors.email ? inputErrorClass : inputClass}`}
                       placeholder="clinic@example.com"
                     />
                   </div>
                   {errors.email && (
-                    <p className="mt-1 text-sm text-red-600">{errors.email}</p>
+                    <p className="mt-1 text-xs text-red-600">{errors.email}</p>
                   )}
                 </div>
               </div>
 
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <div className="bg-teal-50 border border-teal-200 rounded-lg p-3.5">
                 <div className="flex items-start">
-                  <User className="h-5 w-5 text-blue-600 mt-0.5 mr-3" />
+                  <User className="h-4 w-4 text-teal-600 mt-0.5 mr-2.5" />
                   <div>
-                    <h4 className="text-sm font-medium text-blue-900 mb-1">
+                    <h4 className="text-sm font-medium text-teal-900 mb-0.5">
                       Default Clinic Administration
                     </h4>
-                    <p className="text-sm text-blue-700">
-                      The organization owner will automatically become the admin of this clinic. 
+                    <p className="text-xs text-teal-700">
+                      The organization owner will automatically become the admin of this clinic.
                       You can assign additional administrators later from the clinic management page.
                     </p>
                   </div>
@@ -398,93 +359,93 @@ const CreateClinicModal: React.FC<CreateClinicModalProps> = ({ onClose, onSucces
 
           {/* Step 2: Location */}
           {currentStep === 2 && (
-            <div className="space-y-6">
+            <div className="space-y-5">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-4">
-                  <MapPin className="inline h-4 w-4 mr-2" />
+                <label className="block text-sm font-medium text-gray-700 mb-3">
+                  <MapPin className="inline h-4 w-4 mr-1.5" />
                   Select Clinic Location *
                 </label>
-                <LeafletMapPicker
+                <GoogleMapPicker
                   onLocationSelect={handleLocationSelect}
                   initialLat={formData.latitude || 28.6139}
                   initialLng={formData.longitude || 77.2090}
                   height="450px"
                 />
                 {errors.location && (
-                  <p className="mt-2 text-sm text-red-600 flex items-center">
-                    <AlertCircle className="h-4 w-4 mr-1" />
+                  <p className="mt-2 text-xs text-red-600 flex items-center">
+                    <AlertCircle className="h-3 w-3 mr-1" />
                     {errors.location}
                   </p>
                 )}
               </div>
 
               {selectedAddress && (
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                  <h4 className="font-medium text-blue-900 mb-2">Selected Address:</h4>
-                  <p className="text-sm text-blue-700">{selectedAddress}</p>
-                  <div className="mt-2 text-xs text-blue-600">
+                <div className="bg-teal-50 border border-teal-200 rounded-lg p-3.5">
+                  <h4 className="font-medium text-teal-900 text-sm mb-1">Selected Address:</h4>
+                  <p className="text-sm text-teal-700">{selectedAddress}</p>
+                  <div className="mt-1.5 text-xs text-teal-600">
                     Coordinates: {formData.latitude?.toFixed(6)}, {formData.longitude?.toFixed(6)}
                   </div>
                 </div>
               )}
 
               {/* Optional Address Override */}
-              <div className="border-t border-gray-200 pt-6">
-                <h4 className="text-sm font-medium text-gray-700 mb-4">Address Details (Optional - auto-filled from map)</h4>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+              <div className="border-t border-gray-200 pt-5">
+                <h4 className="text-sm font-medium text-gray-700 mb-3">Address Details (Optional - auto-filled from map)</h4>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">City</label>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">City</label>
                     <input
                       type="text"
                       value={formData.city}
                       onChange={(e) => handleInputChange('city', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className={inputClass}
                       placeholder="City"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">State</label>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">State</label>
                     <input
                       type="text"
                       value={formData.state}
                       onChange={(e) => handleInputChange('state', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className={inputClass}
                       placeholder="State"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Pincode</label>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">Pincode</label>
                     <input
                       type="text"
                       value={formData.pincode}
                       onChange={(e) => handleInputChange('pincode', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className={inputClass}
                       placeholder="6-digit pincode"
                       maxLength={6}
                     />
                   </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Full Address</label>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">Full Address</label>
                     <textarea
                       value={formData.address}
                       onChange={(e) => handleInputChange('address', e.target.value)}
                       rows={2}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className={inputClass}
                       placeholder="Complete address"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Total Beds (Optional)</label>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">Total Beds (Optional)</label>
                     <div className="relative">
-                      <Bed className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                      <Bed className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                       <input
                         type="number"
                         min="0"
                         value={formData.total_beds}
                         onChange={(e) => handleInputChange('total_beds', e.target.value)}
-                        className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className={`pl-10 ${inputClass}`}
                         placeholder="Number of beds"
                       />
                     </div>
@@ -496,14 +457,14 @@ const CreateClinicModal: React.FC<CreateClinicModalProps> = ({ onClose, onSucces
 
           {/* Step 3: Working Hours */}
           {currentStep === 3 && (
-            <div className="space-y-6">
+            <div className="space-y-5">
               <WorkingHoursInput
                 value={formData.working_hours}
                 onChange={updateWorkingHours}
               />
-              <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                <p className="text-sm text-blue-700">
-                  💡 You can add facilities and equipment details later from the clinic management page.
+              <div className="p-3 bg-teal-50 border border-teal-200 rounded-lg">
+                <p className="text-xs text-teal-700">
+                  You can add facilities and equipment details later from the clinic management page.
                 </p>
               </div>
             </div>
@@ -521,20 +482,20 @@ const CreateClinicModal: React.FC<CreateClinicModalProps> = ({ onClose, onSucces
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-border-color bg-gray-50">
+        <div className="px-5 py-3.5 border-t border-gray-200 bg-gray-50">
           <div className="flex items-center justify-between">
             <button
               onClick={currentStep === 1 ? onClose : handleBack}
-              className="btn-secondary px-6 py-2.5"
+              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
             >
               {currentStep === 1 ? 'Cancel' : 'Back'}
             </button>
-            
+
             <div className="flex items-center space-x-3">
               {currentStep < 3 ? (
                 <button
                   onClick={handleNext}
-                  className="btn-primary px-6 py-2.5"
+                  className="px-4 py-2 text-sm font-medium text-white bg-brand-teal rounded-lg hover:bg-teal-700 transition-colors"
                 >
                   Next Step
                 </button>
@@ -542,7 +503,7 @@ const CreateClinicModal: React.FC<CreateClinicModalProps> = ({ onClose, onSucces
                 <button
                   onClick={handleSubmit}
                   disabled={loading}
-                  className="btn-primary px-6 py-2.5 disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+                  className="px-4 py-2 text-sm font-medium text-white bg-brand-teal rounded-lg hover:bg-teal-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
                 >
                   {loading ? (
                     <>

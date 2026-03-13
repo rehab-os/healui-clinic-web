@@ -13,35 +13,24 @@ import PatientBillingModal from '../../../components/features/billing/PatientBil
 import AddConditionWorkflow from '../../../components/features/conditions/AddConditionWorkflow';
 import {
   UserPlus,
-  Users,
-  Calendar,
-  FileText,
-  Phone,
-  Mail,
-  MapPin,
   MoreVertical,
   Search,
-  Filter,
-  Grid,
-  List,
   Eye,
-  Edit,
   CalendarPlus,
   Clock,
-  Activity,
   AlertCircle,
-  Heart,
-  FileCheck,
+  CheckCircle,
   Shield,
   Loader2,
-  TrendingUp,
-  CheckCircle,
   XCircle,
   Stethoscope,
   IndianRupee,
-  Package,
   Crosshair,
-  Plus
+  Plus,
+  FileText,
+  ChevronLeft,
+  ChevronRight,
+  Users
 } from 'lucide-react';
 
 interface Patient {
@@ -106,7 +95,6 @@ export default function PatientsPage() {
   });
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('list'); // Default to list for mobile
   const [statusFilter, setStatusFilter] = useState<'all' | 'ACTIVE' | 'INACTIVE' | 'DISCHARGED'>('all');
   const [showAddModal, setShowAddModal] = useState(false);
   const [showQuickIntakeModal, setShowQuickIntakeModal] = useState(false);
@@ -119,7 +107,7 @@ export default function PatientsPage() {
   const [page, setPage] = useState(1);
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [showAddMenu, setShowAddMenu] = useState(false);
-  const limit = 15; // Increased for better mobile experience
+  const limit = 15;
 
   useEffect(() => {
     if (currentClinic?.id) {
@@ -129,7 +117,7 @@ export default function PatientsPage() {
 
   const fetchPatients = async () => {
     if (!currentClinic?.id) return;
-    
+
     try {
       setLoading(true);
       const params = {
@@ -139,7 +127,7 @@ export default function PatientsPage() {
         page,
         limit,
       };
-      
+
       const response = await ApiManager.getPatients(params);
       if (response.success) {
         setPatientsData(response.data || { patients: [], total: 0 });
@@ -151,18 +139,12 @@ export default function PatientsPage() {
     }
   };
 
-
   const handleSearch = () => {
     setPage(1);
     fetchPatients();
   };
 
-  const handleAddPatient = () => {
-    setShowAddModal(true);
-  };
-
   const handleViewPatient = (patient: Patient) => {
-    // Open the patient details modal
     setSelectedPatient(patient);
     setShowDetailsModal(true);
   };
@@ -187,40 +169,20 @@ export default function PatientsPage() {
     setShowDxModal(true);
   };
 
-  const calculateAge = (dob: Date) => {
-    const today = new Date();
-    const birthDate = new Date(dob);
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const monthDiff = today.getMonth() - birthDate.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-      age--;
-    }
-    return age;
-  };
+  const totalPages = Math.ceil(patientsData.total / limit);
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'ACTIVE':
-        return 'bg-brand-teal/10 text-brand-teal border-brand-teal/20';
-      case 'INACTIVE':
-        return 'bg-brand-black/10 text-brand-black/70 border-brand-black/20';
-      case 'DISCHARGED':
-        return 'bg-blue-50 text-blue-700 border-blue-200';
-      default:
-        return 'bg-brand-black/10 text-brand-black/70 border-brand-black/20';
-    }
-  };
-
-  // Access control - only allow receptionist/manager roles or clinic admins
-  if (currentClinic && !currentClinic.is_admin && 
-      currentClinic.role !== 'receptionist' && 
+  // Access control
+  if (currentClinic && !currentClinic.is_admin &&
+      currentClinic.role !== 'receptionist' &&
       currentClinic.role !== 'manager') {
     return (
-      <div className="max-w-2xl mx-auto py-12">
-        <div className="card-base text-center">
-          <Shield className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-          <h2 className="text-xl font-display font-semibold text-brand-black mb-2">Access Denied</h2>
-          <p className="text-brand-black/60 text-center">
+      <div className="min-h-screen bg-gradient-to-b from-brand-teal/[0.04] to-white flex items-center justify-center p-4">
+        <div className="bg-white rounded-2xl p-10 text-center shadow-sm border border-gray-100 max-w-md">
+          <div className="w-16 h-16 rounded-2xl bg-brand-teal/10 flex items-center justify-center mx-auto mb-5">
+            <Shield className="h-8 w-8 text-brand-teal" />
+          </div>
+          <h2 className="text-xl font-semibold text-gray-900 mb-2">Access Denied</h2>
+          <p className="text-gray-500 text-sm leading-relaxed">
             Only receptionists, managers, and clinic administrators can manage patients.
           </p>
         </div>
@@ -230,11 +192,13 @@ export default function PatientsPage() {
 
   if (!currentClinic) {
     return (
-      <div className="max-w-2xl mx-auto py-12">
-        <div className="card-base text-center">
-          <AlertCircle className="h-16 w-16 text-brand-teal/50 mx-auto mb-4" />
-          <h2 className="text-xl font-display font-semibold text-brand-black mb-2">No Clinic Selected</h2>
-          <p className="text-brand-black/60">
+      <div className="min-h-screen bg-gradient-to-b from-brand-teal/[0.04] to-white flex items-center justify-center p-4">
+        <div className="bg-white rounded-2xl p-10 text-center shadow-sm border border-gray-100 max-w-md">
+          <div className="w-16 h-16 rounded-2xl bg-brand-teal/10 flex items-center justify-center mx-auto mb-5">
+            <AlertCircle className="h-8 w-8 text-brand-teal" />
+          </div>
+          <h2 className="text-xl font-semibold text-gray-900 mb-2">No Clinic Selected</h2>
+          <p className="text-gray-500 text-sm leading-relaxed">
             Please select a clinic from the header to manage patients.
           </p>
         </div>
@@ -243,22 +207,32 @@ export default function PatientsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header — mobile: title + icons, desktop: full bar */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-30">
+    <div className="min-h-screen bg-gradient-to-b from-brand-teal/[0.04] to-gray-50/80">
+      {/* ── Header bar ── */}
+      <div className="bg-white/80 backdrop-blur-md border-b border-gray-200/60 sticky top-0 z-30">
         {/* Mobile header */}
-        <div className="sm:hidden px-4 py-2.5 flex items-center justify-between">
-          <h1 className="text-base font-semibold text-gray-900">Patients</h1>
-          <div className="flex items-center gap-1">
+        <div className="sm:hidden px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-brand-teal/10 flex items-center justify-center">
+              <Users className="h-4 w-4 text-brand-teal" />
+            </div>
+            <div>
+              <h1 className="text-base font-semibold text-gray-900 leading-none">Patients</h1>
+              {!loading && patientsData.total > 0 && (
+                <span className="text-[11px] text-gray-400 mt-0.5 block">{patientsData.total} registered</span>
+              )}
+            </div>
+          </div>
+          <div className="flex items-center gap-0.5">
             <button
-              onClick={() => setShowMobileSearch(!showMobileSearch)}
-              className={`p-2 rounded-lg transition-colors ${showMobileSearch ? 'bg-gray-100 text-brand-teal' : 'text-gray-500 hover:bg-gray-100'}`}
+              onClick={() => { setShowMobileSearch(!showMobileSearch); setShowAddMenu(false); }}
+              className={`p-2 rounded-xl transition-all duration-200 ${showMobileSearch ? 'bg-brand-teal/10 text-brand-teal' : 'text-gray-400 hover:bg-gray-100 hover:text-gray-600'}`}
             >
               <Search className="h-5 w-5" />
             </button>
             <button
-              onClick={() => setShowAddMenu(!showAddMenu)}
-              className="p-2 text-brand-teal hover:bg-gray-100 rounded-lg transition-colors"
+              onClick={() => { setShowAddMenu(!showAddMenu); setShowMobileSearch(false); }}
+              className="p-2 text-brand-teal hover:bg-brand-teal/10 rounded-xl transition-all duration-200"
             >
               <Plus className="h-5 w-5" />
             </button>
@@ -267,16 +241,16 @@ export default function PatientsPage() {
 
         {/* Mobile: expandable search + filter */}
         {showMobileSearch && (
-          <div className="sm:hidden px-4 pb-3 space-y-2 border-t border-gray-100">
+          <div className="sm:hidden px-4 pb-3 space-y-2 border-t border-gray-100/60">
             <div className="relative mt-2">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search patients..."
+                placeholder="Search by name or phone..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                className="w-full pl-9 pr-8 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal focus:bg-white"
+                className="w-full pl-9 pr-8 py-2.5 bg-gray-50/80 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal focus:bg-white transition-all duration-200"
                 autoFocus
               />
               {searchTerm && (
@@ -291,7 +265,7 @@ export default function PatientsPage() {
             <select
               value={statusFilter}
               onChange={(e) => { setStatusFilter(e.target.value as any); setPage(1); }}
-              className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal/20"
+              className="w-full px-3 py-2.5 bg-gray-50/80 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal/20 appearance-none"
             >
               <option value="all">All Patients</option>
               <option value="ACTIVE">Active</option>
@@ -303,39 +277,57 @@ export default function PatientsPage() {
 
         {/* Mobile: add menu dropdown */}
         {showAddMenu && (
-          <div className="sm:hidden px-4 pb-3 border-t border-gray-100">
-            <div className="mt-2 space-y-1">
+          <div className="sm:hidden px-4 pb-3 border-t border-gray-100/60">
+            <div className="mt-2 space-y-0.5">
               <button
                 onClick={() => { setShowAddMenu(false); setShowQuickIntakeModal(true); }}
-                className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+                className="w-full flex items-center gap-3 px-3.5 py-2.5 text-sm font-medium text-gray-800 hover:bg-brand-teal/[0.06] rounded-xl transition-colors"
               >
-                <UserPlus className="h-4 w-4 text-brand-teal" />
+                <div className="w-7 h-7 rounded-lg bg-brand-teal/10 flex items-center justify-center flex-shrink-0">
+                  <UserPlus className="h-3.5 w-3.5 text-brand-teal" />
+                </div>
                 Quick Intake
               </button>
               <button
-                onClick={() => { setShowAddMenu(false); handleAddPatient(); }}
-                className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+                onClick={() => { setShowAddMenu(false); setShowAddModal(true); }}
+                className="w-full flex items-center gap-3 px-3.5 py-2.5 text-sm font-medium text-gray-800 hover:bg-gray-50 rounded-xl transition-colors"
               >
-                <FileText className="h-4 w-4 text-gray-400" />
+                <div className="w-7 h-7 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
+                  <FileText className="h-3.5 w-3.5 text-gray-500" />
+                </div>
                 Full Registration
               </button>
             </div>
           </div>
         )}
 
-        {/* Desktop header — single row */}
+        {/* Desktop header */}
         <div className="hidden sm:block">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center gap-3 py-2.5">
+            <div className="flex items-center gap-3 py-3">
+              {/* Title cluster */}
+              <div className="flex items-center gap-3 mr-4">
+                <div className="w-9 h-9 rounded-xl bg-brand-teal/10 flex items-center justify-center">
+                  <Users className="h-[18px] w-[18px] text-brand-teal" />
+                </div>
+                <div>
+                  <h1 className="text-lg font-semibold text-gray-900 leading-none">Patients</h1>
+                  {!loading && patientsData.total > 0 && (
+                    <span className="text-xs text-gray-400 mt-0.5 block">{patientsData.total} registered</span>
+                  )}
+                </div>
+              </div>
+
+              {/* Search */}
               <div className="relative flex-1 max-w-sm">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                 <input
                   type="text"
-                  placeholder="Search patients..."
+                  placeholder="Search by name or phone..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                  className="w-full pl-9 pr-8 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal focus:bg-white"
+                  className="w-full pl-9 pr-8 py-2 bg-gray-50/80 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal focus:bg-white transition-all duration-200"
                 />
                 {searchTerm && (
                   <button
@@ -347,28 +339,35 @@ export default function PatientsPage() {
                 )}
               </div>
 
-              <select
-                value={statusFilter}
-                onChange={(e) => { setStatusFilter(e.target.value as any); setPage(1); }}
-                className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal/20"
-              >
-                <option value="all">All</option>
-                <option value="ACTIVE">Active</option>
-                <option value="INACTIVE">Inactive</option>
-                <option value="DISCHARGED">Discharged</option>
-              </select>
+              {/* Filter pills */}
+              <div className="flex items-center gap-1.5">
+                {(['all', 'ACTIVE', 'INACTIVE', 'DISCHARGED'] as const).map((filter) => (
+                  <button
+                    key={filter}
+                    onClick={() => { setStatusFilter(filter); setPage(1); }}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 ${
+                      statusFilter === filter
+                        ? 'bg-brand-teal text-white shadow-sm'
+                        : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'
+                    }`}
+                  >
+                    {filter === 'all' ? 'All' : filter.charAt(0) + filter.slice(1).toLowerCase()}
+                  </button>
+                ))}
+              </div>
 
+              {/* Action buttons */}
               <div className="flex items-center gap-2 ml-auto">
                 <button
                   onClick={() => setShowQuickIntakeModal(true)}
-                  className="bg-brand-teal text-white inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg hover:bg-teal-700 transition-colors"
+                  className="bg-brand-teal text-white inline-flex items-center px-4 py-2 text-sm font-medium rounded-xl hover:bg-teal-700 transition-all duration-200 shadow-sm shadow-brand-teal/20 hover:shadow-md hover:shadow-brand-teal/25"
                 >
                   <UserPlus className="h-4 w-4 mr-1.5" />
                   Quick Intake
                 </button>
                 <button
-                  onClick={handleAddPatient}
-                  className="bg-white text-gray-700 border border-gray-200 inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg hover:bg-gray-50 transition-colors"
+                  onClick={() => setShowAddModal(true)}
+                  className="bg-white text-gray-600 border border-gray-200 inline-flex items-center px-4 py-2 text-sm font-medium rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all duration-200"
                 >
                   <FileText className="h-4 w-4 mr-1.5" />
                   Full Registration
@@ -379,32 +378,35 @@ export default function PatientsPage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 space-y-4">
-
-        {/* Patients Table/Grid */}
+      {/* ── Content ── */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
         {loading ? (
-          <div className="bg-white rounded-lg p-8">
+          <div className="bg-white rounded-2xl p-12 shadow-sm border border-gray-100">
             <div className="flex flex-col items-center justify-center">
-              <Loader2 className="h-8 w-8 animate-spin text-brand-teal mb-3" />
-              <span className="text-sm text-gray-600">Loading patients...</span>
+              <div className="w-12 h-12 rounded-2xl bg-brand-teal/10 flex items-center justify-center mb-4">
+                <Loader2 className="h-6 w-6 animate-spin text-brand-teal" />
+              </div>
+              <span className="text-sm text-gray-500">Loading patients...</span>
             </div>
           </div>
         ) : patientsData.patients.length === 0 ? (
-          <div className="bg-white rounded-lg p-8 text-center">
-            <UserPlus className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+          <div className="bg-white rounded-2xl p-12 text-center shadow-sm border border-gray-100">
+            <div className="w-16 h-16 rounded-2xl bg-brand-teal/10 flex items-center justify-center mx-auto mb-5">
+              <UserPlus className="h-8 w-8 text-brand-teal" />
+            </div>
             <h3 className="text-lg font-semibold text-gray-900 mb-2">
               {searchTerm || statusFilter !== 'all' ? 'No patients found' : 'No patients yet'}
             </h3>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-500 text-sm mb-6 max-w-sm mx-auto leading-relaxed">
               {searchTerm || statusFilter !== 'all'
-                ? 'Try adjusting your search terms or filters' 
-                : 'Get started by adding your first patient'
+                ? 'Try adjusting your search terms or filters'
+                : 'Get started by registering your first patient to this clinic'
               }
             </p>
             {!searchTerm && statusFilter === 'all' && (
               <button
-                onClick={handleAddPatient}
-                className="btn-primary inline-flex items-center px-4 py-2"
+                onClick={() => setShowAddModal(true)}
+                className="bg-brand-teal text-white inline-flex items-center px-5 py-2.5 text-sm font-medium rounded-xl hover:bg-teal-700 transition-all duration-200 shadow-sm shadow-brand-teal/20"
               >
                 <UserPlus className="h-4 w-4 mr-2" />
                 Add Your First Patient
@@ -412,81 +414,73 @@ export default function PatientsPage() {
             )}
           </div>
         ) : (
-          <>
-            {/* Patient count */}
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs text-gray-400 font-medium">{patientsData.total} patient{patientsData.total !== 1 ? 's' : ''}</span>
+          <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+            <div className="overflow-x-auto">
+              <table className="min-w-full">
+                <thead>
+                  <tr className="border-b border-gray-100">
+                    <th className="px-5 py-3 text-left text-[11px] font-semibold text-brand-teal/60 uppercase tracking-wider">
+                      Patient
+                    </th>
+                    <th className="px-5 py-3 text-left text-[11px] font-semibold text-brand-teal/60 uppercase tracking-wider hidden sm:table-cell">
+                      Contact
+                    </th>
+                    <th className="px-5 py-3 text-left text-[11px] font-semibold text-brand-teal/60 uppercase tracking-wider hidden md:table-cell">
+                      Status
+                    </th>
+                    <th className="w-12 px-3 py-3">
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {patientsData.patients.map((patient, idx) => (
+                    <PatientRow
+                      key={patient.id}
+                      patient={patient}
+                      isLast={idx === patientsData.patients.length - 1}
+                      onView={() => handleViewPatient(patient)}
+                      onSchedule={() => handleScheduleVisit(patient)}
+                      onClinicalAssessment={() => handleClinicalAssessment(patient)}
+                      onBilling={() => handleBilling(patient)}
+                      onDx={() => handleDx(patient)}
+                    />
+                  ))}
+                </tbody>
+              </table>
             </div>
 
-            <div className="bg-white rounded-lg overflow-hidden border border-gray-200">
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-4 py-2.5 text-left text-[11px] font-medium text-gray-400 uppercase tracking-wider">
-                        Patient
-                      </th>
-                      <th className="px-4 py-2.5 text-left text-[11px] font-medium text-gray-400 uppercase tracking-wider hidden sm:table-cell">
-                        Age
-                      </th>
-                      <th className="px-4 py-2.5 text-left text-[11px] font-medium text-gray-400 uppercase tracking-wider hidden sm:table-cell">
-                        Gender
-                      </th>
-                      <th className="px-4 py-2.5 text-right text-[11px] font-medium text-gray-400 uppercase tracking-wider">
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-100">
-                    {patientsData.patients.map((patient) => (
-                      <PatientCard
-                        key={patient.id}
-                        patient={patient}
-                        viewMode={'list'}
-                        onView={() => handleViewPatient(patient)}
-                        onSchedule={() => handleScheduleVisit(patient)}
-                        onClinicalAssessment={() => handleClinicalAssessment(patient)}
-                        onBilling={() => handleBilling(patient)}
-                        onDx={() => handleDx(patient)}
-                      />
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </>
-        )}
-
-            {/* Pagination */}
+            {/* Pagination — inside the card */}
             {patientsData.total > limit && (
-              <div className="flex items-center justify-between py-4">
-                <div className="text-sm text-gray-700">
-                  Showing <span className="font-medium">{(page - 1) * limit + 1}</span> to{' '}
-                  <span className="font-medium">
-                    {Math.min(page * limit, patientsData.total)}
-                  </span>{' '}
-                  of <span className="font-medium">{patientsData.total}</span> patients
-                </div>
-                <div className="flex items-center space-x-2">
+              <div className="flex items-center justify-between px-5 py-3 border-t border-gray-100 bg-gray-50/40">
+                <span className="text-xs text-gray-400">
+                  {(page - 1) * limit + 1}–{Math.min(page * limit, patientsData.total)} of {patientsData.total}
+                </span>
+                <div className="flex items-center gap-1">
                   <button
                     onClick={() => setPage(p => Math.max(1, p - 1))}
                     disabled={page === 1}
-                    className="px-3 py-1.5 bg-white border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                   >
-                    Previous
+                    <ChevronLeft className="h-4 w-4" />
                   </button>
+                  <span className="text-xs font-medium text-gray-600 px-2">
+                    {page} / {totalPages}
+                  </span>
                   <button
                     onClick={() => setPage(p => p + 1)}
-                    disabled={page >= Math.ceil(patientsData.total / limit)}
-                    className="px-3 py-1.5 bg-white border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={page >= totalPages}
+                    className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                   >
-                    Next
+                    <ChevronRight className="h-4 w-4" />
                   </button>
                 </div>
               </div>
             )}
+          </div>
+        )}
       </div>
 
-      {/* Modals */}
+      {/* ── Modals ── */}
       {showQuickIntakeModal && (
         <QuickIntakeModal
           onClose={() => setShowQuickIntakeModal(false)}
@@ -519,7 +513,7 @@ export default function PatientsPage() {
             setShowScheduleModal(true);
           }}
           onPatientUpdate={() => {
-            fetchPatients(); // Refresh patient list after update
+            fetchPatients();
           }}
           onClinicalAssessment={() => {
             setShowDetailsModal(false);
@@ -570,7 +564,6 @@ export default function PatientsPage() {
         />
       )}
 
-      {/* Dx Workflow Modal */}
       <AddConditionWorkflow
         isOpen={showDxModal}
         onClose={() => {
@@ -590,9 +583,13 @@ export default function PatientsPage() {
   );
 }
 
-interface PatientCardProps {
+/* ─────────────────────────────────────────────────────
+   Patient Row
+   ───────────────────────────────────────────────────── */
+
+interface PatientRowProps {
   patient: Patient;
-  viewMode: 'grid' | 'list';
+  isLast: boolean;
   onView: () => void;
   onSchedule: () => void;
   onClinicalAssessment: () => void;
@@ -600,7 +597,20 @@ interface PatientCardProps {
   onDx: () => void;
 }
 
-const PatientCard: React.FC<PatientCardProps> = ({ patient, viewMode, onView, onSchedule, onClinicalAssessment, onBilling, onDx }) => {
+const PatientRow: React.FC<PatientRowProps> = ({ patient, isLast, onView, onSchedule, onClinicalAssessment, onBilling, onDx }) => {
+  const [showMenu, setShowMenu] = useState(false);
+  const menuRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (!showMenu) return;
+    const handleClick = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setShowMenu(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [showMenu]);
 
   const calculateAge = (dob: Date) => {
     const today = new Date();
@@ -616,263 +626,126 @@ const PatientCard: React.FC<PatientCardProps> = ({ patient, viewMode, onView, on
   const getIntakeStatusInfo = (intakeStatus: string) => {
     switch (intakeStatus) {
       case 'CLINICAL_ASSESSMENT_COMPLETE':
-        return {
-          label: 'Ready for Treatment',
-          color: 'bg-green-50 text-green-700 border-green-200',
-          icon: <CheckCircle className="h-3 w-3" />
-        };
+        return { label: 'Ready', dotColor: 'bg-emerald-400', textColor: 'text-emerald-700', bgColor: 'bg-emerald-50' };
       case 'BASIC_INTAKE_COMPLETE':
-        return {
-          label: 'Assessment Pending',
-          color: 'bg-yellow-50 text-yellow-700 border-yellow-200',
-          icon: <Clock className="h-3 w-3" />
-        };
+        return { label: 'Assessment Pending', dotColor: 'bg-amber-400', textColor: 'text-amber-700', bgColor: 'bg-amber-50' };
       case 'BASIC_INTAKE_PENDING':
-        return {
-          label: 'Intake Pending',
-          color: 'bg-orange-50 text-orange-700 border-orange-200',
-          icon: <AlertCircle className="h-3 w-3" />
-        };
+        return { label: 'Intake Pending', dotColor: 'bg-orange-400', textColor: 'text-orange-700', bgColor: 'bg-orange-50' };
       default:
-        return {
-          label: 'Pending Setup',
-          color: 'bg-gray-50 text-gray-700 border-gray-200',
-          icon: <Clock className="h-3 w-3" />
-        };
+        return { label: 'Pending', dotColor: 'bg-gray-300', textColor: 'text-gray-500', bgColor: 'bg-gray-50' };
     }
   };
 
-  const [showOverflow, setShowOverflow] = useState(false);
-  const overflowRef = React.useRef<HTMLDivElement>(null);
+  const isInactive = patient.status === 'INACTIVE';
+  const isDischarged = patient.status === 'DISCHARGED';
+  const statusInfo = getIntakeStatusInfo(patient.intake_status);
+  const age = calculateAge(patient.date_of_birth);
+  const genderLabel = patient.gender === 'M' ? 'Male' : patient.gender === 'F' ? 'Female' : 'Other';
+  const genderShort = patient.gender === 'M' ? 'M' : patient.gender === 'F' ? 'F' : 'O';
+  const initials = patient.full_name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
 
-  // Close overflow on outside click
-  React.useEffect(() => {
-    if (!showOverflow) return;
-    const handleClick = (e: MouseEvent) => {
-      if (overflowRef.current && !overflowRef.current.contains(e.target as Node)) {
-        setShowOverflow(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClick);
-    return () => document.removeEventListener('mousedown', handleClick);
-  }, [showOverflow]);
-
-  if (viewMode === 'list') {
-    const isInactive = patient.status === 'INACTIVE';
-    const isDischarged = patient.status === 'DISCHARGED';
-
-    return (
-      <tr
-        className={`cursor-pointer transition-colors ${
-          isInactive ? 'opacity-50 hover:opacity-70 hover:bg-gray-50' :
-          isDischarged ? 'bg-blue-50/20 hover:bg-blue-50/40' :
-          'hover:bg-gray-50'
-        }`}
-        onClick={onView}
-      >
-        {/* Patient — status dot + name (mobile: includes age/gender) */}
-        <td className="px-4 py-2.5">
-          <div className="flex items-center gap-2">
-            <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${
-              patient.status === 'ACTIVE' ? 'bg-brand-teal' :
-              isDischarged ? 'bg-blue-400' : 'bg-gray-300'
-            }`} />
-            <div className="min-w-0">
-              <span className="text-sm font-medium text-gray-900 truncate block">
+  return (
+    <tr
+      className={`group cursor-pointer transition-all duration-150 ${
+        isInactive ? 'opacity-40 hover:opacity-60' :
+        isDischarged ? 'hover:bg-brand-teal/[0.02]' :
+        'hover:bg-brand-teal/[0.03]'
+      } ${!isLast ? 'border-b border-gray-50' : ''}`}
+      onClick={onView}
+    >
+      {/* Patient — avatar + name + code */}
+      <td className="px-5 py-3.5">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-teal to-teal-600 flex items-center justify-center text-white text-xs font-semibold flex-shrink-0 shadow-sm shadow-brand-teal/20">
+            {initials}
+          </div>
+          <div className="min-w-0">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-semibold text-gray-900 truncate group-hover:text-brand-teal transition-colors duration-150">
                 {patient.full_name}
               </span>
-              <span className="text-xs text-gray-400 sm:hidden">
-                {calculateAge(patient.date_of_birth)}y · {patient.gender === 'M' ? 'M' : patient.gender === 'F' ? 'F' : 'O'}
+              <span className="text-[10px] text-gray-300 font-mono flex-shrink-0 hidden sm:inline tracking-wide">
+                {patient.patient_code}
               </span>
             </div>
+            <div className="mt-0.5 flex items-center gap-1.5 text-xs text-gray-400">
+              <span>{age}y &middot; {genderShort}</span>
+              <span className="sm:hidden text-gray-200">&middot;</span>
+              <span className="sm:hidden text-gray-500">{patient.phone}</span>
+            </div>
           </div>
-        </td>
+        </div>
+      </td>
 
-        {/* Age */}
-        <td className="px-4 py-2.5 hidden sm:table-cell">
-          <span className="text-xs text-gray-500">{calculateAge(patient.date_of_birth)}y</span>
-        </td>
+      {/* Contact — hidden on mobile */}
+      <td className="px-5 py-3.5 hidden sm:table-cell">
+        <span className="text-sm text-gray-600">{patient.phone}</span>
+        <span className="block text-xs text-gray-300 mt-0.5">{genderLabel} &middot; {age} yrs</span>
+      </td>
 
-        {/* Gender */}
-        <td className="px-4 py-2.5 hidden sm:table-cell">
-          <span className="text-xs text-gray-500">{patient.gender === 'M' ? 'Male' : patient.gender === 'F' ? 'Female' : 'Other'}</span>
-        </td>
+      {/* Status — hidden on mobile + tablet */}
+      <td className="px-5 py-3.5 hidden md:table-cell">
+        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium rounded-lg ${statusInfo.bgColor} ${statusInfo.textColor}`}>
+          <span className={`w-1.5 h-1.5 rounded-full ${statusInfo.dotColor}`} />
+          {statusInfo.label}
+        </span>
+      </td>
 
-        {/* Actions — responsive: icon-only on mobile, text on desktop */}
-        <td className="px-3 sm:px-4 py-2.5">
-          <div className="flex items-center justify-end gap-1 sm:gap-1.5">
-            {/* Primary — Start Assessment */}
-            <button
-              onClick={(e) => { e.stopPropagation(); onDx(); }}
-              className="inline-flex items-center px-2.5 sm:px-3 py-1.5 text-xs font-medium text-white bg-brand-teal hover:bg-teal-700 rounded-md transition-colors"
-            >
-              <span className="hidden sm:inline">Start Assessment</span>
-              <span className="sm:hidden">Assess</span>
-            </button>
-
-            {/* Secondary — Schedule: icon-only on mobile */}
-            <button
-              onClick={(e) => { e.stopPropagation(); onSchedule(); }}
-              className="inline-flex items-center justify-center p-1.5 sm:px-2.5 sm:py-1.5 text-xs font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
-              title="Schedule"
-            >
-              <CalendarPlus className="h-3.5 w-3.5 sm:mr-1" />
-              <span className="hidden sm:inline">Schedule</span>
-            </button>
-
-            {/* Secondary — Billing: icon-only on mobile */}
-            <button
-              onClick={(e) => { e.stopPropagation(); onBilling(); }}
-              className="inline-flex items-center justify-center p-1.5 sm:px-2.5 sm:py-1.5 text-xs font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
-              title="Billing"
-            >
-              <IndianRupee className="h-3.5 w-3.5 sm:mr-1" />
-              <span className="hidden sm:inline">Billing</span>
-            </button>
-
-            {/* Overflow */}
-            <div className="relative" ref={overflowRef}>
-              <button
-                onClick={(e) => { e.stopPropagation(); setShowOverflow(!showOverflow); }}
-                className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded transition-colors"
-              >
-                <MoreVertical className="h-3.5 w-3.5" />
-              </button>
-              {showOverflow && (
-                <div className="absolute right-0 top-full mt-1 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-20 py-1">
+      {/* Actions */}
+      <td className="px-3 py-3.5 text-right">
+        <div className="relative" ref={menuRef}>
+          <button
+            onClick={(e) => { e.stopPropagation(); setShowMenu(!showMenu); }}
+            className="p-1.5 text-gray-300 hover:text-gray-500 hover:bg-gray-100 rounded-lg transition-all duration-150 opacity-0 group-hover:opacity-100 focus:opacity-100"
+          >
+            <MoreVertical className="h-4 w-4" />
+          </button>
+          {showMenu && (
+            <>
+              <div className="fixed inset-0 z-10" onClick={(e) => { e.stopPropagation(); setShowMenu(false); }} />
+              <div className="absolute right-0 top-8 w-52 bg-white rounded-xl shadow-xl shadow-gray-200/50 border border-gray-100 z-20 overflow-hidden">
+                <div className="p-1.5">
                   <button
-                    onClick={(e) => { e.stopPropagation(); setShowOverflow(false); onView(); }}
-                    className="w-full flex items-center gap-2 px-3 py-2 text-xs text-gray-700 hover:bg-gray-50 transition-colors"
+                    onClick={(e) => { e.stopPropagation(); setShowMenu(false); onView(); }}
+                    className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-brand-teal/[0.05] rounded-lg transition-colors"
                   >
-                    <Eye className="h-3.5 w-3.5 text-gray-400" />
+                    <Eye className="h-4 w-4 text-gray-400" />
                     View Profile
                   </button>
                   <button
-                    onClick={(e) => { e.stopPropagation(); setShowOverflow(false); onClinicalAssessment(); }}
-                    className="w-full flex items-center gap-2 px-3 py-2 text-xs text-gray-700 hover:bg-gray-50 transition-colors"
+                    onClick={(e) => { e.stopPropagation(); setShowMenu(false); onDx(); }}
+                    className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-brand-teal/[0.05] rounded-lg transition-colors"
                   >
-                    <Stethoscope className="h-3.5 w-3.5 text-gray-400" />
+                    <Crosshair className="h-4 w-4 text-brand-teal" />
+                    Start Assessment
+                  </button>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setShowMenu(false); onSchedule(); }}
+                    className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-brand-teal/[0.05] rounded-lg transition-colors"
+                  >
+                    <CalendarPlus className="h-4 w-4 text-gray-400" />
+                    Schedule Visit
+                  </button>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setShowMenu(false); onBilling(); }}
+                    className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-brand-teal/[0.05] rounded-lg transition-colors"
+                  >
+                    <IndianRupee className="h-4 w-4 text-gray-400" />
+                    Billing
+                  </button>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setShowMenu(false); onClinicalAssessment(); }}
+                    className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-brand-teal/[0.05] rounded-lg transition-colors"
+                  >
+                    <Stethoscope className="h-4 w-4 text-gray-400" />
                     Clinical Intake
                   </button>
                 </div>
-              )}
-            </div>
-          </div>
-        </td>
-      </tr>
-    );
-  }
-
-  return (
-    <div 
-      className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 cursor-pointer"
-      onClick={onView}
-    >
-      <div className="p-5">
-        {/* Header with Avatar and Name */}
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center space-x-3">
-            <div className="h-14 w-14 rounded-xl bg-gradient-to-br from-[#1e5f79] to-[#2a7a9b] flex items-center justify-center text-white font-bold text-lg">
-              {patient.full_name.split(' ').map(n => n[0]).join('').slice(0, 2)}
-            </div>
-            <div>
-              <h3 className="text-lg font-bold text-gray-900">
-                {patient.full_name}
-              </h3>
-              <p className="text-sm text-gray-500">
-                {calculateAge(patient.date_of_birth)} years • {patient.gender}
-              </p>
-            </div>
-          </div>
+              </div>
+            </>
+          )}
         </div>
-
-        {/* Intake Status */}
-        <div className="mb-4">
-          {(() => {
-            const statusInfo = getIntakeStatusInfo(patient.intake_status);
-            return (
-              <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium border ${statusInfo.color}`}>
-                {statusInfo.icon}
-                <span className="ml-2">{statusInfo.label}</span>
-              </span>
-            );
-          })()}
-        </div>
-
-        {/* Patient Code */}
-        <div className="mb-4 p-3 bg-gray-50 rounded-lg">
-          <div className="text-xs font-medium text-gray-700 mb-1">Patient ID</div>
-          <div className="text-sm font-mono text-gray-900">{patient.patient_code}</div>
-        </div>
-
-        {/* Billing Quick Access */}
-        <div
-          className="mb-4 p-3 bg-purple-50 rounded-lg border border-purple-100 cursor-pointer hover:bg-purple-100 transition-colors"
-          onClick={(e) => {
-            e.stopPropagation();
-            onBilling();
-          }}
-        >
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Package className="h-4 w-4 text-purple-600" />
-              <span className="text-xs font-medium text-purple-700">Billing & Packages</span>
-            </div>
-            <span className="text-xs text-purple-600 font-medium">
-              Open →
-            </span>
-          </div>
-        </div>
-
-        {/* Dx Button - Prominent */}
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onDx();
-          }}
-          className="w-full mb-4 inline-flex items-center justify-center px-4 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 rounded-lg shadow-md hover:shadow-lg transition-all"
-        >
-          <Crosshair className="h-4 w-4 mr-2" />
-          Start Dx
-        </button>
-
-        {/* Action Buttons */}
-        <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onView();
-            }}
-            className="text-sm text-brand-teal hover:text-brand-teal/80 font-medium"
-          >
-            View Details
-          </button>
-
-          <div className="flex items-center space-x-2">
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onClinicalAssessment();
-              }}
-              className="inline-flex items-center px-3 py-1.5 border border-[#1e5f79] rounded-md text-sm font-medium text-[#1e5f79] bg-white hover:bg-[#1e5f79]/5"
-            >
-              <Stethoscope className="h-4 w-4 mr-1.5" />
-              History
-            </button>
-
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onSchedule();
-              }}
-              className="inline-flex items-center px-3 py-1.5 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
-            >
-              <CalendarPlus className="h-4 w-4 mr-1.5" />
-              Schedule
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+      </td>
+    </tr>
   );
-}
+};

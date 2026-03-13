@@ -41,3 +41,6 @@ coverage
 # Misc
 *.pem
 *.log
+
+# VAD ONNX/WASM assets (copied from node_modules)
+public/vad/

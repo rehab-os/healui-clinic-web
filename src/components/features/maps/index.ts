@@ -3,4 +3,5 @@
 
 export { default as BodyMapSelector } from './BodyMapSelector';
 export { default as LeafletMapPicker } from './LeafletMapPicker';
+export { default as GoogleMapPicker } from './GoogleMapPicker';
 export { default as PincodeZoneManager } from './PincodeZoneManager';

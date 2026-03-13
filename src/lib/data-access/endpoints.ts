@@ -209,6 +209,13 @@ export const ENDPOINTS = {
     // Audio
     TRANSCRIBE_AUDIO: () => 'audio/transcribe',
 
+    // Voice (VAD + chunked STT)
+    CREATE_VOICE_SESSION: () => 'voice/sessions',
+    GET_VOICE_SESSION: (id: string) => `voice/sessions/${id}`,
+    VOICE_TRANSCRIBE_CHUNK: () => 'voice/transcribe',
+    VOICE_UPLOAD_CHUNK: () => 'voice/upload',
+    VOICE_EXTRACT: () => 'voice/extract',
+
     // Notes Generation
     GENERATE_NOTE: () => 'notes/generate',
 

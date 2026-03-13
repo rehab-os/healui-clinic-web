@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import { X, Phone, Mail, Calendar, ChevronDown, AlertCircle, Shield, Stethoscope, Plus, Trash2, Dumbbell, Users, MapPin, Briefcase } from 'lucide-react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
+import { X, Phone, Mail, Calendar, ChevronDown, AlertCircle, Shield, Stethoscope, Plus, Trash2, Dumbbell, Users, MapPin, Briefcase, Mic, Square, Loader2 } from 'lucide-react';
 import { useAppSelector } from '../../../store/hooks';
 import ApiManager from '@/services/api/api.service';
 import ChipInput from '@/components/ui/chip-input';
 import ConditionSelector from '../conditions/ConditionSelector';
 import AddressFields from '../shared/AddressFields';
+import useVoiceCapture from '@/hooks/useVoiceCapture';
+import VoiceWaveform from '../voice/VoiceWaveform';
 import type {
   CreatePatientDto,
   Neo4jConditionResponseDto,
@@ -68,6 +70,114 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
   const [showLifestyle, setShowLifestyle] = useState(false);
   const [showConditions, setShowConditions] = useState(false);
   const [showInsurance, setShowInsurance] = useState(false);
+
+  // Voice capture state
+  const [voiceTranscript, setVoiceTranscript] = useState('');
+  const [flashFields, setFlashFields] = useState<Set<string>>(new Set());
+  const flashTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const onFieldsExtracted = useCallback((fields: Record<string, any>) => {
+    if (!fields) return;
+
+    const newFlash = new Set<string>();
+
+    // Simple string fields
+    const simpleFields = [
+      'full_name', 'phone', 'email', 'date_of_birth', 'gender',
+      'medical_history', 'occupation', 'activity_level', 'family_history',
+      'referral_source', 'corporate_company',
+      'emergency_contact_name', 'emergency_contact_phone',
+      'insurance_provider', 'insurance_policy_number',
+    ] as const;
+
+    setFormData(prev => {
+      const updated = { ...prev };
+      for (const key of simpleFields) {
+        if (fields[key]) {
+          (updated as any)[key] = fields[key];
+          newFlash.add(key);
+        }
+      }
+      return updated;
+    });
+
+    // Array fields — merge, don't replace
+    if (fields.chronic_conditions?.length) {
+      setChronicConditions(prev => [...new Set([...prev, ...fields.chronic_conditions])]);
+      newFlash.add('chronic_conditions');
+    }
+    if (fields.allergies?.length) {
+      setAllergies(prev => [...new Set([...prev, ...fields.allergies])]);
+      newFlash.add('allergies');
+    }
+    if (fields.current_medications?.length) {
+      setCurrentMedications(prev => [...new Set([...prev, ...fields.current_medications])]);
+      newFlash.add('current_medications');
+    }
+    if (fields.previous_surgeries?.length) {
+      setPreviousSurgeries(prev => [...prev, ...fields.previous_surgeries]);
+      newFlash.add('previous_surgeries');
+    }
+    if (fields.past_illnesses?.length) {
+      setPastIllnesses(prev => [...prev, ...fields.past_illnesses]);
+      newFlash.add('past_illnesses');
+    }
+    if (fields.past_investigations?.length) {
+      setPastInvestigations(prev => [...prev, ...fields.past_investigations]);
+      newFlash.add('past_investigations');
+    }
+
+    // Address
+    if (fields.address) {
+      setAddressData(prev => ({ ...prev, ...fields.address }));
+      newFlash.add('address');
+    }
+
+    // Auto-expand sections when voice fills them
+    if (fields.email) setShowEmail(true);
+    if (fields.address) setShowAddress(true);
+    if (fields.emergency_contact_name || fields.emergency_contact_phone) setShowEmergency(true);
+    if (fields.chronic_conditions?.length || fields.allergies?.length || fields.current_medications?.length || fields.medical_history) setShowMedical(true);
+    if (fields.previous_surgeries?.length || fields.past_illnesses?.length || fields.past_investigations?.length) setShowDetailedHistory(true);
+    if (fields.occupation || fields.activity_level || fields.family_history || fields.referral_source || fields.corporate_company) setShowLifestyle(true);
+    if (fields.insurance_provider || fields.insurance_policy_number) setShowInsurance(true);
+
+    // Trigger green flash
+    if (newFlash.size > 0) {
+      setFlashFields(prev => new Set([...prev, ...newFlash]));
+      if (flashTimeoutRef.current) clearTimeout(flashTimeoutRef.current);
+      flashTimeoutRef.current = setTimeout(() => {
+        setFlashFields(new Set());
+      }, 1500);
+    }
+  }, []);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (flashTimeoutRef.current) clearTimeout(flashTimeoutRef.current);
+    };
+  }, []);
+
+  const voice = useVoiceCapture({
+    sessionType: 'FULL_INTAKE',
+    clinicId: currentClinic?.id || '',
+    onFieldsExtracted,
+    onTranscriptUpdate: (transcript: string) => setVoiceTranscript(transcript),
+  });
+
+  const handleMicClick = async () => {
+    if (voice.isListening) {
+      voice.stopListening();
+    } else {
+      setVoiceTranscript('');
+      await voice.startListening();
+    }
+  };
+
+  /** Returns extra Tailwind classes when a field was just voice-filled */
+  const flashClass = (field: string) =>
+    flashFields.has(field) ? 'ring-2 ring-green-400 bg-green-50 transition-all duration-300' : 'transition-all duration-300';
 
   // Helper function to clean optional string fields
   const cleanOptionalField = (value: string | undefined): string | undefined => {
@@ -214,16 +324,77 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
         {/* Header */}
         <div className="px-5 py-3.5 border-b border-gray-200 flex items-center justify-between">
           <h2 className="text-lg font-semibold text-gray-900">New Patient</h2>
-          <button
-            onClick={onClose}
-            className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-all duration-200"
-          >
-            <X className="h-4 w-4" />
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={handleMicClick}
+              disabled={voice.isProcessing}
+              className={`p-1.5 rounded-lg transition-all duration-200 ${
+                voice.isListening
+                  ? 'bg-red-100 text-red-600 hover:bg-red-200'
+                  : 'text-gray-400 hover:text-teal-600 hover:bg-teal-50'
+              }`}
+              title={voice.isListening ? 'Stop recording' : 'Voice intake'}
+            >
+              <Mic className="h-4 w-4" />
+            </button>
+            <button
+              onClick={onClose}
+              className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-all duration-200"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
         </div>
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto px-5 py-4">
+          {/* Voice status panel with waveform */}
+          {(voice.isListening || voice.isProcessing || voiceTranscript) && (
+            <div className="mb-3 p-3 rounded-xl border border-teal-100 bg-gradient-to-r from-teal-50/50 to-gray-50 space-y-2">
+              {voice.isListening && (
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
+                      </span>
+                      <span className="text-xs font-medium text-gray-500">Listening</span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => voice.stopListening()}
+                      className="flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-full transition-colors"
+                    >
+                      <Square className="h-2.5 w-2.5 fill-current" />
+                      Stop
+                    </button>
+                  </div>
+                  <VoiceWaveform
+                    volumeLevel={voice.volumeLevel}
+                    isActive={voice.isListening}
+                  />
+                </div>
+              )}
+              {!voice.isListening && voice.isProcessing && (
+                <div className="flex items-center justify-center gap-2 py-1">
+                  <Loader2 className="h-3.5 w-3.5 animate-spin text-teal-600" />
+                  <span className="text-xs font-medium text-teal-700">Processing audio...</span>
+                </div>
+              )}
+              {voiceTranscript && (
+                <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">{voiceTranscript}</p>
+              )}
+              {voice.error && (
+                <p className="text-xs text-red-600 flex items-center gap-1">
+                  <AlertCircle className="h-3 w-3" />
+                  {voice.error}
+                </p>
+              )}
+            </div>
+          )}
+
           {error && (
             <div className="mb-3 p-3 bg-red-50 text-red-600 rounded-lg flex items-center text-sm border border-red-200">
               <AlertCircle className="h-4 w-4 mr-2 flex-shrink-0" />
@@ -239,7 +410,7 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                 required
                 value={formData.full_name}
                 onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
-                className={inputClass}
+                className={`${inputClass} ${flashClass('full_name')}`}
                 placeholder="Full name *"
               />
               <div className="relative">
@@ -249,7 +420,7 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                   required
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className={`${inputClass} pl-10`}
+                  className={`${inputClass} pl-10 ${flashClass('phone')}`}
                   placeholder="Phone number *"
                 />
               </div>
@@ -263,11 +434,11 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                   required
                   value={formData.date_of_birth}
                   onChange={(e) => setFormData({ ...formData, date_of_birth: e.target.value })}
-                  className={`${inputClass} pl-10`}
+                  className={`${inputClass} pl-10 ${flashClass('date_of_birth')}`}
                   max={new Date().toISOString().split('T')[0]}
                 />
               </div>
-              <div className="flex items-center gap-2 py-1">
+              <div className={`flex items-center gap-2 py-1 rounded-lg ${flashClass('gender')}`}>
                 {([
                   { value: 'M', label: 'Male' },
                   { value: 'F', label: 'Female' },
@@ -300,7 +471,7 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                       type="email"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className={inputClass}
+                      className={`${inputClass} ${flashClass('email')}`}
                       placeholder="patient@example.com"
                       autoFocus
                     />
@@ -312,7 +483,7 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
               <div>
                 <ToggleButton open={showAddress} onClick={() => setShowAddress(!showAddress)} icon={MapPin} label="Address" />
                 {showAddress && (
-                  <div className="pl-5 pb-2">
+                  <div className={`pl-5 pb-2 ${flashClass('address')} rounded-lg`}>
                     <AddressFields value={addressData} onChange={setAddressData} required={false} compact />
                   </div>
                 )}
@@ -327,7 +498,7 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                       type="text"
                       value={formData.emergency_contact_name}
                       onChange={(e) => setFormData({ ...formData, emergency_contact_name: e.target.value })}
-                      className={inputClass}
+                      className={`${inputClass} ${flashClass('emergency_contact_name')}`}
                       placeholder="Contact person name"
                     />
                     <div className="relative">
@@ -336,7 +507,7 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                         type="tel"
                         value={formData.emergency_contact_phone}
                         onChange={(e) => setFormData({ ...formData, emergency_contact_phone: e.target.value })}
-                        className={`${inputClass} pl-10`}
+                        className={`${inputClass} pl-10 ${flashClass('emergency_contact_phone')}`}
                         placeholder="Contact phone"
                       />
                     </div>
@@ -358,13 +529,19 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                     <textarea
                       value={formData.medical_history}
                       onChange={(e) => setFormData({ ...formData, medical_history: e.target.value })}
-                      className={inputClass}
+                      className={`${inputClass} ${flashClass('medical_history')}`}
                       rows={2}
                       placeholder="Medical history"
                     />
-                    <ChipInput value={chronicConditions} onChange={setChronicConditions} placeholder="Chronic conditions" />
-                    <ChipInput value={allergies} onChange={setAllergies} placeholder="Allergies" />
-                    <ChipInput value={currentMedications} onChange={setCurrentMedications} placeholder="Current medications" />
+                    <div className={`rounded-lg ${flashClass('chronic_conditions')}`}>
+                      <ChipInput value={chronicConditions} onChange={setChronicConditions} placeholder="Chronic conditions" />
+                    </div>
+                    <div className={`rounded-lg ${flashClass('allergies')}`}>
+                      <ChipInput value={allergies} onChange={setAllergies} placeholder="Allergies" />
+                    </div>
+                    <div className={`rounded-lg ${flashClass('current_medications')}`}>
+                      <ChipInput value={currentMedications} onChange={setCurrentMedications} placeholder="Current medications" />
+                    </div>
                   </div>
                 )}
               </div>
@@ -381,7 +558,7 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                 {showDetailedHistory && (
                   <div className="pl-5 pb-2 space-y-4">
                     {/* Surgeries */}
-                    <div className="space-y-2">
+                    <div className={`space-y-2 rounded-lg ${flashClass('previous_surgeries')}`}>
                       <div className="flex items-center justify-between">
                         <span className="text-xs text-gray-500 font-medium">Surgeries</span>
                         <button type="button" onClick={addPreviousSurgery} className="flex items-center text-xs text-[#1e5f79] hover:text-[#1e5f79]/80 font-medium">
@@ -401,7 +578,7 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                     </div>
 
                     {/* Illnesses */}
-                    <div className="space-y-2">
+                    <div className={`space-y-2 rounded-lg ${flashClass('past_illnesses')}`}>
                       <div className="flex items-center justify-between">
                         <span className="text-xs text-gray-500 font-medium">Illnesses</span>
                         <button type="button" onClick={addPastIllness} className="flex items-center text-xs text-[#1e5f79] hover:text-[#1e5f79]/80 font-medium">
@@ -429,7 +606,7 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                     </div>
 
                     {/* Investigations */}
-                    <div className="space-y-2">
+                    <div className={`space-y-2 rounded-lg ${flashClass('past_investigations')}`}>
                       <div className="flex items-center justify-between">
                         <span className="text-xs text-gray-500 font-medium">Investigations</span>
                         <button type="button" onClick={addPastInvestigation} className="flex items-center text-xs text-[#1e5f79] hover:text-[#1e5f79]/80 font-medium">
@@ -462,14 +639,14 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                 {showLifestyle && (
                   <div className="pl-5 pb-2 space-y-3">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      <input type="text" value={formData.occupation} onChange={(e) => setFormData({ ...formData, occupation: e.target.value })} className={inputClass} placeholder="Occupation" />
-                      <input type="text" value={formData.referral_source} onChange={(e) => setFormData({ ...formData, referral_source: e.target.value })} className={inputClass} placeholder="Referral source" />
+                      <input type="text" value={formData.occupation} onChange={(e) => setFormData({ ...formData, occupation: e.target.value })} className={`${inputClass} ${flashClass('occupation')}`} placeholder="Occupation" />
+                      <input type="text" value={formData.referral_source} onChange={(e) => setFormData({ ...formData, referral_source: e.target.value })} className={`${inputClass} ${flashClass('referral_source')}`} placeholder="Referral source" />
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      <input type="text" value={formData.corporate_company} onChange={(e) => setFormData({ ...formData, corporate_company: e.target.value })} className={inputClass} placeholder="Corporate company" />
-                      <textarea value={formData.family_history} onChange={(e) => setFormData({ ...formData, family_history: e.target.value })} className={inputClass} rows={1} placeholder="Family history" />
+                      <input type="text" value={formData.corporate_company} onChange={(e) => setFormData({ ...formData, corporate_company: e.target.value })} className={`${inputClass} ${flashClass('corporate_company')}`} placeholder="Corporate company" />
+                      <textarea value={formData.family_history} onChange={(e) => setFormData({ ...formData, family_history: e.target.value })} className={`${inputClass} ${flashClass('family_history')}`} rows={1} placeholder="Family history" />
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className={`flex items-center gap-2 rounded-lg ${flashClass('activity_level')}`}>
                       <span className="text-sm text-gray-500 shrink-0">Activity</span>
                       <div className="flex gap-1.5 flex-wrap">
                         {activityOptions.map((option) => (
@@ -529,8 +706,8 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ onClose, onSuccess })
                 <ToggleButton open={showInsurance} onClick={() => setShowInsurance(!showInsurance)} icon={Shield} label="Insurance" />
                 {showInsurance && (
                   <div className="pl-5 pb-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <input type="text" value={formData.insurance_provider} onChange={(e) => setFormData({ ...formData, insurance_provider: e.target.value })} className={inputClass} placeholder="Insurance provider" />
-                    <input type="text" value={formData.insurance_policy_number} onChange={(e) => setFormData({ ...formData, insurance_policy_number: e.target.value })} className={inputClass} placeholder="Policy number" />
+                    <input type="text" value={formData.insurance_provider} onChange={(e) => setFormData({ ...formData, insurance_provider: e.target.value })} className={`${inputClass} ${flashClass('insurance_provider')}`} placeholder="Insurance provider" />
+                    <input type="text" value={formData.insurance_policy_number} onChange={(e) => setFormData({ ...formData, insurance_policy_number: e.target.value })} className={`${inputClass} ${flashClass('insurance_policy_number')}`} placeholder="Policy number" />
                   </div>
                 )}
               </div>

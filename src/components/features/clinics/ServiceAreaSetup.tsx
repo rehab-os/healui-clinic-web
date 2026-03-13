@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { MapPin, X, Target, AlertCircle, DollarSign } from 'lucide-react';
-import LeafletMapPicker from '../maps/LeafletMapPicker';
+import GoogleMapPicker from '../maps/GoogleMapPicker';
 import ApiManager from '@/services/api/api.service';
 import { cn } from '../../../lib/utils';
 
@@ -237,7 +237,7 @@ export default function ServiceAreaSetup({
           <p className="text-sm text-gray-500 mt-1">Set the center point for your service area coverage</p>
         </div>
         <div className="border border-gray-300 rounded-md overflow-hidden">
-          <LeafletMapPicker
+          <GoogleMapPicker
             onLocationSelect={handleLocationSelect}
             initialLat={latitude}
             initialLng={longitude}

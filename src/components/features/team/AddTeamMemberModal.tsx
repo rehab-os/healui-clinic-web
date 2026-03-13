@@ -219,27 +219,17 @@ const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({ onClose, onSucc
   const isReadyToSubmit = (lookupState === 'found' || lookupState === 'not_found') && hasNewClinicsSelected;
 
   return (
-    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+      <div className="bg-white sm:rounded-2xl shadow-2xl w-full max-w-2xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-border-color bg-gradient-to-r from-brand-teal to-teal-600">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="p-2 bg-white/20 rounded-lg">
-                <UserPlus className="h-6 w-6 text-white" />
-              </div>
-              <div>
-                <h2 className="text-xl font-semibold text-white">Add Team Member</h2>
-                <p className="text-teal-100 text-sm">Enter phone number to get started</p>
-              </div>
-            </div>
-            <button
-              onClick={onClose}
-              className="p-2 text-white/80 hover:text-white hover:bg-white/20 rounded-lg transition-all duration-200"
-            >
-              <X className="h-5 w-5" />
-            </button>
-          </div>
+        <div className="px-5 py-3.5 border-b border-gray-200 flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-gray-900">Add Team Member</h2>
+          <button
+            onClick={onClose}
+            className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+          >
+            <X className="h-4 w-4" />
+          </button>
         </div>
 
         {/* Form Content */}

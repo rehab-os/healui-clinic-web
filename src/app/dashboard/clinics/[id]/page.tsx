@@ -18,7 +18,6 @@ import {
   ChevronLeft,
   Edit,
   QrCode,
-  Upload,
   Globe,
   Calendar,
   Bed,
@@ -41,7 +40,6 @@ import {
   Save,
   Camera,
   Minus,
-  Image,
 } from 'lucide-react';
 import ClinicQRCodeModal from '../../../../components/features/clinics/ClinicQRCodeModal';
 
@@ -168,7 +166,6 @@ export default function ClinicDetailPage() {
   const [loading, setLoading] = useState(true);
   const [showQRModal, setShowQRModal] = useState(false);
   const [uploadingLogo, setUploadingLogo] = useState(false);
-  const [uploadingCover, setUploadingCover] = useState(false);
 
   // Tab-specific data
   const [liveStatus, setLiveStatus] = useState<LiveStatus | null>(null);
@@ -180,7 +177,6 @@ export default function ClinicDetailPage() {
 
   // File inputs
   const logoInputRef = useRef<HTMLInputElement>(null);
-  const coverInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     fetchClinic();
@@ -255,23 +251,6 @@ export default function ClinicDetailPage() {
     }
   };
 
-  const handleCoverUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    try {
-      setUploadingCover(true);
-      const response = await ApiManager.uploadClinicCover(clinicId, file);
-      if (response.success) {
-        setClinic(prev => prev ? { ...prev, cover_image_url: response.data.cover_image_url } : null);
-      }
-    } catch (error) {
-      console.error('Failed to upload cover:', error);
-    } finally {
-      setUploadingCover(false);
-    }
-  };
-
   const tabs: { id: TabType; label: string; icon: React.ReactNode }[] = [
     { id: 'overview', label: 'Overview', icon: <Building2 className="h-4 w-4" /> },
     { id: 'live-status', label: 'Live Status', icon: <Activity className="h-4 w-4" /> },
@@ -285,7 +264,7 @@ export default function ClinicDetailPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="flex flex-col items-center">
-          <Loader2 className="h-8 w-8 animate-spin text-[#1e5f79]" />
+          <Loader2 className="h-8 w-8 animate-spin text-brand-teal" />
           <p className="mt-2 text-gray-600">Loading clinic...</p>
         </div>
       </div>
@@ -300,7 +279,7 @@ export default function ClinicDetailPage() {
           <h2 className="text-xl font-semibold text-gray-900">Clinic not found</h2>
           <Link
             href="/dashboard/clinics"
-            className="mt-4 inline-block text-[#1e5f79] hover:underline"
+            className="mt-4 inline-block text-brand-teal hover:underline"
           >
             Back to Clinics
           </Link>
@@ -319,133 +298,67 @@ export default function ClinicDetailPage() {
         accept="image/*"
         className="hidden"
       />
-      <input
-        type="file"
-        ref={coverInputRef}
-        onChange={handleCoverUpload}
-        accept="image/*"
-        className="hidden"
-      />
-
-      {/* Cover Image */}
-      <div className="relative h-48 bg-gradient-to-r from-[#1e5f79] to-[#2a7a9b]">
-        {clinic.cover_image_url && (
-          <img
-            src={clinic.cover_image_url}
-            alt="Cover"
-            className="w-full h-full object-cover"
-          />
-        )}
-        <button
-          onClick={() => coverInputRef.current?.click()}
-          disabled={uploadingCover}
-          className="absolute bottom-4 right-4 flex items-center gap-2 px-4 py-2 bg-white/90 hover:bg-white rounded-lg text-sm font-medium text-gray-700 transition-colors"
-        >
-          {uploadingCover ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : (
-            <Image className="h-4 w-4" />
-          )}
-          {clinic.cover_image_url ? 'Change Cover' : 'Add Cover'}
-        </button>
-      </div>
 
       {/* Header */}
-      <div className="bg-white border-b">
+      <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Clinic header with logo */}
-          <div className="flex items-start gap-6 -mt-12 pb-6 relative z-10">
-            {/* Logo with upload */}
+          {/* Back link + actions row */}
+          <div className="flex items-center justify-between py-2.5 border-b border-gray-100">
+            <Link href="/dashboard/clinics" className="flex items-center text-sm text-gray-500 hover:text-gray-700 transition-colors">
+              <ChevronLeft className="h-4 w-4 mr-0.5" />
+              Clinics
+            </Link>
+            <div className="flex items-center gap-1">
+              <button onClick={() => setShowQRModal(true)} className="p-2 text-brand-teal hover:bg-brand-teal/10 rounded-lg transition-colors" title="QR Code">
+                <QrCode className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+
+          {/* Clinic info row */}
+          <div className="flex items-center gap-4 py-4">
+            {/* Logo - small, 12x12 */}
             <div className="relative group">
-              <div className="h-24 w-24 rounded-xl bg-white shadow-lg flex items-center justify-center flex-shrink-0 border-4 border-white overflow-hidden">
+              <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-brand-teal to-teal-600 flex items-center justify-center flex-shrink-0 overflow-hidden">
                 {clinic.logo_url ? (
                   <img src={clinic.logo_url} alt={clinic.name} className="h-full w-full object-cover" />
                 ) : (
-                  <div className="h-full w-full bg-gradient-to-br from-[#1e5f79] to-[#2a7a9b] flex items-center justify-center">
-                    <Building2 className="h-10 w-10 text-white" />
-                  </div>
+                  <Building2 className="h-6 w-6 text-white" />
                 )}
               </div>
-              <button
-                onClick={() => logoInputRef.current?.click()}
-                disabled={uploadingLogo}
-                className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 rounded-xl transition-opacity"
-              >
-                {uploadingLogo ? (
-                  <Loader2 className="h-6 w-6 text-white animate-spin" />
-                ) : (
-                  <Camera className="h-6 w-6 text-white" />
-                )}
+              <button onClick={() => logoInputRef.current?.click()} disabled={uploadingLogo}
+                className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 rounded-lg transition-opacity">
+                {uploadingLogo ? <Loader2 className="h-4 w-4 text-white animate-spin" /> : <Camera className="h-4 w-4 text-white" />}
               </button>
             </div>
-
-            {/* Info */}
-            <div className="flex-1 pt-14">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="flex items-center gap-3 mb-2">
-                    <h1 className="text-2xl font-bold text-gray-900">{clinic.name}</h1>
-                    <span className="px-3 py-1 text-xs font-medium text-[#1e5f79] bg-[#eff8ff] rounded-full">
-                      {clinic.code}
-                    </span>
-                    {clinic.is_active && (
-                      <span className="flex items-center gap-1 px-2 py-1 text-xs font-medium text-green-700 bg-green-100 rounded-full">
-                        <span className="h-1.5 w-1.5 bg-green-500 rounded-full animate-pulse" />
-                        Active
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
-                    <span className="flex items-center">
-                      <MapPin className="h-4 w-4 mr-1 text-[#1e5f79]" />
-                      {clinic.city}, {clinic.state}
-                    </span>
-                    <span className="flex items-center">
-                      <Phone className="h-4 w-4 mr-1 text-[#1e5f79]" />
-                      {clinic.phone}
-                    </span>
-                    {clinic.email && (
-                      <span className="flex items-center">
-                        <Mail className="h-4 w-4 mr-1 text-[#1e5f79]" />
-                        {clinic.email}
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Link
-                    href="/dashboard/clinics"
-                    className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
-                  >
-                    <ChevronLeft className="h-5 w-5 mr-1" />
-                    Back
-                  </Link>
-                  <button
-                    onClick={() => setShowQRModal(true)}
-                    className="p-2 text-[#1e5f79] hover:bg-[#1e5f79]/10 rounded-lg transition-colors"
-                    title="Patient Registration QR"
-                  >
-                    <QrCode className="h-5 w-5" />
-                  </button>
-                </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 mb-0.5">
+                <h1 className="text-lg font-semibold text-gray-900 truncate">{clinic.name}</h1>
+                <span className="px-2 py-0.5 text-[10px] font-medium text-brand-teal bg-brand-teal/10 rounded-full flex-shrink-0">{clinic.code}</span>
+                {clinic.is_active && (
+                  <span className="flex items-center gap-1 px-2 py-0.5 text-[10px] font-medium text-green-700 bg-green-100 rounded-full flex-shrink-0">
+                    <span className="h-1 w-1 bg-green-500 rounded-full" />
+                    Active
+                  </span>
+                )}
+              </div>
+              <div className="flex flex-wrap items-center gap-3 text-xs text-gray-500">
+                <span className="flex items-center gap-1"><MapPin className="h-3 w-3" />{clinic.city}, {clinic.state}</span>
+                <span className="flex items-center gap-1"><Phone className="h-3 w-3" />{clinic.phone}</span>
+                {clinic.email && <span className="flex items-center gap-1 hidden sm:flex"><Mail className="h-3 w-3" />{clinic.email}</span>}
               </div>
             </div>
           </div>
 
-          {/* Tabs */}
-          <div className="flex gap-1 -mb-px overflow-x-auto">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
-                  activeTab === tab.id
-                    ? 'border-[#1e5f79] text-[#1e5f79]'
-                    : 'border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300'
-                }`}
-              >
+          {/* Tabs — horizontally scrollable */}
+          <div className="flex gap-1 -mb-px overflow-x-auto no-scrollbar">
+            {tabs.map(tab => (
+              <button key={tab.id} onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center gap-1.5 px-3 py-2.5 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
+                  activeTab === tab.id ? 'border-brand-teal text-brand-teal' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                }`}>
                 {tab.icon}
-                {tab.label}
+                <span className="hidden sm:inline">{tab.label}</span>
               </button>
             ))}
           </div>
@@ -456,7 +369,7 @@ export default function ClinicDetailPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {tabLoading ? (
           <div className="flex items-center justify-center py-12">
-            <Loader2 className="h-6 w-6 animate-spin text-[#1e5f79]" />
+            <Loader2 className="h-6 w-6 animate-spin text-brand-teal" />
           </div>
         ) : (
           <>
@@ -516,26 +429,26 @@ function OverviewTab({ clinic, onUpdate }: { clinic: Clinic; onUpdate: () => voi
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Contact & Location</h3>
           <div className="space-y-4">
             <div className="flex items-start gap-3">
-              <MapPin className="h-5 w-5 text-[#1e5f79] mt-0.5" />
+              <MapPin className="h-5 w-5 text-brand-teal mt-0.5" />
               <div>
                 <p className="font-medium text-gray-900">{clinic.address}</p>
                 <p className="text-gray-600">{clinic.city}, {clinic.state} - {clinic.pincode}</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <Phone className="h-5 w-5 text-[#1e5f79]" />
+              <Phone className="h-5 w-5 text-brand-teal" />
               <span className="text-gray-900">{clinic.phone}</span>
             </div>
             {clinic.email && (
               <div className="flex items-center gap-3">
-                <Mail className="h-5 w-5 text-[#1e5f79]" />
+                <Mail className="h-5 w-5 text-brand-teal" />
                 <span className="text-gray-900">{clinic.email}</span>
               </div>
             )}
             {clinic.website_url && (
               <div className="flex items-center gap-3">
-                <Globe className="h-5 w-5 text-[#1e5f79]" />
-                <a href={clinic.website_url} target="_blank" rel="noopener noreferrer" className="text-[#1e5f79] hover:underline">
+                <Globe className="h-5 w-5 text-brand-teal" />
+                <a href={clinic.website_url} target="_blank" rel="noopener noreferrer" className="text-brand-teal hover:underline">
                   {clinic.website_url}
                 </a>
               </div>
@@ -557,7 +470,7 @@ function OverviewTab({ clinic, onUpdate }: { clinic: Clinic; onUpdate: () => voi
           <div className="space-y-4">
             {clinic.total_beds && (
               <div className="flex items-center gap-2">
-                <Bed className="h-5 w-5 text-[#1e5f79]" />
+                <Bed className="h-5 w-5 text-brand-teal" />
                 <span className="text-gray-900">{clinic.total_beds} Treatment Beds</span>
               </div>
             )}
@@ -566,7 +479,7 @@ function OverviewTab({ clinic, onUpdate }: { clinic: Clinic; onUpdate: () => voi
                 <p className="text-sm font-medium text-gray-700 mb-2">Facilities</p>
                 <div className="flex flex-wrap gap-2">
                   {clinic.facilities.map((facility, idx) => (
-                    <span key={idx} className="px-3 py-1 text-sm bg-[#eff8ff] text-[#1e5f79] rounded-full">
+                    <span key={idx} className="px-3 py-1 text-sm bg-brand-teal/10 text-brand-teal rounded-full">
                       {facility}
                     </span>
                   ))}
@@ -607,12 +520,12 @@ function OverviewTab({ clinic, onUpdate }: { clinic: Clinic; onUpdate: () => voi
         <div className="bg-white rounded-xl p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-              <Clock className="h-5 w-5 text-[#1e5f79]" />
+              <Clock className="h-5 w-5 text-brand-teal" />
               Working Hours
             </h3>
             <button
               onClick={() => setShowWorkingHoursModal(true)}
-              className="p-2 text-[#1e5f79] hover:bg-[#1e5f79]/10 rounded-lg transition-colors"
+              className="p-2 text-brand-teal hover:bg-brand-teal/10 rounded-lg transition-colors"
             >
               <Edit className="h-4 w-4" />
             </button>
@@ -637,7 +550,7 @@ function OverviewTab({ clinic, onUpdate }: { clinic: Clinic; onUpdate: () => voi
         {clinic.insurance_accepted && clinic.insurance_accepted.length > 0 && (
           <div className="bg-white rounded-xl p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <Shield className="h-5 w-5 text-[#1e5f79]" />
+              <Shield className="h-5 w-5 text-brand-teal" />
               Insurance Accepted
             </h3>
             <div className="space-y-2">
@@ -752,17 +665,17 @@ function WorkingHoursModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="absolute inset-0 bg-black/50" onClick={onClose} />
-      <div className="relative bg-white rounded-xl max-w-lg w-full mx-4 max-h-[80vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white p-6 border-b flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-gray-900">Edit Working Hours</h2>
-          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-lg">
-            <X className="h-5 w-5" />
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative bg-white sm:rounded-2xl shadow-2xl w-full max-w-lg sm:max-h-[90vh] max-h-[95vh] overflow-hidden">
+        <div className="sticky top-0 bg-white px-5 py-3.5 border-b border-gray-200 flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-gray-900">Edit Working Hours</h2>
+          <button onClick={onClose} className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+            <X className="h-4 w-4" />
           </button>
         </div>
 
-        <div className="p-6 space-y-4">
+        <div className="p-6 space-y-4 overflow-y-auto max-h-[calc(95vh-8rem)] sm:max-h-[calc(90vh-8rem)]">
           {days.map(day => (
             <div key={day} className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
               <div className="w-24">
@@ -771,7 +684,7 @@ function WorkingHoursModal({
                     type="checkbox"
                     checked={hours[day]?.is_open}
                     onChange={() => handleToggleDay(day)}
-                    className="w-4 h-4 text-[#1e5f79] rounded"
+                    className="w-4 h-4 text-brand-teal rounded"
                   />
                   <span className="font-medium capitalize">{day}</span>
                 </label>
@@ -782,14 +695,14 @@ function WorkingHoursModal({
                     type="time"
                     value={hours[day]?.phases?.[0]?.start_time || '09:00'}
                     onChange={(e) => handleTimeChange(day, 0, 'start_time', e.target.value)}
-                    className="px-3 py-2 border rounded-lg text-sm"
+                    className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 text-sm"
                   />
                   <span className="text-gray-500">to</span>
                   <input
                     type="time"
                     value={hours[day]?.phases?.[0]?.end_time || '18:00'}
                     onChange={(e) => handleTimeChange(day, 0, 'end_time', e.target.value)}
-                    className="px-3 py-2 border rounded-lg text-sm"
+                    className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 text-sm"
                   />
                 </div>
               ) : (
@@ -809,7 +722,7 @@ function WorkingHoursModal({
           <button
             onClick={handleSave}
             disabled={saving}
-            className="px-4 py-2 bg-[#1e5f79] text-white rounded-lg hover:bg-[#174a5c] transition-colors flex items-center gap-2"
+            className="px-4 py-2 bg-brand-teal text-white rounded-lg hover:bg-teal-700 transition-colors flex items-center gap-2"
           >
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
             Save
@@ -830,7 +743,7 @@ function LiveStatusTab({ data, onRefresh }: { data: LiveStatus | null; onRefresh
       <div className="flex justify-end">
         <button
           onClick={onRefresh}
-          className="flex items-center gap-2 px-4 py-2 text-sm text-[#1e5f79] hover:bg-[#1e5f79]/10 rounded-lg transition-colors"
+          className="flex items-center gap-2 px-4 py-2 text-sm text-brand-teal hover:bg-brand-teal/10 rounded-lg transition-colors"
         >
           <RefreshCw className="h-4 w-4" />
           Refresh
@@ -946,7 +859,7 @@ function TeamTab({ data }: { data: TeamData | null }) {
             {data.members.map((member: any) => (
               <div key={member.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                 <div className="flex items-center gap-4">
-                  <div className="h-12 w-12 rounded-full bg-[#1e5f79] flex items-center justify-center text-white font-medium">
+                  <div className="h-12 w-12 rounded-full bg-brand-teal flex items-center justify-center text-white font-medium">
                     {member.full_name?.charAt(0) || '?'}
                   </div>
                   <div>
@@ -997,7 +910,7 @@ function PatientsTab({ data, clinicId }: { data: PatientSummary | null; clinicId
           <h3 className="text-lg font-semibold text-gray-900">Recent Patients</h3>
           <Link
             href="/dashboard/patients"
-            className="text-sm text-[#1e5f79] hover:underline"
+            className="text-sm text-brand-teal hover:underline"
           >
             View All
           </Link>
@@ -1179,7 +1092,7 @@ function EquipmentTab({ data, clinicId, onRefresh }: { data: EquipmentSummary | 
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="px-3 py-2 border rounded-lg text-sm"
+            className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 text-sm"
           >
             <option value="">All Status</option>
             <option value="WORKING">Working</option>
@@ -1192,14 +1105,14 @@ function EquipmentTab({ data, clinicId, onRefresh }: { data: EquipmentSummary | 
         <div className="flex gap-2">
           <button
             onClick={() => setShowAddCategoryModal(true)}
-            className="px-4 py-2 text-sm text-[#1e5f79] border border-[#1e5f79] rounded-lg hover:bg-[#1e5f79]/10 transition-colors flex items-center gap-2"
+            className="px-4 py-2 text-sm text-brand-teal border border-brand-teal rounded-lg hover:bg-brand-teal/10 transition-colors flex items-center gap-2"
           >
             <Plus className="h-4 w-4" />
             Add Category
           </button>
           <button
             onClick={() => setShowAddEquipmentModal(true)}
-            className="px-4 py-2 text-sm text-white bg-[#1e5f79] rounded-lg hover:bg-[#174a5c] transition-colors flex items-center gap-2"
+            className="px-4 py-2 text-sm text-white bg-brand-teal rounded-lg hover:bg-teal-700 transition-colors flex items-center gap-2"
           >
             <Plus className="h-4 w-4" />
             Add Equipment
@@ -1250,7 +1163,7 @@ function EquipmentTab({ data, clinicId, onRefresh }: { data: EquipmentSummary | 
           <h3 className="text-lg font-semibold text-gray-900">Equipment & Machines</h3>
           <button
             onClick={handleRefresh}
-            className="p-2 text-[#1e5f79] hover:bg-[#1e5f79]/10 rounded-lg transition-colors"
+            className="p-2 text-brand-teal hover:bg-brand-teal/10 rounded-lg transition-colors"
           >
             <RefreshCw className="h-4 w-4" />
           </button>
@@ -1258,7 +1171,7 @@ function EquipmentTab({ data, clinicId, onRefresh }: { data: EquipmentSummary | 
 
         {loadingEquipment ? (
           <div className="flex justify-center py-8">
-            <Loader2 className="h-6 w-6 animate-spin text-[#1e5f79]" />
+            <Loader2 className="h-6 w-6 animate-spin text-brand-teal" />
           </div>
         ) : equipment.length === 0 ? (
           <div className="text-center py-8">
@@ -1266,7 +1179,7 @@ function EquipmentTab({ data, clinicId, onRefresh }: { data: EquipmentSummary | 
             <p className="text-gray-500">No equipment registered yet</p>
             <button
               onClick={() => setShowAddEquipmentModal(true)}
-              className="mt-4 text-[#1e5f79] hover:underline"
+              className="mt-4 text-brand-teal hover:underline"
             >
               Add your first equipment
             </button>
@@ -1325,7 +1238,7 @@ function EquipmentTab({ data, clinicId, onRefresh }: { data: EquipmentSummary | 
                       e.stopPropagation();
                       setShowMaintenanceModal(item);
                     }}
-                    className="px-3 py-1.5 text-sm text-[#1e5f79] border border-[#1e5f79] rounded-lg hover:bg-[#1e5f79]/10 transition-colors"
+                    className="px-3 py-1.5 text-sm text-brand-teal border border-brand-teal rounded-lg hover:bg-brand-teal/10 transition-colors"
                   >
                     Log Maintenance
                   </button>
@@ -1346,7 +1259,7 @@ function EquipmentTab({ data, clinicId, onRefresh }: { data: EquipmentSummary | 
             {categories.map((cat) => (
               <div key={cat.id} className="p-4 bg-gray-50 rounded-lg text-center">
                 <p className="font-medium text-gray-900">{cat.name}</p>
-                <p className="text-2xl font-bold text-[#1e5f79]">
+                <p className="text-2xl font-bold text-brand-teal">
                   {equipment.filter(e => e.category?.id === cat.id).length}
                 </p>
                 <p className="text-sm text-gray-500">items</p>
@@ -1466,18 +1379,20 @@ function AddEquipmentModal({
 
   if (!isOpen) return null;
 
+  const inputClass = "w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 text-sm";
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="absolute inset-0 bg-black/50" onClick={onClose} />
-      <div className="relative bg-white rounded-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white p-6 border-b flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-gray-900">Add Equipment</h2>
-          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-lg">
-            <X className="h-5 w-5" />
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative bg-white sm:rounded-2xl shadow-2xl w-full max-w-2xl sm:max-h-[90vh] max-h-[95vh] overflow-hidden">
+        <div className="sticky top-0 bg-white px-5 py-3.5 border-b border-gray-200 flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-gray-900">Add Equipment</h2>
+          <button onClick={onClose} className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+            <X className="h-4 w-4" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+        <form onSubmit={handleSubmit} className="p-6 space-y-4 overflow-y-auto max-h-[calc(95vh-4rem)] sm:max-h-[calc(90vh-4rem)]">
           <div className="grid grid-cols-2 gap-4">
             <div className="col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-1">Equipment Name *</label>
@@ -1486,7 +1401,7 @@ function AddEquipmentModal({
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
                 required
-                className="w-full px-3 py-2 border rounded-lg"
+                className={inputClass}
                 placeholder="e.g., Ultrasound Machine US-100"
               />
             </div>
@@ -1496,7 +1411,7 @@ function AddEquipmentModal({
               <select
                 value={form.category_id}
                 onChange={(e) => setForm({ ...form, category_id: e.target.value })}
-                className="w-full px-3 py-2 border rounded-lg"
+                className={inputClass}
               >
                 <option value="">Select category</option>
                 {categories.map((cat) => (
@@ -1511,7 +1426,7 @@ function AddEquipmentModal({
                 type="text"
                 value={form.location}
                 onChange={(e) => setForm({ ...form, location: e.target.value })}
-                className="w-full px-3 py-2 border rounded-lg"
+                className={inputClass}
                 placeholder="e.g., Treatment Room 1"
               />
             </div>
@@ -1522,7 +1437,7 @@ function AddEquipmentModal({
                 type="text"
                 value={form.brand}
                 onChange={(e) => setForm({ ...form, brand: e.target.value })}
-                className="w-full px-3 py-2 border rounded-lg"
+                className={inputClass}
                 placeholder="e.g., Chattanooga"
               />
             </div>
@@ -1533,7 +1448,7 @@ function AddEquipmentModal({
                 type="text"
                 value={form.model}
                 onChange={(e) => setForm({ ...form, model: e.target.value })}
-                className="w-full px-3 py-2 border rounded-lg"
+                className={inputClass}
                 placeholder="e.g., US-100"
               />
             </div>
@@ -1544,7 +1459,7 @@ function AddEquipmentModal({
                 type="text"
                 value={form.serial_number}
                 onChange={(e) => setForm({ ...form, serial_number: e.target.value })}
-                className="w-full px-3 py-2 border rounded-lg"
+                className={inputClass}
                 placeholder="Serial number"
               />
             </div>
@@ -1554,7 +1469,7 @@ function AddEquipmentModal({
               <select
                 value={form.status}
                 onChange={(e) => setForm({ ...form, status: e.target.value })}
-                className="w-full px-3 py-2 border rounded-lg"
+                className={inputClass}
               >
                 <option value="WORKING">Working</option>
                 <option value="NEEDS_MAINTENANCE">Needs Maintenance</option>
@@ -1568,7 +1483,7 @@ function AddEquipmentModal({
               <select
                 value={form.condition}
                 onChange={(e) => setForm({ ...form, condition: e.target.value })}
-                className="w-full px-3 py-2 border rounded-lg"
+                className={inputClass}
               >
                 <option value="EXCELLENT">Excellent</option>
                 <option value="GOOD">Good</option>
@@ -1583,7 +1498,7 @@ function AddEquipmentModal({
                 type="date"
                 value={form.purchase_date}
                 onChange={(e) => setForm({ ...form, purchase_date: e.target.value })}
-                className="w-full px-3 py-2 border rounded-lg"
+                className={inputClass}
               />
             </div>
 
@@ -1593,7 +1508,7 @@ function AddEquipmentModal({
                 type="number"
                 value={form.purchase_price}
                 onChange={(e) => setForm({ ...form, purchase_price: e.target.value })}
-                className="w-full px-3 py-2 border rounded-lg"
+                className={inputClass}
                 placeholder="0.00"
                 step="0.01"
               />
@@ -1605,7 +1520,7 @@ function AddEquipmentModal({
                 type="date"
                 value={form.warranty_end_date}
                 onChange={(e) => setForm({ ...form, warranty_end_date: e.target.value })}
-                className="w-full px-3 py-2 border rounded-lg"
+                className={inputClass}
               />
             </div>
 
@@ -1614,7 +1529,7 @@ function AddEquipmentModal({
               <textarea
                 value={form.notes}
                 onChange={(e) => setForm({ ...form, notes: e.target.value })}
-                className="w-full px-3 py-2 border rounded-lg"
+                className={inputClass}
                 rows={2}
                 placeholder="Additional notes about this equipment"
               />
@@ -1632,7 +1547,7 @@ function AddEquipmentModal({
             <button
               type="submit"
               disabled={saving || !form.name}
-              className="px-4 py-2 bg-[#1e5f79] text-white rounded-lg hover:bg-[#174a5c] transition-colors flex items-center gap-2"
+              className="px-4 py-2 bg-brand-teal text-white rounded-lg hover:bg-teal-700 transition-colors flex items-center gap-2"
             >
               {saving && <Loader2 className="h-4 w-4 animate-spin" />}
               Add Equipment
@@ -1680,14 +1595,16 @@ function AddEquipmentCategoryModal({
 
   if (!isOpen) return null;
 
+  const inputClass = "w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 text-sm";
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="absolute inset-0 bg-black/50" onClick={onClose} />
-      <div className="relative bg-white rounded-xl max-w-md w-full mx-4">
-        <div className="p-6 border-b flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-gray-900">Add Equipment Category</h2>
-          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-lg">
-            <X className="h-5 w-5" />
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative bg-white sm:rounded-2xl shadow-2xl w-full max-w-md sm:max-h-[90vh] max-h-[95vh] overflow-hidden">
+        <div className="sticky top-0 bg-white px-5 py-3.5 border-b border-gray-200 flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-gray-900">Add Equipment Category</h2>
+          <button onClick={onClose} className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+            <X className="h-4 w-4" />
           </button>
         </div>
 
@@ -1699,7 +1616,7 @@ function AddEquipmentCategoryModal({
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="w-full px-3 py-2 border rounded-lg"
+              className={inputClass}
               placeholder="e.g., Electrotherapy, Exercise Equipment"
             />
           </div>
@@ -1709,7 +1626,7 @@ function AddEquipmentCategoryModal({
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full px-3 py-2 border rounded-lg"
+              className={inputClass}
               rows={3}
               placeholder="Optional description"
             />
@@ -1726,7 +1643,7 @@ function AddEquipmentCategoryModal({
             <button
               type="submit"
               disabled={saving || !name}
-              className="px-4 py-2 bg-[#1e5f79] text-white rounded-lg hover:bg-[#174a5c] transition-colors flex items-center gap-2"
+              className="px-4 py-2 bg-brand-teal text-white rounded-lg hover:bg-teal-700 transition-colors flex items-center gap-2"
             >
               {saving && <Loader2 className="h-4 w-4 animate-spin" />}
               Add Category
@@ -1787,25 +1704,27 @@ function MaintenanceModal({
 
   if (!isOpen) return null;
 
+  const inputClass = "w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal transition-all duration-200 text-sm";
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="absolute inset-0 bg-black/50" onClick={onClose} />
-      <div className="relative bg-white rounded-xl max-w-lg w-full mx-4 max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white p-6 border-b flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-gray-900">Log Maintenance - {equipment.name}</h2>
-          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-lg">
-            <X className="h-5 w-5" />
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative bg-white sm:rounded-2xl shadow-2xl w-full max-w-lg sm:max-h-[90vh] max-h-[95vh] overflow-hidden">
+        <div className="sticky top-0 bg-white px-5 py-3.5 border-b border-gray-200 flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-gray-900">Log Maintenance - {equipment.name}</h2>
+          <button onClick={onClose} className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+            <X className="h-4 w-4" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+        <form onSubmit={handleSubmit} className="p-6 space-y-4 overflow-y-auto max-h-[calc(95vh-4rem)] sm:max-h-[calc(90vh-4rem)]">
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Maintenance Type *</label>
               <select
                 value={form.maintenance_type}
                 onChange={(e) => setForm({ ...form, maintenance_type: e.target.value })}
-                className="w-full px-3 py-2 border rounded-lg"
+                className={inputClass}
               >
                 <option value="ROUTINE">Routine</option>
                 <option value="REPAIR">Repair</option>
@@ -1824,7 +1743,7 @@ function MaintenanceModal({
                 value={form.performed_date}
                 onChange={(e) => setForm({ ...form, performed_date: e.target.value })}
                 required
-                className="w-full px-3 py-2 border rounded-lg"
+                className={inputClass}
               />
             </div>
 
@@ -1833,7 +1752,7 @@ function MaintenanceModal({
               <textarea
                 value={form.description}
                 onChange={(e) => setForm({ ...form, description: e.target.value })}
-                className="w-full px-3 py-2 border rounded-lg"
+                className={inputClass}
                 rows={3}
                 placeholder="What was done during this maintenance?"
               />
@@ -1845,7 +1764,7 @@ function MaintenanceModal({
                 type="text"
                 value={form.performed_by_name}
                 onChange={(e) => setForm({ ...form, performed_by_name: e.target.value })}
-                className="w-full px-3 py-2 border rounded-lg"
+                className={inputClass}
                 placeholder="Technician name or vendor"
               />
             </div>
@@ -1856,7 +1775,7 @@ function MaintenanceModal({
                 type="number"
                 value={form.cost}
                 onChange={(e) => setForm({ ...form, cost: e.target.value })}
-                className="w-full px-3 py-2 border rounded-lg"
+                className={inputClass}
                 placeholder="0.00"
                 step="0.01"
               />
@@ -1867,7 +1786,7 @@ function MaintenanceModal({
               <select
                 value={form.status_after}
                 onChange={(e) => setForm({ ...form, status_after: e.target.value })}
-                className="w-full px-3 py-2 border rounded-lg"
+                className={inputClass}
               >
                 <option value="WORKING">Working</option>
                 <option value="NEEDS_MAINTENANCE">Still Needs Maintenance</option>
@@ -1882,7 +1801,7 @@ function MaintenanceModal({
                 type="date"
                 value={form.next_maintenance_date}
                 onChange={(e) => setForm({ ...form, next_maintenance_date: e.target.value })}
-                className="w-full px-3 py-2 border rounded-lg"
+                className={inputClass}
               />
             </div>
           </div>
@@ -1898,7 +1817,7 @@ function MaintenanceModal({
             <button
               type="submit"
               disabled={saving}
-              className="px-4 py-2 bg-[#1e5f79] text-white rounded-lg hover:bg-[#174a5c] transition-colors flex items-center gap-2"
+              className="px-4 py-2 bg-brand-teal text-white rounded-lg hover:bg-teal-700 transition-colors flex items-center gap-2"
             >
               {saving && <Loader2 className="h-4 w-4 animate-spin" />}
               Log Maintenance
@@ -1940,22 +1859,22 @@ function EquipmentDetailModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="absolute inset-0 bg-black/50" onClick={onClose} />
-      <div className="relative bg-white rounded-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white p-6 border-b flex items-center justify-between">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative bg-white sm:rounded-2xl shadow-2xl w-full max-w-2xl sm:max-h-[90vh] max-h-[95vh] overflow-hidden">
+        <div className="sticky top-0 bg-white px-5 py-3.5 border-b border-gray-200 flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-semibold text-gray-900">{equipment.name}</h2>
+            <h2 className="text-lg font-semibold text-gray-900">{equipment.name}</h2>
             <span className={`mt-1 inline-block px-2 py-0.5 text-xs font-medium rounded-full ${getStatusColor(equipment.status)}`}>
               {equipment.status.replace(/_/g, ' ')}
             </span>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-lg">
-            <X className="h-5 w-5" />
+          <button onClick={onClose} className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+            <X className="h-4 w-4" />
           </button>
         </div>
 
-        <div className="p-6 space-y-6">
+        <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(95vh-8rem)] sm:max-h-[calc(90vh-8rem)]">
           {/* Basic Info */}
           <div className="grid grid-cols-2 gap-4">
             {equipment.brand && (
@@ -2082,7 +2001,7 @@ function EquipmentDetailModal({
           </button>
           <button
             onClick={onLogMaintenance}
-            className="px-4 py-2 bg-[#1e5f79] text-white rounded-lg hover:bg-[#174a5c] transition-colors"
+            className="px-4 py-2 bg-brand-teal text-white rounded-lg hover:bg-teal-700 transition-colors"
           >
             Log Maintenance
           </button>
@@ -2094,25 +2013,23 @@ function EquipmentDetailModal({
 
 // ========== STAT CARD COMPONENT ==========
 function StatCard({ icon, label, value, color }: { icon: React.ReactNode; label: string; value: string | number; color: string }) {
-  const colorClasses: Record<string, string> = {
-    blue: 'bg-blue-100 text-blue-600',
-    green: 'bg-green-100 text-green-600',
-    yellow: 'bg-yellow-100 text-yellow-600',
-    red: 'bg-red-100 text-red-600',
-    purple: 'bg-purple-100 text-purple-600',
-    orange: 'bg-orange-100 text-orange-600',
-    indigo: 'bg-indigo-100 text-indigo-600',
+  const colorMap: Record<string, string> = {
+    blue: 'text-brand-teal bg-brand-teal/10',
+    green: 'text-green-600 bg-green-50',
+    yellow: 'text-yellow-600 bg-yellow-50',
+    red: 'text-red-600 bg-red-50',
+    purple: 'text-purple-600 bg-purple-50',
+    orange: 'text-orange-600 bg-orange-50',
+    indigo: 'text-indigo-600 bg-indigo-50',
   };
-
+  const colors = colorMap[color] || colorMap.blue;
   return (
-    <div className="bg-white rounded-xl p-4">
-      <div className="flex items-center gap-3">
-        <div className={`p-2 rounded-lg ${colorClasses[color]}`}>
-          {icon}
-        </div>
-        <div>
-          <p className="text-sm text-gray-500">{label}</p>
-          <p className="text-xl font-bold text-gray-900">{value}</p>
+    <div className="bg-white rounded-lg border border-gray-200 p-3.5">
+      <div className="flex items-center gap-2.5">
+        <div className={`p-2 rounded-lg ${colors}`}>{icon}</div>
+        <div className="min-w-0">
+          <p className="text-xs text-gray-500 truncate">{label}</p>
+          <p className="text-lg font-semibold text-gray-900 truncate">{String(value)}</p>
         </div>
       </div>
     </div>

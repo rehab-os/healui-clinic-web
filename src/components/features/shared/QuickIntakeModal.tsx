@@ -1,11 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
-import { X, Phone, Mail, Calendar, Users, Loader2, AlertCircle, ChevronDown, MapPin } from 'lucide-react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
+import { X, Phone, Mail, Calendar, Users, Loader2, AlertCircle, ChevronDown, MapPin, Mic, Square } from 'lucide-react';
 import { useAppSelector } from '../../../store/hooks';
 import ApiManager from '@/services/api/api.service';
 import { CreatePatientDto, Gender, AddressData, PatientIntakeStatus } from '@/lib/types';
 import AddressFields from './AddressFields';
+import useVoiceCapture from '@/hooks/useVoiceCapture';
+import VoiceWaveform from '../voice/VoiceWaveform';
 
 interface QuickIntakeModalProps {
   onClose: () => void;
@@ -31,6 +33,72 @@ const QuickIntakeModal: React.FC<QuickIntakeModalProps> = ({ onClose, onSuccess 
   const [showEmail, setShowEmail] = useState(false);
   const [showAddress, setShowAddress] = useState(false);
   const [showEmergency, setShowEmergency] = useState(false);
+
+  // Track which fields were just auto-filled for green flash animation
+  const [flashFields, setFlashFields] = useState<Set<string>>(new Set());
+  const flashTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const onFieldsExtracted = useCallback((fields: Record<string, any>) => {
+    if (!fields) return;
+
+    const newFlash = new Set<string>();
+
+    setFormData(prev => {
+      const updated = { ...prev };
+      if (fields.full_name) { updated.full_name = fields.full_name; newFlash.add('full_name'); }
+      if (fields.phone) { updated.phone = fields.phone; newFlash.add('phone'); }
+      if (fields.email) { updated.email = fields.email; newFlash.add('email'); }
+      if (fields.date_of_birth) { updated.date_of_birth = fields.date_of_birth; newFlash.add('date_of_birth'); }
+      if (fields.gender) { updated.gender = fields.gender as Gender; newFlash.add('gender'); }
+      if (fields.emergency_contact_name) { updated.emergency_contact_name = fields.emergency_contact_name; newFlash.add('emergency_contact_name'); }
+      if (fields.emergency_contact_phone) { updated.emergency_contact_phone = fields.emergency_contact_phone; newFlash.add('emergency_contact_phone'); }
+      return updated;
+    });
+
+    // Auto-expand optional sections if voice filled them
+    if (fields.email) setShowEmail(true);
+    if (fields.emergency_contact_name || fields.emergency_contact_phone) setShowEmergency(true);
+
+    if (fields.address) {
+      setShowAddress(true);
+      setAddressData(prev => ({ ...prev, ...fields.address }));
+      newFlash.add('address');
+    }
+
+    // Trigger green flash
+    if (newFlash.size > 0) {
+      setFlashFields(prev => new Set([...prev, ...newFlash]));
+      if (flashTimeoutRef.current) clearTimeout(flashTimeoutRef.current);
+      flashTimeoutRef.current = setTimeout(() => {
+        setFlashFields(new Set());
+      }, 1500);
+    }
+  }, []);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (flashTimeoutRef.current) clearTimeout(flashTimeoutRef.current);
+    };
+  }, []);
+
+  const [voiceTranscript, setVoiceTranscript] = useState('');
+
+  const voice = useVoiceCapture({
+    sessionType: 'INTAKE',
+    clinicId: currentClinic?.id || '',
+    onFieldsExtracted,
+    onTranscriptUpdate: (transcript: string) => setVoiceTranscript(transcript),
+  });
+
+  const handleMicClick = async () => {
+    if (voice.isListening) {
+      voice.stopListening();
+    } else {
+      setVoiceTranscript('');
+      await voice.startListening();
+    }
+  };
 
   const handleInputChange = (field: keyof typeof formData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -71,15 +139,15 @@ const QuickIntakeModal: React.FC<QuickIntakeModalProps> = ({ onClose, onSuccess 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     console.log('QuickIntake - Form data:', formData);
     console.log('QuickIntake - Current clinic:', currentClinic);
     console.log('QuickIntake - Address data:', addressData);
-    
+
     const isValid = validateForm();
     console.log('QuickIntake - Form validation result:', isValid);
     console.log('QuickIntake - Current errors after validation:', errors);
-    
+
     if (!isValid || !currentClinic?.id) {
       console.log('QuickIntake - Validation failed or no clinic');
       return;
@@ -90,7 +158,7 @@ const QuickIntakeModal: React.FC<QuickIntakeModalProps> = ({ onClose, onSuccess 
       // Clean up empty string fields to undefined
       const cleanedFormData = Object.fromEntries(
         Object.entries(formData).map(([key, value]) => [
-          key, 
+          key,
           typeof value === 'string' && value.trim() === '' ? undefined : value
         ])
       );
@@ -105,7 +173,7 @@ const QuickIntakeModal: React.FC<QuickIntakeModalProps> = ({ onClose, onSuccess 
       console.log('QuickIntake - Sending patient data:', patientData);
       const response = await ApiManager.createPatient(patientData);
       console.log('QuickIntake - Response:', response);
-      
+
       if (response.success) {
         onSuccess();
       } else {
@@ -114,7 +182,7 @@ const QuickIntakeModal: React.FC<QuickIntakeModalProps> = ({ onClose, onSuccess 
     } catch (error: any) {
       console.error('QuickIntake - Error details:', error);
       console.error('QuickIntake - Error response:', error.response?.data);
-      setErrors({ 
+      setErrors({
         submit: error.response?.data?.message || error.message || 'Failed to create patient'
       });
     } finally {
@@ -122,23 +190,88 @@ const QuickIntakeModal: React.FC<QuickIntakeModalProps> = ({ onClose, onSuccess 
     }
   };
 
+  /** Returns extra Tailwind classes when a field was just voice-filled */
+  const flashClass = (field: string) =>
+    flashFields.has(field) ? 'ring-2 ring-green-400 bg-green-50 transition-all duration-300' : 'transition-all duration-300';
+
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="glass rounded-2xl shadow-2xl w-full max-w-xl max-h-[90vh] overflow-hidden border border-border-color">
         {/* Header */}
         <div className="px-5 py-3.5 border-b border-border-color flex items-center justify-between">
           <h2 className="text-lg font-semibold text-gray-900">New Patient</h2>
-          <button
-            onClick={onClose}
-            className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-all duration-200"
-          >
-            <X className="h-4 w-4" />
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={handleMicClick}
+              disabled={voice.isProcessing}
+              className={`p-1.5 rounded-lg transition-all duration-200 ${
+                voice.isListening
+                  ? 'bg-red-100 text-red-600 hover:bg-red-200'
+                  : 'text-gray-400 hover:text-teal-600 hover:bg-teal-50'
+              }`}
+              title={voice.isListening ? 'Stop recording' : 'Voice intake'}
+            >
+              <Mic className="h-4 w-4" />
+            </button>
+            <button
+              onClick={onClose}
+              className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-all duration-200"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
         </div>
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="px-5 py-4 overflow-y-auto max-h-[65vh]">
           <div className="space-y-3">
+            {/* Voice status panel with waveform */}
+            {(voice.isListening || voice.isProcessing || voiceTranscript) && (
+              <div className="p-3 rounded-xl border border-teal-100 bg-gradient-to-r from-teal-50/50 to-gray-50 space-y-2">
+                {voice.isListening && (
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <span className="relative flex h-2 w-2">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
+                          <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
+                        </span>
+                        <span className="text-xs font-medium text-gray-500">Listening</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => voice.stopListening()}
+                        className="flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-full transition-colors"
+                      >
+                        <Square className="h-2.5 w-2.5 fill-current" />
+                        Stop
+                      </button>
+                    </div>
+                    <VoiceWaveform
+                      volumeLevel={voice.volumeLevel}
+                      isActive={voice.isListening}
+                    />
+                  </div>
+                )}
+                {!voice.isListening && voice.isProcessing && (
+                  <div className="flex items-center justify-center gap-2 py-1">
+                    <Loader2 className="h-3.5 w-3.5 animate-spin text-teal-600" />
+                    <span className="text-xs font-medium text-teal-700">Processing audio...</span>
+                  </div>
+                )}
+                {voiceTranscript && (
+                  <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">{voiceTranscript}</p>
+                )}
+                {voice.error && (
+                  <p className="text-xs text-red-600 flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" />
+                    {voice.error}
+                  </p>
+                )}
+              </div>
+            )}
+
             {/* Name & Phone - always visible */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div>
@@ -148,7 +281,7 @@ const QuickIntakeModal: React.FC<QuickIntakeModalProps> = ({ onClose, onSuccess 
                   onChange={(e) => handleInputChange('full_name', e.target.value)}
                   className={`w-full px-3 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79] ${
                     errors.full_name ? 'border-red-300' : 'border-gray-300'
-                  }`}
+                  } ${flashClass('full_name')}`}
                   placeholder="Full name *"
                 />
                 {errors.full_name && (
@@ -168,7 +301,7 @@ const QuickIntakeModal: React.FC<QuickIntakeModalProps> = ({ onClose, onSuccess 
                     onChange={(e) => handleInputChange('phone', e.target.value)}
                     className={`w-full pl-10 pr-3 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79] ${
                       errors.phone ? 'border-red-300' : 'border-gray-300'
-                    }`}
+                    } ${flashClass('phone')}`}
                     placeholder="Phone number *"
                   />
                 </div>
@@ -192,7 +325,7 @@ const QuickIntakeModal: React.FC<QuickIntakeModalProps> = ({ onClose, onSuccess 
                     onChange={(e) => handleInputChange('date_of_birth', e.target.value)}
                     className={`w-full pl-10 pr-3 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79] ${
                       errors.date_of_birth ? 'border-red-300' : 'border-gray-300'
-                    }`}
+                    } ${flashClass('date_of_birth')}`}
                     placeholder="Date of birth *"
                     max={new Date().toISOString().split('T')[0]}
                   />
@@ -206,7 +339,7 @@ const QuickIntakeModal: React.FC<QuickIntakeModalProps> = ({ onClose, onSuccess 
               </div>
 
               <div>
-                <div className="flex items-center gap-2 py-1">
+                <div className={`flex items-center gap-2 py-1 rounded-lg ${flashClass('gender')}`}>
                   {([
                     { value: 'M', label: 'Male' },
                     { value: 'F', label: 'Female' },
@@ -252,7 +385,7 @@ const QuickIntakeModal: React.FC<QuickIntakeModalProps> = ({ onClose, onSuccess 
                     onChange={(e) => handleInputChange('email', e.target.value)}
                     className={`w-full px-3 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79] ${
                       errors.email ? 'border-red-300' : 'border-gray-300'
-                    }`}
+                    } ${flashClass('email')}`}
                     placeholder="patient@example.com"
                     autoFocus
                   />
@@ -273,7 +406,7 @@ const QuickIntakeModal: React.FC<QuickIntakeModalProps> = ({ onClose, onSuccess 
                 Address
               </button>
               {showAddress && (
-                <div className="pl-5">
+                <div className={`pl-5 ${flashClass('address')} rounded-lg`}>
                   <AddressFields
                     value={addressData}
                     onChange={setAddressData}
@@ -299,7 +432,7 @@ const QuickIntakeModal: React.FC<QuickIntakeModalProps> = ({ onClose, onSuccess 
                     type="text"
                     value={formData.emergency_contact_name}
                     onChange={(e) => handleInputChange('emergency_contact_name', e.target.value)}
-                    className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]"
+                    className={`w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79] ${flashClass('emergency_contact_name')}`}
                     placeholder="Contact person name"
                   />
                   <div className="relative">
@@ -308,7 +441,7 @@ const QuickIntakeModal: React.FC<QuickIntakeModalProps> = ({ onClose, onSuccess 
                       type="tel"
                       value={formData.emergency_contact_phone}
                       onChange={(e) => handleInputChange('emergency_contact_phone', e.target.value)}
-                      className="w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79]"
+                      className={`w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e5f79] ${flashClass('emergency_contact_phone')}`}
                       placeholder="Contact phone"
                     />
                   </div>

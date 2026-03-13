@@ -32,7 +32,7 @@ import {
   X
 } from 'lucide-react';
 import ServiceAreaSetup from '../../../components/features/clinics/ServiceAreaSetup';
-import LeafletMapPicker from '../../../components/features/maps/LeafletMapPicker';
+import GoogleMapPicker from '../../../components/features/maps/GoogleMapPicker';
 import {
   AvailabilityType,
   DayOfWeek,

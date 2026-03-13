@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback, useEffect } from 'react';
 import { Search, X, MapPin, Plus, Minus } from 'lucide-react';
-import LeafletMapPicker from '../maps/LeafletMapPicker';
+import GoogleMapPicker from '../maps/GoogleMapPicker';
 import ServiceZoneLine from './ServiceZoneLine';
 import ApiManager from '@/services/api/api.service';
 import { cn } from '@/lib/utils';
@@ -356,7 +356,7 @@ export default function ServiceLocationSetup({
                     <h2 className="text-base font-semibold text-gray-900 mb-1">Location on Map</h2>
                     <p className="text-gray-600 text-xs">Click on the map or search to set your base location</p>
                 </div>
-                <LeafletMapPicker
+                <GoogleMapPicker
                     onLocationSelect={handleLocationSelect}
                     initialLat={latitude}
                     initialLng={longitude}

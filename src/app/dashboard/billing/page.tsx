@@ -484,8 +484,8 @@ export default function BillingPage() {
             </span>
           </div>
           <div className="divide-y divide-gray-100">
-            {corporateData.companies.map((company) => (
-              <div key={company.company} className="p-4 hover:bg-gray-50 transition-colors">
+            {corporateData.companies.map((company, index) => (
+              <div key={`${company.company}-${index}`} className="p-4 hover:bg-gray-50 transition-colors">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="font-medium text-gray-900">{company.company}</p>
