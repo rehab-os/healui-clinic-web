@@ -74,6 +74,7 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
   const [patientData, setPatientData] = useState<any>(null)
   const [conditionData, setConditionData] = useState<any>(null)
   const [staticConditionData, setStaticConditionData] = useState<any>(null)
+  const [insightsData, setInsightsData] = useState<any[]>([])
   const [dataLoading, setDataLoading] = useState(false)
 
   // Customization state
@@ -106,6 +107,7 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
       setPatientData(null)
       setConditionData(null)
       setStaticConditionData(null)
+      setInsightsData([])
       setDataLoading(false)
       setCustomizedProtocol(null)
       setGeneratingMessageIndex(0)
@@ -214,9 +216,21 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
         }
       }
 
+      // Fetch clinical insights for the condition
+      let insights: any[] = []
+      try {
+        const insightsResponse = await ApiManager.getClinicalInsights(conditionId)
+        if (insightsResponse.success && insightsResponse.data) {
+          insights = insightsResponse.data.insights || insightsResponse.data || []
+        }
+      } catch (insightErr) {
+        console.warn('Could not fetch clinical insights, proceeding without:', insightErr)
+      }
+
       setPatientData(patientResponse.data)
       setConditionData(condition)
       setStaticConditionData(staticResponse?.data || null)
+      setInsightsData(insights)
     } catch (error: any) {
       console.error('Error fetching data:', error)
       setError(error.message || 'Failed to load required data')
@@ -266,7 +280,15 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
           initialAssessment: conditionData.initial_assessment_data || null,
           description: conditionData.description || '',
           onsetDate: conditionData.onset_date || '',
-          chiefComplaint: conditionData.chief_complaint || ''
+          chiefComplaint: conditionData.chief_complaint || '',
+          clinicalObservations: insightsData.length > 0 ? insightsData.map((insight: any) => ({
+            text: insight.insight_text,
+            type: insight.insight_type,
+            date: insight.created_at,
+            painLevel: insight.context_metadata?.pain_level,
+            functionalStatus: insight.context_metadata?.functional_status,
+            patientCompliance: insight.context_metadata?.patient_compliance,
+          })) : undefined,
         },
         staticCondition: {
           conditionName: staticConditionData?.condition_name || conditionName,
@@ -577,7 +599,6 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
         protocol_title: `${conditionName} - Treatment Protocol`,
         protocol_type: 'clinical',
         exercises: clinicalExercises,
-        include_hep: includeHEP,
       }
 
       const response = await ApiManager.createTreatmentProtocol(clinicalProtocolData)
@@ -593,7 +614,6 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
           protocol_title: `${conditionName} - Home Exercise Program`,
           protocol_type: 'home',
           exercises: homeExercises,
-          include_hep: true,
           // HEP doesn't include modalities or manual therapy (clinic-only)
           modalities: [],
           manual_therapy: [],
@@ -604,6 +624,17 @@ const ProtocolGeneratorModal: React.FC<ProtocolGeneratorModalProps> = ({
         if (!hepResponse.success) {
           console.warn('Failed to save HEP protocol:', hepResponse.message)
         }
+      }
+
+      // Mark insights as used in protocol generation
+      const savedProtocolId = response.data?.id
+      if (savedProtocolId && insightsData.length > 0) {
+        const markPromises = insightsData.map((insight: any) =>
+          ApiManager.markInsightAsUsed(insight.id, savedProtocolId).catch((err: any) => {
+            console.warn(`Failed to mark insight ${insight.id} as used:`, err)
+          })
+        )
+        await Promise.allSettled(markPromises)
       }
 
       toast.success(includeHEP && homeExercises.length > 0

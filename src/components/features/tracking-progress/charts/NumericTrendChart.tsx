@@ -15,6 +15,7 @@ import type { Direction } from '@/app/dashboard/appointments/[patientId]/[appoin
 import type { ChartDataPoint } from '../hooks/useTrackingHistory'
 import { resolveMCID } from '../utils/mcid-resolver'
 import { shouldReverseYAxis } from '../utils/chartability'
+import { useChartHeight } from '../hooks/useChartHeight'
 
 interface NumericTrendChartProps {
   itemKey: string
@@ -35,6 +36,8 @@ export default function NumericTrendChart({
   min,
   max,
 }: NumericTrendChartProps) {
+  const chartHeight = useChartHeight(140, 180)
+
   const chartData = useMemo(() => {
     return dataPoints
       .map((dp) => {
@@ -42,11 +45,12 @@ export default function NumericTrendChart({
         if (!item || item.value === undefined || item.value === null || item.value === '') return null
         return {
           visit: dp.visit_number,
+          label: `V${dp.visit_number}`,
           date: dp.visit_date,
           value: Number(item.value),
         }
       })
-      .filter(Boolean) as Array<{ visit: number; date: string; value: number }>
+      .filter(Boolean) as Array<{ visit: number; label: string; date: string; value: number }>
   }, [dataPoints, itemKey])
 
   const { mcid } = resolveMCID(itemKey)
@@ -76,19 +80,19 @@ export default function NumericTrendChart({
 
   return (
     <div className="w-full">
-      <div className="text-xs font-medium text-gray-700 mb-2">{displayName}</div>
-      <ResponsiveContainer width="100%" height={180}>
-        <LineChart data={chartData} margin={{ top: 5, right: 10, left: -10, bottom: 5 }}>
+      <div className="text-[11px] lg:text-xs font-medium text-gray-700 mb-1.5 lg:mb-2">{displayName}</div>
+      <ResponsiveContainer width="100%" height={chartHeight}>
+        <LineChart data={chartData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
           <XAxis
-            dataKey="visit"
+            dataKey="label"
             tick={{ fontSize: 10, fill: '#9ca3af' }}
-            label={{ value: 'Visit', position: 'insideBottom', offset: -2, fontSize: 10, fill: '#9ca3af' }}
           />
           <YAxis
             reversed={reversed}
             domain={[yMin, yMax]}
             tick={{ fontSize: 10, fill: '#9ca3af' }}
+            width={35}
             label={unit ? { value: unit, angle: -90, position: 'insideLeft', fontSize: 10, fill: '#9ca3af' } : undefined}
           />
           <Tooltip
@@ -98,8 +102,8 @@ export default function NumericTrendChart({
               displayName,
             ]}
             labelFormatter={(label) => {
-              const point = chartData.find(d => d.visit === label)
-              return point ? `Visit ${label} (${point.date})` : `Visit ${label}`
+              const point = chartData.find(d => d.label === label)
+              return point ? `Visit ${point.visit} (${point.date})` : String(label)
             }}
           />
           {/* Baseline reference */}

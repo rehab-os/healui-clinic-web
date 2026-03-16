@@ -5,6 +5,7 @@ import { X, Plus, Minus, Target, Activity, Utensils, FileText, Download, Printer
 import { toast } from 'sonner';
 import { useAppSelector } from '../../../store/hooks';
 import { downloadTreatmentProtocolPDF, printTreatmentProtocol } from '@/lib/utils/pdf';
+import { downloadTxPlanPDF, mapModalExercisesToProtocol } from '@/lib/utils/txPdfGenerator';
 import { format, parseISO } from 'date-fns';
 import { AnatomySearchSelect } from '../shared/AnatomySearchSelect';
 import ApiManager from '@/services/api/api.service';
@@ -117,6 +118,7 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
   nutritionData = null,
 }) => {
   const { currentClinic } = useAppSelector(state => state.user);
+  const authUser = useAppSelector(state => state.auth.user);
 
   // TQ queries and mutations
   const { data: currentProtocol, isLoading: protocolLoading } = useProtocolByVisit(isOpen ? visitId : undefined);
@@ -126,6 +128,9 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
   const sendToPatientMutation = useSendProtocolToPatient();
   const generatePDFMutation = useGenerateProtocolPDF();
 
+  // PDF generation loading state
+  const [generatingPDF, setGeneratingPDF] = useState(false);
+
   // Derived loading/error states
   const loading = {
     current: protocolLoading,
@@ -133,6 +138,7 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
     updating: updateProtocolMutation.isPending,
     finalizing: finalizeProtocolMutation.isPending,
     sendingToPatient: sendToPatientMutation.isPending,
+    generatingPDF,
   };
   const error = {
     creating: createProtocolMutation.error?.message || null,
@@ -548,48 +554,131 @@ const TreatmentProtocolModal: React.FC<TreatmentProtocolModalProps> = ({
     }
   };
 
-  // Generate and download protocol
+  // Generate and download Tx Plan PDF
   const downloadProtocol = async () => {
-    if (!patient || !currentProtocol) return;
-    
+    if (!patient) return;
+
+    setGeneratingPDF(true);
     try {
-      await generatePDFMutation.mutateAsync(currentProtocol.id);
-      // Handle PDF download - this depends on backend implementation
+      toast.loading('Generating Tx Plan...', { id: 'tx-pdf' });
+
+      const protocol = mapModalExercisesToProtocol(
+        selectedExercises,
+        protocolTitle || 'Treatment Protocol',
+      );
+
+      // Determine condition name from selected visit condition or protocol title
+      const selectedCondition = visitConditions.find(vc => vc.id === selectedVisitConditionId);
+      const conditionName = selectedCondition?.condition_name || protocolTitle || 'General Treatment';
+
+      await downloadTxPlanPDF({
+        patient: {
+          full_name: patient.full_name,
+          phone: patient.phone,
+          email: patient.email,
+          date_of_birth: patient.date_of_birth,
+          gender: patient.gender,
+        },
+        clinic: {
+          name: currentClinic?.name || 'Clinic',
+          address: (currentClinic as any)?.address,
+          city: (currentClinic as any)?.city,
+          state: (currentClinic as any)?.state,
+          pincode: (currentClinic as any)?.pincode,
+          phone: (currentClinic as any)?.phone,
+          email: (currentClinic as any)?.email,
+        },
+        visit: {
+          date: new Date().toISOString(),
+          chief_complaint: currentComplaint,
+        },
+        conditions: [{
+          condition_name: conditionName,
+          chief_complaint: currentComplaint,
+        }],
+        protocols: [{
+          condition_name: conditionName,
+          home: protocol,
+        }],
+        notes: generalNotes || undefined,
+        therapistName: authUser?.full_name || 'Physiotherapist',
+        therapistPhone: authUser?.phone,
+        therapistEmail: authUser?.email,
+      });
+
+      toast.success('Tx Plan downloaded!', { id: 'tx-pdf' });
     } catch (error) {
-      console.error('Error downloading protocol:', error);
+      console.error('Error downloading Tx Plan:', error);
+      toast.error('Failed to generate Tx Plan.', { id: 'tx-pdf' });
+    } finally {
+      setGeneratingPDF(false);
     }
   };
 
-  // Print protocol
-  const printProtocol = () => {
-    if (!patient || !currentProtocol) return;
-    
-    const protocol = {
-      patient: patient,
-      clinic: currentClinic || {},
-      protocolTitle: protocolTitle || 'Treatment Protocol',
-      selectedAreas,
-      selectedExercises,
-      nutritionRecommendations,
-      generalNotes,
-      // Use edited data instead of original nutritionData
-      editedNutritionData: {
-        bloodTests: editableBloodTests.filter(test => test.trim()),
-        recommendedFoods: editableRecommendedFoods.filter(food => food.trim()),
-        foodsToAvoid: editableFoodsToAvoid.filter(food => food.trim()),
-        supplements: editableSupplements.filter(supplement => supplement.trim()),
-        generalAdvice: editableGeneralAdvice.filter(advice => advice.trim()),
-        precautions: editablePrecautions.filter(precaution => precaution.trim()),
-        hydration: nutritionData?.hydration || '',
-        generalGuidelines: nutritionData?.generalGuidelines || [],
-      },
-      showExplanations,
-      visitHistory,
-      currentComplaint,
-      createdDate: new Date().toLocaleDateString(),
-    };
+  // Print protocol — generates Tx PDF blob and opens in new tab for printing
+  const printProtocol = async () => {
+    if (!patient) return;
 
-    printTreatmentProtocol(protocol);
+    try {
+      toast.loading('Preparing print...', { id: 'tx-print' });
+
+      const { generateTxPlanPDF, mapModalExercisesToProtocol: mapExercises } = await import('@/lib/utils/txPdfGenerator');
+
+      const protocol = mapExercises(
+        selectedExercises,
+        protocolTitle || 'Treatment Protocol',
+      );
+
+      const selectedCondition = visitConditions.find(vc => vc.id === selectedVisitConditionId);
+      const conditionName = selectedCondition?.condition_name || protocolTitle || 'General Treatment';
+
+      const blob = await generateTxPlanPDF({
+        patient: {
+          full_name: patient.full_name,
+          phone: patient.phone,
+          email: patient.email,
+          date_of_birth: patient.date_of_birth,
+          gender: patient.gender,
+        },
+        clinic: {
+          name: currentClinic?.name || 'Clinic',
+          address: (currentClinic as any)?.address,
+          city: (currentClinic as any)?.city,
+          state: (currentClinic as any)?.state,
+          pincode: (currentClinic as any)?.pincode,
+          phone: (currentClinic as any)?.phone,
+          email: (currentClinic as any)?.email,
+        },
+        visit: {
+          date: new Date().toISOString(),
+          chief_complaint: currentComplaint,
+        },
+        conditions: [{
+          condition_name: conditionName,
+          chief_complaint: currentComplaint,
+        }],
+        protocols: [{
+          condition_name: conditionName,
+          home: protocol,
+        }],
+        notes: generalNotes || undefined,
+        therapistName: authUser?.full_name || 'Physiotherapist',
+        therapistPhone: authUser?.phone,
+        therapistEmail: authUser?.email,
+      });
+
+      const url = URL.createObjectURL(blob);
+      const printWindow = window.open(url, '_blank');
+      if (printWindow) {
+        printWindow.addEventListener('load', () => {
+          printWindow.print();
+        });
+      }
+      toast.dismiss('tx-print');
+    } catch (error) {
+      console.error('Error printing Tx Plan:', error);
+      toast.error('Failed to prepare print.', { id: 'tx-print' });
+    }
   };
 
   // Finalize protocol

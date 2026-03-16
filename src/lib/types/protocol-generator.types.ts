@@ -31,6 +31,14 @@ export interface DirectProtocolGenerationRequest {
     description?: string;
     onsetDate?: string;
     chiefComplaint?: string;
+    clinicalObservations?: {
+      text: string;
+      type: string;
+      date: string;
+      painLevel?: number;
+      functionalStatus?: string;
+      patientCompliance?: string;
+    }[];
   };
   staticCondition: {
     conditionName: string;

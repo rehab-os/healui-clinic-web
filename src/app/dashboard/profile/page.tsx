@@ -23,10 +23,12 @@ import {
   Loader2,
   AlertCircle,
   CheckCircle,
-  CreditCard
+  CreditCard,
+  Briefcase
 } from 'lucide-react';
 import { setUser } from '../../../store/slices/auth.slice';
 import ProfilePhotoUpload from '../../../components/features/profile/ProfilePhotoUpload';
+import { toast } from 'sonner';
 
 // Import database data
 import machinesData from '../../../data/anatomy/machines/machines.json';
@@ -257,10 +259,12 @@ export default function ProfilePage() {
   }, []);
 
   useEffect(() => {
-    setProfile(prev => ({
-      ...prev,
-      full_name: authUser?.full_name || ''
-    }));
+    if (authUser?.full_name) {
+      setProfile(prev => ({
+        ...prev,
+        full_name: prev.full_name || authUser.full_name
+      }));
+    }
   }, [authUser?.full_name]);
 
   const fetchProfile = async () => {
@@ -269,8 +273,8 @@ export default function ProfilePage() {
       const response = await ApiManager.getPhysiotherapistProfile();
       
       if (response.success && response.data) {
-        setProfile({
-          full_name: authUser?.full_name || '',
+        setProfile(prev => ({
+          full_name: response.data.user?.full_name || response.data.full_name || prev.full_name || authUser?.full_name || '',
           license_number: response.data.license_number || '',
           experience_level: response.data.experience_level || 'fresher',
           years_of_experience: response.data.years_of_experience || 0,
@@ -279,7 +283,7 @@ export default function ProfilePage() {
           languages: response.data.languages || [],
           is_profile_complete: response.data.is_profile_complete || false,
           profile_completed_at: response.data.profile_completed_at
-        });
+        }));
         setEducations(response.data.education || []);
         setTechniques(response.data.techniques || []);
         setMachines(response.data.machines || []);
@@ -432,7 +436,7 @@ export default function ProfilePage() {
       {/* Clean Page Header */}
       <div className="bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between py-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between py-6 gap-3">
             <div>
               <h1 className="text-2xl font-semibold text-gray-900">Physiotherapist Profile</h1>
               <p className="mt-1 text-sm text-gray-500">Manage your professional profile and credentials</p>
@@ -454,14 +458,11 @@ export default function ProfilePage() {
         {/* Custom Tabs */}
         <div className="space-y-6">
           <div className="bg-white border border-gray-200 rounded-lg p-1">
-            <div className="grid grid-cols-7 gap-1">
+            <div className="flex overflow-x-auto gap-1" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}>
               {[
                 { value: 'profile', label: 'Profile', icon: User },
                 { value: 'photos', label: 'Photos', icon: Camera },
-                { value: 'education', label: 'Education', icon: GraduationCap },
-                { value: 'techniques', label: 'Techniques', icon: Award },
-                { value: 'machines', label: 'Machines', icon: SettingsIcon },
-                { value: 'workshops', label: 'Workshops', icon: Calendar },
+                { value: 'expertise', label: 'Expertise', icon: Briefcase },
                 { value: 'bank-account', label: 'Bank Account', icon: CreditCard }
               ].map((tab) => {
                 const Icon = tab.icon;
@@ -469,15 +470,14 @@ export default function ProfilePage() {
                   <button
                     key={tab.value}
                     onClick={() => setSelectedTab(tab.value)}
-                    className={`flex items-center justify-center px-3 py-2 text-sm font-medium rounded transition-all ${
+                    className={`flex flex-shrink-0 items-center justify-center px-3 py-2 text-sm font-medium rounded transition-all ${
                       selectedTab === tab.value
                         ? 'bg-[#1e5f79] text-white'
                         : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
                     }`}
                   >
-                    <Icon className="h-4 w-4 mr-1 hidden sm:block" />
+                    <Icon className="h-4 w-4 sm:mr-1" />
                     <span className="hidden sm:inline">{tab.label}</span>
-                    <span className="sm:hidden"><Icon className="h-4 w-4" /></span>
                   </button>
                 );
               })}
@@ -673,181 +673,213 @@ export default function ProfilePage() {
             </div>
           )}
 
-          {/* Education Tab */}
-          {selectedTab === 'education' && (
-            <div className="bg-white rounded-lg p-6">
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-2">
-                  <GraduationCap className="h-5 w-5 text-[#1e5f79]" />
-                  <h2 className="text-lg font-semibold text-gray-900">Education</h2>
-                </div>
-                <button
-                  onClick={() => setShowEducationModal(true)}
-                  className="inline-flex items-center px-4 py-2 bg-[#1e5f79] text-white text-sm font-medium rounded-lg hover:bg-[#1e5f79]/90 transition-colors"
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add Education
-                </button>
-              </div>
-              
-              <div className="space-y-4">
-                {educations?.map((edu, index) => (
-                  <div key={index} className="p-4 bg-[#eff8ff] rounded-lg">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h3 className="font-semibold text-gray-900">{edu.degree_name}</h3>
-                        <p className="text-sm text-gray-600">{edu.institution_name}</p>
-                        <p className="text-xs text-gray-500">
-                          {formatSpecialization(edu.education_type)} • {formatSpecialization(edu.education_level)}
-                        </p>
-                        <p className="text-xs text-gray-500">
-                          {edu.start_date} - {edu.is_current ? 'Present' : edu.end_date}
-                        </p>
-                        {edu.description && (
-                          <p className="text-sm text-gray-600 mt-2">{edu.description}</p>
-                        )}
-                      </div>
+          {/* Expertise Tab */}
+          {selectedTab === 'expertise' && (
+            <div className="space-y-6">
+              {/* Education Section */}
+              <div className="bg-white rounded-lg p-6">
+                <div className="flex items-center justify-between mb-5">
+                  <div className="flex items-center gap-2.5">
+                    <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#eff8ff]">
+                      <GraduationCap className="h-4 w-4 text-[#1e5f79]" />
+                    </div>
+                    <div>
+                      <h2 className="text-base font-semibold text-gray-900">Education</h2>
+                      <p className="text-xs text-gray-500">{educations?.length || 0} qualifications</p>
                     </div>
                   </div>
-                ))}
-                {educations?.length === 0 && (
-                  <div className="text-center py-8">
-                    <GraduationCap className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                    <p className="text-gray-500">No education records added yet.</p>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* Techniques Tab */}
-          {selectedTab === 'techniques' && (
-            <div className="bg-white rounded-lg p-6">
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-2">
-                  <Award className="h-5 w-5 text-[#1e5f79]" />
-                  <h2 className="text-lg font-semibold text-gray-900">Techniques</h2>
+                  <button
+                    onClick={() => setShowEducationModal(true)}
+                    className="inline-flex items-center px-3 py-1.5 bg-[#1e5f79] text-white text-xs font-medium rounded-lg hover:bg-[#1e5f79]/90 transition-colors"
+                  >
+                    <Plus className="h-3.5 w-3.5 mr-1" />
+                    Add
+                  </button>
                 </div>
-                <button
-                  onClick={() => setShowTechniqueModal(true)}
-                  className="inline-flex items-center px-4 py-2 bg-[#1e5f79] text-white text-sm font-medium rounded-lg hover:bg-[#1e5f79]/90 transition-colors"
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add Technique
-                </button>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {techniques?.map((tech, index) => (
-                  <div key={index} className="p-4 bg-[#eff8ff] rounded-lg">
-                    <h3 className="font-semibold text-gray-900">{tech.technique_name}</h3>
-                    <p className="text-sm text-gray-600">{formatSpecialization(tech.category)}</p>
-                    <span className="inline-flex items-center px-2 py-1 bg-[#c8eaeb] text-[#1e5f79] rounded-full text-xs font-medium mt-2">
-                      {formatSpecialization(tech.proficiency_level)}
-                    </span>
-                  </div>
-                ))}
-                {techniques?.length === 0 && (
-                  <div className="col-span-full text-center py-8">
-                    <Award className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                    <p className="text-gray-500">No techniques added yet.</p>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
 
-          {/* Machines Tab */}
-          {selectedTab === 'machines' && (
-            <div className="bg-white rounded-lg p-6">
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-2">
-                  <SettingsIcon className="h-5 w-5 text-[#1e5f79]" />
-                  <h2 className="text-lg font-semibold text-gray-900">Machines & Equipment</h2>
-                </div>
-                <button
-                  onClick={() => setShowMachineModal(true)}
-                  className="inline-flex items-center px-4 py-2 bg-[#1e5f79] text-white text-sm font-medium rounded-lg hover:bg-[#1e5f79]/90 transition-colors"
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add Machine
-                </button>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {machines?.map((machine, index) => (
-                  <div key={index} className="p-4 bg-[#eff8ff] rounded-lg">
-                    <h3 className="font-semibold text-gray-900">{machine.machine_name}</h3>
-                    <p className="text-sm text-gray-600">{formatSpecialization(machine.category)}</p>
-                    <div className="flex gap-2 mt-2">
-                      <span className="inline-flex items-center px-2 py-1 bg-[#c8eaeb] text-[#1e5f79] rounded-full text-xs font-medium">
-                        {formatSpecialization(machine.competency_level)}
-                      </span>
-                      {machine.is_certified && (
-                        <span className="inline-flex items-center px-2 py-1 bg-green-50 text-green-700 rounded-full text-xs font-medium">
-                          Certified
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                ))}
-                {machines?.length === 0 && (
-                  <div className="col-span-full text-center py-8">
-                    <SettingsIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                    <p className="text-gray-500">No machines added yet.</p>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* Workshops Tab */}
-          {selectedTab === 'workshops' && (
-            <div className="bg-white rounded-lg p-6">
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-2">
-                  <Calendar className="h-5 w-5 text-[#1e5f79]" />
-                  <h2 className="text-lg font-semibold text-gray-900">Workshops & Training</h2>
-                </div>
-                <button
-                  onClick={() => setShowWorkshopModal(true)}
-                  className="inline-flex items-center px-4 py-2 bg-[#1e5f79] text-white text-sm font-medium rounded-lg hover:bg-[#1e5f79]/90 transition-colors"
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add Workshop
-                </button>
-              </div>
-              
-              <div className="space-y-4">
-                {workshops?.map((workshop, index) => (
-                  <div key={index} className="p-4 bg-[#eff8ff] rounded-lg">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h3 className="font-semibold text-gray-900">{workshop.workshop_name}</h3>
-                        <p className="text-sm text-gray-600">{workshop.organizer_name}</p>
-                        <p className="text-xs text-gray-500">
-                          {formatSpecialization(workshop.workshop_type)} • {workshop.start_date} - {workshop.end_date}
-                        </p>
-                        <div className="flex gap-2 mt-2">
-                          {workshop.is_online && (
-                            <span className="inline-flex items-center px-2 py-1 bg-[#c8eaeb] text-[#1e5f79] rounded-full text-xs font-medium">
-                              Online
+                {educations?.length > 0 ? (
+                  <div className="space-y-3">
+                    {educations.map((edu, index) => (
+                      <div key={index} className="flex gap-4 p-4 border border-gray-100 rounded-lg hover:border-gray-200 transition-colors">
+                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#eff8ff] flex items-center justify-center mt-0.5">
+                          <GraduationCap className="h-4 w-4 text-[#1e5f79]" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-medium text-gray-900 text-sm">{edu.degree_name}</h3>
+                          <p className="text-sm text-gray-600">{edu.institution_name}</p>
+                          <div className="flex flex-wrap items-center gap-2 mt-1.5">
+                            <span className="inline-flex items-center px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs">
+                              {formatSpecialization(edu.education_type)}
                             </span>
+                            <span className="inline-flex items-center px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs">
+                              {formatSpecialization(edu.education_level)}
+                            </span>
+                            <span className="text-xs text-gray-400">
+                              {edu.start_date} - {edu.is_current ? 'Present' : edu.end_date}
+                            </span>
+                          </div>
+                          {edu.description && (
+                            <p className="text-xs text-gray-500 mt-2 line-clamp-2">{edu.description}</p>
                           )}
-                          {workshop.has_certificate && (
-                            <span className="inline-flex items-center px-2 py-1 bg-green-50 text-green-700 rounded-full text-xs font-medium">
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-6 border border-dashed border-gray-200 rounded-lg">
+                    <GraduationCap className="h-8 w-8 text-gray-300 mx-auto mb-2" />
+                    <p className="text-sm text-gray-400">No education records added yet</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Techniques Section */}
+              <div className="bg-white rounded-lg p-6">
+                <div className="flex items-center justify-between mb-5">
+                  <div className="flex items-center gap-2.5">
+                    <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#eff8ff]">
+                      <Award className="h-4 w-4 text-[#1e5f79]" />
+                    </div>
+                    <div>
+                      <h2 className="text-base font-semibold text-gray-900">Techniques</h2>
+                      <p className="text-xs text-gray-500">{techniques?.length || 0} skills</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setShowTechniqueModal(true)}
+                    className="inline-flex items-center px-3 py-1.5 bg-[#1e5f79] text-white text-xs font-medium rounded-lg hover:bg-[#1e5f79]/90 transition-colors"
+                  >
+                    <Plus className="h-3.5 w-3.5 mr-1" />
+                    Add
+                  </button>
+                </div>
+
+                {techniques?.length > 0 ? (
+                  <div className="flex flex-wrap gap-2">
+                    {techniques.map((tech, index) => (
+                      <div key={index} className="inline-flex items-center gap-2 px-3 py-2 border border-gray-100 rounded-lg hover:border-gray-200 transition-colors">
+                        <span className="text-sm font-medium text-gray-900">{tech.technique_name}</span>
+                        <span className="inline-flex items-center px-1.5 py-0.5 bg-[#c8eaeb] text-[#1e5f79] rounded text-xs font-medium">
+                          {formatSpecialization(tech.proficiency_level)}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-6 border border-dashed border-gray-200 rounded-lg">
+                    <Award className="h-8 w-8 text-gray-300 mx-auto mb-2" />
+                    <p className="text-sm text-gray-400">No techniques added yet</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Machines & Equipment Section */}
+              <div className="bg-white rounded-lg p-6">
+                <div className="flex items-center justify-between mb-5">
+                  <div className="flex items-center gap-2.5">
+                    <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#eff8ff]">
+                      <SettingsIcon className="h-4 w-4 text-[#1e5f79]" />
+                    </div>
+                    <div>
+                      <h2 className="text-base font-semibold text-gray-900">Equipment</h2>
+                      <p className="text-xs text-gray-500">{machines?.length || 0} machines</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setShowMachineModal(true)}
+                    className="inline-flex items-center px-3 py-1.5 bg-[#1e5f79] text-white text-xs font-medium rounded-lg hover:bg-[#1e5f79]/90 transition-colors"
+                  >
+                    <Plus className="h-3.5 w-3.5 mr-1" />
+                    Add
+                  </button>
+                </div>
+
+                {machines?.length > 0 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {machines.map((machine, index) => (
+                      <div key={index} className="p-3.5 border border-gray-100 rounded-lg hover:border-gray-200 transition-colors">
+                        <h3 className="font-medium text-gray-900 text-sm">{machine.machine_name}</h3>
+                        <p className="text-xs text-gray-500 mt-0.5">{formatSpecialization(machine.category)}</p>
+                        <div className="flex gap-1.5 mt-2">
+                          <span className="inline-flex items-center px-1.5 py-0.5 bg-[#c8eaeb] text-[#1e5f79] rounded text-xs font-medium">
+                            {formatSpecialization(machine.competency_level)}
+                          </span>
+                          {machine.is_certified && (
+                            <span className="inline-flex items-center px-1.5 py-0.5 bg-green-50 text-green-700 rounded text-xs font-medium">
                               Certified
                             </span>
                           )}
                         </div>
                       </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-6 border border-dashed border-gray-200 rounded-lg">
+                    <SettingsIcon className="h-8 w-8 text-gray-300 mx-auto mb-2" />
+                    <p className="text-sm text-gray-400">No machines added yet</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Workshops & Training Section */}
+              <div className="bg-white rounded-lg p-6">
+                <div className="flex items-center justify-between mb-5">
+                  <div className="flex items-center gap-2.5">
+                    <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#eff8ff]">
+                      <Calendar className="h-4 w-4 text-[#1e5f79]" />
+                    </div>
+                    <div>
+                      <h2 className="text-base font-semibold text-gray-900">Workshops & Training</h2>
+                      <p className="text-xs text-gray-500">{workshops?.length || 0} completed</p>
                     </div>
                   </div>
-                ))}
-                {workshops?.length === 0 && (
-                  <div className="text-center py-8">
-                    <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                    <p className="text-gray-500">No workshops added yet.</p>
+                  <button
+                    onClick={() => setShowWorkshopModal(true)}
+                    className="inline-flex items-center px-3 py-1.5 bg-[#1e5f79] text-white text-xs font-medium rounded-lg hover:bg-[#1e5f79]/90 transition-colors"
+                  >
+                    <Plus className="h-3.5 w-3.5 mr-1" />
+                    Add
+                  </button>
+                </div>
+
+                {workshops?.length > 0 ? (
+                  <div className="space-y-3">
+                    {workshops.map((workshop, index) => (
+                      <div key={index} className="flex gap-4 p-4 border border-gray-100 rounded-lg hover:border-gray-200 transition-colors">
+                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#eff8ff] flex items-center justify-center mt-0.5">
+                          <Calendar className="h-4 w-4 text-[#1e5f79]" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-medium text-gray-900 text-sm">{workshop.workshop_name}</h3>
+                          <p className="text-sm text-gray-600">{workshop.organizer_name}</p>
+                          <div className="flex flex-wrap items-center gap-2 mt-1.5">
+                            <span className="inline-flex items-center px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs">
+                              {formatSpecialization(workshop.workshop_type)}
+                            </span>
+                            <span className="text-xs text-gray-400">
+                              {workshop.start_date} - {workshop.end_date}
+                            </span>
+                          </div>
+                          <div className="flex gap-1.5 mt-2">
+                            {workshop.is_online && (
+                              <span className="inline-flex items-center px-1.5 py-0.5 bg-[#c8eaeb] text-[#1e5f79] rounded text-xs font-medium">
+                                Online
+                              </span>
+                            )}
+                            {workshop.has_certificate && (
+                              <span className="inline-flex items-center px-1.5 py-0.5 bg-green-50 text-green-700 rounded text-xs font-medium">
+                                Certified
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-6 border border-dashed border-gray-200 rounded-lg">
+                    <Calendar className="h-8 w-8 text-gray-300 mx-auto mb-2" />
+                    <p className="text-sm text-gray-400">No workshops added yet</p>
                   </div>
                 )}
               </div>
@@ -1161,10 +1193,10 @@ export default function ProfilePage() {
                   onClick={async () => {
                     try {
                       await ApiManager.updateBankAccount(bankAccount);
-                      alert('Bank account details updated successfully!');
+                      toast.success('Bank account details updated successfully!');
                     } catch (error) {
                       console.error('Error updating bank account:', error);
-                      alert('Failed to update bank account details');
+                      toast.error('Failed to update bank account details');
                     }
                   }}
                   className="inline-flex items-center px-4 py-2 bg-[#1e5f79] text-white text-sm font-medium rounded-lg hover:bg-[#1e5f79]/90 transition-colors"

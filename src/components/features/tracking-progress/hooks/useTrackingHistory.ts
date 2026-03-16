@@ -27,6 +27,7 @@ export function useTrackingHistory(patientConditionId: string | null) {
   const [chartData, setChartData] = useState<TrackingChartData | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [refreshKey, setRefreshKey] = useState(0)
 
   useEffect(() => {
     if (!patientConditionId) {
@@ -59,7 +60,9 @@ export function useTrackingHistory(patientConditionId: string | null) {
       })
 
     return () => { cancelled = true }
-  }, [patientConditionId])
+  }, [patientConditionId, refreshKey])
 
-  return { chartData, isLoading, error }
+  const refetch = () => setRefreshKey(k => k + 1)
+
+  return { chartData, isLoading, error, refetch }
 }

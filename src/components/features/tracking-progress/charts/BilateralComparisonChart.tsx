@@ -14,6 +14,7 @@ import {
 import type { Direction } from '@/app/dashboard/appointments/[patientId]/[appointmentId]/components/tracking/tracking.types'
 import type { ChartDataPoint } from '../hooks/useTrackingHistory'
 import { shouldReverseYAxis } from '../utils/chartability'
+import { useChartHeight } from '../hooks/useChartHeight'
 
 interface BilateralComparisonChartProps {
   itemKey: string
@@ -34,6 +35,8 @@ export default function BilateralComparisonChart({
   min,
   max,
 }: BilateralComparisonChartProps) {
+  const chartHeight = useChartHeight(140, 180)
+
   const chartData = useMemo(() => {
     return dataPoints
       .map((dp) => {
@@ -44,12 +47,13 @@ export default function BilateralComparisonChart({
         if (!hasLeft && !hasRight) return null
         return {
           visit: dp.visit_number,
+          label: `V${dp.visit_number}`,
           date: dp.visit_date,
           left: hasLeft ? Number(item.left) : undefined,
           right: hasRight ? Number(item.right) : undefined,
         }
       })
-      .filter(Boolean) as Array<{ visit: number; date: string; left?: number; right?: number }>
+      .filter(Boolean) as Array<{ visit: number; label: string; date: string; left?: number; right?: number }>
   }, [dataPoints, itemKey])
 
   const reversed = shouldReverseYAxis(direction)
@@ -72,25 +76,26 @@ export default function BilateralComparisonChart({
 
   return (
     <div className="w-full">
-      <div className="text-xs font-medium text-gray-700 mb-2">{displayName}</div>
-      <ResponsiveContainer width="100%" height={180}>
-        <LineChart data={chartData} margin={{ top: 5, right: 10, left: -10, bottom: 5 }}>
+      <div className="text-[11px] lg:text-xs font-medium text-gray-700 mb-1.5 lg:mb-2">{displayName}</div>
+      <ResponsiveContainer width="100%" height={chartHeight}>
+        <LineChart data={chartData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
           <XAxis
-            dataKey="visit"
+            dataKey="label"
             tick={{ fontSize: 10, fill: '#9ca3af' }}
           />
           <YAxis
             reversed={reversed}
             domain={[yMin, yMax]}
             tick={{ fontSize: 10, fill: '#9ca3af' }}
+            width={35}
             label={unit ? { value: unit, angle: -90, position: 'insideLeft', fontSize: 10, fill: '#9ca3af' } : undefined}
           />
           <Tooltip
             contentStyle={{ fontSize: 11, borderRadius: 8, border: '1px solid #e5e7eb' }}
             labelFormatter={(label) => {
-              const point = chartData.find(d => d.visit === label)
-              return point ? `Visit ${label} (${point.date})` : `Visit ${label}`
+              const point = chartData.find(d => d.label === label)
+              return point ? `Visit ${point.visit} (${point.date})` : String(label)
             }}
           />
           <Legend

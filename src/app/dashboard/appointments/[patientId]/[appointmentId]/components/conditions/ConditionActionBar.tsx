@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { Sparkles } from 'lucide-react'
+import { Sparkles, ArrowRight } from 'lucide-react'
 
 interface ConditionActionBarProps {
   hasProtocol: boolean
@@ -24,30 +24,43 @@ export default function ConditionActionBar({
   if (!showGenerateCTA && !showUpdateCTA) return null
 
   return (
-    <div className="px-4 py-3 bg-white rounded-lg flex items-center gap-2">
-      {/* Generate Protocol — no protocol yet + insights exist */}
-      {showGenerateCTA && onGenerateFromInsights && (
-        <button
-          onClick={onGenerateFromInsights}
-          disabled={loading}
-          className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-brand-teal text-white rounded-xl hover:bg-brand-teal/90 transition-colors shadow-sm disabled:opacity-50 text-sm font-medium"
-        >
-          <Sparkles className="h-4 w-4" />
-          Generate Protocol ({unusedInsightsCount} insight{unusedInsightsCount !== 1 ? 's' : ''})
-        </button>
-      )}
+    <button
+      onClick={onGenerateFromInsights}
+      disabled={loading}
+      className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all disabled:opacity-50 group ${
+        showUpdateCTA
+          ? 'bg-amber-50/60 border border-amber-200/60 hover:bg-amber-50'
+          : 'bg-teal-50/60 border border-teal-200/60 hover:bg-teal-50'
+      }`}
+    >
+      <div className={`flex items-center justify-center h-8 w-8 rounded-full flex-shrink-0 ${
+        showUpdateCTA
+          ? 'bg-amber-100 text-amber-600'
+          : 'bg-teal-100 text-brand-teal'
+      }`}>
+        <Sparkles className="h-3.5 w-3.5" />
+      </div>
 
-      {/* Update Protocol — protocol exists + new insights */}
-      {showUpdateCTA && onGenerateFromInsights && (
-        <button
-          onClick={onGenerateFromInsights}
-          disabled={loading}
-          className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-colors disabled:opacity-50 text-sm font-medium"
-        >
-          <Sparkles className="h-4 w-4" />
-          Update Protocol ({unusedInsightsCount} new insight{unusedInsightsCount !== 1 ? 's' : ''})
-        </button>
-      )}
-    </div>
+      <div className="flex-1 text-left">
+        <p className={`text-sm font-medium ${
+          showUpdateCTA ? 'text-amber-800' : 'text-teal-800'
+        }`}>
+          {showUpdateCTA
+            ? `${unusedInsightsCount} new observation${unusedInsightsCount !== 1 ? 's' : ''} since last protocol`
+            : `${unusedInsightsCount} observation${unusedInsightsCount !== 1 ? 's' : ''} ready for protocol`
+          }
+        </p>
+        <p className="text-xs text-gray-500 mt-0.5">
+          {showUpdateCTA
+            ? 'AI can update your treatment plan with new findings'
+            : 'AI can generate an evidence-based treatment plan'
+          }
+        </p>
+      </div>
+
+      <ArrowRight className={`h-4 w-4 flex-shrink-0 transition-transform group-hover:translate-x-0.5 ${
+        showUpdateCTA ? 'text-amber-400' : 'text-teal-400'
+      }`} />
+    </button>
   )
 }

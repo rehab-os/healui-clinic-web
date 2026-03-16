@@ -11,6 +11,7 @@ import {
   Legend,
 } from 'recharts'
 import type { ChartDataPoint } from '../hooks/useTrackingHistory'
+import { useChartHeight } from '../hooks/useChartHeight'
 
 interface PROMSubscaleRadarProps {
   itemKey: string
@@ -23,6 +24,8 @@ export default function PROMSubscaleRadar({
   displayName,
   dataPoints,
 }: PROMSubscaleRadarProps) {
+  const chartHeight = useChartHeight(180, 220)
+
   const radarData = useMemo(() => {
     if (dataPoints.length === 0) return null
 
@@ -56,9 +59,9 @@ export default function PROMSubscaleRadar({
 
   return (
     <div className="w-full">
-      <div className="text-xs font-medium text-gray-700 mb-2">{displayName} — Subscales</div>
-      <ResponsiveContainer width="100%" height={220}>
-        <RadarChart data={radarData} cx="50%" cy="50%" outerRadius="70%">
+      <div className="text-[11px] lg:text-xs font-medium text-gray-700 mb-1.5 lg:mb-2">{displayName} — Subscales</div>
+      <ResponsiveContainer width="100%" height={chartHeight}>
+        <RadarChart data={radarData} cx="50%" cy="50%" outerRadius="65%">
           <PolarGrid stroke="#e5e7eb" />
           <PolarAngleAxis
             dataKey="subscale"

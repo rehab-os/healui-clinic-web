@@ -19,6 +19,7 @@ import { Toaster, toast } from 'sonner'
 import ApiManager from '@/services/api/api.service'
 import { FileText } from 'lucide-react'
 import { format } from 'date-fns'
+import { downloadTxPlanPDF } from '@/lib/utils/txPdfGenerator'
 import NutritionSuggestions from '@/components/features/nutrition/NutritionSuggestions'
 import InlineFindingInput, { DeepListenLoader } from './components/conditions/InlineFindingInput'
 import AddNoteModal from './components/AddNoteModal'
@@ -82,6 +83,7 @@ export default function AppointmentDetailsPage() {
   const [expandedHistory, setExpandedHistory] = useState<Record<string, boolean>>({})
   const [conditionHistory, setConditionHistory] = useState<Record<string, { data: any[]; loading: boolean }>>({})
   const [nutritionData, setNutritionData] = useState<any>(null)
+  const [trackingRefreshKey, setTrackingRefreshKey] = useState(0)
 
   // Modal states
   const [visitNoteModalOpen, setVisitNoteModalOpen] = useState(false)
@@ -239,7 +241,9 @@ export default function AppointmentDetailsPage() {
   const handleExportPDF = async () => {
     try {
       const ensureArray = (v: any) => Array.isArray(v) ? v : typeof v === 'string' ? [v] : []
-      const reportData = {
+      toast.loading('Generating Tx Plan...', { id: 'tx-pdf' })
+
+      await downloadTxPlanPDF({
         patient: {
           full_name: patient.full_name,
           date_of_birth: patient.date_of_birth,
@@ -250,13 +254,6 @@ export default function AppointmentDetailsPage() {
           current_medications: ensureArray(patient.current_medications),
           medical_history: ensureArray(patient.medical_history),
         },
-        appointment: {
-          scheduled_date: appointment.scheduled_date,
-          scheduled_time: appointment.scheduled_time,
-          visit_type: appointment.visit_type,
-          status: appointment.status,
-          chief_complaint: appointment.chief_complaint,
-        },
         clinic: {
           name: currentClinic?.name || 'Clinic',
           address: currentClinic?.address,
@@ -265,38 +262,40 @@ export default function AppointmentDetailsPage() {
           pincode: currentClinic?.pincode,
           phone: currentClinic?.phone,
           email: currentClinic?.email,
+          registration_number: (appointment as any).clinic?.registration_number,
+          logo_url: (appointment as any).clinic?.logo_url,
         },
-        physiotherapist: {
-          full_name: appointment.physiotherapist?.full_name || 'Physiotherapist',
-          license_number: appointment.physiotherapist?.license_number,
+        visit: {
+          date: String(appointment.scheduled_date),
+          time: appointment.scheduled_time,
+          visit_type: appointment.visit_type,
+          chief_complaint: appointment.chief_complaint,
         },
-        visitConditions: visitConditions.map(vc => ({
-          id: vc.id,
+        conditions: visitConditions.map(vc => ({
           condition_name: vc.condition_name,
           body_region: vc.body_region,
           treatment_focus: vc.treatment_focus,
           chief_complaint: vc.chief_complaint,
-          condition: vc.condition,
+          status: vc.condition?.status,
         })),
-        clinicalInsights: allInsights,
-        protocols: conditionProtocols,
-      }
+        protocols: visitConditions.map(vc => ({
+          condition_name: vc.condition_name,
+          home: conditionProtocols[vc.id]?.home
+            || vc.condition?.active_home_protocol
+            || undefined,
+          clinical: conditionProtocols[vc.id]?.clinical
+            || vc.condition?.active_clinical_protocol
+            || undefined,
+        })),
+        therapistName: appointment.physiotherapist?.full_name || 'Physiotherapist',
+        therapistPhone: appointment.physiotherapist?.phone,
+        therapistEmail: appointment.physiotherapist?.email,
+      })
 
-      const [{ pdf }, { default: ClinicalReportPDF }] = await Promise.all([
-        import('@react-pdf/renderer'),
-        import('@/components/pdf/documents/ClinicalReportPDF'),
-      ])
-      const blob = await pdf(<ClinicalReportPDF data={reportData} />).toBlob()
-      const url = URL.createObjectURL(blob)
-      const link = document.createElement('a')
-      link.href = url
-      link.download = `${patient.full_name.replace(/\s+/g, '_')}_Clinical_Report_${format(new Date(), 'yyyy-MM-dd')}.pdf`
-      link.click()
-      URL.revokeObjectURL(url)
-      toast.success('Patient report generated successfully!')
+      toast.success('Tx Plan generated!', { id: 'tx-pdf' })
     } catch (err) {
       console.error('PDF generation error:', err)
-      toast.error('Failed to generate report. Please try again.')
+      toast.error('Failed to generate Tx Plan. Please try again.', { id: 'tx-pdf' })
     }
   }
 
@@ -407,10 +406,81 @@ export default function AppointmentDetailsPage() {
 
   // Shared sidebar content (used in both desktop sidebar and mobile timeline tab)
   const renderNotesContent = () => (
-    <>
-      {/* Action Buttons */}
+    <CollapsibleSection
+      title="Notes"
+      count={allNotes.length}
+      defaultExpanded
+    >
+      {allNotes.length === 0 ? (
+        <p className="text-xs text-gray-400 py-2">No notes yet for this visit</p>
+      ) : (
+        <div className="space-y-2.5">
+          {allNotes.map((note: any) => {
+            const isConditionNote = !!note.visit_condition_id
+            return (
+              <div
+                key={note.id}
+                className={`p-3 rounded-lg border ${
+                  isConditionNote
+                    ? 'bg-teal-50/40 border-brand-light-teal'
+                    : 'bg-white border-gray-200'
+                }`}
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <FileText className={`h-3.5 w-3.5 ${isConditionNote ? 'text-brand-teal' : 'text-gray-400'}`} />
+                  <span className={`text-xs font-semibold ${isConditionNote ? 'text-brand-teal' : 'text-gray-600'}`}>
+                    {note.note_type || 'SOAP'}
+                  </span>
+                  {isConditionNote && (
+                    <span className="text-xs px-1.5 py-0.5 bg-teal-100 text-teal-700 rounded font-medium">
+                      Condition
+                    </span>
+                  )}
+                  {!isConditionNote && (
+                    <span className="text-xs px-1.5 py-0.5 bg-gray-100 text-gray-500 rounded font-medium">
+                      Visit
+                    </span>
+                  )}
+                  {note.is_legacy_note && (
+                    <span className="text-xs text-gray-400">(Legacy)</span>
+                  )}
+                  {note.created_at && (
+                    <span className="text-xs text-gray-400 ml-auto">
+                      {format(new Date(note.created_at), 'h:mm a')}
+                    </span>
+                  )}
+                </div>
+                {note.note_data && (
+                  <div className="text-sm text-gray-700 space-y-1 leading-relaxed">
+                    {note.note_data.subjective && (
+                      <p><span className="font-bold text-gray-500 text-xs uppercase tracking-wide">S</span> <span className="text-gray-700">{note.note_data.subjective}</span></p>
+                    )}
+                    {note.note_data.objective && (
+                      <p><span className="font-bold text-gray-500 text-xs uppercase tracking-wide">O</span> <span className="text-gray-700">{note.note_data.objective}</span></p>
+                    )}
+                    {note.note_data.assessment && (
+                      <p><span className="font-bold text-gray-500 text-xs uppercase tracking-wide">A</span> <span className="text-gray-700">{note.note_data.assessment}</span></p>
+                    )}
+                    {note.note_data.plan && (
+                      <p><span className="font-bold text-gray-500 text-xs uppercase tracking-wide">P</span> <span className="text-gray-700">{note.note_data.plan}</span></p>
+                    )}
+                    {note.note_data.progress && (
+                      <p><span className="font-bold text-gray-500 text-xs uppercase tracking-wide">Progress</span> <span className="text-gray-700">{note.note_data.progress}</span></p>
+                    )}
+                    {note.note_data.data && !note.note_data.subjective && (
+                      <p><span className="font-bold text-gray-500 text-xs uppercase tracking-wide">Data</span> <span className="text-gray-700">{note.note_data.data}</span></p>
+                    )}
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </div>
+      )}
+
+      {/* Add Note Buttons — below notes list */}
       {activeCondition && (
-        <div className="flex gap-1.5 px-4 py-2.5 border-b border-gray-100">
+        <div className="flex gap-1.5 mt-3 pt-3 border-t border-gray-100">
           <button
             onClick={() => openConditionNoteModal(activeCondition)}
             className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium text-brand-teal border border-brand-light-teal rounded-lg hover:bg-teal-50 transition-colors"
@@ -427,80 +497,7 @@ export default function AppointmentDetailsPage() {
           </button>
         </div>
       )}
-
-      <CollapsibleSection
-        title="Notes"
-        count={allNotes.length}
-        defaultExpanded
-      >
-        {allNotes.length === 0 ? (
-          <p className="text-xs text-gray-400 py-2">No notes yet for this visit</p>
-        ) : (
-          <div className="space-y-2.5">
-            {allNotes.map((note: any) => {
-              const isConditionNote = !!note.visit_condition_id
-              return (
-                <div
-                  key={note.id}
-                  className={`p-3 rounded-lg border ${
-                    isConditionNote
-                      ? 'bg-teal-50/40 border-brand-light-teal'
-                      : 'bg-white border-gray-200'
-                  }`}
-                >
-                  <div className="flex items-center gap-2 mb-2">
-                    <FileText className={`h-3.5 w-3.5 ${isConditionNote ? 'text-brand-teal' : 'text-gray-400'}`} />
-                    <span className={`text-xs font-semibold ${isConditionNote ? 'text-brand-teal' : 'text-gray-600'}`}>
-                      {note.note_type || 'SOAP'}
-                    </span>
-                    {isConditionNote && (
-                      <span className="text-xs px-1.5 py-0.5 bg-teal-100 text-teal-700 rounded font-medium">
-                        Condition
-                      </span>
-                    )}
-                    {!isConditionNote && (
-                      <span className="text-xs px-1.5 py-0.5 bg-gray-100 text-gray-500 rounded font-medium">
-                        Visit
-                      </span>
-                    )}
-                    {note.is_legacy_note && (
-                      <span className="text-xs text-gray-400">(Legacy)</span>
-                    )}
-                    {note.created_at && (
-                      <span className="text-xs text-gray-400 ml-auto">
-                        {format(new Date(note.created_at), 'h:mm a')}
-                      </span>
-                    )}
-                  </div>
-                  {note.note_data && (
-                    <div className="text-sm text-gray-700 space-y-1 leading-relaxed">
-                      {note.note_data.subjective && (
-                        <p><span className="font-bold text-gray-500 text-xs uppercase tracking-wide">S</span> <span className="text-gray-700">{note.note_data.subjective}</span></p>
-                      )}
-                      {note.note_data.objective && (
-                        <p><span className="font-bold text-gray-500 text-xs uppercase tracking-wide">O</span> <span className="text-gray-700">{note.note_data.objective}</span></p>
-                      )}
-                      {note.note_data.assessment && (
-                        <p><span className="font-bold text-gray-500 text-xs uppercase tracking-wide">A</span> <span className="text-gray-700">{note.note_data.assessment}</span></p>
-                      )}
-                      {note.note_data.plan && (
-                        <p><span className="font-bold text-gray-500 text-xs uppercase tracking-wide">P</span> <span className="text-gray-700">{note.note_data.plan}</span></p>
-                      )}
-                      {note.note_data.progress && (
-                        <p><span className="font-bold text-gray-500 text-xs uppercase tracking-wide">Progress</span> <span className="text-gray-700">{note.note_data.progress}</span></p>
-                      )}
-                      {note.note_data.data && !note.note_data.subjective && (
-                        <p><span className="font-bold text-gray-500 text-xs uppercase tracking-wide">Data</span> <span className="text-gray-700">{note.note_data.data}</span></p>
-                      )}
-                    </div>
-                  )}
-                </div>
-              )
-            })}
-          </div>
-        )}
-      </CollapsibleSection>
-    </>
+    </CollapsibleSection>
   )
 
   const renderInsightsContent = () => (
@@ -545,9 +542,11 @@ export default function AppointmentDetailsPage() {
     </CollapsibleSection>
   )
 
+  const previousVisitCount = patientVisits.filter((v: any) => v.id !== appointment.id).length
+
   const renderPastVisitsContent = () => (
-    patientVisits.length > 0 ? (
-      <CollapsibleSection title="Past Visits" count={patientVisits.length}>
+    previousVisitCount > 0 ? (
+      <CollapsibleSection title="Past Visits" count={previousVisitCount}>
         <PreviousVisitsPanel
           visits={patientVisits}
           currentVisitId={appointment.id}
@@ -614,11 +613,13 @@ export default function AppointmentDetailsPage() {
                       visitConditionId={activeCondition.id}
                       patientConditionId={activeCondition.patient_condition_id}
                       visitId={activeCondition.visit_id}
+                      onSaveSuccess={() => setTrackingRefreshKey(k => k + 1)}
                     />
 
                     <TrackingProgressView
                       patientConditionId={activeCondition.patient_condition_id}
                       conditionName={activeCondition.condition_name}
+                      refreshKey={trackingRefreshKey}
                     />
 
                     <ConditionActionBar
@@ -675,8 +676,8 @@ export default function AppointmentDetailsPage() {
                   </div>
                 )}
 
-                {renderNotesContent()}
                 {renderInsightsContent()}
+                {renderNotesContent()}
                 {renderDietaryContent()}
                 {renderPastVisitsContent()}
               </InsightsTimeline>

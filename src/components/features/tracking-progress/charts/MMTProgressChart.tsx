@@ -12,6 +12,7 @@ import {
   Cell,
 } from 'recharts'
 import type { ChartDataPoint } from '../hooks/useTrackingHistory'
+import { useChartHeight } from '../hooks/useChartHeight'
 
 interface MMTProgressChartProps {
   itemKey: string
@@ -36,6 +37,8 @@ export default function MMTProgressChart({
   dataPoints,
   bilateral,
 }: MMTProgressChartProps) {
+  const chartHeight = useChartHeight(130, 160)
+
   const chartData = useMemo(() => {
     return dataPoints
       .map((dp) => {
@@ -48,6 +51,7 @@ export default function MMTProgressChart({
           if (!hasLeft && !hasRight) return null
           return {
             visit: dp.visit_number,
+            label: `V${dp.visit_number}`,
             date: dp.visit_date,
             left: hasLeft ? mmtToNumeric(item.left!) : undefined,
             right: hasRight ? mmtToNumeric(item.right!) : undefined,
@@ -57,11 +61,12 @@ export default function MMTProgressChart({
         if (item.value === undefined || item.value === null || item.value === '') return null
         return {
           visit: dp.visit_number,
+          label: `V${dp.visit_number}`,
           date: dp.visit_date,
           value: mmtToNumeric(item.value),
         }
       })
-      .filter(Boolean) as Array<{ visit: number; date: string; value?: number; left?: number; right?: number }>
+      .filter(Boolean) as Array<{ visit: number; label: string; date: string; value?: number; left?: number; right?: number }>
   }, [dataPoints, itemKey, bilateral])
 
   if (chartData.length < 1) {
@@ -70,12 +75,12 @@ export default function MMTProgressChart({
 
   return (
     <div className="w-full">
-      <div className="text-xs font-medium text-gray-700 mb-2">{displayName}</div>
-      <ResponsiveContainer width="100%" height={160}>
-        <BarChart data={chartData} margin={{ top: 5, right: 10, left: -10, bottom: 5 }}>
+      <div className="text-[11px] lg:text-xs font-medium text-gray-700 mb-1.5 lg:mb-2">{displayName}</div>
+      <ResponsiveContainer width="100%" height={chartHeight}>
+        <BarChart data={chartData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
           <XAxis
-            dataKey="visit"
+            dataKey="label"
             tick={{ fontSize: 10, fill: '#9ca3af' }}
           />
           <YAxis
@@ -83,11 +88,12 @@ export default function MMTProgressChart({
             ticks={[0, 3, 7, 10, 13]}
             tickFormatter={(val) => numericToMMT(val)}
             tick={{ fontSize: 10, fill: '#9ca3af' }}
+            width={30}
           />
           <Tooltip
             contentStyle={{ fontSize: 11, borderRadius: 8, border: '1px solid #e5e7eb' }}
             formatter={(value: number, name: string) => [numericToMMT(value), name]}
-            labelFormatter={(label) => `Visit ${label}`}
+            labelFormatter={(label) => String(label)}
           />
           {bilateral ? (
             <>

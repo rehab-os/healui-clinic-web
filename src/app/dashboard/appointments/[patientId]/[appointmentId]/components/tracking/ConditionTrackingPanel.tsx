@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useMemo } from 'react'
-import { Activity, Save, Check, Loader2 } from 'lucide-react'
+import React, { useMemo, useState } from 'react'
+import { Activity, Save, Check, Loader2, ChevronDown } from 'lucide-react'
 import { getTrackingForCondition } from './tracking-data-loader'
 import { useTrackingPersistence } from './useTrackingPersistence'
 import TrackingItemRow from './TrackingItemRow'
@@ -11,6 +11,7 @@ interface ConditionTrackingPanelProps {
   visitConditionId: string
   patientConditionId: string
   visitId: string
+  onSaveSuccess?: () => void
 }
 
 export default function ConditionTrackingPanel({
@@ -18,6 +19,7 @@ export default function ConditionTrackingPanel({
   visitConditionId,
   patientConditionId,
   visitId,
+  onSaveSuccess,
 }: ConditionTrackingPanelProps) {
   const tracking = useMemo(() => getTrackingForCondition(conditionName), [conditionName])
 
@@ -33,6 +35,7 @@ export default function ConditionTrackingPanel({
       visitId,
       tracking?.categories ?? null,
       totalCount,
+      onSaveSuccess,
     )
 
   // Count filled per category
@@ -130,6 +133,11 @@ export default function ConditionTrackingPanel({
           {tracking.categories.map(cat => {
             if (cat.items.length === 0) return null
             const filled = categoryFilledCounts[cat.key] || 0
+
+            // Check if this category has multiple questionnaires (PROMs)
+            const questionnaireItems = cat.items.filter(i => i.definition.input === 'questionnaire')
+            const hasCollapsiblePROMs = questionnaireItems.length > 1
+
             return (
               <div key={cat.key}>
                 {/* Category divider */}
@@ -142,22 +150,101 @@ export default function ConditionTrackingPanel({
                   </span>
                 </div>
                 {/* Items */}
-                <div className="divide-y divide-gray-50">
-                  {cat.items.map(item => (
-                    <TrackingItemRow
-                      key={item.key}
-                      item={item}
-                      value={values[item.key]}
-                      onChange={(val) => setValue(item.key, val)}
-                    />
-                  ))}
-                </div>
+                {hasCollapsiblePROMs ? (
+                  <CollapsiblePROMCategory
+                    items={cat.items}
+                    values={values}
+                    setValue={setValue}
+                  />
+                ) : (
+                  <div className="divide-y divide-gray-50">
+                    {cat.items.map(item => (
+                      <TrackingItemRow
+                        key={item.key}
+                        item={item}
+                        value={values[item.key]}
+                        onChange={(val) => setValue(item.key, val)}
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
             )
           })}
         </div>
       )}
 
+    </div>
+  )
+}
+
+// ── Collapsible PROM section: show primary PROM, collapse the rest ──
+
+import type { TrackingItem, TrackingValue } from './tracking.types'
+
+function CollapsiblePROMCategory({
+  items,
+  values,
+  setValue,
+}: {
+  items: TrackingItem[]
+  values: Record<string, TrackingValue>
+  setValue: (key: string, val: TrackingValue) => void
+}) {
+  const [expanded, setExpanded] = useState(false)
+
+  // Split: primary = first priority questionnaire (or first item), rest = secondary
+  const primaryIdx = items.findIndex(i => i.isPriority && i.definition.input === 'questionnaire')
+  const primary = items[primaryIdx >= 0 ? primaryIdx : 0]
+  const nonQuestionnaire = items.filter(i => i.definition.input !== 'questionnaire')
+  const secondaryPROMs = items.filter(i => i.definition.input === 'questionnaire' && i.key !== primary.key)
+
+  return (
+    <div className="divide-y divide-gray-50">
+      {/* Non-questionnaire items always show */}
+      {nonQuestionnaire.map(item => (
+        <TrackingItemRow
+          key={item.key}
+          item={item}
+          value={values[item.key]}
+          onChange={(val) => setValue(item.key, val)}
+        />
+      ))}
+
+      {/* Primary PROM always visible */}
+      <TrackingItemRow
+        item={primary}
+        value={values[primary.key]}
+        onChange={(val) => setValue(primary.key, val)}
+      />
+
+      {/* Secondary PROMs — collapsed */}
+      {secondaryPROMs.length > 0 && (
+        <>
+          {expanded && secondaryPROMs.map(item => (
+            <TrackingItemRow
+              key={item.key}
+              item={item}
+              value={values[item.key]}
+              onChange={(val) => setValue(item.key, val)}
+            />
+          ))}
+
+          <button
+            type="button"
+            onClick={() => setExpanded(!expanded)}
+            className="w-full flex items-center justify-center gap-1 px-3 py-1.5 text-[10px] lg:text-[11px] text-gray-400 hover:text-gray-600 hover:bg-gray-50/50 transition-colors"
+          >
+            <span>
+              {expanded
+                ? 'show less'
+                : `+${secondaryPROMs.length} more questionnaire${secondaryPROMs.length !== 1 ? 's' : ''}`
+              }
+            </span>
+            <ChevronDown className={`h-3 w-3 transition-transform ${expanded ? 'rotate-180' : ''}`} />
+          </button>
+        </>
+      )}
     </div>
   )
 }

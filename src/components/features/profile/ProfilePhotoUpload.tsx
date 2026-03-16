@@ -1,26 +1,18 @@
 'use client';
 
 import React, { useState, useRef, useCallback } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Progress } from '@/components/ui/progress';
-import { Skeleton } from '@/components/ui/skeleton';
-import { 
-  Camera, 
-  Upload, 
-  X, 
-  AlertCircle, 
-  CheckCircle2,
+import {
+  Camera,
+  Upload,
   ImageIcon,
   Loader2,
-  Trash2
+  Trash2,
+  PenLine,
+  RefreshCw
 } from 'lucide-react';
 import Image from 'next/image';
 import ApiManager from '@/services/api/api.service';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { toast } from 'sonner';
 
 interface Photo {
   id: string;
@@ -53,12 +45,9 @@ interface ProfilePhotoUploadProps {
 }
 
 const ProfilePhotoUpload: React.FC<ProfilePhotoUploadProps> = ({ profileId, onPhotoUpdate }) => {
-  // State management
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
+  const [uploadingType, setUploadingType] = useState<string | null>(null);
   const [photos, setPhotos] = useState<{
     profilePhoto?: Photo;
     coverPhoto?: Photo;
@@ -66,13 +55,10 @@ const ProfilePhotoUpload: React.FC<ProfilePhotoUploadProps> = ({ profileId, onPh
     signature?: Photo;
   }>({ galleryPhotos: [] });
   const [constraints, setConstraints] = useState<PhotoConstraints | null>(null);
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
-  const [selectedPhotoType, setSelectedPhotoType] = useState<'profile' | 'cover' | 'gallery' | 'signature'>('profile');
-  
-  // Refs
+
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
-  // Fetch photos and constraints on mount
+  const selectedPhotoTypeRef = useRef<'profile' | 'cover' | 'gallery' | 'signature'>('profile');
+
   React.useEffect(() => {
     fetchPhotos();
     fetchConstraints();
@@ -82,7 +68,6 @@ const ProfilePhotoUpload: React.FC<ProfilePhotoUploadProps> = ({ profileId, onPh
     try {
       setLoading(true);
       const response = await ApiManager.getProfilePhotos();
-      
       if (response.success && response.data) {
         setPhotos(response.data);
       }
@@ -96,7 +81,6 @@ const ProfilePhotoUpload: React.FC<ProfilePhotoUploadProps> = ({ profileId, onPh
   const fetchConstraints = async () => {
     try {
       const response = await ApiManager.getPhotoConstraints();
-      
       if (response.success && response.data) {
         setConstraints(response.data);
       }
@@ -105,623 +89,355 @@ const ProfilePhotoUpload: React.FC<ProfilePhotoUploadProps> = ({ profileId, onPh
     }
   };
 
-  // Validate file before upload
-  const validateFile = (file: File, photoType: 'profile' | 'cover' | 'gallery' | 'signature'): string | null => {
-    // Basic safety checks - always keep these
-    if (file.type && !file.type.startsWith('image/')) {
-      return 'Please select an image file (JPEG, PNG, or WEBP).';
-    }
-    
-    // TODO: UNCOMMENT IN PRODUCTION - Client-side validation for better UX
-    /*
-    if (!constraints) return 'Constraints not loaded';
-    
-    const constraint = constraints[photoType];
-    
-    // Check file size
-    if (file.size > constraint.maxSize) {
-      return `File size exceeds ${(constraint.maxSize / (1024 * 1024)).toFixed(1)}MB limit. Please compress your image or reduce its quality.`;
-    }
-    
-    // Check file type
-    const fileExt = file.name.split('.').pop()?.toLowerCase();
-    if (!fileExt || !constraint.allowedFormats.includes(fileExt)) {
-      return `File type not allowed. Please use: ${constraint.allowedFormats.join(', ').toUpperCase()} format`;
-    }
-    
-    // Additional checks for common issues
-    if (file.size < 50 * 1024) { // Less than 50KB
-      return 'Image file seems too small. Please use a higher quality image.';
-    }
-    */
-    
-    return null;
+  const triggerUpload = (type: 'profile' | 'cover' | 'gallery' | 'signature') => {
+    selectedPhotoTypeRef.current = type;
+    fileInputRef.current?.click();
   };
 
-  // Auto-dismiss alerts after a delay
-  React.useEffect(() => {
-    if (error) {
-      const timer = setTimeout(() => {
-        setError(null);
-      }, 5000); // Clear error after 5 seconds
-      return () => clearTimeout(timer);
-    }
-  }, [error]);
-
-  React.useEffect(() => {
-    if (success) {
-      const timer = setTimeout(() => {
-        setSuccess(null);
-      }, 4000); // Clear success after 4 seconds
-      return () => clearTimeout(timer);
-    }
-  }, [success]);
-
-  // Handle file selection
   const handleFileSelect = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
-    
-    // Reset states
-    setError(null);
-    setSuccess(null);
-    
-    // Validate file
-    const validationError = validateFile(file, selectedPhotoType);
-    if (validationError) {
-      setError(validationError);
+
+    const photoType = selectedPhotoTypeRef.current;
+
+    if (file.type && !file.type.startsWith('image/')) {
+      toast.error('Please select an image file (JPEG, PNG, or WEBP)');
       return;
     }
-    
-    // Create preview and check dimensions
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const img = new window.Image();
-      img.onload = () => {
-        // TODO: UNCOMMENT IN PRODUCTION - Client-side validation for better UX
-        // Check image dimensions
-        /*
-        if (constraints) {
-          const constraint = constraints[selectedPhotoType];
-          if (img.width < constraint.minWidth || img.height < constraint.minHeight) {
-            setError(`Image too small. Minimum size: ${constraint.minWidth}×${constraint.minHeight}px. Your image: ${img.width}×${img.height}px`);
-            return;
-          }
-          
-          // Check aspect ratio
-          const aspectRatio = img.width / img.height;
-          if (aspectRatio < constraint.aspectRatioRange.min || aspectRatio > constraint.aspectRatioRange.max) {
-            setError(`Invalid aspect ratio. Expected between ${constraint.aspectRatioRange.min}:1 and ${constraint.aspectRatioRange.max}:1. Your image ratio: ${aspectRatio.toFixed(2)}:1`);
-            return;
-          }
-        }
-        */
-        
-        setPreviewImage(e.target?.result as string);
-        // Upload file (backend validation will still catch issues)
-        uploadPhoto(file, selectedPhotoType);
-      };
-      img.src = e.target?.result as string;
-    };
-    reader.readAsDataURL(file);
-  }, [selectedPhotoType, constraints]);
 
-  // Upload photo
+    await uploadPhoto(file, photoType);
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  }, []);
+
   const uploadPhoto = async (file: File, photoType: 'profile' | 'cover' | 'gallery' | 'signature') => {
+    const typeLabels = { profile: 'Profile photo', cover: 'Cover photo', signature: 'Signature', gallery: 'Photo' };
+
     try {
       setUploading(true);
-      setUploadProgress(0);
-      
-      // Simulate progress for better UX
-      const progressInterval = setInterval(() => {
-        setUploadProgress(prev => Math.min(prev + 10, 90));
-      }, 200);
-      
-      const response = await ApiManager.uploadProfilePhoto(file, photoType);
-      
-      clearInterval(progressInterval);
-      setUploadProgress(100);
-      
-      if (response.success) {
-        setSuccess(`${photoType === 'profile' ? 'Profile' : photoType === 'cover' ? 'Cover' : photoType === 'signature' ? 'Signature' : 'Gallery'} photo uploaded successfully`);
-        await fetchPhotos(); // Refresh photos
-        onPhotoUpdate?.(); // Notify parent component
-        
-        // Clear preview after successful upload
-        setTimeout(() => {
-          setPreviewImage(null);
-          setUploadProgress(0);
-          setSuccess(null); // Clear success message after 3 seconds
-        }, 3000);
-      } else {
-        // Display backend validation errors
-        setError(response.message || 'Failed to upload photo');
-        setPreviewImage(null); // Clear preview on error
-      }
-    } catch (error: any) {
-      console.error('Upload error:', error);
-      
-      // Handle different types of errors
-      let errorMessage = 'Failed to upload photo';
-      
-      if (error?.message) {
-        errorMessage = error.message;
-      } else if (error?.response?.data?.message) {
-        errorMessage = error.response.data.message;
-      } else if (typeof error === 'string') {
-        errorMessage = error;
-      }
-      
-      setError(errorMessage);
-      setPreviewImage(null);
-    } finally {
-      setUploading(false);
-      // Reset file input
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
-    }
-  };
+      setUploadingType(photoType);
 
-  // Delete photo
-  const handleDeletePhoto = async (photoType: 'profile' | 'cover' | 'gallery' | 'signature', photoId?: string) => {
-    if (!confirm('Are you sure you want to delete this photo?')) return;
-    
-    try {
-      setLoading(true);
-      const response = await ApiManager.deleteProfilePhoto(photoType, photoId);
-      
+      const response = await ApiManager.uploadProfilePhoto(file, photoType);
+
       if (response.success) {
-        setSuccess('Photo deleted successfully');
+        toast.success(`${typeLabels[photoType]} uploaded`);
         await fetchPhotos();
         onPhotoUpdate?.();
       } else {
-        setError(response.message || 'Failed to delete photo');
+        toast.error(response.message || `Failed to upload ${typeLabels[photoType].toLowerCase()}`);
       }
     } catch (error: any) {
-      console.error('Delete error:', error);
-      
-      // Handle different types of delete errors
-      let errorMessage = 'Failed to delete photo';
-      
-      if (error?.message) {
-        errorMessage = error.message;
-      } else if (error?.response?.data?.message) {
-        errorMessage = error.response.data.message;
-      } else if (typeof error === 'string') {
-        errorMessage = error;
+      const msg = error?.message || error?.response?.data?.message || 'Upload failed';
+      toast.error(msg);
+    } finally {
+      setUploading(false);
+      setUploadingType(null);
+    }
+  };
+
+  const handleDeletePhoto = async (photoType: 'profile' | 'cover' | 'gallery' | 'signature', photoId?: string) => {
+    if (!confirm('Delete this photo?')) return;
+
+    try {
+      setLoading(true);
+      const response = await ApiManager.deleteProfilePhoto(photoType, photoId);
+
+      if (response.success) {
+        toast.success('Photo deleted');
+        await fetchPhotos();
+        onPhotoUpdate?.();
+      } else {
+        toast.error(response.message || 'Failed to delete photo');
       }
-      
-      setError(errorMessage);
+    } catch (error: any) {
+      const msg = error?.message || error?.response?.data?.message || 'Delete failed';
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
   };
 
-  // Format file size for display
-  const formatFileSize = (bytes: number): string => {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-  };
+  const isUploadingThis = (type: string) => uploading && uploadingType === type;
+
+  // Reusable action buttons — visible on mobile, hover-only on desktop
+  const PhotoActions = ({ onReplace, onDelete }: { onReplace: () => void; onDelete: () => void }) => (
+    <>
+      {/* Desktop: hover overlay */}
+      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 rounded-2xl transition-all duration-200 items-center justify-center gap-2 opacity-0 group-hover:opacity-100 hidden sm:flex">
+        <button
+          onClick={onReplace}
+          disabled={uploading}
+          className="p-2 bg-white/90 rounded-lg hover:bg-white transition-colors"
+        >
+          <RefreshCw className="h-4 w-4 text-gray-700" />
+        </button>
+        <button
+          onClick={onDelete}
+          disabled={uploading}
+          className="p-2 bg-white/90 rounded-lg hover:bg-red-50 transition-colors"
+        >
+          <Trash2 className="h-4 w-4 text-red-600" />
+        </button>
+      </div>
+      {/* Mobile: buttons below the image */}
+      <div className="flex sm:hidden gap-2 mt-2 justify-center">
+        <button
+          onClick={onReplace}
+          disabled={uploading}
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+        >
+          <RefreshCw className="h-3 w-3" />
+          Replace
+        </button>
+        <button
+          onClick={onDelete}
+          disabled={uploading}
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-colors"
+        >
+          <Trash2 className="h-3 w-3" />
+          Remove
+        </button>
+      </div>
+    </>
+  );
 
   return (
-    <div className="space-y-6">
-      {/* Development Notice */}
-      {process.env.NODE_ENV === 'development' && (
-        <Alert className="bg-yellow-50 border-yellow-200">
-          <AlertCircle className="h-4 w-4 text-yellow-600" />
-          <AlertDescription className="text-yellow-800">
-            <strong>Development Mode:</strong> Client-side validation is disabled for testing. 
-            Backend validation is still active and will show errors after upload.
-          </AlertDescription>
-        </Alert>
-      )}
-      
-      {/* Alerts */}
-      {error && (
-        <Alert variant="destructive" className="border-red-200 bg-red-50">
-          <AlertCircle className="h-4 w-4" />
-          <div className="flex-1">
-            <AlertDescription className="text-red-800 font-medium mb-2">
-              {error}
-            </AlertDescription>
-            {/* Show helpful hints based on error type */}
-            {error.includes('aspect ratio') && (
-              <div className="text-red-700 text-sm">
-                <p className="font-medium mb-1">💡 Helpful tips:</p>
-                <ul className="list-disc list-inside space-y-1 text-xs">
-                  {selectedPhotoType === 'profile' && (
-                    <>
-                      <li>Profile photos should be nearly square (like 400×400px or 500×400px)</li>
-                      <li>Try cropping your image to be more square-shaped</li>
-                    </>
-                  )}
-                  {selectedPhotoType === 'cover' && (
-                    <>
-                      <li>Cover photos should be landscape (wide), like 1200×400px or 800×300px</li>
-                      <li>Try using a wider image or crop it to be more rectangular</li>
-                    </>
-                  )}
-                  {selectedPhotoType === 'signature' && (
-                    <>
-                      <li>Signatures should be wide format, like 400×100px or 300×150px</li>
-                      <li>Crop your signature image to remove excess white space</li>
-                    </>
-                  )}
-                </ul>
-              </div>
-            )}
-            {error.includes('too small') && (
-              <div className="text-red-700 text-sm">
-                <p className="font-medium mb-1">💡 Image too small:</p>
-                <ul className="list-disc list-inside space-y-1 text-xs">
-                  <li>Use a higher resolution image</li>
-                  <li>Minimum size: {selectedPhotoType === 'profile' ? '400×400px' : selectedPhotoType === 'cover' ? '800×300px' : selectedPhotoType === 'signature' ? '200×100px' : '400×300px'}</li>
-                </ul>
-              </div>
-            )}
-            {error.includes('too large') && (
-              <div className="text-red-700 text-sm">
-                <p className="font-medium mb-1">💡 File size too large:</p>
-                <ul className="list-disc list-inside space-y-1 text-xs">
-                  <li>Compress your image or reduce its quality</li>
-                  <li>Maximum size: {constraints && formatFileSize(constraints[selectedPhotoType]?.maxSize || 5242880)}</li>
-                </ul>
-              </div>
-            )}
-            {(error.includes('format') || error.includes('type')) && (
-              <div className="text-red-700 text-sm">
-                <p className="font-medium mb-1">💡 Invalid file format:</p>
-                <ul className="list-disc list-inside space-y-1 text-xs">
-                  <li>Use JPEG, PNG, or WEBP format</li>
-                  <li>Avoid using GIF, BMP, or other formats</li>
-                </ul>
-              </div>
-            )}
-          </div>
-          <button
-            onClick={() => setError(null)}
-            className="ml-4 text-red-600 hover:text-red-800 transition-colors self-start"
-          >
-            <X className="h-4 w-4" />
-          </button>
-        </Alert>
-      )}
-      
-      {success && (
-        <Alert className="bg-green-50 border-green-200">
-          <CheckCircle2 className="h-4 w-4 text-green-600" />
-          <div className="flex items-center justify-between">
-            <AlertDescription className="text-green-800 font-medium">
-              {success}
-            </AlertDescription>
-            <button
-              onClick={() => setSuccess(null)}
-              className="ml-2 text-green-600 hover:text-green-800 transition-colors"
-            >
-              <X className="h-4 w-4" />
-            </button>
-          </div>
-        </Alert>
-      )}
-
-      {/* Profile & Cover Photos */}
+    <div className="space-y-8">
+      {/* Profile & Cover — Side by side on desktop, stacked on mobile */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Profile Photo */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
-              <Camera className="h-5 w-5" />
-              Profile Photo
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="relative w-48 h-48 mx-auto">
+        <div>
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-sm font-medium text-gray-900">Profile Photo</h3>
+            <span className="text-xs text-gray-400">Square crop</span>
+          </div>
+          <div className="relative group">
+            <div className="relative w-full aspect-square max-w-[200px] sm:max-w-[240px] mx-auto">
               {loading ? (
-                <Skeleton className="w-full h-full rounded-full" />
+                <div className="w-full h-full rounded-2xl bg-gray-100 animate-pulse" />
               ) : photos.profilePhoto ? (
-                <div className="relative w-full h-full group">
-                  <Image
-                    src={photos.profilePhoto.url}
-                    alt="Profile"
-                    fill
-                    className="rounded-full object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-                  <button
-                    onClick={() => handleDeletePhoto('profile')}
-                    className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 rounded-full flex items-center justify-center transition-opacity"
-                    disabled={uploading}
-                  >
-                    <Trash2 className="h-6 w-6 text-white" />
-                  </button>
-                </div>
+                <>
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={photos.profilePhoto.url}
+                      alt="Profile"
+                      fill
+                      className="rounded-2xl object-cover"
+                      sizes="240px"
+                    />
+                    {isUploadingThis('profile') && (
+                      <div className="absolute inset-0 rounded-2xl bg-black/50 flex items-center justify-center">
+                        <Loader2 className="h-8 w-8 text-white animate-spin" />
+                      </div>
+                    )}
+                    <PhotoActions
+                      onReplace={() => triggerUpload('profile')}
+                      onDelete={() => handleDeletePhoto('profile')}
+                    />
+                  </div>
+                </>
               ) : (
-                <div className="w-full h-full rounded-full bg-gray-100 flex items-center justify-center">
-                  <Camera className="h-12 w-12 text-gray-400" />
-                </div>
+                <button
+                  onClick={() => triggerUpload('profile')}
+                  disabled={uploading}
+                  className="w-full h-full rounded-2xl border-2 border-dashed border-gray-200 hover:border-[#1e5f79]/40 bg-gray-50 hover:bg-[#eff8ff]/50 flex flex-col items-center justify-center gap-3 transition-all duration-200 disabled:opacity-50"
+                >
+                  {isUploadingThis('profile') ? (
+                    <Loader2 className="h-8 w-8 text-[#1e5f79] animate-spin" />
+                  ) : (
+                    <>
+                      <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gray-100 flex items-center justify-center">
+                        <Camera className="h-5 w-5 sm:h-6 sm:w-6 text-gray-400" />
+                      </div>
+                      <div className="text-center">
+                        <p className="text-sm font-medium text-gray-600">Upload Photo</p>
+                        <p className="text-xs text-gray-400 mt-0.5">JPG, PNG or WEBP</p>
+                      </div>
+                    </>
+                  )}
+                </button>
               )}
             </div>
-            
-            <div className="text-center space-y-2">
-              <p className="text-sm text-gray-600">
-                {constraints?.profile.description}
-              </p>
-              <div className="text-xs text-gray-500 space-y-1">
-                <p>Max size: {constraints && formatFileSize(constraints.profile.maxSize)}</p>
-                <p>Min size: {constraints?.profile.minWidth}×{constraints?.profile.minHeight}px</p>
-                <p>Aspect ratio: {constraints?.profile.aspectRatioRange.min}:1 to {constraints?.profile.aspectRatioRange.max}:1 (nearly square)</p>
-                <p>Formats: {constraints?.profile.allowedFormats.join(', ').toUpperCase()}</p>
-              </div>
-              <Button
-                onClick={() => {
-                  setSelectedPhotoType('profile');
-                  fileInputRef.current?.click();
-                }}
-                disabled={uploading || loading}
-                size="sm"
-                variant={photos.profilePhoto ? 'outline' : 'default'}
-              >
-                {uploading && selectedPhotoType === 'profile' ? (
-                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                ) : (
-                  <Upload className="h-4 w-4 mr-2" />
-                )}
-                {photos.profilePhoto ? 'Change Photo' : 'Upload Photo'}
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
         {/* Cover Photo */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
-              <ImageIcon className="h-5 w-5" />
-              Cover Photo
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="relative w-full h-32">
+        <div>
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-sm font-medium text-gray-900">Cover Photo</h3>
+            <span className="text-xs text-gray-400">Landscape, 3:1</span>
+          </div>
+          <div className="relative group">
+            <div className="relative w-full aspect-[3/1]">
               {loading ? (
-                <Skeleton className="w-full h-full rounded-lg" />
+                <div className="w-full h-full rounded-xl bg-gray-100 animate-pulse" />
               ) : photos.coverPhoto ? (
-                <div className="relative w-full h-full group">
-                  <Image
-                    src={photos.coverPhoto.url}
-                    alt="Cover"
-                    fill
-                    className="rounded-lg object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-                  <button
-                    onClick={() => handleDeletePhoto('cover')}
-                    className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 rounded-lg flex items-center justify-center transition-opacity"
-                    disabled={uploading}
-                  >
-                    <Trash2 className="h-6 w-6 text-white" />
-                  </button>
-                </div>
+                <>
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={photos.coverPhoto.url}
+                      alt="Cover"
+                      fill
+                      className="rounded-xl object-cover"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                    />
+                    {isUploadingThis('cover') && (
+                      <div className="absolute inset-0 rounded-xl bg-black/50 flex items-center justify-center">
+                        <Loader2 className="h-6 w-6 text-white animate-spin" />
+                      </div>
+                    )}
+                    <PhotoActions
+                      onReplace={() => triggerUpload('cover')}
+                      onDelete={() => handleDeletePhoto('cover')}
+                    />
+                  </div>
+                </>
               ) : (
-                <div className="w-full h-full rounded-lg bg-gray-100 flex items-center justify-center">
-                  <ImageIcon className="h-12 w-12 text-gray-400" />
-                </div>
+                <button
+                  onClick={() => triggerUpload('cover')}
+                  disabled={uploading}
+                  className="w-full h-full rounded-xl border-2 border-dashed border-gray-200 hover:border-[#1e5f79]/40 bg-gray-50 hover:bg-[#eff8ff]/50 flex flex-col items-center justify-center gap-2 transition-all duration-200 disabled:opacity-50"
+                >
+                  {isUploadingThis('cover') ? (
+                    <Loader2 className="h-6 w-6 text-[#1e5f79] animate-spin" />
+                  ) : (
+                    <>
+                      <ImageIcon className="h-6 w-6 text-gray-400" />
+                      <div className="text-center">
+                        <p className="text-sm font-medium text-gray-600">Upload Cover</p>
+                        <p className="text-xs text-gray-400 mt-0.5">Wide landscape image</p>
+                      </div>
+                    </>
+                  )}
+                </button>
               )}
             </div>
-            
-            <div className="text-center space-y-2">
-              <p className="text-sm text-gray-600">
-                {constraints?.cover.description}
-              </p>
-              <div className="text-xs text-gray-500 space-y-1">
-                <p>Max size: {constraints && formatFileSize(constraints.cover.maxSize)}</p>
-                <p>Min size: {constraints?.cover.minWidth}×{constraints?.cover.minHeight}px</p>
-                <p>Aspect ratio: {constraints?.cover.aspectRatioRange.min}:1 to {constraints?.cover.aspectRatioRange.max}:1 (landscape)</p>
-                <p>Formats: {constraints?.cover.allowedFormats.join(', ').toUpperCase()}</p>
-              </div>
-              <Button
-                onClick={() => {
-                  setSelectedPhotoType('cover');
-                  fileInputRef.current?.click();
-                }}
-                disabled={uploading || loading}
-                size="sm"
-                variant={photos.coverPhoto ? 'outline' : 'default'}
-              >
-                {uploading && selectedPhotoType === 'cover' ? (
-                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                ) : (
-                  <Upload className="h-4 w-4 mr-2" />
-                )}
-                {photos.coverPhoto ? 'Change Cover' : 'Upload Cover'}
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
 
       {/* Signature */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg flex items-center gap-2">
-            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-            </svg>
-            Digital Signature
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="relative w-full h-24">
+      <div>
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-medium text-gray-900">Digital Signature</h3>
+          <span className="text-xs text-gray-400">For prescriptions & reports</span>
+        </div>
+        <div className="relative group max-w-md">
+          <div className="relative w-full aspect-[4/1]">
             {loading ? (
-              <Skeleton className="w-full h-full rounded-lg" />
+              <div className="w-full h-full rounded-lg bg-gray-100 animate-pulse" />
             ) : photos.signature ? (
-              <div className="relative w-full h-full group">
-                <Image
-                  src={photos.signature.url}
-                  alt="Signature"
-                  fill
-                  className="rounded-lg object-contain bg-white border"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-                <button
-                  onClick={() => handleDeletePhoto('signature')}
-                  className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 rounded-lg flex items-center justify-center transition-opacity"
-                  disabled={uploading}
-                >
-                  <Trash2 className="h-6 w-6 text-white" />
-                </button>
-              </div>
+              <>
+                <div className="relative w-full h-full">
+                  <Image
+                    src={photos.signature.url}
+                    alt="Signature"
+                    fill
+                    className="rounded-lg object-contain bg-white border border-gray-100"
+                    sizes="400px"
+                  />
+                  {isUploadingThis('signature') && (
+                    <div className="absolute inset-0 rounded-lg bg-black/50 flex items-center justify-center">
+                      <Loader2 className="h-5 w-5 text-white animate-spin" />
+                    </div>
+                  )}
+                  <PhotoActions
+                    onReplace={() => triggerUpload('signature')}
+                    onDelete={() => handleDeletePhoto('signature')}
+                  />
+                </div>
+              </>
             ) : (
-              <div className="w-full h-full rounded-lg bg-gray-100 border-2 border-dashed border-gray-300 flex items-center justify-center">
-                <svg className="h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                </svg>
-              </div>
-            )}
-          </div>
-          
-          <div className="text-center space-y-2">
-            <p className="text-sm text-gray-600">
-              {constraints?.signature?.description || 'Upload your digital signature for professional documents'}
-            </p>
-            <div className="text-xs text-gray-500 space-y-1">
-              <p>Max size: {constraints && formatFileSize(constraints.signature?.maxSize || 2097152)}</p>
-              <p>Min size: {constraints?.signature?.minWidth || 200}×{constraints?.signature?.minHeight || 100}px</p>
-              <p>Aspect ratio: {constraints?.signature?.aspectRatioRange?.min || 1.5}:1 to {constraints?.signature?.aspectRatioRange?.max || 5}:1 (wide format)</p>
-              <p>Formats: {constraints?.signature?.allowedFormats?.join(', ').toUpperCase() || 'JPEG, PNG, WEBP'}</p>
-            </div>
-            <Button
-              onClick={() => {
-                setSelectedPhotoType('signature');
-                fileInputRef.current?.click();
-              }}
-              disabled={uploading || loading}
-              size="sm"
-              variant={photos.signature ? 'outline' : 'default'}
-            >
-              {uploading && selectedPhotoType === 'signature' ? (
-                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-              ) : (
-                <Upload className="h-4 w-4 mr-2" />
-              )}
-              {photos.signature ? 'Change Signature' : 'Upload Signature'}
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Gallery Photos */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center justify-between">
-            <span className="flex items-center gap-2">
-              <ImageIcon className="h-5 w-5" />
-              Gallery Photos
-            </span>
-            <span className="text-sm font-normal text-gray-600">
-              {photos.galleryPhotos.length} / {constraints?.gallery.maxCount || 10}
-            </span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            {/* Existing gallery photos */}
-            {photos.galleryPhotos.map((photo, index) => (
-              <div key={photo.id} className="relative aspect-square group">
-                <Image
-                  src={photo.url}
-                  alt={`Gallery ${index + 1}`}
-                  fill
-                  className="rounded-lg object-cover"
-                  sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
-                />
-                <button
-                  onClick={() => handleDeletePhoto('gallery', photo.id)}
-                  className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 rounded-lg flex items-center justify-center transition-opacity"
-                  disabled={uploading}
-                >
-                  <Trash2 className="h-5 w-5 text-white" />
-                </button>
-              </div>
-            ))}
-            
-            {/* Add new photo button */}
-            {(!constraints || photos.galleryPhotos.length < constraints.gallery.maxCount) && (
               <button
-                onClick={() => {
-                  setSelectedPhotoType('gallery');
-                  fileInputRef.current?.click();
-                }}
-                disabled={uploading || loading}
-                className="aspect-square border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center hover:border-gray-400 transition-colors disabled:opacity-50"
+                onClick={() => triggerUpload('signature')}
+                disabled={uploading}
+                className="w-full h-full rounded-lg border-2 border-dashed border-gray-200 hover:border-[#1e5f79]/40 bg-gray-50 hover:bg-[#eff8ff]/50 flex items-center justify-center gap-3 transition-all duration-200 disabled:opacity-50"
               >
-                {uploading && selectedPhotoType === 'gallery' ? (
-                  <Loader2 className="h-8 w-8 text-gray-400 animate-spin" />
+                {isUploadingThis('signature') ? (
+                  <Loader2 className="h-5 w-5 text-[#1e5f79] animate-spin" />
                 ) : (
                   <>
-                    <Upload className="h-8 w-8 text-gray-400 mb-2" />
-                    <span className="text-xs text-gray-500">Add Photo</span>
+                    <PenLine className="h-5 w-5 text-gray-400" />
+                    <div className="text-left">
+                      <p className="text-sm font-medium text-gray-600">Upload Signature</p>
+                      <p className="text-xs text-gray-400">Wide format image</p>
+                    </div>
                   </>
                 )}
               </button>
             )}
           </div>
-          
-          <div className="mt-4 text-center space-y-2">
-            <p className="text-sm text-gray-600">
-              {constraints?.gallery.description}
-            </p>
-            <div className="text-xs text-gray-500 space-y-1">
-              <p>Max size per photo: {constraints && formatFileSize(constraints.gallery.maxSize)}</p>
-              <p>Min size: {constraints?.gallery.minWidth}×{constraints?.gallery.minHeight}px</p>
-              <p>Aspect ratio: {constraints?.gallery.aspectRatioRange.min}:1 to {constraints?.gallery.aspectRatioRange.max}:1 (flexible)</p>
-              <p>Formats: {constraints?.gallery.allowedFormats.join(', ').toUpperCase()}</p>
+        </div>
+      </div>
+
+      {/* Gallery */}
+      <div>
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-medium text-gray-900">Gallery</h3>
+          <span className="text-xs text-gray-400">
+            {photos.galleryPhotos.length} / {constraints?.gallery?.maxCount || 10} photos
+          </span>
+        </div>
+        <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3">
+          {photos.galleryPhotos.map((photo, index) => (
+            <div key={photo.id} className="relative aspect-square group rounded-xl overflow-hidden">
+              <Image
+                src={photo.url}
+                alt={`Gallery ${index + 1}`}
+                fill
+                className="object-cover"
+                sizes="(max-width: 640px) 33vw, (max-width: 1024px) 25vw, 20vw"
+              />
+              {/* Desktop: hover overlay */}
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-200 items-center justify-center opacity-0 group-hover:opacity-100 hidden sm:flex">
+                <button
+                  onClick={() => handleDeletePhoto('gallery', photo.id)}
+                  disabled={uploading}
+                  className="p-2 bg-white/90 rounded-lg hover:bg-red-50 transition-colors"
+                >
+                  <Trash2 className="h-4 w-4 text-red-600" />
+                </button>
+              </div>
+              {/* Mobile: persistent delete button */}
+              <button
+                onClick={() => handleDeletePhoto('gallery', photo.id)}
+                disabled={uploading}
+                className="absolute top-1 right-1 p-1 bg-black/50 rounded-full sm:hidden"
+              >
+                <Trash2 className="h-3 w-3 text-white" />
+              </button>
             </div>
-          </div>
-        </CardContent>
-      </Card>
+          ))}
+
+          {(!constraints || photos.galleryPhotos.length < (constraints.gallery?.maxCount || 10)) && (
+            <button
+              onClick={() => triggerUpload('gallery')}
+              disabled={uploading}
+              className="aspect-square rounded-xl border-2 border-dashed border-gray-200 hover:border-[#1e5f79]/40 bg-gray-50 hover:bg-[#eff8ff]/50 flex flex-col items-center justify-center gap-1.5 transition-all duration-200 disabled:opacity-50"
+            >
+              {isUploadingThis('gallery') ? (
+                <Loader2 className="h-5 w-5 sm:h-6 sm:w-6 text-[#1e5f79] animate-spin" />
+              ) : (
+                <>
+                  <Upload className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
+                  <span className="text-[10px] sm:text-xs text-gray-400">Add</span>
+                </>
+              )}
+            </button>
+          )}
+        </div>
+      </div>
 
       {/* Hidden file input */}
       <input
         ref={fileInputRef}
         type="file"
-        accept="image/*"
+        accept="image/jpeg,image/png,image/webp"
         onChange={handleFileSelect}
         className="hidden"
       />
-
-      {/* Upload progress */}
-      {uploading && (
-        <div className="fixed bottom-4 right-4 bg-white rounded-lg shadow-lg p-4 w-80">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium">Uploading photo...</span>
-            <span className="text-sm text-gray-600">{uploadProgress}%</span>
-          </div>
-          <Progress value={uploadProgress} className="h-2" />
-        </div>
-      )}
-
-      {/* Preview dialog */}
-      <Dialog open={!!previewImage && !uploading} onOpenChange={() => setPreviewImage(null)}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle>Preview</DialogTitle>
-          </DialogHeader>
-          {previewImage && (
-            <div className="relative w-full h-96">
-              <Image
-                src={previewImage}
-                alt="Preview"
-                fill
-                className="object-contain"
-              />
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };

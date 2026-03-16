@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react'
 import dynamic from 'next/dynamic'
-import { BarChart3, TrendingUp, Table2, Loader2 } from 'lucide-react'
+import { BarChart3, TrendingUp, Table2, Loader2, ChevronDown } from 'lucide-react'
 import { useTrackingHistory } from './hooks/useTrackingHistory'
 import { getTrackingForCondition } from '@/app/dashboard/appointments/[patientId]/[appointmentId]/components/tracking/tracking-data-loader'
 import type { TrackingItemDefinition } from '@/app/dashboard/appointments/[patientId]/[appointmentId]/components/tracking/tracking.types'
@@ -21,6 +21,7 @@ type Tab = 'summary' | 'trends' | 'raw'
 interface TrackingProgressViewProps {
   patientConditionId: string
   conditionName: string
+  refreshKey?: number
 }
 
 const CATEGORY_ORDER = ['essential', 'function', 'rom', 'strength', 'measurements', 'special_tests']
@@ -36,9 +37,19 @@ const CATEGORY_LABELS: Record<string, string> = {
 export default function TrackingProgressView({
   patientConditionId,
   conditionName,
+  refreshKey,
 }: TrackingProgressViewProps) {
   const [activeTab, setActiveTab] = useState<Tab>('summary')
-  const { chartData, isLoading } = useTrackingHistory(patientConditionId)
+  const { chartData, isLoading, refetch } = useTrackingHistory(patientConditionId)
+
+  // Refetch when parent signals a save occurred
+  const lastRefreshKey = React.useRef(refreshKey)
+  React.useEffect(() => {
+    if (refreshKey !== undefined && refreshKey !== lastRefreshKey.current) {
+      lastRefreshKey.current = refreshKey
+      refetch()
+    }
+  }, [refreshKey, refetch])
 
   // Get tracking definitions for this condition
   const tracking = useMemo(() => getTrackingForCondition(conditionName), [conditionName])
@@ -140,13 +151,10 @@ export default function TrackingProgressView({
         )}
 
         {activeTab === 'trends' && (
-          <div className="space-y-6">
-            {categorizedItems.map((cat) => (
-              <div key={cat.key}>
-                <div className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-3">
-                  {cat.label}
-                </div>
-                <div className="space-y-4">
+          <div className="space-y-3 lg:space-y-6">
+            {categorizedItems.map((cat, catIdx) => (
+              <TrendsCategorySection key={cat.key} label={cat.label} defaultExpanded={catIdx === 0}>
+                <div className="space-y-3 lg:space-y-4">
                   {cat.items.map((item) => {
                     const chartType = getChartType(
                       item.definition.input,
@@ -168,7 +176,6 @@ export default function TrackingProgressView({
                             min={item.definition.min}
                             max={item.definition.max}
                           />
-                          {/* Show radar overlay for PROMs with subscales */}
                           {item.definition.input === 'questionnaire' && (
                             <PROMSubscaleRadar
                               itemKey={item.key}
@@ -221,7 +228,7 @@ export default function TrackingProgressView({
                     return null
                   })}
                 </div>
-              </div>
+              </TrendsCategorySection>
             ))}
           </div>
         )}
@@ -237,7 +244,53 @@ export default function TrackingProgressView({
   )
 }
 
-// ── Raw Data Table ─────────────────────────────────────────
+// ── Trends Category Section (collapsible on mobile, always open on desktop) ──
+
+function TrendsCategorySection({
+  label,
+  defaultExpanded,
+  children,
+}: {
+  label: string
+  defaultExpanded: boolean
+  children: React.ReactNode
+}) {
+  const [expanded, setExpanded] = useState(defaultExpanded)
+
+  return (
+    <div>
+      {/* Mobile: collapsible header */}
+      <button
+        onClick={() => setExpanded(!expanded)}
+        className="lg:hidden w-full flex items-center justify-between py-2 px-1"
+      >
+        <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">
+          {label}
+        </span>
+        <ChevronDown className={`h-3.5 w-3.5 text-gray-400 transition-transform ${expanded ? 'rotate-180' : ''}`} />
+      </button>
+      {/* Desktop: always-visible label */}
+      <div className="hidden lg:block text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-3">
+        {label}
+      </div>
+      {/* Content: always visible on desktop, toggled on mobile */}
+      <div className={`${expanded ? 'block' : 'hidden'} lg:block`}>
+        {children}
+      </div>
+    </div>
+  )
+}
+
+// ── Raw Data ─────────────────────────────────────────
+
+function formatCellValue(item: any): string {
+  if (!item) return ''
+  if (item.left !== undefined || item.right !== undefined) {
+    return `L: ${item.left ?? '-'}  R: ${item.right ?? '-'}`
+  }
+  if (item.value !== undefined) return String(item.value)
+  return ''
+}
 
 function RawDataTable({
   dataPoints,
@@ -246,7 +299,6 @@ function RawDataTable({
   dataPoints: Array<{ visit_date: string; visit_number: number; items: Record<string, any> }>
   definitions: Record<string, TrackingItemDefinition>
 }) {
-  // Collect all item keys across all visits
   const allKeys = useMemo(() => {
     const keys = new Set<string>()
     dataPoints.forEach(dp => Object.keys(dp.items).forEach(k => keys.add(k)))
@@ -258,49 +310,78 @@ function RawDataTable({
   }
 
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full text-[11px]">
-        <thead>
-          <tr className="border-b border-gray-200">
-            <th className="text-left py-2 px-2 font-medium text-gray-500 sticky left-0 bg-white">Item</th>
-            {dataPoints.map((dp) => (
-              <th key={dp.visit_number} className="text-center py-2 px-2 font-medium text-gray-500 whitespace-nowrap">
-                V{dp.visit_number}
-                <br />
-                <span className="font-normal text-gray-400">{dp.visit_date}</span>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {allKeys.map((key) => {
-            const def = definitions[key]
-            return (
-              <tr key={key} className="border-b border-gray-50 hover:bg-gray-50">
-                <td className="py-1.5 px-2 text-gray-700 sticky left-0 bg-white font-medium whitespace-nowrap">
-                  {def?.display_name || key}
-                </td>
+    <>
+      {/* Desktop: table */}
+      <div className="hidden lg:block overflow-x-auto">
+        <table className="w-full text-[11px]">
+          <thead>
+            <tr className="border-b border-gray-200">
+              <th className="text-left py-2 px-2 font-medium text-gray-500 sticky left-0 bg-white">Item</th>
+              {dataPoints.map((dp) => (
+                <th key={dp.visit_number} className="text-center py-2 px-2 font-medium text-gray-500 whitespace-nowrap">
+                  V{dp.visit_number}
+                  <br />
+                  <span className="font-normal text-gray-400">{dp.visit_date}</span>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {allKeys.map((key) => {
+              const def = definitions[key]
+              return (
+                <tr key={key} className="border-b border-gray-50 hover:bg-gray-50">
+                  <td className="py-1.5 px-2 text-gray-700 sticky left-0 bg-white font-medium whitespace-nowrap">
+                    {def?.display_name || key}
+                  </td>
+                  {dataPoints.map((dp) => {
+                    const display = formatCellValue(dp.items[key])
+                    return (
+                      <td key={dp.visit_number} className="py-1.5 px-2 text-center text-gray-600">
+                        {display || <span className="text-gray-300">-</span>}
+                      </td>
+                    )
+                  })}
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Mobile: card-per-item layout */}
+      <div className="lg:hidden space-y-2">
+        {allKeys.map((key) => {
+          const def = definitions[key]
+          return (
+            <div key={key} className="border border-gray-100 rounded-lg p-2.5">
+              <div className="text-[11px] font-semibold text-gray-700 mb-1.5">
+                {def?.display_name || key}
+              </div>
+              <div className="flex flex-wrap gap-1.5">
                 {dataPoints.map((dp) => {
-                  const item = dp.items[key]
-                  let display = ''
-                  if (item) {
-                    if (item.left !== undefined || item.right !== undefined) {
-                      display = `L:${item.left ?? '-'} R:${item.right ?? '-'}`
-                    } else if (item.value !== undefined) {
-                      display = String(item.value)
-                    }
-                  }
+                  const display = formatCellValue(dp.items[key])
                   return (
-                    <td key={dp.visit_number} className="py-1.5 px-2 text-center text-gray-600">
-                      {display || <span className="text-gray-300">-</span>}
-                    </td>
+                    <div
+                      key={dp.visit_number}
+                      className={`flex flex-col items-center px-2.5 py-1.5 rounded-md text-center min-w-[48px] ${
+                        display ? 'bg-gray-50' : 'bg-gray-50/40'
+                      }`}
+                    >
+                      <span className="text-[9px] font-medium text-gray-400">V{dp.visit_number}</span>
+                      <span className={`text-[11px] font-medium mt-0.5 ${
+                        display ? 'text-gray-800' : 'text-gray-300'
+                      }`}>
+                        {display || '-'}
+                      </span>
+                    </div>
                   )
                 })}
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
-    </div>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+    </>
   )
 }

@@ -25,6 +25,7 @@ export function useTrackingPersistence(
   visitId: string,
   categories: TrackingCategory[] | null,
   totalCount: number,
+  onSaveSuccess?: () => void,
 ): TrackingPersistenceReturn {
   // Store per-condition data keyed by visitConditionId
   const storeRef = useRef<Record<string, ValuesMap>>({})
@@ -190,10 +191,11 @@ export function useTrackingPersistence(
 
       setIsDirty(false)
       setLastSavedAt(new Date())
+      onSaveSuccess?.()
     } finally {
       setIsSaving(false)
     }
-  }, [values, visitConditionId, patientConditionId, visitId, filledCount, totalCount, isSaving, itemsIndex, categories])
+  }, [values, visitConditionId, patientConditionId, visitId, filledCount, totalCount, isSaving, itemsIndex, categories, onSaveSuccess])
 
   return { values, setValue, save, filledCount, totalCount, isSaving, isLoading, isDirty, lastSavedAt }
 }
