@@ -22,10 +22,18 @@ import {
   Smartphone,
   Copy,
   Loader2,
+  Mic,
 } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import SymptomAssessmentModal, { SymptomDxData } from '../screening/SymptomAssessmentModal';
 import SmartScreeningChatbot from '../screening/SmartScreeningChatbot';
 import ApiManager from '@/services/api/api.service';
+
+// Dynamic import to avoid bundling onnxruntime-web on initial load
+const VoiceClinicalDxScreen = dynamic(
+  () => import('../screening/voice/VoiceClinicalDxScreen'),
+  { ssr: false }
+);
 
 // ========== INTERFACES ==========
 
@@ -33,11 +41,12 @@ export type DiagnosisMethod = 'SYMPTOM_AND_CLINICAL' | 'CLINICAL_ONLY';
 export type DiagnosisStatus = 'DRAFT' | 'SYMPTOM_DX_PENDING' | 'SYMPTOM_DX_COMPLETE' | 'CLINICAL_DX_COMPLETE' | 'COMPLETE';
 
 export type WorkflowStep =
-  | 'LAUNCHER'            // One-tap entry: Start Assessment / Send to Patient / Quick Dx
+  | 'LAUNCHER'            // One-tap entry: Start Assessment / Send to Patient / Quick Dx / Voice Dx
   | 'SYMPTOM_DX_LINK'     // Show generated patient link
   | 'SYMPTOM_DX_FILL'     // Fill symptom assessment in-clinic
   | 'SYMPTOM_DX_COMPLETE' // Symptom assessment done
   | 'CLINICAL_DX'         // Clinical assessment
+  | 'VOICE_DX'            // Voice-first clinical assessment
   | 'COMPLETE';           // All done
 
 interface DraftCondition {
@@ -51,6 +60,7 @@ interface AddConditionWorkflowProps {
   onClose: () => void;
   patientId: string;
   patientName?: string;
+  clinicId: string;
   onComplete?: (result: any) => void;
 }
 
@@ -66,6 +76,7 @@ export default function AddConditionWorkflow({
   onClose,
   patientId,
   patientName,
+  clinicId,
   onComplete,
 }: AddConditionWorkflowProps) {
   const [currentStep, setCurrentStep] = useState<WorkflowStep>('LAUNCHER');
@@ -82,7 +93,7 @@ export default function AddConditionWorkflow({
 
   // Reset state when dialog closes
   const handleClose = useCallback(() => {
-    if (currentStep === 'CLINICAL_DX') {
+    if (currentStep === 'CLINICAL_DX' || currentStep === 'VOICE_DX') {
       if (window.confirm('Are you sure you want to close? Your assessment progress will be lost.')) {
         resetWorkflow();
         onClose();
@@ -181,6 +192,14 @@ export default function AddConditionWorkflow({
     const draft = await createDraftCondition('CLINICAL_ONLY', false);
     if (draft) {
       setCurrentStep('CLINICAL_DX');
+    }
+  };
+
+  const handleVoiceDx = async () => {
+    setDiagnosisMethod('CLINICAL_ONLY');
+    const draft = await createDraftCondition('CLINICAL_ONLY', false);
+    if (draft) {
+      setCurrentStep('VOICE_DX');
     }
   };
 
@@ -290,8 +309,8 @@ export default function AddConditionWorkflow({
         </div>
       </motion.button>
 
-      {/* Secondary row: Send to Patient + Quick Dx (50/50) */}
-      <div className="grid grid-cols-2 gap-3">
+      {/* Secondary row: Send to Patient + Quick Dx + Voice Dx */}
+      <div className="grid grid-cols-3 gap-3">
         <motion.button
           onClick={handleSendLink}
           disabled={isCreatingDraft}
@@ -321,6 +340,22 @@ export default function AddConditionWorkflow({
           </h3>
           <p className="text-xs text-gray-500 mt-0.5">
             Clinical only
+          </p>
+        </motion.button>
+
+        <motion.button
+          onClick={handleVoiceDx}
+          disabled={isCreatingDraft}
+          className="group p-3.5 bg-white border-2 border-gray-200 rounded-xl hover:border-gray-400 hover:shadow-md transition-all text-left disabled:opacity-50"
+          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <Mic className="w-5 h-5 text-gray-500 mb-2" />
+          <h3 className="text-sm font-semibold text-gray-900">
+            Voice Dx
+          </h3>
+          <p className="text-xs text-gray-500 mt-0.5">
+            Speak & extract
           </p>
         </motion.button>
       </div>
@@ -544,12 +579,30 @@ export default function AddConditionWorkflow({
         return renderSymptomDxComplete();
       case 'CLINICAL_DX':
         return null; // Full screen chatbot
+      case 'VOICE_DX':
+        return null; // Full screen voice dx
       case 'COMPLETE':
         return renderComplete();
       default:
         return null;
     }
   };
+
+  // For voice DX step, render full screen
+  if (currentStep === 'VOICE_DX' && isOpen) {
+    return (
+      <div className="fixed inset-0 z-50 bg-white">
+        <VoiceClinicalDxScreen
+          patientId={patientId}
+          patientName={patientName}
+          conditionId={draftCondition?.id}
+          clinicId={clinicId}
+          onComplete={handleClinicalDxComplete}
+          onClose={handleClose}
+        />
+      </div>
+    );
+  }
 
   // For clinical assessment step, render full screen
   if (currentStep === 'CLINICAL_DX' && isOpen) {
@@ -586,7 +639,7 @@ export default function AddConditionWorkflow({
 
   return (
     <>
-      <Dialog open={isOpen && currentStep !== 'CLINICAL_DX' && currentStep !== 'SYMPTOM_DX_FILL'} onOpenChange={(open) => !open && handleClose()}>
+      <Dialog open={isOpen && currentStep !== 'CLINICAL_DX' && currentStep !== 'VOICE_DX' && currentStep !== 'SYMPTOM_DX_FILL'} onOpenChange={(open) => !open && handleClose()}>
         <DialogContent
           className="sm:max-w-md"
           showCloseButton={false}

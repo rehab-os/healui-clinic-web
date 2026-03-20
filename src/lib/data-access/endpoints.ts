@@ -216,6 +216,14 @@ export const ENDPOINTS = {
     VOICE_UPLOAD_CHUNK: () => 'voice/upload',
     VOICE_EXTRACT: () => 'voice/extract',
 
+    // Voice Clinical DX (Realtime API)
+    CLINICAL_DX_VOICE_SESSION: () => 'voice/clinical-dx/sessions',
+    CLINICAL_DX_VOICE_SESSION_BY_ID: (id: string) => `voice/clinical-dx/sessions/${id}`,
+    CLINICAL_DX_VOICE_TOKEN: () => 'voice/clinical-dx/token',
+    CLINICAL_DX_VOICE_EXTRACT: () => 'voice/clinical-dx/extract',
+    CLINICAL_DX_VOICE_GAPS: () => 'voice/clinical-dx/gaps',
+    CLINICAL_DX_VOICE_FINALIZE: () => 'voice/clinical-dx/finalize',
+
     // Notes Generation
     GENERATE_NOTE: () => 'notes/generate',
 

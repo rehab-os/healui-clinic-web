@@ -20,18 +20,25 @@ import type {
   RecordPaymentDto,
   PaymentMethod,
   PaymentFor,
-  PatientBalanceDto
+  PatientBalanceDto,
+  PaymentDto,
 } from '@/lib/types';
+import { downloadReceiptPDF, printReceipt } from '@/lib/utils/receipt-pdf';
+import type { ReceiptData } from '@/lib/utils/receipt-pdf';
+import ReceiptButton from './ReceiptButton';
 
 interface Patient {
   id: string;
   full_name: string;
   phone: string;
   patient_code: string;
+  date_of_birth?: string;
+  gender?: string;
 }
 
 interface RecordPaymentModalProps {
   clinicId: string;
+  clinic?: { name: string; address?: string; phone?: string };
   preSelectedPatient?: { id: string; name: string } | null;
   onClose: () => void;
   onSuccess: () => void;
@@ -39,6 +46,7 @@ interface RecordPaymentModalProps {
 
 const RecordPaymentModal: React.FC<RecordPaymentModalProps> = ({
   clinicId,
+  clinic,
   preSelectedPatient,
   onClose,
   onSuccess
@@ -47,6 +55,7 @@ const RecordPaymentModal: React.FC<RecordPaymentModalProps> = ({
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const [paymentResult, setPaymentResult] = useState<PaymentDto | null>(null);
 
   // Patient search
   const [searchQuery, setSearchQuery] = useState('');
@@ -147,10 +156,8 @@ const RecordPaymentModal: React.FC<RecordPaymentModalProps> = ({
       const response = await ApiManager.recordPayment(selectedPatient.id, clinicId, data);
 
       if (response.success) {
+        setPaymentResult(response.data);
         setSuccess(true);
-        setTimeout(() => {
-          onSuccess();
-        }, 1500);
       } else {
         setError(response.error?.message || 'Failed to record payment');
       }
@@ -184,6 +191,49 @@ const RecordPaymentModal: React.FC<RecordPaymentModalProps> = ({
     { value: 'VISIT', label: 'Visit Payment', description: 'Direct visit payment' },
   ];
 
+  const buildReceiptData = (): ReceiptData | null => {
+    if (!selectedPatient) return null;
+    const paymentForLabel: Record<string, string> = {
+      OUTSTANDING: 'Payment towards outstanding dues',
+      ADVANCE: 'Advance payment',
+      VISIT: 'Visit payment',
+      SESSION_PACK: 'Session pack payment',
+      CORPORATE: 'Corporate payment',
+    };
+    const paid = parseFloat(amount);
+    return {
+      clinic: clinic || { name: '' },
+      // Use receipt_number from API response if available, else generate one
+      receipt_number: paymentResult?.receipt_number || `PMT-${Date.now()}`,
+      payment_date: paymentResult?.created_at || new Date().toISOString(),
+      patient: {
+        name: selectedPatient.full_name,
+        patient_code: selectedPatient.patient_code || undefined,
+        age: selectedPatient.date_of_birth
+          ? Math.floor((Date.now() - new Date(selectedPatient.date_of_birth).getTime()) / (365.25 * 24 * 60 * 60 * 1000))
+          : undefined,
+        gender: selectedPatient.gender || undefined,
+      },
+      description: paymentForLabel[paymentFor] || 'Payment',
+      subtotal: paid,
+      total_amount: paid,
+      amount_paid: paid,
+      balance_due: 0,
+      payment_method: paymentMethod,
+      transaction_ref: referenceNumber || undefined,
+    };
+  };
+
+  const handlePrintReceipt = () => {
+    const data = buildReceiptData();
+    if (data) printReceipt(data);
+  };
+
+  const handleDownloadReceipt = async () => {
+    const data = buildReceiptData();
+    if (data) await downloadReceiptPDF(data);
+  };
+
   if (success) {
     return (
       <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-[60] p-4">
@@ -192,9 +242,19 @@ const RecordPaymentModal: React.FC<RecordPaymentModalProps> = ({
             <CheckCircle className="h-6 w-6 text-green-600" />
           </div>
           <h3 className="text-sm font-semibold text-gray-900 mb-1">Payment Recorded</h3>
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-gray-500 mb-5">
             {formatCurrency(parseFloat(amount))} received
           </p>
+          <ReceiptButton
+            onPrint={handlePrintReceipt}
+            onDownload={handleDownloadReceipt}
+          />
+          <button
+            onClick={onSuccess}
+            className="mt-4 block w-full text-xs text-gray-500 hover:text-gray-700 underline underline-offset-2"
+          >
+            Done, close
+          </button>
         </div>
       </div>
     );

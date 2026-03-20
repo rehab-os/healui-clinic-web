@@ -34,8 +34,12 @@ import type {
   UpdateVisitBillingDto,
   ClinicServiceDto,
   ClinicBillingSettingsDto,
-  BillingServiceLineItem
+  BillingServiceLineItem,
+  ReceiptDataDto,
 } from '@/lib/types';
+import { downloadReceiptPDF, printReceipt } from '@/lib/utils/receipt-pdf';
+import type { ReceiptData } from '@/lib/utils/receipt-pdf';
+import ReceiptButton from './ReceiptButton';
 
 interface BillVisitModalProps {
   visitId: string;
@@ -70,10 +74,13 @@ const BillVisitModal: React.FC<BillVisitModalProps> = ({
   const [success, setSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const [billingResultId, setBillingResultId] = useState<string>('');
+  const [showReceiptButtons, setShowReceiptButtons] = useState(false);
+  const [loadingReceipt, setLoadingReceipt] = useState(false);
 
   // Patient data
   const [availablePacks, setAvailablePacks] = useState<SessionPackDto[]>([]);
   const [patientBalance, setPatientBalance] = useState<PatientBalanceDto | null>(null);
+  const [patientProfile, setPatientProfile] = useState<{ age?: number; gender?: string; patient_code?: string } | null>(null);
 
   // Clinic data
   const [clinicServices, setClinicServices] = useState<ClinicServiceDto[]>([]);
@@ -188,11 +195,12 @@ const BillVisitModal: React.FC<BillVisitModalProps> = ({
   const fetchPatientData = async () => {
     if (!patientId || !clinicId) return;
     try {
-      const [packsRes, balanceRes, servicesRes, settingsRes] = await Promise.all([
+      const [packsRes, balanceRes, servicesRes, settingsRes, profileRes] = await Promise.all([
         ApiManager.getAvailableSessionPacks(patientId, clinicId, conditionId),
         ApiManager.getPatientBalance(patientId, clinicId),
         ApiManager.getClinicServicesForBilling(clinicId),
         ApiManager.getBillingSettings(clinicId),
+        ApiManager.getPatient(patientId),
       ]);
 
       if (packsRes.success && packsRes.data) {
@@ -205,6 +213,13 @@ const BillVisitModal: React.FC<BillVisitModalProps> = ({
         setBillingSettings(settingsRes.data);
         const methods = settingsRes.data.enabled_payment_methods;
         if (methods && methods.length > 0) setPaymentMethod(methods[0]);
+      }
+      if (profileRes.success && profileRes.data) {
+        const p = profileRes.data;
+        const age = p.date_of_birth
+          ? Math.floor((Date.now() - new Date(p.date_of_birth).getTime()) / (365.25 * 24 * 60 * 60 * 1000))
+          : undefined;
+        setPatientProfile({ age, gender: p.gender, patient_code: p.patient_code });
       }
     } catch (error) {
       console.error('Failed to fetch patient data:', error);
@@ -341,15 +356,21 @@ const BillVisitModal: React.FC<BillVisitModalProps> = ({
         const owed = finalAmount - payment;
         if (paymentOption === 'corporate') {
           setSuccessMessage(`Billed to ${corporateCompany}`);
+          setSuccess(true);
+          setTimeout(() => onSuccess(), 1200);
         } else if (owed === 0) {
           setSuccessMessage('Payment recorded');
+          setShowReceiptButtons(true);
+          setSuccess(true);
         } else if (payment > 0) {
           setSuccessMessage(`Partial payment recorded. ₹${owed} outstanding`);
+          setShowReceiptButtons(true);
+          setSuccess(true);
         } else {
           setSuccessMessage(`₹${finalAmount} added to outstanding`);
+          setSuccess(true);
+          setTimeout(() => onSuccess(), 1200);
         }
-        setSuccess(true);
-        setTimeout(() => onSuccess(), 1200);
       } else {
         setError(response.error?.message || 'Failed to bill visit');
       }
@@ -396,9 +417,11 @@ const BillVisitModal: React.FC<BillVisitModalProps> = ({
       };
       const response = await ApiManager.updateVisitBilling(visitId, data);
       if (response.success) {
+        // existingBilling.id is the visit_billing_id needed for getReceiptData
+        setBillingResultId(existingBilling?.id || '');
         setSuccessMessage('Payment recorded');
+        setShowReceiptButtons(true);
         setSuccess(true);
-        setTimeout(() => onSuccess(), 1200);
       } else {
         setError(response.error?.message || 'Failed to record payment');
       }
@@ -407,6 +430,103 @@ const BillVisitModal: React.FC<BillVisitModalProps> = ({
     } finally {
       setSubmitting(false);
     }
+  };
+
+  // ============ RECEIPT HANDLERS ============
+
+  // Builds receipt data — merges API response with local billing state as fallback.
+  // This ensures the PDF always has data even if getReceiptData returns incomplete fields.
+  const buildReceiptData = async (id?: string, localBilling?: VisitBillingDto): Promise<ReceiptData | null> => {
+    const targetId = id || billingResultId;
+    const billing = localBilling || (targetId === existingBilling?.id ? existingBilling : null);
+
+    setLoadingReceipt(true);
+    try {
+      let dto: ReceiptDataDto | null = null;
+      if (targetId) {
+        const res = await ApiManager.getReceiptData(targetId);
+        if (res.success && res.data) dto = res.data;
+      }
+
+      // Need at least one data source
+      if (!dto && !billing) return null;
+
+      // Merge: API data takes priority for receipt_number / clinic / payment_method
+      // Local billing fills in services, amounts when API is incomplete
+      const services = (dto?.services?.length ? dto.services : billing?.services) || [];
+      const chargeAmt = billing?.charge_amount ?? dto?.total_amount ?? billing?.amount_paid ?? 0;
+      // Appointment date — now returned directly by backend as visit_date
+      const apptDate = dto?.visit_date || (billing as any)?.visit?.scheduled_date || null;
+
+      return {
+        clinic: dto?.clinic || { name: '' },
+        receipt_number: dto?.receipt_number || `RX-${(targetId || '').slice(-6).toUpperCase()}`,
+        payment_date: dto?.date || billing?.created_at || new Date().toISOString(),
+        appointment_date: apptDate || undefined,
+        therapist_name: dto?.therapist_name || undefined,
+        patient: {
+          name: dto?.patient?.name || patientName || '',
+          phone: dto?.patient?.phone,
+          // Backend now returns patient_code, age, gender in receipt
+          patient_code: dto?.patient?.patient_code || patientProfile?.patient_code,
+          age: dto?.patient?.age ?? patientProfile?.age,
+          gender: dto?.patient?.gender ?? patientProfile?.gender,
+        },
+        line_items: services.map(s => ({
+          name: s.name,
+          quantity: s.quantity,
+          rate: s.price,
+          amount: s.price * s.quantity,
+        })),
+        subtotal: chargeAmt,
+        discount_amount: billing?.discount_amount ?? dto?.discount_amount,
+        discount_reason: billing?.discount_reason ?? dto?.discount_reason,
+        total_amount: chargeAmt,
+        amount_paid: billing?.amount_paid ?? dto?.amount_paid ?? 0,
+        balance_due: billing?.amount_owed ?? dto?.amount_owed ?? 0,
+        payment_method: dto?.payment_method || 'CASH',
+        transaction_ref: dto?.payment_reference || undefined,
+      };
+    } catch {
+      // Last resort: build entirely from local billing state
+      if (!billing) return null;
+      const chargeAmt = billing.charge_amount ?? billing.amount_paid ?? 0;
+      const apptDate = (billing as any)?.visit?.scheduled_date;
+      return {
+        clinic: { name: '' },
+        receipt_number: `RX-${(targetId || '').slice(-6).toUpperCase()}`,
+        payment_date: billing.created_at,
+        appointment_date: apptDate || undefined,
+        patient: {
+          name: patientName || '',
+          patient_code: patientProfile?.patient_code,
+          age: patientProfile?.age,
+          gender: patientProfile?.gender,
+        },
+        line_items: (billing.services || []).map(s => ({
+          name: s.name, quantity: s.quantity, rate: s.price, amount: s.price * s.quantity,
+        })),
+        subtotal: chargeAmt,
+        discount_amount: billing.discount_amount,
+        discount_reason: billing.discount_reason,
+        total_amount: chargeAmt,
+        amount_paid: billing.amount_paid,
+        balance_due: billing.amount_owed,
+        payment_method: 'CASH',
+      };
+    } finally {
+      setLoadingReceipt(false);
+    }
+  };
+
+  const handlePrintReceipt = async (id?: string) => {
+    const data = await buildReceiptData(id);
+    if (data) printReceipt(data);
+  };
+
+  const handleDownloadReceipt = async (id?: string) => {
+    const data = await buildReceiptData(id);
+    if (data) await downloadReceiptPDF(data);
   };
 
   const formatCurrency = (amount: number) =>
@@ -432,12 +552,30 @@ const BillVisitModal: React.FC<BillVisitModalProps> = ({
         <div className="fixed inset-y-0 right-0 flex max-w-full">
           <div className="w-screen max-w-md" style={{ animation: 'slideInRight 0.2s ease-out' }}>
             <div className="flex h-full flex-col bg-white shadow-xl">
-              <div className="flex-1 flex flex-col items-center justify-center py-12">
+              <div className="flex-1 flex flex-col items-center justify-center px-8 py-12">
                 <div className="w-12 h-12 bg-green-50 rounded-full flex items-center justify-center mb-3">
                   <CheckCircle className="h-6 w-6 text-green-600" />
                 </div>
                 <h3 className="text-sm font-semibold text-gray-900 mb-1">Done!</h3>
-                <p className="text-xs text-gray-500">{successMessage}</p>
+                <p className="text-xs text-gray-500 mb-6 text-center">{successMessage}</p>
+
+                {showReceiptButtons && (
+                  <div className="flex flex-col items-center gap-3 w-full">
+                    <ReceiptButton
+                      onPrint={handlePrintReceipt}
+                      onDownload={handleDownloadReceipt}
+                      loading={loadingReceipt}
+                    />
+                    <p className="text-[10px] text-gray-400">Receipt will open in a new tab / download</p>
+                  </div>
+                )}
+
+                <button
+                  onClick={onSuccess}
+                  className="mt-6 text-xs text-gray-500 hover:text-gray-700 underline underline-offset-2"
+                >
+                  {showReceiptButtons ? 'Done, close' : 'Close'}
+                </button>
               </div>
             </div>
           </div>
@@ -511,6 +649,13 @@ const BillVisitModal: React.FC<BillVisitModalProps> = ({
                   <div className="bg-green-50 border border-green-200 rounded p-4 text-center">
                     <CheckCircle className="h-8 w-8 text-green-600 mx-auto mb-2" />
                     <p className="text-sm font-semibold text-green-800">Fully Paid</p>
+                  </div>
+                  <div className="flex justify-center gap-2">
+                    <ReceiptButton
+                      onPrint={async () => { const d = await buildReceiptData(existingBilling.id, existingBilling); if (d) printReceipt(d); }}
+                      onDownload={async () => { const d = await buildReceiptData(existingBilling.id, existingBilling); if (d) await downloadReceiptPDF(d); }}
+                      loading={loadingReceipt}
+                    />
                   </div>
                   <div className="bg-gray-50 rounded p-4 space-y-3">
                     <div className="flex items-center justify-between">

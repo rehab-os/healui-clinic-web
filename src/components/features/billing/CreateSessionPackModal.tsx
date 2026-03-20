@@ -21,14 +21,20 @@ import ApiManager from '@/services/api/api.service';
 import type {
   CreateSessionPackDto,
   PaymentMethod,
-  SessionPackTemplateDto
+  SessionPackTemplateDto,
+  SessionPackDto,
 } from '@/lib/types';
+import { downloadReceiptPDF, printReceipt } from '@/lib/utils/receipt-pdf';
+import type { ReceiptData } from '@/lib/utils/receipt-pdf';
+import ReceiptButton from './ReceiptButton';
 
 interface Patient {
   id: string;
   full_name: string;
   phone: string;
   patient_code: string;
+  date_of_birth?: string;
+  gender?: string;
 }
 
 interface Condition {
@@ -38,6 +44,7 @@ interface Condition {
 
 interface CreateSessionPackModalProps {
   clinicId: string;
+  clinic?: { name: string; address?: string; phone?: string };
   preSelectedPatient?: { id: string; name: string } | null;
   onClose: () => void;
   onSuccess: () => void;
@@ -45,6 +52,7 @@ interface CreateSessionPackModalProps {
 
 const CreateSessionPackModal: React.FC<CreateSessionPackModalProps> = ({
   clinicId,
+  clinic,
   preSelectedPatient,
   onClose,
   onSuccess
@@ -52,6 +60,7 @@ const CreateSessionPackModal: React.FC<CreateSessionPackModalProps> = ({
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const [packResult, setPackResult] = useState<SessionPackDto | null>(null);
 
   // Templates
   const [templates, setTemplates] = useState<SessionPackTemplateDto[]>([]);
@@ -210,10 +219,8 @@ const CreateSessionPackModal: React.FC<CreateSessionPackModalProps> = ({
       const response = await ApiManager.createSessionPack(data);
 
       if (response.success) {
+        setPackResult(response.data);
         setSuccess(true);
-        setTimeout(() => {
-          onSuccess();
-        }, 1500);
       } else {
         setError(response.error?.message || 'Failed to create session pack');
       }
@@ -238,6 +245,60 @@ const CreateSessionPackModal: React.FC<CreateSessionPackModalProps> = ({
     { value: 'CARD', label: 'Card', icon: CreditCard },
   ];
 
+  const hasPaid = initialPayment && parseFloat(initialPayment) > 0;
+
+  const buildReceiptData = (): ReceiptData | null => {
+    if (!hasPaid || !selectedPatient) return null;
+    const totalAmt = parseFloat(amount);
+    const paidAmt = parseFloat(initialPayment);
+    const sessions = parseInt(totalSessions);
+    const perSession = sessions > 0 ? totalAmt / sessions : 0;
+    const backendReceipt = (packResult as any)?.initial_payment_receipt;
+    return {
+      clinic: clinic || { name: '' },
+      // Use the backend-generated receipt number if available
+      receipt_number: backendReceipt?.receipt_number
+        || (packResult?.id ? `PKT-${packResult.id.slice(-6).toUpperCase()}` : `PKT-${Date.now()}`),
+      payment_date: packResult?.created_at || new Date().toISOString(),
+      patient: {
+        name: selectedPatient.full_name,
+        patient_code: selectedPatient.patient_code || undefined,
+        age: selectedPatient.date_of_birth
+          ? Math.floor((Date.now() - new Date(selectedPatient.date_of_birth).getTime()) / (365.25 * 24 * 60 * 60 * 1000))
+          : undefined,
+        gender: selectedPatient.gender || undefined,
+      },
+      line_items: [{
+        name: name,
+        quantity: 1,
+        rate: totalAmt,
+        amount: totalAmt,
+      }],
+      pack_details: {
+        total_sessions: sessions,
+        per_session_rate: perSession,
+        sessions_used: 0,
+        sessions_remaining: sessions,
+        valid_until: validUntil || undefined,
+      },
+      subtotal: totalAmt,
+      total_amount: totalAmt,
+      amount_paid: paidAmt,
+      balance_due: Math.max(0, totalAmt - paidAmt),
+      payment_method: paymentMethod,
+    };
+  };
+
+  const handlePrintReceipt = () => {
+    const data = buildReceiptData();
+    if (data) printReceipt(data);
+  };
+
+  const handleDownloadReceipt = async () => {
+    const data = buildReceiptData();
+    if (data) await downloadReceiptPDF(data);
+  };
+
   if (success) {
     return (
       <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-[60] p-4">
@@ -246,9 +307,22 @@ const CreateSessionPackModal: React.FC<CreateSessionPackModalProps> = ({
             <CheckCircle className="h-6 w-6 text-purple-600" />
           </div>
           <h3 className="text-sm font-semibold text-gray-900 mb-1">Session Pack Created</h3>
-          <p className="text-xs text-gray-500">
-            {name} with {totalSessions} sessions
+          <p className="text-xs text-gray-500 mb-5">
+            {name} · {totalSessions} sessions
+            {hasPaid ? ` · ₹${parseFloat(initialPayment).toLocaleString('en-IN')} paid` : ''}
           </p>
+          {hasPaid && (
+            <ReceiptButton
+              onPrint={handlePrintReceipt}
+              onDownload={handleDownloadReceipt}
+            />
+          )}
+          <button
+            onClick={onSuccess}
+            className="mt-4 block w-full text-xs text-gray-500 hover:text-gray-700 underline underline-offset-2"
+          >
+            Done, close
+          </button>
         </div>
       </div>
     );

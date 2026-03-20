@@ -169,6 +169,20 @@ export class ApiMethods {
         return this.apiFileRequest('POST', url, file, 'audio', headers)
     }
 
+    static async formDataPost(url: string, formData: FormData, additionalHeaders?: Record<string, string>) {
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                body: formData,
+                headers: getFileHeaders(additionalHeaders),
+            })
+            return await responseMiddleware(response)
+        } catch (error) {
+            console.error('FormData POST Error:', error)
+            throw error
+        }
+    }
+
     static photoPost(url: string, file: File, photoType: 'profile' | 'cover' | 'gallery' | 'signature', caption?: string, headers?: Record<string, string>) {
         return this.apiPhotoRequest('POST', url, file, photoType, caption, headers)
     }

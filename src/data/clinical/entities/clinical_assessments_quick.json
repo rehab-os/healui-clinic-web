@@ -166,6 +166,84 @@
     }
   },
 
+  "region_girth_map": {
+    "knee":     [
+      { "key": "girth_2cm_above_patella",  "label": "2 cm above patella",  "unit": "cm", "note": "Quad bulk" },
+      { "key": "girth_mid_patella",         "label": "Mid-patella",          "unit": "cm", "note": "Joint level" },
+      { "key": "girth_1cm_below_patella",  "label": "1 cm below patella",  "unit": "cm", "note": "Tibial swelling" }
+    ],
+    "ankle":    [
+      { "key": "girth_figure8",            "label": "Figure-of-8",          "unit": "cm", "note": "Total ankle swelling" },
+      { "key": "girth_malleolar",          "label": "Malleolar level",       "unit": "cm", "note": "At malleoli" }
+    ],
+    "foot":     [
+      { "key": "girth_figure8",            "label": "Figure-of-8",          "unit": "cm", "note": "Total ankle/foot swelling" }
+    ],
+    "hip":      [
+      { "key": "girth_thigh_15cm",         "label": "Thigh — 15 cm above patella", "unit": "cm", "note": "Quad bulk" },
+      { "key": "girth_thigh_10cm",         "label": "Thigh — 10 cm above patella", "unit": "cm", "note": "Distal quad" }
+    ],
+    "shoulder": [
+      { "key": "girth_arm_10cm",           "label": "Upper arm — 10 cm above elbow", "unit": "cm", "note": "Deltoid/bicep bulk" }
+    ],
+    "elbow":    [
+      { "key": "girth_elbow_joint",        "label": "Elbow joint level",    "unit": "cm", "note": "Joint swelling" },
+      { "key": "girth_forearm_max",        "label": "Forearm — max circumference", "unit": "cm", "note": "Muscle bulk" }
+    ],
+    "wrist":    [
+      { "key": "girth_wrist_joint",        "label": "Wrist joint level",    "unit": "cm", "note": "Joint swelling" }
+    ],
+    "hand":     [
+      { "key": "girth_wrist_joint",        "label": "Wrist joint level",    "unit": "cm", "note": "Joint swelling" }
+    ]
+  },
+
+  "end_feel_options": ["Capsular", "Soft tissue", "Bony", "Empty (pain-limited)", "Springy"],
+
+  "effusion_tests": {
+    "knee": [
+      { "key": "effusion_patellar_tap",   "label": "Patellar Tap",   "options": ["Negative", "Positive"] },
+      { "key": "effusion_bulge_sign",     "label": "Bulge Sign",     "options": ["Negative", "Positive"] },
+      { "key": "effusion_ballottement",   "label": "Ballottement",   "options": ["Negative", "Positive"] }
+    ],
+    "ankle": [
+      { "key": "effusion_ankle_joint",    "label": "Ankle Joint Effusion", "options": ["Absent", "Mild", "Moderate", "Marked"] }
+    ],
+    "shoulder": [
+      { "key": "effusion_shoulder",       "label": "Shoulder Effusion",    "options": ["Absent", "Present"] }
+    ]
+  },
+
+  "grip_strength_regions": ["shoulder", "elbow", "wrist", "hand"],
+
+  "region_tenderness_map": {
+    "lumbar":    ["L1–L2", "L2–L3", "L3–L4", "L4–L5", "L5–S1", "Left paraspinals", "Right paraspinals", "Left SI joint", "Right SI joint", "Piriformis"],
+    "cervical":  ["C2–C3", "C3–C4", "C4–C5", "C5–C6", "C6–C7", "Left upper trapezius", "Right upper trapezius", "Left levator scapulae", "Right levator scapulae"],
+    "thoracic":  ["T1–T4", "T5–T8", "T8–T12", "Left costotransverse joints", "Right costotransverse joints", "Left paraspinals", "Right paraspinals"],
+    "shoulder":  ["AC joint", "Bicipital groove", "Supraspinatus insertion", "Infraspinatus", "Posterior capsule", "Subcoracoid"],
+    "elbow":     ["Lateral epicondyle", "Medial epicondyle", "Olecranon", "Radial head", "Cubital tunnel"],
+    "wrist":     ["Radial styloid", "Ulnar styloid", "Scaphoid (snuffbox)", "Carpal tunnel", "Thumb CMC base", "Dorsal wrist"],
+    "hand":      ["Radial styloid", "Ulnar styloid", "Scaphoid (snuffbox)", "Carpal tunnel", "Thumb CMC base", "Dorsal wrist"],
+    "hip":       ["Greater trochanter", "Groin / inguinal", "Posterior hip", "Piriformis", "SI joint", "Iliac crest"],
+    "knee":      ["Medial joint line", "Lateral joint line", "Patella", "Patellar tendon", "Quadriceps tendon", "Pes anserine", "Popliteal fossa"],
+    "ankle":     ["Lateral malleolus", "Medial malleolus", "ATFL", "CFL", "Peroneal tendons", "Achilles tendon", "Plantar fascia origin"],
+    "foot":      ["Plantar fascia origin", "Achilles tendon", "Metatarsal heads", "1st MTP joint", "Navicular"]
+  },
+
+  "region_assessment_map": {
+    "shoulder":  ["ASSESS_005", "ASSESS_006", "ASSESS_007", "ASSESS_008", "ASSESS_029", "ASSESS_034", "ASSESS_054"],
+    "lumbar":    ["ASSESS_010", "ASSESS_011", "ASSESS_044", "ASSESS_045", "ASSESS_046", "ASSESS_030"],
+    "cervical":  ["ASSESS_012", "ASSESS_023", "ASSESS_033", "ASSESS_039"],
+    "knee":      ["ASSESS_001", "ASSESS_002", "ASSESS_003", "ASSESS_004", "ASSESS_035", "ASSESS_036", "ASSESS_037"],
+    "ankle":     ["ASSESS_020", "ASSESS_021", "ASSESS_038"],
+    "foot":      ["ASSESS_020", "ASSESS_021", "ASSESS_038"],
+    "hip":       ["ASSESS_013", "ASSESS_014", "ASSESS_015", "ASSESS_016", "ASSESS_032", "ASSESS_055"],
+    "wrist":     ["ASSESS_017", "ASSESS_018", "ASSESS_019", "ASSESS_041", "ASSESS_042"],
+    "hand":      ["ASSESS_017", "ASSESS_018", "ASSESS_019", "ASSESS_041", "ASSESS_042"],
+    "thoracic":  ["ASSESS_050", "ASSESS_051"],
+    "elbow":     []
+  },
+
   "assessments": {
 
     "ASSESS_001": {

@@ -1,0 +1,1422 @@
+{
+ "mri_imaging": [
+  {
+   "id": "MRI_HEAD_001",
+   "modality": "MRI",
+   "region": "head",
+   "region_label": "Head",
+   "label": "MRI Brain",
+   "patient_label": "A scan of your brain to check for any abnormalities causing your symptoms",
+   "indications": [
+    {
+     "id": "MRI_HEAD_001_IND_01",
+     "label": "Persistent unexplained headaches",
+     "referral_text": "MRI Brain — persistent headaches not responding to treatment, to exclude intracranial pathology.",
+     "urgency": "routine",
+     "finds": ["space-occupying lesion", "Chiari malformation", "hydrocephalus"]
+    },
+    {
+     "id": "MRI_HEAD_001_IND_02",
+     "label": "Dizziness with neurological signs",
+     "referral_text": "MRI Brain — dizziness with associated neurological signs to exclude central cause.",
+     "urgency": "urgent",
+     "finds": [
+      "cerebellar lesion",
+      "acoustic neuroma",
+      "demyelination",
+      "posterior fossa tumour"
+     ]
+    },
+    {
+     "id": "MRI_HEAD_001_IND_03",
+     "label": "Suspected cranial nerve pathology",
+     "referral_text": "MRI Brain — cranial nerve dysfunction to exclude compressive or inflammatory lesion.",
+     "urgency": "urgent",
+     "finds": ["trigeminal neuralgia", "acoustic neuroma", "brainstem lesion"]
+    },
+    {
+     "id": "MRI_HEAD_001_IND_04",
+     "label": "Progressive neurological deficit",
+     "referral_text": "MRI Brain — progressive upper motor neurone signs to exclude intracranial pathology.",
+     "urgency": "urgent",
+     "finds": [
+      "brain tumour",
+      "multiple sclerosis plaques",
+      "cerebrovascular disease"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MRI_TMJ_001",
+   "modality": "MRI",
+   "region": "tmj",
+   "region_label": "Temporomandibular Joint",
+   "label": "MRI TMJ",
+   "patient_label": "A scan of your jaw joint to check the disc and surrounding structures",
+   "indications": [
+    {
+     "id": "MRI_TMJ_001_IND_01",
+     "label": "Clicking with jaw locking",
+     "referral_text": "MRI TMJ — clicking and intermittent locking to assess disc position and integrity.",
+     "urgency": "routine",
+     "finds": [
+      "anterior disc displacement with reduction",
+      "anterior disc displacement without reduction",
+      "disc perforation"
+     ]
+    },
+    {
+     "id": "MRI_TMJ_001_IND_02",
+     "label": "Persistent limited jaw opening",
+     "referral_text": "MRI TMJ — restricted mouth opening not responding to conservative management.",
+     "urgency": "routine",
+     "finds": [
+      "disc displacement without reduction",
+      "adhesion",
+      "synovial chondromatosis"
+     ]
+    },
+    {
+     "id": "MRI_TMJ_001_IND_03",
+     "label": "Suspected TMJ inflammatory arthropathy",
+     "referral_text": "MRI TMJ — persistent jaw pain and swelling to exclude inflammatory or degenerative joint disease.",
+     "urgency": "routine",
+     "finds": [
+      "rheumatoid arthritis of TMJ",
+      "joint effusion",
+      "condylar erosion",
+      "synovitis"
+     ]
+    },
+    {
+     "id": "MRI_TMJ_001_IND_04",
+     "label": "Preoperative surgical planning TMJ",
+     "referral_text": "MRI TMJ — failed conservative management, surgical opinion sought, imaging to define disc and joint status.",
+     "urgency": "routine",
+     "finds": [
+      "disc displacement",
+      "condylar degeneration",
+      "adhesive capsulitis of TMJ"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MRI_CERVICAL_SPINE_001",
+   "modality": "MRI",
+   "region": "cervical_spine",
+   "region_label": "Cervical Spine",
+   "label": "MRI Cervical Spine",
+   "patient_label": "A scan of your neck to check the discs, nerves and spinal cord",
+   "indications": [
+    {
+     "id": "MRI_CERVICAL_SPINE_001_IND_01",
+     "label": "Radiculopathy not resolving conservatively",
+     "referral_text": "MRI Cervical Spine — persistent arm pain in a dermatomal pattern with neurological deficit, not improving with physiotherapy.",
+     "urgency": "routine",
+     "finds": [
+      "cervical disc herniation",
+      "foraminal stenosis",
+      "nerve root compression"
+     ]
+    },
+    {
+     "id": "MRI_CERVICAL_SPINE_001_IND_02",
+     "label": "Suspected cervical myelopathy signs",
+     "referral_text": "MRI Cervical Spine — upper motor neurone signs in the limbs suggesting possible cervical cord compression.",
+     "urgency": "urgent",
+     "finds": [
+      "cervical canal stenosis",
+      "cervical myelopathy",
+      "cord signal change",
+      "disc osteophyte complex"
+     ]
+    },
+    {
+     "id": "MRI_CERVICAL_SPINE_001_IND_03",
+     "label": "Neck pain post significant trauma",
+     "referral_text": "MRI Cervical Spine — persistent neck pain following significant trauma to exclude ligamentous or disc injury.",
+     "urgency": "urgent",
+     "finds": [
+      "ligamentous disruption",
+      "traumatic disc herniation",
+      "vertebral body oedema",
+      "posterior ligament complex injury"
+     ]
+    },
+    {
+     "id": "MRI_CERVICAL_SPINE_001_IND_04",
+     "label": "Progressive bilateral arm symptoms",
+     "referral_text": "MRI Cervical Spine — bilateral upper limb paraesthesia and weakness to exclude central cord pathology.",
+     "urgency": "urgent",
+     "finds": [
+      "central disc herniation",
+      "cervical stenosis",
+      "syringomyelia",
+      "demyelination"
+     ]
+    },
+    {
+     "id": "MRI_CERVICAL_SPINE_001_IND_05",
+     "label": "Suspected cervical cord compression",
+     "referral_text": "MRI Cervical Spine — acute gait disturbance with upper motor neurone signs suggestive of cord compression.",
+     "urgency": "emergency",
+     "finds": [
+      "acute cervical cord compression",
+      "epidural abscess",
+      "central disc prolapse"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MRI_CERVICAL_SPINE_002",
+   "modality": "MRI",
+   "region": "cervical_spine",
+   "region_label": "Cervical Spine",
+   "label": "MRI Cervical Spine with Contrast",
+   "patient_label": "A scan of your neck using contrast dye to check for infection, inflammation or tumour",
+   "indications": [
+    {
+     "id": "MRI_CERVICAL_SPINE_002_IND_01",
+     "label": "Suspected spinal infection cervical",
+     "referral_text": "MRI Cervical Spine with contrast — neck pain with fever and raised inflammatory markers to exclude discitis or epidural abscess.",
+     "urgency": "urgent",
+     "finds": ["cervical discitis", "epidural abscess", "osteomyelitis"]
+    },
+    {
+     "id": "MRI_CERVICAL_SPINE_002_IND_02",
+     "label": "Suspected cervical spinal tumour",
+     "referral_text": "MRI Cervical Spine with contrast — progressive neurological deficit with night pain and weight loss to exclude neoplastic cause.",
+     "urgency": "urgent",
+     "finds": [
+      "spinal metastasis",
+      "primary spinal tumour",
+      "intradural lesion"
+     ]
+    },
+    {
+     "id": "MRI_CERVICAL_SPINE_002_IND_03",
+     "label": "Post-surgical cervical spine assessment",
+     "referral_text": "MRI Cervical Spine with contrast — recurrent symptoms post cervical surgery to differentiate scar tissue from recurrent disc herniation.",
+     "urgency": "routine",
+     "finds": [
+      "recurrent disc herniation",
+      "epidural fibrosis",
+      "post-surgical collection"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MRI_THORACIC_SPINE_001",
+   "modality": "MRI",
+   "region": "thoracic_spine",
+   "region_label": "Thoracic Spine",
+   "label": "MRI Thoracic Spine",
+   "patient_label": "A scan of your mid-back to check the discs, spinal cord and vertebrae",
+   "indications": [
+    {
+     "id": "MRI_THORACIC_SPINE_001_IND_01",
+     "label": "Thoracic pain with red flags",
+     "referral_text": "MRI Thoracic Spine — thoracic pain with history of malignancy or unexplained weight loss to exclude spinal metastasis.",
+     "urgency": "urgent",
+     "finds": [
+      "vertebral metastasis",
+      "pathological fracture",
+      "myeloma deposit"
+     ]
+    },
+    {
+     "id": "MRI_THORACIC_SPINE_001_IND_02",
+     "label": "Suspected thoracic cord compression",
+     "referral_text": "MRI Thoracic Spine — progressive lower limb weakness with sensory level and gait disturbance to exclude thoracic cord compression.",
+     "urgency": "emergency",
+     "finds": [
+      "thoracic cord compression",
+      "thoracic disc herniation",
+      "epidural mass"
+     ]
+    },
+    {
+     "id": "MRI_THORACIC_SPINE_001_IND_03",
+     "label": "Thoracic radiculopathy band-like pain",
+     "referral_text": "MRI Thoracic Spine — persistent dermatomal chest or abdominal wall pain to assess for thoracic disc pathology or nerve root compression.",
+     "urgency": "routine",
+     "finds": [
+      "thoracic disc herniation",
+      "foraminal stenosis",
+      "Scheuermann's disease sequelae"
+     ]
+    },
+    {
+     "id": "MRI_THORACIC_SPINE_001_IND_04",
+     "label": "Suspected thoracic compression fracture",
+     "referral_text": "MRI Thoracic Spine — acute onset thoracic pain in an osteoporotic patient to confirm vertebral compression fracture acuity.",
+     "urgency": "urgent",
+     "finds": [
+      "acute vertebral compression fracture",
+      "chronic compression fracture",
+      "pathological fracture",
+      "vertebral body oedema"
+     ]
+    },
+    {
+     "id": "MRI_THORACIC_SPINE_001_IND_05",
+     "label": "Demyelinating disease assessment thoracic",
+     "referral_text": "MRI Thoracic Spine — known or suspected demyelinating disease with new lower limb symptoms.",
+     "urgency": "urgent",
+     "finds": [
+      "demyelinating plaque",
+      "transverse myelitis",
+      "cord signal abnormality"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MRI_LUMBAR_SPINE_001",
+   "modality": "MRI",
+   "region": "lumbar_spine",
+   "region_label": "Lumbar Spine",
+   "label": "MRI Lumbar Spine",
+   "patient_label": "A scan of your lower back to check the discs, nerves and vertebrae",
+   "indications": [
+    {
+     "id": "MRI_LUMBAR_SPINE_001_IND_01",
+     "label": "Sciatica not improving conservatively",
+     "referral_text": "MRI Lumbar Spine — persistent radicular leg pain beyond six weeks not responding to physiotherapy, to identify compressive pathology.",
+     "urgency": "routine",
+     "finds": [
+      "lumbar disc herniation",
+      "lateral recess stenosis",
+      "foraminal stenosis",
+      "nerve root compression"
+     ]
+    },
+    {
+     "id": "MRI_LUMBAR_SPINE_001_IND_02",
+     "label": "Suspected cauda equina syndrome",
+     "referral_text": "MRI Lumbar Spine — saddle anaesthesia, bladder dysfunction or rapidly progressive bilateral leg weakness suggesting cauda equina syndrome.",
+     "urgency": "emergency",
+     "finds": [
+      "large central disc herniation",
+      "cauda equina compression",
+      "epidural haematoma",
+      "epidural abscess"
+     ]
+    },
+    {
+     "id": "MRI_LUMBAR_SPINE_001_IND_03",
+     "label": "Neurogenic claudication suspected stenosis",
+     "referral_text": "MRI Lumbar Spine — bilateral leg symptoms on walking relieved by sitting and flexion, suspected lumbar canal stenosis.",
+     "urgency": "routine",
+     "finds": [
+      "lumbar canal stenosis",
+      "degenerative spondylolisthesis",
+      "ligamentum flavum hypertrophy",
+      "facet joint hypertrophy"
+     ]
+    },
+    {
+     "id": "MRI_LUMBAR_SPINE_001_IND_04",
+     "label": "Progressive neurological deficit leg",
+     "referral_text": "MRI Lumbar Spine — progressive lower limb motor weakness in a myotomal distribution requiring urgent assessment.",
+     "urgency": "urgent",
+     "finds": [
+      "large disc herniation",
+      "sequestrated disc fragment",
+      "nerve root compression"
+     ]
+    },
+    {
+     "id": "MRI_LUMBAR_SPINE_001_IND_05",
+     "label": "Low back pain with red flags",
+     "referral_text": "MRI Lumbar Spine — low back pain with red flags including night pain, weight loss or history of malignancy.",
+     "urgency": "urgent",
+     "finds": [
+      "vertebral metastasis",
+      "pathological fracture",
+      "myeloma",
+      "primary spinal tumour"
+     ]
+    },
+    {
+     "id": "MRI_LUMBAR_SPINE_001_IND_06",
+     "label": "Spondylolisthesis with neurological symptoms",
+     "referral_text": "MRI Lumbar Spine — known spondylolisthesis with new or worsening radicular symptoms to assess nerve root involvement.",
+     "urgency": "routine",
+     "finds": [
+      "spondylolisthesis with stenosis",
+      "pars defect",
+      "disc degeneration at slip level",
+      "nerve root impingement"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MRI_LUMBAR_SPINE_002",
+   "modality": "MRI",
+   "region": "lumbar_spine",
+   "region_label": "Lumbar Spine",
+   "label": "MRI Lumbar Spine with Contrast",
+   "patient_label": "A scan of your lower back using contrast dye to check for infection, tumour or post-surgical changes",
+   "indications": [
+    {
+     "id": "MRI_LUMBAR_SPINE_002_IND_01",
+     "label": "Suspected lumbar spinal infection",
+     "referral_text": "MRI Lumbar Spine with contrast — severe back pain with fever and raised inflammatory markers to exclude discitis or epidural abscess.",
+     "urgency": "urgent",
+     "finds": [
+      "discitis",
+      "vertebral osteomyelitis",
+      "epidural abscess",
+      "psoas abscess"
+     ]
+    },
+    {
+     "id": "MRI_LUMBAR_SPINE_002_IND_02",
+     "label": "Post-surgical recurrent lumbar symptoms",
+     "referral_text": "MRI Lumbar Spine with contrast — recurrent radiculopathy post lumbar surgery to differentiate scar from recurrent disc herniation.",
+     "urgency": "routine",
+     "finds": [
+      "recurrent disc herniation",
+      "epidural fibrosis",
+      "post-operative seroma"
+     ]
+    },
+    {
+     "id": "MRI_LUMBAR_SPINE_002_IND_03",
+     "label": "Suspected spinal tumour lumbar",
+     "referral_text": "MRI Lumbar Spine with contrast — persistent back pain with nocturnal symptoms and constitutional signs to exclude neoplasm.",
+     "urgency": "urgent",
+     "finds": [
+      "spinal metastasis",
+      "intradural tumour",
+      "nerve sheath tumour",
+      "ependymoma"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MRI_SACRUM_001",
+   "modality": "MRI",
+   "region": "sacrum",
+   "region_label": "Sacrum",
+   "label": "MRI Sacrum",
+   "patient_label": "A scan of the triangular bone at the base of your spine",
+   "indications": [
+    {
+     "id": "MRI_SACRUM_001_IND_01",
+     "label": "Suspected sacral stress fracture",
+     "referral_text": "MRI Sacrum — localised sacral pain in a runner or osteoporotic patient to confirm or exclude sacral stress fracture.",
+     "urgency": "routine",
+     "finds": [
+      "sacral insufficiency fracture",
+      "sacral stress fracture",
+      "bone marrow oedema"
+     ]
+    },
+    {
+     "id": "MRI_SACRUM_001_IND_02",
+     "label": "Coccydynia not responding treatment",
+     "referral_text": "MRI Sacrum — persistent coccyx pain despite conservative management to exclude fracture or underlying pathology.",
+     "urgency": "routine",
+     "finds": [
+      "coccyx fracture",
+      "coccygeal instability",
+      "pre-sacral mass",
+      "Tarlov cyst"
+     ]
+    },
+    {
+     "id": "MRI_SACRUM_001_IND_03",
+     "label": "Suspected sacral tumour",
+     "referral_text": "MRI Sacrum — unexplained sacral pain with neurological symptoms and constitutional signs to exclude sacral tumour.",
+     "urgency": "urgent",
+     "finds": [
+      "sacral chordoma",
+      "giant cell tumour",
+      "metastatic deposit",
+      "Ewing sarcoma"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MRI_SI_JOINT_001",
+   "modality": "MRI",
+   "region": "si_joint",
+   "region_label": "Sacroiliac Joint",
+   "label": "MRI Sacroiliac Joints",
+   "patient_label": "A scan of the joints between your lower spine and pelvis to check for inflammation",
+   "indications": [
+    {
+     "id": "MRI_SI_JOINT_001_IND_01",
+     "label": "Suspected inflammatory sacroiliitis",
+     "referral_text": "MRI Sacroiliac Joints — buttock pain with inflammatory pattern and morning stiffness in a young adult to assess for sacroiliitis.",
+     "urgency": "routine",
+     "finds": [
+      "sacroiliac bone marrow oedema",
+      "sacroiliitis",
+      "erosive change",
+      "ankylosis"
+     ]
+    },
+    {
+     "id": "MRI_SI_JOINT_001_IND_02",
+     "label": "Suspected axial spondyloarthropathy",
+     "referral_text": "MRI Sacroiliac Joints — chronic low back pain with inflammatory features, raised HLA-B27, to support diagnosis of axial spondyloarthropathy.",
+     "urgency": "routine",
+     "finds": [
+      "active sacroiliitis",
+      "structural sacroiliac erosion",
+      "fat metaplasia",
+      "joint ankylosis"
+     ]
+    },
+    {
+     "id": "MRI_SI_JOINT_001_IND_03",
+     "label": "SIJ pain post-partum persistent",
+     "referral_text": "MRI Sacroiliac Joints — persistent post-partum sacroiliac pain beyond six months to assess joint integrity and exclude stress injury.",
+     "urgency": "routine",
+     "finds": [
+      "sacroiliac joint oedema",
+      "stress fracture sacrum",
+      "osteitis condensans ilii",
+      "pubic symphysis instability"
+     ]
+    },
+    {
+     "id": "MRI_SI_JOINT_001_IND_04",
+     "label": "Suspected SIJ infection",
+     "referral_text": "MRI Sacroiliac Joints — unilateral SIJ pain with fever and raised inflammatory markers to exclude septic arthritis.",
+     "urgency": "urgent",
+     "finds": ["septic sacroiliitis", "periarticular abscess", "osteomyelitis"]
+    }
+   ]
+  },
+  {
+   "id": "MRI_RIBS_001",
+   "modality": "MRI",
+   "region": "ribs",
+   "region_label": "Ribs",
+   "label": "MRI Ribs / Chest Wall",
+   "patient_label": "A scan of your ribs and chest wall to check for injury or other problems",
+   "indications": [
+    {
+     "id": "MRI_RIBS_001_IND_01",
+     "label": "Suspected rib stress fracture",
+     "referral_text": "MRI Ribs — localised rib pain in an athlete with negative X-ray to confirm or exclude stress fracture.",
+     "urgency": "routine",
+     "finds": [
+      "rib stress fracture",
+      "bone marrow oedema",
+      "periosteal reaction"
+     ]
+    },
+    {
+     "id": "MRI_RIBS_001_IND_02",
+     "label": "Chest wall mass palpable",
+     "referral_text": "MRI Ribs — palpable chest wall mass to characterise soft tissue or bony lesion.",
+     "urgency": "urgent",
+     "finds": [
+      "chest wall tumour",
+      "lipoma",
+      "rib lesion",
+      "soft tissue sarcoma"
+     ]
+    },
+    {
+     "id": "MRI_RIBS_001_IND_03",
+     "label": "Persistent rib pain post trauma",
+     "referral_text": "MRI Ribs — ongoing rib pain after trauma with negative X-ray to assess for occult fracture or costochondral injury.",
+     "urgency": "routine",
+     "finds": [
+      "occult rib fracture",
+      "costochondral junction injury",
+      "intercostal muscle tear"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MRI_PELVIS_001",
+   "modality": "MRI",
+   "region": "pelvis",
+   "region_label": "Pelvis",
+   "label": "MRI Pelvis",
+   "patient_label": "A scan of your pelvic bones and surrounding muscles",
+   "indications": [
+    {
+     "id": "MRI_PELVIS_001_IND_01",
+     "label": "Suspected pelvic stress fracture",
+     "referral_text": "MRI Pelvis — activity-related pelvic pain in a distance runner or osteoporotic patient to exclude stress fracture.",
+     "urgency": "routine",
+     "finds": [
+      "pubic ramus stress fracture",
+      "femoral neck stress fracture",
+      "sacral stress fracture",
+      "bone marrow oedema"
+     ]
+    },
+    {
+     "id": "MRI_PELVIS_001_IND_02",
+     "label": "Athletic groin pain complex",
+     "referral_text": "MRI Pelvis — chronic groin pain in an athlete to assess pubic symphysis, adductor insertions and surrounding structures.",
+     "urgency": "routine",
+     "finds": [
+      "pubic bone stress injury",
+      "adductor enthesopathy",
+      "osteitis pubis",
+      "rectus abdominis injury"
+     ]
+    },
+    {
+     "id": "MRI_PELVIS_001_IND_03",
+     "label": "Suspected avulsion injury pelvis",
+     "referral_text": "MRI Pelvis — acute onset pain at a bony prominence in an adolescent athlete to confirm avulsion injury.",
+     "urgency": "routine",
+     "finds": [
+      "ischial tuberosity avulsion",
+      "ASIS avulsion",
+      "AIIS avulsion",
+      "iliac crest apophyseal injury"
+     ]
+    },
+    {
+     "id": "MRI_PELVIS_001_IND_04",
+     "label": "Pelvic pain suspected bony pathology",
+     "referral_text": "MRI Pelvis — persistent unexplained pelvic bone pain to exclude tumour or occult fracture.",
+     "urgency": "urgent",
+     "finds": [
+      "pelvic bone metastasis",
+      "primary bone tumour",
+      "osteoid osteoma",
+      "Paget disease"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MRI_SHOULDER_001",
+   "modality": "MRI",
+   "region": "shoulder",
+   "region_label": "Shoulder",
+   "label": "MRI Shoulder",
+   "patient_label": "A scan of your shoulder to check the tendons, labrum and joint",
+   "indications": [
+    {
+     "id": "MRI_SHOULDER_001_IND_01",
+     "label": "Suspected rotator cuff tear",
+     "referral_text": "MRI Shoulder — persistent shoulder weakness and pain not responding to rehabilitation, suspected rotator cuff tear.",
+     "urgency": "routine",
+     "finds": [
+      "partial-thickness rotator cuff tear",
+      "full-thickness rotator cuff tear",
+      "tendinopathy",
+      "muscle atrophy"
+     ]
+    },
+    {
+     "id": "MRI_SHOULDER_001_IND_02",
+     "label": "Recurrent shoulder instability assessment",
+     "referral_text": "MRI Shoulder — recurrent shoulder dislocations or subluxations to assess labral and capsular integrity.",
+     "urgency": "routine",
+     "finds": [
+      "Bankart lesion",
+      "Hill-Sachs lesion",
+      "labral tear",
+      "capsular laxity"
+     ]
+    },
+    {
+     "id": "MRI_SHOULDER_001_IND_03",
+     "label": "Acute traumatic rotator cuff injury",
+     "referral_text": "MRI Shoulder — acute inability to raise arm following a fall or trauma in a patient over 40, suspected acute rotator cuff tear.",
+     "urgency": "urgent",
+     "finds": [
+      "acute full-thickness rotator cuff tear",
+      "greater tuberosity fracture",
+      "subscapularis tear"
+     ]
+    },
+    {
+     "id": "MRI_SHOULDER_001_IND_04",
+     "label": "Shoulder pain suspect labral pathology",
+     "referral_text": "MRI Shoulder — deep shoulder pain with clicking, positive labral tests, to assess for SLAP or labral tear.",
+     "urgency": "routine",
+     "finds": [
+      "SLAP lesion",
+      "posterior labral tear",
+      "paralabral cyst",
+      "biceps anchor pathology"
+     ]
+    },
+    {
+     "id": "MRI_SHOULDER_001_IND_05",
+     "label": "Frozen shoulder atypical features",
+     "referral_text": "MRI Shoulder — restricted shoulder with atypical features or failure to progress to exclude underlying structural pathology.",
+     "urgency": "routine",
+     "finds": [
+      "adhesive capsulitis",
+      "rotator cuff tear",
+      "avascular necrosis humeral head",
+      "occult fracture"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MRI_UPPER_ARM_001",
+   "modality": "MRI",
+   "region": "upper_arm",
+   "region_label": "Upper Arm",
+   "label": "MRI Upper Arm / Humerus",
+   "patient_label": "A scan of your upper arm to check the bone, muscles and tendons",
+   "indications": [
+    {
+     "id": "MRI_UPPER_ARM_001_IND_01",
+     "label": "Suspected humeral stress fracture",
+     "referral_text": "MRI Upper Arm — localised humeral shaft pain in a throwing athlete or military recruit to exclude stress fracture.",
+     "urgency": "routine",
+     "finds": [
+      "humeral stress fracture",
+      "bone marrow oedema",
+      "periosteal reaction"
+     ]
+    },
+    {
+     "id": "MRI_UPPER_ARM_001_IND_02",
+     "label": "Soft tissue mass upper arm",
+     "referral_text": "MRI Upper Arm — palpable mass in the upper arm to characterise soft tissue lesion.",
+     "urgency": "urgent",
+     "finds": [
+      "lipoma",
+      "soft tissue sarcoma",
+      "intramuscular haematoma",
+      "myositis ossificans"
+     ]
+    },
+    {
+     "id": "MRI_UPPER_ARM_001_IND_03",
+     "label": "Suspected biceps or triceps tear",
+     "referral_text": "MRI Upper Arm — acute pain and deformity after forceful contraction to confirm proximal biceps or triceps tendon rupture.",
+     "urgency": "urgent",
+     "finds": [
+      "proximal biceps tendon rupture",
+      "triceps tendon tear",
+      "muscle belly tear"
+     ]
+    },
+    {
+     "id": "MRI_UPPER_ARM_001_IND_04",
+     "label": "Unexplained upper arm bone pain",
+     "referral_text": "MRI Upper Arm — persistent unexplained bone pain in the humerus to exclude tumour or occult pathology.",
+     "urgency": "urgent",
+     "finds": [
+      "bone metastasis",
+      "primary bone tumour",
+      "enchondroma",
+      "pathological fracture risk"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MRI_ELBOW_001",
+   "modality": "MRI",
+   "region": "elbow",
+   "region_label": "Elbow",
+   "label": "MRI Elbow",
+   "patient_label": "A scan of your elbow to check the ligaments, tendons and joint",
+   "indications": [
+    {
+     "id": "MRI_ELBOW_001_IND_01",
+     "label": "Chronic lateral elbow pain refractory",
+     "referral_text": "MRI Elbow — lateral epicondylalgia not responding to six months of physiotherapy to assess tendon integrity and exclude intra-articular pathology.",
+     "urgency": "routine",
+     "finds": [
+      "common extensor tendon tear",
+      "lateral collateral ligament injury",
+      "intra-articular loose body",
+      "plica"
+     ]
+    },
+    {
+     "id": "MRI_ELBOW_001_IND_02",
+     "label": "Suspected UCL injury throwing athlete",
+     "referral_text": "MRI Elbow — medial elbow pain in a throwing athlete with valgus instability to assess ulnar collateral ligament.",
+     "urgency": "routine",
+     "finds": [
+      "ulnar collateral ligament tear",
+      "UCL partial tear",
+      "medial epicondyle stress reaction",
+      "ulnar nerve subluxation"
+     ]
+    },
+    {
+     "id": "MRI_ELBOW_001_IND_03",
+     "label": "Locking elbow suspected loose body",
+     "referral_text": "MRI Elbow — mechanical locking and catching of the elbow to identify intra-articular loose body.",
+     "urgency": "routine",
+     "finds": [
+      "loose body",
+      "osteochondritis dissecans",
+      "synovial chondromatosis",
+      "olecranon osteophyte"
+     ]
+    },
+    {
+     "id": "MRI_ELBOW_001_IND_04",
+     "label": "Distal biceps tendon injury suspected",
+     "referral_text": "MRI Elbow — acute anterior elbow pain and weakness of supination following forceful lifting to assess distal biceps tendon.",
+     "urgency": "urgent",
+     "finds": [
+      "distal biceps tendon rupture",
+      "partial distal biceps tear",
+      "bicipitoradial bursitis"
+     ]
+    },
+    {
+     "id": "MRI_ELBOW_001_IND_05",
+     "label": "Ulnar nerve symptoms at elbow",
+     "referral_text": "MRI Elbow — persistent medial elbow pain with ring and little finger paraesthesia to assess cubital tunnel and ulnar nerve.",
+     "urgency": "routine",
+     "finds": [
+      "cubital tunnel syndrome",
+      "ulnar nerve thickening",
+      "ganglion cyst cubital tunnel",
+      "ulnar nerve subluxation"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MRI_FOREARM_001",
+   "modality": "MRI",
+   "region": "forearm",
+   "region_label": "Forearm",
+   "label": "MRI Forearm",
+   "patient_label": "A scan of your forearm to check the bones, muscles and tendons",
+   "indications": [
+    {
+     "id": "MRI_FOREARM_001_IND_01",
+     "label": "Suspected forearm stress fracture",
+     "referral_text": "MRI Forearm — localised forearm pain in a gymnast or racquet sport athlete with negative X-ray to exclude stress fracture.",
+     "urgency": "routine",
+     "finds": [
+      "ulnar stress fracture",
+      "radial stress fracture",
+      "bone marrow oedema"
+     ]
+    },
+    {
+     "id": "MRI_FOREARM_001_IND_02",
+     "label": "Forearm compartment syndrome chronic",
+     "referral_text": "MRI Forearm — exertional forearm pain and tightness in a climber or motorcyclist to assess for chronic exertional compartment syndrome.",
+     "urgency": "routine",
+     "finds": [
+      "muscle oedema",
+      "compartment swelling",
+      "chronic exertional compartment syndrome"
+     ]
+    },
+    {
+     "id": "MRI_FOREARM_001_IND_03",
+     "label": "Soft tissue mass forearm",
+     "referral_text": "MRI Forearm — palpable forearm mass to characterise lesion and plan management.",
+     "urgency": "urgent",
+     "finds": [
+      "ganglion cyst",
+      "lipoma",
+      "soft tissue sarcoma",
+      "nerve sheath tumour"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MRI_WRIST_001",
+   "modality": "MRI",
+   "region": "wrist",
+   "region_label": "Wrist",
+   "label": "MRI Wrist",
+   "patient_label": "A scan of your wrist to check the small bones, ligaments and tendons",
+   "indications": [
+    {
+     "id": "MRI_WRIST_001_IND_01",
+     "label": "Suspected scaphoid fracture occult",
+     "referral_text": "MRI Wrist — clinical suspicion of scaphoid fracture with negative initial X-rays to confirm or exclude fracture.",
+     "urgency": "urgent",
+     "finds": [
+      "scaphoid fracture",
+      "scaphoid bone bruise",
+      "other carpal fracture",
+      "scapholunate ligament injury"
+     ]
+    },
+    {
+     "id": "MRI_WRIST_001_IND_02",
+     "label": "Scaphoid avascular necrosis suspected",
+     "referral_text": "MRI Wrist — previous scaphoid fracture with ongoing pain to assess for avascular necrosis.",
+     "urgency": "routine",
+     "finds": [
+      "scaphoid avascular necrosis",
+      "scaphoid non-union",
+      "degenerative change"
+     ]
+    },
+    {
+     "id": "MRI_WRIST_001_IND_03",
+     "label": "Chronic ulnar-sided wrist pain",
+     "referral_text": "MRI Wrist — persistent ulnar-sided wrist pain to assess TFCC and ulnocarpal structures.",
+     "urgency": "routine",
+     "finds": [
+      "TFCC tear",
+      "ulnocarpal abutment",
+      "extensor carpi ulnaris tendinopathy",
+      "lunotriquetral ligament tear"
+     ]
+    },
+    {
+     "id": "MRI_WRIST_001_IND_04",
+     "label": "Suspected carpal ligament instability",
+     "referral_text": "MRI Wrist — wrist pain with clicking and weakness following a fall to assess scapholunate and intrinsic ligament integrity.",
+     "urgency": "routine",
+     "finds": [
+      "scapholunate ligament tear",
+      "lunotriquetral ligament tear",
+      "carpal instability"
+     ]
+    },
+    {
+     "id": "MRI_WRIST_001_IND_05",
+     "label": "Suspected Kienböck disease",
+     "referral_text": "MRI Wrist — progressive dorsal wrist pain with reduced grip strength to assess lunate vascularity.",
+     "urgency": "routine",
+     "finds": [
+      "Kienböck disease",
+      "lunate avascular necrosis",
+      "lunate marrow signal change"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MRI_HAND_001",
+   "modality": "MRI",
+   "region": "hand",
+   "region_label": "Hand",
+   "label": "MRI Hand",
+   "patient_label": "A scan of your hand to check the small bones, joints and soft tissues",
+   "indications": [
+    {
+     "id": "MRI_HAND_001_IND_01",
+     "label": "Suspected inflammatory arthritis hands",
+     "referral_text": "MRI Hand — symmetrical small joint pain and swelling with raised inflammatory markers to assess for early inflammatory arthropathy.",
+     "urgency": "routine",
+     "finds": ["synovitis", "bone marrow oedema", "erosion", "tenosynovitis"]
+    },
+    {
+     "id": "MRI_HAND_001_IND_02",
+     "label": "Suspected finger pulley injury",
+     "referral_text": "MRI Hand — acute finger pain in a rock climber with bowstringing to confirm pulley rupture.",
+     "urgency": "routine",
+     "finds": [
+      "A2 pulley rupture",
+      "flexor tendon bowstringing",
+      "partial pulley tear"
+     ]
+    },
+    {
+     "id": "MRI_HAND_001_IND_03",
+     "label": "Occult metacarpal or phalangeal fracture",
+     "referral_text": "MRI Hand — persistent post-traumatic hand pain with negative X-ray to exclude occult fracture.",
+     "urgency": "routine",
+     "finds": [
+      "occult fracture",
+      "bone bruise",
+      "collateral ligament injury",
+      "volar plate injury"
+     ]
+    },
+    {
+     "id": "MRI_HAND_001_IND_04",
+     "label": "Soft tissue mass hand",
+     "referral_text": "MRI Hand — palpable hand mass to characterise lesion and plan further management.",
+     "urgency": "routine",
+     "finds": [
+      "ganglion cyst",
+      "giant cell tumour of tendon sheath",
+      "glomus tumour",
+      "epidermal inclusion cyst"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MRI_HIP_001",
+   "modality": "MRI",
+   "region": "hip",
+   "region_label": "Hip",
+   "label": "MRI Hip",
+   "patient_label": "A scan of your hip joint to check the bone, cartilage, labrum and tendons",
+   "indications": [
+    {
+     "id": "MRI_HIP_001_IND_01",
+     "label": "Suspected labral tear hip",
+     "referral_text": "MRI Hip — deep groin pain with clicking and positive impingement tests to assess labrum and joint.",
+     "urgency": "routine",
+     "finds": [
+      "labral tear",
+      "femoroacetabular impingement",
+      "cartilage damage",
+      "paralabral cyst"
+     ]
+    },
+    {
+     "id": "MRI_HIP_001_IND_02",
+     "label": "Suspected femoral neck stress fracture",
+     "referral_text": "MRI Hip — activity-related groin pain in a runner or military recruit with positive hop test to exclude femoral neck stress fracture.",
+     "urgency": "urgent",
+     "finds": [
+      "femoral neck stress fracture",
+      "bone marrow oedema",
+      "complete fracture line"
+     ]
+    },
+    {
+     "id": "MRI_HIP_001_IND_03",
+     "label": "Suspected avascular necrosis femoral head",
+     "referral_text": "MRI Hip — progressive hip pain with risk factors for AVN to assess femoral head vascularity.",
+     "urgency": "urgent",
+     "finds": [
+      "avascular necrosis femoral head",
+      "subchondral collapse",
+      "bone marrow oedema"
+     ]
+    },
+    {
+     "id": "MRI_HIP_001_IND_04",
+     "label": "Hip pain in child limping",
+     "referral_text": "MRI Hip — atraumatic limp and hip pain in a child to exclude Perthes disease, SUFE or transient synovitis.",
+     "urgency": "urgent",
+     "finds": [
+      "Legg-Calvé-Perthes disease",
+      "slipped upper femoral epiphysis",
+      "transient synovitis",
+      "septic arthritis"
+     ]
+    },
+    {
+     "id": "MRI_HIP_001_IND_05",
+     "label": "Gluteal tendinopathy refractory to treatment",
+     "referral_text": "MRI Hip — persistent lateral hip pain not responding to exercise rehabilitation to assess gluteal tendons and trochanteric bursa.",
+     "urgency": "routine",
+     "finds": [
+      "gluteus medius tendinopathy",
+      "gluteus medius tear",
+      "trochanteric bursitis",
+      "gluteus minimus tear"
+     ]
+    },
+    {
+     "id": "MRI_HIP_001_IND_06",
+     "label": "Suspected occult hip fracture elderly",
+     "referral_text": "MRI Hip — unable to weight-bear after a fall with negative X-ray in an elderly patient to exclude occult hip fracture.",
+     "urgency": "urgent",
+     "finds": [
+      "occult neck of femur fracture",
+      "intertrochanteric fracture",
+      "pubic ramus fracture",
+      "pelvic insufficiency fracture"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MRI_THIGH_001",
+   "modality": "MRI",
+   "region": "thigh",
+   "region_label": "Thigh",
+   "label": "MRI Thigh",
+   "patient_label": "A scan of your thigh to check the muscles, tendons and bone",
+   "indications": [
+    {
+     "id": "MRI_THIGH_001_IND_01",
+     "label": "Hamstring tear grading return to sport",
+     "referral_text": "MRI Thigh — acute hamstring injury in a competitive athlete to grade tear and guide return-to-sport timeline.",
+     "urgency": "routine",
+     "finds": [
+      "hamstring muscle tear",
+      "tendon avulsion",
+      "intramuscular haematoma",
+      "myotendinous junction tear"
+     ]
+    },
+    {
+     "id": "MRI_THIGH_001_IND_02",
+     "label": "Proximal hamstring tendon avulsion",
+     "referral_text": "MRI Thigh — acute severe posterior thigh pain with bruising extending to the knee, suspected proximal hamstring avulsion.",
+     "urgency": "urgent",
+     "finds": [
+      "proximal hamstring tendon avulsion",
+      "ischial tuberosity avulsion",
+      "complete tendon rupture"
+     ]
+    },
+    {
+     "id": "MRI_THIGH_001_IND_03",
+     "label": "Quadriceps injury assessment athlete",
+     "referral_text": "MRI Thigh — acute anterior thigh pain after sprinting to assess rectus femoris and quadriceps integrity.",
+     "urgency": "routine",
+     "finds": [
+      "rectus femoris tear",
+      "central tendon injury",
+      "intramuscular haematoma",
+      "myositis ossificans"
+     ]
+    },
+    {
+     "id": "MRI_THIGH_001_IND_04",
+     "label": "Thigh mass or swelling unexplained",
+     "referral_text": "MRI Thigh — palpable or enlarging thigh mass to characterise soft tissue lesion.",
+     "urgency": "urgent",
+     "finds": [
+      "soft tissue sarcoma",
+      "intramuscular lipoma",
+      "myositis ossificans",
+      "haematoma"
+     ]
+    },
+    {
+     "id": "MRI_THIGH_001_IND_05",
+     "label": "Suspected femoral shaft stress fracture",
+     "referral_text": "MRI Thigh — progressive activity-related thigh pain in an endurance athlete with negative X-ray to exclude femoral stress fracture.",
+     "urgency": "urgent",
+     "finds": [
+      "femoral shaft stress fracture",
+      "bone marrow oedema",
+      "periosteal reaction"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MRI_KNEE_001",
+   "modality": "MRI",
+   "region": "knee",
+   "region_label": "Knee",
+   "label": "MRI Knee",
+   "patient_label": "A scan of your knee to check the ligaments, cartilage and meniscus",
+   "indications": [
+    {
+     "id": "MRI_KNEE_001_IND_01",
+     "label": "Suspected ACL tear",
+     "referral_text": "MRI Knee — suspected ACL tear with giving way and positive Lachman test following a twisting injury.",
+     "urgency": "routine",
+     "finds": [
+      "ACL rupture",
+      "bone bruise",
+      "associated meniscal tear",
+      "MCL sprain"
+     ]
+    },
+    {
+     "id": "MRI_KNEE_001_IND_02",
+     "label": "Suspected meniscal tear locking",
+     "referral_text": "MRI Knee — mechanical locking and joint line tenderness suggestive of meniscal tear.",
+     "urgency": "routine",
+     "finds": [
+      "medial meniscal tear",
+      "lateral meniscal tear",
+      "bucket-handle meniscal tear",
+      "meniscal cyst"
+     ]
+    },
+    {
+     "id": "MRI_KNEE_001_IND_03",
+     "label": "Multi-ligament knee injury",
+     "referral_text": "MRI Knee — acute knee dislocation or multi-directional instability to assess all ligament and neurovascular structures.",
+     "urgency": "urgent",
+     "finds": [
+      "ACL tear",
+      "PCL tear",
+      "posterolateral corner injury",
+      "MCL tear"
+     ]
+    },
+    {
+     "id": "MRI_KNEE_001_IND_04",
+     "label": "Persistent knee effusion investigation",
+     "referral_text": "MRI Knee — recurrent or persistent knee effusion not explained by clinical findings to exclude intra-articular pathology.",
+     "urgency": "routine",
+     "finds": [
+      "meniscal tear",
+      "chondral defect",
+      "pigmented villonodular synovitis",
+      "loose body"
+     ]
+    },
+    {
+     "id": "MRI_KNEE_001_IND_05",
+     "label": "Suspected osteochondral defect knee",
+     "referral_text": "MRI Knee — localised knee pain with catching, suspected osteochondral lesion or osteochondritis dissecans.",
+     "urgency": "routine",
+     "finds": [
+      "osteochondral defect",
+      "osteochondritis dissecans",
+      "chondral flap",
+      "subchondral cyst"
+     ]
+    },
+    {
+     "id": "MRI_KNEE_001_IND_06",
+     "label": "Patellofemoral pain refractory assessment",
+     "referral_text": "MRI Knee — persistent anterior knee pain with suspected patellar cartilage damage or instability not responding to rehabilitation.",
+     "urgency": "routine",
+     "finds": [
+      "patellar chondromalacia",
+      "lateral patellar tilt",
+      "MPFL injury",
+      "patella alta"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MRI_LOWER_LEG_001",
+   "modality": "MRI",
+   "region": "lower_leg",
+   "region_label": "Lower Leg",
+   "label": "MRI Lower Leg / Tibia",
+   "patient_label": "A scan of your shin and calf to check the bones, muscles and tendons",
+   "indications": [
+    {
+     "id": "MRI_LOWER_LEG_001_IND_01",
+     "label": "Suspected tibial stress fracture",
+     "referral_text": "MRI Lower Leg — localised tibial pain with hopping pain in a runner to confirm or exclude stress fracture.",
+     "urgency": "urgent",
+     "finds": [
+      "tibial stress fracture",
+      "bone marrow oedema",
+      "periosteal oedema",
+      "stress reaction"
+     ]
+    },
+    {
+     "id": "MRI_LOWER_LEG_001_IND_02",
+     "label": "Achilles tendon rupture assessment",
+     "referral_text": "MRI Lower Leg — acute calf pain with positive Thompson test and palpable gap to confirm Achilles tendon rupture and measure gap.",
+     "urgency": "urgent",
+     "finds": [
+      "complete Achilles tendon rupture",
+      "partial Achilles tear",
+      "plantaris rupture"
+     ]
+    },
+    {
+     "id": "MRI_LOWER_LEG_001_IND_03",
+     "label": "Chronic Achilles tendinopathy refractory",
+     "referral_text": "MRI Lower Leg — persistent Achilles tendon pain beyond three months of rehabilitation to assess tendon structure.",
+     "urgency": "routine",
+     "finds": [
+      "Achilles tendinopathy",
+      "insertional calcific tendinopathy",
+      "partial tendon tear",
+      "retrocalcaneal bursitis"
+     ]
+    },
+    {
+     "id": "MRI_LOWER_LEG_001_IND_04",
+     "label": "Calf muscle tear grading",
+     "referral_text": "MRI Lower Leg — significant calf muscle injury in an athlete to grade tear and plan rehabilitation.",
+     "urgency": "routine",
+     "finds": [
+      "gastrocnemius tear",
+      "soleus tear",
+      "plantaris rupture",
+      "intramuscular haematoma"
+     ]
+    },
+    {
+     "id": "MRI_LOWER_LEG_001_IND_05",
+     "label": "Chronic exertional compartment syndrome",
+     "referral_text": "MRI Lower Leg — exertional lower leg pain and tightness reproducible with exercise to assess for chronic exertional compartment syndrome.",
+     "urgency": "routine",
+     "finds": [
+      "muscle oedema post-exercise",
+      "chronic exertional compartment syndrome",
+      "tibial stress reaction"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MRI_ANKLE_001",
+   "modality": "MRI",
+   "region": "ankle",
+   "region_label": "Ankle",
+   "label": "MRI Ankle",
+   "patient_label": "A scan of your ankle to check the ligaments, tendons and joint",
+   "indications": [
+    {
+     "id": "MRI_ANKLE_001_IND_01",
+     "label": "Chronic ankle instability assessment",
+     "referral_text": "MRI Ankle — recurrent ankle sprains with persistent instability to assess ligament integrity and osteochondral status.",
+     "urgency": "routine",
+     "finds": [
+      "ATFL tear",
+      "CFL tear",
+      "osteochondral lesion talus",
+      "peroneal tendon subluxation"
+     ]
+    },
+    {
+     "id": "MRI_ANKLE_001_IND_02",
+     "label": "Suspected osteochondral lesion talus",
+     "referral_text": "MRI Ankle — persistent deep ankle pain after inversion injury to assess for osteochondral lesion of the talus.",
+     "urgency": "routine",
+     "finds": [
+      "osteochondral lesion talus",
+      "talar dome fracture",
+      "subchondral cyst",
+      "loose body"
+     ]
+    },
+    {
+     "id": "MRI_ANKLE_001_IND_03",
+     "label": "Posterior ankle impingement suspected",
+     "referral_text": "MRI Ankle — posterior ankle pain on plantarflexion in a dancer or footballer to assess for posterior impingement.",
+     "urgency": "routine",
+     "finds": [
+      "os trigonum syndrome",
+      "posterior talar process fracture",
+      "FHL tenosynovitis",
+      "posterior capsular impingement"
+     ]
+    },
+    {
+     "id": "MRI_ANKLE_001_IND_04",
+     "label": "Peroneal tendon pathology suspected",
+     "referral_text": "MRI Ankle — lateral ankle pain with peroneal weakness and swelling to assess peroneal tendon integrity.",
+     "urgency": "routine",
+     "finds": [
+      "peroneal tendon tear",
+      "peroneal tendon subluxation",
+      "peroneus brevis split tear",
+      "superior peroneal retinaculum injury"
+     ]
+    },
+    {
+     "id": "MRI_ANKLE_001_IND_05",
+     "label": "Anterior ankle impingement persistent",
+     "referral_text": "MRI Ankle — anterior ankle pain with restricted dorsiflexion and anterior joint line tenderness to assess for impingement.",
+     "urgency": "routine",
+     "finds": [
+      "anterior tibiotalar osteophyte",
+      "anterior capsular thickening",
+      "synovial impingement",
+      "loose body"
+     ]
+    },
+    {
+     "id": "MRI_ANKLE_001_IND_06",
+     "label": "Suspected syndesmosis injury high ankle",
+     "referral_text": "MRI Ankle — high ankle sprain with positive squeeze and external rotation tests to assess syndesmosis integrity.",
+     "urgency": "urgent",
+     "finds": [
+      "anterior inferior tibiofibular ligament tear",
+      "syndesmosis disruption",
+      "interosseous membrane injury",
+      "deltoid ligament injury"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MRI_FOOT_001",
+   "modality": "MRI",
+   "region": "foot",
+   "region_label": "Foot",
+   "label": "MRI Foot",
+   "patient_label": "A scan of your foot to check the bones, joints and soft tissues",
+   "indications": [
+    {
+     "id": "MRI_FOOT_001_IND_01",
+     "label": "Suspected metatarsal stress fracture",
+     "referral_text": "MRI Foot — localised metatarsal pain in an athlete or military recruit with negative X-ray to exclude stress fracture.",
+     "urgency": "routine",
+     "finds": [
+      "metatarsal stress fracture",
+      "bone marrow oedema",
+      "navicular stress fracture"
+     ]
+    },
+    {
+     "id": "MRI_FOOT_001_IND_02",
+     "label": "Suspected navicular stress fracture",
+     "referral_text": "MRI Foot — midfoot pain aggravated by push-off in an athletic patient to exclude navicular stress fracture.",
+     "urgency": "urgent",
+     "finds": [
+      "navicular stress fracture",
+      "navicular bone oedema",
+      "avascular necrosis navicular"
+     ]
+    },
+    {
+     "id": "MRI_FOOT_001_IND_03",
+     "label": "Plantar fasciitis refractory to treatment",
+     "referral_text": "MRI Foot — persistent plantar heel pain beyond six months of conservative care to assess plantar fascia and exclude other pathology.",
+     "urgency": "routine",
+     "finds": [
+      "plantar fasciitis",
+      "plantar fascia tear",
+      "calcaneal stress fracture",
+      "fat pad atrophy"
+     ]
+    },
+    {
+     "id": "MRI_FOOT_001_IND_04",
+     "label": "Suspected Morton neuroma or metatarsalgia",
+     "referral_text": "MRI Foot — interdigital pain with positive Mulder click to confirm Morton neuroma or intermetatarsal bursitis.",
+     "urgency": "routine",
+     "finds": [
+      "Morton neuroma",
+      "intermetatarsal bursitis",
+      "plantar plate tear",
+      "metatarsophalangeal joint synovitis"
+     ]
+    },
+    {
+     "id": "MRI_FOOT_001_IND_05",
+     "label": "Suspected Lisfranc injury",
+     "referral_text": "MRI Foot — midfoot pain and swelling after twisting injury with inability to bear weight to assess Lisfranc ligament complex.",
+     "urgency": "urgent",
+     "finds": [
+      "Lisfranc ligament tear",
+      "tarsometatarsal joint subluxation",
+      "midfoot bone bruise",
+      "cuneiform fracture"
+     ]
+    },
+    {
+     "id": "MRI_FOOT_001_IND_06",
+     "label": "Posterior tibial tendon dysfunction",
+     "referral_text": "MRI Foot — progressive flat foot deformity with medial ankle and arch pain to assess posterior tibial tendon.",
+     "urgency": "routine",
+     "finds": [
+      "posterior tibial tendon tear",
+      "posterior tibial tendinopathy",
+      "spring ligament injury",
+      "talonavicular joint degeneration"
+     ]
+    }
+   ]
+  }
+ ]
+}

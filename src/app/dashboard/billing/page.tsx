@@ -510,6 +510,7 @@ export default function BillingPage() {
       {showRecordPaymentModal && (
         <RecordPaymentModal
           clinicId={currentClinic?.id || ''}
+          clinic={currentClinic ? { name: currentClinic.name } : undefined}
           preSelectedPatient={selectedPatientForPayment}
           onClose={() => {
             setShowRecordPaymentModal(false);
@@ -526,6 +527,7 @@ export default function BillingPage() {
       {showCreatePackModal && (
         <CreateSessionPackModal
           clinicId={currentClinic?.id || ''}
+          clinic={currentClinic ? { name: currentClinic.name } : undefined}
           onClose={() => setShowCreatePackModal(false)}
           onSuccess={() => {
             setShowCreatePackModal(false);

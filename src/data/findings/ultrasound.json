@@ -1,0 +1,1403 @@
+{
+ "ultrasound_imaging": [
+  {
+   "id": "US_SHOULDER_001",
+   "modality": "Ultrasound",
+   "region": "shoulder",
+   "region_label": "Shoulder",
+   "label": "Ultrasound Shoulder — Rotator Cuff",
+   "patient_label": "An ultrasound scan to check the tendons and soft tissues around your shoulder joint.",
+   "indications": [
+    {
+     "id": "US_SHOULDER_001_IND_01",
+     "label": "Suspected supraspinatus tendon tear",
+     "referral_text": "Ultrasound Shoulder — suspected supraspinatus tear, assess rotator cuff integrity and bursal thickening.",
+     "urgency": "routine",
+     "finds": [
+      "Supraspinatus partial tear",
+      "Supraspinatus full-thickness tear",
+      "Subacromial bursitis",
+      "Rotator cuff tendinopathy"
+     ]
+    },
+    {
+     "id": "US_SHOULDER_001_IND_02",
+     "label": "Painful arc with weakness",
+     "referral_text": "Ultrasound Shoulder — painful arc and rotator cuff weakness, assess for tendinopathy or tear.",
+     "urgency": "routine",
+     "finds": [
+      "Rotator cuff tendinopathy",
+      "Supraspinatus partial tear",
+      "Subacromial bursitis",
+      "Infraspinatus tendinopathy"
+     ]
+    },
+    {
+     "id": "US_SHOULDER_001_IND_03",
+     "label": "Acute rotator cuff injury",
+     "referral_text": "Ultrasound Shoulder — acute onset shoulder weakness following trauma, assess rotator cuff for acute tear.",
+     "urgency": "urgent",
+     "finds": [
+      "Acute rotator cuff tear",
+      "Supraspinatus full-thickness tear",
+      "Greater tuberosity avulsion",
+      "Subscapularis tear"
+     ]
+    },
+    {
+     "id": "US_SHOULDER_001_IND_04",
+     "label": "Persistent shoulder impingement symptoms",
+     "referral_text": "Ultrasound Shoulder — persistent impingement signs failing conservative management, assess subacromial space and rotator cuff.",
+     "urgency": "routine",
+     "finds": [
+      "Subacromial bursitis",
+      "Supraspinatus tendinopathy",
+      "Partial-thickness rotator cuff tear",
+      "Calcific tendinopathy"
+     ]
+    },
+    {
+     "id": "US_SHOULDER_001_IND_05",
+     "label": "Suspected calcific tendinopathy",
+     "referral_text": "Ultrasound Shoulder — localised shoulder pain with suspected calcification, assess for calcific deposits in rotator cuff.",
+     "urgency": "routine",
+     "finds": [
+      "Calcific tendinopathy",
+      "Supraspinatus tendinopathy",
+      "Subacromial bursitis"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "US_SHOULDER_002",
+   "modality": "Ultrasound",
+   "region": "shoulder",
+   "region_label": "Shoulder",
+   "label": "Ultrasound Shoulder — Biceps Tendon",
+   "patient_label": "An ultrasound scan to check the biceps tendon at the front of your shoulder.",
+   "indications": [
+    {
+     "id": "US_SHOULDER_002_IND_01",
+     "label": "Anterior shoulder pain bicipital groove",
+     "referral_text": "Ultrasound Shoulder — anterior shoulder pain localised to bicipital groove, assess long head of biceps tendon.",
+     "urgency": "routine",
+     "finds": [
+      "Biceps tendinopathy",
+      "Biceps tendon subluxation",
+      "Bicipital groove effusion",
+      "Partial biceps tendon tear"
+     ]
+    },
+    {
+     "id": "US_SHOULDER_002_IND_02",
+     "label": "Suspected long head biceps tear",
+     "referral_text": "Ultrasound Shoulder — sudden onset anterior shoulder pain with palpable deformity, assess biceps tendon integrity.",
+     "urgency": "urgent",
+     "finds": [
+      "Long head of biceps rupture",
+      "Biceps tendon partial tear",
+      "Biceps tendon subluxation"
+     ]
+    },
+    {
+     "id": "US_SHOULDER_002_IND_03",
+     "label": "Popping or snapping anterior shoulder",
+     "referral_text": "Ultrasound Shoulder — audible snapping at anterior shoulder, assess biceps tendon stability in bicipital groove.",
+     "urgency": "routine",
+     "finds": [
+      "Biceps tendon subluxation",
+      "Biceps tendon dislocation",
+      "Subscapularis tear"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "US_SHOULDER_003",
+   "modality": "Ultrasound",
+   "region": "shoulder",
+   "region_label": "Shoulder",
+   "label": "Ultrasound Shoulder — Acromioclavicular Joint",
+   "patient_label": "An ultrasound scan to check the joint at the top of your shoulder where the collarbone meets the shoulder blade.",
+   "indications": [
+    {
+     "id": "US_SHOULDER_003_IND_01",
+     "label": "Localised ACJ pain and swelling",
+     "referral_text": "Ultrasound Shoulder — localised acromioclavicular joint pain and swelling, assess for joint effusion and capsular thickening.",
+     "urgency": "routine",
+     "finds": [
+      "ACJ effusion",
+      "ACJ capsular hypertrophy",
+      "ACJ osteoarthritis",
+      "Distal clavicle osteolysis"
+     ]
+    },
+    {
+     "id": "US_SHOULDER_003_IND_02",
+     "label": "Post-trauma ACJ instability assessment",
+     "referral_text": "Ultrasound Shoulder — post-traumatic ACJ pain, assess for joint widening and ligament disruption.",
+     "urgency": "urgent",
+     "finds": ["ACJ separation", "ACJ ligament disruption", "ACJ effusion"]
+    },
+    {
+     "id": "US_SHOULDER_003_IND_03",
+     "label": "Painful cross-body adduction test",
+     "referral_text": "Ultrasound Shoulder — positive cross-body adduction test with localised ACJ tenderness, assess joint integrity.",
+     "urgency": "routine",
+     "finds": ["ACJ osteoarthritis", "ACJ capsular thickening", "ACJ effusion"]
+    }
+   ]
+  },
+  {
+   "id": "US_UPPER_ARM_001",
+   "modality": "Ultrasound",
+   "region": "upper_arm",
+   "region_label": "Upper Arm",
+   "label": "Ultrasound Upper Arm — Biceps and Triceps",
+   "patient_label": "An ultrasound scan to check the muscles and tendons of your upper arm.",
+   "indications": [
+    {
+     "id": "US_UPPER_ARM_001_IND_01",
+     "label": "Suspected biceps muscle belly tear",
+     "referral_text": "Ultrasound Upper Arm — acute onset upper arm pain with bruising, assess biceps muscle for tear or haematoma.",
+     "urgency": "urgent",
+     "finds": [
+      "Biceps muscle tear",
+      "Intramuscular haematoma",
+      "Biceps tendon rupture"
+     ]
+    },
+    {
+     "id": "US_UPPER_ARM_001_IND_02",
+     "label": "Distal biceps tendon rupture query",
+     "referral_text": "Ultrasound Upper Arm — sudden loss of elbow flexion strength with anterior fossa pain, assess distal biceps tendon.",
+     "urgency": "urgent",
+     "finds": [
+      "Distal biceps tendon rupture",
+      "Distal biceps partial tear",
+      "Bicipitoradial bursitis"
+     ]
+    },
+    {
+     "id": "US_UPPER_ARM_001_IND_03",
+     "label": "Palpable upper arm soft tissue lump",
+     "referral_text": "Ultrasound Upper Arm — palpable soft tissue mass in upper arm, assess nature and extent of lesion.",
+     "urgency": "routine",
+     "finds": [
+      "Lipoma",
+      "Intramuscular haematoma",
+      "Muscle hernia",
+      "Soft tissue mass"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "US_ELBOW_001",
+   "modality": "Ultrasound",
+   "region": "elbow",
+   "region_label": "Elbow",
+   "label": "Ultrasound Elbow — Lateral",
+   "patient_label": "An ultrasound scan to check the tendons on the outside of your elbow.",
+   "indications": [
+    {
+     "id": "US_ELBOW_001_IND_01",
+     "label": "Persistent lateral elbow tendon pain",
+     "referral_text": "Ultrasound Elbow — persistent lateral epicondyle pain failing conservative management, assess common extensor tendon.",
+     "urgency": "routine",
+     "finds": [
+      "Common extensor tendinopathy",
+      "Common extensor partial tear",
+      "Lateral epicondyle enthesopathy",
+      "Radial collateral ligament thickening"
+     ]
+    },
+    {
+     "id": "US_ELBOW_001_IND_02",
+     "label": "Recalcitrant tennis elbow for injection",
+     "referral_text": "Ultrasound Elbow — recalcitrant lateral epicondylalgia, assess tendon structure to guide intervention planning.",
+     "urgency": "routine",
+     "finds": [
+      "Common extensor tendinopathy",
+      "Intrasubstance tearing",
+      "Neovascularity",
+      "Calcification"
+     ]
+    },
+    {
+     "id": "US_ELBOW_001_IND_03",
+     "label": "Lateral elbow pain post-trauma",
+     "referral_text": "Ultrasound Elbow — lateral elbow pain following acute trauma, assess common extensor origin and lateral ligament complex.",
+     "urgency": "urgent",
+     "finds": [
+      "Common extensor tendon tear",
+      "Lateral collateral ligament injury",
+      "Joint effusion"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "US_ELBOW_002",
+   "modality": "Ultrasound",
+   "region": "elbow",
+   "region_label": "Elbow",
+   "label": "Ultrasound Elbow — Medial",
+   "patient_label": "An ultrasound scan to check the tendons and nerve on the inside of your elbow.",
+   "indications": [
+    {
+     "id": "US_ELBOW_002_IND_01",
+     "label": "Medial elbow pain with gripping",
+     "referral_text": "Ultrasound Elbow — medial epicondyle pain aggravated by gripping, assess common flexor tendon origin.",
+     "urgency": "routine",
+     "finds": [
+      "Common flexor tendinopathy",
+      "Common flexor partial tear",
+      "Medial epicondyle enthesopathy"
+     ]
+    },
+    {
+     "id": "US_ELBOW_002_IND_02",
+     "label": "Ulnar nerve symptoms at elbow",
+     "referral_text": "Ultrasound Elbow — medial elbow pain with ulnar nerve paraesthesia, assess ulnar nerve at cubital tunnel.",
+     "urgency": "routine",
+     "finds": [
+      "Ulnar nerve thickening",
+      "Ulnar nerve subluxation",
+      "Cubital tunnel syndrome",
+      "Ulnar nerve compression"
+     ]
+    },
+    {
+     "id": "US_ELBOW_002_IND_03",
+     "label": "Snapping sensation medial elbow",
+     "referral_text": "Ultrasound Elbow — snapping or clicking at medial elbow, assess ulnar nerve stability dynamically.",
+     "urgency": "routine",
+     "finds": [
+      "Ulnar nerve subluxation",
+      "Ulnar nerve dislocation",
+      "Snapping triceps syndrome"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "US_ELBOW_003",
+   "modality": "Ultrasound",
+   "region": "elbow",
+   "region_label": "Elbow",
+   "label": "Ultrasound Elbow — Posterior",
+   "patient_label": "An ultrasound scan to check the back of your elbow including the bursa and triceps tendon.",
+   "indications": [
+    {
+     "id": "US_ELBOW_003_IND_01",
+     "label": "Olecranon bursa swelling assessment",
+     "referral_text": "Ultrasound Elbow — posterior elbow swelling over olecranon, assess olecranon bursa for bursitis or effusion.",
+     "urgency": "routine",
+     "finds": [
+      "Olecranon bursitis",
+      "Bursal effusion",
+      "Bursal thickening",
+      "Septic bursitis"
+     ]
+    },
+    {
+     "id": "US_ELBOW_003_IND_02",
+     "label": "Posterior elbow pain with extension",
+     "referral_text": "Ultrasound Elbow — posterior elbow pain on resisted extension, assess triceps tendon insertion.",
+     "urgency": "routine",
+     "finds": [
+      "Triceps tendinopathy",
+      "Triceps partial tear",
+      "Olecranon bursitis"
+     ]
+    },
+    {
+     "id": "US_ELBOW_003_IND_03",
+     "label": "Acute triceps tendon injury query",
+     "referral_text": "Ultrasound Elbow — acute loss of active elbow extension following trauma, assess triceps tendon integrity.",
+     "urgency": "urgent",
+     "finds": [
+      "Triceps tendon rupture",
+      "Triceps partial tear",
+      "Olecranon avulsion"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "US_FOREARM_001",
+   "modality": "Ultrasound",
+   "region": "forearm",
+   "region_label": "Forearm",
+   "label": "Ultrasound Forearm — Soft Tissue",
+   "patient_label": "An ultrasound scan to check the muscles and tendons in your forearm.",
+   "indications": [
+    {
+     "id": "US_FOREARM_001_IND_01",
+     "label": "Dorsal forearm pain with crepitus",
+     "referral_text": "Ultrasound Forearm — dorsal forearm pain with crepitus on wrist movement, assess for intersection syndrome.",
+     "urgency": "routine",
+     "finds": [
+      "Intersection syndrome",
+      "Extensor tenosynovitis",
+      "Peritendinous oedema"
+     ]
+    },
+    {
+     "id": "US_FOREARM_001_IND_02",
+     "label": "Forearm muscle pain post-exertion",
+     "referral_text": "Ultrasound Forearm — acute forearm pain following exertion, assess for muscle tear or haematoma.",
+     "urgency": "routine",
+     "finds": [
+      "Forearm muscle tear",
+      "Intramuscular haematoma",
+      "Muscle strain"
+     ]
+    },
+    {
+     "id": "US_FOREARM_001_IND_03",
+     "label": "Palpable forearm soft tissue mass",
+     "referral_text": "Ultrasound Forearm — palpable forearm lump, assess nature and extent of soft tissue lesion.",
+     "urgency": "routine",
+     "finds": ["Ganglion cyst", "Lipoma", "Muscle hernia", "Soft tissue mass"]
+    }
+   ]
+  },
+  {
+   "id": "US_WRIST_001",
+   "modality": "Ultrasound",
+   "region": "wrist",
+   "region_label": "Wrist",
+   "label": "Ultrasound Wrist — Carpal Tunnel",
+   "patient_label": "An ultrasound scan to check the nerve passing through your wrist that can cause tingling in your fingers.",
+   "indications": [
+    {
+     "id": "US_WRIST_001_IND_01",
+     "label": "Suspected carpal tunnel syndrome",
+     "referral_text": "Ultrasound Wrist — numbness and tingling in median nerve distribution, assess median nerve cross-sectional area at carpal tunnel.",
+     "urgency": "routine",
+     "finds": [
+      "Carpal tunnel syndrome",
+      "Median nerve enlargement",
+      "Median nerve compression",
+      "Flexor tenosynovitis"
+     ]
+    },
+    {
+     "id": "US_WRIST_001_IND_02",
+     "label": "Nocturnal hand paraesthesia assessment",
+     "referral_text": "Ultrasound Wrist — nocturnal hand paraesthesia with positive Phalen's test, assess median nerve at carpal tunnel.",
+     "urgency": "routine",
+     "finds": [
+      "Carpal tunnel syndrome",
+      "Median nerve swelling",
+      "Flexor tenosynovitis"
+     ]
+    },
+    {
+     "id": "US_WRIST_001_IND_03",
+     "label": "Post-fracture median nerve compression",
+     "referral_text": "Ultrasound Wrist — median nerve symptoms following distal radius fracture, assess for nerve compression at carpal tunnel.",
+     "urgency": "urgent",
+     "finds": [
+      "Median nerve compression",
+      "Carpal tunnel narrowing",
+      "Post-traumatic median neuropathy"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "US_WRIST_002",
+   "modality": "Ultrasound",
+   "region": "wrist",
+   "region_label": "Wrist",
+   "label": "Ultrasound Wrist — Tendons",
+   "patient_label": "An ultrasound scan to check the tendons around your wrist.",
+   "indications": [
+    {
+     "id": "US_WRIST_002_IND_01",
+     "label": "Radial wrist pain De Quervain's",
+     "referral_text": "Ultrasound Wrist — radial-sided wrist pain with positive Finkelstein's test, assess first extensor compartment for De Quervain's tenosynovitis.",
+     "urgency": "routine",
+     "finds": [
+      "De Quervain's tenosynovitis",
+      "APL tendinopathy",
+      "EPB tendinopathy",
+      "First compartment effusion"
+     ]
+    },
+    {
+     "id": "US_WRIST_002_IND_02",
+     "label": "Dorsal wrist ganglion assessment",
+     "referral_text": "Ultrasound Wrist — palpable dorsal wrist lump, assess for ganglion cyst and relationship to underlying tendons.",
+     "urgency": "routine",
+     "finds": ["Ganglion cyst", "Extensor tenosynovitis", "Dorsal wrist mass"]
+    },
+    {
+     "id": "US_WRIST_002_IND_03",
+     "label": "Wrist extensor tendon pain",
+     "referral_text": "Ultrasound Wrist — dorsal wrist pain with resisted extension, assess extensor tendon compartments.",
+     "urgency": "routine",
+     "finds": [
+      "Extensor tenosynovitis",
+      "Extensor tendinopathy",
+      "Extensor tendon subluxation"
+     ]
+    },
+    {
+     "id": "US_WRIST_002_IND_04",
+     "label": "Ulnar-sided wrist tendon pain",
+     "referral_text": "Ultrasound Wrist — ulnar wrist pain aggravated by rotation, assess extensor carpi ulnaris tendon.",
+     "urgency": "routine",
+     "finds": [
+      "ECU tendinopathy",
+      "ECU tenosynovitis",
+      "ECU tendon subluxation",
+      "ECU subsheath injury"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "US_HAND_001",
+   "modality": "Ultrasound",
+   "region": "hand",
+   "region_label": "Hand",
+   "label": "Ultrasound Hand — Flexor Tendons",
+   "patient_label": "An ultrasound scan to check the tendons that bend your fingers.",
+   "indications": [
+    {
+     "id": "US_HAND_001_IND_01",
+     "label": "Trigger finger clicking or locking",
+     "referral_text": "Ultrasound Hand — finger clicking or locking at MCP joint, assess A1 pulley and flexor tendon for trigger finger.",
+     "urgency": "routine",
+     "finds": [
+      "Trigger finger",
+      "A1 pulley thickening",
+      "Flexor tendon nodule",
+      "Flexor tenosynovitis"
+     ]
+    },
+    {
+     "id": "US_HAND_001_IND_02",
+     "label": "Flexor tendon injury assessment",
+     "referral_text": "Ultrasound Hand — loss of active finger flexion following laceration, assess flexor tendon integrity.",
+     "urgency": "urgent",
+     "finds": [
+      "Flexor tendon laceration",
+      "Flexor tendon partial tear",
+      "Flexor tendon rupture"
+     ]
+    },
+    {
+     "id": "US_HAND_001_IND_03",
+     "label": "Palmar finger pain and swelling",
+     "referral_text": "Ultrasound Hand — palmar finger pain with swelling, assess flexor tendon sheath for tenosynovitis or effusion.",
+     "urgency": "routine",
+     "finds": [
+      "Flexor tenosynovitis",
+      "Tendon sheath effusion",
+      "Flexor tendon thickening"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "US_HAND_002",
+   "modality": "Ultrasound",
+   "region": "hand",
+   "region_label": "Hand",
+   "label": "Ultrasound Hand — Dorsal Structures",
+   "patient_label": "An ultrasound scan to check the tendons and soft tissues on the back of your hand.",
+   "indications": [
+    {
+     "id": "US_HAND_002_IND_01",
+     "label": "Dorsal hand ganglion cyst query",
+     "referral_text": "Ultrasound Hand — palpable dorsal hand lump, assess for ganglion cyst and extent.",
+     "urgency": "routine",
+     "finds": ["Ganglion cyst", "Mucous cyst", "Soft tissue mass"]
+    },
+    {
+     "id": "US_HAND_002_IND_02",
+     "label": "Extensor tendon injury post-trauma",
+     "referral_text": "Ultrasound Hand — loss of finger extension following trauma, assess extensor tendon integrity at hand.",
+     "urgency": "urgent",
+     "finds": [
+      "Extensor tendon rupture",
+      "Extensor tendon partial tear",
+      "Sagittal band rupture"
+     ]
+    },
+    {
+     "id": "US_HAND_002_IND_03",
+     "label": "MCP joint dorsal swelling",
+     "referral_text": "Ultrasound Hand — dorsal swelling at MCP joint, assess for joint effusion, extensor tendon pathology or synovitis.",
+     "urgency": "routine",
+     "finds": [
+      "MCP joint effusion",
+      "Extensor tenosynovitis",
+      "MCP joint synovitis"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "US_HIP_001",
+   "modality": "Ultrasound",
+   "region": "hip",
+   "region_label": "Hip",
+   "label": "Ultrasound Hip — Lateral (Greater Trochanter)",
+   "patient_label": "An ultrasound scan to check the tendons and bursa on the outside of your hip.",
+   "indications": [
+    {
+     "id": "US_HIP_001_IND_01",
+     "label": "Lateral hip pain over trochanter",
+     "referral_text": "Ultrasound Hip — lateral hip pain over greater trochanter, assess gluteal tendons and trochanteric bursa.",
+     "urgency": "routine",
+     "finds": [
+      "Gluteal tendinopathy",
+      "Trochanteric bursitis",
+      "Gluteus medius partial tear",
+      "Gluteus minimus tendinopathy"
+     ]
+    },
+    {
+     "id": "US_HIP_001_IND_02",
+     "label": "Greater trochanteric pain failing treatment",
+     "referral_text": "Ultrasound Hip — greater trochanteric pain syndrome failing conservative management, assess gluteal tendons for structural change.",
+     "urgency": "routine",
+     "finds": [
+      "Gluteus medius tendinopathy",
+      "Gluteus medius partial tear",
+      "Gluteus minimus tear",
+      "Trochanteric bursitis"
+     ]
+    },
+    {
+     "id": "US_HIP_001_IND_03",
+     "label": "Lateral hip pain with Trendelenburg",
+     "referral_text": "Ultrasound Hip — lateral hip pain with positive Trendelenburg sign, assess gluteus medius and minimus tendon integrity.",
+     "urgency": "routine",
+     "finds": [
+      "Gluteus medius tear",
+      "Gluteus minimus tear",
+      "Gluteal tendinopathy"
+     ]
+    },
+    {
+     "id": "US_HIP_001_IND_04",
+     "label": "Post-arthroplasty lateral hip pain",
+     "referral_text": "Ultrasound Hip — new lateral hip pain following hip arthroplasty, assess gluteal tendons and trochanteric bursa.",
+     "urgency": "routine",
+     "finds": [
+      "Gluteal tendon tear",
+      "Trochanteric bursitis",
+      "Post-surgical tendon damage"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "US_HIP_002",
+   "modality": "Ultrasound",
+   "region": "hip",
+   "region_label": "Hip",
+   "label": "Ultrasound Hip — Anterior (Iliopsoas)",
+   "patient_label": "An ultrasound scan to check the hip flexor tendon and bursa at the front of your hip.",
+   "indications": [
+    {
+     "id": "US_HIP_002_IND_01",
+     "label": "Anterior hip pain with snapping",
+     "referral_text": "Ultrasound Hip — anterior hip pain with audible snapping on flexion, assess iliopsoas tendon dynamically.",
+     "urgency": "routine",
+     "finds": [
+      "Snapping iliopsoas tendon",
+      "Iliopsoas bursitis",
+      "Iliopsoas tendinopathy"
+     ]
+    },
+    {
+     "id": "US_HIP_002_IND_02",
+     "label": "Deep anterior groin pain assessment",
+     "referral_text": "Ultrasound Hip — deep anterior groin pain aggravated by hip flexion, assess iliopsoas tendon and bursa.",
+     "urgency": "routine",
+     "finds": [
+      "Iliopsoas bursitis",
+      "Iliopsoas tendinopathy",
+      "Anterior hip joint effusion"
+     ]
+    },
+    {
+     "id": "US_HIP_002_IND_03",
+     "label": "Hip joint effusion screening",
+     "referral_text": "Ultrasound Hip — suspected hip joint effusion with restricted range, assess anterior recess for effusion.",
+     "urgency": "routine",
+     "finds": ["Hip joint effusion", "Synovitis", "Iliopsoas bursitis"]
+    }
+   ]
+  },
+  {
+   "id": "US_PELVIS_001",
+   "modality": "Ultrasound",
+   "region": "pelvis",
+   "region_label": "Pelvis",
+   "label": "Ultrasound Pelvis — Adductor Tendons",
+   "patient_label": "An ultrasound scan to check the inner thigh tendons where they attach to your pelvis.",
+   "indications": [
+    {
+     "id": "US_PELVIS_001_IND_01",
+     "label": "Groin pain adductor origin tenderness",
+     "referral_text": "Ultrasound Pelvis — medial groin pain with adductor origin tenderness, assess adductor longus tendon and enthesis.",
+     "urgency": "routine",
+     "finds": [
+      "Adductor longus tendinopathy",
+      "Adductor enthesopathy",
+      "Adductor longus partial tear",
+      "Pubic symphysis irregularity"
+     ]
+    },
+    {
+     "id": "US_PELVIS_001_IND_02",
+     "label": "Acute adductor strain in athlete",
+     "referral_text": "Ultrasound Pelvis — acute groin pain during sport, assess adductor muscle and tendon for acute tear.",
+     "urgency": "urgent",
+     "finds": [
+      "Adductor longus tear",
+      "Adductor muscle strain",
+      "Adductor tendon avulsion"
+     ]
+    },
+    {
+     "id": "US_PELVIS_001_IND_03",
+     "label": "Chronic groin pain in athlete",
+     "referral_text": "Ultrasound Pelvis — chronic exertional groin pain, assess adductor tendons and pubic enthesis for structural change.",
+     "urgency": "routine",
+     "finds": [
+      "Adductor tendinopathy",
+      "Pubic enthesopathy",
+      "Adductor partial tear"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "US_PELVIS_002",
+   "modality": "Ultrasound",
+   "region": "pelvis",
+   "region_label": "Pelvis",
+   "label": "Ultrasound Pelvis — Proximal Hamstring",
+   "patient_label": "An ultrasound scan to check where your hamstring tendons attach to your sitting bone.",
+   "indications": [
+    {
+     "id": "US_PELVIS_002_IND_01",
+     "label": "Deep buttock pain ischial tuberosity",
+     "referral_text": "Ultrasound Pelvis — deep buttock pain localised to ischial tuberosity, assess proximal hamstring tendon origin.",
+     "urgency": "routine",
+     "finds": [
+      "Proximal hamstring tendinopathy",
+      "Hamstring origin partial tear",
+      "Ischial bursitis"
+     ]
+    },
+    {
+     "id": "US_PELVIS_002_IND_02",
+     "label": "Acute proximal hamstring avulsion query",
+     "referral_text": "Ultrasound Pelvis — acute posterior thigh pain with snap during sprinting, assess proximal hamstring origin for avulsion tear.",
+     "urgency": "urgent",
+     "finds": [
+      "Proximal hamstring avulsion",
+      "Proximal hamstring tear",
+      "Ischial tuberosity avulsion"
+     ]
+    },
+    {
+     "id": "US_PELVIS_002_IND_03",
+     "label": "Sitting pain proximal hamstring origin",
+     "referral_text": "Ultrasound Pelvis — pain on prolonged sitting localised to ischial tuberosity, assess proximal hamstring tendon and ischial bursa.",
+     "urgency": "routine",
+     "finds": [
+      "Proximal hamstring tendinopathy",
+      "Ischial bursitis",
+      "Hamstring origin enthesopathy"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "US_THIGH_001",
+   "modality": "Ultrasound",
+   "region": "thigh",
+   "region_label": "Thigh",
+   "label": "Ultrasound Thigh — Quadriceps",
+   "patient_label": "An ultrasound scan to check the muscles at the front of your thigh.",
+   "indications": [
+    {
+     "id": "US_THIGH_001_IND_01",
+     "label": "Acute quadriceps muscle tear query",
+     "referral_text": "Ultrasound Thigh — acute anterior thigh pain during sport, assess quadriceps for muscle tear and haematoma.",
+     "urgency": "urgent",
+     "finds": [
+      "Rectus femoris tear",
+      "Quadriceps muscle tear",
+      "Intramuscular haematoma",
+      "Myotendinous junction tear"
+     ]
+    },
+    {
+     "id": "US_THIGH_001_IND_02",
+     "label": "Recurrent quadriceps strain monitoring",
+     "referral_text": "Ultrasound Thigh — recurrent quadriceps strain, assess healing progress and residual structural change.",
+     "urgency": "routine",
+     "finds": [
+      "Residual muscle tear",
+      "Scar tissue formation",
+      "Intramuscular haematoma",
+      "Myositis ossificans"
+     ]
+    },
+    {
+     "id": "US_THIGH_001_IND_03",
+     "label": "Anterior thigh haematoma assessment",
+     "referral_text": "Ultrasound Thigh — anterior thigh swelling following contusion, assess for intramuscular haematoma and extent.",
+     "urgency": "routine",
+     "finds": [
+      "Intramuscular haematoma",
+      "Quadriceps contusion",
+      "Myositis ossificans"
+     ]
+    },
+    {
+     "id": "US_THIGH_001_IND_04",
+     "label": "Suspected myositis ossificans follow-up",
+     "referral_text": "Ultrasound Thigh — persistent anterior thigh hardening following contusion, assess for myositis ossificans.",
+     "urgency": "routine",
+     "finds": [
+      "Myositis ossificans",
+      "Organised haematoma",
+      "Calcification within muscle"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "US_THIGH_002",
+   "modality": "Ultrasound",
+   "region": "thigh",
+   "region_label": "Thigh",
+   "label": "Ultrasound Thigh — Hamstrings",
+   "patient_label": "An ultrasound scan to check the muscles at the back of your thigh.",
+   "indications": [
+    {
+     "id": "US_THIGH_002_IND_01",
+     "label": "Acute hamstring tear during sport",
+     "referral_text": "Ultrasound Thigh — acute posterior thigh pain during sprinting, assess hamstring muscles for tear location and severity.",
+     "urgency": "urgent",
+     "finds": [
+      "Biceps femoris tear",
+      "Semimembranosus tear",
+      "Semitendinosus tear",
+      "Myotendinous junction tear"
+     ]
+    },
+    {
+     "id": "US_THIGH_002_IND_02",
+     "label": "Hamstring tear healing progress check",
+     "referral_text": "Ultrasound Thigh — follow-up assessment of hamstring tear, monitor healing and residual defect.",
+     "urgency": "routine",
+     "finds": [
+      "Healing muscle tear",
+      "Residual defect",
+      "Scar tissue",
+      "Intramuscular haematoma"
+     ]
+    },
+    {
+     "id": "US_THIGH_002_IND_03",
+     "label": "Recurrent hamstring injury risk assessment",
+     "referral_text": "Ultrasound Thigh — recurrent hamstring strains, assess for residual scar tissue or structural vulnerability.",
+     "urgency": "routine",
+     "finds": [
+      "Scar tissue at prior tear site",
+      "Residual muscle defect",
+      "Myotendinous junction irregularity"
+     ]
+    },
+    {
+     "id": "US_THIGH_002_IND_04",
+     "label": "Posterior thigh pain with palpable defect",
+     "referral_text": "Ultrasound Thigh — posterior thigh pain with palpable gap or defect, assess hamstring muscle integrity.",
+     "urgency": "urgent",
+     "finds": [
+      "Complete hamstring tear",
+      "Hamstring muscle retraction",
+      "Intramuscular haematoma"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "US_KNEE_001",
+   "modality": "Ultrasound",
+   "region": "knee",
+   "region_label": "Knee",
+   "label": "Ultrasound Knee — Patellar Tendon",
+   "patient_label": "An ultrasound scan to check the tendon just below your kneecap.",
+   "indications": [
+    {
+     "id": "US_KNEE_001_IND_01",
+     "label": "Anterior knee pain patellar tendon",
+     "referral_text": "Ultrasound Knee — inferior patellar pole pain aggravated by jumping activities, assess patellar tendon for tendinopathy.",
+     "urgency": "routine",
+     "finds": [
+      "Patellar tendinopathy",
+      "Patellar tendon partial tear",
+      "Infrapatellar bursitis",
+      "Patellar tendon thickening"
+     ]
+    },
+    {
+     "id": "US_KNEE_001_IND_02",
+     "label": "Jumper's knee failing conservative treatment",
+     "referral_text": "Ultrasound Knee — persistent patellar tendinopathy failing conservative management, assess tendon structural integrity.",
+     "urgency": "routine",
+     "finds": [
+      "Patellar tendinopathy",
+      "Intrasubstance tear",
+      "Neovascularity",
+      "Focal tendon thickening"
+     ]
+    },
+    {
+     "id": "US_KNEE_001_IND_03",
+     "label": "Acute patellar tendon injury query",
+     "referral_text": "Ultrasound Knee — sudden inability to extend knee against resistance, assess patellar tendon for rupture.",
+     "urgency": "urgent",
+     "finds": [
+      "Patellar tendon rupture",
+      "Patellar tendon partial tear",
+      "Patellar sleeve avulsion"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "US_KNEE_002",
+   "modality": "Ultrasound",
+   "region": "knee",
+   "region_label": "Knee",
+   "label": "Ultrasound Knee — Quadriceps Tendon",
+   "patient_label": "An ultrasound scan to check the tendon just above your kneecap.",
+   "indications": [
+    {
+     "id": "US_KNEE_002_IND_01",
+     "label": "Suprapatellar pain with knee extension",
+     "referral_text": "Ultrasound Knee — suprapatellar pain on resisted knee extension, assess quadriceps tendon for tendinopathy or tear.",
+     "urgency": "routine",
+     "finds": [
+      "Quadriceps tendinopathy",
+      "Quadriceps tendon partial tear",
+      "Suprapatellar bursitis"
+     ]
+    },
+    {
+     "id": "US_KNEE_002_IND_02",
+     "label": "Acute loss of knee extension",
+     "referral_text": "Ultrasound Knee — acute loss of active knee extension with suprapatellar gap, assess quadriceps tendon integrity.",
+     "urgency": "urgent",
+     "finds": ["Quadriceps tendon rupture", "Quadriceps tendon partial tear"]
+    },
+    {
+     "id": "US_KNEE_002_IND_03",
+     "label": "Suprapatellar effusion assessment",
+     "referral_text": "Ultrasound Knee — knee swelling with suspected suprapatellar effusion, assess for fluid collection and quadriceps tendon.",
+     "urgency": "routine",
+     "finds": [
+      "Suprapatellar effusion",
+      "Knee joint effusion",
+      "Suprapatellar bursitis",
+      "Quadriceps tendinopathy"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "US_KNEE_003",
+   "modality": "Ultrasound",
+   "region": "knee",
+   "region_label": "Knee",
+   "label": "Ultrasound Knee — Medial",
+   "patient_label": "An ultrasound scan to check the ligament and tendons on the inside of your knee.",
+   "indications": [
+    {
+     "id": "US_KNEE_003_IND_01",
+     "label": "Medial knee ligament sprain assessment",
+     "referral_text": "Ultrasound Knee — medial knee pain following valgus injury, assess medial collateral ligament integrity.",
+     "urgency": "routine",
+     "finds": [
+      "MCL sprain",
+      "MCL partial tear",
+      "MCL thickening",
+      "Medial joint line effusion"
+     ]
+    },
+    {
+     "id": "US_KNEE_003_IND_02",
+     "label": "Pes anserine region tenderness",
+     "referral_text": "Ultrasound Knee — medial proximal tibial tenderness, assess pes anserine bursa and tendons.",
+     "urgency": "routine",
+     "finds": [
+      "Pes anserine bursitis",
+      "Pes anserine tendinopathy",
+      "Medial collateral ligament bursitis"
+     ]
+    },
+    {
+     "id": "US_KNEE_003_IND_03",
+     "label": "Acute MCL injury valgus trauma",
+     "referral_text": "Ultrasound Knee — acute medial knee pain with valgus instability, assess MCL for extent of ligament disruption.",
+     "urgency": "urgent",
+     "finds": [
+      "MCL complete tear",
+      "MCL partial tear",
+      "MCL avulsion",
+      "Medial knee effusion"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "US_KNEE_004",
+   "modality": "Ultrasound",
+   "region": "knee",
+   "region_label": "Knee",
+   "label": "Ultrasound Knee — Posterior (Baker's Cyst)",
+   "patient_label": "An ultrasound scan to check for a fluid-filled swelling at the back of your knee.",
+   "indications": [
+    {
+     "id": "US_KNEE_004_IND_01",
+     "label": "Posterior knee swelling assessment",
+     "referral_text": "Ultrasound Knee — palpable swelling in popliteal fossa, assess for Baker's cyst and size.",
+     "urgency": "routine",
+     "finds": [
+      "Baker's cyst",
+      "Popliteal cyst",
+      "Semimembranosus bursal cyst",
+      "Popliteal fossa mass"
+     ]
+    },
+    {
+     "id": "US_KNEE_004_IND_02",
+     "label": "Acute calf pain ruptured cyst",
+     "referral_text": "Ultrasound Knee — acute calf pain and swelling with known Baker's cyst, assess for cyst rupture and fluid tracking.",
+     "urgency": "urgent",
+     "finds": [
+      "Ruptured Baker's cyst",
+      "Dissecting popliteal cyst",
+      "Calf haematoma"
+     ]
+    },
+    {
+     "id": "US_KNEE_004_IND_03",
+     "label": "Posterior knee tightness with swelling",
+     "referral_text": "Ultrasound Knee — posterior knee fullness with restricted flexion, assess popliteal fossa for cyst or effusion.",
+     "urgency": "routine",
+     "finds": ["Baker's cyst", "Popliteal effusion", "Semimembranosus bursitis"]
+    }
+   ]
+  },
+  {
+   "id": "US_LOWER_LEG_001",
+   "modality": "Ultrasound",
+   "region": "lower_leg",
+   "region_label": "Lower Leg",
+   "label": "Ultrasound Lower Leg — Achilles Tendon",
+   "patient_label": "An ultrasound scan to check your Achilles tendon at the back of your lower leg.",
+   "indications": [
+    {
+     "id": "US_LOWER_LEG_001_IND_01",
+     "label": "Mid-portion Achilles tendon pain",
+     "referral_text": "Ultrasound Lower Leg — mid-portion Achilles pain with tendon thickening, assess Achilles tendon for tendinopathy.",
+     "urgency": "routine",
+     "finds": [
+      "Achilles tendinopathy",
+      "Achilles tendon thickening",
+      "Paratendinopathy",
+      "Intratendinous change"
+     ]
+    },
+    {
+     "id": "US_LOWER_LEG_001_IND_02",
+     "label": "Suspected Achilles tendon rupture",
+     "referral_text": "Ultrasound Lower Leg — acute onset posterior ankle pain with palpable gap, assess Achilles tendon integrity urgently.",
+     "urgency": "urgent",
+     "finds": [
+      "Achilles tendon complete rupture",
+      "Achilles tendon partial tear",
+      "Achilles tendon retraction"
+     ]
+    },
+    {
+     "id": "US_LOWER_LEG_001_IND_03",
+     "label": "Insertional Achilles pain at calcaneum",
+     "referral_text": "Ultrasound Lower Leg — insertional Achilles pain at calcaneal attachment, assess tendon insertion and retrocalcaneal bursa.",
+     "urgency": "routine",
+     "finds": [
+      "Insertional Achilles tendinopathy",
+      "Retrocalcaneal bursitis",
+      "Haglund's deformity",
+      "Calcaneal enthesopathy"
+     ]
+    },
+    {
+     "id": "US_LOWER_LEG_001_IND_04",
+     "label": "Achilles tendinopathy failing treatment",
+     "referral_text": "Ultrasound Lower Leg — persistent Achilles tendinopathy failing eccentric loading programme, assess structural integrity and neovascularity.",
+     "urgency": "routine",
+     "finds": [
+      "Achilles tendinopathy",
+      "Partial tear within tendinopathy",
+      "Neovascularity",
+      "Paratendinopathy"
+     ]
+    },
+    {
+     "id": "US_LOWER_LEG_001_IND_05",
+     "label": "Post-rupture Achilles healing assessment",
+     "referral_text": "Ultrasound Lower Leg — follow-up of conservatively managed Achilles rupture, assess tendon healing and gap apposition.",
+     "urgency": "routine",
+     "finds": [
+      "Tendon healing progress",
+      "Residual gap",
+      "Tendon elongation",
+      "Scar tissue bridging"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "US_LOWER_LEG_002",
+   "modality": "Ultrasound",
+   "region": "lower_leg",
+   "region_label": "Lower Leg",
+   "label": "Ultrasound Lower Leg — Calf Muscles",
+   "patient_label": "An ultrasound scan to check the muscles in the back of your lower leg.",
+   "indications": [
+    {
+     "id": "US_LOWER_LEG_002_IND_01",
+     "label": "Acute calf tear tennis leg",
+     "referral_text": "Ultrasound Lower Leg — acute calf pain during push-off activity, assess gastrocnemius and soleus for muscle tear.",
+     "urgency": "urgent",
+     "finds": [
+      "Medial gastrocnemius tear",
+      "Soleus tear",
+      "Plantaris rupture",
+      "Intramuscular haematoma"
+     ]
+    },
+    {
+     "id": "US_LOWER_LEG_002_IND_02",
+     "label": "Calf swelling to exclude DVT",
+     "referral_text": "Ultrasound Lower Leg — acute calf pain and swelling, assess calf muscles for tear and exclude superficial calf vein thrombosis.",
+     "urgency": "urgent",
+     "finds": [
+      "Calf muscle tear",
+      "Intramuscular haematoma",
+      "Ruptured Baker's cyst",
+      "Superficial vein thrombosis"
+     ]
+    },
+    {
+     "id": "US_LOWER_LEG_002_IND_03",
+     "label": "Calf muscle tear healing follow-up",
+     "referral_text": "Ultrasound Lower Leg — follow-up of calf muscle tear, assess healing progress and residual defect.",
+     "urgency": "routine",
+     "finds": [
+      "Healing muscle tear",
+      "Residual haematoma",
+      "Scar tissue formation"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "US_ANKLE_001",
+   "modality": "Ultrasound",
+   "region": "ankle",
+   "region_label": "Ankle",
+   "label": "Ultrasound Ankle — Lateral Ligaments",
+   "patient_label": "An ultrasound scan to check the ligaments on the outside of your ankle.",
+   "indications": [
+    {
+     "id": "US_ANKLE_001_IND_01",
+     "label": "Lateral ankle sprain grading",
+     "referral_text": "Ultrasound Ankle — inversion ankle sprain with persistent instability, assess ATFL and CFL integrity.",
+     "urgency": "routine",
+     "finds": [
+      "ATFL tear",
+      "ATFL thickening",
+      "CFL tear",
+      "Lateral ankle ligament sprain"
+     ]
+    },
+    {
+     "id": "US_ANKLE_001_IND_02",
+     "label": "Recurrent ankle instability assessment",
+     "referral_text": "Ultrasound Ankle — recurrent lateral ankle giving way, assess ATFL and CFL for chronic ligament damage.",
+     "urgency": "routine",
+     "finds": [
+      "Chronic ATFL laxity",
+      "ATFL thickening",
+      "CFL insufficiency",
+      "Lateral ligament scarring"
+     ]
+    },
+    {
+     "id": "US_ANKLE_001_IND_03",
+     "label": "Acute severe ankle sprain",
+     "referral_text": "Ultrasound Ankle — acute severe ankle sprain with significant swelling and inability to weight-bear, assess lateral ligament complex.",
+     "urgency": "urgent",
+     "finds": [
+      "ATFL complete tear",
+      "CFL tear",
+      "Combined ligament injury",
+      "Lateral ankle effusion"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "US_ANKLE_002",
+   "modality": "Ultrasound",
+   "region": "ankle",
+   "region_label": "Ankle",
+   "label": "Ultrasound Ankle — Peroneal Tendons",
+   "patient_label": "An ultrasound scan to check the tendons running behind the outer ankle bone.",
+   "indications": [
+    {
+     "id": "US_ANKLE_002_IND_01",
+     "label": "Retromalleolar pain behind lateral malleolus",
+     "referral_text": "Ultrasound Ankle — pain behind lateral malleolus with eversion, assess peroneal tendons and retinaculum.",
+     "urgency": "routine",
+     "finds": [
+      "Peroneal tendinopathy",
+      "Peroneal tenosynovitis",
+      "Peroneal tendon tear",
+      "Peroneal tendon subluxation"
+     ]
+    },
+    {
+     "id": "US_ANKLE_002_IND_02",
+     "label": "Snapping behind lateral malleolus",
+     "referral_text": "Ultrasound Ankle — audible snapping behind lateral malleolus during ankle movement, assess peroneal tendon stability dynamically.",
+     "urgency": "routine",
+     "finds": [
+      "Peroneal tendon subluxation",
+      "Superior peroneal retinaculum tear",
+      "Peroneal tendon dislocation"
+     ]
+    },
+    {
+     "id": "US_ANKLE_002_IND_03",
+     "label": "Lateral ankle pain post-inversion injury",
+     "referral_text": "Ultrasound Ankle — persistent lateral ankle pain following inversion injury, assess peroneal tendons for concomitant tendon injury.",
+     "urgency": "routine",
+     "finds": [
+      "Peroneal tendon split tear",
+      "Peroneal tenosynovitis",
+      "Peroneal tendon subluxation"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "US_ANKLE_003",
+   "modality": "Ultrasound",
+   "region": "ankle",
+   "region_label": "Ankle",
+   "label": "Ultrasound Ankle — Tibialis Posterior Tendon",
+   "patient_label": "An ultrasound scan to check the tendon running behind the inner ankle bone.",
+   "indications": [
+    {
+     "id": "US_ANKLE_003_IND_01",
+     "label": "Medial ankle pain with pronation",
+     "referral_text": "Ultrasound Ankle — medial ankle pain aggravated by weight-bearing, assess tibialis posterior tendon for tendinopathy or tear.",
+     "urgency": "routine",
+     "finds": [
+      "Tibialis posterior tendinopathy",
+      "Tibialis posterior partial tear",
+      "Tibialis posterior tenosynovitis"
+     ]
+    },
+    {
+     "id": "US_ANKLE_003_IND_02",
+     "label": "Progressive flat foot with pain",
+     "referral_text": "Ultrasound Ankle — progressive unilateral flat foot with medial ankle pain, assess tibialis posterior tendon integrity.",
+     "urgency": "routine",
+     "finds": [
+      "Tibialis posterior tendon degeneration",
+      "Tibialis posterior partial tear",
+      "Tibialis posterior complete rupture"
+     ]
+    },
+    {
+     "id": "US_ANKLE_003_IND_03",
+     "label": "Medial ankle swelling assessment",
+     "referral_text": "Ultrasound Ankle — diffuse medial ankle swelling with pain on heel raise, assess tibialis posterior tendon sheath for tenosynovitis.",
+     "urgency": "routine",
+     "finds": [
+      "Tibialis posterior tenosynovitis",
+      "Tendon sheath effusion",
+      "Tibialis posterior tendinopathy"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "US_FOOT_001",
+   "modality": "Ultrasound",
+   "region": "foot",
+   "region_label": "Foot",
+   "label": "Ultrasound Foot — Plantar Fascia",
+   "patient_label": "An ultrasound scan to check the thick band of tissue on the sole of your foot.",
+   "indications": [
+    {
+     "id": "US_FOOT_001_IND_01",
+     "label": "Plantar heel pain in morning",
+     "referral_text": "Ultrasound Foot — plantar heel pain worst with first steps in morning, assess plantar fascia thickness and integrity.",
+     "urgency": "routine",
+     "finds": [
+      "Plantar fasciitis",
+      "Plantar fascia thickening",
+      "Plantar fascia partial tear",
+      "Heel fat pad atrophy"
+     ]
+    },
+    {
+     "id": "US_FOOT_001_IND_02",
+     "label": "Plantar fasciitis failing conservative care",
+     "referral_text": "Ultrasound Foot — chronic plantar fasciitis failing conservative management, assess fascia structure to guide intervention.",
+     "urgency": "routine",
+     "finds": [
+      "Plantar fascia thickening",
+      "Plantar fascia partial tear",
+      "Perifascial oedema",
+      "Plantar fibroma"
+     ]
+    },
+    {
+     "id": "US_FOOT_001_IND_03",
+     "label": "Acute plantar fascia rupture query",
+     "referral_text": "Ultrasound Foot — sudden acute plantar pain with palpable defect, assess plantar fascia for acute tear or rupture.",
+     "urgency": "urgent",
+     "finds": [
+      "Plantar fascia rupture",
+      "Plantar fascia partial tear",
+      "Plantar haematoma"
+     ]
+    },
+    {
+     "id": "US_FOOT_001_IND_04",
+     "label": "Plantar midfoot lump assessment",
+     "referral_text": "Ultrasound Foot — palpable lump on plantar arch, assess for plantar fibroma or soft tissue mass.",
+     "urgency": "routine",
+     "finds": [
+      "Plantar fibroma",
+      "Plantar fibromatosis",
+      "Plantar fascia nodule"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "US_FOOT_002",
+   "modality": "Ultrasound",
+   "region": "foot",
+   "region_label": "Foot",
+   "label": "Ultrasound Foot — Forefoot (Morton's Neuroma)",
+   "patient_label": "An ultrasound scan to check for a nerve swelling between the bones of your forefoot.",
+   "indications": [
+    {
+     "id": "US_FOOT_002_IND_01",
+     "label": "Forefoot pain between metatarsal heads",
+     "referral_text": "Ultrasound Foot — forefoot pain with interdigital paraesthesia, assess intermetatarsal spaces for Morton's neuroma.",
+     "urgency": "routine",
+     "finds": [
+      "Morton's neuroma",
+      "Intermetatarsal bursitis",
+      "MTP joint synovitis",
+      "Interdigital neuroma"
+     ]
+    },
+    {
+     "id": "US_FOOT_002_IND_02",
+     "label": "Positive Mulder's click test",
+     "referral_text": "Ultrasound Foot — forefoot pain with positive Mulder's click, assess intermetatarsal space for neuroma size and location.",
+     "urgency": "routine",
+     "finds": [
+      "Morton's neuroma",
+      "Intermetatarsal bursitis",
+      "Interdigital nerve thickening"
+     ]
+    },
+    {
+     "id": "US_FOOT_002_IND_03",
+     "label": "Metatarsalgia for injection planning",
+     "referral_text": "Ultrasound Foot — metatarsalgia with suspected neuroma failing conservative management, assess to confirm diagnosis and guide intervention.",
+     "urgency": "routine",
+     "finds": [
+      "Morton's neuroma",
+      "Intermetatarsal bursitis",
+      "MTP joint capsulitis",
+      "Plantar plate tear"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "US_FOOT_003",
+   "modality": "Ultrasound",
+   "region": "foot",
+   "region_label": "Foot",
+   "label": "Ultrasound Foot — Tendons",
+   "patient_label": "An ultrasound scan to check the tendons in your foot.",
+   "indications": [
+    {
+     "id": "US_FOOT_003_IND_01",
+     "label": "Dorsal foot extensor tendon pain",
+     "referral_text": "Ultrasound Foot — dorsal foot pain aggravated by shoe pressure, assess extensor tendons for tenosynovitis.",
+     "urgency": "routine",
+     "finds": [
+      "Extensor tenosynovitis",
+      "Extensor tendinopathy",
+      "Dorsal foot ganglion"
+     ]
+    },
+    {
+     "id": "US_FOOT_003_IND_02",
+     "label": "Plantar plate tear assessment",
+     "referral_text": "Ultrasound Foot — MTP joint pain with toe instability, assess plantar plate integrity.",
+     "urgency": "routine",
+     "finds": [
+      "Plantar plate tear",
+      "MTP joint synovitis",
+      "Plantar plate thickening"
+     ]
+    },
+    {
+     "id": "US_FOOT_003_IND_03",
+     "label": "Peroneus longus insertion pain",
+     "referral_text": "Ultrasound Foot — plantar lateral midfoot pain, assess peroneus longus tendon at cuboid and insertion.",
+     "urgency": "routine",
+     "finds": [
+      "Peroneus longus tendinopathy",
+      "Peroneus longus tear at cuboid",
+      "Os peroneum pathology"
+     ]
+    }
+   ]
+  }
+ ]
+}

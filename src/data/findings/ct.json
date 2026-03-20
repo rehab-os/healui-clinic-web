@@ -1,0 +1,639 @@
+{
+ "ct_imaging": [
+  {
+   "id": "CT_CERVICAL_SPINE_001",
+   "modality": "CT",
+   "region": "cervical_spine",
+   "region_label": "Cervical Spine",
+   "label": "CT Cervical Spine",
+   "patient_label": "A detailed scan of the bones in your neck to check for fractures or structural problems",
+   "indications": [
+    {
+     "id": "CT_CERVICAL_SPINE_001_IND_01",
+     "label": "Suspected complex cervical fracture",
+     "referral_text": "CT Cervical Spine — suspected complex fracture not adequately characterised on plain radiograph, bony detail required for management.",
+     "urgency": "urgent",
+     "finds": [
+      "Odontoid fracture",
+      "Burst fracture",
+      "Facet fracture-dislocation",
+      "Lateral mass fracture"
+     ]
+    },
+    {
+     "id": "CT_CERVICAL_SPINE_001_IND_02",
+     "label": "Pre-surgical spinal assessment needed",
+     "referral_text": "CT Cervical Spine — pre-operative assessment of bony anatomy for planned surgical intervention.",
+     "urgency": "routine",
+     "finds": [
+      "Cervical stenosis bony component",
+      "Posterior osteophyte complex",
+      "Uncovertebral joint hypertrophy"
+     ]
+    },
+    {
+     "id": "CT_CERVICAL_SPINE_001_IND_03",
+     "label": "MRI contraindicated, metal implants present",
+     "referral_text": "CT Cervical Spine — MRI contraindicated due to metallic implant, CT requested to assess bony cervical pathology.",
+     "urgency": "routine",
+     "finds": [
+      "Cervical spondylotic myelopathy bony cause",
+      "Foraminal stenosis",
+      "Degenerative disc-osteophyte complex"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "CT_THORACIC_SPINE_001",
+   "modality": "CT",
+   "region": "thoracic_spine",
+   "region_label": "Thoracic Spine",
+   "label": "CT Thoracic Spine",
+   "patient_label": "A detailed scan of the bones in your mid-back to look for fractures or bony abnormalities",
+   "indications": [
+    {
+     "id": "CT_THORACIC_SPINE_001_IND_01",
+     "label": "Suspected thoracic compression fracture detail",
+     "referral_text": "CT Thoracic Spine — compression fracture identified on X-ray, CT requested to assess fracture stability and posterior wall integrity.",
+     "urgency": "urgent",
+     "finds": [
+      "Burst fracture with retropulsion",
+      "Unstable compression fracture",
+      "Chance fracture"
+     ]
+    },
+    {
+     "id": "CT_THORACIC_SPINE_001_IND_02",
+     "label": "MRI contraindicated, bony assessment needed",
+     "referral_text": "CT Thoracic Spine — MRI contraindicated due to metallic implant, CT to assess bony thoracic pathology.",
+     "urgency": "routine",
+     "finds": [
+      "Thoracic stenosis bony component",
+      "Scheuermann's disease bony detail",
+      "Costovertebral joint pathology"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "CT_LUMBAR_SPINE_001",
+   "modality": "CT",
+   "region": "lumbar_spine",
+   "region_label": "Lumbar Spine",
+   "label": "CT Lumbar Spine",
+   "patient_label": "A detailed scan of your lower back bones to check for stress fractures or structural problems",
+   "indications": [
+    {
+     "id": "CT_LUMBAR_SPINE_001_IND_01",
+     "label": "Suspected spondylolysis or pars defect",
+     "referral_text": "CT Lumbar Spine with reverse gantry angle — suspected spondylolysis, pars interarticularis defect assessment required.",
+     "urgency": "routine",
+     "finds": [
+      "Pars interarticularis stress fracture",
+      "Spondylolysis unilateral or bilateral",
+      "Early spondylolisthesis"
+     ]
+    },
+    {
+     "id": "CT_LUMBAR_SPINE_001_IND_02",
+     "label": "Complex lumbar fracture characterisation",
+     "referral_text": "CT Lumbar Spine — complex fracture identified on X-ray, CT for detailed bony characterisation and stability assessment.",
+     "urgency": "urgent",
+     "finds": [
+      "Burst fracture with canal compromise",
+      "Transverse process fracture pattern",
+      "Posterior element fracture"
+     ]
+    },
+    {
+     "id": "CT_LUMBAR_SPINE_001_IND_03",
+     "label": "Pre-surgical lumbar bony assessment",
+     "referral_text": "CT Lumbar Spine — pre-operative planning for spinal surgery, bony anatomy and pedicle morphology assessment.",
+     "urgency": "routine",
+     "finds": [
+      "Severe foraminal stenosis bony cause",
+      "Pedicle morphology for screw placement",
+      "Facet joint arthrosis grading"
+     ]
+    },
+    {
+     "id": "CT_LUMBAR_SPINE_001_IND_04",
+     "label": "MRI contraindicated, lumbar pathology suspected",
+     "referral_text": "CT Lumbar Spine — MRI contraindicated due to metallic implant, CT to evaluate lumbar bony pathology and canal dimensions.",
+     "urgency": "routine",
+     "finds": [
+      "Lumbar canal stenosis bony component",
+      "Degenerative spondylolisthesis",
+      "Facet joint hypertrophy"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "CT_SACRUM_001",
+   "modality": "CT",
+   "region": "sacrum",
+   "region_label": "Sacrum",
+   "label": "CT Sacrum",
+   "patient_label": "A detailed scan of the triangular bone at the base of your spine to check for stress fractures",
+   "indications": [
+    {
+     "id": "CT_SACRUM_001_IND_01",
+     "label": "Suspected sacral stress fracture",
+     "referral_text": "CT Sacrum — suspected sacral insufficiency or stress fracture, bony detail required where MRI is unavailable or contraindicated.",
+     "urgency": "urgent",
+     "finds": [
+      "Sacral insufficiency fracture",
+      "Sacral stress fracture",
+      "Sacral alar fracture"
+     ]
+    },
+    {
+     "id": "CT_SACRUM_001_IND_02",
+     "label": "Complex sacral fracture characterisation",
+     "referral_text": "CT Sacrum — complex sacral fracture seen on X-ray, CT for detailed fracture classification and neural foraminal assessment.",
+     "urgency": "urgent",
+     "finds": [
+      "Denis zone sacral fracture",
+      "Sacral fracture with foraminal involvement",
+      "Sacrococcygeal fracture-dislocation"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "CT_SI_JOINT_001",
+   "modality": "CT",
+   "region": "si_joint",
+   "region_label": "Sacroiliac Joint",
+   "label": "CT Sacroiliac Joints",
+   "patient_label": "A detailed scan of the joints connecting your spine to your pelvis to check for inflammation or bony changes",
+   "indications": [
+    {
+     "id": "CT_SI_JOINT_001_IND_01",
+     "label": "Sacroiliitis bony changes, MRI contraindicated",
+     "referral_text": "CT Sacroiliac Joints — MRI contraindicated, CT to assess for bony erosions, sclerosis, or ankylosis suggestive of sacroiliitis.",
+     "urgency": "routine",
+     "finds": [
+      "Sacroiliac joint erosion",
+      "Subchondral sclerosis",
+      "Joint space ankylosis"
+     ]
+    },
+    {
+     "id": "CT_SI_JOINT_001_IND_02",
+     "label": "Suspected SI joint fracture-dislocation",
+     "referral_text": "CT Sacroiliac Joints — suspected sacroiliac joint fracture or dislocation following high-energy trauma, bony detail required.",
+     "urgency": "emergency",
+     "finds": [
+      "SI joint dislocation",
+      "Crescent fracture",
+      "Associated pelvic ring disruption"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "CT_PELVIS_001",
+   "modality": "CT",
+   "region": "pelvis",
+   "region_label": "Pelvis",
+   "label": "CT Pelvis",
+   "patient_label": "A detailed scan of your pelvic bones to check for complex fractures or structural problems",
+   "indications": [
+    {
+     "id": "CT_PELVIS_001_IND_01",
+     "label": "Complex pelvic fracture characterisation",
+     "referral_text": "CT Pelvis — complex pelvic fracture identified on X-ray, CT for fracture classification and assessment of ring stability.",
+     "urgency": "emergency",
+     "finds": [
+      "Acetabular fracture",
+      "Pelvic ring disruption",
+      "Pubic rami fracture pattern",
+      "Iliac wing fracture"
+     ]
+    },
+    {
+     "id": "CT_PELVIS_001_IND_02",
+     "label": "Pre-surgical pelvic fracture planning",
+     "referral_text": "CT Pelvis with 3D reconstruction — pre-operative planning for surgical fixation of pelvic or acetabular fracture.",
+     "urgency": "urgent",
+     "finds": [
+      "Acetabular column fracture detail",
+      "Comminuted fracture fragment mapping",
+      "Articular surface congruency"
+     ]
+    },
+    {
+     "id": "CT_PELVIS_001_IND_03",
+     "label": "Pelvic insufficiency fracture suspected",
+     "referral_text": "CT Pelvis — suspected pelvic insufficiency fracture in osteoporotic patient, X-ray inconclusive.",
+     "urgency": "urgent",
+     "finds": [
+      "Pubic rami insufficiency fracture",
+      "Sacral alar insufficiency fracture",
+      "Parasymphyseal fracture"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "CT_SHOULDER_001",
+   "modality": "CT",
+   "region": "shoulder",
+   "region_label": "Shoulder",
+   "label": "CT Shoulder",
+   "patient_label": "A detailed scan of your shoulder bones to assess fracture complexity or plan for surgery",
+   "indications": [
+    {
+     "id": "CT_SHOULDER_001_IND_01",
+     "label": "Complex proximal humerus fracture detail",
+     "referral_text": "CT Shoulder — complex proximal humerus fracture on X-ray, CT for fragment characterisation and surgical planning.",
+     "urgency": "urgent",
+     "finds": [
+      "Multi-part proximal humerus fracture",
+      "Humeral head-splitting fracture",
+      "Greater tuberosity displacement quantification"
+     ]
+    },
+    {
+     "id": "CT_SHOULDER_001_IND_02",
+     "label": "Glenoid bone loss assessment",
+     "referral_text": "CT Shoulder — recurrent anterior instability, CT for glenoid bone loss quantification and Hill-Sachs assessment.",
+     "urgency": "routine",
+     "finds": [
+      "Glenoid rim fracture or bone loss",
+      "Hill-Sachs lesion",
+      "Engaging Hill-Sachs defect"
+     ]
+    },
+    {
+     "id": "CT_SHOULDER_001_IND_03",
+     "label": "Pre-surgical shoulder arthroplasty planning",
+     "referral_text": "CT Shoulder — pre-operative assessment of glenoid morphology and bone stock for planned shoulder arthroplasty.",
+     "urgency": "routine",
+     "finds": [
+      "Glenoid version and morphology",
+      "Glenoid bone stock",
+      "Proximal humerus anatomy for implant sizing"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "CT_ELBOW_001",
+   "modality": "CT",
+   "region": "elbow",
+   "region_label": "Elbow",
+   "label": "CT Elbow",
+   "patient_label": "A detailed scan of your elbow bones to assess a complex fracture before treatment",
+   "indications": [
+    {
+     "id": "CT_ELBOW_001_IND_01",
+     "label": "Complex elbow fracture-dislocation detail",
+     "referral_text": "CT Elbow — complex fracture-dislocation pattern on X-ray, CT for fracture characterisation and pre-surgical planning.",
+     "urgency": "urgent",
+     "finds": [
+      "Terrible triad injury detail",
+      "Coronoid fracture classification",
+      "Comminuted radial head fracture"
+     ]
+    },
+    {
+     "id": "CT_ELBOW_001_IND_02",
+     "label": "Occult fracture, X-ray inconclusive",
+     "referral_text": "CT Elbow — positive fat pad sign on X-ray with no visible fracture, CT to identify occult fracture.",
+     "urgency": "routine",
+     "finds": [
+      "Occult radial head fracture",
+      "Coronoid tip fracture",
+      "Capitellum shear fracture"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "CT_WRIST_001",
+   "modality": "CT",
+   "region": "wrist",
+   "region_label": "Wrist",
+   "label": "CT Wrist",
+   "patient_label": "A detailed scan of your wrist bones to check for hidden fractures or assess fracture healing",
+   "indications": [
+    {
+     "id": "CT_WRIST_001_IND_01",
+     "label": "Suspected scaphoid fracture, X-ray negative",
+     "referral_text": "CT Wrist — clinical suspicion of scaphoid fracture with negative initial radiographs, CT for occult fracture detection.",
+     "urgency": "urgent",
+     "finds": [
+      "Occult scaphoid waist fracture",
+      "Scaphoid proximal pole fracture",
+      "Scaphoid tuberosity fracture"
+     ]
+    },
+    {
+     "id": "CT_WRIST_001_IND_02",
+     "label": "Complex distal radius fracture detail",
+     "referral_text": "CT Wrist — intra-articular distal radius fracture on X-ray, CT for articular surface assessment and surgical planning.",
+     "urgency": "urgent",
+     "finds": [
+      "Intra-articular step or gap quantification",
+      "Die-punch fragment",
+      "Comminuted distal radius fracture mapping"
+     ]
+    },
+    {
+     "id": "CT_WRIST_001_IND_03",
+     "label": "Scaphoid non-union assessment",
+     "referral_text": "CT Wrist — suspected scaphoid non-union, CT to assess fracture healing, bone resorption, and humpback deformity.",
+     "urgency": "routine",
+     "finds": [
+      "Scaphoid non-union",
+      "Avascular necrosis proximal pole",
+      "Scaphoid humpback deformity"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "CT_HAND_001",
+   "modality": "CT",
+   "region": "hand",
+   "region_label": "Hand",
+   "label": "CT Hand",
+   "patient_label": "A detailed scan of the bones in your hand to assess a complex fracture or joint injury",
+   "indications": [
+    {
+     "id": "CT_HAND_001_IND_01",
+     "label": "Complex metacarpal or phalangeal fracture",
+     "referral_text": "CT Hand — complex intra-articular metacarpal or phalangeal fracture on X-ray, CT for articular surface detail and surgical planning.",
+     "urgency": "urgent",
+     "finds": [
+      "Bennett fracture-dislocation detail",
+      "Rolando fracture comminution",
+      "Pilon-type phalangeal fracture"
+     ]
+    },
+    {
+     "id": "CT_HAND_001_IND_02",
+     "label": "Suspected carpal fracture, X-ray negative",
+     "referral_text": "CT Hand — clinical suspicion of carpal bone fracture with negative X-ray, CT to identify occult fracture.",
+     "urgency": "routine",
+     "finds": [
+      "Hook of hamate fracture",
+      "Triquetral body fracture",
+      "Capitate fracture"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "CT_HIP_001",
+   "modality": "CT",
+   "region": "hip",
+   "region_label": "Hip",
+   "label": "CT Hip",
+   "patient_label": "A detailed scan of your hip joint to assess a complex fracture or bony abnormality",
+   "indications": [
+    {
+     "id": "CT_HIP_001_IND_01",
+     "label": "Acetabular fracture surgical planning",
+     "referral_text": "CT Hip with 3D reconstruction — acetabular fracture confirmed on X-ray, CT for fracture classification and pre-operative planning.",
+     "urgency": "urgent",
+     "finds": [
+      "Acetabular column fracture pattern",
+      "Posterior wall fracture",
+      "Articular surface impaction"
+     ]
+    },
+    {
+     "id": "CT_HIP_001_IND_02",
+     "label": "Occult hip fracture, X-ray negative",
+     "referral_text": "CT Hip — high clinical suspicion of hip fracture in elderly patient with negative X-ray, MRI unavailable or contraindicated.",
+     "urgency": "emergency",
+     "finds": [
+      "Occult femoral neck fracture",
+      "Occult intertrochanteric fracture",
+      "Greater trochanter avulsion"
+     ]
+    },
+    {
+     "id": "CT_HIP_001_IND_03",
+     "label": "Femoroacetabular impingement bony assessment",
+     "referral_text": "CT Hip — suspected femoroacetabular impingement, CT for alpha angle measurement and acetabular version assessment.",
+     "urgency": "routine",
+     "finds": [
+      "Cam morphology quantification",
+      "Pincer morphology with overcoverage",
+      "Acetabular retroversion"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "CT_KNEE_001",
+   "modality": "CT",
+   "region": "knee",
+   "region_label": "Knee",
+   "label": "CT Knee",
+   "patient_label": "A detailed scan of your knee bones to assess a complex fracture or plan for surgery",
+   "indications": [
+    {
+     "id": "CT_KNEE_001_IND_01",
+     "label": "Complex tibial plateau fracture detail",
+     "referral_text": "CT Knee — tibial plateau fracture on X-ray, CT for fracture classification, articular depression measurement, and surgical planning.",
+     "urgency": "urgent",
+     "finds": [
+      "Schatzker classification detail",
+      "Articular surface depression quantification",
+      "Posterior column involvement"
+     ]
+    },
+    {
+     "id": "CT_KNEE_001_IND_02",
+     "label": "Complex distal femur fracture planning",
+     "referral_text": "CT Knee — comminuted distal femur fracture, CT for intra-articular extension assessment and pre-operative planning.",
+     "urgency": "urgent",
+     "finds": [
+      "Intra-articular distal femur fracture",
+      "Hoffa fragment",
+      "Intercondylar fracture pattern"
+     ]
+    },
+    {
+     "id": "CT_KNEE_001_IND_03",
+     "label": "Patella fracture or maltracking assessment",
+     "referral_text": "CT Knee — comminuted patella fracture or suspected bony maltracking, CT for fracture detail or tibial tuberosity-trochlear groove distance measurement.",
+     "urgency": "routine",
+     "finds": [
+      "Comminuted patella fracture mapping",
+      "TT-TG distance measurement",
+      "Trochlear dysplasia grading"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "CT_LOWER_LEG_001",
+   "modality": "CT",
+   "region": "lower_leg",
+   "region_label": "Lower Leg",
+   "label": "CT Tibia and Fibula",
+   "patient_label": "A detailed scan of your shin bones to assess a complex fracture or check healing",
+   "indications": [
+    {
+     "id": "CT_LOWER_LEG_001_IND_01",
+     "label": "Tibial stress fracture confirmation needed",
+     "referral_text": "CT Tibia — suspected tibial stress fracture with negative or equivocal X-ray, MRI contraindicated, CT to confirm cortical breach.",
+     "urgency": "routine",
+     "finds": [
+      "Tibial cortical stress fracture",
+      "Periosteal reaction with fracture line",
+      "Anterior tibial cortex stress fracture"
+     ]
+    },
+    {
+     "id": "CT_LOWER_LEG_001_IND_02",
+     "label": "Complex tibial shaft fracture detail",
+     "referral_text": "CT Tibia and Fibula — complex comminuted tibial shaft fracture, CT for fragment mapping and surgical planning.",
+     "urgency": "urgent",
+     "finds": [
+      "Segmental tibial fracture",
+      "Butterfly fragment detail",
+      "Fracture extension into tibial plafond"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "CT_ANKLE_001",
+   "modality": "CT",
+   "region": "ankle",
+   "region_label": "Ankle",
+   "label": "CT Ankle",
+   "patient_label": "A detailed scan of your ankle bones to assess a complex fracture or joint alignment",
+   "indications": [
+    {
+     "id": "CT_ANKLE_001_IND_01",
+     "label": "Complex ankle fracture surgical planning",
+     "referral_text": "CT Ankle — complex tri-malleolar or pilon fracture on X-ray, CT for articular surface assessment and pre-operative planning.",
+     "urgency": "urgent",
+     "finds": [
+      "Pilon fracture articular detail",
+      "Posterior malleolus fragment size",
+      "Syndesmotic injury bony component"
+     ]
+    },
+    {
+     "id": "CT_ANKLE_001_IND_02",
+     "label": "Suspected talar fracture or OCD",
+     "referral_text": "CT Ankle — suspected talar dome fracture or osteochondral defect, CT to assess bony lesion size and location.",
+     "urgency": "routine",
+     "finds": [
+      "Talar dome osteochondral defect",
+      "Lateral process talus fracture",
+      "Talar neck fracture"
+     ]
+    },
+    {
+     "id": "CT_ANKLE_001_IND_03",
+     "label": "Post-reduction fracture position check",
+     "referral_text": "CT Ankle — post-reduction assessment of ankle fracture, CT to confirm articular congruity and reduction adequacy.",
+     "urgency": "urgent",
+     "finds": [
+      "Intra-articular step-off",
+      "Residual talar subluxation",
+      "Inadequate syndesmotic reduction"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "CT_FOOT_001",
+   "modality": "CT",
+   "region": "foot",
+   "region_label": "Foot",
+   "label": "CT Foot",
+   "patient_label": "A detailed scan of the bones in your foot to check for stress fractures, coalition, or complex injuries",
+   "indications": [
+    {
+     "id": "CT_FOOT_001_IND_01",
+     "label": "Suspected tarsal coalition assessment",
+     "referral_text": "CT Foot — suspected tarsal coalition on X-ray or clinical examination, CT to confirm type and extent of coalition.",
+     "urgency": "routine",
+     "finds": [
+      "Calcaneonavicular coalition",
+      "Talocalcaneal coalition",
+      "Naviculocuneiform coalition"
+     ]
+    },
+    {
+     "id": "CT_FOOT_001_IND_02",
+     "label": "Calcaneal fracture surgical planning",
+     "referral_text": "CT Foot — intra-articular calcaneal fracture confirmed on X-ray, CT for Sanders classification and surgical planning.",
+     "urgency": "urgent",
+     "finds": [
+      "Sanders classification of calcaneal fracture",
+      "Posterior facet depression",
+      "Calcaneocuboid joint extension"
+     ]
+    },
+    {
+     "id": "CT_FOOT_001_IND_03",
+     "label": "Lisfranc injury bony detail",
+     "referral_text": "CT Foot — suspected Lisfranc fracture-dislocation, CT for bony detail and tarsometatarsal alignment assessment.",
+     "urgency": "urgent",
+     "finds": [
+      "Lisfranc fracture-dislocation",
+      "Fleck sign base of second metatarsal",
+      "Tarsometatarsal subluxation"
+     ]
+    },
+    {
+     "id": "CT_FOOT_001_IND_04",
+     "label": "Navicular stress fracture confirmation",
+     "referral_text": "CT Foot — suspected navicular stress fracture in athlete, CT to confirm fracture line and assess displacement.",
+     "urgency": "urgent",
+     "finds": [
+      "Navicular stress fracture",
+      "Navicular dorsal avulsion fracture",
+      "Fifth metatarsal Jones fracture detail"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "CT_TMJ_001",
+   "modality": "CT",
+   "region": "tmj",
+   "region_label": "Temporomandibular Joint",
+   "label": "CT Temporomandibular Joint",
+   "patient_label": "A detailed scan of your jaw joint to check for bony changes or fracture",
+   "indications": [
+    {
+     "id": "CT_TMJ_001_IND_01",
+     "label": "TMJ bony pathology, MRI contraindicated",
+     "referral_text": "CT TMJ — MRI contraindicated, CT to assess condylar morphology, bony degenerative changes, or ankylosis.",
+     "urgency": "routine",
+     "finds": [
+      "Condylar erosion or flattening",
+      "TMJ bony ankylosis",
+      "Condylar osteophyte formation"
+     ]
+    },
+    {
+     "id": "CT_TMJ_001_IND_02",
+     "label": "Suspected condylar or mandibular fracture",
+     "referral_text": "CT TMJ — suspected condylar fracture following trauma, CT for fracture characterisation and displacement assessment.",
+     "urgency": "urgent",
+     "finds": [
+      "Subcondylar fracture",
+      "Intracapsular condylar fracture",
+      "Condylar head fracture-dislocation"
+     ]
+    }
+   ]
+  }
+ ]
+}

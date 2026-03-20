@@ -1,0 +1,1108 @@
+{
+ "xray_imaging": [
+  {
+   "id": "XRAY_HEAD_001",
+   "modality": "X-Ray",
+   "region": "head",
+   "region_label": "Head",
+   "label": "Skull X-Ray",
+   "patient_label": "An X-ray of your skull to check for bone injuries or abnormalities.",
+   "indications": [
+    {
+     "id": "XRAY_HEAD_001_IND_01",
+     "label": "Head trauma with palpable deformity",
+     "referral_text": "X-Ray Skull — palpable bony deformity following direct head trauma.",
+     "urgency": "urgent",
+     "finds": ["Skull fracture", "Depressed fracture", "Calvarial defect"]
+    },
+    {
+     "id": "XRAY_HEAD_001_IND_02",
+     "label": "Post-traumatic headache persisting weeks",
+     "referral_text": "X-Ray Skull — persistent headache following head injury, to exclude bony pathology.",
+     "urgency": "routine",
+     "finds": ["Linear fracture", "Osteolytic lesion", "Paget's disease"]
+    },
+    {
+     "id": "XRAY_HEAD_001_IND_03",
+     "label": "Suspected bony lump on skull",
+     "referral_text": "X-Ray Skull — palpable bony mass on calvarium, query osteoma or other bony lesion.",
+     "urgency": "routine",
+     "finds": ["Osteoma", "Exostosis", "Bone cyst"]
+    }
+   ]
+  },
+  {
+   "id": "XRAY_TMJ_001",
+   "modality": "X-Ray",
+   "region": "tmj",
+   "region_label": "Temporomandibular Joint",
+   "label": "TMJ X-Ray",
+   "patient_label": "An X-ray of your jaw joint to check why it may be clicking, locking, or painful.",
+   "indications": [
+    {
+     "id": "XRAY_TMJ_001_IND_01",
+     "label": "Jaw clicking with limited opening",
+     "referral_text": "X-Ray TMJ — painful clicking and restricted mouth opening, to assess joint surfaces.",
+     "urgency": "routine",
+     "finds": [
+      "Condylar degeneration",
+      "Osteoarthritis",
+      "Osteophyte formation"
+     ]
+    },
+    {
+     "id": "XRAY_TMJ_001_IND_02",
+     "label": "Jaw locking episodes",
+     "referral_text": "X-Ray TMJ — recurrent jaw locking, to exclude bony obstruction or joint derangement.",
+     "urgency": "routine",
+     "finds": ["Condylar flattening", "Joint space narrowing", "Loose body"]
+    },
+    {
+     "id": "XRAY_TMJ_001_IND_03",
+     "label": "Post-traumatic jaw pain and malocclusion",
+     "referral_text": "X-Ray TMJ — jaw pain with altered bite following facial trauma, to exclude condylar fracture.",
+     "urgency": "urgent",
+     "finds": ["Condylar fracture", "Subcondylar fracture", "Joint dislocation"]
+    },
+    {
+     "id": "XRAY_TMJ_001_IND_04",
+     "label": "Chronic TMJ crepitus worsening progressively",
+     "referral_text": "X-Ray TMJ — progressive crepitus and pain on jaw movement, to assess for degenerative changes.",
+     "urgency": "routine",
+     "finds": ["Osteoarthritis", "Condylar erosion", "Sclerosis"]
+    }
+   ]
+  },
+  {
+   "id": "XRAY_CERVICAL_SPINE_001",
+   "modality": "X-Ray",
+   "region": "cervical_spine",
+   "region_label": "Cervical Spine",
+   "label": "Cervical Spine X-Ray",
+   "patient_label": "An X-ray of your neck to check the bones and joints of your upper spine.",
+   "indications": [
+    {
+     "id": "XRAY_CERVICAL_SPINE_001_IND_01",
+     "label": "Neck pain after significant trauma",
+     "referral_text": "X-Ray Cervical Spine — neck pain following significant trauma, to exclude fracture or instability.",
+     "urgency": "urgent",
+     "finds": [
+      "Cervical fracture",
+      "Vertebral subluxation",
+      "Compression fracture",
+      "Clay-shoveler's fracture"
+     ]
+    },
+    {
+     "id": "XRAY_CERVICAL_SPINE_001_IND_02",
+     "label": "Chronic neck stiffness over 50",
+     "referral_text": "X-Ray Cervical Spine — persistent neck stiffness and reduced range in patient over 50, to assess degenerative changes.",
+     "urgency": "routine",
+     "finds": [
+      "Cervical spondylosis",
+      "Disc space narrowing",
+      "Uncovertebral osteophytes",
+      "Foraminal stenosis"
+     ]
+    },
+    {
+     "id": "XRAY_CERVICAL_SPINE_001_IND_03",
+     "label": "Suspected cervical instability or hypermobility",
+     "referral_text": "X-Ray Cervical Spine with flexion-extension views — suspected segmental instability on clinical examination.",
+     "urgency": "routine",
+     "finds": [
+      "Segmental instability",
+      "Spondylolisthesis",
+      "Atlantoaxial subluxation"
+     ]
+    },
+    {
+     "id": "XRAY_CERVICAL_SPINE_001_IND_04",
+     "label": "Radiculopathy not responding to treatment",
+     "referral_text": "X-Ray Cervical Spine — persisting radicular arm symptoms unresponsive to six weeks of physiotherapy.",
+     "urgency": "routine",
+     "finds": [
+      "Foraminal narrowing",
+      "Disc height loss",
+      "Osteophyte encroachment"
+     ]
+    },
+    {
+     "id": "XRAY_CERVICAL_SPINE_001_IND_05",
+     "label": "Trauma with neurological signs in limbs",
+     "referral_text": "X-Ray Cervical Spine — post-traumatic neck pain with bilateral upper or lower limb neurological signs, suspected cord compromise.",
+     "urgency": "emergency",
+     "finds": [
+      "Burst fracture",
+      "Fracture-dislocation",
+      "Retropulsion",
+      "Spinal cord compromise"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "XRAY_THORACIC_SPINE_001",
+   "modality": "X-Ray",
+   "region": "thoracic_spine",
+   "region_label": "Thoracic Spine",
+   "label": "Thoracic Spine X-Ray",
+   "patient_label": "An X-ray of your mid-back to check the bones and alignment of your thoracic spine.",
+   "indications": [
+    {
+     "id": "XRAY_THORACIC_SPINE_001_IND_01",
+     "label": "Increased kyphosis in older patient",
+     "referral_text": "X-Ray Thoracic Spine — progressive kyphotic posture in elderly patient, to exclude compression fracture.",
+     "urgency": "routine",
+     "finds": [
+      "Vertebral compression fracture",
+      "Osteoporotic wedging",
+      "Scheuermann's disease"
+     ]
+    },
+    {
+     "id": "XRAY_THORACIC_SPINE_001_IND_02",
+     "label": "Thoracic pain with trauma history",
+     "referral_text": "X-Ray Thoracic Spine — localised thoracic pain following a fall, to exclude fracture.",
+     "urgency": "urgent",
+     "finds": [
+      "Compression fracture",
+      "Transverse process fracture",
+      "Burst fracture"
+     ]
+    },
+    {
+     "id": "XRAY_THORACIC_SPINE_001_IND_03",
+     "label": "Adolescent back pain with postural change",
+     "referral_text": "X-Ray Thoracic Spine — adolescent with worsening thoracic kyphosis and mid-back pain, to assess for Scheuermann's disease.",
+     "urgency": "routine",
+     "finds": ["Scheuermann's disease", "Vertebral wedging", "Schmorl's nodes"]
+    },
+    {
+     "id": "XRAY_THORACIC_SPINE_001_IND_04",
+     "label": "Suspected scoliosis assessment",
+     "referral_text": "X-Ray Thoracic Spine full-length — clinical suspicion of scoliosis, to assess curve magnitude and pattern.",
+     "urgency": "routine",
+     "finds": ["Scoliosis", "Vertebral rotation", "Hemivertebra"]
+    },
+    {
+     "id": "XRAY_THORACIC_SPINE_001_IND_05",
+     "label": "Night pain with weight loss history",
+     "referral_text": "X-Ray Thoracic Spine — unrelenting thoracic pain worse at night with unintended weight loss, to screen for bony pathology.",
+     "urgency": "urgent",
+     "finds": [
+      "Metastatic lesion",
+      "Pathological fracture",
+      "Vertebral body destruction"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "XRAY_LUMBAR_SPINE_001",
+   "modality": "X-Ray",
+   "region": "lumbar_spine",
+   "region_label": "Lumbar Spine",
+   "label": "Lumbar Spine X-Ray",
+   "patient_label": "An X-ray of your lower back to check the bones, disc spaces, and alignment.",
+   "indications": [
+    {
+     "id": "XRAY_LUMBAR_SPINE_001_IND_01",
+     "label": "Low back pain after fall",
+     "referral_text": "X-Ray Lumbar Spine — acute low back pain following a fall, to exclude fracture.",
+     "urgency": "urgent",
+     "finds": [
+      "Compression fracture",
+      "Transverse process fracture",
+      "Burst fracture"
+     ]
+    },
+    {
+     "id": "XRAY_LUMBAR_SPINE_001_IND_02",
+     "label": "Chronic low back pain over 50",
+     "referral_text": "X-Ray Lumbar Spine — chronic low back pain in patient over 50, to assess for degenerative or structural pathology.",
+     "urgency": "routine",
+     "finds": [
+      "Spondylosis",
+      "Disc space narrowing",
+      "Spondylolisthesis",
+      "Facet joint arthropathy"
+     ]
+    },
+    {
+     "id": "XRAY_LUMBAR_SPINE_001_IND_03",
+     "label": "Suspected spondylolisthesis on examination",
+     "referral_text": "X-Ray Lumbar Spine with oblique views — clinical suspicion of spondylolisthesis, palpable step deformity.",
+     "urgency": "routine",
+     "finds": ["Spondylolisthesis", "Spondylolysis", "Pars defect"]
+    },
+    {
+     "id": "XRAY_LUMBAR_SPINE_001_IND_04",
+     "label": "Young athlete with extension back pain",
+     "referral_text": "X-Ray Lumbar Spine — young athlete with pain on lumbar extension, to assess for pars stress fracture.",
+     "urgency": "routine",
+     "finds": [
+      "Spondylolysis",
+      "Pars interarticularis fracture",
+      "Spondylolisthesis"
+     ]
+    },
+    {
+     "id": "XRAY_LUMBAR_SPINE_001_IND_05",
+     "label": "Acute back pain with bilateral neurology",
+     "referral_text": "X-Ray Lumbar Spine — acute onset low back pain with bilateral lower limb neurological signs, to exclude significant bony pathology.",
+     "urgency": "emergency",
+     "finds": [
+      "Pathological fracture",
+      "Fracture-dislocation",
+      "Severe canal compromise"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "XRAY_SACRUM_001",
+   "modality": "X-Ray",
+   "region": "sacrum",
+   "region_label": "Sacrum",
+   "label": "Sacrum X-Ray",
+   "patient_label": "An X-ray of the triangular bone at the base of your spine.",
+   "indications": [
+    {
+     "id": "XRAY_SACRUM_001_IND_01",
+     "label": "Direct fall onto buttocks",
+     "referral_text": "X-Ray Sacrum — central low back and buttock pain after a fall onto the buttocks, to exclude sacral fracture.",
+     "urgency": "urgent",
+     "finds": [
+      "Sacral fracture",
+      "Coccygeal fracture",
+      "Sacral insufficiency fracture"
+     ]
+    },
+    {
+     "id": "XRAY_SACRUM_001_IND_02",
+     "label": "Sacral pain in osteoporotic patient",
+     "referral_text": "X-Ray Sacrum — persistent sacral pain in patient with known osteoporosis, to screen for insufficiency fracture.",
+     "urgency": "routine",
+     "finds": [
+      "Sacral insufficiency fracture",
+      "Osteoporotic change",
+      "Pathological fracture"
+     ]
+    },
+    {
+     "id": "XRAY_SACRUM_001_IND_03",
+     "label": "Post-partum persistent sacral pain",
+     "referral_text": "X-Ray Sacrum — persistent sacral pain after childbirth not responding to conservative management.",
+     "urgency": "routine",
+     "finds": [
+      "Sacral stress fracture",
+      "Coccyx subluxation",
+      "Sacral malalignment"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "XRAY_SI_JOINT_001",
+   "modality": "X-Ray",
+   "region": "si_joint",
+   "region_label": "Sacroiliac Joint",
+   "label": "SI Joint X-Ray",
+   "patient_label": "An X-ray of the joints connecting your spine to your pelvis.",
+   "indications": [
+    {
+     "id": "XRAY_SI_JOINT_001_IND_01",
+     "label": "Young adult with inflammatory back pain",
+     "referral_text": "X-Ray SI Joints — young adult with morning stiffness and buttock pain, to screen for sacroiliitis.",
+     "urgency": "routine",
+     "finds": [
+      "Sacroiliitis",
+      "Ankylosing spondylitis",
+      "Joint erosion",
+      "Sclerosis"
+     ]
+    },
+    {
+     "id": "XRAY_SI_JOINT_001_IND_02",
+     "label": "Positive sacroiliac provocation tests",
+     "referral_text": "X-Ray SI Joints — multiple positive SI joint provocation tests with suspected inflammatory pathology.",
+     "urgency": "routine",
+     "finds": ["Sacroiliitis", "Joint space widening", "Ankylosis"]
+    },
+    {
+     "id": "XRAY_SI_JOINT_001_IND_03",
+     "label": "Alternating buttock pain with stiffness",
+     "referral_text": "X-Ray SI Joints — alternating buttock pain with morning stiffness exceeding 30 minutes, to assess for inflammatory sacroiliitis.",
+     "urgency": "routine",
+     "finds": [
+      "Bilateral sacroiliitis",
+      "Erosive changes",
+      "Sclerosis",
+      "Pseudo-widening"
+     ]
+    },
+    {
+     "id": "XRAY_SI_JOINT_001_IND_04",
+     "label": "SI joint pain after pelvic trauma",
+     "referral_text": "X-Ray SI Joints — post-traumatic SI joint region pain, to exclude fracture or diastasis.",
+     "urgency": "urgent",
+     "finds": [
+      "SI joint diastasis",
+      "Sacral ala fracture",
+      "Pubic ramus fracture"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "XRAY_RIBS_001",
+   "modality": "X-Ray",
+   "region": "ribs",
+   "region_label": "Ribs",
+   "label": "Rib X-Ray",
+   "patient_label": "An X-ray of your ribs to check for fractures or other bone problems.",
+   "indications": [
+    {
+     "id": "XRAY_RIBS_001_IND_01",
+     "label": "Rib pain after direct blow",
+     "referral_text": "X-Ray Ribs — localised rib pain and tenderness after direct impact, to assess for fracture.",
+     "urgency": "routine",
+     "finds": ["Rib fracture", "Costochondral separation", "Flail segment"]
+    },
+    {
+     "id": "XRAY_RIBS_001_IND_02",
+     "label": "Rib pain with breathing difficulty",
+     "referral_text": "X-Ray Ribs and Chest — rib trauma with shortness of breath, to exclude fracture and pneumothorax.",
+     "urgency": "urgent",
+     "finds": ["Rib fracture", "Pneumothorax", "Haemothorax", "Flail chest"]
+    },
+    {
+     "id": "XRAY_RIBS_001_IND_03",
+     "label": "Stress fracture in rower or athlete",
+     "referral_text": "X-Ray Ribs — localised rib pain in athlete with repetitive loading, to screen for stress fracture.",
+     "urgency": "routine",
+     "finds": ["Stress fracture", "Callus formation", "Periosteal reaction"]
+    },
+    {
+     "id": "XRAY_RIBS_001_IND_04",
+     "label": "Multiple rib trauma in elderly patient",
+     "referral_text": "X-Ray Ribs — elderly patient with multiple rib tenderness after fall, to quantify rib fractures and exclude complications.",
+     "urgency": "urgent",
+     "finds": ["Multiple rib fractures", "Flail segment", "Pleural effusion"]
+    }
+   ]
+  },
+  {
+   "id": "XRAY_PELVIS_001",
+   "modality": "X-Ray",
+   "region": "pelvis",
+   "region_label": "Pelvis",
+   "label": "Pelvis X-Ray",
+   "patient_label": "An X-ray of your pelvis to check the pelvic bones, hip joints, and surrounding area.",
+   "indications": [
+    {
+     "id": "XRAY_PELVIS_001_IND_01",
+     "label": "Pelvic pain after high-energy trauma",
+     "referral_text": "X-Ray Pelvis — pelvic pain and inability to weight-bear following high-energy trauma, to exclude pelvic fracture.",
+     "urgency": "urgent",
+     "finds": [
+      "Pelvic ring fracture",
+      "Pubic rami fracture",
+      "Acetabular fracture",
+      "SI joint diastasis"
+     ]
+    },
+    {
+     "id": "XRAY_PELVIS_001_IND_02",
+     "label": "Groin pain in elderly after fall",
+     "referral_text": "X-Ray Pelvis — groin and anterior pelvic pain in elderly patient following a fall, to exclude pubic rami or hip fracture.",
+     "urgency": "urgent",
+     "finds": ["Pubic rami fracture", "Hip fracture", "Insufficiency fracture"]
+    },
+    {
+     "id": "XRAY_PELVIS_001_IND_03",
+     "label": "Suspected leg length discrepancy",
+     "referral_text": "X-Ray Pelvis standing — clinical suspicion of structural leg length discrepancy affecting gait and spinal alignment.",
+     "urgency": "routine",
+     "finds": [
+      "Leg length discrepancy",
+      "Coxa vara",
+      "Coxa valga",
+      "Pelvic obliquity"
+     ]
+    },
+    {
+     "id": "XRAY_PELVIS_001_IND_04",
+     "label": "Bilateral hip stiffness in younger adult",
+     "referral_text": "X-Ray Pelvis — bilateral hip stiffness and groin pain in younger patient, to assess joint morphology.",
+     "urgency": "routine",
+     "finds": [
+      "Femoroacetabular impingement",
+      "Hip dysplasia",
+      "Osteoarthritis",
+      "Avascular necrosis"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "XRAY_SHOULDER_001",
+   "modality": "X-Ray",
+   "region": "shoulder",
+   "region_label": "Shoulder",
+   "label": "Shoulder X-Ray",
+   "patient_label": "An X-ray of your shoulder to check the bones and joint for injuries or wear.",
+   "indications": [
+    {
+     "id": "XRAY_SHOULDER_001_IND_01",
+     "label": "Shoulder pain after fall on arm",
+     "referral_text": "X-Ray Shoulder — acute shoulder pain and limited movement following a fall onto outstretched hand, to exclude fracture or dislocation.",
+     "urgency": "urgent",
+     "finds": [
+      "Proximal humerus fracture",
+      "Clavicle fracture",
+      "Glenohumeral dislocation",
+      "Greater tuberosity fracture"
+     ]
+    },
+    {
+     "id": "XRAY_SHOULDER_001_IND_02",
+     "label": "Recurrent shoulder dislocation history",
+     "referral_text": "X-Ray Shoulder — recurrent anterior shoulder instability, to assess for bony Bankart or Hill-Sachs lesion.",
+     "urgency": "routine",
+     "finds": [
+      "Hill-Sachs lesion",
+      "Bony Bankart lesion",
+      "Glenohumeral arthropathy"
+     ]
+    },
+    {
+     "id": "XRAY_SHOULDER_001_IND_03",
+     "label": "Shoulder stiffness with painful arc",
+     "referral_text": "X-Ray Shoulder — chronic shoulder pain with painful arc and limited range, to assess for calcific tendinopathy or acromial morphology.",
+     "urgency": "routine",
+     "finds": [
+      "Calcific tendinopathy",
+      "Acromial spur",
+      "Acromioclavicular arthropathy",
+      "Glenohumeral osteoarthritis"
+     ]
+    },
+    {
+     "id": "XRAY_SHOULDER_001_IND_04",
+     "label": "Post-dislocation follow-up assessment",
+     "referral_text": "X-Ray Shoulder — follow-up after shoulder dislocation and reduction, to confirm joint congruency.",
+     "urgency": "routine",
+     "finds": [
+      "Persistent subluxation",
+      "Associated fracture",
+      "Joint incongruency"
+     ]
+    },
+    {
+     "id": "XRAY_SHOULDER_001_IND_05",
+     "label": "ACJ pain after direct impact",
+     "referral_text": "X-Ray Shoulder including acromioclavicular joint — localised ACJ tenderness after a fall onto the point of the shoulder, to exclude ACJ injury.",
+     "urgency": "urgent",
+     "finds": ["ACJ dislocation", "Distal clavicle fracture", "ACJ widening"]
+    }
+   ]
+  },
+  {
+   "id": "XRAY_UPPER_ARM_001",
+   "modality": "X-Ray",
+   "region": "upper_arm",
+   "region_label": "Upper Arm",
+   "label": "Humerus X-Ray",
+   "patient_label": "An X-ray of your upper arm bone to check for fractures or other problems.",
+   "indications": [
+    {
+     "id": "XRAY_UPPER_ARM_001_IND_01",
+     "label": "Upper arm pain after direct trauma",
+     "referral_text": "X-Ray Humerus — acute upper arm pain, swelling, and deformity after trauma, suspected humeral shaft fracture.",
+     "urgency": "urgent",
+     "finds": [
+      "Humeral shaft fracture",
+      "Spiral fracture",
+      "Pathological fracture"
+     ]
+    },
+    {
+     "id": "XRAY_UPPER_ARM_001_IND_02",
+     "label": "Upper arm pain with wrist drop",
+     "referral_text": "X-Ray Humerus — upper arm pain with wrist drop suggesting radial nerve involvement, to localise fracture.",
+     "urgency": "emergency",
+     "finds": [
+      "Mid-shaft humeral fracture",
+      "Spiral fracture with radial nerve compromise"
+     ]
+    },
+    {
+     "id": "XRAY_UPPER_ARM_001_IND_03",
+     "label": "Atraumatic arm pain with malignancy",
+     "referral_text": "X-Ray Humerus — atraumatic progressive upper arm pain in patient with history of malignancy, to screen for pathological lesion.",
+     "urgency": "urgent",
+     "finds": ["Pathological fracture", "Metastatic lesion", "Bone cyst"]
+    }
+   ]
+  },
+  {
+   "id": "XRAY_ELBOW_001",
+   "modality": "X-Ray",
+   "region": "elbow",
+   "region_label": "Elbow",
+   "label": "Elbow X-Ray",
+   "patient_label": "An X-ray of your elbow to check for fractures, joint damage, or loose bodies.",
+   "indications": [
+    {
+     "id": "XRAY_ELBOW_001_IND_01",
+     "label": "Elbow pain after fall on hand",
+     "referral_text": "X-Ray Elbow — elbow pain and swelling after fall onto outstretched hand, to exclude fracture.",
+     "urgency": "urgent",
+     "finds": [
+      "Radial head fracture",
+      "Olecranon fracture",
+      "Supracondylar fracture",
+      "Coronoid fracture"
+     ]
+    },
+    {
+     "id": "XRAY_ELBOW_001_IND_02",
+     "label": "Elbow locking or catching sensation",
+     "referral_text": "X-Ray Elbow — recurrent elbow locking and catching, to assess for loose bodies or osteophyte formation.",
+     "urgency": "routine",
+     "finds": [
+      "Loose bodies",
+      "Osteophytes",
+      "Osteoarthritis",
+      "Osteochondral defect"
+     ]
+    },
+    {
+     "id": "XRAY_ELBOW_001_IND_03",
+     "label": "Chronic lateral elbow pain unresolving",
+     "referral_text": "X-Ray Elbow — chronic lateral elbow pain not responding to physiotherapy, to exclude bony cause.",
+     "urgency": "routine",
+     "finds": [
+      "Calcification at lateral epicondyle",
+      "Radiocapitellar arthritis",
+      "Osteochondritis dissecans"
+     ]
+    },
+    {
+     "id": "XRAY_ELBOW_001_IND_04",
+     "label": "Elbow dislocation with neurovascular concern",
+     "referral_text": "X-Ray Elbow — suspected elbow dislocation with neurovascular compromise requiring emergency assessment.",
+     "urgency": "emergency",
+     "finds": [
+      "Elbow dislocation",
+      "Associated fracture-dislocation",
+      "Terrible triad injury"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "XRAY_FOREARM_001",
+   "modality": "X-Ray",
+   "region": "forearm",
+   "region_label": "Forearm",
+   "label": "Forearm X-Ray",
+   "patient_label": "An X-ray of your forearm to check the two bones between your elbow and wrist.",
+   "indications": [
+    {
+     "id": "XRAY_FOREARM_001_IND_01",
+     "label": "Forearm pain and deformity post-fall",
+     "referral_text": "X-Ray Forearm — forearm pain with visible deformity after fall, suspected radius and ulna fracture.",
+     "urgency": "urgent",
+     "finds": [
+      "Radius fracture",
+      "Ulna fracture",
+      "Both-bone forearm fracture",
+      "Monteggia fracture-dislocation"
+     ]
+    },
+    {
+     "id": "XRAY_FOREARM_001_IND_02",
+     "label": "Isolated ulna fracture after direct blow",
+     "referral_text": "X-Ray Forearm — localised ulna pain after direct blow to forearm, suspected nightstick fracture.",
+     "urgency": "urgent",
+     "finds": [
+      "Ulna shaft fracture",
+      "Nightstick fracture",
+      "Galeazzi fracture-dislocation"
+     ]
+    },
+    {
+     "id": "XRAY_FOREARM_001_IND_03",
+     "label": "Forearm pain with rotation restriction",
+     "referral_text": "X-Ray Forearm — persistent forearm pain with limited pronation and supination after injury, to assess bone alignment.",
+     "urgency": "routine",
+     "finds": ["Malunion", "Radioulnar synostosis", "Plastic deformation"]
+    }
+   ]
+  },
+  {
+   "id": "XRAY_WRIST_001",
+   "modality": "X-Ray",
+   "region": "wrist",
+   "region_label": "Wrist",
+   "label": "Wrist X-Ray",
+   "patient_label": "An X-ray of your wrist to check the bones and joints for fracture or injury.",
+   "indications": [
+    {
+     "id": "XRAY_WRIST_001_IND_01",
+     "label": "Wrist pain after fall on hand",
+     "referral_text": "X-Ray Wrist — wrist pain and swelling after fall onto outstretched hand, to exclude distal radius fracture.",
+     "urgency": "urgent",
+     "finds": [
+      "Distal radius fracture",
+      "Colles fracture",
+      "Smith fracture",
+      "Scaphoid fracture"
+     ]
+    },
+    {
+     "id": "XRAY_WRIST_001_IND_02",
+     "label": "Anatomical snuffbox tenderness post-fall",
+     "referral_text": "X-Ray Wrist with scaphoid views — tenderness in anatomical snuffbox after fall, to assess for scaphoid fracture.",
+     "urgency": "urgent",
+     "finds": [
+      "Scaphoid fracture",
+      "Scaphoid waist fracture",
+      "Triquetral fracture"
+     ]
+    },
+    {
+     "id": "XRAY_WRIST_001_IND_03",
+     "label": "Chronic wrist pain with clicking",
+     "referral_text": "X-Ray Wrist — chronic wrist pain with clicking, to assess for carpal instability or arthropathy.",
+     "urgency": "routine",
+     "finds": [
+      "Scapholunate dissociation",
+      "DISI deformity",
+      "Wrist osteoarthritis",
+      "Kienbock's disease"
+     ]
+    },
+    {
+     "id": "XRAY_WRIST_001_IND_04",
+     "label": "Wrist stiffness with reduced grip strength",
+     "referral_text": "X-Ray Wrist — wrist stiffness and weakened grip strength, to assess for degenerative or post-traumatic changes.",
+     "urgency": "routine",
+     "finds": [
+      "Osteoarthritis",
+      "Malunion of distal radius",
+      "Radiocarpal narrowing"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "XRAY_HAND_001",
+   "modality": "X-Ray",
+   "region": "hand",
+   "region_label": "Hand",
+   "label": "Hand X-Ray",
+   "patient_label": "An X-ray of your hand to check the small bones and joints for injury or disease.",
+   "indications": [
+    {
+     "id": "XRAY_HAND_001_IND_01",
+     "label": "Finger pain after ball impact",
+     "referral_text": "X-Ray Hand — finger pain and swelling after ball impact or jamming injury, to exclude phalangeal fracture or dislocation.",
+     "urgency": "urgent",
+     "finds": [
+      "Phalangeal fracture",
+      "Avulsion fracture",
+      "Interphalangeal dislocation",
+      "Metacarpal fracture"
+     ]
+    },
+    {
+     "id": "XRAY_HAND_001_IND_02",
+     "label": "Punching injury with metacarpal pain",
+     "referral_text": "X-Ray Hand — pain and swelling over metacarpal heads after punching impact, suspected boxer's fracture.",
+     "urgency": "urgent",
+     "finds": [
+      "Metacarpal neck fracture",
+      "Boxer's fracture",
+      "Metacarpal shaft fracture"
+     ]
+    },
+    {
+     "id": "XRAY_HAND_001_IND_03",
+     "label": "Multiple joint swelling and stiffness",
+     "referral_text": "X-Ray Hands bilateral — multiple joint swelling and stiffness in small joints, to assess for inflammatory or degenerative arthropathy.",
+     "urgency": "routine",
+     "finds": [
+      "Rheumatoid arthritis",
+      "Osteoarthritis",
+      "Erosive arthropathy",
+      "Psoriatic arthritis"
+     ]
+    },
+    {
+     "id": "XRAY_HAND_001_IND_04",
+     "label": "Thumb pain after forced abduction",
+     "referral_text": "X-Ray Thumb — thumb pain at MCP joint after forced abduction, to exclude fracture associated with ligament injury.",
+     "urgency": "urgent",
+     "finds": [
+      "Bennett's fracture",
+      "Avulsion fracture at UCL",
+      "Gamekeeper's thumb fracture"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "XRAY_HIP_001",
+   "modality": "X-Ray",
+   "region": "hip",
+   "region_label": "Hip",
+   "label": "Hip X-Ray",
+   "patient_label": "An X-ray of your hip joint to check the ball-and-socket joint for damage or wear.",
+   "indications": [
+    {
+     "id": "XRAY_HIP_001_IND_01",
+     "label": "Hip pain after fall in elderly",
+     "referral_text": "X-Ray Hip — acute hip pain and inability to weight-bear in elderly patient after fall, to exclude neck of femur fracture.",
+     "urgency": "urgent",
+     "finds": [
+      "Neck of femur fracture",
+      "Intertrochanteric fracture",
+      "Subtrochanteric fracture"
+     ]
+    },
+    {
+     "id": "XRAY_HIP_001_IND_02",
+     "label": "Progressive groin pain with stiffness",
+     "referral_text": "X-Ray Hip — progressive groin pain and restricted hip range, to assess for osteoarthritis.",
+     "urgency": "routine",
+     "finds": [
+      "Hip osteoarthritis",
+      "Joint space narrowing",
+      "Osteophytes",
+      "Subchondral cysts"
+     ]
+    },
+    {
+     "id": "XRAY_HIP_001_IND_03",
+     "label": "Groin pain in active young adult",
+     "referral_text": "X-Ray Hip — groin pain limiting sport in young active adult, to assess for femoroacetabular impingement morphology.",
+     "urgency": "routine",
+     "finds": [
+      "Cam morphology",
+      "Pincer morphology",
+      "Acetabular dysplasia",
+      "Labral calcification"
+     ]
+    },
+    {
+     "id": "XRAY_HIP_001_IND_04",
+     "label": "Hip pain with AVN risk",
+     "referral_text": "X-Ray Hip — persistent hip pain in patient with history of corticosteroid use or alcohol excess, to screen for avascular necrosis.",
+     "urgency": "routine",
+     "finds": [
+      "Avascular necrosis",
+      "Femoral head collapse",
+      "Subchondral sclerosis"
+     ]
+    },
+    {
+     "id": "XRAY_HIP_001_IND_05",
+     "label": "Shortened externally rotated leg post-trauma",
+     "referral_text": "X-Ray Hip — shortened and externally rotated limb after fall, clinical suspicion of hip fracture with vascular risk.",
+     "urgency": "emergency",
+     "finds": [
+      "Displaced neck of femur fracture",
+      "Hip dislocation",
+      "Femoral head fracture"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "XRAY_THIGH_001",
+   "modality": "X-Ray",
+   "region": "thigh",
+   "region_label": "Thigh",
+   "label": "Femur X-Ray",
+   "patient_label": "An X-ray of your thigh bone to check for fractures or bone problems.",
+   "indications": [
+    {
+     "id": "XRAY_THIGH_001_IND_01",
+     "label": "Thigh pain after high-energy trauma",
+     "referral_text": "X-Ray Femur — thigh pain with deformity following high-energy impact, suspected femoral shaft fracture.",
+     "urgency": "urgent",
+     "finds": [
+      "Femoral shaft fracture",
+      "Spiral fracture",
+      "Comminuted fracture"
+     ]
+    },
+    {
+     "id": "XRAY_THIGH_001_IND_02",
+     "label": "Thigh pain on bisphosphonate therapy",
+     "referral_text": "X-Ray Femur — lateral thigh pain in patient on long-term bisphosphonate therapy, to assess for atypical femoral fracture.",
+     "urgency": "urgent",
+     "finds": [
+      "Atypical femoral fracture",
+      "Cortical thickening",
+      "Transverse stress fracture"
+     ]
+    },
+    {
+     "id": "XRAY_THIGH_001_IND_03",
+     "label": "Atraumatic thigh pain with night symptoms",
+     "referral_text": "X-Ray Femur — atraumatic deep thigh pain worse at night, to screen for bony pathology.",
+     "urgency": "urgent",
+     "finds": ["Bone tumour", "Pathological fracture", "Osteoid osteoma"]
+    }
+   ]
+  },
+  {
+   "id": "XRAY_KNEE_001",
+   "modality": "X-Ray",
+   "region": "knee",
+   "region_label": "Knee",
+   "label": "Knee X-Ray",
+   "patient_label": "An X-ray of your knee to check the bones and joint space for injury or arthritis.",
+   "indications": [
+    {
+     "id": "XRAY_KNEE_001_IND_01",
+     "label": "Knee pain after twisting injury",
+     "referral_text": "X-Ray Knee — acute knee pain and swelling after twisting mechanism, to exclude fracture per Ottawa Knee Rules.",
+     "urgency": "urgent",
+     "finds": [
+      "Tibial plateau fracture",
+      "Fibula head fracture",
+      "Patella fracture",
+      "Segond fracture"
+     ]
+    },
+    {
+     "id": "XRAY_KNEE_001_IND_02",
+     "label": "Chronic knee pain and stiffness",
+     "referral_text": "X-Ray Knee weight-bearing — chronic knee pain and stiffness, to assess for degenerative changes.",
+     "urgency": "routine",
+     "finds": [
+      "Knee osteoarthritis",
+      "Joint space narrowing",
+      "Osteophytes",
+      "Subchondral sclerosis"
+     ]
+    },
+    {
+     "id": "XRAY_KNEE_001_IND_03",
+     "label": "Anterior knee pain with giving way",
+     "referral_text": "X-Ray Knee including skyline view — anterior knee pain and giving way, to assess patellofemoral joint.",
+     "urgency": "routine",
+     "finds": [
+      "Patella alta",
+      "Patella baja",
+      "Patellofemoral arthritis",
+      "Trochlear dysplasia"
+     ]
+    },
+    {
+     "id": "XRAY_KNEE_001_IND_04",
+     "label": "Knee unable to bear weight post-trauma",
+     "referral_text": "X-Ray Knee — unable to take four weight-bearing steps following trauma, Ottawa Knee Rules positive.",
+     "urgency": "urgent",
+     "finds": [
+      "Tibial plateau fracture",
+      "Distal femur fracture",
+      "Patella fracture"
+     ]
+    },
+    {
+     "id": "XRAY_KNEE_001_IND_05",
+     "label": "Adolescent knee pain near growth plate",
+     "referral_text": "X-Ray Knee — adolescent with localised tibial tubercle pain, to assess for Osgood-Schlatter's or growth plate pathology.",
+     "urgency": "routine",
+     "finds": [
+      "Osgood-Schlatter disease",
+      "Tibial tubercle avulsion",
+      "Growth plate irregularity"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "XRAY_LOWER_LEG_001",
+   "modality": "X-Ray",
+   "region": "lower_leg",
+   "region_label": "Lower Leg",
+   "label": "Tibia/Fibula X-Ray",
+   "patient_label": "An X-ray of your shin and lower leg bones to check for fractures or stress injuries.",
+   "indications": [
+    {
+     "id": "XRAY_LOWER_LEG_001_IND_01",
+     "label": "Lower leg pain after direct impact",
+     "referral_text": "X-Ray Tibia and Fibula — acute lower leg pain with deformity after direct trauma, suspected fracture.",
+     "urgency": "urgent",
+     "finds": [
+      "Tibial shaft fracture",
+      "Fibula fracture",
+      "Both-bone lower leg fracture"
+     ]
+    },
+    {
+     "id": "XRAY_LOWER_LEG_001_IND_02",
+     "label": "Shin pain in distance runner",
+     "referral_text": "X-Ray Tibia — localised shin pain in runner worsening with activity, to screen for tibial stress fracture.",
+     "urgency": "routine",
+     "finds": [
+      "Tibial stress fracture",
+      "Periosteal reaction",
+      "Cortical thickening"
+     ]
+    },
+    {
+     "id": "XRAY_LOWER_LEG_001_IND_03",
+     "label": "Lower leg fracture with vascular concern",
+     "referral_text": "X-Ray Tibia and Fibula — suspected displaced tibial fracture with neurovascular compromise, requiring emergency assessment.",
+     "urgency": "emergency",
+     "finds": [
+      "Open fracture",
+      "Displaced tibial fracture",
+      "Compartment syndrome risk"
+     ]
+    },
+    {
+     "id": "XRAY_LOWER_LEG_001_IND_04",
+     "label": "Persistent shin pain not resolving",
+     "referral_text": "X-Ray Tibia — persistent medial tibial pain unresponsive to load management over eight weeks.",
+     "urgency": "routine",
+     "finds": ["Stress fracture", "Periosteal reaction", "Bone lesion"]
+    }
+   ]
+  },
+  {
+   "id": "XRAY_ANKLE_001",
+   "modality": "X-Ray",
+   "region": "ankle",
+   "region_label": "Ankle",
+   "label": "Ankle X-Ray",
+   "patient_label": "An X-ray of your ankle to check the bones and joint after an injury or for ongoing pain.",
+   "indications": [
+    {
+     "id": "XRAY_ANKLE_001_IND_01",
+     "label": "Ankle inversion injury Ottawa rules positive",
+     "referral_text": "X-Ray Ankle — ankle sprain meeting Ottawa Ankle Rules criteria, to exclude malleolar fracture.",
+     "urgency": "urgent",
+     "finds": [
+      "Lateral malleolus fracture",
+      "Medial malleolus fracture",
+      "Bimalleolar fracture",
+      "Posterior malleolus fracture"
+     ]
+    },
+    {
+     "id": "XRAY_ANKLE_001_IND_02",
+     "label": "Ankle pain with significant swelling",
+     "referral_text": "X-Ray Ankle — substantial ankle swelling and inability to weight-bear following injury, to exclude fracture or dislocation.",
+     "urgency": "urgent",
+     "finds": [
+      "Trimalleolar fracture",
+      "Ankle dislocation",
+      "Syndesmosis widening",
+      "Talus fracture"
+     ]
+    },
+    {
+     "id": "XRAY_ANKLE_001_IND_03",
+     "label": "Chronic ankle pain post-recurrent sprains",
+     "referral_text": "X-Ray Ankle — chronic ankle pain and instability following multiple sprains, to assess for osteochondral lesion or arthritis.",
+     "urgency": "routine",
+     "finds": [
+      "Osteochondral lesion of talus",
+      "Ankle osteoarthritis",
+      "Loose body",
+      "Anterior impingement spur"
+     ]
+    },
+    {
+     "id": "XRAY_ANKLE_001_IND_04",
+     "label": "Ankle weight-bearing for alignment assessment",
+     "referral_text": "X-Ray Ankle weight-bearing — chronic ankle symptoms with suspected malalignment or early arthritis.",
+     "urgency": "routine",
+     "finds": [
+      "Varus or valgus malalignment",
+      "Joint space narrowing",
+      "Tibiotalar tilt"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "XRAY_FOOT_001",
+   "modality": "X-Ray",
+   "region": "foot",
+   "region_label": "Foot",
+   "label": "Foot X-Ray",
+   "patient_label": "An X-ray of your foot to check the bones and joints for fractures, arthritis, or deformity.",
+   "indications": [
+    {
+     "id": "XRAY_FOOT_001_IND_01",
+     "label": "Foot pain after twisting or fall",
+     "referral_text": "X-Ray Foot — midfoot or forefoot pain after twisting injury, Ottawa rules positive, to exclude fracture.",
+     "urgency": "urgent",
+     "finds": [
+      "Metatarsal fracture",
+      "Lisfranc injury",
+      "Navicular fracture",
+      "Cuboid fracture"
+     ]
+    },
+    {
+     "id": "XRAY_FOOT_001_IND_02",
+     "label": "Forefoot pain in runner increasing",
+     "referral_text": "X-Ray Foot — progressive forefoot pain in runner, to screen for metatarsal stress fracture.",
+     "urgency": "routine",
+     "finds": [
+      "Metatarsal stress fracture",
+      "Periosteal reaction",
+      "Sesamoid fracture"
+     ]
+    },
+    {
+     "id": "XRAY_FOOT_001_IND_03",
+     "label": "Big toe joint pain and stiffness",
+     "referral_text": "X-Ray Foot — pain and stiffness at the first metatarsophalangeal joint, to assess for hallux rigidus or bunion.",
+     "urgency": "routine",
+     "finds": [
+      "Hallux rigidus",
+      "Hallux valgus",
+      "First MTP osteoarthritis",
+      "Sesamoiditis"
+     ]
+    },
+    {
+     "id": "XRAY_FOOT_001_IND_04",
+     "label": "Flat foot with progressive arch pain",
+     "referral_text": "X-Ray Foot weight-bearing — progressive arch collapse and medial foot pain, to assess bony alignment and degenerative changes.",
+     "urgency": "routine",
+     "finds": [
+      "Pes planus",
+      "Talonavicular arthritis",
+      "Midfoot collapse",
+      "Accessory navicular"
+     ]
+    },
+    {
+     "id": "XRAY_FOOT_001_IND_05",
+     "label": "Heel pain unresponsive to treatment",
+     "referral_text": "X-Ray Foot lateral — persistent heel pain unresponsive to conservative management, to assess calcaneal pathology.",
+     "urgency": "routine",
+     "finds": [
+      "Calcaneal stress fracture",
+      "Calcaneal spur",
+      "Haglund's deformity"
+     ]
+    }
+   ]
+  }
+ ]
+}

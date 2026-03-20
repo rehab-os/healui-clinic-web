@@ -11,21 +11,14 @@ import ScheduleVisitModal from '../../../components/features/appointments/Schedu
 import ClinicalAssessmentModal from '../../../components/features/assessments/ClinicalAssessmentModal';
 import PatientBillingModal from '../../../components/features/billing/PatientBillingModal';
 import AddConditionWorkflow from '../../../components/features/conditions/AddConditionWorkflow';
+import PatientListItem from '../../../components/features/patients/PatientListItem';
 import {
   UserPlus,
-  MoreVertical,
   Search,
-  Eye,
-  CalendarPlus,
-  Clock,
   AlertCircle,
-  CheckCircle,
   Shield,
   Loader2,
   XCircle,
-  Stethoscope,
-  IndianRupee,
-  Crosshair,
   Plus,
   FileText,
   ChevronLeft,
@@ -414,44 +407,24 @@ export default function PatientsPage() {
             )}
           </div>
         ) : (
-          <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
-            <div className="overflow-x-auto">
-              <table className="min-w-full">
-                <thead>
-                  <tr className="border-b border-gray-100">
-                    <th className="px-5 py-3 text-left text-[11px] font-semibold text-brand-teal/60 uppercase tracking-wider">
-                      Patient
-                    </th>
-                    <th className="px-5 py-3 text-left text-[11px] font-semibold text-brand-teal/60 uppercase tracking-wider hidden sm:table-cell">
-                      Contact
-                    </th>
-                    <th className="px-5 py-3 text-left text-[11px] font-semibold text-brand-teal/60 uppercase tracking-wider hidden md:table-cell">
-                      Status
-                    </th>
-                    <th className="w-12 px-3 py-3">
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {patientsData.patients.map((patient, idx) => (
-                    <PatientRow
-                      key={patient.id}
-                      patient={patient}
-                      isLast={idx === patientsData.patients.length - 1}
-                      onView={() => handleViewPatient(patient)}
-                      onSchedule={() => handleScheduleVisit(patient)}
-                      onClinicalAssessment={() => handleClinicalAssessment(patient)}
-                      onBilling={() => handleBilling(patient)}
-                      onDx={() => handleDx(patient)}
-                    />
-                  ))}
-                </tbody>
-              </table>
+          <>
+            <div className="space-y-2">
+              {patientsData.patients.map((patient) => (
+                <PatientListItem
+                  key={patient.id}
+                  patient={patient}
+                  onView={() => handleViewPatient(patient)}
+                  onSchedule={() => handleScheduleVisit(patient)}
+                  onClinicalAssessment={() => handleClinicalAssessment(patient)}
+                  onBilling={() => handleBilling(patient)}
+                  onDx={() => handleDx(patient)}
+                />
+              ))}
             </div>
 
-            {/* Pagination — inside the card */}
+            {/* Pagination */}
             {patientsData.total > limit && (
-              <div className="flex items-center justify-between px-5 py-3 border-t border-gray-100 bg-gray-50/40">
+              <div className="flex items-center justify-between px-5 py-3 mt-3 bg-white rounded-xl border border-gray-100 shadow-sm">
                 <span className="text-xs text-gray-400">
                   {(page - 1) * limit + 1}–{Math.min(page * limit, patientsData.total)} of {patientsData.total}
                 </span>
@@ -459,7 +432,7 @@ export default function PatientsPage() {
                   <button
                     onClick={() => setPage(p => Math.max(1, p - 1))}
                     disabled={page === 1}
-                    className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                    className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                   >
                     <ChevronLeft className="h-4 w-4" />
                   </button>
@@ -469,14 +442,14 @@ export default function PatientsPage() {
                   <button
                     onClick={() => setPage(p => p + 1)}
                     disabled={page >= totalPages}
-                    className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                    className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                   >
                     <ChevronRight className="h-4 w-4" />
                   </button>
                 </div>
               </div>
             )}
-          </div>
+          </>
         )}
       </div>
 
@@ -557,6 +530,7 @@ export default function PatientsPage() {
           patientId={selectedPatient.id}
           patientName={selectedPatient.full_name}
           clinicId={currentClinic.id}
+          clinic={{ name: currentClinic.name }}
           onClose={() => {
             setShowBillingModal(false);
             setSelectedPatient(null);
@@ -572,6 +546,7 @@ export default function PatientsPage() {
         }}
         patientId={selectedPatient?.id || ''}
         patientName={selectedPatient?.full_name}
+        clinicId={currentClinic?.id || ''}
         onComplete={(result) => {
           console.log('Dx completed:', result);
           setShowDxModal(false);
@@ -583,169 +558,3 @@ export default function PatientsPage() {
   );
 }
 
-/* ─────────────────────────────────────────────────────
-   Patient Row
-   ───────────────────────────────────────────────────── */
-
-interface PatientRowProps {
-  patient: Patient;
-  isLast: boolean;
-  onView: () => void;
-  onSchedule: () => void;
-  onClinicalAssessment: () => void;
-  onBilling: () => void;
-  onDx: () => void;
-}
-
-const PatientRow: React.FC<PatientRowProps> = ({ patient, isLast, onView, onSchedule, onClinicalAssessment, onBilling, onDx }) => {
-  const [showMenu, setShowMenu] = useState(false);
-  const menuRef = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    if (!showMenu) return;
-    const handleClick = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setShowMenu(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClick);
-    return () => document.removeEventListener('mousedown', handleClick);
-  }, [showMenu]);
-
-  const calculateAge = (dob: Date) => {
-    const today = new Date();
-    const birthDate = new Date(dob);
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const monthDiff = today.getMonth() - birthDate.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-      age--;
-    }
-    return age;
-  };
-
-  const getIntakeStatusInfo = (intakeStatus: string) => {
-    switch (intakeStatus) {
-      case 'CLINICAL_ASSESSMENT_COMPLETE':
-        return { label: 'Ready', dotColor: 'bg-emerald-400', textColor: 'text-emerald-700', bgColor: 'bg-emerald-50' };
-      case 'BASIC_INTAKE_COMPLETE':
-        return { label: 'Assessment Pending', dotColor: 'bg-amber-400', textColor: 'text-amber-700', bgColor: 'bg-amber-50' };
-      case 'BASIC_INTAKE_PENDING':
-        return { label: 'Intake Pending', dotColor: 'bg-orange-400', textColor: 'text-orange-700', bgColor: 'bg-orange-50' };
-      default:
-        return { label: 'Pending', dotColor: 'bg-gray-300', textColor: 'text-gray-500', bgColor: 'bg-gray-50' };
-    }
-  };
-
-  const isInactive = patient.status === 'INACTIVE';
-  const isDischarged = patient.status === 'DISCHARGED';
-  const statusInfo = getIntakeStatusInfo(patient.intake_status);
-  const age = calculateAge(patient.date_of_birth);
-  const genderLabel = patient.gender === 'M' ? 'Male' : patient.gender === 'F' ? 'Female' : 'Other';
-  const genderShort = patient.gender === 'M' ? 'M' : patient.gender === 'F' ? 'F' : 'O';
-  const initials = patient.full_name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
-
-  return (
-    <tr
-      className={`group cursor-pointer transition-all duration-150 ${
-        isInactive ? 'opacity-40 hover:opacity-60' :
-        isDischarged ? 'hover:bg-brand-teal/[0.02]' :
-        'hover:bg-brand-teal/[0.03]'
-      } ${!isLast ? 'border-b border-gray-50' : ''}`}
-      onClick={onView}
-    >
-      {/* Patient — avatar + name + code */}
-      <td className="px-5 py-3.5">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-teal to-teal-600 flex items-center justify-center text-white text-xs font-semibold flex-shrink-0 shadow-sm shadow-brand-teal/20">
-            {initials}
-          </div>
-          <div className="min-w-0">
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-semibold text-gray-900 truncate group-hover:text-brand-teal transition-colors duration-150">
-                {patient.full_name}
-              </span>
-              <span className="text-[10px] text-gray-300 font-mono flex-shrink-0 hidden sm:inline tracking-wide">
-                {patient.patient_code}
-              </span>
-            </div>
-            <div className="mt-0.5 flex items-center gap-1.5 text-xs text-gray-400">
-              <span>{age}y &middot; {genderShort}</span>
-              <span className="sm:hidden text-gray-200">&middot;</span>
-              <span className="sm:hidden text-gray-500">{patient.phone}</span>
-            </div>
-          </div>
-        </div>
-      </td>
-
-      {/* Contact — hidden on mobile */}
-      <td className="px-5 py-3.5 hidden sm:table-cell">
-        <span className="text-sm text-gray-600">{patient.phone}</span>
-        <span className="block text-xs text-gray-300 mt-0.5">{genderLabel} &middot; {age} yrs</span>
-      </td>
-
-      {/* Status — hidden on mobile + tablet */}
-      <td className="px-5 py-3.5 hidden md:table-cell">
-        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium rounded-lg ${statusInfo.bgColor} ${statusInfo.textColor}`}>
-          <span className={`w-1.5 h-1.5 rounded-full ${statusInfo.dotColor}`} />
-          {statusInfo.label}
-        </span>
-      </td>
-
-      {/* Actions */}
-      <td className="px-3 py-3.5 text-right">
-        <div className="relative" ref={menuRef}>
-          <button
-            onClick={(e) => { e.stopPropagation(); setShowMenu(!showMenu); }}
-            className="p-1.5 text-gray-300 hover:text-gray-500 hover:bg-gray-100 rounded-lg transition-all duration-150 opacity-0 group-hover:opacity-100 focus:opacity-100"
-          >
-            <MoreVertical className="h-4 w-4" />
-          </button>
-          {showMenu && (
-            <>
-              <div className="fixed inset-0 z-10" onClick={(e) => { e.stopPropagation(); setShowMenu(false); }} />
-              <div className="absolute right-0 top-8 w-52 bg-white rounded-xl shadow-xl shadow-gray-200/50 border border-gray-100 z-20 overflow-hidden">
-                <div className="p-1.5">
-                  <button
-                    onClick={(e) => { e.stopPropagation(); setShowMenu(false); onView(); }}
-                    className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-brand-teal/[0.05] rounded-lg transition-colors"
-                  >
-                    <Eye className="h-4 w-4 text-gray-400" />
-                    View Profile
-                  </button>
-                  <button
-                    onClick={(e) => { e.stopPropagation(); setShowMenu(false); onDx(); }}
-                    className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-brand-teal/[0.05] rounded-lg transition-colors"
-                  >
-                    <Crosshair className="h-4 w-4 text-brand-teal" />
-                    Start Assessment
-                  </button>
-                  <button
-                    onClick={(e) => { e.stopPropagation(); setShowMenu(false); onSchedule(); }}
-                    className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-brand-teal/[0.05] rounded-lg transition-colors"
-                  >
-                    <CalendarPlus className="h-4 w-4 text-gray-400" />
-                    Schedule Visit
-                  </button>
-                  <button
-                    onClick={(e) => { e.stopPropagation(); setShowMenu(false); onBilling(); }}
-                    className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-brand-teal/[0.05] rounded-lg transition-colors"
-                  >
-                    <IndianRupee className="h-4 w-4 text-gray-400" />
-                    Billing
-                  </button>
-                  <button
-                    onClick={(e) => { e.stopPropagation(); setShowMenu(false); onClinicalAssessment(); }}
-                    className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-brand-teal/[0.05] rounded-lg transition-colors"
-                  >
-                    <Stethoscope className="h-4 w-4 text-gray-400" />
-                    Clinical Intake
-                  </button>
-                </div>
-              </div>
-            </>
-          )}
-        </div>
-      </td>
-    </tr>
-  );
-};

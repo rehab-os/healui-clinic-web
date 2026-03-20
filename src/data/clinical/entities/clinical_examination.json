@@ -1,0 +1,389 @@
+{
+  "version": "1.0",
+  "description": "Physical examination data for all clinical specialties. MSK now. Neurological and cardiorespiratory planned. All examination data lives here — not in assessments files.",
+
+  "universal_scales": {
+    "tenderness_grading": {
+      "type": "ordinal_0_to_3",
+      "label": "Tenderness Grade",
+      "clinical_note": "Standard clinical tenderness grading — grade the response, not just presence",
+      "grades": [
+        { "value": 0, "label": "None",     "chip": "0", "description": "No tenderness on palpation" },
+        { "value": 1, "label": "Mild",     "chip": "1+", "description": "Tender — patient acknowledges, no grimace" },
+        { "value": 2, "label": "Moderate", "chip": "2+", "description": "Grimace or verbal response on palpation" },
+        { "value": 3, "label": "Severe",   "chip": "3+", "description": "Withdraws, guards, or refuses touch" }
+      ]
+    },
+    "swelling_grading": {
+      "type": "ordinal_0_to_4",
+      "label": "Swelling Grade",
+      "grades": [
+        { "value": 0, "label": "None"     },
+        { "value": 1, "label": "Trace"    },
+        { "value": 2, "label": "Mild"     },
+        { "value": 3, "label": "Moderate" },
+        { "value": 4, "label": "Marked"   }
+      ],
+      "type_options": ["Boggy (fluid)", "Firm (fibrotic)", "Mixed"]
+    },
+    "muscle_guarding_grading": {
+      "type": "ordinal_0_to_3",
+      "grades": [
+        { "value": 0, "label": "None"     },
+        { "value": 1, "label": "Mild"     },
+        { "value": 2, "label": "Moderate" },
+        { "value": 3, "label": "Severe"   }
+      ]
+    },
+    "end_feel_options": [
+      { "value": "capsular",      "label": "Capsular",           "note": "Firm, leathery — capsular tightness" },
+      { "value": "soft_tissue",   "label": "Soft tissue",        "note": "Spongy — muscle or soft tissue limiting" },
+      { "value": "bony",          "label": "Bony",               "note": "Hard stop — bony block" },
+      { "value": "empty",         "label": "Empty (pain-limited)","note": "Patient stops before end range due to pain — serious" },
+      { "value": "springy",       "label": "Springy",            "note": "Rebound feel — possible loose body or meniscus" }
+    ],
+    "accessory_movement_stiffness": ["Normal", "Slightly stiff", "Stiff", "Very stiff"],
+    "accessory_movement_pain":      ["None",   "Familiar pain",  "Different pain", "Severe pain"]
+  },
+
+  "msk": {
+
+    "region_alias_map": {
+      "neck": "cervical", "cervical_spine": "cervical",
+      "lower-back": "lumbar", "lumbar_spine": "lumbar", "lower_back": "lumbar",
+      "thoracic_spine": "thoracic", "forearm": "elbow",
+      "arm": "shoulder", "thigh": "hip", "lower-leg": "knee"
+    },
+
+    "region_joint_map": {
+      "shoulder": [
+        { "key": "shoulder_flexion",    "label": "Flexion",       "normal": 180, "unit": "°" },
+        { "key": "shoulder_extension",  "label": "Extension",     "normal": 60,  "unit": "°" },
+        { "key": "shoulder_abduction",  "label": "Abduction",     "normal": 180, "unit": "°" },
+        { "key": "shoulder_adduction",  "label": "Adduction",     "normal": 45,  "unit": "°" },
+        { "key": "shoulder_ir",         "label": "Int. Rotation", "normal": 70,  "unit": "°" },
+        { "key": "shoulder_er",         "label": "Ext. Rotation", "normal": 90,  "unit": "°" }
+      ],
+      "elbow": [
+        { "key": "elbow_flexion",     "label": "Flexion",     "normal": 150, "unit": "°" },
+        { "key": "elbow_extension",   "label": "Extension",   "normal": 0,   "unit": "°" },
+        { "key": "elbow_pronation",   "label": "Pronation",   "normal": 80,  "unit": "°" },
+        { "key": "elbow_supination",  "label": "Supination",  "normal": 80,  "unit": "°" }
+      ],
+      "wrist": [
+        { "key": "wrist_flexion",     "label": "Flexion",          "normal": 80, "unit": "°" },
+        { "key": "wrist_extension",   "label": "Extension",        "normal": 70, "unit": "°" },
+        { "key": "wrist_radial_dev",  "label": "Radial Deviation", "normal": 20, "unit": "°" },
+        { "key": "wrist_ulnar_dev",   "label": "Ulnar Deviation",  "normal": 30, "unit": "°" }
+      ],
+      "hand": [
+        { "key": "wrist_flexion",    "label": "Wrist Flexion",   "normal": 80, "unit": "°" },
+        { "key": "wrist_extension",  "label": "Wrist Extension", "normal": 70, "unit": "°" },
+        { "key": "grip_strength",    "label": "Grip Strength",   "normal": 40, "unit": "kg" }
+      ],
+      "hip": [
+        { "key": "hip_flexion",    "label": "Flexion",       "normal": 120, "unit": "°" },
+        { "key": "hip_extension",  "label": "Extension",     "normal": 30,  "unit": "°" },
+        { "key": "hip_abduction",  "label": "Abduction",     "normal": 45,  "unit": "°" },
+        { "key": "hip_adduction",  "label": "Adduction",     "normal": 30,  "unit": "°" },
+        { "key": "hip_ir",         "label": "Int. Rotation", "normal": 35,  "unit": "°" },
+        { "key": "hip_er",         "label": "Ext. Rotation", "normal": 45,  "unit": "°" }
+      ],
+      "knee": [
+        { "key": "knee_flexion",    "label": "Flexion",   "normal": 135, "unit": "°" },
+        { "key": "knee_extension",  "label": "Extension", "normal": 0,   "unit": "°" }
+      ],
+      "ankle": [
+        { "key": "ankle_dorsiflexion",   "label": "Dorsiflexion",   "normal": 20, "unit": "°" },
+        { "key": "ankle_plantarflexion", "label": "Plantarflexion", "normal": 50, "unit": "°" },
+        { "key": "ankle_inversion",      "label": "Inversion",      "normal": 35, "unit": "°" },
+        { "key": "ankle_eversion",       "label": "Eversion",       "normal": 20, "unit": "°" }
+      ],
+      "foot": [
+        { "key": "ankle_dorsiflexion",   "label": "Dorsiflexion",   "normal": 20, "unit": "°" },
+        { "key": "ankle_plantarflexion", "label": "Plantarflexion", "normal": 50, "unit": "°" }
+      ],
+      "cervical": [
+        { "key": "cervical_flexion",      "label": "Flexion",       "normal": 50, "unit": "°" },
+        { "key": "cervical_extension",    "label": "Extension",     "normal": 60, "unit": "°" },
+        { "key": "cervical_lat_flex_l",   "label": "Lat. Flex (L)", "normal": 45, "unit": "°" },
+        { "key": "cervical_lat_flex_r",   "label": "Lat. Flex (R)", "normal": 45, "unit": "°" },
+        { "key": "cervical_rotation_l",   "label": "Rotation (L)",  "normal": 80, "unit": "°" },
+        { "key": "cervical_rotation_r",   "label": "Rotation (R)",  "normal": 80, "unit": "°" }
+      ],
+      "thoracic": [
+        { "key": "thoracic_flexion",     "label": "Flexion",      "normal": 40, "unit": "°" },
+        { "key": "thoracic_extension",   "label": "Extension",    "normal": 20, "unit": "°" },
+        { "key": "thoracic_rotation_l",  "label": "Rotation (L)", "normal": 35, "unit": "°" },
+        { "key": "thoracic_rotation_r",  "label": "Rotation (R)", "normal": 35, "unit": "°" }
+      ],
+      "lumbar": [
+        { "key": "lumbar_flexion",     "label": "Flexion",       "normal": 60, "unit": "°" },
+        { "key": "lumbar_extension",   "label": "Extension",     "normal": 25, "unit": "°" },
+        { "key": "lumbar_lat_flex_l",  "label": "Lat. Flex (L)", "normal": 25, "unit": "°" },
+        { "key": "lumbar_lat_flex_r",  "label": "Lat. Flex (R)", "normal": 25, "unit": "°" },
+        { "key": "lumbar_rotation_l",  "label": "Rotation (L)",  "normal": 30, "unit": "°" },
+        { "key": "lumbar_rotation_r",  "label": "Rotation (R)",  "normal": 30, "unit": "°" }
+      ]
+    },
+
+    "region_palpation_map": {
+      "lumbar": {
+        "tenderness_points": [
+          "L1–L2", "L2–L3", "L3–L4", "L4–L5", "L5–S1",
+          "Left paraspinals", "Right paraspinals",
+          "Left SI joint", "Right SI joint", "Piriformis"
+        ],
+        "tissue_quality_options": ["Normal", "Spasm", "Trigger point", "Fibrotic", "Atrophied"],
+        "accessory_movements": [
+          {
+            "key": "pa_pressure_lumbar",
+            "label": "PA Pressure",
+            "levels": ["L1", "L2", "L3", "L4", "L5", "S1"],
+            "clinical_note": "Central PA — assesses segmental stiffness and pain reproduction"
+          }
+        ]
+      },
+      "cervical": {
+        "tenderness_points": [
+          "C2–C3", "C3–C4", "C4–C5", "C5–C6", "C6–C7",
+          "Left upper trapezius", "Right upper trapezius",
+          "Left levator scapulae", "Right levator scapulae"
+        ],
+        "tissue_quality_options": ["Normal", "Spasm", "Trigger point", "Fibrotic"],
+        "accessory_movements": [
+          {
+            "key": "pa_pressure_cervical",
+            "label": "PA Pressure",
+            "levels": ["C2", "C3", "C4", "C5", "C6", "C7"],
+            "clinical_note": "Unilateral PA also useful for one-sided symptoms"
+          }
+        ]
+      },
+      "thoracic": {
+        "tenderness_points": [
+          "T1–T4", "T5–T8", "T8–T12",
+          "Left costotransverse joints", "Right costotransverse joints",
+          "Left paraspinals", "Right paraspinals"
+        ],
+        "tissue_quality_options": ["Normal", "Spasm", "Trigger point", "Fibrotic"],
+        "accessory_movements": [
+          {
+            "key": "pa_pressure_thoracic",
+            "label": "PA Pressure",
+            "levels": ["T3", "T4", "T5", "T6", "T7", "T8"],
+            "clinical_note": "Combined movement with rib spring for thoracic assessment"
+          }
+        ]
+      },
+      "shoulder": {
+        "tenderness_points": [
+          "AC joint", "Bicipital groove", "Supraspinatus insertion",
+          "Infraspinatus", "Posterior capsule", "Subcoracoid"
+        ],
+        "tissue_quality_options": ["Normal", "Spasm", "Trigger point", "Fibrotic", "Boggy swelling"],
+        "accessory_movements": []
+      },
+      "elbow": {
+        "tenderness_points": [
+          "Lateral epicondyle", "Medial epicondyle",
+          "Olecranon", "Radial head", "Cubital tunnel"
+        ],
+        "tissue_quality_options": ["Normal", "Spasm", "Trigger point", "Boggy swelling"],
+        "accessory_movements": []
+      },
+      "wrist": {
+        "tenderness_points": [
+          "Radial styloid", "Ulnar styloid", "Scaphoid (snuffbox)",
+          "Carpal tunnel", "Thumb CMC base", "Dorsal wrist"
+        ],
+        "tissue_quality_options": ["Normal", "Boggy swelling", "Firm swelling", "Trigger point"],
+        "accessory_movements": []
+      },
+      "hand": {
+        "tenderness_points": [
+          "Radial styloid", "Ulnar styloid", "Scaphoid (snuffbox)",
+          "Carpal tunnel", "Thumb CMC base", "MCP joints", "IP joints"
+        ],
+        "tissue_quality_options": ["Normal", "Boggy swelling", "Firm swelling"],
+        "accessory_movements": []
+      },
+      "hip": {
+        "tenderness_points": [
+          "Greater trochanter", "Groin / inguinal",
+          "Posterior hip", "Piriformis", "SI joint", "Iliac crest"
+        ],
+        "tissue_quality_options": ["Normal", "Spasm", "Trigger point", "Guarding"],
+        "accessory_movements": []
+      },
+      "knee": {
+        "tenderness_points": [
+          "Medial joint line", "Lateral joint line",
+          "Patella", "Patellar tendon", "Quadriceps tendon",
+          "Pes anserine", "Popliteal fossa"
+        ],
+        "tissue_quality_options": ["Normal", "Boggy swelling", "Firm swelling", "Guarding"],
+        "accessory_movements": []
+      },
+      "ankle": {
+        "tenderness_points": [
+          "Lateral malleolus", "Medial malleolus",
+          "ATFL", "CFL", "Peroneal tendons",
+          "Achilles tendon", "Plantar fascia origin"
+        ],
+        "tissue_quality_options": ["Normal", "Boggy swelling", "Firm swelling"],
+        "accessory_movements": []
+      },
+      "foot": {
+        "tenderness_points": [
+          "Plantar fascia origin", "Achilles tendon",
+          "Metatarsal heads", "1st MTP joint", "Navicular"
+        ],
+        "tissue_quality_options": ["Normal", "Boggy swelling", "Firm swelling"],
+        "accessory_movements": []
+      }
+    },
+
+    "region_neuro_map": {
+      "cervical": {
+        "dermatomes": ["C5", "C6", "C7", "C8", "T1"],
+        "myotomes": {
+          "C5": "Shoulder abduction",
+          "C6": "Elbow flexion / Wrist extension",
+          "C7": "Elbow extension / Wrist flexion",
+          "C8": "Finger flexion / Thumb opposition",
+          "T1": "Finger abduction"
+        },
+        "reflexes": ["biceps", "triceps"]
+      },
+      "thoracic": {
+        "dermatomes": ["T1", "T2", "T4", "T6", "T8", "T10", "T12"],
+        "myotomes": {},
+        "reflexes": []
+      },
+      "lumbar": {
+        "dermatomes": ["L2", "L3", "L4", "L5", "S1"],
+        "myotomes": {
+          "L2": "Hip flexion",
+          "L3": "Knee extension",
+          "L4": "Ankle dorsiflexion",
+          "L5": "Great toe extension",
+          "S1": "Ankle plantarflexion"
+        },
+        "reflexes": ["patellar", "achilles"]
+      },
+      "shoulder": {
+        "dermatomes": ["C5", "C6"],
+        "myotomes": { "C5": "Shoulder abduction", "C6": "Elbow flexion" },
+        "reflexes": ["biceps"]
+      },
+      "hip": {
+        "dermatomes": ["L2", "L3"],
+        "myotomes": { "L2": "Hip flexion", "L3": "Knee extension" },
+        "reflexes": ["patellar"]
+      },
+      "knee": {
+        "dermatomes": ["L3", "L4"],
+        "myotomes": { "L3": "Knee extension", "L4": "Ankle dorsiflexion" },
+        "reflexes": ["patellar"]
+      },
+      "ankle": {
+        "dermatomes": ["L4", "L5", "S1"],
+        "myotomes": {
+          "L4": "Ankle dorsiflexion",
+          "L5": "Great toe extension",
+          "S1": "Ankle plantarflexion"
+        },
+        "reflexes": ["achilles"]
+      },
+      "foot": {
+        "dermatomes": ["L4", "L5", "S1"],
+        "myotomes": {
+          "L4": "Ankle dorsiflexion",
+          "L5": "Great toe extension",
+          "S1": "Ankle plantarflexion"
+        },
+        "reflexes": ["achilles"]
+      }
+    },
+
+    "region_girth_map": {
+      "knee": [
+        { "key": "girth_2cm_above_patella", "label": "2 cm above patella",       "unit": "cm", "note": "Quad bulk" },
+        { "key": "girth_mid_patella",        "label": "Mid-patella",               "unit": "cm", "note": "Joint level" },
+        { "key": "girth_1cm_below_patella",  "label": "1 cm below patella",       "unit": "cm", "note": "Tibial swelling" }
+      ],
+      "ankle": [
+        { "key": "girth_figure8",   "label": "Figure-of-8",    "unit": "cm", "note": "Total ankle swelling" },
+        { "key": "girth_malleolar", "label": "Malleolar level", "unit": "cm", "note": "At malleoli" }
+      ],
+      "foot": [
+        { "key": "girth_figure8", "label": "Figure-of-8", "unit": "cm", "note": "Total ankle/foot swelling" }
+      ],
+      "hip": [
+        { "key": "girth_thigh_15cm", "label": "Thigh — 15 cm above patella", "unit": "cm", "note": "Quad bulk" },
+        { "key": "girth_thigh_10cm", "label": "Thigh — 10 cm above patella", "unit": "cm", "note": "Distal quad" }
+      ],
+      "shoulder": [
+        { "key": "girth_arm_10cm", "label": "Upper arm — 10 cm above elbow", "unit": "cm", "note": "Deltoid/bicep bulk" }
+      ],
+      "elbow": [
+        { "key": "girth_elbow_joint",  "label": "Elbow joint level",          "unit": "cm", "note": "Joint swelling" },
+        { "key": "girth_forearm_max",  "label": "Forearm — max circumference", "unit": "cm", "note": "Muscle bulk" }
+      ],
+      "wrist": [
+        { "key": "girth_wrist_joint", "label": "Wrist joint level", "unit": "cm", "note": "Joint swelling" }
+      ],
+      "hand": [
+        { "key": "girth_wrist_joint", "label": "Wrist joint level", "unit": "cm", "note": "Joint swelling" }
+      ]
+    },
+
+    "effusion_tests": {
+      "knee": [
+        { "key": "effusion_patellar_tap",  "label": "Patellar Tap",        "options": ["Negative", "Positive"] },
+        { "key": "effusion_bulge_sign",    "label": "Bulge Sign",           "options": ["Negative", "Positive"] },
+        { "key": "effusion_ballottement",  "label": "Ballottement",         "options": ["Negative", "Positive"] }
+      ],
+      "ankle": [
+        { "key": "effusion_ankle_joint",   "label": "Ankle Joint Effusion", "options": ["Absent", "Mild", "Moderate", "Marked"] }
+      ],
+      "shoulder": [
+        { "key": "effusion_shoulder",      "label": "Shoulder Effusion",    "options": ["Absent", "Present"] }
+      ]
+    },
+
+    "grip_strength_regions": ["shoulder", "elbow", "wrist", "hand"]
+  },
+
+  "neurological": {
+    "_status": "planned",
+    "_note": "For stroke, Parkinson's, MS, SCI — add when building neuro module",
+    "tone_grading": {
+      "_note": "Modified Ashworth Scale 0–4"
+    },
+    "coordination_tests": {
+      "_note": "Finger-nose, heel-shin, diadochokinesia"
+    },
+    "balance_assessments": {
+      "_note": "Berg Balance Scale, TUG, Romberg"
+    },
+    "functional_mobility": {
+      "_note": "Bed mobility, transfers, walking aid, stairs"
+    }
+  },
+
+  "cardiorespiratory": {
+    "_status": "planned",
+    "_note": "For COPD, post-cardiac, COVID rehab — add when building CR module",
+    "breath_sounds": {
+      "_note": "Clear / Wheeze / Crackles / Reduced / Absent per zone"
+    },
+    "chest_expansion": {
+      "_note": "Symmetric / Asymmetric — measured in cm at axilla and lower chest"
+    },
+    "breathing_pattern": {
+      "_note": "Diaphragmatic / Upper chest / Accessory muscle use / Paradoxical"
+    }
+  }
+}

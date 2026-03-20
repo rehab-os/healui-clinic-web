@@ -496,29 +496,41 @@ export interface CorporateCompanyOutstanding {
 export interface ReceiptDataDto {
   receipt_number: string
   billing_id: string
+  date: string
+  visit_date?: string | null       // appointment date from visit.scheduled_date
+  therapist_name?: string | null   // treating physiotherapist full name
+  patient: {
+    name: string
+    phone?: string
+    patient_code?: string | null
+    age?: number | null
+    gender?: string | null
+  }
   clinic: {
     name: string
     address?: string
     phone?: string
     gstin?: string
   }
-  patient: {
-    name: string
-    phone?: string
-    patient_code?: string
-  }
   billing_type: BillingType
-  date: string
   services?: BillingServiceLineItem[]
   subtotal: number
   discount_amount?: number
+  discount_percent?: number
   discount_reason?: string
-  gst_amount?: number
   gst_rate?: number
+  gst_amount?: number
   total_amount: number
   amount_paid: number
   amount_owed: number
-  payment_method?: PaymentMethod
-  payment_reference?: string
+  payment_method?: PaymentMethod | null
+  payment_reference?: string | null
   corporate_company?: string
+  payments?: Array<{
+    amount: number
+    method: PaymentMethod
+    reference?: string
+    receipt_number: string
+    date: string
+  }>
 }
