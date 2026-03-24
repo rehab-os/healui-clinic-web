@@ -23,6 +23,9 @@ import {
   Copy,
   Loader2,
   Mic,
+  Scan,
+  Printer,
+  CheckCheck,
 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import SymptomAssessmentModal, { SymptomDxData } from '../screening/SymptomAssessmentModal';
@@ -526,45 +529,149 @@ export default function AddConditionWorkflow({
     </motion.div>
   );
 
-  // Render completion screen
-  const renderComplete = () => (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      className="py-4"
-    >
-      <div className="text-center mb-8">
-        <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
-          <CheckCircle2 className="w-10 h-10 text-green-600" />
-        </div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">
-          Dx Complete!
-        </h2>
-        <p className="text-gray-600">
-          The condition has been diagnosed and saved.
-        </p>
-      </div>
+  // Render prescription / completion screen
+  const renderComplete = () => {
+    const dx         = completedResult?.diagnosis;
+    const payload    = completedResult?.conditionPayload;
+    const imaging    = payload?.imaging_orders ?? [];
+    const hasImaging = completedResult?.imagingOrdered && imaging.length > 0;
+    const urgency    = payload?.urgency_level ?? completedResult?.diagnosisResult?.treatment_urgency ?? 'MODERATE';
+    const complaint  = payload?.chief_complaint;
 
-      {completedResult?.diagnosis && (
-        <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-6">
-          <h4 className="font-medium text-green-900 mb-2">Diagnosis</h4>
-          <p className="text-green-800 font-semibold">
-            {completedResult.diagnosis.condition_name}
+    const handlePrint = () => window.print();
+    const handleCopyReferral = () => {
+      const lines: string[] = [];
+      lines.push(`PHYSIOTHERAPY REFERRAL / CLINICAL SUMMARY`);
+      lines.push(`Patient: ${patientName || 'Patient'}`);
+      lines.push(`Date: ${new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}`);
+      lines.push('');
+      if (complaint) lines.push(`Chief Complaint: ${complaint}`);
+      if (dx) lines.push(`Working Diagnosis: ${dx.condition_name} (${Math.round((dx.confidence_score ?? 0) * 100)}% confidence)`);
+      lines.push(`Treatment Priority: ${urgency}`);
+      if (hasImaging) {
+        lines.push('');
+        lines.push('Imaging Requested:');
+        imaging.forEach((img: any) => {
+          lines.push(`  • ${img.label} — ${img.indication_label}`);
+          lines.push(`    ${img.referral_text}`);
+        });
+      }
+      navigator.clipboard.writeText(lines.join('\n'));
+    };
+
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        className="py-2"
+      >
+        {/* Header */}
+        <div className="text-center mb-5">
+          <div className={`w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3 ${
+            hasImaging ? 'bg-amber-50' : 'bg-teal-50'
+          }`}>
+            {hasImaging
+              ? <Scan className="w-7 h-7 text-amber-500" />
+              : <CheckCheck className="w-7 h-7 text-teal-600" />
+            }
+          </div>
+          <h2 className="text-lg font-semibold text-gray-900">
+            {hasImaging ? 'Saved — Imaging Ordered' : 'Diagnosis Complete'}
+          </h2>
+          <p className="text-[13px] text-gray-500 mt-0.5">
+            {hasImaging
+              ? 'Return when imaging results are ready to confirm final diagnosis'
+              : 'Condition saved to patient record'}
           </p>
-          {completedResult.diagnosis.confidence_score && (
-            <p className="text-sm text-green-700 mt-1">
-              Confidence: {Math.round(completedResult.diagnosis.confidence_score * 100)}%
-            </p>
-          )}
         </div>
-      )}
 
-      <Button onClick={handleClose} className="w-full" size="lg">
-        Done
-      </Button>
-    </motion.div>
-  );
+        {/* Diagnosis card */}
+        {dx && (
+          <div className="border border-teal-200 bg-teal-50 rounded-xl p-4 mb-3">
+            <p className="text-[11px] text-teal-600 uppercase tracking-wider font-semibold mb-1">
+              {hasImaging ? 'Working Diagnosis' : 'Confirmed Diagnosis'}
+            </p>
+            <p className="text-[15px] font-semibold text-gray-900">{dx.condition_name}</p>
+            <div className="flex items-center gap-3 mt-1.5">
+              {dx.confidence_score && (
+                <span className="text-[12px] text-teal-700 font-mono font-semibold">
+                  {Math.round(dx.confidence_score * 100)}% confidence
+                </span>
+              )}
+              <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${
+                urgency === 'URGENT' || urgency === 'HIGH'
+                  ? 'bg-red-100 text-red-600'
+                  : urgency === 'LOW'
+                  ? 'bg-gray-100 text-gray-500'
+                  : 'bg-amber-100 text-amber-600'
+              }`}>
+                {urgency} priority
+              </span>
+            </div>
+            {complaint && (
+              <p className="text-[12px] text-teal-700 mt-2 leading-relaxed border-t border-teal-200 pt-2">
+                {complaint}
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* Imaging orders */}
+        {hasImaging && (
+          <div className="mb-3">
+            <p className="text-[11px] text-gray-400 uppercase tracking-wider font-semibold mb-2">
+              Imaging Requested
+            </p>
+            <div className="space-y-2">
+              {imaging.map((img: any, i: number) => (
+                <div key={i} className="border border-amber-200 bg-amber-50 rounded-xl p-3">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className={`text-[10px] font-bold text-white px-1.5 py-0.5 rounded ${
+                      img.modality === 'MRI' ? 'bg-teal-600'
+                      : img.modality === 'X-Ray' ? 'bg-blue-600'
+                      : img.modality === 'CT' ? 'bg-orange-600'
+                      : 'bg-violet-600'
+                    }`}>
+                      {img.modality}
+                    </span>
+                    <p className="text-[13px] font-medium text-gray-800">{img.label}</p>
+                    {img.urgency === 'urgent' && (
+                      <span className="ml-auto text-[10px] text-red-600 font-semibold bg-red-50 px-1.5 py-0.5 rounded">URGENT</span>
+                    )}
+                  </div>
+                  <p className="text-[12px] text-gray-600 leading-relaxed">{img.referral_text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Actions */}
+        <div className="space-y-2 mt-4">
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              onClick={handleCopyReferral}
+              className="flex items-center justify-center gap-2 py-2.5 rounded-xl border border-gray-200 text-[13px] text-gray-600 hover:border-gray-300 hover:bg-gray-50 transition-all"
+            >
+              <Copy className="w-4 h-4" />
+              Copy referral
+            </button>
+            <button
+              onClick={handlePrint}
+              className="flex items-center justify-center gap-2 py-2.5 rounded-xl border border-gray-200 text-[13px] text-gray-600 hover:border-gray-300 hover:bg-gray-50 transition-all"
+            >
+              <Printer className="w-4 h-4" />
+              Print
+            </button>
+          </div>
+          <Button onClick={handleClose} className="w-full" size="lg">
+            Done
+          </Button>
+        </div>
+      </motion.div>
+    );
+  };
 
   // Main content based on step
   const renderContent = () => {

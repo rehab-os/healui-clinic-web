@@ -1,14 +1,15 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ChevronDown } from 'lucide-react';
 
 interface ReviewModeProps {
   extractedFields: Record<string, any>;
   fieldConfidence: Record<string, number>;
   gapAnswers: Record<string, any>;
   regionAnswers?: Record<string, any>;
+  transcript?: string;
   onFinalize: () => void;
   onBack: () => void;
   isLoading?: boolean;
@@ -122,10 +123,12 @@ export default function ReviewMode({
   fieldConfidence,
   gapAnswers,
   regionAnswers = {},
+  transcript,
   onFinalize,
   onBack,
   isLoading = false,
 }: ReviewModeProps) {
+  const [showTranscript, setShowTranscript] = useState(false);
   const allFields = { ...extractedFields, ...gapAnswers };
   const chiefComplaint = deriveChiefComplaint(allFields);
 
@@ -138,10 +141,10 @@ export default function ReviewMode({
       {/* Chief complaint — hero section */}
       {chiefComplaint && (
         <div className="px-5 pt-5 pb-4 border-b border-gray-100 flex-shrink-0">
-          <p className="text-[10px] text-gray-400 uppercase tracking-[0.12em] mb-2">
+          <p className="text-[12px] text-gray-400 uppercase tracking-[0.12em] mb-2 font-medium">
             Chief Complaint
           </p>
-          <p className="text-[14px] text-gray-800 leading-relaxed font-light">
+          <p className="text-base text-gray-800 leading-relaxed font-light">
             {chiefComplaint}
           </p>
           <div className="flex items-center gap-3 mt-3">
@@ -176,7 +179,7 @@ export default function ReviewMode({
 
       {/* Field list */}
       <div className="flex-1 overflow-y-auto px-5 py-4 space-y-1.5">
-        <p className="text-[10px] text-gray-400 uppercase tracking-[0.12em] mb-3">
+        <p className="text-[12px] text-gray-400 uppercase tracking-[0.12em] mb-3 font-medium">
           {displayFields.length} fields captured
         </p>
 
@@ -196,20 +199,20 @@ export default function ReviewMode({
               className="flex items-start justify-between py-2 border-b border-gray-50"
             >
               <div className="flex items-center gap-2 min-w-0">
-                <span className={`text-[11px] ${isLowConfidence ? 'text-amber-500' : 'text-gray-400'} w-[120px] flex-shrink-0 capitalize`}>
+                <span className={`text-[13px] ${isLowConfidence ? 'text-amber-500' : 'text-gray-400'} w-[130px] flex-shrink-0 capitalize`}>
                   {label}
                 </span>
                 <div className="flex items-center gap-1.5">
                   {isFromGap && (
-                    <span className="text-[9px] text-gray-400 border border-gray-200 px-1 rounded">gap</span>
+                    <span className="text-[10px] text-gray-400 border border-gray-200 px-1 rounded">gap</span>
                   )}
                   {isFromRegion && (
-                    <span className="text-[9px] text-gray-400 border border-gray-200 px-1 rounded">region</span>
+                    <span className="text-[10px] text-gray-400 border border-gray-200 px-1 rounded">region</span>
                   )}
                 </div>
               </div>
-              <span className={`text-[12px] text-right max-w-[55%] capitalize ${
-                isLowConfidence ? 'text-amber-600' : 'text-gray-700'
+              <span className={`text-[13px] text-right max-w-[55%] capitalize font-medium ${
+                isLowConfidence ? 'text-amber-600' : 'text-gray-800'
               }`}>
                 {formatDisplayValue(value)}
               </span>
@@ -218,23 +221,41 @@ export default function ReviewMode({
         })}
       </div>
 
+      {/* Transcript — collapsible at bottom of list */}
+      {transcript && (
+        <div className="px-5 py-3 border-t border-gray-50">
+          <button
+            onClick={() => setShowTranscript(v => !v)}
+            className="flex items-center gap-2 text-[12px] text-gray-400 hover:text-gray-600 transition-colors w-full text-left"
+          >
+            <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showTranscript ? 'rotate-180' : ''}`} />
+            {showTranscript ? 'Hide' : 'Show'} recording transcript
+          </button>
+          {showTranscript && (
+            <p className="mt-2 text-[13px] text-gray-500 leading-relaxed">
+              {transcript}
+            </p>
+          )}
+        </div>
+      )}
+
       {/* Actions */}
       <div className="px-5 py-4 border-t border-gray-100 space-y-2">
         <button
           onClick={onFinalize}
           disabled={isLoading}
-          className={`w-full py-3.5 rounded-xl text-[13px] font-medium transition-all flex items-center justify-center gap-2 border ${
+          className={`w-full py-3.5 rounded-xl text-sm font-medium transition-all flex items-center justify-center gap-2 border ${
             !isLoading
               ? 'bg-teal-600 hover:bg-teal-700 text-white border-teal-600'
               : 'bg-gray-100 text-gray-300 border-gray-100 cursor-not-allowed'
           }`}
         >
-          {isLoading ? 'Processing...' : 'Continue to Clinical Tests'}
+          {isLoading ? 'Processing...' : 'Continue to Examination'}
           <ArrowRight className="w-4 h-4" />
         </button>
         <button
           onClick={onBack}
-          className="w-full py-2.5 text-[12px] text-gray-300 hover:text-gray-500 transition-colors"
+          className="w-full py-2.5 text-[13px] text-gray-400 hover:text-gray-600 transition-colors"
         >
           Back
         </button>

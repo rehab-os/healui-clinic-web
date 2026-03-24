@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { AlertTriangle, Check, ChevronRight, ArrowRight } from 'lucide-react';
+import { AlertTriangle, Check, ChevronRight, ArrowRight, Scan, PenLine } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { aiDiagnosticService, type DiagnosticResponse } from '@/services/ai/diagnostic.service';
 import { buildDiagnosticPayload } from '@/services/ai/voice-diagnostic-payload';
@@ -12,6 +12,7 @@ interface DiagnosisResultModeProps {
   gapAnswers: Record<string, any>;
   completedAssessments: any[];
   onConditionSelected: (condition: any, diagnosisResult: DiagnosticResponse) => void;
+  onSkipToImaging: (diagnosisResult: DiagnosticResponse, provisionalDx?: { condition_name: string; condition_id?: string | null; source: 'DIFFERENTIAL' | 'MANUAL' }) => void;
   onBack: () => void;
 }
 
@@ -27,6 +28,7 @@ export default function DiagnosisResultMode({
   gapAnswers,
   completedAssessments,
   onConditionSelected,
+  onSkipToImaging,
   onBack,
 }: DiagnosisResultModeProps) {
   const [diagnosisResult, setDiagnosisResult] = useState<DiagnosticResponse | null>(null);
@@ -35,6 +37,8 @@ export default function DiagnosisResultMode({
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [phraseIndex, setPhraseIndex] = useState(0);
+  const [manualDxInput, setManualDxInput] = useState('');
+  const [showManualInput, setShowManualInput] = useState(false);
 
   const merged = { ...extractedFields, ...gapAnswers };
 
@@ -135,7 +139,7 @@ export default function DiagnosisResultMode({
             <AlertTriangle className="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" />
             <div>
               <p className="text-sm font-medium text-red-700">Red Flags Detected</p>
-              <p className="text-xs text-red-600 mt-1">
+              <p className="text-[13px] text-red-600 mt-1">
                 {redFlagsDetected.map((f: string) => f.replace(/_/g, ' ')).join(', ')}
               </p>
             </div>
@@ -143,7 +147,7 @@ export default function DiagnosisResultMode({
         )}
 
         {/* Context line */}
-        <div className="flex flex-wrap items-center gap-2 text-xs">
+        <div className="flex flex-wrap items-center gap-2 text-[13px]">
           {chronicity && (
             <span className={`px-2 py-0.5 rounded-full font-medium ${
               chronicity === 'ACUTE' ? 'bg-blue-100 text-blue-700' :
@@ -177,7 +181,7 @@ export default function DiagnosisResultMode({
 
         {/* Urgency */}
         {diagnosisResult.treatment_urgency && diagnosisResult.treatment_urgency !== 'moderate' && (
-          <div className={`text-xs font-medium px-3 py-1.5 rounded-lg ${
+          <div className={`text-[13px] font-medium px-3 py-1.5 rounded-lg ${
             diagnosisResult.treatment_urgency === 'urgent' || diagnosisResult.treatment_urgency === 'high'
               ? 'bg-red-50 text-red-700'
               : 'bg-amber-50 text-amber-700'
@@ -205,25 +209,27 @@ export default function DiagnosisResultMode({
                   transition={{ delay: idx * 0.06, duration: 0.2 }}
                   onClick={() => setSelectedCondition(condition)}
                   disabled={isProcessing}
-                  className={`w-full text-left px-4 py-3 transition-colors ${
+                  className={`w-full text-left px-4 py-4 transition-colors ${
                     isSelected
-                      ? 'bg-teal-50 border-l-2 border-l-teal-500'
-                      : 'hover:bg-gray-50 border-l-2 border-l-transparent'
+                      ? 'bg-teal-50 border-l-[4px] border-l-teal-500'
+                      : 'hover:bg-gray-50 border-l-[4px] border-l-transparent'
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 flex-1 min-w-0">
+                    <div className="flex items-center gap-3 flex-1 min-w-0">
                       {isSelected ? (
-                        <Check className="w-4 h-4 text-teal-600 flex-shrink-0" />
+                        <div className="w-6 h-6 rounded-full bg-teal-500 flex items-center justify-center flex-shrink-0">
+                          <Check className="w-3.5 h-3.5 text-white" />
+                        </div>
                       ) : (
-                        <div className="w-4 h-4 rounded-full border-2 border-gray-300 flex-shrink-0" />
+                        <div className="w-6 h-6 rounded-full border-2 border-gray-300 flex-shrink-0" />
                       )}
                       <span className="text-sm font-medium text-gray-900 truncate">
                         {condition.condition_name}
                       </span>
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0">
-                      <span className={`text-xs font-semibold tabular-nums ${
+                      <span className={`text-[13px] font-semibold tabular-nums font-mono ${
                         confidence >= 70 ? 'text-teal-600' :
                         confidence >= 40 ? 'text-amber-600' :
                         'text-gray-500'
@@ -238,7 +244,7 @@ export default function DiagnosisResultMode({
                     <motion.p
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
-                      className="text-xs text-gray-600 mt-2 ml-6"
+                      className="text-[13px] text-gray-600 mt-2 ml-6"
                     >
                       {condition.clinical_reasoning}
                     </motion.p>
@@ -250,7 +256,7 @@ export default function DiagnosisResultMode({
                       className="mt-2 ml-6 space-y-0.5"
                     >
                       {condition.supporting_evidence.map((ev: string, i: number) => (
-                        <p key={i} className="text-xs text-gray-500">• {ev}</p>
+                        <p key={i} className="text-[13px] text-gray-500">• {ev}</p>
                       ))}
                     </motion.div>
                   )}
@@ -262,9 +268,9 @@ export default function DiagnosisResultMode({
         {/* Additional testing */}
         {diagnosisResult.additional_testing_needed?.length > 0 && (
           <div className="mt-3">
-            <p className="text-xs font-medium text-gray-500 mb-1">Additional testing recommended:</p>
+            <p className="text-[13px] font-medium text-gray-500 mb-1">Additional testing recommended:</p>
             {diagnosisResult.additional_testing_needed.map((test, i) => (
-              <p key={i} className="text-xs text-gray-500">• {test}</p>
+              <p key={i} className="text-[13px] text-gray-500">• {test}</p>
             ))}
           </div>
         )}
@@ -274,12 +280,12 @@ export default function DiagnosisResultMode({
       <div className="p-4 border-t border-gray-100 space-y-2">
         {selectedCondition && (
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs text-gray-500">
+            <span className="text-[13px] text-gray-500">
               Selected: <strong>{selectedCondition.condition_name}</strong>
             </span>
             <button
               onClick={() => setSelectedCondition(null)}
-              className="text-xs text-gray-400 hover:text-gray-600"
+              className="text-[13px] text-gray-400 hover:text-gray-600"
             >
               Clear
             </button>
@@ -294,6 +300,71 @@ export default function DiagnosisResultMode({
           {isProcessing ? 'Saving...' : 'Confirm Diagnosis'}
           <ArrowRight className="w-5 h-5 ml-2" />
         </Button>
+        {diagnosisResult && (
+          <>
+            {/* Manual provisional diagnosis input */}
+            {showManualInput && !selectedCondition && (
+              <div className="flex gap-2 items-center">
+                <input
+                  type="text"
+                  value={manualDxInput}
+                  onChange={(e) => setManualDxInput(e.target.value)}
+                  placeholder="Type provisional diagnosis…"
+                  className="flex-1 text-sm px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-amber-400"
+                  autoFocus
+                />
+                <button onClick={() => { setShowManualInput(false); setManualDxInput(''); }} className="text-xs text-gray-400 hover:text-gray-600">Cancel</button>
+              </div>
+            )}
+            <Button
+              variant="outline"
+              onClick={() => {
+                if (selectedCondition) {
+                  // Use selected differential as provisional
+                  onSkipToImaging(diagnosisResult, {
+                    condition_name: selectedCondition.condition_name,
+                    condition_id: selectedCondition.condition_id,
+                    source: 'DIFFERENTIAL',
+                  });
+                } else if (manualDxInput.trim()) {
+                  // Use manual entry
+                  onSkipToImaging(diagnosisResult, {
+                    condition_name: manualDxInput.trim(),
+                    condition_id: null,
+                    source: 'MANUAL',
+                  });
+                } else if (!showManualInput) {
+                  // Show manual input option
+                  setShowManualInput(true);
+                } else {
+                  // Proceed without provisional (still allowed)
+                  onSkipToImaging(diagnosisResult);
+                }
+              }}
+              disabled={isProcessing}
+              className="w-full border-amber-300 text-amber-700 hover:bg-amber-50"
+              size="lg"
+            >
+              <Scan className="w-4 h-4 mr-2" />
+              {selectedCondition
+                ? `Order Imaging (provisional: ${selectedCondition.condition_name})`
+                : manualDxInput.trim()
+                  ? `Order Imaging (provisional: ${manualDxInput.trim()})`
+                  : showManualInput
+                    ? 'Skip Provisional & Order Imaging'
+                    : 'Order Imaging'}
+            </Button>
+            {!showManualInput && !selectedCondition && (
+              <button
+                onClick={() => setShowManualInput(true)}
+                className="w-full text-center text-[12px] text-gray-400 hover:text-gray-600 flex items-center justify-center gap-1 py-1"
+              >
+                <PenLine className="w-3 h-3" />
+                Enter provisional diagnosis manually
+              </button>
+            )}
+          </>
+        )}
       </div>
     </div>
   );

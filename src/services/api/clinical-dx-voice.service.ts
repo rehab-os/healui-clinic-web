@@ -67,6 +67,22 @@ export class ClinicalDxVoiceService {
     });
   }
 
+  /** Get AI-driven examination plan based on subjective findings */
+  static async getExaminationPlan(region: string, subjective: Record<string, any>) {
+    const url = BASE_URL + 'voice/clinical-dx/examination-plan';
+    return ApiMethods.post(url, { region, subjective });
+  }
+
+  /** Get imaging recommendations — pure lookup, no AI */
+  static async getImagingRecommendations(payload: {
+    region: string;
+    overall_confidence: number;
+    top_differential: { condition_name: string; confidence: number }[];
+  }) {
+    const url = BASE_URL + 'voice/clinical-dx/imaging-recommendations';
+    return ApiMethods.post(url, payload);
+  }
+
   static async getSession(sessionId: string) {
     const url = BASE_URL + ENDPOINTS.CLINICAL_DX_VOICE_SESSION_BY_ID(sessionId);
     return ApiMethods.get(url);

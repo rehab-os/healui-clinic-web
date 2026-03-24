@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  X, User, Phone, Mail, Calendar, MapPin, Heart, Shield, 
-  CalendarPlus, FileText, Clock, Activity, AlertCircle, 
+import {
+  X, User, Phone, Mail, Calendar, MapPin, Heart, Shield,
+  CalendarPlus, FileText, Clock, Activity, AlertCircle,
   Edit3, Plus, Check, ChevronDown, ChevronUp, Stethoscope,
-  ClipboardList, Target, Brain, Pill
+  ClipboardList, Target, Brain, Pill, FileArchive
 } from 'lucide-react';
 import ApiManager from '@/services/api/api.service';
 import { format, parseISO } from 'date-fns';
 import EditPatientModal from './EditPatientModal';
 import PatientConditionManagement from '../conditions/PatientConditionManagement';
+import PatientDocumentsPanel from './PatientDocumentsPanel';
 
 interface Patient {
   id: string;
@@ -114,7 +115,7 @@ const EnhancedPatientDetailsModal: React.FC<EnhancedPatientDetailsModalProps> = 
   const [loading, setLoading] = useState(true);
   const [patientLoading, setPatientLoading] = useState(false);
   const [fullPatientData, setFullPatientData] = useState<Patient | null>(null);
-  const [activeTab, setActiveTab] = useState<'overview' | 'visits' | 'notes' | 'conditions' | 'history'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'visits' | 'notes' | 'conditions' | 'history' | 'documents'>('overview');
   const [expandedVisit, setExpandedVisit] = useState<string | null>(null);
   const [showNewNote, setShowNewNote] = useState(false);
   const [selectedVisitForNote, setSelectedVisitForNote] = useState<string | null>(null);
@@ -394,7 +395,8 @@ const EnhancedPatientDetailsModal: React.FC<EnhancedPatientDetailsModalProps> = 
               { id: 'visits', label: 'Visits', icon: Calendar },
               { id: 'notes', label: 'Clinical Notes', icon: FileText },
               { id: 'conditions', label: 'Conditions', icon: Stethoscope },
-              { id: 'history', label: 'Medical History', icon: Heart }
+              { id: 'history', label: 'Medical History', icon: Heart },
+              { id: 'documents', label: 'Documents', icon: FileArchive }
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -702,6 +704,9 @@ const EnhancedPatientDetailsModal: React.FC<EnhancedPatientDetailsModalProps> = 
               <PatientConditionManagement
                 patientId={displayPatient.id}
                 patientName={displayPatient.full_name}
+                patientDob={displayPatient.date_of_birth?.toString()}
+                patientGender={displayPatient.gender}
+                patientPhone={displayPatient.phone}
                 onConditionsChange={(conditions) => {
                   console.log('Patient conditions updated in modal:', conditions);
                 }}
@@ -951,6 +956,12 @@ const EnhancedPatientDetailsModal: React.FC<EnhancedPatientDetailsModalProps> = 
                   <p className="text-gray-500 italic">No family history recorded</p>
                 )}
               </div>
+            </div>
+          )}
+
+          {activeTab === 'documents' && (
+            <div className="p-6">
+              <PatientDocumentsPanel patientId={displayPatient.id} />
             </div>
           )}
         </div>

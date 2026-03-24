@@ -446,7 +446,7 @@ export interface CreatePatientConditionDto {
 
     // ========== DUAL DIAGNOSIS WORKFLOW ==========
     diagnosis_method?: 'SYMPTOM_AND_CLINICAL' | 'CLINICAL_ONLY'
-    diagnosis_status?: 'DRAFT' | 'SYMPTOM_DX_PENDING' | 'SYMPTOM_DX_COMPLETE' | 'CLINICAL_DX_COMPLETE' | 'COMPLETE'
+    diagnosis_status?: 'DRAFT' | 'SYMPTOM_DX_PENDING' | 'SYMPTOM_DX_COMPLETE' | 'CLINICAL_DX_COMPLETE' | 'IMAGING_ORDERED' | 'COMPLETE'
 
     // SymptomDx
     symptom_dx_data?: any
@@ -464,6 +464,7 @@ export interface CreatePatientConditionDto {
 
     // Final Diagnosis
     final_diagnosis?: any
+    imaging_orders?: any[]
 
     // Patient Link
     patient_link_token?: string
@@ -492,7 +493,7 @@ export interface UpdatePatientConditionDto {
 
     // ========== DUAL DIAGNOSIS WORKFLOW ==========
     diagnosis_method?: 'SYMPTOM_AND_CLINICAL' | 'CLINICAL_ONLY'
-    diagnosis_status?: 'DRAFT' | 'SYMPTOM_DX_PENDING' | 'SYMPTOM_DX_COMPLETE' | 'CLINICAL_DX_COMPLETE' | 'COMPLETE'
+    diagnosis_status?: 'DRAFT' | 'SYMPTOM_DX_PENDING' | 'SYMPTOM_DX_COMPLETE' | 'CLINICAL_DX_COMPLETE' | 'IMAGING_ORDERED' | 'COMPLETE'
 
     // SymptomDx
     symptom_dx_data?: any
@@ -510,6 +511,7 @@ export interface UpdatePatientConditionDto {
 
     // Final Diagnosis
     final_diagnosis?: any
+    imaging_orders?: any[]
 
     // Patient Link
     patient_link_token?: string
@@ -555,7 +557,7 @@ export interface PatientConditionResponseDto {
 
     // ========== DUAL DIAGNOSIS WORKFLOW ==========
     diagnosis_method?: 'SYMPTOM_AND_CLINICAL' | 'CLINICAL_ONLY'
-    diagnosis_status?: 'DRAFT' | 'SYMPTOM_DX_PENDING' | 'SYMPTOM_DX_COMPLETE' | 'CLINICAL_DX_COMPLETE' | 'COMPLETE'
+    diagnosis_status?: 'DRAFT' | 'SYMPTOM_DX_PENDING' | 'SYMPTOM_DX_COMPLETE' | 'CLINICAL_DX_COMPLETE' | 'IMAGING_ORDERED' | 'COMPLETE'
 
     // SymptomDx
     symptom_dx_data?: any
@@ -573,6 +575,14 @@ export interface PatientConditionResponseDto {
 
     // Final Diagnosis
     final_diagnosis?: any
+    imaging_orders?: any[]
+    provisional_diagnosis?: {
+        condition_name: string
+        condition_id?: string | null
+        source: 'DIFFERENTIAL' | 'MANUAL'
+        set_at: string
+        set_by_user_id?: string
+    }
 
     // Patient Link
     patient_link_token?: string
@@ -1150,6 +1160,26 @@ export interface PublicPatientRegistrationResponseDto {
     registration_date: string
     clinic_name: string
     message?: string
+}
+
+// ========== PATIENT DOCUMENTS ==========
+export type DocumentType = 'IMAGING_RESULT' | 'REFERRAL_LETTER' | 'CLINICAL_REPORT' | 'PRESCRIPTION' | 'INSURANCE' | 'PAST_RECORD' | 'OTHER'
+export type DocumentUploadedBy = 'PHYSIO' | 'SYSTEM' | 'PATIENT'
+
+export interface PatientDocumentResponseDto {
+    id: string
+    patient_id: string
+    condition_id: string | null
+    imaging_order_label: string | null
+    organization_id: string
+    clinic_id: string | null
+    type: DocumentType
+    title: string
+    mime_type: string
+    file_size_bytes: number | null
+    uploaded_by: DocumentUploadedBy
+    metadata: Record<string, any> | null
+    uploaded_at: string
 }
 
 // Re-export analytics types

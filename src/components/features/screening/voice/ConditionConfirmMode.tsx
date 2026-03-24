@@ -2,10 +2,20 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Check, ArrowLeft, Loader2 } from 'lucide-react';
+import { Check, ArrowLeft, Loader2, Scan } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import { useAppSelector } from '@/store/hooks';
 import type { DiagnosticResponse } from '@/services/ai/diagnostic.service';
+
+interface ImagingRequest {
+  modality: string;
+  label: string;
+  patient_label: string;
+  indication_label: string;
+  referral_text: string;
+  urgency: 'routine' | 'urgent' | 'emergency';
+}
 
 interface ConditionConfirmModeProps {
   selectedCondition: {
@@ -19,6 +29,7 @@ interface ConditionConfirmModeProps {
   extractedFields: Record<string, any>;
   gapAnswers: Record<string, any>;
   completedAssessments: any[];
+  imagingRequests?: ImagingRequest[];
   patientId: string;
   sessionId?: string | null;
   draftConditionId?: string;
@@ -32,6 +43,7 @@ export default function ConditionConfirmMode({
   extractedFields,
   gapAnswers,
   completedAssessments,
+  imagingRequests = [],
   patientId,
   sessionId,
   draftConditionId,
@@ -39,15 +51,17 @@ export default function ConditionConfirmMode({
   onBack,
 }: ConditionConfirmModeProps) {
   const [isSaving, setIsSaving] = useState(false);
+  const { userData } = useAppSelector(state => state.user);
 
   const merged = { ...extractedFields, ...gapAnswers };
   const confidence = Math.round(selectedCondition.confidence_score * 100);
+  const hasImaging = imagingRequests.length > 0;
 
   const handleSave = async () => {
     setIsSaving(true);
 
     try {
-      // 1. Finalize the voice session — merges fields, derives chief_complaint, marks session COMPLETED
+      // 1. Finalize the voice session
       const { ClinicalDxVoiceService } = await import('@/services/api/clinical-dx-voice.service');
       if (sessionId) {
         const finalizeResult = await ClinicalDxVoiceService.finalize(
@@ -56,27 +70,37 @@ export default function ConditionConfirmMode({
           gapAnswers,
           merged.pain_location,
         );
-        // Use derived chief_complaint from backend if we don't have one
         if (finalizeResult?.data?.fields?.chief_complaint && !merged.chief_complaint) {
           merged.chief_complaint = finalizeResult.data.fields.chief_complaint;
         }
       }
 
-      // 2. Save the patient condition
+      // 2. Build imaging orders with ORDERED status
+      const imagingOrders = imagingRequests.map((req) => ({
+        modality: req.modality,
+        label: req.label,
+        patient_label: req.patient_label,
+        indication_label: req.indication_label,
+        referral_text: req.referral_text,
+        urgency: req.urgency,
+        ordered_at: new Date().toISOString(),
+        status: 'ORDERED' as const,
+        ordered_by_user_id: userData?.user_id || null,
+      }));
+
+      // 3. Save the patient condition
       const { default: ApiManager } = await import('@/services/api/api.service');
 
       const conditionPayload = {
-        condition_id: selectedCondition.condition_id,
-        condition_name: selectedCondition.condition_name,
+        condition_id: hasImaging ? null : selectedCondition.condition_id,
+        condition_name: hasImaging ? null : selectedCondition.condition_name,
         diagnosis_method: 'CLINICAL_ONLY',
 
-        // No symptom dx in voice flow
         symptom_dx_data: null,
         symptom_dx_completed: false,
         symptom_dx_completed_at: null,
         symptom_dx_filled_by: null,
 
-        // Clinical dx data from voice
         clinical_dx_data: {
           session_id: sessionId || `voice_${Date.now()}`,
           started_at: new Date().toISOString(),
@@ -107,7 +131,6 @@ export default function ConditionConfirmMode({
         clinical_dx_completed: true,
         clinical_dx_completed_at: new Date().toISOString(),
 
-        // Clinical assessments captured during test recommendations
         clinical_assessments_data: completedAssessments.map((a: any) => ({
           assessment_id: a.assessment_id || a.id,
           assessment_name: a.assessment_name || a.name,
@@ -117,7 +140,6 @@ export default function ConditionConfirmMode({
           findings_summary: a.findings_summary || null,
         })),
 
-        // AI differential diagnosis
         clinical_dx_differential: {
           generated_at: new Date().toISOString(),
           conditions: diagnosisResult.differential_diagnosis?.map((d) => ({
@@ -130,8 +152,9 @@ export default function ConditionConfirmMode({
           treatment_urgency: diagnosisResult.treatment_urgency || 'MODERATE',
         },
 
-        // Final selected diagnosis
-        final_diagnosis: {
+        // Final diagnosis: only set when NO imaging needed (confirmed immediately)
+        // When imaging ordered: null — will be set after imaging results confirm
+        final_diagnosis: hasImaging ? null : {
           selected_condition_id: selectedCondition.condition_id,
           selected_condition_name: selectedCondition.condition_name,
           selection_method: 'AI_SUGGESTED',
@@ -139,11 +162,25 @@ export default function ConditionConfirmMode({
           confirmed_at: new Date().toISOString(),
         },
 
-        // Quick access fields
+        // Provisional diagnosis: set when imaging ordered (physio's working guess)
+        provisional_diagnosis: hasImaging ? {
+          condition_name: selectedCondition.condition_name,
+          condition_id: selectedCondition.condition_id,
+          source: 'DIFFERENTIAL' as const,
+          set_at: new Date().toISOString(),
+          set_by_user_id: userData?.user_id || null,
+        } : null,
+
+        // Imaging orders (populated only when physio selected imaging)
+        imaging_orders: hasImaging ? imagingOrders : [],
+
         chief_complaint: merged.chief_complaint || null,
         vas_score: merged.vas_score ?? null,
         urgency_level: diagnosisResult.treatment_urgency?.toUpperCase() || 'MODERATE',
-        diagnosis_status: 'COMPLETE',
+
+        // IMAGING_ORDERED = assessment saved but awaiting imaging results before final dx confirmed
+        // COMPLETE = full assessment done, no imaging pending
+        diagnosis_status: hasImaging ? 'IMAGING_ORDERED' : 'COMPLETE',
       };
 
       if (draftConditionId) {
@@ -152,14 +189,17 @@ export default function ConditionConfirmMode({
         await ApiManager.createPatientCondition(patientId, conditionPayload as any);
       }
 
-      toast.success('Condition saved', {
-        description: `${selectedCondition.condition_name} has been added to patient conditions.`,
+      toast.success(hasImaging ? 'Assessment saved — imaging ordered' : 'Condition saved', {
+        description: hasImaging
+          ? `${selectedCondition.condition_name} saved. Return when imaging results are ready to confirm final diagnosis.`
+          : `${selectedCondition.condition_name} has been added to patient conditions.`,
       });
 
       onComplete({
         diagnosis: selectedCondition,
         diagnosisResult,
         conditionPayload,
+        imagingOrdered: hasImaging,
       });
     } catch (error) {
       console.error('Error saving condition:', error);
@@ -178,19 +218,54 @@ export default function ConditionConfirmMode({
           animate={{ opacity: 1, y: 0 }}
           className="max-w-md mx-auto space-y-6"
         >
-          {/* Success icon */}
+          {/* Icon + title */}
           <div className="text-center">
-            <div className="w-16 h-16 rounded-full bg-teal-100 flex items-center justify-center mx-auto mb-4">
-              <Check className="w-8 h-8 text-teal-600" />
+            <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${
+              hasImaging ? 'bg-amber-50' : 'bg-teal-100'
+            }`}>
+              {hasImaging
+                ? <Scan className="w-8 h-8 text-amber-500" />
+                : <Check className="w-8 h-8 text-teal-600" />
+              }
             </div>
-            <h2 className="text-xl font-semibold text-gray-900">Confirm Diagnosis</h2>
-            <p className="text-sm text-gray-500 mt-1">Review and save to patient record</p>
+            <h2 className="text-xl font-semibold text-gray-900">
+              {hasImaging ? 'Save & Order Imaging' : 'Confirm Diagnosis'}
+            </h2>
+            <p className="text-sm text-gray-500 mt-1">
+              {hasImaging
+                ? 'Assessment saved. Return once imaging results are ready.'
+                : 'Review and save to patient record'}
+            </p>
           </div>
+
+          {/* Imaging notice */}
+          {hasImaging && (
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 space-y-2">
+              <p className="text-xs font-semibold text-amber-700 uppercase tracking-wide">Imaging Ordered</p>
+              {imagingRequests.map((img, i) => (
+                <div key={i} className="flex items-center justify-between">
+                  <span className="text-sm text-amber-800">{img.label}</span>
+                  <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                    img.urgency === 'emergency' ? 'bg-red-100 text-red-700' :
+                    img.urgency === 'urgent' ? 'bg-orange-100 text-orange-700' :
+                    'bg-amber-100 text-amber-700'
+                  }`}>
+                    {img.urgency}
+                  </span>
+                </div>
+              ))}
+              <p className="text-xs text-amber-600 mt-1">
+                The working diagnosis below will be confirmed once results are reviewed.
+              </p>
+            </div>
+          )}
 
           {/* Selected condition card */}
           <div className="bg-white border border-teal-200 rounded-xl p-5 space-y-3">
             <div className="flex items-center justify-between">
-              <h3 className="text-base font-semibold text-gray-900">{selectedCondition.condition_name}</h3>
+              <h3 className="text-base font-semibold text-gray-900">
+                {hasImaging ? 'Working Diagnosis' : 'Confirmed Diagnosis'}
+              </h3>
               <span className={`text-sm font-bold ${
                 confidence >= 70 ? 'text-teal-600' :
                 confidence >= 40 ? 'text-amber-600' : 'text-gray-500'
@@ -198,6 +273,7 @@ export default function ConditionConfirmMode({
                 {confidence}%
               </span>
             </div>
+            <p className="text-sm text-gray-800 font-medium">{selectedCondition.condition_name}</p>
 
             {selectedCondition.clinical_reasoning && (
               <p className="text-sm text-gray-600">{selectedCondition.clinical_reasoning}</p>
@@ -242,13 +318,18 @@ export default function ConditionConfirmMode({
         <Button
           onClick={handleSave}
           disabled={isSaving}
-          className="w-full"
+          className={`w-full ${hasImaging ? 'bg-amber-500 hover:bg-amber-600 text-white' : ''}`}
           size="lg"
         >
           {isSaving ? (
             <>
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
               Saving...
+            </>
+          ) : hasImaging ? (
+            <>
+              <Scan className="w-4 h-4 mr-2" />
+              Save & Order Imaging
             </>
           ) : (
             'Save to Patient Record'

@@ -58,7 +58,11 @@ Pain Data: ${JSON.stringify(diagnosticData.assessment_data?.clinicalFindings?.pa
 Neurological: ${JSON.stringify(diagnosticData.assessment_data?.clinicalFindings?.neurological || {})}
 Functional: ${JSON.stringify(diagnosticData.assessment_data?.clinicalFindings?.functional || {})}
 Objective: ${JSON.stringify(diagnosticData.assessment_data?.clinicalFindings?.objective || {})}
-
+${diagnosticData.assessment_data?.clinicalFindings?.imaging_findings?.length
+  ? `\nImaging Findings:\n${diagnosticData.assessment_data.clinicalFindings.imaging_findings
+      .map((f: any) => `${f.modality} (${f.region}): ${f.findings_text}`)
+      .join('\n')}`
+  : ''}
 Available Conditions (select from these only):
 ${(diagnosticData.available_conditions || []).map((c: any) => `${c.id}: ${c.name} (${c.body_region})`).join('\n')}
 

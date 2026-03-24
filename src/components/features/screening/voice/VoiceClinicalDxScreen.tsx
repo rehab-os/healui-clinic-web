@@ -10,15 +10,29 @@ import RecordingMode from './RecordingMode';
 import GapQuestionsMode from './GapQuestionsMode';
 import ReviewMode from './ReviewMode';
 import AnalysisMode from './AnalysisMode';
+import ImagingMode from './ImagingMode';
 import DiagnosisResultMode from './DiagnosisResultMode';
 import ConditionConfirmMode from './ConditionConfirmMode';
+import { useAppSelector } from '@/store/hooks';
+import ApiManager from '@/services/api/api.service';
+import { toast } from 'sonner';
 import type { DiagnosticResponse } from '@/services/ai/diagnostic.service';
 
-type VoiceMode = 'IDLE' | 'RECORDING' | 'GAPS' | 'REVIEW' | 'ANALYSIS' | 'DIAGNOSIS' | 'CONFIRM';
+type VoiceMode = 'IDLE' | 'RECORDING' | 'GAPS' | 'REVIEW' | 'ANALYSIS' | 'IMAGING' | 'DIAGNOSIS' | 'CONFIRM';
 type ActiveVoiceMode = Exclude<VoiceMode, 'IDLE'>;
 
 // Ordered steps for progress indicator (excludes IDLE and RECORDING)
-const STEPS: VoiceMode[] = ['GAPS', 'REVIEW', 'ANALYSIS', 'DIAGNOSIS', 'CONFIRM'];
+// Imaging comes AFTER diagnosis — physio needs to see differential first before deciding on scans
+const STEPS: VoiceMode[] = ['GAPS', 'REVIEW', 'ANALYSIS', 'DIAGNOSIS', 'IMAGING', 'CONFIRM'];
+
+const STEP_LABELS: Partial<Record<VoiceMode, string>> = {
+  GAPS:      'Gaps',
+  REVIEW:    'Review',
+  ANALYSIS:  'Examination',
+  DIAGNOSIS: 'Diagnosis',
+  IMAGING:   'Imaging',
+  CONFIRM:   'Confirm',
+};
 
 interface GapQuestion {
   id: string;
@@ -59,9 +73,13 @@ export default function VoiceClinicalDxScreen({
   const [isLoadingGaps, setIsLoadingGaps] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [analysisAnswers, setAnalysisAnswers] = useState<Record<string, any>>({});
+  const [analysisAnswers, setAnalysisAnswers]   = useState<Record<string, any>>({});
+  const [imagingRequests, setImagingRequests]   = useState<any[]>([]);
   const [selectedCondition, setSelectedCondition] = useState<any>(null);
-  const [diagnosisResult, setDiagnosisResult] = useState<DiagnosticResponse | null>(null);
+  const [diagnosisResult, setDiagnosisResult]   = useState<DiagnosticResponse | null>(null);
+  const [isImagingOnlyPath, setIsImagingOnlyPath] = useState(false);
+
+  const { userData } = useAppSelector(state => state.user);
 
   const voice = useVoiceClinicalDx({
     clinicId,
@@ -148,7 +166,7 @@ export default function VoiceClinicalDxScreen({
     setMode('ANALYSIS');
   }, []);
 
-  // ANALYSIS → DIAGNOSIS
+  // ANALYSIS → DIAGNOSIS (examination complete, now run AI differential)
   const handleAnalysisComplete = useCallback((answers: Record<string, any>) => {
     setAnalysisAnswers(answers);
     setMode('DIAGNOSIS');
@@ -159,12 +177,113 @@ export default function VoiceClinicalDxScreen({
     setMode('DIAGNOSIS');
   }, []);
 
-  // DIAGNOSIS → CONFIRM
+  // DIAGNOSIS → IMAGING (physio has seen differential, now decides on scans)
   const handleConditionSelected = useCallback((condition: any, result: DiagnosticResponse) => {
     setSelectedCondition(condition);
     setDiagnosisResult(result);
-    setMode('CONFIRM');
+    setMode('IMAGING');
   }, []);
+
+  const [provisionalDx, setProvisionalDx] = useState<{ condition_name: string; condition_id?: string | null; source: 'DIFFERENTIAL' | 'MANUAL' } | null>(null);
+
+  // DIAGNOSIS → IMAGING (physio skips diagnosis, wants imaging first)
+  const handleSkipToImaging = useCallback((result: DiagnosticResponse, provisional?: { condition_name: string; condition_id?: string | null; source: 'DIFFERENTIAL' | 'MANUAL' }) => {
+    setSelectedCondition(null);
+    setDiagnosisResult(result);
+    setProvisionalDx(provisional || null);
+    setIsImagingOnlyPath(true);
+    setMode('IMAGING');
+  }, []);
+
+  // IMAGING → CONFIRM (no imaging ordered — physio is confident, proceed to confirm)
+  const handleImagingSkip = useCallback(() => {
+    setImagingRequests([]);
+    if (isImagingOnlyPath) {
+      // Imaging-only path but physio skipped imaging too — go back to diagnosis
+      setMode('DIAGNOSIS');
+      setIsImagingOnlyPath(false);
+    } else {
+      setMode('CONFIRM');
+    }
+  }, [isImagingOnlyPath]);
+
+  // IMAGING → save as IMAGING_ORDERED and close session
+  // Physio selected imaging — cannot confirm diagnosis until results are back
+  const handleImagingComplete = useCallback(async (requests: any[]) => {
+    if (isImagingOnlyPath && diagnosisResult) {
+      // Path B: Save directly — no CONFIRM step
+      const merged = { ...voice.extractedFields, ...gapAnswers, ...analysisAnswers };
+      const topCondition = diagnosisResult.differential_diagnosis?.[0];
+
+      const imagingOrders = requests.map((req: any) => ({
+        modality: req.modality,
+        label: req.label,
+        patient_label: req.patient_label,
+        indication_label: req.indication_label,
+        referral_text: req.referral_text,
+        urgency: req.urgency,
+        ordered_at: new Date().toISOString(),
+        status: 'ORDERED' as const,
+        ordered_by_user_id: userData?.user_id || null,
+      }));
+
+      const conditionPayload = {
+        condition_id: null,
+        condition_name: null,
+        diagnosis_method: 'CLINICAL_ONLY',
+        clinical_dx_data: {
+          session_id: voice.sessionId || `voice_${Date.now()}`,
+          started_at: new Date().toISOString(),
+          completed_at: new Date().toISOString(),
+          responses: merged,
+          source: 'voice_clinical_dx',
+        },
+        clinical_dx_completed: true,
+        clinical_dx_completed_at: new Date().toISOString(),
+        clinical_dx_differential: {
+          generated_at: new Date().toISOString(),
+          conditions: diagnosisResult.differential_diagnosis?.map((d: any) => ({
+            condition_id: d.condition_id,
+            condition_name: d.condition_name,
+            confidence_score: d.confidence_score,
+            supporting_evidence: d.supporting_evidence || [],
+            clinical_reasoning: d.clinical_reasoning || '',
+          })) || [],
+          treatment_urgency: diagnosisResult.treatment_urgency || 'MODERATE',
+        },
+        final_diagnosis: null,
+        provisional_diagnosis: {
+          condition_name: provisionalDx?.condition_name || topCondition?.condition_name || 'Pending Diagnosis',
+          condition_id: provisionalDx?.condition_id || topCondition?.condition_id || null,
+          source: provisionalDx?.source || 'DIFFERENTIAL',
+          set_at: new Date().toISOString(),
+          set_by_user_id: userData?.user_id || null,
+        },
+        imaging_orders: imagingOrders,
+        diagnosis_status: 'IMAGING_ORDERED',
+        chief_complaint: merged.chief_complaint || null,
+        vas_score: merged.vas_score ?? null,
+        urgency_level: diagnosisResult.treatment_urgency?.toUpperCase() || 'MODERATE',
+      };
+
+      try {
+        if (conditionId) {
+          await ApiManager.updatePatientCondition(patientId, conditionId, conditionPayload);
+        } else {
+          await ApiManager.createPatientCondition(patientId, conditionPayload as any);
+        }
+        toast.success('Imaging ordered', { description: 'Assessment saved. Resume after imaging results.' });
+        onComplete(conditionPayload);
+      } catch (err: any) {
+        toast.error('Failed to save', { description: err.message || 'Please try again.' });
+      }
+      return;
+    }
+
+    // Path A: Normal flow — go to CONFIRM
+    setImagingRequests(requests);
+    setMode('CONFIRM');
+  }, [isImagingOnlyPath, diagnosisResult, voice, gapAnswers, analysisAnswers, userData, patientId, conditionId, onComplete, provisionalDx]);
 
   // CONFIRM → done
   const handleConfirmComplete = useCallback((result: any) => {
@@ -180,11 +299,14 @@ export default function VoiceClinicalDxScreen({
           onClose();
         }
         break;
-      case 'GAPS': onClose(); break;
-      case 'REVIEW': setMode('GAPS'); break;
-      case 'ANALYSIS': setMode('REVIEW'); break;
-      case 'DIAGNOSIS': setMode('ANALYSIS'); break;
-      case 'CONFIRM': setMode('DIAGNOSIS'); break;
+      case 'GAPS':
+        if (window.confirm('Leave assessment? Your recording data will be lost.')) onClose();
+        break;
+      case 'REVIEW':    setMode('GAPS');      break;
+      case 'ANALYSIS':  setMode('REVIEW');    break;
+      case 'DIAGNOSIS': setMode('ANALYSIS');  break;
+      case 'IMAGING':   setMode('DIAGNOSIS'); setIsImagingOnlyPath(false); break;
+      case 'CONFIRM':   setMode('IMAGING');   break;
       default: onClose();
     }
   };
@@ -230,42 +352,51 @@ export default function VoiceClinicalDxScreen({
     <div className={`flex flex-col h-full ${isDarkMode ? 'bg-[#0a0a0a]' : 'bg-white'}`}>
       {/* Top bar — hidden during recording (RecordingMode has its own) */}
       {!isRecording && (
-        <div className={`flex items-center gap-3 px-4 py-3 border-b flex-shrink-0 ${
-          isDarkMode ? 'border-white/[0.06] bg-[#0a0a0a]' : 'border-gray-100 bg-white'
-        }`}>
-          <button
-            onClick={handleBack}
-            className={`flex items-center gap-1 text-sm ${isDarkMode ? 'text-white/30 hover:text-white/50' : 'text-gray-500 hover:text-gray-700'} transition-colors`}
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back
-          </button>
-          <div className="flex-1">
-            <h3 className={`text-sm font-medium ${isDarkMode ? 'text-white/50' : 'text-gray-900'}`}>
-              Voice ClinicalDx
-              {patientName && (
-                <span className={isDarkMode ? 'text-white/25 font-normal ml-2' : 'text-gray-500 font-normal ml-2'}>
-                  for {patientName}
-                </span>
-              )}
-            </h3>
+        <>
+          <div className={`flex items-center gap-3 px-4 py-3 border-b flex-shrink-0 ${
+            isDarkMode ? 'border-white/[0.06] bg-[#0a0a0a]' : 'border-gray-100 bg-white'
+          }`}>
+            <button
+              onClick={handleBack}
+              className={`flex items-center gap-1.5 py-2 px-2 -ml-2 rounded-lg min-h-[44px] text-sm ${isDarkMode ? 'text-white/30 hover:text-white/50' : 'text-gray-500 hover:text-gray-700'} transition-colors`}
+            >
+              <ArrowLeft className="w-5 h-5" />
+              Back
+            </button>
+            <div className="flex-1 min-w-0">
+              <h3 className="text-sm font-medium text-gray-800 truncate">
+                {patientName ? (
+                  <>Voice Dx <span className="text-gray-400 font-normal">— {patientName}</span></>
+                ) : 'Voice ClinicalDx'}
+              </h3>
+            </div>
           </div>
-          {/* Step dots */}
-          <div className="flex items-center gap-1">
-            {STEPS.map((step, i) => (
-              <div
-                key={step}
-                className={`rounded-full transition-all duration-300 ${
-                  mode === step
-                    ? isDarkMode ? 'w-2 h-2 bg-white/60' : 'w-2 h-2 bg-teal-500'
-                    : STEPS.indexOf(mode) > i
-                    ? isDarkMode ? 'w-1.5 h-1.5 bg-white/25' : 'w-1.5 h-1.5 bg-teal-300'
-                    : isDarkMode ? 'w-1.5 h-1.5 bg-white/[0.08]' : 'w-1.5 h-1.5 bg-gray-200'
-                }`}
-              />
-            ))}
-          </div>
-        </div>
+
+          {/* Segmented step progress bar */}
+          {STEPS.includes(mode as any) && (
+            <div className={`flex gap-1.5 px-4 pt-2 pb-2.5 border-b flex-shrink-0 ${
+              isDarkMode ? 'border-white/[0.04] bg-[#0a0a0a]' : 'border-gray-50 bg-white'
+            }`}>
+              {STEPS.map((step, idx) => {
+                const currentIdx = STEPS.indexOf(mode as any);
+                const isDone = idx < currentIdx;
+                const isCurrent = idx === currentIdx;
+                return (
+                  <div key={step} className="flex-1 flex flex-col items-center gap-1">
+                    <div className={`h-[3px] w-full rounded-full transition-all duration-300 ${
+                      isDone ? 'bg-teal-500' : isCurrent ? 'bg-teal-400' : 'bg-gray-200'
+                    }`} />
+                    <span className={`text-[9px] leading-none tracking-wide ${
+                      isCurrent ? 'text-teal-600 font-semibold' : isDone ? 'text-teal-400' : 'text-gray-300'
+                    }`}>
+                      {STEP_LABELS[step]}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </>
       )}
 
       {/* Mode content */}
@@ -318,6 +449,7 @@ export default function VoiceClinicalDxScreen({
                 extractedFields={voice.extractedFields}
                 fieldConfidence={voice.fieldConfidence}
                 gapAnswers={gapAnswers}
+                transcript={voice.transcript}
                 onFinalize={handleReviewContinue}
                 onBack={() => setMode('GAPS')}
               />
@@ -342,7 +474,30 @@ export default function VoiceClinicalDxScreen({
                 gapAnswers={{ ...gapAnswers, ...analysisAnswers }}
                 completedAssessments={[]}
                 onConditionSelected={handleConditionSelected}
+                onSkipToImaging={handleSkipToImaging}
                 onBack={() => setMode('ANALYSIS')}
+              />
+            </motion.div>
+          )}
+
+          {mode === 'IMAGING' && diagnosisResult && (
+            <motion.div key="imaging" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="h-full">
+              <ImagingMode
+                extractedFields={voice.extractedFields}
+                analysisAnswers={analysisAnswers}
+                diagnosisConfidence={
+                  selectedCondition?.confidence_score
+                  ?? diagnosisResult.differential_diagnosis?.[0]?.confidence_score
+                  ?? 0.5
+                }
+                topDifferential={
+                  diagnosisResult.differential_diagnosis?.slice(0, 3).map((d: any) => ({
+                    condition_name: d.condition_name,
+                    confidence: d.confidence_score,
+                  })) ?? []
+                }
+                onRequestImaging={handleImagingComplete}
+                onSkip={handleImagingSkip}
               />
             </motion.div>
           )}
@@ -355,6 +510,7 @@ export default function VoiceClinicalDxScreen({
                 extractedFields={voice.extractedFields}
                 gapAnswers={{ ...gapAnswers, ...analysisAnswers }}
                 completedAssessments={[]}
+                imagingRequests={imagingRequests}
                 patientId={patientId}
                 sessionId={voice.sessionId}
                 draftConditionId={conditionId}

@@ -77,7 +77,14 @@ export const ENDPOINTS = {
     GET_PATIENT_VISIT_HISTORY: (id: string) => `patients/${id}/visit-history`,
 
     // Patient Conditions (Multi-Condition Support)
-    GET_PATIENT_CONDITIONS: (patientId: string) => `patients/${patientId}/conditions`,
+    GET_PATIENT_CONDITIONS: (patientId: string, params?: { include_history?: boolean; exclude_abandoned?: boolean }) => {
+        let url = `patients/${patientId}/conditions`
+        const searchParams = new URLSearchParams()
+        if (params?.include_history) searchParams.append('include_history', 'true')
+        if (params?.exclude_abandoned !== undefined) searchParams.append('exclude_abandoned', String(params.exclude_abandoned))
+        if (searchParams.toString()) url += '?' + searchParams.toString()
+        return url
+    },
     CREATE_PATIENT_CONDITION: (patientId: string) => `patients/${patientId}/conditions`,
     UPDATE_PATIENT_CONDITION: (patientId: string, conditionId: string) => `patients/${patientId}/conditions/${conditionId}`,
     UPDATE_PATIENT_CONDITION_STATUS: (patientId: string, conditionId: string) => `patients/${patientId}/conditions/${conditionId}/status`,
@@ -482,4 +489,11 @@ export const ENDPOINTS = {
         if (params.method) searchParams.append('method', params.method)
         return `billing/reports/collections?${searchParams.toString()}`
     },
+
+    // ============ Patient Documents ============
+    PATIENT_DOCUMENT_UPLOAD_URL: (patientId: string) => `patients/${patientId}/documents/upload-url`,
+    PATIENT_DOCUMENTS: (patientId: string) => `patients/${patientId}/documents`,
+    PATIENT_DOCUMENT_VIEW_URL: (patientId: string, documentId: string) => `patients/${patientId}/documents/${documentId}/view-url`,
+    PATIENT_DOCUMENT_DELETE: (patientId: string, documentId: string) => `patients/${patientId}/documents/${documentId}`,
+    PATIENT_DOCUMENTS_BY_IMAGING: (patientId: string) => `patients/${patientId}/documents/by-imaging-order`,
 }

@@ -1,0 +1,85 @@
+{
+  "version": "1.0",
+  "description": "ROM measurement types, pain responses, and per-movement clinical data. Used to drive the custom ROM input in ExaminationMode.",
+
+  "measurement_types": [
+    { "key": "active",   "label": "Active",   "abbr": "AROM",  "description": "Patient moves independently" },
+    { "key": "passive",  "label": "Passive",  "abbr": "PROM",  "description": "Examiner moves the joint" },
+    { "key": "assisted", "label": "Assisted", "abbr": "AAROM", "description": "Gravity eliminated or assisted" }
+  ],
+
+  "pain_during_movement": [
+    { "key": "none",        "label": "No pain",    "color": "green"  },
+    { "key": "end_range",   "label": "End range",  "color": "amber"  },
+    { "key": "throughout",  "label": "Throughout", "color": "orange" },
+    { "key": "painful_arc", "label": "Painful arc","color": "red"    },
+    { "key": "increases",   "label": "Increases",  "color": "red"    }
+  ],
+
+  "movements": {
+    "lumbar": {
+      "flexion":    { "key": "lumbar_flexion",    "label": "Flexion",       "normal": 60, "unit": "°", "limited_suggests": ["Disc herniation", "Facet joint irritation", "Muscle spasm"], "full_painful_suggests": ["Discogenic pain", "Ligamentous strain"] },
+      "extension":  { "key": "lumbar_extension",  "label": "Extension",     "normal": 25, "unit": "°", "limited_suggests": ["Facet joint arthropathy", "Spinal stenosis", "Spondylolisthesis"], "full_painful_suggests": ["Facet impingement", "Spondylolysis"] },
+      "lat_flex_l": { "key": "lumbar_lat_flex_l", "label": "Lat. Flex (L)", "normal": 25, "unit": "°", "limited_suggests": ["Ipsilateral facet restriction", "Disc herniation L-side"] },
+      "lat_flex_r": { "key": "lumbar_lat_flex_r", "label": "Lat. Flex (R)", "normal": 25, "unit": "°", "limited_suggests": ["Ipsilateral facet restriction", "Disc herniation R-side"] },
+      "rotation_l": { "key": "lumbar_rotation_l", "label": "Rotation (L)",  "normal": 30, "unit": "°", "limited_suggests": ["Facet joint restriction"] },
+      "rotation_r": { "key": "lumbar_rotation_r", "label": "Rotation (R)",  "normal": 30, "unit": "°", "limited_suggests": ["Facet joint restriction"] }
+    },
+    "cervical": {
+      "flexion":    { "key": "cervical_flexion",    "label": "Flexion",       "normal": 50, "unit": "°", "limited_suggests": ["Upper cervical hypomobility", "Disc herniation", "Muscle guarding"] },
+      "extension":  { "key": "cervical_extension",  "label": "Extension",     "normal": 60, "unit": "°", "limited_suggests": ["Facet joint stiffness", "Cervical stenosis", "Posterior disc bulge"] },
+      "rotation_l": { "key": "cervical_rotation_l", "label": "Rotation (L)",  "normal": 80, "unit": "°", "limited_suggests": ["C1/C2 dysfunction", "Ipsilateral capsular tightness"] },
+      "rotation_r": { "key": "cervical_rotation_r", "label": "Rotation (R)",  "normal": 80, "unit": "°", "limited_suggests": ["C1/C2 dysfunction", "Ipsilateral capsular tightness"] },
+      "lat_flex_l": { "key": "cervical_lat_flex_l", "label": "Lat. Flex (L)", "normal": 45, "unit": "°", "limited_suggests": ["Scalene tightness", "C-spine disc herniation"] },
+      "lat_flex_r": { "key": "cervical_lat_flex_r", "label": "Lat. Flex (R)", "normal": 45, "unit": "°", "limited_suggests": ["Scalene tightness", "C-spine disc herniation"] }
+    },
+    "shoulder": {
+      "flexion":    { "key": "shoulder_flexion",   "label": "Flexion",       "normal": 180, "unit": "°", "limited_suggests": ["Rotator cuff tear", "Capsular tightness", "Impingement"], "full_painful_suggests": ["Subacromial impingement", "AC joint pathology"] },
+      "extension":  { "key": "shoulder_extension", "label": "Extension",     "normal": 60,  "unit": "°", "limited_suggests": ["Anterior capsule tightness"] },
+      "abduction":  { "key": "shoulder_abduction", "label": "Abduction",     "normal": 180, "unit": "°", "limited_suggests": ["Adhesive capsulitis", "Impingement", "AC joint pathology"], "full_painful_suggests": ["Subacromial bursitis"] },
+      "adduction":  { "key": "shoulder_adduction", "label": "Adduction",     "normal": 45,  "unit": "°", "limited_suggests": ["AC joint pathology"] },
+      "ir":         { "key": "shoulder_ir",        "label": "Int. Rotation", "normal": 70,  "unit": "°", "limited_suggests": ["Posterior capsule tightness", "Adhesive capsulitis (early)"] },
+      "er":         { "key": "shoulder_er",        "label": "Ext. Rotation", "normal": 90,  "unit": "°", "limited_suggests": ["Anterior capsule tightness", "Subscapularis contracture", "Adhesive capsulitis"] }
+    },
+    "elbow": {
+      "flexion":    { "key": "elbow_flexion",    "label": "Flexion",    "normal": 150, "unit": "°", "limited_suggests": ["OA", "Loose body", "Post-fracture stiffness"] },
+      "extension":  { "key": "elbow_extension",  "label": "Extension",  "normal": 0,   "unit": "°", "limited_suggests": ["Loose body", "OA", "Flexion contracture"] },
+      "pronation":  { "key": "elbow_pronation",  "label": "Pronation",  "normal": 80,  "unit": "°", "limited_suggests": ["Radial head pathology", "DRUJ dysfunction"] },
+      "supination": { "key": "elbow_supination", "label": "Supination", "normal": 80,  "unit": "°", "limited_suggests": ["Radial head pathology", "Biceps tendon pathology"] }
+    },
+    "wrist": {
+      "flexion":    { "key": "wrist_flexion",    "label": "Flexion",          "normal": 80, "unit": "°", "limited_suggests": ["Wrist OA", "Dorsal capsule tightness", "TFCC injury"] },
+      "extension":  { "key": "wrist_extension",  "label": "Extension",        "normal": 70, "unit": "°", "limited_suggests": ["Wrist OA", "Volar capsule tightness", "Carpal tunnel"] },
+      "radial_dev": { "key": "wrist_radial_dev", "label": "Radial Deviation", "normal": 20, "unit": "°", "limited_suggests": ["De Quervain's tenosynovitis", "Scaphoid pathology"] },
+      "ulnar_dev":  { "key": "wrist_ulnar_dev",  "label": "Ulnar Deviation",  "normal": 30, "unit": "°", "limited_suggests": ["TFCC injury", "Ulnar styloid pathology"] }
+    },
+    "hip": {
+      "flexion":   { "key": "hip_flexion",   "label": "Flexion",       "normal": 120, "unit": "°", "limited_suggests": ["Hip OA", "FAI", "Iliopsoas tightness", "Capsular tightness"] },
+      "extension": { "key": "hip_extension", "label": "Extension",     "normal": 30,  "unit": "°", "limited_suggests": ["Hip flexor tightness", "Hip OA", "FAI anterior"] },
+      "abduction": { "key": "hip_abduction", "label": "Abduction",     "normal": 45,  "unit": "°", "limited_suggests": ["Hip OA", "Adductor tightness"] },
+      "adduction": { "key": "hip_adduction", "label": "Adduction",     "normal": 30,  "unit": "°", "limited_suggests": ["IT band tightness", "Hip abductor pathology"] },
+      "ir":        { "key": "hip_ir",        "label": "Int. Rotation", "normal": 35,  "unit": "°", "limited_suggests": ["FAI (cam morphology)", "Labral tear", "Hip OA (early sign)"] },
+      "er":        { "key": "hip_er",        "label": "Ext. Rotation", "normal": 45,  "unit": "°", "limited_suggests": ["Piriformis tightness", "Post-capsular tightness"] }
+    },
+    "knee": {
+      "flexion":   { "key": "knee_flexion",   "label": "Flexion",   "normal": 135, "unit": "°", "limited_suggests": ["Effusion", "OA", "Post-surgical stiffness", "Hamstring tightness"] },
+      "extension": { "key": "knee_extension", "label": "Extension", "normal": 0,   "unit": "°", "limited_suggests": ["ACL tear (extension block)", "Meniscal block", "Effusion", "Quad weakness"] }
+    },
+    "ankle": {
+      "dorsiflexion":   { "key": "ankle_dorsiflexion",   "label": "Dorsiflexion",   "normal": 20, "unit": "°", "limited_suggests": ["Achilles tightness", "Ankle OA", "Plantar fasciitis"] },
+      "plantarflexion": { "key": "ankle_plantarflexion", "label": "Plantarflexion", "normal": 50, "unit": "°", "limited_suggests": ["Anterior ankle impingement", "Dorsal capsule tightness"] },
+      "inversion":      { "key": "ankle_inversion",      "label": "Inversion",      "normal": 35, "unit": "°", "limited_suggests": ["Lateral ligament sprain", "Peroneal tendon pathology"] },
+      "eversion":       { "key": "ankle_eversion",       "label": "Eversion",       "normal": 20, "unit": "°", "limited_suggests": ["Medial ligament sprain", "Posterior tibial tendon pathology"] }
+    },
+    "foot": {
+      "dorsiflexion":   { "key": "ankle_dorsiflexion",   "label": "Dorsiflexion",   "normal": 20, "unit": "°" },
+      "plantarflexion": { "key": "ankle_plantarflexion", "label": "Plantarflexion", "normal": 50, "unit": "°" }
+    },
+    "thoracic": {
+      "flexion":    { "key": "thoracic_flexion",    "label": "Flexion",      "normal": 40, "unit": "°", "limited_suggests": ["Hyperkyphosis", "Thoracic OA", "Rib dysfunction"] },
+      "extension":  { "key": "thoracic_extension",  "label": "Extension",    "normal": 20, "unit": "°", "limited_suggests": ["Hyperkyphosis", "Facet joint stiffness"] },
+      "rotation_l": { "key": "thoracic_rotation_l", "label": "Rotation (L)", "normal": 35, "unit": "°", "limited_suggests": ["Rib restriction", "Thoracic facet joint stiffness"] },
+      "rotation_r": { "key": "thoracic_rotation_r", "label": "Rotation (R)", "normal": 35, "unit": "°", "limited_suggests": ["Rib restriction", "Thoracic facet joint stiffness"] }
+    }
+  }
+}

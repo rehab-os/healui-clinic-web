@@ -33,6 +33,7 @@ export async function buildDiagnosticPayload(
   extractedFields: Record<string, any>,
   gapAnswers: Record<string, any>,
   completedAssessments?: any[],
+  imagingFindings?: Array<{ modality: string; region: string; findings_text: string }>,
 ): Promise<DiagnosticRequest> {
   const r = { ...extractedFields, ...gapAnswers };
 
@@ -177,6 +178,7 @@ export async function buildDiagnosticPayload(
               f.includes('progressive_weakness'),
           ),
         },
+        imaging_findings: imagingFindings || undefined,
       },
       source: 'voice_clinical_dx',
     },

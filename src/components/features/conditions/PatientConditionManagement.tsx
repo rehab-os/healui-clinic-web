@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
-import { Plus, Edit, Trash2, Calendar, Clock, AlertCircle, Stethoscope, TrendingUp, CheckCircle, Sparkles, LogOut, PlayCircle } from 'lucide-react'
+import { Plus, Edit, Trash2, Calendar, Clock, AlertCircle, Stethoscope, TrendingUp, CheckCircle, Sparkles, LogOut, PlayCircle, Download } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -29,6 +29,8 @@ import PhysioAssessmentChatbot from '../screening/PhysioAssessmentChatbot'
 import ProtocolGeneratorModal from '../conditions/ProtocolGeneratorModal'
 import DischargeConditionDialog from './DischargeConditionDialog'
 import ApiManager from '@/services/api/api.service'
+import ResumeAssessmentScreen from '../screening/voice/ResumeAssessmentScreen'
+import { useAppSelector } from '@/store/hooks'
 import { format } from 'date-fns'
 import type {
     PatientConditionResponseDto,
@@ -42,6 +44,9 @@ import type {
 interface PatientConditionManagementProps {
     patientId: string
     patientName?: string
+    patientDob?: string
+    patientGender?: string
+    patientPhone?: string
     onConditionsChange?: (conditions: PatientConditionResponseDto[]) => void
 }
 
@@ -52,8 +57,14 @@ interface ConditionWithHistory extends PatientConditionResponseDto {
 export const PatientConditionManagement: React.FC<PatientConditionManagementProps> = ({
     patientId,
     patientName,
+    patientDob,
+    patientGender,
+    patientPhone,
     onConditionsChange
 }) => {
+    // User context for PDF generation
+    const { userData, currentClinic } = useAppSelector(state => state.user)
+
     // State
     const [conditions, setConditions] = useState<ConditionWithHistory[]>([])
     const [loading, setLoading] = useState(false)
@@ -93,41 +104,31 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
     const [showDischargeDialog, setShowDischargeDialog] = useState(false)
     const [conditionToDischarge, setConditionToDischarge] = useState<ConditionWithHistory | null>(null)
 
+    // Resume assessment state (for IMAGING_ORDERED conditions)
+    const [resumeCondition, setResumeCondition] = useState<ConditionWithHistory | null>(null)
+
     // Load patient conditions
     const loadConditions = async () => {
         setLoading(true)
         setError(null)
 
         try {
-            const response = await ApiManager.getPatientConditions(patientId)
-            
+            const response = await ApiManager.getPatientConditions(patientId, {
+                include_history: true,
+                exclude_abandoned: true,
+            })
+
             if (!response.success) {
                 throw new Error(response.message || 'Failed to load conditions')
             }
 
-            const conditionsData = response.data || []
+            const conditionsData = (response.data || []).map((c: any) => ({
+                ...c,
+                treatmentHistory: c.treatmentHistory || [],
+            }))
 
-            // Load treatment history for each condition
-            const conditionsWithHistory = await Promise.all(
-                conditionsData.map(async (condition: PatientConditionResponseDto) => {
-                    try {
-                        const historyResponse = await ApiManager.getConditionHistory(condition.id)
-                        return {
-                            ...condition,
-                            treatmentHistory: historyResponse.success ? historyResponse.data || [] : []
-                        }
-                    } catch (err) {
-                        console.warn(`Failed to load history for condition ${condition.id}:`, err)
-                        return {
-                            ...condition,
-                            treatmentHistory: []
-                        }
-                    }
-                })
-            )
-
-            setConditions(conditionsWithHistory)
-            onConditionsChange?.(conditionsWithHistory)
+            setConditions(conditionsData)
+            onConditionsChange?.(conditionsData)
         } catch (err: any) {
             console.error('Error loading conditions:', err)
             setError(err.message || 'Failed to load conditions')
@@ -140,6 +141,11 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
     useEffect(() => {
         loadConditions()
     }, [patientId])
+
+    // Conditions awaiting imaging results — shown in banner above tabs
+    const pendingImagingConditions = conditions.filter(c =>
+        c.diagnosis_status === 'IMAGING_ORDERED'
+    )
 
     // Filter out incomplete drafts - only show conditions with actual diagnosis
     const completedConditions = conditions.filter(c =>
@@ -549,6 +555,111 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
                     </div>
                 )}
 
+                {/* Pending imaging banner */}
+                {pendingImagingConditions.length > 0 && (
+                    <div className="mb-4 space-y-2">
+                        {pendingImagingConditions.map((c) => (
+                            <div
+                                key={c.id}
+                                className="flex items-center justify-between bg-amber-50 border border-amber-200 rounded-lg px-4 py-3"
+                            >
+                                <div className="flex-1 min-w-0">
+                                    <p className="text-xs font-semibold text-amber-700 uppercase tracking-wide mb-0.5">
+                                        Imaging Pending
+                                    </p>
+                                    <p className="text-sm font-medium text-amber-900 truncate">{c.condition_name || (c as any).provisional_diagnosis?.condition_name || 'Awaiting Diagnosis'}</p>
+                                    {c.chief_complaint && (
+                                        <p className="text-xs text-amber-600 truncate">"{c.chief_complaint}"</p>
+                                    )}
+                                    {(c as any).imaging_orders?.length > 0 && (
+                                        <p className="text-xs text-amber-600 mt-0.5">
+                                            {(c as any).imaging_orders.map((o: any) => o.label).join(' · ')}
+                                        </p>
+                                    )}
+                                </div>
+                                <div className="ml-3 shrink-0 flex items-center gap-2">
+                                    <Button
+                                        size="sm"
+                                        variant="outline"
+                                        className="text-xs border-amber-300 text-amber-700 hover:bg-amber-100"
+                                        onClick={async () => {
+                                            try {
+                                                const { pdf } = await import('@react-pdf/renderer');
+                                                const { default: ImagingReferralPDF } = await import('@/components/pdf/documents/ImagingReferralPDF');
+                                                const blob = await pdf(
+                                                    <ImagingReferralPDF data={{
+                                                        patient: { full_name: patientName || 'Patient', date_of_birth: patientDob, gender: patientGender, phone: patientPhone },
+                                                        clinic: { name: currentClinic?.name || 'Clinic' },
+                                                        physiotherapist: { full_name: userData?.name || 'Physiotherapist' },
+                                                        condition_name: c.condition_name || (c as any).provisional_diagnosis?.condition_name || 'Awaiting Diagnosis',
+                                                        chief_complaint: c.chief_complaint,
+                                                        imagingOrders: ((c as any).imaging_orders || []).map((o: any) => ({
+                                                            modality: o.modality,
+                                                            label: o.label,
+                                                            indication_label: o.indication_label,
+                                                            referral_text: o.referral_text,
+                                                            urgency: o.urgency,
+                                                            ordered_at: o.ordered_at,
+                                                        })),
+                                                    }} />
+                                                ).toBlob();
+                                                const url = URL.createObjectURL(blob);
+                                                const a = document.createElement('a');
+                                                a.href = url;
+                                                a.download = `Imaging-Referral-${(c.condition_name || (c as any).provisional_diagnosis?.condition_name || 'Assessment').replace(/\s+/g, '-')}.pdf`;
+                                                a.click();
+                                                URL.revokeObjectURL(url);
+                                            } catch (err) {
+                                                toast.error('Failed to generate referral PDF');
+                                            }
+                                        }}
+                                    >
+                                        <Download className="w-3.5 h-3.5 mr-1" />
+                                        Referral
+                                    </Button>
+                                    <Button
+                                        size="sm"
+                                        variant="outline"
+                                        className="text-xs border-amber-300 text-amber-700 hover:bg-amber-100"
+                                        onClick={async () => {
+                                            try {
+                                                const { pdf } = await import('@react-pdf/renderer');
+                                                const { default: AssessmentSummaryPDF } = await import('@/components/pdf/documents/AssessmentSummaryPDF');
+                                                const blob = await pdf(
+                                                    <AssessmentSummaryPDF data={{
+                                                        patient: { full_name: patientName || 'Patient', date_of_birth: patientDob, gender: patientGender, phone: patientPhone },
+                                                        clinic: { name: currentClinic?.name || 'Clinic' },
+                                                        physiotherapist: { full_name: userData?.name || 'Physiotherapist' },
+                                                        condition: c as any,
+                                                    }} />
+                                                ).toBlob();
+                                                const url = URL.createObjectURL(blob);
+                                                const a = document.createElement('a');
+                                                a.href = url;
+                                                a.download = `Assessment-Summary-${(c.condition_name || (c as any).provisional_diagnosis?.condition_name || 'Assessment').replace(/\s+/g, '-')}.pdf`;
+                                                a.click();
+                                                URL.revokeObjectURL(url);
+                                            } catch (err) {
+                                                toast.error('Failed to generate summary PDF');
+                                            }
+                                        }}
+                                    >
+                                        <Download className="w-3.5 h-3.5 mr-1" />
+                                        Summary
+                                    </Button>
+                                    <Button
+                                        size="sm"
+                                        className="bg-amber-500 hover:bg-amber-600 text-white text-xs"
+                                        onClick={() => setResumeCondition(c)}
+                                    >
+                                        Continue Assessment
+                                    </Button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+
                 <Tabs value={activeTab} onValueChange={setActiveTab}>
                     <TabsList className="grid w-full grid-cols-4">
                         <TabsTrigger value="active">
@@ -587,7 +698,7 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
                                                     <div className="flex-1">
                                                         <div className="flex items-center gap-2 mb-2">
                                                             <h3 className="font-semibold text-lg">
-                                                                {condition.condition_name}
+                                                                {condition.condition_name || (condition as any).provisional_diagnosis?.condition_name || 'Awaiting Diagnosis'}
                                                             </h3>
                                                             <Badge className={`${getStatusColor(condition.status)} flex items-center gap-1`}>
                                                                 {getStatusIcon(condition.status)}
@@ -881,6 +992,21 @@ export const PatientConditionManagement: React.FC<PatientConditionManagementProp
                     persistentKey={`assessment-${patientId}`}
                 />
             </div>,
+            document.body
+        )}
+
+        {/* Resume Assessment Screen (IMAGING_ORDERED → COMPLETE) */}
+        {resumeCondition && typeof document !== 'undefined' && createPortal(
+            <ResumeAssessmentScreen
+                patientId={patientId}
+                patientName={patientName}
+                condition={resumeCondition as any}
+                onComplete={async () => {
+                    setResumeCondition(null);
+                    await loadConditions();
+                }}
+                onClose={() => setResumeCondition(null)}
+            />,
             document.body
         )}
 

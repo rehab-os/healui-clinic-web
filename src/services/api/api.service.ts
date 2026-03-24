@@ -392,8 +392,8 @@ class ApiManager {
     }
 
     // Patient Conditions (Multi-Condition Support)
-    static getPatientConditions = (patientId: string) => {
-        const url = BASE_URL + ENDPOINTS.GET_PATIENT_CONDITIONS(patientId)
+    static getPatientConditions = (patientId: string, params?: { include_history?: boolean; exclude_abandoned?: boolean }) => {
+        const url = BASE_URL + ENDPOINTS.GET_PATIENT_CONDITIONS(patientId, params)
         return ApiMethods.get(url)
     }
 
