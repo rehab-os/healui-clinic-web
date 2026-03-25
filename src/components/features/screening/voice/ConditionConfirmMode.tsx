@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { useAppSelector } from '@/store/hooks';
 import type { DiagnosticResponse } from '@/services/ai/diagnostic.service';
+import type { ADLData } from './ADLMode';
 
 interface ImagingRequest {
   modality: string;
@@ -30,6 +31,7 @@ interface ConditionConfirmModeProps {
   gapAnswers: Record<string, any>;
   completedAssessments: any[];
   imagingRequests?: ImagingRequest[];
+  adlData?: ADLData | null;
   patientId: string;
   sessionId?: string | null;
   draftConditionId?: string;
@@ -44,6 +46,7 @@ export default function ConditionConfirmMode({
   gapAnswers,
   completedAssessments,
   imagingRequests = [],
+  adlData,
   patientId,
   sessionId,
   draftConditionId,
@@ -170,6 +173,9 @@ export default function ConditionConfirmMode({
           set_at: new Date().toISOString(),
           set_by_user_id: userData?.user_id || null,
         } : null,
+
+        // ADL / functional impact data
+        adl_data: adlData || null,
 
         // Imaging orders (populated only when physio selected imaging)
         imaging_orders: hasImaging ? imagingOrders : [],

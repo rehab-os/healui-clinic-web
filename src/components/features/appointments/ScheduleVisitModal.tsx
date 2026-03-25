@@ -26,6 +26,11 @@ interface Physiotherapist {
   is_admin: boolean;
 }
 
+interface SlotDensity {
+  time: string;
+  count: number;
+}
+
 interface ScheduleVisitModalProps {
   patient: Patient;
   onClose: () => void;
@@ -48,6 +53,10 @@ const ScheduleVisitModal: React.FC<ScheduleVisitModalProps> = ({ patient, onClos
   const [patientConditions, setPatientConditions] = useState<PatientConditionResponseDto[]>([]);
   const [loadingConditions, setLoadingConditions] = useState(false);
   const [selectedConditionIds, setSelectedConditionIds] = useState<string[]>([]);
+
+  // Slot density heat map
+  const [slotDensity, setSlotDensity] = useState<SlotDensity[]>([]);
+  const [loadingDensity, setLoadingDensity] = useState(false);
 
   const [formData, setFormData] = useState({
     visit_type: 'INITIAL_CONSULTATION',
@@ -80,6 +89,19 @@ const ScheduleVisitModal: React.FC<ScheduleVisitModalProps> = ({ patient, onClos
     '18:00', '18:30', '19:00', '19:30'
   ];
 
+  // Get density color based on appointment count
+  const getDensityStyle = (count: number): { bg: string; text: string; border: string } => {
+    if (count === 0) return { bg: 'bg-white', text: 'text-gray-700', border: 'border-gray-200' };
+    if (count === 1) return { bg: 'bg-amber-50', text: 'text-amber-800', border: 'border-amber-200' };
+    if (count === 2) return { bg: 'bg-orange-100', text: 'text-orange-800', border: 'border-orange-300' };
+    return { bg: 'bg-red-100', text: 'text-red-800', border: 'border-red-300' };
+  };
+
+  const getSlotCount = (time: string): number => {
+    const slot = slotDensity.find(s => s.time === time);
+    return slot?.count || 0;
+  };
+
   // Slide in on mount
   useEffect(() => {
     requestAnimationFrame(() => setSlideIn(true));
@@ -98,7 +120,7 @@ const ScheduleVisitModal: React.FC<ScheduleVisitModalProps> = ({ patient, onClos
     }
   }, [calendarOpen]);
 
-  // Load patient conditions
+  // Load patient conditions — default all selected
   useEffect(() => {
     const load = async () => {
       setLoadingConditions(true);
@@ -109,6 +131,8 @@ const ScheduleVisitModal: React.FC<ScheduleVisitModalProps> = ({ patient, onClos
             (c: PatientConditionResponseDto) => c.status === 'ACTIVE'
           );
           setPatientConditions(active);
+          // Default: all conditions with valid condition_id selected
+          setSelectedConditionIds(active.filter((c: PatientConditionResponseDto) => c.condition_id).map((c: PatientConditionResponseDto) => c.id));
         }
       } catch (err) {
         console.error('Failed to load conditions:', err);
@@ -118,6 +142,28 @@ const ScheduleVisitModal: React.FC<ScheduleVisitModalProps> = ({ patient, onClos
     };
     load();
   }, [patient.id]);
+
+  // Fetch slot density when date changes
+  useEffect(() => {
+    if (formData.scheduled_date && currentClinic?.id) {
+      fetchSlotDensity();
+    }
+  }, [formData.scheduled_date]);
+
+  const fetchSlotDensity = async () => {
+    if (!currentClinic?.id || !formData.scheduled_date) return;
+    try {
+      setLoadingDensity(true);
+      const response = await ApiManager.getSlotDensity(currentClinic.id, formData.scheduled_date);
+      if (response.success) {
+        setSlotDensity(response.data || []);
+      }
+    } catch (err) {
+      console.error('Failed to load slot density:', err);
+    } finally {
+      setLoadingDensity(false);
+    }
+  };
 
   // Check availability when date/time change
   useEffect(() => {
@@ -223,13 +269,21 @@ const ScheduleVisitModal: React.FC<ScheduleVisitModalProps> = ({ patient, onClos
   const handleDateSelect = (date: Date | undefined) => {
     if (date) {
       const iso = date.toISOString().split('T')[0];
-      setFormData(prev => ({ ...prev, scheduled_date: iso }));
+      setFormData(prev => ({ ...prev, scheduled_date: iso, scheduled_time: '', physiotherapist_id: '' }));
+      setAvailablePhysiotherapists([]);
       setCalendarOpen(false);
     }
   };
 
+  const handleTimeSelect = (time: string) => {
+    setFormData(prev => ({ ...prev, scheduled_time: time }));
+  };
+
   const formatSelectedDate = (date: Date) =>
     date.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+
+  // Find the max count for relative gradient scaling
+  const maxCount = slotDensity.length > 0 ? Math.max(...slotDensity.map(s => s.count), 1) : 1;
 
   return (
     <div className="fixed inset-0 z-50 flex">
@@ -262,6 +316,35 @@ const ScheduleVisitModal: React.FC<ScheduleVisitModalProps> = ({ patient, onClos
             <div className="flex gap-2 p-3 bg-red-50 border border-red-200 rounded-md">
               <AlertCircle className="h-4 w-4 text-red-500 flex-shrink-0 mt-0.5" />
               <p className="text-sm text-red-700">{error}</p>
+            </div>
+          )}
+
+          {/* Conditions — clickable tags, default all selected */}
+          {!loadingConditions && patientConditions.length > 0 && (
+            <div>
+              <label className="text-sm font-medium text-gray-900 block mb-2">Conditions</label>
+              <div className="flex flex-wrap gap-1.5">
+                {patientConditions
+                  .filter(c => c.condition_id)
+                  .map(condition => {
+                    const isSelected = selectedConditionIds.includes(condition.id);
+                    return (
+                      <button
+                        key={condition.id}
+                        type="button"
+                        onClick={() => toggleCondition(condition.id)}
+                        className={`px-3 py-1.5 text-xs font-medium rounded-md border transition-colors ${
+                          isSelected
+                            ? 'border-brand-teal bg-brand-teal/5 text-brand-teal'
+                            : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                        }`}
+                      >
+                        {isSelected && <span className="mr-1">✓</span>}
+                        {condition.condition_name}
+                      </button>
+                    );
+                  })}
+              </div>
             </div>
           )}
 
@@ -365,20 +448,63 @@ const ScheduleVisitModal: React.FC<ScheduleVisitModalProps> = ({ patient, onClos
             </div>
           </div>
 
-          {/* Time — select */}
-          <div>
-            <label className="text-sm font-medium text-gray-900 block mb-2">Time</label>
-            <select
-              value={formData.scheduled_time}
-              onChange={(e) => setFormData(prev => ({ ...prev, scheduled_time: e.target.value }))}
-              className="w-full px-3 py-2.5 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-brand-teal focus:border-brand-teal bg-white"
-            >
-              <option value="">Select time</option>
-              {timeSlots.map(time => (
-                <option key={time} value={time}>{time}</option>
-              ))}
-            </select>
-          </div>
+          {/* Time — heat map grid */}
+          {formData.scheduled_date && (
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <label className="text-sm font-medium text-gray-900">Time</label>
+                {slotDensity.some(s => s.count > 0) && (
+                  <div className="flex items-center gap-1.5 text-[10px] text-gray-400">
+                    <span>Free</span>
+                    <div className="flex gap-0.5">
+                      <div className="w-3 h-2 rounded-sm bg-white border border-gray-200" />
+                      <div className="w-3 h-2 rounded-sm bg-amber-50 border border-amber-200" />
+                      <div className="w-3 h-2 rounded-sm bg-orange-100 border border-orange-300" />
+                      <div className="w-3 h-2 rounded-sm bg-red-100 border border-red-300" />
+                    </div>
+                    <span>Busy</span>
+                  </div>
+                )}
+              </div>
+
+              {loadingDensity ? (
+                <div className="flex items-center gap-2 py-3 text-xs text-gray-500">
+                  <div className="w-3.5 h-3.5 border-2 border-brand-teal border-t-transparent rounded-full animate-spin" />
+                  Loading schedule...
+                </div>
+              ) : (
+                <div className="grid grid-cols-4 gap-1.5">
+                  {timeSlots.map(time => {
+                    const count = getSlotCount(time);
+                    const isSelected = formData.scheduled_time === time;
+                    const density = getDensityStyle(count);
+
+                    return (
+                      <button
+                        key={time}
+                        type="button"
+                        onClick={() => handleTimeSelect(time)}
+                        className={`relative py-2 px-1 text-xs font-medium rounded-md border transition-all ${
+                          isSelected
+                            ? 'border-brand-teal ring-1 ring-brand-teal/30 bg-brand-teal/5 text-brand-teal'
+                            : `${density.border} ${density.bg} ${density.text} hover:ring-1 hover:ring-gray-300`
+                        }`}
+                      >
+                        <span>{time}</span>
+                        {count > 0 && (
+                          <span className={`absolute top-0.5 right-1 text-[9px] font-semibold ${
+                            isSelected ? 'text-brand-teal' : density.text
+                          }`}>
+                            {count}
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Available Physiotherapists */}
           {formData.scheduled_date && formData.scheduled_time && (
@@ -418,35 +544,6 @@ const ScheduleVisitModal: React.FC<ScheduleVisitModalProps> = ({ patient, onClos
                   ))}
                 </div>
               )}
-            </div>
-          )}
-
-          {/* Conditions — clickable tags */}
-          {!loadingConditions && patientConditions.length > 0 && (
-            <div>
-              <label className="text-sm font-medium text-gray-900 block mb-2">Conditions</label>
-              <div className="flex flex-wrap gap-1.5">
-                {patientConditions
-                  .filter(c => c.condition_id)
-                  .map(condition => {
-                    const isSelected = selectedConditionIds.includes(condition.id);
-                    return (
-                      <button
-                        key={condition.id}
-                        type="button"
-                        onClick={() => toggleCondition(condition.id)}
-                        className={`px-3 py-1.5 text-xs font-medium rounded-md border transition-colors ${
-                          isSelected
-                            ? 'border-brand-teal bg-brand-teal/5 text-brand-teal'
-                            : 'border-gray-200 text-gray-600 hover:border-gray-300'
-                        }`}
-                      >
-                        {isSelected && <span className="mr-1">✓</span>}
-                        {condition.condition_name}
-                      </button>
-                    );
-                  })}
-              </div>
             </div>
           )}
         </div>

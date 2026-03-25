@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Condition Clustering — Implementation Plan &amp; Kinetic Chain Strategy</title>
+  <style>
+    :root {
+      --teal: #1e5f79;
+      --teal-light: #e8f4f8;
+      --teal-mid: #2d8aab;
+      --warm-50: #fafaf9;
+      --warm-100: #f5f5f4;
+      --warm-200: #e7e5e4;
+      --warm-600: #57534e;
+      --warm-700: #44403c;
+      --warm-800: #292524;
+      --warm-900: #1c1917;
+      --amber-50: #fffbeb;
+      --amber-100: #fef3c7;
+      --amber-600: #d97706;
+      --red-50: #fef2f2;
+      --red-100: #fee2e2;
+      --red-600: #dc2626;
+      --green-50: #f0fdf4;
+      --green-100: #dcfce7;
+      --green-600: #16a34a;
+      --blue-50: #eff6ff;
+      --blue-100: #dbeafe;
+      --blue-600: #2563eb;
+      --purple-50: #faf5ff;
+      --purple-100: #f3e8ff;
+      --purple-600: #9333ea;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--warm-800);
+      background: var(--warm-50);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    .container { max-width: 900px; margin: 0 auto; padding: 48px 24px 96px; }
+    .header { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--warm-200); }
+    .badge {
+      display: inline-block; font-size: 11px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.08em; padding: 4px 10px; border-radius: 4px; margin-bottom: 16px;
+    }
+    .badge-teal { color: var(--teal); background: var(--teal-light); }
+    .badge-amber { color: var(--amber-600); background: var(--amber-100); }
+    .badge-green { color: var(--green-600); background: var(--green-100); }
+    .badge-purple { color: var(--purple-600); background: var(--purple-100); }
+    .badge-blue { color: var(--blue-600); background: var(--blue-100); }
+    h1 { font-size: 32px; font-weight: 700; color: var(--warm-900); line-height: 1.25; margin-bottom: 12px; }
+    .subtitle { font-size: 17px; color: var(--warm-600); max-width: 700px; }
+    .meta { margin-top: 16px; font-size: 13px; color: var(--warm-600); }
+    .section { margin-bottom: 48px; }
+    .section-number { font-size: 12px; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+    h2 { font-size: 22px; font-weight: 700; color: var(--warm-900); margin-bottom: 16px; line-height: 1.3; }
+    h3 { font-size: 17px; font-weight: 600; color: var(--warm-800); margin-top: 28px; margin-bottom: 10px; }
+    h4 { font-size: 15px; font-weight: 600; color: var(--warm-800); margin-top: 20px; margin-bottom: 8px; }
+    p { margin-bottom: 14px; font-size: 15px; color: var(--warm-700); }
+    ul, ol { margin: 12px 0 16px 20px; font-size: 15px; color: var(--warm-700); }
+    li { margin-bottom: 6px; }
+    li strong { color: var(--warm-800); }
+    a { color: var(--teal-mid); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+    a:hover { border-bottom-color: var(--teal-mid); }
+    hr { border: none; height: 1px; background: var(--warm-200); margin: 48px 0; }
+
+    .callout {
+      padding: 20px 24px; border-radius: 8px; margin: 20px 0; font-size: 15px;
+    }
+    .callout-teal { background: var(--teal-light); border-left: 3px solid var(--teal); }
+    .callout-amber { background: var(--amber-50); border-left: 3px solid var(--amber-600); }
+    .callout-green { background: var(--green-50); border-left: 3px solid var(--green-600); }
+    .callout-red { background: var(--red-50); border-left: 3px solid var(--red-600); }
+    .callout-blue { background: var(--blue-50); border-left: 3px solid var(--blue-600); }
+    .callout-purple { background: var(--purple-50); border-left: 3px solid var(--purple-600); }
+    .callout strong { display: block; margin-bottom: 6px; color: var(--warm-900); }
+
+    .table-wrap { overflow-x: auto; margin: 20px 0; border-radius: 8px; border: 1px solid var(--warm-200); }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    thead { background: var(--warm-100); }
+    th { text-align: left; padding: 10px 16px; font-weight: 600; color: var(--warm-800); font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--warm-200); }
+    td { padding: 10px 16px; border-bottom: 1px solid var(--warm-100); color: var(--warm-700); }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: var(--warm-50); }
+
+    .layer-card {
+      border: 1px solid var(--warm-200); border-radius: 10px; padding: 24px; margin: 16px 0;
+      background: white;
+    }
+    .layer-card h4 { margin-top: 0; }
+
+    .chain-diagram {
+      background: white; border: 1px solid var(--warm-200); border-radius: 10px;
+      padding: 24px; margin: 20px 0; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 13px;
+      line-height: 1.8; color: var(--warm-700); overflow-x: auto;
+    }
+    .chain-label { color: var(--teal); font-weight: 600; }
+    .chain-node { color: var(--warm-900); font-weight: 500; }
+    .chain-arrow { color: var(--amber-600); }
+
+    .phase-card {
+      border: 2px solid var(--warm-200); border-radius: 10px; padding: 24px; margin: 16px 0;
+      background: white; position: relative;
+    }
+    .phase-card.active { border-color: var(--teal); }
+    .phase-tag {
+      position: absolute; top: -10px; left: 20px; font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em; padding: 2px 10px; border-radius: 4px;
+    }
+
+    .toc { background: white; border: 1px solid var(--warm-200); border-radius: 8px; padding: 24px 28px; margin-bottom: 48px; }
+    .toc h3 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--warm-600); margin-bottom: 14px; margin-top: 0; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 8px; font-size: 14px; }
+    .toc a { color: var(--warm-700); font-weight: 500; }
+
+    .source-card {
+      display: block; padding: 14px 18px; margin: 8px 0; background: white;
+      border: 1px solid var(--warm-200); border-radius: 8px; transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .source-card:hover { border-color: var(--teal); box-shadow: 0 2px 8px rgba(30,95,121,0.08); }
+    .source-card .s-title { font-weight: 600; font-size: 14px; color: var(--warm-900); margin-bottom: 4px; }
+    .source-card .s-meta { font-size: 12px; color: var(--warm-600); }
+
+    @media (max-width: 640px) {
+      .container { padding: 24px 16px 64px; }
+      h1 { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="badge badge-teal">HealUI Implementation Plan</div>
+    <h1>Condition Clustering &amp; Kinetic Chain Strategy</h1>
+    <p class="subtitle">The final plan for auto-grouping conditions, integrating kinetic chain intelligence, and building the data foundation that makes HealUI the smartest PT software.</p>
+    <p class="meta">March 2026 &middot; Internal Planning Document</p>
+  </div>
+
+  <div class="toc">
+    <h3>Contents</h3>
+    <ol>
+      <li><a href="#decision">The Final Decision: Multi-Layer Auto-Clustering</a></li>
+      <li><a href="#layers">The Three Layers Explained</a></li>
+      <li><a href="#kinetic">Kinetic Chain: Complete Data Model</a></li>
+      <li><a href="#chains">All Kinetic Chain Lines &amp; Sling Systems</a></li>
+      <li><a href="#auto">How Auto-Clustering Works (Algorithm)</a></li>
+      <li><a href="#phases">Implementation Phases</a></li>
+      <li><a href="#learned">What We Learned from Other Systems</a></li>
+      <li><a href="#sources">Sources &amp; References</a></li>
+    </ol>
+  </div>
+
+  <!-- ===== SECTION 1: The Decision ===== -->
+  <div class="section" id="decision">
+    <div class="section-number">Section 1</div>
+    <h2>The Final Decision: Multi-Layer Auto-Clustering</h2>
+
+    <p>After researching ICF, APTA, DRGs, HCC, CCSR, SNOMED-CT, and PT clinical reasoning patterns, the answer is clear: <strong>no single dimension is enough</strong>. Conditions need to be clustered on multiple axes simultaneously.</p>
+
+    <div class="callout callout-teal">
+      <strong>The Three-Layer Model</strong>
+      <strong>Layer 1 (Primary):</strong> Body Region &mdash; how PTs think, examine, and treat. Always visible.<br>
+      <strong>Layer 2 (Within region):</strong> Pathology Type + Severity &mdash; determines treatment approach.<br>
+      <strong>Layer 3 (Cross-region):</strong> Kinetic Chain &mdash; the differentiator. Connects related conditions across body regions.
+    </div>
+
+    <p><strong>Why body region first?</strong> Research on PT clinical reasoning (Edwards et al., 2004; Jensen et al., 2000) consistently shows experienced PTs organize by anatomical pattern first, then refine by pathophysiology. Fighting this mental model creates friction. Working with it creates flow.</p>
+
+    <p><strong>Why not just body region?</strong> Because a degenerative knee and a post-surgical knee are the same region but need completely different treatment. And because hip weakness causing knee pain is invisible to a body-region-only system.</p>
+
+    <div class="callout callout-green">
+      <strong>The UX Principle</strong>
+      Zero extra work for the physiotherapist. Conditions auto-cluster when added. The PT sees the grouped result and can override with one tap. Research (Johnson &amp; Goldstein, 2003) shows smart defaults are accepted 80%+ of the time.
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- ===== SECTION 2: Layers ===== -->
+  <div class="section" id="layers">
+    <div class="section-number">Section 2</div>
+    <h2>The Three Layers Explained</h2>
+
+    <div class="layer-card">
+      <div class="badge badge-teal">Layer 1 &mdash; Primary</div>
+      <h4>Body Region Clustering</h4>
+      <p>Every condition maps to one of 12 body regions. This is the main organizing unit the PT sees. Conditions in the same region auto-group into one treatment cluster.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Region</th><th>Scope</th><th>Common ICD-10 Prefixes</th></tr></thead>
+          <tbody>
+            <tr><td>Cervical Spine</td><td>C0&ndash;C7, suboccipital</td><td>M54.2, M50.x, M53.0</td></tr>
+            <tr><td>Thoracic Spine</td><td>T1&ndash;T12, ribs</td><td>M54.6, M41.x</td></tr>
+            <tr><td>Lumbar Spine</td><td>L1&ndash;L5</td><td>M54.4, M54.5, M51.x</td></tr>
+            <tr><td>Sacral / Pelvis / SIJ</td><td>Sacrum, coccyx, SI joint</td><td>M53.3, M43.2x</td></tr>
+            <tr><td>Shoulder</td><td>GH, AC, SC, rotator cuff</td><td>M75.x, M25.51</td></tr>
+            <tr><td>Elbow / Forearm</td><td></td><td>M77.0, M77.1</td></tr>
+            <tr><td>Wrist / Hand</td><td></td><td>M25.53, G56.0</td></tr>
+            <tr><td>Hip / Groin</td><td></td><td>M16.x, M25.55</td></tr>
+            <tr><td>Knee</td><td></td><td>M17.x, M23.x, M76.5</td></tr>
+            <tr><td>Ankle / Foot</td><td></td><td>M25.57, M72.2, M77.3</td></tr>
+            <tr><td>TMJ</td><td></td><td>M26.6x</td></tr>
+            <tr><td>Multi-regional / Systemic</td><td>Fibromyalgia, widespread</td><td>M79.7, G89.x</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="layer-card">
+      <div class="badge badge-amber">Layer 2 &mdash; Within Region</div>
+      <h4>Pathology Type + Severity</h4>
+      <p>Within each body region, conditions are sub-classified by pathology and severity. This determines treatment approach, precautions, and expected timeline.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Pathology Type</th><th>Treatment Implication</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td>Degenerative</td><td>Progressive loading, joint protection, activity modification</td><td>OA, DDD, spondylosis</td></tr>
+            <tr><td>Inflammatory</td><td>Manage flares, anti-inflammatory positioning, gentle ROM</td><td>RA, bursitis, acute tendinitis</td></tr>
+            <tr><td>Traumatic</td><td>Tissue healing timelines, progressive loading phases</td><td>Fracture, ligament sprain, muscle strain</td></tr>
+            <tr><td>Post-surgical</td><td>Protocol-driven, surgeon precautions, progressive milestones</td><td>ACL reconstruction, arthroplasty</td></tr>
+            <tr><td>Overuse</td><td>Load management, biomechanical correction, graded exposure</td><td>Tendinopathy, stress fracture</td></tr>
+            <tr><td>Neurological</td><td>Neural mobilization, motor control, desensitization</td><td>Radiculopathy, peripheral neuropathy</td></tr>
+            <tr><td>Mechanical / Postural</td><td>Movement re-education, ergonomic modification, strengthening</td><td>Postural syndrome, hypermobility</td></tr>
+            <tr><td>Central Sensitization</td><td>Pain neuroscience education, graded activity, psychology</td><td>Chronic pain, fibromyalgia, CRPS</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p><strong>Severity levels:</strong> Mild | Moderate | Severe &mdash; inferred from clinical data or set by the PT.</p>
+
+      <div class="callout callout-amber">
+        <strong>Hierarchical Suppression (from CMS-HCC model)</strong>
+        When a more specific diagnosis exists, suppress the less specific one. If a patient has "L4-5 disc herniation with left L5 radiculopathy" (M51.16), don't also show "Non-specific low back pain" (M54.5) as a separate condition in the cluster. The specific diagnosis subsumes the general one.
+      </div>
+    </div>
+
+    <div class="layer-card">
+      <div class="badge badge-purple">Layer 3 &mdash; Cross-Region</div>
+      <h4>Kinetic Chain Relationships</h4>
+      <p>This is the differentiator. When a patient has conditions in multiple regions, the system automatically identifies biomechanical relationships between them.</p>
+
+      <p><strong>Example:</strong> Patient has knee pain (patellofemoral syndrome) + hip pain (gluteal tendinopathy). The system shows:</p>
+
+      <div class="callout callout-purple">
+        <strong>Linked via Lower Quarter Kinetic Chain</strong>
+        Hip abductor weakness (gluteal tendinopathy) is a known biomechanical contributor to patellofemoral syndrome. Strengthening hip abductors may address both conditions. Consider an integrated treatment plan.
+        <br><br>
+        <em style="font-size: 13px; color: var(--warm-600);">Evidence: Powers CM (2010), JOSPT 40(2) &middot; Confidence: 90%</em>
+      </div>
+
+      <p>This doesn't auto-merge the conditions into one cluster (they stay in their own body regions). Instead, it shows a <strong>relationship link</strong> between them — visual, informative, and actionable.</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- ===== SECTION 3: Kinetic Chain Data Model ===== -->
+  <div class="section" id="kinetic">
+    <div class="section-number">Section 3</div>
+    <h2>Kinetic Chain: The Complete Data Model</h2>
+
+    <div class="callout callout-red">
+      <strong>Key Finding: No Ready-Made Database Exists</strong>
+      There is no open database of kinetic chain relationships. The knowledge lives fragmented across textbooks (Myers, Vleeming, Janda, Sahrmann) and hundreds of research papers. Building this as a structured knowledge graph would be <strong>novel in the clinical software space</strong>.
+    </div>
+
+    <h3>Data Sources to Curate From</h3>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Source</th><th>What It Provides</th><th>Priority</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Thomas Myers &mdash; Anatomy Trains (4th Ed, 2020)</strong></td><td>7 primary myofascial meridians with complete muscle-fascia pathways</td><td>Must have</td></tr>
+          <tr><td><strong>Vleeming et al. &mdash; Muscle Sling Systems</strong></td><td>4 pelvic slings: posterior oblique, anterior oblique, longitudinal, lateral</td><td>Must have</td></tr>
+          <tr><td><strong>Janda &mdash; Crossed Syndromes</strong></td><td>Upper/lower crossed syndrome patterns: tight/weak muscle pairs</td><td>Must have</td></tr>
+          <tr><td><strong>Sahrmann &mdash; Movement System Impairment</strong></td><td>Regional movement fault classifications by direction</td><td>Nice to have</td></tr>
+          <tr><td><strong>OpenSim (Stanford)</strong></td><td>Open-source musculoskeletal models with muscle paths and joint definitions</td><td>Reference</td></tr>
+          <tr><td><strong>FMA Ontology (U. Washington)</strong></td><td>Anatomical structure relationships (origin, insertion, innervation)</td><td>Reference</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Recommended Approach: Static JSON Knowledge Graph</h3>
+    <p>Since kinetic chain data changes infrequently (textbook-level knowledge), a <strong>static JSON file</strong> embedded in the app is the right approach for Phase 1. No external API needed. It's fast, offline-capable, and fully auditable.</p>
+
+    <p>The graph has ~20 body region nodes, ~80-100 chain relationship edges, and ~50-100 condition-chain mappings for common PT conditions.</p>
+
+    <h3>Data Structure</h3>
+    <p>Three core entities:</p>
+    <ul>
+      <li><strong>Body Region Nodes</strong> (~20): foot, ankle, lower leg, knee, thigh, hip, pelvis, lumbar, thoracolumbar, thoracic, cervical, shoulder, elbow, wrist/hand, cranium + sub-regions</li>
+      <li><strong>Chain Relationship Edges</strong> (~80-100): connecting regions via named chains with direction, mechanism type, and evidence level</li>
+      <li><strong>Condition-Chain Mappings</strong> (~50-100): mapping common conditions to which chains they affect and what commonly co-occurs</li>
+    </ul>
+
+    <h3>Relationship Types</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Type</th><th>Description</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td>Fascial Continuity</td><td>Direct fascial connection (Myers)</td><td>Plantar fascia → calf → hamstrings via Superficial Back Line</td></tr>
+          <tr><td>Force Couple</td><td>Muscles working as coordinated pair</td><td>Serratus anterior + lower trapezius for scapular upward rotation</td></tr>
+          <tr><td>Compensatory Movement</td><td>Biomechanical compensation pattern</td><td>Hip weakness → knee valgus → patellofemoral pain</td></tr>
+          <tr><td>Neural Inhibition</td><td>Arthrogenic or reciprocal inhibition</td><td>Knee effusion → quad inhibition → altered gait</td></tr>
+          <tr><td>Load Transfer</td><td>Force transmission through structure (Vleeming)</td><td>Thoracolumbar fascia transferring force between lats and contralateral glute</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- ===== SECTION 4: All Chains ===== -->
+  <div class="section" id="chains">
+    <div class="section-number">Section 4</div>
+    <h2>All Kinetic Chain Lines &amp; Sling Systems</h2>
+
+    <h3>A. Thomas Myers' Anatomy Trains — 7 Lines</h3>
+
+    <div class="chain-diagram">
+      <span class="chain-label">Superficial Back Line (SBL)</span><br>
+      <span class="chain-node">Plantar fascia</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Gastrocnemius / Achilles</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Hamstrings</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Sacrotuberous ligament</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Sacrolumbar fascia / Erector spinae</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Epicranial fascia (galea)</span>
+    </div>
+
+    <div class="chain-diagram">
+      <span class="chain-label">Superficial Front Line (SFL)</span><br>
+      <span class="chain-node">Toe extensors / Tibialis anterior</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Subpatellar tendon</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Rectus femoris / Quadriceps</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Rectus abdominis</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Sternalis / Pectoralis fascia</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">SCM</span>
+    </div>
+
+    <div class="chain-diagram">
+      <span class="chain-label">Lateral Line (LL)</span><br>
+      <span class="chain-node">Peroneus longus/brevis</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">IT band / TFL</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Gluteus maximus (lateral)</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">External obliques</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Internal/External intercostals</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">SCM / Splenii</span>
+    </div>
+
+    <div class="chain-diagram">
+      <span class="chain-label">Spiral Line (SL)</span><br>
+      <span class="chain-node">Splenii capitis</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Rhomboids (contralateral)</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Serratus anterior</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">External oblique</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Internal oblique (contralateral)</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">ITB</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Tibialis anterior</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Peroneus longus</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Biceps femoris</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Sacrotuberous lig</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Erector spinae</span>
+      <br><em style="color: var(--warm-600); font-size: 12px;">Wraps around body in double helix pattern</em>
+    </div>
+
+    <div class="chain-diagram">
+      <span class="chain-label">Deep Front Line (DFL) — "The Core"</span><br>
+      <span class="chain-node">Posterior tibialis</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Deep posterior compartment</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Popliteus</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Adductors</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Pelvic floor</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Psoas / Iliacus</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Diaphragm</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Pericardium / Mediastinum</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Scalenes / Longus colli</span>
+    </div>
+
+    <div class="chain-diagram">
+      <span class="chain-label">Back Functional Line</span><br>
+      <span class="chain-node">Latissimus dorsi</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Thoracolumbar fascia</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Contralateral gluteus maximus</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Vastus lateralis</span>
+      <br><em style="color: var(--warm-600); font-size: 12px;">Cross-body diagonal &mdash; powers rotation in gait and throwing</em>
+    </div>
+
+    <div class="chain-diagram">
+      <span class="chain-label">Front Functional Line</span><br>
+      <span class="chain-node">Pectoralis major</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Rectus abdominis / Abdominal fascia</span> <span class="chain-arrow">&rarr;</span>
+      <span class="chain-node">Contralateral adductor longus</span>
+      <br><em style="color: var(--warm-600); font-size: 12px;">Cross-body anterior diagonal</em>
+    </div>
+
+    <h3>B. Vleeming's Four Sling Systems</h3>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Sling</th><th>Muscles/Structures</th><th>Function</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Posterior Oblique (POS)</strong></td><td>Latissimus dorsi + contralateral gluteus maximus via thoracolumbar fascia</td><td>Force transfer in gait &amp; rotation</td></tr>
+          <tr><td><strong>Anterior Oblique (AOS)</strong></td><td>External oblique + contralateral internal oblique + contralateral adductors via anterior abdominal fascia</td><td>Trunk rotation &amp; pelvic stability</td></tr>
+          <tr><td><strong>Longitudinal (LS)</strong></td><td>Erector spinae + deep lamina of TLF + sacrotuberous ligament + biceps femoris</td><td>Sagittal plane stability</td></tr>
+          <tr><td><strong>Lateral (LtS)</strong></td><td>Gluteus medius/minimus + contralateral adductors + TFL/ITB</td><td>Frontal plane pelvic stability</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>C. Janda's Crossed Syndromes</h3>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Syndrome</th><th>Tight (Overactive)</th><th>Weak (Inhibited)</th><th>Common Conditions</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Upper Crossed</strong></td><td>Upper traps, levator scapulae, pectorals, suboccipitals</td><td>Deep cervical flexors, lower traps, serratus anterior</td><td>Cervical pain, headache, shoulder impingement, thoracic outlet</td></tr>
+          <tr><td><strong>Lower Crossed</strong></td><td>Hip flexors (iliopsoas, rectus femoris), erector spinae</td><td>Gluteals (maximus, medius), abdominals</td><td>LBP, SIJ dysfunction, hip impingement, hamstring strain</td></tr>
+          <tr><td><strong>Layer Syndrome</strong></td><td>Combination of both &mdash; alternating layers of tight/weak</td><td></td><td>Complex postural dysfunction, chronic multi-site pain</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>D. Evidence-Based Cross-Region Relationships</h3>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Primary</th><th>Linked To</th><th>Mechanism</th><th>Evidence</th></tr></thead>
+        <tbody>
+          <tr><td>Ankle DF deficit</td><td>Knee valgus, ACL risk, PFP</td><td>SBL compensatory</td><td>Strong (Dill et al. 2014, Bell et al. 2013)</td></tr>
+          <tr><td>Hip abductor weakness</td><td>Knee valgus, ITBS, PFP, ankle pronation</td><td>Lateral sling, LL</td><td>Strong (Powers 2010, Leetun et al. 2004)</td></tr>
+          <tr><td>Hip flexor tightness</td><td>Lumbar extension, anterior pelvic tilt, hamstring strain</td><td>Lower crossed, SFL</td><td>Strong (Janda 1987)</td></tr>
+          <tr><td>Gluteal inhibition</td><td>Hamstring overload, lumbar erector overactivity, SIJ pain</td><td>POS, posterior chain</td><td>Strong (multiple sources)</td></tr>
+          <tr><td>Thoracic kyphosis</td><td>Shoulder impingement, cervical pain, scapular dyskinesis</td><td>Upper crossed, SBL</td><td>Strong (Kibler et al. 2003)</td></tr>
+          <tr><td>Lumbar disc herniation</td><td>SIJ dysfunction, hip mobility restriction</td><td>Lumbopelvic complex</td><td>Moderate</td></tr>
+          <tr><td>Scapular dyskinesis</td><td>Cervical dysfunction, thoracic stiffness, RC pathology</td><td>Arm lines, spiral line</td><td>Strong</td></tr>
+          <tr><td>Foot pronation</td><td>Medial tibial stress, knee valgus, hip IR</td><td>LL, spiral line</td><td>Strong</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- ===== SECTION 5: Algorithm ===== -->
+  <div class="section" id="auto">
+    <div class="section-number">Section 5</div>
+    <h2>How Auto-Clustering Works</h2>
+
+    <h3>When a Condition is Added to a Patient</h3>
+    <ol>
+      <li><strong>Body region lookup</strong> &mdash; ICD-10 code or condition identifier maps to one of 12 body regions via ~200 rule table. Instant, deterministic.</li>
+      <li><strong>Same-region grouping</strong> &mdash; If patient already has active conditions in that region, auto-group them. Show as one cluster labeled by region.</li>
+      <li><strong>Hierarchical suppression</strong> &mdash; If new condition is more specific than existing one (e.g., M51.16 disc herniation subsumes M54.5 non-specific LBP), suppress the general one.</li>
+      <li><strong>Pathology &amp; severity classification</strong> &mdash; Infer from ICD-10 category and clinical data.</li>
+      <li><strong>Kinetic chain scan</strong> &mdash; Check all other active conditions against kinetic chain graph. If a relationship exists (confidence &ge;70%), show a link.</li>
+    </ol>
+
+    <h3>What the Physio Sees</h3>
+
+    <div class="callout callout-teal" style="font-family: 'SF Mono', monospace; font-size: 13px; line-height: 2;">
+      <strong style="font-family: -apple-system, sans-serif;">Patient: Jiraj Singhania &mdash; 3 Active Conditions</strong>
+      <br><br>
+      <strong style="font-family: -apple-system, sans-serif; font-size: 14px;">Lumbar Spine</strong> <span style="color: var(--warm-600);">&mdash; 2 conditions, degenerative</span><br>
+      &nbsp;&nbsp;M51.16 &nbsp; Lumbar disc herniation with radiculopathy<br>
+      &nbsp;&nbsp;M54.4 &nbsp;&nbsp; Lumbago with sciatica<br>
+      &nbsp;&nbsp;<span style="color: var(--warm-600); font-size: 12px;">1 protocol &middot; 4 goals &middot; Next visit: Follow-up</span>
+      <br><br>
+      <strong style="font-family: -apple-system, sans-serif; font-size: 14px;">Knee</strong> <span style="color: var(--warm-600);">&mdash; 1 condition, overuse</span><br>
+      &nbsp;&nbsp;M22.2 &nbsp;&nbsp; Patellofemoral disorder<br>
+      &nbsp;&nbsp;<span style="color: var(--warm-600); font-size: 12px;">1 protocol &middot; 2 goals &middot; Next visit: Follow-up</span>
+      <br><br>
+      <span style="color: var(--purple-600);">&#9734; Kinetic chain link: Hip weakness may connect lumbar &amp; knee conditions (Lower Quarter Chain)</span>
+    </div>
+
+    <h3>Override Scenarios</h3>
+    <ul>
+      <li><strong>Ungroup:</strong> PT decides lumbar disc and sciatica need separate protocols → one tap to split</li>
+      <li><strong>Dismiss chain link:</strong> PT disagrees hip is a factor → dismiss the suggestion (system learns)</li>
+      <li><strong>Manual group across regions:</strong> PT wants to combine lumbar + knee into one treatment plan → drag to merge (rare but possible)</li>
+    </ul>
+  </div>
+
+  <hr>
+
+  <!-- ===== SECTION 6: Phases ===== -->
+  <div class="section" id="phases">
+    <div class="section-number">Section 6</div>
+    <h2>Implementation Phases</h2>
+
+    <div class="phase-card active">
+      <div class="phase-tag badge badge-green">Phase 1 &mdash; Ship Now</div>
+      <h4>Body Region Auto-Clustering + Static Kinetic Chain Graph</h4>
+      <ul>
+        <li><strong>ICD-10 → Body Region lookup table:</strong> ~200 rules covering 95% of PT conditions</li>
+        <li><strong>Auto-group same-region conditions:</strong> When a condition is added, it joins the existing cluster for that region</li>
+        <li><strong>Pathology type tagging:</strong> From ICD-10 category ranges</li>
+        <li><strong>Static kinetic chain JSON:</strong> ~20 nodes, ~80 edges, curated from Myers + Vleeming + Janda</li>
+        <li><strong>Chain link display:</strong> When conditions span related regions, show the link</li>
+        <li><strong>Hierarchical suppression:</strong> More specific diagnosis hides less specific one</li>
+      </ul>
+      <p><strong>Effort:</strong> Manageable. The lookup table + JSON graph is manual curation (clinical team), the UI is engineering.</p>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-tag badge badge-blue">Phase 2 &mdash; 3-6 Months</div>
+      <h4>Learning + Co-occurrence</h4>
+      <ul>
+        <li><strong>Track PT overrides:</strong> When they ungroup, regroup, or dismiss chain links &mdash; log it</li>
+        <li><strong>Co-occurrence mining:</strong> After sufficient patient data, discover which conditions frequently co-exist</li>
+        <li><strong>Smart suggestions:</strong> "Patients with condition A often also have condition B &mdash; consider screening"</li>
+        <li><strong>Condition-chain mapping expansion:</strong> From initial ~50 to ~200+ based on real usage data</li>
+      </ul>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-tag badge badge-purple">Phase 3 &mdash; 6-12 Months</div>
+      <h4>Predictive Intelligence</h4>
+      <ul>
+        <li><strong>Predictive secondary screening:</strong> "This patient's ankle condition + kinetic chain data suggests hip screening may be valuable"</li>
+        <li><strong>Treatment overlap detection:</strong> "These 3 exercises address both conditions &mdash; consolidate"</li>
+        <li><strong>Outcome-based refinement:</strong> Which groupings lead to better outcomes?</li>
+        <li><strong>Severity auto-inference:</strong> From clinical assessment data</li>
+      </ul>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- ===== SECTION 7: Learned ===== -->
+  <div class="section" id="learned">
+    <div class="section-number">Section 7</div>
+    <h2>What We Learned from Other Systems</h2>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>System</th><th>Key Lesson</th><th>How We Apply It</th></tr></thead>
+        <tbody>
+          <tr><td><strong>DRGs (Medicare)</strong></td><td>Body system as primary split works at massive scale</td><td>Body region as Layer 1</td></tr>
+          <tr><td><strong>CMS-HCC</strong></td><td>Hierarchical suppression &mdash; specific suppresses general</td><td>M51.16 suppresses M54.5</td></tr>
+          <tr><td><strong>APR-DRGs (3M)</strong></td><td>Severity subclasses within groups are essential</td><td>Mild/Moderate/Severe within each cluster</td></tr>
+          <tr><td><strong>CCSR (AHRQ)</strong></td><td>Many-to-many mapping &mdash; one condition can belong to multiple categories</td><td>Radiculopathy = lumbar + neurological</td></tr>
+          <tr><td><strong>SNOMED-CT</strong></td><td>Multi-axial ontology &mdash; same condition queryable by region, pathology, or etiology</td><td>Three-layer model is multi-axial by design</td></tr>
+          <tr><td><strong>ICF (WHO)</strong></td><td>Function-based grouping is most meaningful for outcomes</td><td>ICF as metadata layer for goals/outcomes</td></tr>
+          <tr><td><strong>WebPT</strong></td><td>Case-based model works but needs cross-case awareness</td><td>Our clusters + kinetic chain links solve this</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- ===== SECTION 8: Sources ===== -->
+  <div class="section" id="sources">
+    <div class="section-number">Section 8</div>
+    <h2>Sources &amp; References</h2>
+
+    <h3>Kinetic Chain &amp; Biomechanics</h3>
+    <a class="source-card" href="https://www.elsevier.com/books/anatomy-trains/myers/978-0-7020-7813-1" target="_blank">
+      <div class="s-title">Anatomy Trains: Myofascial Meridians for Manual and Movement Therapists (4th Ed)</div>
+      <div class="s-meta">Myers TW (2020). Elsevier.</div>
+    </a>
+    <a class="source-card" href="https://pubmed.ncbi.nlm.nih.gov/23121692/" target="_blank">
+      <div class="s-title">The sacroiliac joint: anatomy, function, and clinical implications</div>
+      <div class="s-meta">Vleeming A et al. (2012). Journal of Anatomy, 221(6):537-567</div>
+    </a>
+    <a class="source-card" href="https://www.jospt.org/doi/10.2519/jospt.2007.0110" target="_blank">
+      <div class="s-title">Regional Interdependence: A Musculoskeletal Examination Model</div>
+      <div class="s-meta">Wainner RS et al. (2007). JOSPT, 37(11):658-660</div>
+    </a>
+    <a class="source-card" href="https://journals.sagepub.com/doi/10.1177/0363546509337190" target="_blank">
+      <div class="s-title">The Influence of Abnormal Hip Mechanics on Knee Injury</div>
+      <div class="s-meta">Powers CM (2010). Am J Sports Med, 40(2):42-51</div>
+    </a>
+    <a class="source-card" href="https://opensim.stanford.edu/" target="_blank">
+      <div class="s-title">OpenSim — Open-Source Musculoskeletal Modeling</div>
+      <div class="s-meta">Stanford University. Open-source simulation platform.</div>
+    </a>
+
+    <h3>Clinical Reasoning &amp; Classification</h3>
+    <a class="source-card" href="https://www.jospt.org/doi/10.2519/jospt.2007.2498" target="_blank">
+      <div class="s-title">Subgrouping Patients with Low Back Pain: Evolution of a Classification Approach</div>
+      <div class="s-meta">Fritz JM et al. (2007). JOSPT, 37(6):290-302</div>
+    </a>
+    <a class="source-card" href="https://academic.oup.com/ptj/article/94/7/1034/2735589" target="_blank">
+      <div class="s-title">The Human Movement System: Our Professional Identity</div>
+      <div class="s-meta">Sahrmann SA (2014). Physical Therapy, 94(7):1034-1042</div>
+    </a>
+    <a class="source-card" href="https://guide.apta.org/" target="_blank">
+      <div class="s-title">Guide to Physical Therapist Practice</div>
+      <div class="s-meta">APTA — Preferred Practice Patterns</div>
+    </a>
+
+    <h3>Healthcare Grouping Systems</h3>
+    <a class="source-card" href="https://hcup-us.ahrq.gov/toolssoftware/ccsr/ccs_refined.jsp" target="_blank">
+      <div class="s-title">Clinical Classifications Software Refined (CCSR)</div>
+      <div class="s-meta">AHRQ — Free ICD-10 → clinical category lookup tables</div>
+    </a>
+    <a class="source-card" href="https://www.cms.gov/medicare/health-plans/medicareadvtgspecratestats/risk-adjustors" target="_blank">
+      <div class="s-title">CMS-HCC Risk Adjustment Model</div>
+      <div class="s-meta">CMS — Hierarchical Condition Categories methodology</div>
+    </a>
+    <a class="source-card" href="https://www.cms.gov/medicare/payment/prospective-payment-systems/acute-inpatient-pps" target="_blank">
+      <div class="s-title">MS-DRG Classification System</div>
+      <div class="s-meta">CMS — Diagnosis Related Groups for inpatient payment</div>
+    </a>
+    <a class="source-card" href="https://www.snomed.org/" target="_blank">
+      <div class="s-title">SNOMED CT — Systematized Nomenclature of Medicine</div>
+      <div class="s-meta">SNOMED International — Multi-axial clinical ontology</div>
+    </a>
+
+    <h3>UX &amp; Cognitive Load</h3>
+    <a class="source-card" href="https://www.science.org/doi/10.1126/science.1091721" target="_blank">
+      <div class="s-title">Do Defaults Save Lives?</div>
+      <div class="s-meta">Johnson EJ, Goldstein D (2003). Science, 302(5649):1338-1339</div>
+    </a>
+    <a class="source-card" href="https://academic.oup.com/ptj/article/86/3/434/2805125" target="_blank">
+      <div class="s-title">Evidence for Electronic Health Record Systems in Physical Therapy</div>
+      <div class="s-meta">Vreeman DJ et al. (2006). Physical Therapy, 86(3):434-446</div>
+    </a>
+
+    <h3>Anatomy Ontologies</h3>
+    <a class="source-card" href="http://si.washington.edu/projects/fma" target="_blank">
+      <div class="s-title">Foundational Model of Anatomy (FMA) Ontology</div>
+      <div class="s-meta">University of Washington — Comprehensive anatomy ontology in OWL format</div>
+    </a>
+    <a class="source-card" href="https://bioportal.bioontology.org/" target="_blank">
+      <div class="s-title">BioPortal — Biomedical Ontology Repository</div>
+      <div class="s-meta">NCBO — API access to FMA, SNOMED, and other ontologies</div>
+    </a>
+    <a class="source-card" href="https://uberon.github.io/" target="_blank">
+      <div class="s-title">Uberon — Multi-species Anatomy Ontology</div>
+      <div class="s-meta">Cross-species anatomy ontology with musculoskeletal relationships</div>
+    </a>
+  </div>
+
+  <div style="text-align: center; margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--warm-200);">
+    <p style="font-size: 13px; color: var(--warm-600);">HealUI &middot; Condition Clustering Implementation Plan &middot; March 2026</p>
+  </div>
+
+</div>
+</body>
+</html>

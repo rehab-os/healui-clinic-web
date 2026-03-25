@@ -583,6 +583,16 @@ export interface PatientConditionResponseDto {
         set_at: string
         set_by_user_id?: string
     }
+    adl_data?: {
+        affected_activities: Array<{
+            activity: string
+            label: string
+            severity: 'MILD' | 'MODERATE' | 'SEVERE'
+        }>
+        functional_limitation_level: 'NONE' | 'MILD' | 'MODERATE' | 'SEVERE'
+        work_affected: boolean
+        sleep_affected: boolean
+    }
 
     // Patient Link
     patient_link_token?: string

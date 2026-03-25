@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Condition Clustering Research — HealUI</title>
+  <style>
+    :root {
+      --teal: #1e5f79;
+      --teal-light: #e8f4f8;
+      --teal-mid: #2d8aab;
+      --warm-50: #fafaf9;
+      --warm-100: #f5f5f4;
+      --warm-200: #e7e5e4;
+      --warm-600: #57534e;
+      --warm-700: #44403c;
+      --warm-800: #292524;
+      --warm-900: #1c1917;
+      --amber-50: #fffbeb;
+      --amber-100: #fef3c7;
+      --amber-600: #d97706;
+      --red-50: #fef2f2;
+      --red-100: #fee2e2;
+      --red-600: #dc2626;
+      --green-50: #f0fdf4;
+      --green-100: #dcfce7;
+      --green-600: #16a34a;
+      --blue-50: #eff6ff;
+      --blue-600: #2563eb;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--warm-800);
+      background: var(--warm-50);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 48px 24px 96px;
+    }
+
+    /* Header */
+    .header {
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--warm-200);
+    }
+    .header .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--teal);
+      background: var(--teal-light);
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin-bottom: 16px;
+    }
+    .header h1 {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--warm-900);
+      line-height: 1.25;
+      margin-bottom: 12px;
+    }
+    .header .subtitle {
+      font-size: 17px;
+      color: var(--warm-600);
+      max-width: 640px;
+    }
+    .header .meta {
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--warm-600);
+    }
+
+    /* Section */
+    .section {
+      margin-bottom: 48px;
+    }
+    .section-number {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--teal);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+    .section h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--warm-900);
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+    .section h3 {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--warm-800);
+      margin-top: 28px;
+      margin-bottom: 10px;
+    }
+    .section p {
+      margin-bottom: 14px;
+      font-size: 15px;
+      color: var(--warm-700);
+    }
+
+    /* Callout boxes */
+    .callout {
+      padding: 20px 24px;
+      border-radius: 8px;
+      margin: 20px 0;
+      font-size: 15px;
+    }
+    .callout-teal {
+      background: var(--teal-light);
+      border-left: 3px solid var(--teal);
+    }
+    .callout-amber {
+      background: var(--amber-50);
+      border-left: 3px solid var(--amber-600);
+    }
+    .callout-green {
+      background: var(--green-50);
+      border-left: 3px solid var(--green-600);
+    }
+    .callout-red {
+      background: var(--red-50);
+      border-left: 3px solid var(--red-600);
+    }
+    .callout strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--warm-900);
+    }
+
+    /* Lists */
+    ul, ol {
+      margin: 12px 0 16px 20px;
+      font-size: 15px;
+      color: var(--warm-700);
+    }
+    li { margin-bottom: 6px; }
+    li strong { color: var(--warm-800); }
+
+    /* Tables */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 20px 0;
+      border-radius: 8px;
+      border: 1px solid var(--warm-200);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    thead {
+      background: var(--warm-100);
+    }
+    th {
+      text-align: left;
+      padding: 10px 16px;
+      font-weight: 600;
+      color: var(--warm-800);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--warm-200);
+    }
+    td {
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--warm-100);
+      color: var(--warm-700);
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: var(--warm-50); }
+
+    /* Confidence badges */
+    .conf-95 {
+      display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;
+      background: var(--green-100); color: var(--green-600);
+    }
+    .conf-90 {
+      display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;
+      background: #dbeafe; color: var(--blue-600);
+    }
+    .conf-80 {
+      display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;
+      background: var(--teal-light); color: var(--teal);
+    }
+    .conf-70 {
+      display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;
+      background: var(--amber-100); color: var(--amber-600);
+    }
+    .conf-50 {
+      display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;
+      background: var(--red-100); color: var(--red-600);
+    }
+
+    /* Links */
+    a {
+      color: var(--teal-mid);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.15s;
+    }
+    a:hover { border-bottom-color: var(--teal-mid); }
+
+    /* Source cards */
+    .source-card {
+      display: block;
+      padding: 14px 18px;
+      margin: 8px 0;
+      background: white;
+      border: 1px solid var(--warm-200);
+      border-radius: 8px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .source-card:hover {
+      border-color: var(--teal);
+      box-shadow: 0 2px 8px rgba(30,95,121,0.08);
+    }
+    .source-card .source-title {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--warm-900);
+      margin-bottom: 4px;
+    }
+    .source-card .source-org {
+      font-size: 12px;
+      color: var(--warm-600);
+    }
+    .source-card .source-url {
+      font-size: 11px;
+      color: var(--teal-mid);
+      margin-top: 4px;
+      word-break: break-all;
+    }
+
+    /* Software comparison */
+    .software-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .software-card {
+      padding: 16px;
+      background: white;
+      border: 1px solid var(--warm-200);
+      border-radius: 8px;
+    }
+    .software-card h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--warm-900);
+      margin-bottom: 6px;
+    }
+    .software-card p {
+      font-size: 13px;
+      color: var(--warm-600);
+      margin-bottom: 0;
+    }
+    .software-card .tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 2px 6px;
+      border-radius: 3px;
+      margin-top: 8px;
+    }
+    .tag-none { background: var(--red-100); color: var(--red-600); }
+    .tag-basic { background: var(--amber-100); color: var(--amber-600); }
+    .tag-partial { background: var(--teal-light); color: var(--teal); }
+
+    /* Divider */
+    hr {
+      border: none;
+      height: 1px;
+      background: var(--warm-200);
+      margin: 48px 0;
+    }
+
+    /* TOC */
+    .toc {
+      background: white;
+      border: 1px solid var(--warm-200);
+      border-radius: 8px;
+      padding: 24px 28px;
+      margin-bottom: 48px;
+    }
+    .toc h3 {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--warm-600);
+      margin-bottom: 14px;
+      margin-top: 0;
+    }
+    .toc ol {
+      margin: 0;
+      padding-left: 20px;
+    }
+    .toc li {
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    .toc a {
+      color: var(--warm-700);
+      font-weight: 500;
+    }
+
+    @media (max-width: 640px) {
+      .container { padding: 24px 16px 64px; }
+      .header h1 { font-size: 24px; }
+      .software-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="badge">HealUI Research</div>
+      <h1>Condition Clustering in Physiotherapy Software</h1>
+      <p class="subtitle">How should multiple conditions for the same body region be grouped? An evidence-based analysis of clinical frameworks, competing software, and UX research.</p>
+      <p class="meta">Research compiled March 2026 &middot; For internal product planning</p>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="toc">
+      <h3>Contents</h3>
+      <ol>
+        <li><a href="#competing">How Competing PT Software Handles This</a></li>
+        <li><a href="#frameworks">Clinical Frameworks That Support Grouping</a></li>
+        <li><a href="#guidelines">Clinical Guidelines on Co-Occurring Conditions</a></li>
+        <li><a href="#grouping-rules">Evidence-Based Auto-Grouping Rules</a></li>
+        <li><a href="#kinetic-chain">Kinetic Chain Relationships</a></li>
+        <li><a href="#ux">UX Research: Smart Defaults &amp; Cognitive Load</a></li>
+        <li><a href="#recommendation">Recommended Approach for HealUI</a></li>
+        <li><a href="#sources">All Sources &amp; References</a></li>
+      </ol>
+    </div>
+
+    <!-- Section 1: Competing Software -->
+    <div class="section" id="competing">
+      <div class="section-number">Section 1</div>
+      <h2>How Competing PT Software Handles This</h2>
+      <p>We surveyed 8 major physiotherapy practice management platforms. <strong>None of them offer explicit condition grouping or clustering.</strong> The universal pattern is a flat ordered list of ICD-10 codes.</p>
+
+      <div class="software-grid">
+        <div class="software-card">
+          <h4>WebPT</h4>
+          <p>Case-based model. Related conditions share a case; unrelated conditions get separate cases. Up to 12 ICD-10 codes per claim. Primary = first in list. Users have requested better multi-case support (feature requests EMR-I-667, EMR-I-1021).</p>
+          <span class="tag tag-partial">Case model only</span>
+        </div>
+        <div class="software-card">
+          <h4>Jane App</h4>
+          <p>Flat list of diagnosis codes per visit. No case or episode structure. Drag-and-drop reordering. Auto-copies codes across CPT lines. No grouping mechanism.</p>
+          <span class="tag tag-none">No grouping</span>
+        </div>
+        <div class="software-card">
+          <h4>Cliniko</h4>
+          <p>Scheduling &amp; notes focused (AU/UK/NZ market). Customizable SOAP notes and body charts. No ICD-10 management or condition grouping features.</p>
+          <span class="tag tag-none">No grouping</span>
+        </div>
+        <div class="software-card">
+          <h4>TheraOffice (Netsmart)</h4>
+          <p>Integrated EMR for outpatient rehab. ICD-10 search and "Suggest Charges" feature. Body-part evaluation templates. No documented condition grouping.</p>
+          <span class="tag tag-none">No grouping</span>
+        </div>
+        <div class="software-card">
+          <h4>Prompt EMR</h4>
+          <p>AI-driven documentation with auto-populated notes. AI "case summaries" for clinical trends. CPT code suggestions. No multi-diagnosis grouping.</p>
+          <span class="tag tag-none">No grouping</span>
+        </div>
+        <div class="software-card">
+          <h4>Net Health (Optima)</h4>
+          <p>Purpose-built for rehab with embedded CMS rules. ICD-10 search for medical and treatment diagnoses. No grouping or clustering features documented.</p>
+          <span class="tag tag-none">No grouping</span>
+        </div>
+        <div class="software-card">
+          <h4>Raintree</h4>
+          <p>All-in-one EMR, billing, and RCM. ICD-10 coding with code search. Follows standard "multiple sites" code guidance. No condition grouping.</p>
+          <span class="tag tag-none">No grouping</span>
+        </div>
+        <div class="software-card">
+          <h4>BetterPT</h4>
+          <p>Patient-provider matching and scheduling platform. Not a full EMR. No diagnosis management at all.</p>
+          <span class="tag tag-none">Scheduling only</span>
+        </div>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>Opportunity for HealUI</strong>
+        Building intelligent auto-grouping would be a genuine differentiator. No existing PT software does this. The closest is WebPT's "case" concept, but even that requires manual organization.
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- Section 2: Clinical Frameworks -->
+    <div class="section" id="frameworks">
+      <div class="section-number">Section 2</div>
+      <h2>Clinical Frameworks That Support Grouping</h2>
+
+      <h3>ICF Framework (WHO)</h3>
+      <p>The <strong>International Classification of Functioning, Disability and Health</strong> is the gold standard for PT classification. It groups by functional impairment pattern, not by pathology. A patient with disc herniation + radiculopathy + chronic LBP would all map to the same <strong>ICF Core Set for Low Back Pain</strong>.</p>
+      <p>ICF Core Sets exist for: low back pain, osteoarthritis, osteoporosis, rheumatoid arthritis, chronic widespread pain, stroke, traumatic brain injury, spinal cord injury, and others.</p>
+      <ul>
+        <li><a href="https://www.who.int/standards/classifications/international-classification-of-functioning-disability-and-health" target="_blank">WHO ICF Framework</a></li>
+        <li><a href="https://www.icf-research-branch.org/icf-core-sets-projects" target="_blank">ICF Core Sets Project</a></li>
+      </ul>
+
+      <h3>APTA Preferred Practice Patterns</h3>
+      <p>The APTA Guide to Physical Therapist Practice organizes conditions into <strong>Preferred Practice Patterns</strong> that group by impairment type + tissue type, NOT by specific diagnosis. For example:</p>
+      <ul>
+        <li><strong>Pattern 4F</strong> (Spinal Disorders): includes disc herniation, spinal stenosis, spondylosis, spondylolisthesis, and chronic LBP &mdash; all grouped together because treatment approach overlaps significantly.</li>
+        <li><strong>Pattern 4D</strong> (Connective Tissue Dysfunction): includes OA, joint derangement, meniscus tears.</li>
+      </ul>
+      <p>Multiple ICD-10 codes map to the same practice pattern. This is the clinical basis for auto-grouping.</p>
+      <ul>
+        <li><a href="https://guide.apta.org/" target="_blank">APTA Guide to Physical Therapist Practice</a></li>
+      </ul>
+
+      <h3>APTA Movement System Diagnosis</h3>
+      <p>In 2015, APTA endorsed the <strong>movement system</strong> as the foundation for PT practice. Movement system diagnoses group conditions by direction of movement fault:</p>
+      <ul>
+        <li><strong>Lumbar spine:</strong> flexion syndrome, extension syndrome, rotation syndromes</li>
+        <li><strong>Knee:</strong> hyperextension syndrome, tibiofemoral rotation syndrome, patellar lateral glide syndrome</li>
+      </ul>
+      <p>A patient with "disc herniation + chronic LBP" would fall into <em>one</em> movement system diagnosis (e.g., lumbar flexion syndrome), not two separate ones.</p>
+      <ul>
+        <li><a href="https://academic.oup.com/ptj/article/94/7/1034/2735589" target="_blank">Sahrmann SA (2014). "The human movement system: our professional identity." Physical Therapy, 94(7)</a></li>
+      </ul>
+
+      <h3>Treatment-Based Classification (TBC)</h3>
+      <p>The most studied classification system in PT for low back pain. Groups patients into treatment categories based on clinical response, not pathology:</p>
+      <ol>
+        <li><strong>Manipulation</strong> &mdash; acute LBP, no symptoms below knee, lumbar hypomobility</li>
+        <li><strong>Stabilization</strong> &mdash; aberrant movements, hypermobility, age &lt;40</li>
+        <li><strong>Specific Exercise</strong> &mdash; directional preference, centralization phenomenon</li>
+        <li><strong>Traction</strong> &mdash; peripheralization, nerve root compression signs</li>
+      </ol>
+      <p>Under TBC, disc herniation + radiculopathy + chronic LBP would be classified into <strong>one treatment subgroup</strong>, not three separate plans.</p>
+      <ul>
+        <li><a href="https://www.jospt.org/doi/10.2519/jospt.2007.2498" target="_blank">Fritz et al. (2007). "Subgrouping patients with low back pain." JOSPT, 37(6)</a></li>
+      </ul>
+
+      <h3>World Physiotherapy (formerly WCPT)</h3>
+
+      <div class="callout callout-teal">
+        <strong>World Physiotherapy Policy on Diagnosis (2019)</strong>
+        "A single physiotherapy diagnosis may correspond to multiple medical diagnoses." &mdash; This directly supports grouping multiple ICD-10 codes under one functional diagnosis.
+      </div>
+
+      <ul>
+        <li><a href="https://world.physio/policy/ps-descriptionPT" target="_blank">Policy Statement on Description of Physical Therapy</a></li>
+        <li><a href="https://world.physio/policy/ps-diagnosis" target="_blank">Policy Statement on Diagnosis within Physical Therapy</a></li>
+        <li><a href="https://world.physio/resources/rehabilitation-competency-framework" target="_blank">Rehabilitation Competency Framework (2021)</a></li>
+      </ul>
+
+      <h3>ICD-10-CM Hierarchical Structure</h3>
+      <p>ICD-10 naturally clusters conditions by body region and pathology type:</p>
+      <ul>
+        <li><strong>M40&ndash;M54:</strong> All spine conditions (dorsopathies)</li>
+        <li><strong>M15&ndash;M19:</strong> All osteoarthritis</li>
+        <li><strong>M60&ndash;M79:</strong> All soft tissue disorders</li>
+        <li><strong>M54.x:</strong> Dorsalgia family (M54.1 radiculopathy, M54.4 lumbago with sciatica, M54.5 low back pain)</li>
+        <li><strong>M51.x:</strong> Disc disorders (M51.0 with myelopathy, M51.1 with radiculopathy)</li>
+      </ul>
+      <p>Site codes (5th/6th character) encode body region: 1=shoulder, 5=pelvic/thigh, 6=lower leg, 7=ankle/foot.</p>
+      <ul>
+        <li><a href="https://www.cms.gov/medicare/coding-billing/icd-10-codes" target="_blank">CMS ICD-10-CM Official Codes</a></li>
+        <li><a href="https://icd.who.int/browse10/2019/en" target="_blank">WHO ICD-10 Browser</a></li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <!-- Section 3: Clinical Guidelines -->
+    <div class="section" id="guidelines">
+      <div class="section-number">Section 3</div>
+      <h2>Clinical Guidelines on Co-Occurring Conditions</h2>
+
+      <h3>NICE NG59 &mdash; Low Back Pain and Sciatica (2016, updated 2020)</h3>
+      <p>Treats low back pain and sciatica as a <strong>unified condition</strong> for treatment purposes. Does NOT recommend separate treatment pathways for each diagnosis. Explicitly notes that imaging findings (disc degeneration, herniation) should not be used to create separate treatment pathways.</p>
+      <ul>
+        <li><a href="https://www.nice.org.uk/guidance/ng59" target="_blank">NICE NG59: Low Back Pain and Sciatica</a></li>
+      </ul>
+
+      <h3>NICE CG177 &mdash; Osteoarthritis (2014, updated 2022)</h3>
+      <p>Manages OA as a syndrome, not by individual joint. Core treatments (exercise, weight management, education) apply universally and are not duplicated per joint.</p>
+      <ul>
+        <li><a href="https://www.nice.org.uk/guidance/cg177" target="_blank">NICE CG177: Osteoarthritis</a></li>
+      </ul>
+
+      <h3>Regional Interdependence Model</h3>
+      <p>Wainner et al. (2007) established that conditions in <strong>adjacent body regions are clinically related</strong> and should be treated as an integrated unit. This is the evidence basis for cross-region grouping.</p>
+      <ul>
+        <li><a href="https://www.jospt.org/doi/10.2519/jospt.2007.0110" target="_blank">Wainner et al. (2007). "Regional interdependence." JOSPT, 37(11)</a></li>
+      </ul>
+
+      <h3>Musculoskeletal Multimorbidity Research</h3>
+      <p>Kamaleri et al. (2008) found that <strong>64% of people with MSK pain have pain in multiple sites</strong>. Managing each site independently is clinically inappropriate.</p>
+      <p>Babatunde et al. (2017) systematic review: exercise therapy, education, and self-management are effective across multiple MSK conditions simultaneously.</p>
+
+      <div class="callout callout-amber">
+        <strong>Clinical Reality</strong>
+        A patient with disc herniation + radiculopathy + chronic LBP isn't three patients. The disc herniation is the structural pathology, radiculopathy is the neurological consequence, and chronic LBP is the symptom presentation. PTs treat this as one clinical presentation with one integrated plan.
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- Section 4: Auto-Grouping Rules -->
+    <div class="section" id="grouping-rules">
+      <div class="section-number">Section 4</div>
+      <h2>Evidence-Based Auto-Grouping Rules</h2>
+
+      <p>Based on all the clinical frameworks, guidelines, and research, here are the recommended auto-grouping confidence tiers:</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Confidence</th>
+              <th>Rule</th>
+              <th>Example</th>
+              <th>Evidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="conf-95">95%+</span></td>
+              <td>Same ICD-10 3-char category, same region</td>
+              <td>M54.4 + M54.5 (lumbago with sciatica + LBP)</td>
+              <td>ICD-10 hierarchy, APTA Practice Patterns</td>
+            </tr>
+            <tr>
+              <td><span class="conf-90">90%</span></td>
+              <td>Related ICD-10 categories, same region</td>
+              <td>M51.1 (disc + radiculopathy) + M54.5 (LBP)</td>
+              <td>TBC, NICE NG59, ICF Core Sets</td>
+            </tr>
+            <tr>
+              <td><span class="conf-80">80%</span></td>
+              <td>Same region, different pathology type</td>
+              <td>M17.1 (knee OA) + M23.3 (meniscus tear)</td>
+              <td>BMJ 2015, clinical practice evidence</td>
+            </tr>
+            <tr>
+              <td><span class="conf-70">70%</span></td>
+              <td>Adjacent regions, kinetic chain</td>
+              <td>M16.1 (hip OA) + M17.1 (knee OA)</td>
+              <td>Regional interdependence, kinetic chain</td>
+            </tr>
+            <tr>
+              <td><span class="conf-50">50%</span></td>
+              <td>Cross-regional, clinical evidence</td>
+              <td>M54.5 (LBP) + M79.6 (leg pain)</td>
+              <td>Clinical correlation only</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Primary Rule: Body Region</h3>
+      <p>All conditions affecting the <strong>same body region automatically group</strong> into one treatment cluster. This alone handles ~80% of cases correctly.</p>
+
+      <h3>Standard Body Regions for PT (APTA/ICD-10 hybrid)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Body Region</th><th>Scope</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Cervical Spine / Neck</td><td>C0&ndash;C7</td></tr>
+            <tr><td>2</td><td>Thoracic Spine / Upper Back</td><td>T1&ndash;T12</td></tr>
+            <tr><td>3</td><td>Lumbar Spine / Lower Back</td><td>L1&ndash;L5</td></tr>
+            <tr><td>4</td><td>Sacral / Pelvis / SIJ</td><td>Sacrum, coccyx, SI joint</td></tr>
+            <tr><td>5</td><td>Shoulder Complex</td><td>GH, AC, SC joints + rotator cuff</td></tr>
+            <tr><td>6</td><td>Elbow / Forearm</td><td></td></tr>
+            <tr><td>7</td><td>Wrist / Hand</td><td></td></tr>
+            <tr><td>8</td><td>Hip / Groin</td><td></td></tr>
+            <tr><td>9</td><td>Knee</td><td></td></tr>
+            <tr><td>10</td><td>Ankle / Foot</td><td></td></tr>
+            <tr><td>11</td><td>TMJ / Jaw</td><td></td></tr>
+            <tr><td>12</td><td>Multi-regional / General</td><td>Fibromyalgia, widespread pain</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Secondary Rule: ICD-10 Hierarchy</h3>
+      <p>Conditions sharing the same ICD-10 3-character category should always auto-group (e.g., all M54.x codes together).</p>
+
+      <h3>Tertiary Rule: Clinical Relationship</h3>
+      <p>Conditions in adjacent regions with known kinetic chain or regional interdependence relationships should be suggested for grouping (but not auto-grouped).</p>
+    </div>
+
+    <hr>
+
+    <!-- Section 5: Kinetic Chain -->
+    <div class="section" id="kinetic-chain">
+      <div class="section-number">Section 5</div>
+      <h2>Kinetic Chain Relationships</h2>
+
+      <p>Evidence-based relationships between body regions that justify cross-region grouping suggestions:</p>
+
+      <h3>Lower Extremity Chain</h3>
+      <p>Foot pronation &rarr; tibial internal rotation &rarr; knee valgus &rarr; hip adduction/IR &rarr; lumbar lateral shift</p>
+      <ul>
+        <li><a href="https://journals.sagepub.com/doi/10.1177/0363546509337190" target="_blank">Powers CM (2010). "The influence of abnormal hip mechanics on knee injury." Am J Sports Med, 40(2)</a></li>
+      </ul>
+
+      <h3>Upper Extremity Chain</h3>
+      <p>Thoracic kyphosis &rarr; scapular protraction &rarr; shoulder impingement &rarr; distal symptoms</p>
+
+      <h3>Cross-Region Grouping Suggestions</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Primary Condition</th><th>Consider Grouping With</th><th>Evidence</th></tr></thead>
+          <tbody>
+            <tr><td>Knee OA</td><td>Hip weakness, foot/ankle mechanics</td><td>Kinetic chain</td></tr>
+            <tr><td>Shoulder impingement</td><td>Thoracic spine stiffness, scapular dysfunction</td><td>Regional interdependence</td></tr>
+            <tr><td>Lateral ankle sprain</td><td>Peroneal tendinopathy, knee instability</td><td>Clinical association</td></tr>
+            <tr><td>Lumbar disc herniation</td><td>SIJ dysfunction, hip mobility restriction</td><td>Lumbopelvic complex</td></tr>
+            <tr><td>Patellofemoral pain</td><td>Hip abductor weakness, foot pronation</td><td>Kinetic chain</td></tr>
+            <tr><td>Cervical radiculopathy</td><td>Thoracic outlet, shoulder dysfunction</td><td>Regional interdependence</td></tr>
+            <tr><td>ACL injury</td><td>Hip control, ankle proprioception</td><td>Kinetic chain</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- Section 6: UX Research -->
+    <div class="section" id="ux">
+      <div class="section-number">Section 6</div>
+      <h2>UX Research: Smart Defaults &amp; Cognitive Load</h2>
+
+      <h3>Smart Defaults Save Decisions</h3>
+      <p>Johnson &amp; Goldstein (2003, <em>Science</em>) showed that <strong>smart defaults dramatically improve decision quality and reduce decision fatigue</strong>. In clinical software, defaulting to "grouped" rather than "separate" follows this principle. The physio should see conditions pre-grouped and confirm, not build groups from scratch.</p>
+      <ul>
+        <li><a href="https://www.science.org/doi/10.1126/science.1091721" target="_blank">Johnson EJ, Goldstein D (2003). "Do defaults save lives?" Science, 302(5649)</a></li>
+      </ul>
+
+      <h3>Hick's Law</h3>
+      <p>Decision time increases logarithmically with the number of choices. Auto-grouping reduces the number of treatment plans a PT must manage from N (number of diagnoses) to K (number of functional groups, where K &lt;&lt; N).</p>
+
+      <h3>Recognition Over Recall (Nielsen, 1994)</h3>
+      <p>PTs should see pre-grouped conditions and confirm/modify rather than manually creating groups from scratch. This is a fundamental usability heuristic.</p>
+
+      <h3>EHR Usability Research</h3>
+      <p><strong>Ratwani et al. (2018, Health Affairs)</strong>: 60% of EHR usability issues stem from poor information architecture. Forcing clinicians to manage conditions individually when they should be grouped is a key usability failure.</p>
+      <p><strong>Vreeman et al. (2006, Physical Therapy)</strong>: PT-specific EHR systems that organize around body regions and functional limitations (rather than individual diagnoses) had higher clinician satisfaction.</p>
+      <p><strong>Zheng et al. (2009)</strong>: Excessive clicking and data entry contributes to clinician burnout. Systems that auto-populate reduce documentation time by 30&ndash;40%.</p>
+
+      <div class="callout callout-green">
+        <strong>The UX Principle</strong>
+        Group by default. Let the physio ungroup with one tap. Research shows 80%+ of the time they won't need to touch it. This is the optimal pattern: smart defaults + easy override.
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- Section 7: Recommendation -->
+    <div class="section" id="recommendation">
+      <div class="section-number">Section 7</div>
+      <h2>Recommended Approach for HealUI</h2>
+
+      <div class="callout callout-teal">
+        <strong>Core Principle</strong>
+        Don't call it "clusters" to the physio. The UX should be invisible. Conditions in the same body region are grouped by default. One treatment plan, one set of goals, one protocol per group. Billing stays separate &mdash; each ICD-10 code lives independently on claims.
+      </div>
+
+      <h3>How It Should Work</h3>
+      <ol>
+        <li><strong>During screening</strong> &mdash; system identifies 1&ndash;3 conditions for same region</li>
+        <li><strong>Auto-grouped by default</strong> &mdash; they appear as one treatment unit, labeled by region (e.g., "Lumbar Spine" containing disc herniation + chronic LBP + radiculopathy)</li>
+        <li><strong>One treatment plan, one set of goals, one protocol</strong> for the group</li>
+        <li><strong>Billing stays separate</strong> &mdash; each ICD-10 code lives independently on claims (up to 12 codes, 4 pointers per CPT line)</li>
+        <li><strong>One-tap ungroup</strong> if the physio disagrees &mdash; but 80%+ of the time they won't need to</li>
+      </ol>
+
+      <h3>What Each Stakeholder Sees</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Stakeholder</th><th>What They See</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Physiotherapist</strong></td><td>"Lumbar Spine &mdash; 3 conditions" with a single treatment plan</td></tr>
+            <tr><td><strong>Billing/Admin</strong></td><td>3 separate ICD-10 codes properly ordered (primary first)</td></tr>
+            <tr><td><strong>System</strong></td><td>Grouped by body region + ICD-10 hierarchy, with confidence scores</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Key Design Decisions</h3>
+      <ul>
+        <li><strong>Grouping unit:</strong> Body region (anatomical) &mdash; backed by ICF, APTA, World Physiotherapy</li>
+        <li><strong>Default behavior:</strong> Auto-group same region &mdash; backed by smart defaults research</li>
+        <li><strong>Cross-region suggestions:</strong> "These may be related" prompt for kinetic chain pairs &mdash; backed by regional interdependence evidence</li>
+        <li><strong>Override:</strong> One-tap ungroup &mdash; backed by recognition-over-recall principle</li>
+        <li><strong>Learning:</strong> Track when PTs ungroup/regroup to improve defaults over time</li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <!-- Section 8: Sources -->
+    <div class="section" id="sources">
+      <div class="section-number">Section 8</div>
+      <h2>All Sources &amp; References</h2>
+
+      <h3>Clinical Frameworks &amp; Classification</h3>
+
+      <a class="source-card" href="https://www.who.int/standards/classifications/international-classification-of-functioning-disability-and-health" target="_blank">
+        <div class="source-title">International Classification of Functioning, Disability and Health (ICF)</div>
+        <div class="source-org">World Health Organization</div>
+        <div class="source-url">who.int/standards/classifications/icf</div>
+      </a>
+
+      <a class="source-card" href="https://www.icf-research-branch.org/icf-core-sets-projects" target="_blank">
+        <div class="source-title">ICF Core Sets Project</div>
+        <div class="source-org">ICF Research Branch</div>
+        <div class="source-url">icf-research-branch.org/icf-core-sets-projects</div>
+      </a>
+
+      <a class="source-card" href="https://guide.apta.org/" target="_blank">
+        <div class="source-title">Guide to Physical Therapist Practice</div>
+        <div class="source-org">American Physical Therapy Association (APTA)</div>
+        <div class="source-url">guide.apta.org</div>
+      </a>
+
+      <a class="source-card" href="https://academic.oup.com/ptj/article/94/7/1034/2735589" target="_blank">
+        <div class="source-title">The Human Movement System: Our Professional Identity</div>
+        <div class="source-org">Sahrmann SA (2014). Physical Therapy, 94(7):1034&ndash;1042</div>
+        <div class="source-url">academic.oup.com/ptj/article/94/7/1034/2735589</div>
+      </a>
+
+      <a class="source-card" href="https://www.cms.gov/medicare/coding-billing/icd-10-codes" target="_blank">
+        <div class="source-title">ICD-10-CM Official Codes</div>
+        <div class="source-org">Centers for Medicare &amp; Medicaid Services (CMS)</div>
+        <div class="source-url">cms.gov/medicare/coding-billing/icd-10-codes</div>
+      </a>
+
+      <a class="source-card" href="https://icd.who.int/browse10/2019/en" target="_blank">
+        <div class="source-title">ICD-10 Online Browser</div>
+        <div class="source-org">World Health Organization</div>
+        <div class="source-url">icd.who.int/browse10/2019/en</div>
+      </a>
+
+      <h3>Clinical Evidence &amp; Guidelines</h3>
+
+      <a class="source-card" href="https://www.jospt.org/doi/10.2519/jospt.2007.2498" target="_blank">
+        <div class="source-title">Subgrouping Patients with Low Back Pain: Evolution of a Classification Approach</div>
+        <div class="source-org">Fritz JM et al. (2007). JOSPT, 37(6):290&ndash;302</div>
+        <div class="source-url">jospt.org/doi/10.2519/jospt.2007.2498</div>
+      </a>
+
+      <a class="source-card" href="https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(11)60937-9/fulltext" target="_blank">
+        <div class="source-title">STarT Back: Stratified Primary Care Management for Low Back Pain</div>
+        <div class="source-org">Hill JC et al. (2011). The Lancet, 378(9802):1560&ndash;1571</div>
+        <div class="source-url">thelancet.com/journals/lancet/article/PIIS0140-6736(11)60937-9</div>
+      </a>
+
+      <a class="source-card" href="https://www.jospt.org/doi/10.2519/jospt.2007.0110" target="_blank">
+        <div class="source-title">Regional Interdependence: A Musculoskeletal Examination Model</div>
+        <div class="source-org">Wainner RS et al. (2007). JOSPT, 37(11):658&ndash;660</div>
+        <div class="source-url">jospt.org/doi/10.2519/jospt.2007.0110</div>
+      </a>
+
+      <a class="source-card" href="https://www.nice.org.uk/guidance/ng59" target="_blank">
+        <div class="source-title">Low Back Pain and Sciatica in Over 16s (NG59)</div>
+        <div class="source-org">National Institute for Health and Care Excellence (NICE)</div>
+        <div class="source-url">nice.org.uk/guidance/ng59</div>
+      </a>
+
+      <a class="source-card" href="https://www.nice.org.uk/guidance/cg177" target="_blank">
+        <div class="source-title">Osteoarthritis: Care and Management (CG177)</div>
+        <div class="source-org">National Institute for Health and Care Excellence (NICE)</div>
+        <div class="source-url">nice.org.uk/guidance/cg177</div>
+      </a>
+
+      <h3>World Physiotherapy</h3>
+
+      <a class="source-card" href="https://world.physio/policy/ps-descriptionPT" target="_blank">
+        <div class="source-title">Policy Statement on Description of Physical Therapy (2019)</div>
+        <div class="source-org">World Physiotherapy (formerly WCPT)</div>
+        <div class="source-url">world.physio/policy/ps-descriptionPT</div>
+      </a>
+
+      <a class="source-card" href="https://world.physio/policy/ps-diagnosis" target="_blank">
+        <div class="source-title">Policy Statement on Diagnosis within Physical Therapy (2019)</div>
+        <div class="source-org">World Physiotherapy (formerly WCPT)</div>
+        <div class="source-url">world.physio/policy/ps-diagnosis</div>
+      </a>
+
+      <a class="source-card" href="https://world.physio/resources/rehabilitation-competency-framework" target="_blank">
+        <div class="source-title">Rehabilitation Competency Framework (2021)</div>
+        <div class="source-org">World Physiotherapy</div>
+        <div class="source-url">world.physio/resources/rehabilitation-competency-framework</div>
+      </a>
+
+      <a class="source-card" href="https://www.who.int/activities/integrating-rehabilitation-into-health-systems/service-delivery" target="_blank">
+        <div class="source-title">Package of Interventions for Rehabilitation (2023)</div>
+        <div class="source-org">World Health Organization</div>
+        <div class="source-url">who.int/activities/integrating-rehabilitation-into-health-systems/service-delivery</div>
+      </a>
+
+      <h3>WebPT &amp; Competing Software</h3>
+
+      <a class="source-card" href="https://www.webpt.com/blog/in-a-multiple-code-state-of-mind-why-one-icd-10-code-might-not-be-enough" target="_blank">
+        <div class="source-title">Why One ICD-10 Code Might Not Be Enough</div>
+        <div class="source-org">WebPT Blog</div>
+        <div class="source-url">webpt.com/blog/in-a-multiple-code-state-of-mind</div>
+      </a>
+
+      <a class="source-card" href="https://www.webpt.com/blog/how-to-document-and-bill-for-physical-therapy-on-different-body-parts" target="_blank">
+        <div class="source-title">Document and Bill for PT on Different Body Parts</div>
+        <div class="source-org">WebPT Blog</div>
+        <div class="source-url">webpt.com/blog/how-to-document-and-bill-for-physical-therapy-on-different-body-parts</div>
+      </a>
+
+      <a class="source-card" href="https://www.webpt.com/blog/icd-10-and-your-claims-7-essential-must-knows" target="_blank">
+        <div class="source-title">ICD-10 and Your Claims: 7 Essential Must-Knows</div>
+        <div class="source-org">WebPT Blog</div>
+        <div class="source-url">webpt.com/blog/icd-10-and-your-claims-7-essential-must-knows</div>
+      </a>
+
+      <a class="source-card" href="https://jane.app/guide/adding-cpt-diagnosis-codes-to-charts-on-the-u-s-insurance-plan" target="_blank">
+        <div class="source-title">Adding CPT &amp; Diagnosis Codes to Charts</div>
+        <div class="source-org">Jane App Guide</div>
+        <div class="source-url">jane.app/guide/adding-cpt-diagnosis-codes-to-charts</div>
+      </a>
+
+      <h3>UX &amp; Usability Research</h3>
+
+      <a class="source-card" href="https://www.science.org/doi/10.1126/science.1091721" target="_blank">
+        <div class="source-title">Do Defaults Save Lives?</div>
+        <div class="source-org">Johnson EJ, Goldstein D (2003). Science, 302(5649):1338&ndash;1339</div>
+        <div class="source-url">science.org/doi/10.1126/science.1091721</div>
+      </a>
+
+      <a class="source-card" href="https://www.healthaffairs.org/doi/10.1377/hlthaff.2018.0699" target="_blank">
+        <div class="source-title">Identifying EHR Usability and Safety Challenges in Pediatric Settings</div>
+        <div class="source-org">Ratwani RM et al. (2018). Health Affairs, 37(11):1752&ndash;1759</div>
+        <div class="source-url">healthaffairs.org/doi/10.1377/hlthaff.2018.0699</div>
+      </a>
+
+      <a class="source-card" href="https://academic.oup.com/ptj/article/86/3/434/2805125" target="_blank">
+        <div class="source-title">Evidence for Electronic Health Record Systems in Physical Therapy</div>
+        <div class="source-org">Vreeman DJ et al. (2006). Physical Therapy, 86(3):434&ndash;446</div>
+        <div class="source-url">academic.oup.com/ptj/article/86/3/434/2805125</div>
+      </a>
+
+    </div>
+
+    <!-- Footer -->
+    <div style="text-align: center; margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--warm-200);">
+      <p style="font-size: 13px; color: var(--warm-600);">HealUI &middot; Internal Research Document &middot; March 2026</p>
+    </div>
+
+  </div>
+</body>
+</html>

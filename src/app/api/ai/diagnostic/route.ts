@@ -23,6 +23,8 @@ export async function POST(request: NextRequest) {
       return handleAssessmentRecommendations(payload)
     } else if (action === 'analyze_findings') {
       return handleAnalyzeFindings(payload)
+    } else if (action === 'recommend_adl') {
+      return handleRecommendADL(payload)
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 })
@@ -207,6 +209,56 @@ Focus on quality over quantity - only recommend tests that will provide actionab
       error: error.message,
       recommendations: [],
     })
+  }
+}
+
+async function handleRecommendADL(payload: any) {
+  const { clinicalData, region, availableADLs } = payload
+
+  const systemPrompt = `You are an expert physiotherapist. Based on the clinical findings, select which Patient-Reported Outcome Measures (PROMs) are most appropriate for evaluating this patient's functional status.
+
+Return a JSON object:
+{
+  "recommended": [
+    { "activity": "prom_id_from_list", "reason": "Brief clinical reason why this PROM is appropriate" }
+  ]
+}
+
+Only select PROMs from the provided list. Select the 1 most relevant PROM first, then 2-3 alternatives. Order by relevance.`
+
+  const userPrompt = `Clinical Data:
+Chief Complaint: ${clinicalData?.chief_complaint || 'Not specified'}
+Region: ${region}
+Pain Nature: ${JSON.stringify(clinicalData?.pain_nature || 'Not specified')}
+Aggravating Factors: ${JSON.stringify(clinicalData?.aggravating_factors || [])}
+Functional Impact (patient reported): ${clinicalData?.functional_impact || 'Not specified'}
+VAS Score: ${clinicalData?.vas_score ?? 'Not specified'}
+
+Available PROMs (select from these only):
+${(availableADLs || []).map((a: any) => `${a.value}: ${a.label}`).join('\n')}
+
+Select the most appropriate PROMs for this patient's clinical presentation.`
+
+  try {
+    const response = await openai.chat.completions.create({
+      model: 'gpt-3.5-turbo',
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt },
+      ],
+      temperature: 0.3,
+      max_tokens: 800,
+      response_format: { type: 'json_object' },
+    })
+
+    const aiResponse = response.choices[0].message.content
+    if (!aiResponse) throw new Error('Empty response')
+
+    const parsed = JSON.parse(aiResponse)
+    return NextResponse.json({ recommended: parsed.recommended || [] })
+  } catch (error: any) {
+    console.error('ADL recommendation error:', error)
+    return NextResponse.json({ recommended: [] })
   }
 }
 

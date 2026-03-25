@@ -217,4 +217,26 @@ const estimateTestTime = (assessmentId: string): string => {
   return timeMap[assessmentId] || '3-5 minutes';
 };
 
+export async function getRecommendedPROMs(payload: {
+  clinicalData: Record<string, any>;
+  region: string;
+  availableADLs: Array<{ value: string; label: string }>;
+}): Promise<Array<{ activity: string; reason: string }>> {
+  try {
+    const response = await fetch('/api/ai/diagnostic', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'recommend_adl', payload }),
+    });
+    if (!response.ok) return [];
+    const result = await response.json();
+    return result.recommended || [];
+  } catch {
+    return [];
+  }
+}
+
+// Backward compatibility alias
+export const getRecommendedADLs = getRecommendedPROMs;
+
 export const aiDiagnosticService = AIDiagnosticService.getInstance();

@@ -605,6 +605,11 @@ class ApiManager {
         return ApiMethods.post(url, data)
     }
 
+    static getSlotDensity = (clinicId: string, date: string) => {
+        const url = BASE_URL + ENDPOINTS.GET_SLOT_DENSITY(clinicId, date)
+        return ApiMethods.get(url)
+    }
+
     // Notes
     static createNote = (data: CreateNoteDto) => {
         const url = BASE_URL + ENDPOINTS.CREATE_NOTE()

@@ -11,6 +11,8 @@ import GapQuestionsMode from './GapQuestionsMode';
 import ReviewMode from './ReviewMode';
 import AnalysisMode from './AnalysisMode';
 import ImagingMode from './ImagingMode';
+import ADLMode from './ADLMode';
+import type { ADLData } from './ADLMode';
 import DiagnosisResultMode from './DiagnosisResultMode';
 import ConditionConfirmMode from './ConditionConfirmMode';
 import { useAppSelector } from '@/store/hooks';
@@ -18,17 +20,18 @@ import ApiManager from '@/services/api/api.service';
 import { toast } from 'sonner';
 import type { DiagnosticResponse } from '@/services/ai/diagnostic.service';
 
-type VoiceMode = 'IDLE' | 'RECORDING' | 'GAPS' | 'REVIEW' | 'ANALYSIS' | 'IMAGING' | 'DIAGNOSIS' | 'CONFIRM';
+type VoiceMode = 'IDLE' | 'RECORDING' | 'GAPS' | 'REVIEW' | 'ANALYSIS' | 'ADL' | 'IMAGING' | 'DIAGNOSIS' | 'CONFIRM';
 type ActiveVoiceMode = Exclude<VoiceMode, 'IDLE'>;
 
 // Ordered steps for progress indicator (excludes IDLE and RECORDING)
 // Imaging comes AFTER diagnosis — physio needs to see differential first before deciding on scans
-const STEPS: VoiceMode[] = ['GAPS', 'REVIEW', 'ANALYSIS', 'DIAGNOSIS', 'IMAGING', 'CONFIRM'];
+const STEPS: VoiceMode[] = ['GAPS', 'REVIEW', 'ANALYSIS', 'ADL', 'DIAGNOSIS', 'IMAGING', 'CONFIRM'];
 
 const STEP_LABELS: Partial<Record<VoiceMode, string>> = {
   GAPS:      'Gaps',
   REVIEW:    'Review',
   ANALYSIS:  'Examination',
+  ADL:       'Outcome',
   DIAGNOSIS: 'Diagnosis',
   IMAGING:   'Imaging',
   CONFIRM:   'Confirm',
@@ -77,6 +80,7 @@ export default function VoiceClinicalDxScreen({
   const [imagingRequests, setImagingRequests]   = useState<any[]>([]);
   const [selectedCondition, setSelectedCondition] = useState<any>(null);
   const [diagnosisResult, setDiagnosisResult]   = useState<DiagnosticResponse | null>(null);
+  const [adlData, setAdlData]                   = useState<ADLData | null>(null);
   const [isImagingOnlyPath, setIsImagingOnlyPath] = useState(false);
 
   const { userData } = useAppSelector(state => state.user);
@@ -166,14 +170,25 @@ export default function VoiceClinicalDxScreen({
     setMode('ANALYSIS');
   }, []);
 
-  // ANALYSIS → DIAGNOSIS (examination complete, now run AI differential)
+  // ANALYSIS → ADL (examination complete, now capture functional impact)
   const handleAnalysisComplete = useCallback((answers: Record<string, any>) => {
     setAnalysisAnswers(answers);
-    setMode('DIAGNOSIS');
+    setMode('ADL');
   }, []);
 
   const handleAnalysisSkip = useCallback(() => {
     setAnalysisAnswers({});
+    setMode('ADL');
+  }, []);
+
+  // ADL → DIAGNOSIS
+  const handleADLComplete = useCallback((data: ADLData) => {
+    setAdlData(data);
+    setMode('DIAGNOSIS');
+  }, []);
+
+  const handleADLSkip = useCallback(() => {
+    setAdlData(null);
     setMode('DIAGNOSIS');
   }, []);
 
@@ -259,6 +274,7 @@ export default function VoiceClinicalDxScreen({
           set_at: new Date().toISOString(),
           set_by_user_id: userData?.user_id || null,
         },
+        adl_data: adlData || null,
         imaging_orders: imagingOrders,
         diagnosis_status: 'IMAGING_ORDERED',
         chief_complaint: merged.chief_complaint || null,
@@ -283,7 +299,7 @@ export default function VoiceClinicalDxScreen({
     // Path A: Normal flow — go to CONFIRM
     setImagingRequests(requests);
     setMode('CONFIRM');
-  }, [isImagingOnlyPath, diagnosisResult, voice, gapAnswers, analysisAnswers, userData, patientId, conditionId, onComplete, provisionalDx]);
+  }, [isImagingOnlyPath, diagnosisResult, voice, gapAnswers, analysisAnswers, adlData, userData, patientId, conditionId, onComplete, provisionalDx]);
 
   // CONFIRM → done
   const handleConfirmComplete = useCallback((result: any) => {
@@ -304,7 +320,8 @@ export default function VoiceClinicalDxScreen({
         break;
       case 'REVIEW':    setMode('GAPS');      break;
       case 'ANALYSIS':  setMode('REVIEW');    break;
-      case 'DIAGNOSIS': setMode('ANALYSIS');  break;
+      case 'ADL':       setMode('ANALYSIS');  break;
+      case 'DIAGNOSIS': setMode('ADL');       break;
       case 'IMAGING':   setMode('DIAGNOSIS'); setIsImagingOnlyPath(false); break;
       case 'CONFIRM':   setMode('IMAGING');   break;
       default: onClose();
@@ -467,6 +484,17 @@ export default function VoiceClinicalDxScreen({
             </motion.div>
           )}
 
+          {mode === 'ADL' && (
+            <motion.div key="adl" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="h-full">
+              <ADLMode
+                extractedFields={voice.extractedFields}
+                analysisAnswers={analysisAnswers}
+                onComplete={handleADLComplete}
+                onSkip={handleADLSkip}
+              />
+            </motion.div>
+          )}
+
           {mode === 'DIAGNOSIS' && (
             <motion.div key="diagnosis" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="h-full">
               <DiagnosisResultMode
@@ -511,6 +539,7 @@ export default function VoiceClinicalDxScreen({
                 gapAnswers={{ ...gapAnswers, ...analysisAnswers }}
                 completedAssessments={[]}
                 imagingRequests={imagingRequests}
+                adlData={adlData}
                 patientId={patientId}
                 sessionId={voice.sessionId}
                 draftConditionId={conditionId}

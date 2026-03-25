@@ -118,6 +118,7 @@ export const ENDPOINTS = {
     CANCEL_VISIT: (id: string) => `patients/visits/${id}/cancel`,
     RESCHEDULE_VISIT: (id: string) => `patients/visits/${id}/reschedule`,
     GET_AVAILABLE_PHYSIOTHERAPISTS: () => 'patients/physiotherapists/availability',
+    GET_SLOT_DENSITY: (clinicId: string, date: string) => `patients/visits/slot-density?clinic_id=${clinicId}&date=${date}`,
 
     // Visit Conditions (Multi-Condition Support)
     GET_VISIT_CONDITIONS: (visitId: string) => `visit-conditions/visit/${visitId}`,
