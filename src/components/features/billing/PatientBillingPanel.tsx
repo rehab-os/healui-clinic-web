@@ -29,6 +29,8 @@ import type {
 import RecordPaymentModal from './RecordPaymentModal';
 import CreateSessionPackModal from './CreateSessionPackModal';
 import BillVisitModal from './BillVisitModal';
+import RefundModal from './RefundModal';
+import type { SessionPackDto } from '@/lib/types';
 
 interface UnbilledVisit {
   id: string;
@@ -45,6 +47,7 @@ interface PatientBillingPanelProps {
   patientName: string;
   clinicId: string;
   compact?: boolean;
+  refreshKey?: number;
   onViewChange?: (view: ViewState) => void;
 }
 
@@ -53,6 +56,7 @@ const PatientBillingPanel: React.FC<PatientBillingPanelProps> = ({
   patientName,
   clinicId,
   compact = false,
+  refreshKey,
   onViewChange
 }) => {
   const [loading, setLoading] = useState(true);
@@ -67,6 +71,9 @@ const PatientBillingPanel: React.FC<PatientBillingPanelProps> = ({
   const [unbilledVisits, setUnbilledVisits] = useState<UnbilledVisit[]>([]);
   const [selectedVisitIds, setSelectedVisitIds] = useState<string[]>([]);
   const [loadingUnbilled, setLoadingUnbilled] = useState(false);
+
+  // Refund modal
+  const [refundPack, setRefundPack] = useState<SessionPackDto | null>(null);
 
   // Bill visit modal
   const [showBillModal, setShowBillModal] = useState(false);
@@ -97,7 +104,7 @@ const PatientBillingPanel: React.FC<PatientBillingPanelProps> = ({
   useEffect(() => {
     fetchAccountData();
     fetchUnbilledVisits();
-  }, [patientId, clinicId]);
+  }, [patientId, clinicId, refreshKey]);
 
   const changeView = (view: ViewState) => {
     setCurrentView(view);
@@ -211,6 +218,11 @@ const PatientBillingPanel: React.FC<PatientBillingPanelProps> = ({
 
     if (!paymentAmount || parseFloat(paymentAmount) <= 0) {
       setPaymentError('Please enter a valid amount');
+      return;
+    }
+
+    if ((paymentMethod === 'UPI' || paymentMethod === 'CARD') && !paymentRef?.trim()) {
+      setPaymentError('Transaction ID is required for UPI/Card payments');
       return;
     }
 
@@ -515,12 +527,14 @@ const PatientBillingPanel: React.FC<PatientBillingPanelProps> = ({
           {/* Reference (for non-cash) */}
           {paymentMethod !== 'CASH' && (
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1.5">Reference</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1.5">
+                Transaction ID{(paymentMethod === 'UPI' || paymentMethod === 'CARD') && <span className="text-red-500"> *</span>}
+              </label>
               <input
                 type="text"
                 value={paymentRef}
                 onChange={(e) => setPaymentRef(e.target.value)}
-                placeholder={paymentMethod === 'UPI' ? 'UPI ID' : 'Reference'}
+                placeholder={paymentMethod === 'UPI' ? 'UPI Transaction ID' : paymentMethod === 'CARD' ? 'Card Transaction ID' : 'Reference'}
                 className="w-full px-3 py-2 text-sm border border-gray-200 rounded focus:ring-1 focus:ring-brand-teal/20 focus:border-brand-teal"
               />
             </div>
@@ -837,9 +851,17 @@ const PatientBillingPanel: React.FC<PatientBillingPanelProps> = ({
                       <p className="text-xs text-gray-500">{pack.condition.condition_name}</p>
                     )}
                   </div>
-                  <div className="text-right">
-                    <span className="text-base font-bold text-purple-600">{pack.sessions_remaining}</span>
-                    <span className="text-xs text-gray-400">/{pack.total_sessions}</span>
+                  <div className="text-right flex items-center gap-2">
+                    <button
+                      onClick={() => setRefundPack(pack as SessionPackDto)}
+                      className="text-[10px] text-gray-400 hover:text-red-600 transition-colors"
+                    >
+                      Refund
+                    </button>
+                    <div>
+                      <span className="text-base font-bold text-purple-600">{pack.sessions_remaining}</span>
+                      <span className="text-xs text-gray-400">/{pack.total_sessions}</span>
+                    </div>
                   </div>
                 </div>
                 <div className="h-1 bg-gray-100 rounded-full overflow-hidden">
@@ -985,6 +1007,22 @@ const PatientBillingPanel: React.FC<PatientBillingPanelProps> = ({
             setSelectedVisitIds([]);
             fetchAccountData();
             fetchUnbilledVisits();
+          }}
+        />
+      )}
+
+      {/* Refund Modal for Session Pack */}
+      {refundPack && (
+        <RefundModal
+          clinicId={clinicId}
+          patientId={patientId}
+          patientName={patientName}
+          prefillSessionPack={refundPack}
+          prefillType="SESSION_PACK"
+          onClose={() => setRefundPack(null)}
+          onSuccess={() => {
+            setRefundPack(null);
+            fetchAccountData();
           }}
         />
       )}

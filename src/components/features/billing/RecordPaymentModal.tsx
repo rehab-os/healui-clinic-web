@@ -142,6 +142,11 @@ const RecordPaymentModal: React.FC<RecordPaymentModalProps> = ({
       return;
     }
 
+    if ((paymentMethod === 'UPI' || paymentMethod === 'CARD') && !referenceNumber?.trim()) {
+      setError('Transaction ID is required for UPI/Card payments');
+      return;
+    }
+
     try {
       setSubmitting(true);
 
@@ -467,7 +472,7 @@ const RecordPaymentModal: React.FC<RecordPaymentModalProps> = ({
           {paymentMethod !== 'CASH' && (
             <div>
               <label className="block text-xs font-medium text-gray-600 mb-1.5">
-                Reference Number
+                Transaction ID{(paymentMethod === 'UPI' || paymentMethod === 'CARD') && <span className="text-red-500"> *</span>}
               </label>
               <input
                 type="text"

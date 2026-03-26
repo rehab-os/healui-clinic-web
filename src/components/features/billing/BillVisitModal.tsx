@@ -74,6 +74,7 @@ const BillVisitModal: React.FC<BillVisitModalProps> = ({
   const [success, setSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const [billingResultId, setBillingResultId] = useState<string>('');
+  const [billingResult, setBillingResult] = useState<VisitBillingDto | null>(null);
   const [showReceiptButtons, setShowReceiptButtons] = useState(false);
   const [loadingReceipt, setLoadingReceipt] = useState(false);
 
@@ -92,6 +93,7 @@ const BillVisitModal: React.FC<BillVisitModalProps> = ({
   const [paymentOption, setPaymentOption] = useState<'full' | 'partial' | 'none' | 'corporate'>('full');
   const [partialAmount, setPartialAmount] = useState<string>('');
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('CASH');
+  const [paymentRef, setPaymentRef] = useState('');
   const [isFreeVisit, setIsFreeVisit] = useState(false);
   const [freeReason, setFreeReason] = useState('');
   const [showAlternateOptions, setShowAlternateOptions] = useState(false);
@@ -266,6 +268,7 @@ const BillVisitModal: React.FC<BillVisitModalProps> = ({
       const response = await ApiManager.billVisit(visitId, data);
       if (response.success) {
         setBillingResultId(response.data?.id || '');
+        setBillingResult(response.data || null);
         setSuccessMessage('Session deducted from pack');
         setSuccess(true);
         setTimeout(() => onSuccess(), 1200);
@@ -307,6 +310,12 @@ const BillVisitModal: React.FC<BillVisitModalProps> = ({
       payment = 0;
     }
 
+    // Require transaction ID for UPI/Card payments
+    if (payment > 0 && (paymentMethod === 'UPI' || paymentMethod === 'CARD') && !paymentRef?.trim()) {
+      setError('Transaction ID is required for UPI/Card payments');
+      return;
+    }
+
     try {
       setSubmitting(true);
       setError('');
@@ -328,6 +337,7 @@ const BillVisitModal: React.FC<BillVisitModalProps> = ({
         ...(payment > 0 && {
           payment_amount: payment,
           payment_method: paymentMethod,
+          ...(paymentRef?.trim() && { payment_reference: paymentRef.trim() }),
         }),
         ...(multiVisitIds && multiVisitIds.length > 1 && { visit_ids: multiVisitIds }),
       };
@@ -353,6 +363,7 @@ const BillVisitModal: React.FC<BillVisitModalProps> = ({
         : await ApiManager.billVisit(visitId, data);
       if (response.success) {
         setBillingResultId(response.data?.id || '');
+        setBillingResult(response.data || null);
         const owed = finalAmount - payment;
         if (paymentOption === 'corporate') {
           setSuccessMessage(`Billed to ${corporateCompany}`);
@@ -407,6 +418,10 @@ const BillVisitModal: React.FC<BillVisitModalProps> = ({
       setError('Please enter a valid amount');
       return;
     }
+    if ((addPaymentMethod === 'UPI' || addPaymentMethod === 'CARD') && !addPaymentRef?.trim()) {
+      setError('Transaction ID is required for UPI/Card payments');
+      return;
+    }
     try {
       setSubmitting(true);
       setError('');
@@ -438,7 +453,7 @@ const BillVisitModal: React.FC<BillVisitModalProps> = ({
   // This ensures the PDF always has data even if getReceiptData returns incomplete fields.
   const buildReceiptData = async (id?: string, localBilling?: VisitBillingDto): Promise<ReceiptData | null> => {
     const targetId = id || billingResultId;
-    const billing = localBilling || (targetId === existingBilling?.id ? existingBilling : null);
+    const billing = localBilling || billingResult || (targetId === existingBilling?.id ? existingBilling : null);
 
     setLoadingReceipt(true);
     try {
@@ -481,7 +496,7 @@ const BillVisitModal: React.FC<BillVisitModalProps> = ({
         subtotal: chargeAmt,
         discount_amount: billing?.discount_amount ?? dto?.discount_amount,
         discount_reason: billing?.discount_reason ?? dto?.discount_reason,
-        total_amount: chargeAmt,
+        total_amount: chargeAmt - (billing?.discount_amount ?? dto?.discount_amount ?? 0),
         amount_paid: billing?.amount_paid ?? dto?.amount_paid ?? 0,
         balance_due: billing?.amount_owed ?? dto?.amount_owed ?? 0,
         payment_method: dto?.payment_method || 'CASH',
@@ -509,7 +524,7 @@ const BillVisitModal: React.FC<BillVisitModalProps> = ({
         subtotal: chargeAmt,
         discount_amount: billing.discount_amount,
         discount_reason: billing.discount_reason,
-        total_amount: chargeAmt,
+        total_amount: chargeAmt - (billing.discount_amount ?? 0),
         amount_paid: billing.amount_paid,
         balance_due: billing.amount_owed,
         payment_method: 'CASH',
@@ -857,7 +872,9 @@ const BillVisitModal: React.FC<BillVisitModalProps> = ({
                     </div>
                     {addPaymentMethod !== 'CASH' && (
                       <div>
-                        <label className="block text-xs font-medium text-gray-600 mb-1.5">Reference (optional)</label>
+                        <label className="block text-xs font-medium text-gray-600 mb-1.5">
+                          Transaction ID{(addPaymentMethod === 'UPI' || addPaymentMethod === 'CARD') && <span className="text-red-500"> *</span>}
+                        </label>
                         <input type="text" value={addPaymentRef} onChange={(e) => setAddPaymentRef(e.target.value)} placeholder="Transaction ID"
                           className="w-full px-3 py-2 text-sm border border-gray-200 rounded focus:ring-1 focus:ring-brand-teal/20 focus:border-brand-teal" />
                       </div>
@@ -1216,6 +1233,22 @@ const BillVisitModal: React.FC<BillVisitModalProps> = ({
                                       );
                                     })}
                                   </div>
+                                </div>
+                              )}
+
+                              {/* Transaction ID (for non-CASH) */}
+                              {paymentOption !== 'none' && paymentOption !== 'corporate' && paymentMethod !== 'CASH' && (
+                                <div>
+                                  <label className="block text-xs font-medium text-gray-600 mb-1.5">
+                                    Transaction ID{(paymentMethod === 'UPI' || paymentMethod === 'CARD') && <span className="text-red-500"> *</span>}
+                                  </label>
+                                  <input
+                                    type="text"
+                                    value={paymentRef}
+                                    onChange={(e) => setPaymentRef(e.target.value)}
+                                    placeholder={paymentMethod === 'UPI' ? 'UPI Transaction ID' : paymentMethod === 'CARD' ? 'Card Transaction ID' : 'Reference Number'}
+                                    className="w-full px-3 py-2 text-sm border border-gray-200 rounded focus:ring-1 focus:ring-brand-teal/20 focus:border-brand-teal font-mono"
+                                  />
                                 </div>
                               )}
 

@@ -418,6 +418,7 @@ export const ENDPOINTS = {
     GET_PATIENT_ACCOUNT: (patientId: string, clinicId: string) => `billing/patients/${patientId}/account?clinic_id=${clinicId}`,
     GET_PATIENT_BALANCE: (patientId: string, clinicId: string) => `billing/patients/${patientId}/balance?clinic_id=${clinicId}`,
     RECORD_PATIENT_PAYMENT: (patientId: string, clinicId: string) => `billing/patients/${patientId}/payments?clinic_id=${clinicId}`,
+    PROCESS_REFUND: (patientId: string, clinicId: string) => `billing/patients/${patientId}/refund?clinic_id=${clinicId}`,
     GET_PATIENT_PAYMENTS: (patientId: string, clinicId: string, limit?: number) => {
         let url = `billing/patients/${patientId}/payments?clinic_id=${clinicId}`
         if (limit) url += `&limit=${limit}`

@@ -5,4 +5,5 @@ export { default as CreateSessionPackModal } from './CreateSessionPackModal';
 export { default as PatientBillingModal } from './PatientBillingModal';
 export { default as PatientBillingPanel } from './PatientBillingPanel';
 export { default as RecordPaymentModal } from './RecordPaymentModal';
+export { default as RefundModal } from './RefundModal';
 export { default as ReceiptButton } from './ReceiptButton';

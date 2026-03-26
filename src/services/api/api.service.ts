@@ -43,6 +43,7 @@ import type {
     BillVisitDto,
     UpdateVisitBillingDto,
     RecordPaymentDto,
+    ProcessRefundDto,
     CreateInvoiceDto,
     InvoiceQueryParams,
     OutstandingReportParams,
@@ -1228,6 +1229,11 @@ class ApiManager {
 
     static recordPayment = (patientId: string, clinicId: string, data: RecordPaymentDto) => {
         const url = BASE_URL + ENDPOINTS.RECORD_PATIENT_PAYMENT(patientId, clinicId)
+        return ApiMethods.post(url, data)
+    }
+
+    static processRefund = (patientId: string, clinicId: string, data: ProcessRefundDto) => {
+        const url = BASE_URL + ENDPOINTS.PROCESS_REFUND(patientId, clinicId)
         return ApiMethods.post(url, data)
     }
 

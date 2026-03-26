@@ -15,6 +15,7 @@ export interface ReceiptData {
   }
   receipt_number: string
   payment_date: string          // ISO string — date payment was made
+  document_title?: string       // e.g. "Bill", "Tax Invoice" — defaults to "Payment Receipt"
 
   patient: {
     name: string
@@ -120,6 +121,7 @@ export function generateReceiptHTML(data: ReceiptData): string {
   const hasDiscount  = !!data.discount_amount && data.discount_amount > 0
   const isPartial    = data.balance_due > 0
   const hasPack      = !!data.pack_details
+  const docTitle     = data.document_title || 'Payment Receipt'
 
   // ── Patient row HTML ──
   const patientHTML = `
@@ -184,7 +186,9 @@ export function generateReceiptHTML(data: ReceiptData): string {
                 <td class="td-desc">${item.name}</td>
                 <td class="td-num">${item.quantity}</td>
                 <td class="td-num">${formatINR(item.rate)}</td>
-                <td class="td-num">${formatINR(item.amount)}</td>
+                <td class="td-num">${item.quantity > 1
+                  ? `<span style="color:#9ca3af;font-size:10px;">${formatINR(item.rate)} &times; ${item.quantity} = </span>${formatINR(item.amount)}`
+                  : formatINR(item.amount)}</td>
               </tr>`).join('')}
           </tbody>
         </table>
@@ -373,9 +377,11 @@ export function generateReceiptHTML(data: ReceiptData): string {
       </div>
     </div>
     <div class="receipt-block">
-      <div class="receipt-title">Payment Receipt</div>
+      <div class="receipt-title">${docTitle}</div>
       <div class="receipt-no">Receipt No: <strong>${data.receipt_number}</strong></div>
       <div class="receipt-date">Date: ${formatDate(data.payment_date)}</div>
+      ${hasPack && data.pack_details!.valid_until ? `
+      <div class="receipt-date" style="color:#0d9488;font-weight:700;">Valid Until: ${formatDate(data.pack_details!.valid_until)}</div>` : ''}
     </div>
   </div>
 

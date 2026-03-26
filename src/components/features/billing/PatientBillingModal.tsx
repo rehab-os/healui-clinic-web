@@ -13,8 +13,10 @@ import {
   FileText,
   Printer,
   Download,
+  ArrowDownLeft,
 } from 'lucide-react';
 import PatientBillingPanel from './PatientBillingPanel';
+import RefundModal from './RefundModal';
 import ApiManager from '@/services/api/api.service';
 import type { PaymentDto, SessionPackDto } from '@/lib/types';
 import { downloadReceiptPDF, printReceipt } from '@/lib/utils/receipt-pdf';
@@ -34,6 +36,7 @@ const PAYMENT_FOR_LABELS: Record<string, string> = {
   OUTSTANDING: 'Outstanding Dues Cleared',
   ADVANCE: 'Advance Payment',
   CORPORATE: 'Corporate Payment',
+  REFUND: 'Refund',
 };
 
 const METHOD_ICONS: Record<string, React.ElementType> = {
@@ -59,6 +62,10 @@ const PatientBillingModal: React.FC<PatientBillingModalProps> = ({
   const [sessionPacks, setSessionPacks] = useState<SessionPackDto[]>([]);
   const [loadingHistory, setLoadingHistory] = useState(false);
   const [reprintingId, setReprintingId] = useState<string | null>(null);
+
+  // Refund modal state
+  const [refundModal, setRefundModal] = useState<{ open: boolean; payment?: PaymentDto }>({ open: false });
+  const [overviewRefreshKey, setOverviewRefreshKey] = useState(0);
 
   // Full patient profile for receipt enrichment (UID, age, gender)
   const [patientProfile, setPatientProfile] = useState<{
@@ -121,28 +128,31 @@ const PatientBillingModal: React.FC<PatientBillingModalProps> = ({
     // For VISIT payments, the payment is recorded on the visit day — use as appointment date
     const appointmentDate = p.payment_for === 'VISIT' ? p.created_at : undefined;
 
+    const perSessionRate = matchedPack ? matchedPack.amount / matchedPack.total_sessions : 0;
+
     return {
       clinic: clinic || { name: '' },
       receipt_number: p.receipt_number || `PMT-${p.id.slice(-6).toUpperCase()}`,
       payment_date: p.created_at,
       appointment_date: appointmentDate,
+      ...(matchedPack ? { document_title: 'Bill' } : {}),
       patient: {
         name: p.patient?.full_name || patientName,
         patient_code: patientProfile?.patient_code || p.patient?.patient_code || p.patient?.patientCode,
         age: patientProfile?.age,
         gender: patientProfile?.gender,
       },
-      // If session pack matched, show pack name as line item; else use description
+      // If session pack matched, show pack breakdown as line item; else use description
       ...(matchedPack ? {
         line_items: [{
-          name: matchedPack.name,
-          quantity: 1,
-          rate: matchedPack.amount,
+          name: `Physiotherapy Treatment Plan, ${matchedPack.total_sessions} Sessions`,
+          quantity: matchedPack.total_sessions,
+          rate: perSessionRate,
           amount: matchedPack.amount,
         }],
         pack_details: {
           total_sessions: matchedPack.total_sessions,
-          per_session_rate: matchedPack.amount / matchedPack.total_sessions,
+          per_session_rate: perSessionRate,
           sessions_used: matchedPack.sessions_used,
           sessions_remaining: matchedPack.sessions_remaining,
           valid_until: matchedPack.valid_until,
@@ -162,7 +172,54 @@ const PatientBillingModal: React.FC<PatientBillingModalProps> = ({
   const handleReprint = async (p: PaymentDto, mode: 'print' | 'download') => {
     setReprintingId(p.id);
     try {
-      const data = buildReceiptFromPayment(p);
+      let data: ReceiptData;
+
+      // For VISIT payments with a billing ID, fetch full receipt from backend (includes services)
+      if (p.payment_for === 'VISIT' && p.visit_billing_id) {
+        try {
+          const res = await ApiManager.getReceiptData(p.visit_billing_id);
+          if (res.success && res.data) {
+            const dto = res.data;
+            const services = dto.services || [];
+            const chargeAmt = dto.total_amount ?? p.amount;
+            const discountAmt = dto.discount_amount ?? 0;
+            data = {
+              clinic: dto.clinic || clinic || { name: '' },
+              receipt_number: dto.receipt_number || p.receipt_number || `PMT-${p.id.slice(-6).toUpperCase()}`,
+              payment_date: dto.date || p.created_at,
+              appointment_date: dto.visit_date || undefined,
+              therapist_name: dto.therapist_name || undefined,
+              patient: {
+                name: dto.patient?.name || patientName,
+                patient_code: dto.patient?.patient_code || patientProfile?.patient_code,
+                age: dto.patient?.age ?? patientProfile?.age,
+                gender: dto.patient?.gender ?? patientProfile?.gender,
+              },
+              line_items: services.map((s: any) => ({
+                name: s.name,
+                quantity: s.quantity,
+                rate: s.price,
+                amount: s.price * s.quantity,
+              })),
+              subtotal: chargeAmt,
+              discount_amount: discountAmt || undefined,
+              discount_reason: dto.discount_reason,
+              total_amount: chargeAmt - discountAmt,
+              amount_paid: dto.amount_paid ?? p.amount,
+              balance_due: dto.amount_owed ?? 0,
+              payment_method: dto.payment_method || p.method,
+              transaction_ref: dto.payment_reference || p.reference_number,
+            };
+          } else {
+            data = buildReceiptFromPayment(p);
+          }
+        } catch {
+          data = buildReceiptFromPayment(p);
+        }
+      } else {
+        data = buildReceiptFromPayment(p);
+      }
+
       if (mode === 'print') printReceipt(data);
       else await downloadReceiptPDF(data);
     } finally {
@@ -234,6 +291,7 @@ const PatientBillingModal: React.FC<PatientBillingModalProps> = ({
                   patientName={patientName}
                   clinicId={clinicId}
                   compact={false}
+                  refreshKey={overviewRefreshKey}
                 />
               )}
 
@@ -252,30 +310,67 @@ const PatientBillingModal: React.FC<PatientBillingModalProps> = ({
                     </div>
                   ) : (
                     <div className="space-y-2">
-                      <p className="text-[10px] text-gray-400 uppercase tracking-wide mb-3">
-                        {payments.length} payment{payments.length !== 1 ? 's' : ''} on record
-                      </p>
+                      <div className="flex items-center justify-between mb-3">
+                        <p className="text-[10px] text-gray-400 uppercase tracking-wide">
+                          {payments.length} payment{payments.length !== 1 ? 's' : ''} on record
+                        </p>
+                        <button
+                          onClick={() => setRefundModal({ open: true })}
+                          className="text-[10px] text-gray-400 hover:text-red-600 transition-colors"
+                        >
+                          Issue Refund
+                        </button>
+                      </div>
                       {payments.map(p => {
-                        const MethodIcon = METHOD_ICONS[p.method] || IndianRupee;
+                        const isRefund = p.payment_for === 'REFUND';
+                        const MethodIcon = isRefund ? ArrowDownLeft : (METHOD_ICONS[p.method] || IndianRupee);
                         const isReprinting = reprintingId === p.id;
                         return (
                           <div
                             key={p.id}
-                            className="border border-gray-100 rounded p-3 bg-white hover:bg-gray-50 transition-colors"
+                            className={`border rounded p-3 transition-colors ${
+                              isRefund
+                                ? 'border-red-100 bg-red-50/30 hover:bg-red-50/50'
+                                : 'border-gray-100 bg-white hover:bg-gray-50'
+                            }`}
                           >
                             <div className="flex items-start justify-between gap-3">
                               {/* Left */}
                               <div className="flex items-start gap-2.5 min-w-0">
-                                <div className="p-1.5 bg-green-50 rounded mt-0.5 flex-shrink-0">
-                                  <MethodIcon className="h-3.5 w-3.5 text-green-600" />
+                                <div className={`p-1.5 rounded mt-0.5 flex-shrink-0 ${
+                                  isRefund ? 'bg-red-100' : 'bg-green-50'
+                                }`}>
+                                  <MethodIcon className={`h-3.5 w-3.5 ${
+                                    isRefund ? 'text-red-500' : 'text-green-600'
+                                  }`} />
                                 </div>
                                 <div className="min-w-0">
-                                  <p className="text-sm font-semibold text-gray-900">
-                                    {formatCurrency(p.amount)}
+                                  <p className={`text-sm font-semibold ${
+                                    isRefund ? 'text-red-600' : 'text-gray-900'
+                                  }`}>
+                                    {isRefund ? `- ${formatCurrency(Math.abs(p.amount))}` : formatCurrency(p.amount)}
                                   </p>
                                   <p className="text-xs text-gray-500 truncate">
                                     {PAYMENT_FOR_LABELS[p.payment_for] || p.payment_for}
+                                    {isRefund && p.refund_type && (
+                                      <span className="text-gray-400"> ({p.refund_type === 'ADVANCE' ? 'Advance' : p.refund_type === 'SESSION_PACK' ? 'Session Pack' : 'Visit Payment'})</span>
+                                    )}
                                   </p>
+                                  {isRefund && p.refund_reason && (
+                                    <p className="text-[10px] text-red-400 truncate">
+                                      Reason: {p.refund_reason}
+                                    </p>
+                                  )}
+                                  {isRefund && p.cancellation_fee && p.cancellation_fee > 0 && (
+                                    <p className="text-[10px] text-gray-400">
+                                      Cancellation fee: {formatCurrency(p.cancellation_fee)}
+                                    </p>
+                                  )}
+                                  {!isRefund && p.services_summary && (
+                                    <p className="text-[10px] text-gray-400 truncate">
+                                      {p.services_summary}
+                                    </p>
+                                  )}
                                   <div className="flex items-center gap-2 mt-1">
                                     <span className="text-[10px] text-gray-400">{formatDate(p.created_at)}</span>
                                     <span className="text-[10px] text-gray-300">·</span>
@@ -292,11 +387,26 @@ const PatientBillingModal: React.FC<PatientBillingModalProps> = ({
                                       {p.receipt_number}
                                     </p>
                                   )}
+                                  {p.notes && (
+                                    <p className="text-[10px] text-gray-400 italic mt-0.5 truncate">
+                                      {p.notes}
+                                    </p>
+                                  )}
                                 </div>
                               </div>
 
-                              {/* Reprint buttons */}
+                              {/* Action buttons */}
                               <div className="flex items-center gap-1 flex-shrink-0">
+                                {/* Refund button — only on non-refund payments */}
+                                {!isRefund && (
+                                  <button
+                                    onClick={() => setRefundModal({ open: true, payment: p })}
+                                    title="Issue refund"
+                                    className="px-1.5 py-1 text-[10px] text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
+                                  >
+                                    Refund
+                                  </button>
+                                )}
                                 <button
                                   onClick={() => handleReprint(p, 'print')}
                                   disabled={isReprinting}
@@ -332,6 +442,23 @@ const PatientBillingModal: React.FC<PatientBillingModalProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Refund Modal */}
+      {refundModal.open && (
+        <RefundModal
+          clinicId={clinicId}
+          patientId={patientId}
+          patientName={patientName}
+          prefillPayment={refundModal.payment}
+          prefillType={refundModal.payment ? 'VISIT' as const : undefined}
+          onClose={() => setRefundModal({ open: false })}
+          onSuccess={() => {
+            setRefundModal({ open: false });
+            fetchPaymentHistory();
+            setOverviewRefreshKey(k => k + 1);
+          }}
+        />
+      )}
 
       <style jsx>{`
         @keyframes slideInRight {

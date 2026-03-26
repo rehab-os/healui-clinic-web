@@ -260,6 +260,7 @@ const CreateSessionPackModal: React.FC<CreateSessionPackModalProps> = ({
       receipt_number: backendReceipt?.receipt_number
         || (packResult?.id ? `PKT-${packResult.id.slice(-6).toUpperCase()}` : `PKT-${Date.now()}`),
       payment_date: packResult?.created_at || new Date().toISOString(),
+      document_title: 'Bill',
       patient: {
         name: selectedPatient.full_name,
         patient_code: selectedPatient.patient_code || undefined,
@@ -269,9 +270,9 @@ const CreateSessionPackModal: React.FC<CreateSessionPackModalProps> = ({
         gender: selectedPatient.gender || undefined,
       },
       line_items: [{
-        name: name,
-        quantity: 1,
-        rate: totalAmt,
+        name: `Physiotherapy Treatment Plan, ${sessions} Sessions`,
+        quantity: sessions,
+        rate: perSession,
         amount: totalAmt,
       }],
       pack_details: {

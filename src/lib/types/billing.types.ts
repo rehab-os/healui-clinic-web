@@ -7,7 +7,8 @@ export type BillingType = 'SESSION_DEDUCT' | 'CHARGED' | 'COMPLIMENTARY' | 'MANU
 export type VisitBillingStatus = 'PAID' | 'PARTIAL' | 'OWED'
 export type VisitBillingStatusEnum = 'UNBILLED' | 'BILLED' | 'PACK_DEDUCTED' | 'COMPLIMENTARY' | 'CORPORATE_BILLED'
 export type PaymentMethod = 'CASH' | 'UPI' | 'CARD' | 'BANK_TRANSFER' | 'CHEQUE' | 'OTHER'
-export type PaymentFor = 'VISIT' | 'SESSION_PACK' | 'OUTSTANDING' | 'ADVANCE' | 'CORPORATE'
+export type PaymentFor = 'VISIT' | 'SESSION_PACK' | 'OUTSTANDING' | 'ADVANCE' | 'CORPORATE' | 'REFUND'
+export type RefundType = 'ADVANCE' | 'SESSION_PACK' | 'VISIT'
 export type InvoiceType = 'TAX_INVOICE' | 'RECEIPT' | 'ESTIMATE'
 export type InvoiceStatus = 'DRAFT' | 'FINALIZED' | 'CANCELLED'
 export type LineItemType = 'CONSULTATION' | 'SESSION' | 'SESSION_PACK' | 'OTHER'
@@ -169,6 +170,13 @@ export interface PaymentDto {
   receipt_number: string
   reference_number?: string
   notes?: string
+  visit_billing_id?: string
+  billing_type?: BillingType
+  services_summary?: string
+  refund_reason?: string
+  refund_type?: RefundType
+  refunded_payment_id?: string
+  cancellation_fee?: number
   created_at: string
   patient?: any
   receivedByUser?: any
@@ -189,6 +197,19 @@ export interface RecordPaymentDto {
     cheque_date?: string
     bank_name?: string
   }
+}
+
+// ============ Refund ============
+export interface ProcessRefundDto {
+  refund_type: RefundType
+  amount: number
+  reason: string
+  method: PaymentMethod
+  payment_id?: string
+  session_pack_id?: string
+  cancellation_fee?: number
+  reference_number?: string
+  notes?: string
 }
 
 // ============ Invoice ============
