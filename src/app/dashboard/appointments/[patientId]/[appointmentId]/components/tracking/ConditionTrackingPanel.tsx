@@ -11,16 +11,22 @@ interface ConditionTrackingPanelProps {
   visitConditionId: string
   patientConditionId: string
   visitId: string
+  conditionLaterality?: string
   onSaveSuccess?: () => void
 }
+
+// Items that should render as bilateral when condition laterality is 'bilateral'
+const BILATERAL_PROMOTABLE_ITEMS = new Set(['vas', 'nprs', 'pain_score', 'night_pain_severity'])
 
 export default function ConditionTrackingPanel({
   conditionName,
   visitConditionId,
   patientConditionId,
   visitId,
+  conditionLaterality,
   onSaveSuccess,
 }: ConditionTrackingPanelProps) {
+  const isBilateralCondition = conditionLaterality === 'bilateral'
   const tracking = useMemo(() => getTrackingForCondition(conditionName), [conditionName])
 
   const totalCount = useMemo(
@@ -164,6 +170,7 @@ export default function ConditionTrackingPanel({
                         item={item}
                         value={values[item.key]}
                         onChange={(val) => setValue(item.key, val)}
+                        forceBilateral={isBilateralCondition && BILATERAL_PROMOTABLE_ITEMS.has(item.key)}
                       />
                     ))}
                   </div>

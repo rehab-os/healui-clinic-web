@@ -31,6 +31,8 @@ import type {
     GetTreatmentProtocolsQueryDto,
     // Multi-Condition Support Types
     CreatePatientConditionDto,
+    CreateEpisodeDto,
+    AddConditionToEpisodeDto,
     UpdatePatientConditionStatusDto,
     UpdatePatientConditionDescriptionDto,
     CreateVisitConditionDto,
@@ -497,6 +499,42 @@ class ApiManager {
     static getAvailableConditionsForVisit = (patientId: string, params?: any) => {
         const url = BASE_URL + ENDPOINTS.GET_AVAILABLE_CONDITIONS_FOR_VISIT(patientId, params)
         return ApiMethods.get(url)
+    }
+
+    // Episodes
+    static createEpisode = (data: CreateEpisodeDto) => {
+        const url = BASE_URL + ENDPOINTS.CREATE_EPISODE()
+        return ApiMethods.post(url, data)
+    }
+
+    static getEpisodes = (patientId: string, status?: string) => {
+        const url = BASE_URL + ENDPOINTS.GET_EPISODES(patientId, status)
+        return ApiMethods.get(url)
+    }
+
+    static getEpisode = (episodeId: string) => {
+        const url = BASE_URL + ENDPOINTS.GET_EPISODE(episodeId)
+        return ApiMethods.get(url)
+    }
+
+    static updateEpisode = (episodeId: string, data: Partial<CreateEpisodeDto>) => {
+        const url = BASE_URL + ENDPOINTS.UPDATE_EPISODE(episodeId)
+        return ApiMethods.patch(url, data)
+    }
+
+    static addConditionToEpisode = (episodeId: string, data: AddConditionToEpisodeDto) => {
+        const url = BASE_URL + ENDPOINTS.ADD_CONDITION_TO_EPISODE(episodeId)
+        return ApiMethods.post(url, data)
+    }
+
+    static removeConditionFromEpisode = (episodeId: string, conditionId: string) => {
+        const url = BASE_URL + ENDPOINTS.REMOVE_CONDITION_FROM_EPISODE(episodeId, conditionId)
+        return ApiMethods.delete(url)
+    }
+
+    static dischargeEpisode = (episodeId: string) => {
+        const url = BASE_URL + ENDPOINTS.DISCHARGE_EPISODE(episodeId)
+        return ApiMethods.post(url, {})
     }
 
     static getConditionProtocol = (conditionId: string) => {

@@ -438,6 +438,9 @@ export interface CreatePatientConditionDto {
     neo4j_condition_id?: string // Legacy field, use condition_id instead
     condition_name?: string
     body_region?: string
+    laterality?: 'left' | 'right' | 'bilateral' | 'midline' | 'not_applicable'
+    is_primary?: boolean
+    episode_id?: string
 
     // Quick access fields
     chief_complaint?: string
@@ -525,6 +528,9 @@ export interface PatientConditionResponseDto {
     condition_id?: string  // Static condition ID
     condition_name: string
     body_region?: string
+    laterality?: string
+    is_primary?: boolean
+    episode_id?: string
     status: ConditionStatus
     created_at: Date
     updated_at: Date
@@ -597,6 +603,96 @@ export interface PatientConditionResponseDto {
     // Patient Link
     patient_link_token?: string
     patient_link_expires_at?: Date
+}
+
+// ========== EPISODE TYPES ==========
+
+export interface CreateEpisodeDto {
+    patient_id?: string
+    patient_user_id?: string
+    body_region?: string
+    laterality?: 'left' | 'right' | 'bilateral' | 'midline' | 'not_applicable'
+    episode_type?: 'INITIAL' | 'RECURRENCE' | 'MAINTENANCE' | 'PREVENTION'
+    chief_complaint?: string
+    vas_score?: number
+    urgency_level?: string
+    diagnosis_method?: 'SYMPTOM_AND_CLINICAL' | 'CLINICAL_ONLY'
+    diagnosis_status?: 'DRAFT' | 'SYMPTOM_DX_PENDING' | 'SYMPTOM_DX_COMPLETE' | 'CLINICAL_DX_COMPLETE' | 'IMAGING_ORDERED' | 'COMPLETE'
+    symptom_dx_data?: any
+    symptom_dx_completed?: boolean
+    symptom_dx_completed_at?: string
+    symptom_dx_filled_by?: 'PATIENT' | 'PHYSIO'
+    symptom_dx_filled_by_user_id?: string
+    clinical_dx_data?: any
+    clinical_assessments_data?: any[]
+    clinical_dx_differential?: any
+    clinical_dx_completed?: boolean
+    clinical_dx_completed_at?: string
+    imaging_orders?: any[]
+    provisional_diagnosis?: {
+        condition_name: string
+        condition_id?: string | null
+        source: 'DIFFERENTIAL' | 'MANUAL'
+        set_at: string
+        set_by_user_id?: string
+    }
+    adl_data?: any
+    patient_link_token?: string
+    patient_link_expires_at?: string
+}
+
+export interface EpisodeResponseDto {
+    id: string
+    patient_id?: string
+    patient_user_id?: string
+    body_region?: string
+    laterality?: string
+    episode_type?: string
+    status: string
+    chief_complaint?: string
+    vas_score?: number
+    urgency_level?: string
+    diagnosis_method?: string
+    diagnosis_status?: string
+    symptom_dx_data?: any
+    symptom_dx_completed?: boolean
+    symptom_dx_completed_at?: Date
+    symptom_dx_filled_by?: string
+    symptom_dx_filled_by_user_id?: string
+    clinical_dx_data?: any
+    clinical_assessments_data?: any[]
+    clinical_dx_differential?: any
+    clinical_dx_completed?: boolean
+    clinical_dx_completed_at?: Date
+    imaging_orders?: any[]
+    provisional_diagnosis?: any
+    adl_data?: any
+    patient_link_token?: string
+    patient_link_expires_at?: Date
+    conditions?: EpisodeConditionDto[]
+    created_by?: string
+    created_at: Date
+    updated_at: Date
+}
+
+export interface EpisodeConditionDto {
+    id: string
+    episode_id: string
+    patient_condition_id: string
+    condition_id?: string
+    condition_name?: string
+    body_region?: string
+    laterality?: string
+    is_primary: boolean
+    final_diagnosis?: any
+    status?: string
+    created_at: Date
+}
+
+export interface AddConditionToEpisodeDto {
+    patient_condition_id: string
+    is_primary?: boolean
+    final_diagnosis?: any
 }
 
 // Discharge reason enum

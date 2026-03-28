@@ -613,6 +613,7 @@ export default function AppointmentDetailsPage() {
                       visitConditionId={activeCondition.id}
                       patientConditionId={activeCondition.patient_condition_id}
                       visitId={activeCondition.visit_id}
+                      conditionLaterality={activeCondition.condition?.laterality}
                       onSaveSuccess={() => setTrackingRefreshKey(k => k + 1)}
                     />
 

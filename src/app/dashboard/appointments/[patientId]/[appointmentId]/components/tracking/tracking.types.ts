@@ -64,4 +64,5 @@ export interface TrackingInputProps {
   definition: TrackingItemDefinition
   disabled?: boolean
   itemKey?: string
+  forceBilateral?: boolean
 }

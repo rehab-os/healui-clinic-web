@@ -78,7 +78,7 @@ export default function VoiceClinicalDxScreen({
 
   const [analysisAnswers, setAnalysisAnswers]   = useState<Record<string, any>>({});
   const [imagingRequests, setImagingRequests]   = useState<any[]>([]);
-  const [selectedCondition, setSelectedCondition] = useState<any>(null);
+  const [selectedConditions, setSelectedConditions] = useState<any[]>([]);
   const [diagnosisResult, setDiagnosisResult]   = useState<DiagnosticResponse | null>(null);
   const [adlData, setAdlData]                   = useState<ADLData | null>(null);
   const [isImagingOnlyPath, setIsImagingOnlyPath] = useState(false);
@@ -193,8 +193,8 @@ export default function VoiceClinicalDxScreen({
   }, []);
 
   // DIAGNOSIS → IMAGING (physio has seen differential, now decides on scans)
-  const handleConditionSelected = useCallback((condition: any, result: DiagnosticResponse) => {
-    setSelectedCondition(condition);
+  const handleConditionSelected = useCallback((conditions: any[], result: DiagnosticResponse) => {
+    setSelectedConditions(conditions);
     setDiagnosisResult(result);
     setMode('IMAGING');
   }, []);
@@ -203,7 +203,7 @@ export default function VoiceClinicalDxScreen({
 
   // DIAGNOSIS → IMAGING (physio skips diagnosis, wants imaging first)
   const handleSkipToImaging = useCallback((result: DiagnosticResponse, provisional?: { condition_name: string; condition_id?: string | null; source: 'DIFFERENTIAL' | 'MANUAL' }) => {
-    setSelectedCondition(null);
+    setSelectedConditions([]);
     setDiagnosisResult(result);
     setProvisionalDx(provisional || null);
     setIsImagingOnlyPath(true);
@@ -242,10 +242,22 @@ export default function VoiceClinicalDxScreen({
         ordered_by_user_id: userData?.user_id || null,
       }));
 
-      const conditionPayload = {
-        condition_id: null,
-        condition_name: null,
-        diagnosis_method: 'CLINICAL_ONLY',
+      // Extract laterality from pain_location
+      const painLoc = merged.pain_location;
+      const firstLoc = Array.isArray(painLoc) && painLoc.length > 0 ? painLoc[0] : null;
+      const bodyRegion = firstLoc && typeof firstLoc === 'object' && firstLoc.mainRegion
+        ? firstLoc.mainRegion.replace(/-/g, '_') : '';
+      const lat = firstLoc && typeof firstLoc === 'object' && firstLoc.laterality
+        ? (firstLoc.laterality === 'center' ? 'midline' : firstLoc.laterality === 'both' ? 'bilateral' : firstLoc.laterality)
+        : 'not_applicable';
+
+      // Create Episode with assessment data
+      const episodePayload = {
+        patient_id: patientId,
+        body_region: bodyRegion,
+        laterality: lat as any,
+        diagnosis_method: 'CLINICAL_ONLY' as const,
+        diagnosis_status: 'IMAGING_ORDERED' as any,
         clinical_dx_data: {
           session_id: voice.sessionId || `voice_${Date.now()}`,
           started_at: new Date().toISOString(),
@@ -266,7 +278,6 @@ export default function VoiceClinicalDxScreen({
           })) || [],
           treatment_urgency: diagnosisResult.treatment_urgency || 'MODERATE',
         },
-        final_diagnosis: null,
         provisional_diagnosis: {
           condition_name: provisionalDx?.condition_name || topCondition?.condition_name || 'Pending Diagnosis',
           condition_id: provisionalDx?.condition_id || topCondition?.condition_id || null,
@@ -276,20 +287,35 @@ export default function VoiceClinicalDxScreen({
         },
         adl_data: adlData || null,
         imaging_orders: imagingOrders,
-        diagnosis_status: 'IMAGING_ORDERED',
         chief_complaint: merged.chief_complaint || null,
         vas_score: merged.vas_score ?? null,
         urgency_level: diagnosisResult.treatment_urgency?.toUpperCase() || 'MODERATE',
       };
 
       try {
+        // Create episode
+        const episodeResponse = await ApiManager.createEpisode(episodePayload);
+        const episodeId = episodeResponse.data.id;
+
+        // Update condition with episode link
+        const conditionUpdate = {
+          body_region: bodyRegion,
+          laterality: lat,
+          episode_id: episodeId,
+          diagnosis_status: 'IMAGING_ORDERED',
+        };
+
         if (conditionId) {
-          await ApiManager.updatePatientCondition(patientId, conditionId, conditionPayload);
-        } else {
-          await ApiManager.createPatientCondition(patientId, conditionPayload as any);
+          await ApiManager.updatePatientCondition(patientId, conditionId, conditionUpdate);
+          // Link condition to episode
+          await ApiManager.addConditionToEpisode(episodeId, {
+            patient_condition_id: conditionId,
+            is_primary: true,
+          });
         }
+
         toast.success('Imaging ordered', { description: 'Assessment saved. Resume after imaging results.' });
-        onComplete(conditionPayload);
+        onComplete({ ...episodePayload, episodeId });
       } catch (err: any) {
         toast.error('Failed to save', { description: err.message || 'Please try again.' });
       }
@@ -478,6 +504,17 @@ export default function VoiceClinicalDxScreen({
               <AnalysisMode
                 extractedFields={voice.extractedFields}
                 gapAnswers={gapAnswers}
+                laterality={(() => {
+                  const loc = voice.extractedFields?.pain_location;
+                  if (!Array.isArray(loc) || loc.length === 0) return undefined;
+                  const first = loc[0];
+                  if (typeof first === 'object' && first?.laterality) {
+                    if (first.laterality === 'center') return 'midline' as const;
+                    if (first.laterality === 'both') return 'bilateral' as const;
+                    return first.laterality as any;
+                  }
+                  return undefined;
+                })()}
                 onComplete={handleAnalysisComplete}
                 onSkip={handleAnalysisSkip}
               />
@@ -514,7 +551,7 @@ export default function VoiceClinicalDxScreen({
                 extractedFields={voice.extractedFields}
                 analysisAnswers={analysisAnswers}
                 diagnosisConfidence={
-                  selectedCondition?.confidence_score
+                  selectedConditions[0]?.confidence_score
                   ?? diagnosisResult.differential_diagnosis?.[0]?.confidence_score
                   ?? 0.5
                 }
@@ -530,10 +567,10 @@ export default function VoiceClinicalDxScreen({
             </motion.div>
           )}
 
-          {mode === 'CONFIRM' && selectedCondition && diagnosisResult && (
+          {mode === 'CONFIRM' && selectedConditions.length > 0 && diagnosisResult && (
             <motion.div key="confirm" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="h-full">
               <ConditionConfirmMode
-                selectedCondition={selectedCondition}
+                selectedConditions={selectedConditions}
                 diagnosisResult={diagnosisResult}
                 extractedFields={voice.extractedFields}
                 gapAnswers={{ ...gapAnswers, ...analysisAnswers }}

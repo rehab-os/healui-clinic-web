@@ -119,6 +119,7 @@ function sectionSummary(section: Section, answers: Record<string, any>, meta: {
 interface AnalysisModeProps {
   extractedFields: Record<string, any>;
   gapAnswers: Record<string, any>;
+  laterality?: 'left' | 'right' | 'bilateral' | 'midline' | 'not_applicable';
   onComplete: (analysisAnswers: Record<string, any>) => void;
   onSkip: () => void;
 }
@@ -126,10 +127,14 @@ interface AnalysisModeProps {
 // ─────────────────────────────────────────────
 // Main component
 // ─────────────────────────────────────────────
-export default function AnalysisMode({ extractedFields, gapAnswers, onComplete, onSkip }: AnalysisModeProps) {
+export default function AnalysisMode({ extractedFields, gapAnswers, laterality, onComplete, onSkip }: AnalysisModeProps) {
   const mergedFields = { ...extractedFields, ...gapAnswers };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const region = useMemo(() => detectRegion(mergedFields), []);
+
+  const isBilateral = laterality === 'bilateral';
+  const [activeSide, setActiveSide] = useState<'left' | 'right'>('left');
+  const sideKey = (key: string) => isBilateral ? `${activeSide}_${key}` : key;
 
   const msk = cd.msk ?? {};
   const tendernessPoints: string[]     = region ? (msk.region_palpation_map?.[region]?.tenderness_points    ?? []) : [];
@@ -189,6 +194,7 @@ export default function AnalysisMode({ extractedFields, gapAnswers, onComplete, 
         </p>
         <h3 className="text-base font-semibold text-gray-800">
           {region ? (REGION_LABELS[region] ?? region) : 'No region detected'}
+          {isBilateral && <span className="text-[13px] text-gray-400 font-normal ml-1.5">(Both Sides)</span>}
         </h3>
         {!region && (
           <p className="text-[13px] text-gray-400 mt-0.5">Fill in what you can observe</p>
@@ -256,9 +262,10 @@ export default function AnalysisMode({ extractedFields, gapAnswers, onComplete, 
                             <p className="text-[12px] text-gray-400 mb-3">
                               0 = None · 1+ = Tender, no grimace · 2+ = Grimace · 3+ = Withdraws
                             </p>
+                            {isBilateral && <SideSelector activeSide={activeSide} region={region} onChange={setActiveSide} />}
                             <div className="space-y-2">
                               {tendernessPoints.map(point => {
-                                const grade = answers[`tend_${point}`] as number | undefined;
+                                const grade = answers[sideKey(`tend_${point}`)] as number | undefined;
                                 return (
                                   <div key={point} className="flex items-center justify-between py-2 border-b border-gray-50">
                                     <span className="text-[13px] text-gray-700 flex-1">{point}</span>
@@ -266,7 +273,7 @@ export default function AnalysisMode({ extractedFields, gapAnswers, onComplete, 
                                       {tendernessGrades.map((g: any) => (
                                         <button
                                           key={g.value}
-                                          onClick={() => set(`tend_${point}`, g.value)}
+                                          onClick={() => set(sideKey(`tend_${point}`), g.value)}
                                           className={`w-12 h-12 rounded-xl text-[13px] font-semibold border transition-all active:scale-[0.95] ${
                                             grade === g.value
                                               ? g.value === 0 ? 'bg-gray-100 text-gray-600 border-gray-300'
@@ -321,30 +328,32 @@ export default function AnalysisMode({ extractedFields, gapAnswers, onComplete, 
                           <p className="text-[13px] text-gray-500">
                             Select type, enter degrees, note pain and end feel
                           </p>
+                          {isBilateral && <SideSelector activeSide={activeSide} region={region} onChange={setActiveSide} />}
                           {romMovements.map(mov => {
                             const movClinical = romMovementsData[
                               Object.keys(romMovementsData).find(k =>
                                 romMovementsData[k].key === mov.key
                               ) ?? ''
                             ];
+                            const sk = (suffix: string) => sideKey(`${mov.key}_${suffix}`);
                             return (
                               <RomCard
-                                key={mov.key}
+                                key={`${mov.key}_${isBilateral ? activeSide : 'single'}`}
                                 movement={mov}
                                 measurementTypes={romMeasurementTypes}
                                 painOptions={romPainOptions}
                                 endFeelOptions={endFeelOptions}
                                 limitedSuggests={movClinical?.limited_suggests}
-                                typeValue={answers[`${mov.key}_type`]}
-                                activeValue={answers[`${mov.key}_active`]}
-                                passiveValue={answers[`${mov.key}_passive`]}
-                                painValue={answers[`${mov.key}_pain`]}
-                                endFeel={answers[`${mov.key}_end_feel`]}
-                                onType={v => set(`${mov.key}_type`, v)}
-                                onActive={v => set(`${mov.key}_active`, v)}
-                                onPassive={v => set(`${mov.key}_passive`, v)}
-                                onPain={v => set(`${mov.key}_pain`, v)}
-                                onEndFeel={v => set(`${mov.key}_end_feel`, v)}
+                                typeValue={answers[sk('type')]}
+                                activeValue={answers[sk('active')]}
+                                passiveValue={answers[sk('passive')]}
+                                painValue={answers[sk('pain')]}
+                                endFeel={answers[sk('end_feel')]}
+                                onType={v => set(sk('type'), v)}
+                                onActive={v => set(sk('active'), v)}
+                                onPassive={v => set(sk('passive'), v)}
+                                onPain={v => set(sk('pain'), v)}
+                                onEndFeel={v => set(sk('end_feel'), v)}
                               />
                             );
                           })}
@@ -357,26 +366,33 @@ export default function AnalysisMode({ extractedFields, gapAnswers, onComplete, 
                           {girthPoints.length > 0 && (
                             <div>
                               <p className="text-[12px] text-gray-400 uppercase tracking-[0.12em] mb-2 font-medium">Girth / Circumference</p>
-                              <p className="text-[13px] text-gray-500 mb-3">Compare affected vs unaffected side (cm)</p>
+                              <p className="text-[13px] text-gray-500 mb-3">
+                                {isBilateral ? 'Compare left vs right side (cm)' : 'Compare affected vs unaffected side (cm)'}
+                              </p>
                               <div className="space-y-3">
                                 {girthPoints.map(pt => (
                                   <GirthRow key={pt.key} point={pt}
-                                    affectedValue={answers[`${pt.key}_affected`]}
-                                    unaffectedValue={answers[`${pt.key}_unaffected`]}
-                                    onAffected={v => set(`${pt.key}_affected`, v)}
-                                    onUnaffected={v => set(`${pt.key}_unaffected`, v)} />
+                                    affectedLabel={isBilateral ? 'Left' : 'Affected'}
+                                    unaffectedLabel={isBilateral ? 'Right' : 'Unaffected'}
+                                    affectedValue={answers[isBilateral ? `left_${pt.key}` : `${pt.key}_affected`]}
+                                    unaffectedValue={answers[isBilateral ? `right_${pt.key}` : `${pt.key}_unaffected`]}
+                                    onAffected={v => set(isBilateral ? `left_${pt.key}` : `${pt.key}_affected`, v)}
+                                    onUnaffected={v => set(isBilateral ? `right_${pt.key}` : `${pt.key}_unaffected`, v)} />
                                 ))}
                               </div>
                             </div>
                           )}
-                          {showGrip && (
+                          {showGrip && (() => {
+                            const gripSides = isBilateral
+                              ? [{ key: 'grip_left', label: 'Left side' }, { key: 'grip_right', label: 'Right side' }]
+                              : [{ key: 'grip_affected', label: 'Affected side' }, { key: 'grip_unaffected', label: 'Unaffected side' }];
+                            const gripKey1 = gripSides[0].key;
+                            const gripKey2 = gripSides[1].key;
+                            return (
                             <div>
                               <p className="text-[12px] text-gray-400 uppercase tracking-[0.12em] mb-3 font-medium">Grip Strength (Dynamometer)</p>
                               <div className="grid grid-cols-2 gap-3">
-                                {[
-                                  { key: 'grip_affected',   label: 'Affected side' },
-                                  { key: 'grip_unaffected', label: 'Unaffected side' },
-                                ].map(side => (
+                                {gripSides.map(side => (
                                   <div key={side.key}>
                                     <p className="text-[13px] text-gray-600 mb-1.5">{side.label}</p>
                                     <div className="flex items-center gap-2">
@@ -390,13 +406,14 @@ export default function AnalysisMode({ extractedFields, gapAnswers, onComplete, 
                                   </div>
                                 ))}
                               </div>
-                              {answers['grip_affected'] && answers['grip_unaffected'] && (
+                              {answers[gripKey1] && answers[gripKey2] && (
                                 <p className="text-[13px] text-teal-600 mt-2 font-medium">
-                                  Deficit: {Math.round((1 - answers['grip_affected'] / answers['grip_unaffected']) * 100)}%
+                                  Deficit: {Math.round((1 - Math.min(answers[gripKey1], answers[gripKey2]) / Math.max(answers[gripKey1], answers[gripKey2])) * 100)}%
                                 </p>
                               )}
                             </div>
-                          )}
+                            );
+                          })()}
                           {effusionTests.length > 0 && (
                             <div>
                               <p className="text-[12px] text-gray-400 uppercase tracking-[0.12em] mb-3 font-medium">Effusion Testing</p>
@@ -414,10 +431,11 @@ export default function AnalysisMode({ extractedFields, gapAnswers, onComplete, 
                       {/* ── Special Tests ── */}
                       {section.id === 'tests' && (
                         <div className="space-y-3">
+                          {isBilateral && <SideSelector activeSide={activeSide} region={region} onChange={setActiveSide} />}
                           {regionTests.map(test => (
-                            <SpecialTestCard key={test.id} test={test}
-                              value={answers[`test_${test.id}`]}
-                              onChange={v => set(`test_${test.id}`, v)} />
+                            <SpecialTestCard key={`${test.id}_${isBilateral ? activeSide : 'single'}`} test={test}
+                              value={answers[sideKey(`test_${test.id}`)]}
+                              onChange={v => set(sideKey(`test_${test.id}`), v)} />
                           ))}
                         </div>
                       )}
@@ -425,15 +443,16 @@ export default function AnalysisMode({ extractedFields, gapAnswers, onComplete, 
                       {/* ── Neurological ── */}
                       {section.id === 'neuro' && neuroData && (
                         <div className="space-y-5">
+                          {isBilateral && <SideSelector activeSide={activeSide} region={region} onChange={setActiveSide} />}
                           {neuroData.reflexes.length > 0 && (
                             <div>
                               <p className="text-[12px] text-gray-400 uppercase tracking-[0.12em] mb-3 font-medium">Reflexes</p>
                               <div className="space-y-3">
                                 {neuroData.reflexes.map((r: string) => (
-                                  <ChipSelector key={r}
+                                  <ChipSelector key={`${r}_${isBilateral ? activeSide : 'single'}`}
                                     label={`${r.charAt(0).toUpperCase() + r.slice(1)} reflex`}
                                     options={['Normal', 'Reduced', 'Absent', 'Exaggerated']}
-                                    value={answers[`reflex_${r}`]} onChange={v => set(`reflex_${r}`, v)} />
+                                    value={answers[sideKey(`reflex_${r}`)]} onChange={v => set(sideKey(`reflex_${r}`), v)} />
                                 ))}
                               </div>
                             </div>
@@ -443,9 +462,9 @@ export default function AnalysisMode({ extractedFields, gapAnswers, onComplete, 
                               <p className="text-[12px] text-gray-400 uppercase tracking-[0.12em] mb-3 font-medium">Dermatome Sensation</p>
                               <div className="space-y-3">
                                 {neuroData.dermatomes.map((lvl: string) => (
-                                  <ChipSelector key={lvl} label={lvl}
+                                  <ChipSelector key={`${lvl}_${isBilateral ? activeSide : 'single'}`} label={lvl}
                                     options={['Intact', 'Reduced', 'Absent', 'Hyperaesthetic']}
-                                    value={answers[`dermato_${lvl}`]} onChange={v => set(`dermato_${lvl}`, v)} />
+                                    value={answers[sideKey(`dermato_${lvl}`)]} onChange={v => set(sideKey(`dermato_${lvl}`), v)} />
                                 ))}
                               </div>
                             </div>
@@ -455,9 +474,9 @@ export default function AnalysisMode({ extractedFields, gapAnswers, onComplete, 
                               <p className="text-[12px] text-gray-400 uppercase tracking-[0.12em] mb-3 font-medium">Myotome Strength</p>
                               <div className="space-y-3">
                                 {Object.entries(neuroData.myotomes as Record<string, string>).map(([lvl, muscle]) => (
-                                  <ChipSelector key={lvl} label={`${lvl} — ${muscle}`}
+                                  <ChipSelector key={`${lvl}_${isBilateral ? activeSide : 'single'}`} label={`${lvl} — ${muscle}`}
                                     options={['5/5', '4/5', '3/5', '2/5', '1/5', '0/5']}
-                                    value={answers[`myotome_${lvl}`]} onChange={v => set(`myotome_${lvl}`, v)} />
+                                    value={answers[sideKey(`myotome_${lvl}`)]} onChange={v => set(sideKey(`myotome_${lvl}`), v)} />
                                 ))}
                               </div>
                             </div>
@@ -480,7 +499,7 @@ export default function AnalysisMode({ extractedFields, gapAnswers, onComplete, 
           Skip
         </button>
         <button
-          onClick={() => onComplete({ ...answers, analysis_region: region })}
+          onClick={() => onComplete({ ...answers, analysis_region: region, analysis_laterality: laterality })}
           className="flex-1 py-3 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-sm font-medium transition-all flex items-center justify-center gap-2"
         >
           Continue to Diagnosis <ArrowRight className="w-4 h-4" />
@@ -721,14 +740,15 @@ function RomCard({ movement, measurementTypes, painOptions, endFeelOptions, limi
   );
 }
 
-function GirthRow({ point, affectedValue, unaffectedValue, onAffected, onUnaffected }: {
+function GirthRow({ point, affectedLabel = 'Affected', unaffectedLabel = 'Unaffected', affectedValue, unaffectedValue, onAffected, onUnaffected }: {
   point: GirthPoint;
+  affectedLabel?: string; unaffectedLabel?: string;
   affectedValue?: number; unaffectedValue?: number;
   onAffected: (v: number) => void; onUnaffected: (v: number) => void;
 }) {
   const diff       = affectedValue !== undefined && unaffectedValue !== undefined
     ? (affectedValue - unaffectedValue).toFixed(1) : null;
-  const hasSwelling = diff !== null && parseFloat(diff) > 0.5;
+  const hasSwelling = diff !== null && Math.abs(parseFloat(diff)) > 0.5;
 
   return (
     <div className="border border-gray-100 rounded-xl p-3 bg-white">
@@ -747,8 +767,8 @@ function GirthRow({ point, affectedValue, unaffectedValue, onAffected, onUnaffec
       </div>
       <div className="grid grid-cols-2 gap-2">
         {[
-          { label: 'Affected',   value: affectedValue,   onChange: onAffected },
-          { label: 'Unaffected', value: unaffectedValue, onChange: onUnaffected },
+          { label: affectedLabel,   value: affectedValue,   onChange: onAffected },
+          { label: unaffectedLabel, value: unaffectedValue, onChange: onUnaffected },
         ].map(side => (
           <div key={side.label}>
             <p className="text-[12px] text-gray-400 mb-1">{side.label}</p>
@@ -763,6 +783,31 @@ function GirthRow({ point, affectedValue, unaffectedValue, onAffected, onUnaffec
           </div>
         ))}
       </div>
+    </div>
+  );
+}
+
+function SideSelector({ activeSide, region, onChange }: {
+  activeSide: 'left' | 'right';
+  region: string | null;
+  onChange: (s: 'left' | 'right') => void;
+}) {
+  const regionLabel = region ? (REGION_LABELS[region] ?? region) : '';
+  return (
+    <div className="flex gap-2 mb-4">
+      {(['left', 'right'] as const).map(side => (
+        <button
+          key={side}
+          onClick={() => onChange(side)}
+          className={`flex-1 py-2.5 rounded-xl text-[13px] font-medium border transition-all ${
+            activeSide === side
+              ? 'bg-teal-600 text-white border-teal-600'
+              : 'bg-white text-gray-500 border-gray-200 hover:border-gray-300'
+          }`}
+        >
+          {side === 'left' ? 'Left' : 'Right'}{regionLabel ? ` ${regionLabel}` : ' Side'}
+        </button>
+      ))}
     </div>
   );
 }

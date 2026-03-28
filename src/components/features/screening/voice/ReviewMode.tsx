@@ -183,7 +183,16 @@ export default function ReviewMode({
           {displayFields.length} fields captured
         </p>
 
-        {displayFields.map(([key, value], idx) => {
+        {/* Body Region + Laterality — prominent editable selector */}
+        <RegionLateralityRow
+          painLocation={allFields.pain_location}
+          onUpdate={(updated) => {
+            // Update the extractedFields directly so downstream steps see it
+            extractedFields.pain_location = updated;
+          }}
+        />
+
+        {displayFields.filter(([key]) => key !== 'pain_location').map(([key, value], idx) => {
           const confidence = fieldConfidence[key];
           const isLowConfidence = confidence !== undefined && confidence < 0.7;
           const isFromGap = gapAnswers[key] !== undefined;
@@ -260,6 +269,162 @@ export default function ReviewMode({
           Back
         </button>
       </div>
+    </div>
+  );
+}
+
+// ── Region + Laterality selector for Review step ──
+
+const REVIEW_REGIONS = [
+  { id: 'shoulder', label: 'Shoulder', paired: true },
+  { id: 'elbow', label: 'Elbow', paired: true },
+  { id: 'wrist', label: 'Wrist', paired: true },
+  { id: 'hand', label: 'Hand', paired: true },
+  { id: 'hip', label: 'Hip', paired: true },
+  { id: 'knee', label: 'Knee', paired: true },
+  { id: 'ankle', label: 'Ankle', paired: true },
+  { id: 'foot', label: 'Foot', paired: true },
+  { id: 'lower-back', label: 'Lumbar Spine', paired: false },
+  { id: 'neck', label: 'Cervical Spine', paired: false },
+  { id: 'thoracic', label: 'Thoracic Spine', paired: false },
+  { id: 'head', label: 'Head', paired: false },
+];
+
+function RegionLateralityRow({
+  painLocation,
+  onUpdate,
+}: {
+  painLocation: any;
+  onUpdate: (updated: any[]) => void;
+}) {
+  // Parse current value
+  const current = Array.isArray(painLocation) ? painLocation : painLocation ? [painLocation] : [];
+  const firstLoc = current[0];
+  const currentRegion = typeof firstLoc === 'object' && firstLoc?.mainRegion
+    ? firstLoc.mainRegion : typeof firstLoc === 'string' ? firstLoc : null;
+  const currentLaterality = typeof firstLoc === 'object' && firstLoc?.laterality
+    ? firstLoc.laterality : null;
+
+  const matchedRegion = REVIEW_REGIONS.find(r =>
+    r.id === currentRegion || r.id === currentRegion?.replace(/_/g, '-')
+  );
+  const isPaired = matchedRegion?.paired ?? false;
+  const regionLabel = matchedRegion?.label || (currentRegion ? currentRegion.replace(/[-_]/g, ' ') : null);
+
+  const [isEditing, setIsEditing] = React.useState(!currentRegion);
+
+  const handleRegionChange = (regionId: string) => {
+    const region = REVIEW_REGIONS.find(r => r.id === regionId);
+    if (!region) return;
+    if (!region.paired) {
+      onUpdate([{ mainRegion: regionId, laterality: 'center', subRegions: [] }]);
+      setIsEditing(false);
+    } else {
+      // Paired — need laterality, keep editing
+      onUpdate([{ mainRegion: regionId, laterality: null, subRegions: [] }]);
+    }
+  };
+
+  const handleLateralityChange = (lat: string) => {
+    const regionId = current[0]?.mainRegion || currentRegion;
+    if (!regionId) return;
+    onUpdate([{ mainRegion: regionId, laterality: lat, subRegions: [] }]);
+    setIsEditing(false);
+  };
+
+  const needsLaterality = current[0]?.mainRegion && !current[0]?.laterality &&
+    REVIEW_REGIONS.find(r => r.id === current[0]?.mainRegion)?.paired;
+
+  // Display mode — compact with edit button
+  if (!isEditing && currentRegion && (currentLaterality || !isPaired)) {
+    const latDisplay = currentLaterality === 'both' ? 'Both Sides'
+      : currentLaterality === 'left' ? 'Left'
+      : currentLaterality === 'right' ? 'Right'
+      : currentLaterality === 'center' ? ''
+      : '';
+
+    return (
+      <div className="flex items-center justify-between py-3 px-3 mb-3 bg-teal-50 border border-teal-200 rounded-xl">
+        <div className="flex items-center gap-2">
+          <span className="text-[12px] text-teal-600 font-semibold uppercase tracking-wider">Region</span>
+          <span className="text-[14px] text-teal-800 font-medium capitalize">{regionLabel}</span>
+          {latDisplay && (
+            <span className="text-[12px] text-teal-600 bg-white px-2 py-0.5 rounded border border-teal-200 font-medium">
+              {latDisplay}
+            </span>
+          )}
+        </div>
+        <span
+          onClick={() => setIsEditing(true)}
+          className="text-[12px] text-teal-500 hover:text-teal-700 cursor-pointer font-medium"
+        >
+          Change
+        </span>
+      </div>
+    );
+  }
+
+  // Edit mode — region dropdown + laterality
+  return (
+    <div className="py-3 px-3 mb-3 bg-amber-50 border border-amber-200 rounded-xl space-y-3">
+      <div className="flex items-center justify-between">
+        <span className="text-[12px] text-amber-600 font-semibold uppercase tracking-wider">
+          {currentRegion ? 'Change Region' : 'Select Body Region'}
+        </span>
+        {currentRegion && (
+          <span
+            onClick={() => setIsEditing(false)}
+            className="text-[12px] text-amber-500 hover:text-amber-700 cursor-pointer font-medium"
+          >
+            Cancel
+          </span>
+        )}
+      </div>
+
+      {/* Region selector */}
+      <div className="flex flex-wrap gap-1.5">
+        {REVIEW_REGIONS.map(region => {
+          const isActive = current[0]?.mainRegion === region.id;
+          return (
+            <span
+              key={region.id}
+              onClick={() => handleRegionChange(region.id)}
+              className={`px-2.5 py-1.5 rounded-lg text-[12px] font-medium border transition-all cursor-pointer select-none ${
+                isActive
+                  ? 'bg-teal-600 text-white border-teal-600'
+                  : 'bg-white text-gray-500 border-gray-200 hover:border-gray-300'
+              }`}
+            >
+              {region.label}
+            </span>
+          );
+        })}
+      </div>
+
+      {/* Laterality selector — shown for paired regions */}
+      {needsLaterality && (
+        <div className="flex gap-2">
+          {[
+            { value: 'left', label: 'Left' },
+            { value: 'right', label: 'Right' },
+            { value: 'both', label: 'Both' },
+          ].map(opt => (
+            <span
+              key={opt.value}
+              onClick={() => handleLateralityChange(opt.value)}
+              className="flex-1 py-2 text-center rounded-lg text-[13px] font-medium border border-gray-200 bg-white text-gray-500 hover:border-teal-400 hover:text-teal-600 transition-all cursor-pointer select-none"
+            >
+              {opt.label}
+            </span>
+          ))}
+        </div>
+      )}
+
+      {!currentRegion && (
+        <p className="text-[11px] text-amber-500">
+          Body region was not detected from voice. Please select manually.
+        </p>
+      )}
     </div>
   );
 }

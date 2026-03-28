@@ -376,13 +376,18 @@ function GapQuestionCard({
         />
       )}
 
-      {/* body_map / text */}
-      {(question.type === 'body_map' || question.type === 'text') && (
+      {/* body_map — inline region + laterality selector */}
+      {question.type === 'body_map' && (
+        <BodyMapInlineSelector value={value} onChange={onChange} />
+      )}
+
+      {/* text */}
+      {question.type === 'text' && (
         <textarea
           value={value || ''}
           onChange={(e) => onChange(e.target.value)}
           rows={2}
-          placeholder={question.type === 'body_map' ? 'e.g., lower back, left knee' : 'Type your answer...'}
+          placeholder="Type your answer..."
           className="w-full px-3 py-2 rounded-lg border border-gray-200 bg-white text-[12.5px] text-gray-700 placeholder-gray-300 resize-none focus:outline-none focus:border-teal-400"
         />
       )}
@@ -409,4 +414,106 @@ function formatValue(value: any): string {
     return value.mainRegion.replace(/-/g, ' ') + side;
   }
   return String(value);
+}
+
+// ── Inline body map selector for pain_location gap question ──
+
+const BODY_REGIONS_LIST = [
+  { id: 'shoulder', label: 'Shoulder', paired: true },
+  { id: 'elbow', label: 'Elbow', paired: true },
+  { id: 'wrist', label: 'Wrist', paired: true },
+  { id: 'hand', label: 'Hand', paired: true },
+  { id: 'hip', label: 'Hip', paired: true },
+  { id: 'knee', label: 'Knee', paired: true },
+  { id: 'ankle', label: 'Ankle', paired: true },
+  { id: 'foot', label: 'Foot', paired: true },
+  { id: 'neck', label: 'Neck', paired: false },
+  { id: 'lower-back', label: 'Lower Back', paired: false },
+  { id: 'thoracic', label: 'Upper Back', paired: false },
+  { id: 'head', label: 'Head', paired: false },
+];
+
+function BodyMapInlineSelector({
+  value,
+  onChange,
+}: {
+  value: any;
+  onChange: (v: any) => void;
+}) {
+  // Parse current value
+  const current = Array.isArray(value) ? value : value ? [value] : [];
+  const selectedRegion = current[0]?.mainRegion || null;
+  const selectedLaterality = current[0]?.laterality || null;
+
+  const handleRegionSelect = (regionId: string, paired: boolean) => {
+    if (!paired) {
+      // Midline region — set directly
+      onChange([{ mainRegion: regionId, laterality: 'center', subRegions: [] }]);
+    } else if (selectedRegion === regionId && selectedLaterality) {
+      // Already selected this region — deselect
+      onChange(null);
+    } else {
+      // Paired region — need laterality, default to showing picker
+      onChange([{ mainRegion: regionId, laterality: null, subRegions: [] }]);
+    }
+  };
+
+  const handleLateralitySelect = (lat: 'left' | 'right' | 'both') => {
+    if (!selectedRegion) return;
+    onChange([{ mainRegion: selectedRegion, laterality: lat, subRegions: [] }]);
+  };
+
+  const needsLaterality = selectedRegion && !selectedLaterality &&
+    BODY_REGIONS_LIST.find(r => r.id === selectedRegion)?.paired;
+
+  return (
+    <div className="space-y-3">
+      {/* Region chips */}
+      <div className="flex flex-wrap gap-2">
+        {BODY_REGIONS_LIST.map(region => {
+          const isActive = selectedRegion === region.id;
+          return (
+            <span
+              key={region.id}
+              onClick={() => handleRegionSelect(region.id, region.paired)}
+              className={`px-3 py-2 rounded-xl text-[13px] font-medium border transition-all cursor-pointer select-none ${
+                isActive
+                  ? 'bg-teal-600 text-white border-teal-600'
+                  : 'bg-white text-gray-500 border-gray-200 hover:border-gray-300'
+              }`}
+            >
+              {region.label}
+            </span>
+          );
+        })}
+      </div>
+
+      {/* Laterality selector — shown for paired regions */}
+      {needsLaterality && (
+        <div className="flex gap-2">
+          {[
+            { value: 'left' as const, label: 'Left' },
+            { value: 'right' as const, label: 'Right' },
+            { value: 'both' as const, label: 'Both' },
+          ].map(opt => (
+            <span
+              key={opt.value}
+              onClick={() => handleLateralitySelect(opt.value)}
+              className="flex-1 py-2.5 text-center rounded-xl text-[13px] font-medium border border-gray-200 bg-white text-gray-500 hover:border-teal-400 hover:text-teal-600 transition-all cursor-pointer select-none"
+            >
+              {opt.label}
+            </span>
+          ))}
+        </div>
+      )}
+
+      {/* Selected display */}
+      {selectedRegion && selectedLaterality && (
+        <p className="text-[12px] text-teal-600 font-medium">
+          Selected: {BODY_REGIONS_LIST.find(r => r.id === selectedRegion)?.label || selectedRegion}
+          {selectedLaterality !== 'center' && ` (${selectedLaterality === 'both' ? 'Both sides' : selectedLaterality})`}
+        </p>
+      )}
+    </div>
+  );
 }

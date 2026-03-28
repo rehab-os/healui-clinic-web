@@ -11,14 +11,19 @@ export type ChartType =
 /**
  * Determine the appropriate chart type for a tracking item
  * based on its input type and direction.
+ *
+ * @param hasBilateralData - optional flag: if the actual stored data has left/right values
+ *   (e.g., VAS promoted to bilateral for bilateral conditions), use bilateral chart
  */
 export function getChartType(
   inputType: InputType,
   bilateral: boolean,
   direction?: Direction,
+  hasBilateralData?: boolean,
 ): ChartType {
   // Bilateral numeric items get dual-line chart
-  if (bilateral || inputType === 'numeric_bilateral') {
+  // Also: items with actual L/R data (VAS on bilateral conditions)
+  if (bilateral || inputType === 'numeric_bilateral' || hasBilateralData) {
     return 'bilateral'
   }
 

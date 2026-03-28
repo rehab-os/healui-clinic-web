@@ -341,6 +341,11 @@ const ScheduleVisitModal: React.FC<ScheduleVisitModalProps> = ({ patient, onClos
                       >
                         {isSelected && <span className="mr-1">✓</span>}
                         {condition.condition_name}
+                        {condition.laterality && condition.laterality !== 'not_applicable' && condition.laterality !== 'midline' && (
+                          <span className="ml-1 opacity-70">
+                            ({condition.laterality === 'bilateral' ? 'Both' : condition.laterality === 'left' ? 'L' : 'R'})
+                          </span>
+                        )}
                       </button>
                     );
                   })}

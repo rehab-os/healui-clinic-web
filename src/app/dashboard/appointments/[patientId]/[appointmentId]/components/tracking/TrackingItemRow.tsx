@@ -9,9 +9,10 @@ interface TrackingItemRowProps {
   item: TrackingItem
   value: TrackingValue | undefined
   onChange: (value: TrackingValue) => void
+  forceBilateral?: boolean
 }
 
-export default function TrackingItemRow({ item, value, onChange }: TrackingItemRowProps) {
+export default function TrackingItemRow({ item, value, onChange, forceBilateral }: TrackingItemRowProps) {
   const { definition, isPriority } = item
   const direction = definition.direction
 
@@ -37,6 +38,7 @@ export default function TrackingItemRow({ item, value, onChange }: TrackingItemR
             onChange={onChange}
             definition={definition}
             itemKey={item.key}
+            forceBilateral={forceBilateral}
           />
         </div>
         {definition.unit && definition.unit !== 'result' && (
@@ -67,6 +69,7 @@ export default function TrackingItemRow({ item, value, onChange }: TrackingItemR
             onChange={onChange}
             definition={definition}
             itemKey={item.key}
+            forceBilateral={forceBilateral}
           />
         </div>
       </div>

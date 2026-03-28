@@ -143,6 +143,19 @@ export const ENDPOINTS = {
         return url
     },
 
+    // Episodes
+    CREATE_EPISODE: () => 'episodes',
+    GET_EPISODES: (patientId: string, status?: string) => {
+        let url = `episodes?patient_id=${patientId}`
+        if (status) url += `&status=${status}`
+        return url
+    },
+    GET_EPISODE: (episodeId: string) => `episodes/${episodeId}`,
+    UPDATE_EPISODE: (episodeId: string) => `episodes/${episodeId}`,
+    ADD_CONDITION_TO_EPISODE: (episodeId: string) => `episodes/${episodeId}/conditions`,
+    REMOVE_CONDITION_FROM_EPISODE: (episodeId: string, conditionId: string) => `episodes/${episodeId}/conditions/${conditionId}`,
+    DISCHARGE_EPISODE: (episodeId: string) => `episodes/${episodeId}/discharge`,
+
     // Notes
     CREATE_NOTE: () => 'patients/notes',
     GET_NOTE: (id: string) => `patients/notes/${id}`,

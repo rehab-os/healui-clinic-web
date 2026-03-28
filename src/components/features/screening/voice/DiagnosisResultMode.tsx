@@ -11,7 +11,7 @@ interface DiagnosisResultModeProps {
   extractedFields: Record<string, any>;
   gapAnswers: Record<string, any>;
   completedAssessments: any[];
-  onConditionSelected: (condition: any, diagnosisResult: DiagnosticResponse) => void;
+  onConditionSelected: (conditions: any[], diagnosisResult: DiagnosticResponse) => void;
   onSkipToImaging: (diagnosisResult: DiagnosticResponse, provisionalDx?: { condition_name: string; condition_id?: string | null; source: 'DIFFERENTIAL' | 'MANUAL' }) => void;
   onBack: () => void;
 }
@@ -33,7 +33,7 @@ export default function DiagnosisResultMode({
 }: DiagnosisResultModeProps) {
   const [diagnosisResult, setDiagnosisResult] = useState<DiagnosticResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedCondition, setSelectedCondition] = useState<any>(null);
+  const [selectedConditions, setSelectedConditions] = useState<any[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [phraseIndex, setPhraseIndex] = useState(0);
@@ -94,10 +94,18 @@ export default function DiagnosisResultMode({
     return 'CHRONIC';
   })();
 
+  const toggleCondition = (condition: any) => {
+    setSelectedConditions(prev => {
+      const exists = prev.find(c => c.condition_id === condition.condition_id);
+      if (exists) return prev.filter(c => c.condition_id !== condition.condition_id);
+      return [...prev, condition];
+    });
+  };
+
   const handleConfirm = () => {
-    if (!selectedCondition || !diagnosisResult) return;
+    if (selectedConditions.length === 0 || !diagnosisResult) return;
     setIsProcessing(true);
-    onConditionSelected(selectedCondition, diagnosisResult);
+    onConditionSelected(selectedConditions, diagnosisResult);
   };
 
   if (isLoading) {
@@ -198,18 +206,21 @@ export default function DiagnosisResultMode({
           {conditions
             .sort((a, b) => b.confidence_score - a.confidence_score)
             .map((condition, idx) => {
-              const isSelected = selectedCondition?.condition_id === condition.condition_id;
+              const isSelected = selectedConditions.some(c => c.condition_id === condition.condition_id);
+              const selectionIndex = selectedConditions.findIndex(c => c.condition_id === condition.condition_id);
+              const isPrimary = selectionIndex === 0;
               const confidence = Math.round(condition.confidence_score * 100);
 
               return (
-                <motion.button
+                <motion.div
                   key={condition.condition_id}
                   initial={{ opacity: 0, y: 4 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.06, duration: 0.2 }}
-                  onClick={() => setSelectedCondition(condition)}
-                  disabled={isProcessing}
-                  className={`w-full text-left px-4 py-4 transition-colors ${
+                  onClick={() => !isProcessing && toggleCondition(condition)}
+                  role="button"
+                  tabIndex={0}
+                  className={`w-full text-left px-4 py-4 transition-colors cursor-pointer ${
                     isSelected
                       ? 'bg-teal-50 border-l-[4px] border-l-teal-500'
                       : 'hover:bg-gray-50 border-l-[4px] border-l-transparent'
@@ -218,15 +229,36 @@ export default function DiagnosisResultMode({
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3 flex-1 min-w-0">
                       {isSelected ? (
-                        <div className="w-6 h-6 rounded-full bg-teal-500 flex items-center justify-center flex-shrink-0">
-                          <Check className="w-3.5 h-3.5 text-white" />
+                        <div className="flex items-center gap-1.5 flex-shrink-0">
+                          <div className="w-6 h-6 rounded-full bg-teal-500 flex items-center justify-center">
+                            <Check className="w-3.5 h-3.5 text-white" />
+                          </div>
                         </div>
                       ) : (
-                        <div className="w-6 h-6 rounded-full border-2 border-gray-300 flex-shrink-0" />
+                        <div className="w-6 h-6 rounded-md border-2 border-gray-300 flex-shrink-0" />
                       )}
                       <span className="text-sm font-medium text-gray-900 truncate">
                         {condition.condition_name}
                       </span>
+                      {isSelected && isPrimary && selectedConditions.length > 1 && (
+                        <span className="text-[10px] font-semibold text-teal-600 bg-white px-1.5 py-0.5 rounded border border-teal-200 flex-shrink-0">
+                          Primary
+                        </span>
+                      )}
+                      {isSelected && !isPrimary && (
+                        <span
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedConditions(prev => {
+                              const without = prev.filter(c => c.condition_id !== condition.condition_id);
+                              return [condition, ...without];
+                            });
+                          }}
+                          className="text-[10px] text-gray-400 hover:text-teal-600 px-1.5 py-0.5 rounded hover:bg-white transition-colors flex-shrink-0 cursor-pointer border border-transparent hover:border-teal-200"
+                        >
+                          Set as Primary
+                        </span>
+                      )}
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0">
                       <span className={`text-[13px] font-semibold tabular-nums font-mono ${
@@ -260,7 +292,7 @@ export default function DiagnosisResultMode({
                       ))}
                     </motion.div>
                   )}
-                </motion.button>
+                </motion.div>
               );
             })}
         </div>
@@ -278,13 +310,18 @@ export default function DiagnosisResultMode({
 
       {/* Bottom actions */}
       <div className="p-4 border-t border-gray-100 space-y-2">
-        {selectedCondition && (
+        {selectedConditions.length > 0 && (
           <div className="flex items-center justify-between mb-2">
             <span className="text-[13px] text-gray-500">
-              Selected: <strong>{selectedCondition.condition_name}</strong>
+              {selectedConditions.length} condition{selectedConditions.length > 1 ? 's' : ''} selected
+              {selectedConditions.length > 0 && (
+                <span className="text-teal-600 ml-1">
+                  (Primary: {selectedConditions[0]?.condition_name})
+                </span>
+              )}
             </span>
             <button
-              onClick={() => setSelectedCondition(null)}
+              onClick={() => setSelectedConditions([])}
               className="text-[13px] text-gray-400 hover:text-gray-600"
             >
               Clear
@@ -293,17 +330,17 @@ export default function DiagnosisResultMode({
         )}
         <Button
           onClick={handleConfirm}
-          disabled={!selectedCondition || isProcessing}
+          disabled={selectedConditions.length === 0 || isProcessing}
           className="w-full"
           size="lg"
         >
-          {isProcessing ? 'Saving...' : 'Confirm Diagnosis'}
+          {isProcessing ? 'Saving...' : selectedConditions.length > 1 ? `Confirm ${selectedConditions.length} Conditions` : 'Confirm Diagnosis'}
           <ArrowRight className="w-5 h-5 ml-2" />
         </Button>
         {diagnosisResult && (
           <>
             {/* Manual provisional diagnosis input */}
-            {showManualInput && !selectedCondition && (
+            {showManualInput && selectedConditions.length === 0 && (
               <div className="flex gap-2 items-center">
                 <input
                   type="text"
@@ -319,11 +356,10 @@ export default function DiagnosisResultMode({
             <Button
               variant="outline"
               onClick={() => {
-                if (selectedCondition) {
-                  // Use selected differential as provisional
+                if (selectedConditions.length > 0) {
                   onSkipToImaging(diagnosisResult, {
-                    condition_name: selectedCondition.condition_name,
-                    condition_id: selectedCondition.condition_id,
+                    condition_name: selectedConditions[0].condition_name,
+                    condition_id: selectedConditions[0].condition_id,
                     source: 'DIFFERENTIAL',
                   });
                 } else if (manualDxInput.trim()) {
@@ -346,15 +382,15 @@ export default function DiagnosisResultMode({
               size="lg"
             >
               <Scan className="w-4 h-4 mr-2" />
-              {selectedCondition
-                ? `Order Imaging (provisional: ${selectedCondition.condition_name})`
+              {selectedConditions.length > 0
+                ? `Order Imaging (provisional: ${selectedConditions[0].condition_name})`
                 : manualDxInput.trim()
                   ? `Order Imaging (provisional: ${manualDxInput.trim()})`
                   : showManualInput
                     ? 'Skip Provisional & Order Imaging'
                     : 'Order Imaging'}
             </Button>
-            {!showManualInput && !selectedCondition && (
+            {!showManualInput && selectedConditions.length === 0 && (
               <button
                 onClick={() => setShowManualInput(true)}
                 className="w-full text-center text-[12px] text-gray-400 hover:text-gray-600 flex items-center justify-center gap-1 py-1"

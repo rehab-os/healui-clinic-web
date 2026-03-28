@@ -480,22 +480,17 @@ function ConditionsTab({
         </Link>
       </div>
 
-      {/* Active Conditions */}
+      {/* Active Conditions — grouped by body region */}
       {activeConditions.length === 0 ? (
         <div className="py-16 text-center text-gray-400 bg-gray-50 rounded-lg">
           No active conditions
         </div>
       ) : (
-        <div className="space-y-4">
-          {activeConditions.map((condition) => (
-            <ConditionCard
-              key={condition.id}
-              condition={condition}
-              onClick={() => onSelectCondition(condition)}
-              onDischarge={() => onDischarge(condition)}
-            />
-          ))}
-        </div>
+        <GroupedConditionsList
+          conditions={activeConditions}
+          onSelectCondition={onSelectCondition}
+          onDischarge={onDischarge}
+        />
       )}
 
       {/* Discharged */}
@@ -529,6 +524,121 @@ function ConditionsTab({
           </div>
         </section>
       )}
+    </div>
+  );
+}
+
+const LATERALITY_LABELS: Record<string, string> = {
+  left: 'Left',
+  right: 'Right',
+  bilateral: 'Both',
+  midline: '',
+  not_applicable: '',
+};
+
+const REGION_DISPLAY: Record<string, string> = {
+  shoulder: 'Shoulder', elbow: 'Elbow', wrist: 'Wrist', hand: 'Hand',
+  hip: 'Hip', knee: 'Knee', ankle: 'Ankle', foot: 'Foot',
+  lower_back: 'Lumbar Spine', lumbar_spine: 'Lumbar Spine', 'lower-back': 'Lumbar Spine',
+  cervical_spine: 'Cervical Spine', neck: 'Cervical Spine',
+  thoracic_spine: 'Thoracic Spine', chest: 'Thoracic Spine',
+  head: 'Head', abdomen: 'Abdomen',
+};
+
+function GroupedConditionsList({
+  conditions,
+  onSelectCondition,
+  onDischarge,
+}: {
+  conditions: PatientConditionResponseDto[];
+  onSelectCondition: (c: PatientConditionResponseDto) => void;
+  onDischarge: (c: PatientConditionResponseDto) => void;
+}) {
+  // Group conditions by episode_id first, then by body_region for ungrouped
+  const groups: { key: string; label: string; laterality?: string; conditions: PatientConditionResponseDto[] }[] = [];
+  const byEpisode = new Map<string, PatientConditionResponseDto[]>();
+  const noEpisode: PatientConditionResponseDto[] = [];
+
+  for (const c of conditions) {
+    if (c.episode_id) {
+      const list = byEpisode.get(c.episode_id) || [];
+      list.push(c);
+      byEpisode.set(c.episode_id, list);
+    } else {
+      noEpisode.push(c);
+    }
+  }
+
+  // Episode groups
+  for (const [episodeId, episodeConditions] of byEpisode) {
+    const first = episodeConditions[0];
+    const region = first.body_region || 'General';
+    const laterality = first.laterality;
+    const regionLabel = REGION_DISPLAY[region] || region.replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    const latLabel = laterality && LATERALITY_LABELS[laterality] ? LATERALITY_LABELS[laterality] : '';
+    const label = latLabel ? `${regionLabel} (${latLabel})` : regionLabel;
+
+    // Sort: primary first
+    episodeConditions.sort((a, b) => (b.is_primary ? 1 : 0) - (a.is_primary ? 1 : 0));
+
+    groups.push({ key: episodeId, label, laterality, conditions: episodeConditions });
+  }
+
+  // Ungrouped conditions — group by body_region
+  const byRegion = new Map<string, PatientConditionResponseDto[]>();
+  for (const c of noEpisode) {
+    const region = c.body_region || 'General';
+    const list = byRegion.get(region) || [];
+    list.push(c);
+    byRegion.set(region, list);
+  }
+  for (const [region, regionConditions] of byRegion) {
+    const regionLabel = REGION_DISPLAY[region] || region.replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    groups.push({ key: `region_${region}`, label: regionLabel, conditions: regionConditions });
+  }
+
+  // If all conditions are ungrouped and single per region, render flat (no extra headers)
+  const allSingletons = groups.every(g => g.conditions.length === 1);
+  if (allSingletons) {
+    return (
+      <div className="space-y-4">
+        {conditions.map((condition) => (
+          <ConditionCard
+            key={condition.id}
+            condition={condition}
+            onClick={() => onSelectCondition(condition)}
+            onDischarge={() => onDischarge(condition)}
+          />
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      {groups.map(group => (
+        <div key={group.key}>
+          {/* Region/Episode header */}
+          <div className="flex items-center gap-2 mb-3">
+            <h3 className="text-sm font-semibold text-gray-700">{group.label}</h3>
+            {group.conditions.length > 1 && (
+              <span className="text-[11px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">
+                {group.conditions.length} conditions
+              </span>
+            )}
+          </div>
+          <div className="space-y-3">
+            {group.conditions.map((condition) => (
+              <ConditionCard
+                key={condition.id}
+                condition={condition}
+                onClick={() => onSelectCondition(condition)}
+                onDischarge={() => onDischarge(condition)}
+              />
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
@@ -1011,14 +1121,29 @@ function ConditionCard({
     >
       <div className="flex items-start justify-between">
         <div className="flex-1">
-          <div className="flex items-center gap-2 mb-1">
+          <div className="flex items-center gap-2 mb-1 flex-wrap">
             <h4 className="font-medium text-gray-900">{condition.condition_name}</h4>
+            {condition.laterality && condition.laterality !== 'not_applicable' && condition.laterality !== 'midline' && (
+              <span className="px-1.5 py-0.5 text-[10px] font-medium rounded bg-gray-100 text-gray-500">
+                {condition.laterality === 'bilateral' ? 'Both' : condition.laterality === 'left' ? 'Left' : 'Right'}
+              </span>
+            )}
+            {condition.is_primary === true && condition.episode_id && (
+              <span className="px-1.5 py-0.5 text-[10px] font-semibold rounded bg-teal-50 text-teal-600 border border-teal-100">
+                Primary
+              </span>
+            )}
+            {condition.is_primary === false && condition.episode_id && (
+              <span className="px-1.5 py-0.5 text-[10px] font-medium rounded bg-gray-50 text-gray-400">
+                Secondary
+              </span>
+            )}
             <span className={`px-2 py-0.5 text-xs rounded-full ${statusBadge.bg} ${statusBadge.text}`}>
               {condition.status}
             </span>
           </div>
           <p className="text-sm text-gray-500">
-            {condition.body_region}
+            {condition.body_region && (REGION_DISPLAY[condition.body_region] || condition.body_region.replace(/[-_]/g, ' '))}
             {condition.vas_score !== undefined && ` · VAS: ${condition.vas_score}/10`}
             {condition.urgency_level && (
               <span className={`ml-2 ${getUrgencyColor(condition.urgency_level)}`}>

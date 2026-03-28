@@ -30,6 +30,12 @@ const INPUT_MAP: Record<InputType, React.ComponentType<TrackingInputProps>> = {
 }
 
 export default function InputResolver(props: TrackingInputProps) {
+  // When forceBilateral is true, render as BilateralNumericInput
+  // regardless of the item's defined input type (for VAS/NPRS on bilateral conditions)
+  if (props.forceBilateral) {
+    return <BilateralNumericInput {...props} />
+  }
+
   const Component = INPUT_MAP[props.definition.input]
   if (!Component) {
     return <span className="text-xs text-gray-400 italic">Unsupported</span>

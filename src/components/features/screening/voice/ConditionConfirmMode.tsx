@@ -9,6 +9,26 @@ import { useAppSelector } from '@/store/hooks';
 import type { DiagnosticResponse } from '@/services/ai/diagnostic.service';
 import type { ADLData } from './ADLMode';
 
+const extractBodyRegion = (painLocation: any): string => {
+  if (!Array.isArray(painLocation) || painLocation.length === 0) return '';
+  const first = painLocation[0];
+  if (typeof first === 'object' && first?.mainRegion) {
+    return first.mainRegion.replace(/-/g, '_');
+  }
+  return String(first).replace(/-/g, '_');
+};
+
+const extractLaterality = (painLocation: any): string => {
+  if (!Array.isArray(painLocation) || painLocation.length === 0) return 'not_applicable';
+  const first = painLocation[0];
+  if (typeof first === 'object' && first?.laterality) {
+    if (first.laterality === 'center') return 'midline';
+    if (first.laterality === 'both') return 'bilateral';
+    return first.laterality;
+  }
+  return 'not_applicable';
+};
+
 interface ImagingRequest {
   modality: string;
   label: string;
@@ -19,13 +39,13 @@ interface ImagingRequest {
 }
 
 interface ConditionConfirmModeProps {
-  selectedCondition: {
+  selectedConditions: {
     condition_id: string;
     condition_name: string;
     confidence_score: number;
     supporting_evidence: string[];
     clinical_reasoning: string;
-  };
+  }[];
   diagnosisResult: DiagnosticResponse;
   extractedFields: Record<string, any>;
   gapAnswers: Record<string, any>;
@@ -40,7 +60,7 @@ interface ConditionConfirmModeProps {
 }
 
 export default function ConditionConfirmMode({
-  selectedCondition,
+  selectedConditions,
   diagnosisResult,
   extractedFields,
   gapAnswers,
@@ -57,7 +77,7 @@ export default function ConditionConfirmMode({
   const { userData } = useAppSelector(state => state.user);
 
   const merged = { ...extractedFields, ...gapAnswers };
-  const confidence = Math.round(selectedCondition.confidence_score * 100);
+  const primaryCondition = selectedConditions[0];
   const hasImaging = imagingRequests.length > 0;
 
   const handleSave = async () => {
@@ -91,18 +111,23 @@ export default function ConditionConfirmMode({
         ordered_by_user_id: userData?.user_id || null,
       }));
 
-      // 3. Save the patient condition
+      // 3. Create Episode with all assessment data
       const { default: ApiManager } = await import('@/services/api/api.service');
 
-      const conditionPayload = {
-        condition_id: hasImaging ? null : selectedCondition.condition_id,
-        condition_name: hasImaging ? null : selectedCondition.condition_name,
-        diagnosis_method: 'CLINICAL_ONLY',
+      const primaryFinalDiagnosis = hasImaging ? null : {
+        selected_condition_id: primaryCondition.condition_id,
+        selected_condition_name: primaryCondition.condition_name,
+        selection_method: 'AI_SUGGESTED',
+        ai_confidence_score: primaryCondition.confidence_score,
+        confirmed_at: new Date().toISOString(),
+      };
 
-        symptom_dx_data: null,
-        symptom_dx_completed: false,
-        symptom_dx_completed_at: null,
-        symptom_dx_filled_by: null,
+      const episodePayload = {
+        patient_id: patientId,
+        body_region: extractBodyRegion(merged.pain_location),
+        laterality: extractLaterality(merged.pain_location) as any,
+        diagnosis_method: 'CLINICAL_ONLY' as const,
+        diagnosis_status: (hasImaging ? 'IMAGING_ORDERED' : 'COMPLETE') as any,
 
         clinical_dx_data: {
           session_id: sessionId || `voice_${Date.now()}`,
@@ -155,56 +180,98 @@ export default function ConditionConfirmMode({
           treatment_urgency: diagnosisResult.treatment_urgency || 'MODERATE',
         },
 
-        // Final diagnosis: only set when NO imaging needed (confirmed immediately)
-        // When imaging ordered: null — will be set after imaging results confirm
-        final_diagnosis: hasImaging ? null : {
-          selected_condition_id: selectedCondition.condition_id,
-          selected_condition_name: selectedCondition.condition_name,
-          selection_method: 'AI_SUGGESTED',
-          ai_confidence_score: selectedCondition.confidence_score,
-          confirmed_at: new Date().toISOString(),
-        },
+        imaging_orders: hasImaging ? imagingOrders : [],
 
-        // Provisional diagnosis: set when imaging ordered (physio's working guess)
         provisional_diagnosis: hasImaging ? {
-          condition_name: selectedCondition.condition_name,
-          condition_id: selectedCondition.condition_id,
+          condition_name: primaryCondition.condition_name,
+          condition_id: primaryCondition.condition_id,
           source: 'DIFFERENTIAL' as const,
           set_at: new Date().toISOString(),
           set_by_user_id: userData?.user_id || null,
-        } : null,
+        } : undefined,
 
-        // ADL / functional impact data
         adl_data: adlData || null,
-
-        // Imaging orders (populated only when physio selected imaging)
-        imaging_orders: hasImaging ? imagingOrders : [],
-
         chief_complaint: merged.chief_complaint || null,
         vas_score: merged.vas_score ?? null,
         urgency_level: diagnosisResult.treatment_urgency?.toUpperCase() || 'MODERATE',
-
-        // IMAGING_ORDERED = assessment saved but awaiting imaging results before final dx confirmed
-        // COMPLETE = full assessment done, no imaging pending
-        diagnosis_status: hasImaging ? 'IMAGING_ORDERED' : 'COMPLETE',
       };
 
-      if (draftConditionId) {
-        await ApiManager.updatePatientCondition(patientId, draftConditionId, conditionPayload);
-      } else {
-        await ApiManager.createPatientCondition(patientId, conditionPayload as any);
+      let episodeId: string;
+      try {
+        const episodeResponse = await ApiManager.createEpisode(episodePayload);
+        episodeId = episodeResponse.data.id;
+      } catch (episodeError) {
+        console.error('Error creating episode:', episodeError);
+        toast.error('Failed to create episode', {
+          description: 'Please try again.',
+        });
+        setIsSaving(false);
+        return;
       }
 
-      toast.success(hasImaging ? 'Assessment saved — imaging ordered' : 'Condition saved', {
+      // 4. Create/update PatientConditions for all selected conditions
+      const conditionsToSave = selectedConditions.map((cond, idx) => ({
+        condition_id: hasImaging ? null : cond.condition_id,
+        condition_name: hasImaging ? null : cond.condition_name,
+        body_region: extractBodyRegion(merged.pain_location),
+        laterality: extractLaterality(merged.pain_location),
+        episode_id: episodeId,
+        is_primary: idx === 0,
+        diagnosis_status: hasImaging ? 'IMAGING_ORDERED' : 'COMPLETE',
+        final_diagnosis: hasImaging ? null : {
+          selected_condition_id: cond.condition_id,
+          selected_condition_name: cond.condition_name,
+          selection_method: 'AI_SUGGESTED',
+          ai_confidence_score: cond.confidence_score,
+          confirmed_at: new Date().toISOString(),
+        },
+      }));
+
+      // First condition: update the draft if it exists
+      if (draftConditionId) {
+        await ApiManager.updatePatientCondition(patientId, draftConditionId, conditionsToSave[0]);
+        await ApiManager.addConditionToEpisode(episodeId, {
+          patient_condition_id: draftConditionId,
+          is_primary: true,
+          final_diagnosis: conditionsToSave[0].final_diagnosis,
+        });
+      } else {
+        const newPrimary = await ApiManager.createPatientCondition(patientId, conditionsToSave[0] as any);
+        if (newPrimary?.data?.id) {
+          await ApiManager.addConditionToEpisode(episodeId, {
+            patient_condition_id: newPrimary.data.id,
+            is_primary: true,
+            final_diagnosis: conditionsToSave[0].final_diagnosis,
+          });
+        }
+      }
+
+      // Additional conditions: create new PatientConditions
+      for (let i = 1; i < conditionsToSave.length; i++) {
+        try {
+          const newCondition = await ApiManager.createPatientCondition(patientId, conditionsToSave[i] as any);
+          if (newCondition?.data?.id) {
+            await ApiManager.addConditionToEpisode(episodeId, {
+              patient_condition_id: newCondition.data.id,
+              is_primary: false,
+              final_diagnosis: conditionsToSave[i].final_diagnosis,
+            });
+          }
+        } catch (err) {
+          console.error(`Failed to create secondary condition ${conditionsToSave[i].condition_name}:`, err);
+        }
+      }
+
+      toast.success(hasImaging ? 'Assessment saved — imaging ordered' : 'Conditions saved', {
         description: hasImaging
-          ? `${selectedCondition.condition_name} saved. Return when imaging results are ready to confirm final diagnosis.`
-          : `${selectedCondition.condition_name} has been added to patient conditions.`,
+          ? `${selectedConditions.length} condition${selectedConditions.length > 1 ? 's' : ''} saved. Return when imaging results are ready.`
+          : `${selectedConditions.length} condition${selectedConditions.length > 1 ? 's' : ''} added to patient record.`,
       });
 
       onComplete({
-        diagnosis: selectedCondition,
+        diagnoses: selectedConditions,
         diagnosisResult,
-        conditionPayload,
+        episodeId,
         imagingOrdered: hasImaging,
       });
     } catch (error) {
@@ -240,9 +307,30 @@ export default function ConditionConfirmMode({
             <p className="text-sm text-gray-500 mt-1">
               {hasImaging
                 ? 'Assessment saved. Return once imaging results are ready.'
-                : 'Review and save to patient record'}
+                : `${selectedConditions.length} condition${selectedConditions.length > 1 ? 's' : ''} — review and save`}
             </p>
           </div>
+
+          {/* Body region + laterality badge */}
+          {(() => {
+            const region = extractBodyRegion(merged.pain_location);
+            const lat = extractLaterality(merged.pain_location);
+            if (!region) return null;
+            const regionLabel = region.replace(/[-_]/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
+            const latLabel = lat === 'bilateral' ? 'Both Sides' : lat === 'left' ? 'Left' : lat === 'right' ? 'Right' : '';
+            return (
+              <div className="flex items-center justify-center gap-2">
+                <span className="text-sm font-medium text-gray-600 bg-gray-100 px-3 py-1 rounded-lg">
+                  {regionLabel}
+                </span>
+                {latLabel && (
+                  <span className="text-sm font-medium text-teal-600 bg-teal-50 px-3 py-1 rounded-lg border border-teal-100">
+                    {latLabel}
+                  </span>
+                )}
+              </div>
+            );
+          })()}
 
           {/* Imaging notice */}
           {hasImaging && (
@@ -266,33 +354,44 @@ export default function ConditionConfirmMode({
             </div>
           )}
 
-          {/* Selected condition card */}
-          <div className="bg-white border border-teal-200 rounded-xl p-5 space-y-3">
-            <div className="flex items-center justify-between">
-              <h3 className="text-base font-semibold text-gray-900">
-                {hasImaging ? 'Working Diagnosis' : 'Confirmed Diagnosis'}
-              </h3>
-              <span className={`text-sm font-bold ${
-                confidence >= 70 ? 'text-teal-600' :
-                confidence >= 40 ? 'text-amber-600' : 'text-gray-500'
-              }`}>
-                {confidence}%
-              </span>
-            </div>
-            <p className="text-sm text-gray-800 font-medium">{selectedCondition.condition_name}</p>
-
-            {selectedCondition.clinical_reasoning && (
-              <p className="text-sm text-gray-600">{selectedCondition.clinical_reasoning}</p>
-            )}
-
-            {selectedCondition.supporting_evidence?.length > 0 && (
-              <div className="pt-2 border-t border-gray-100 space-y-1">
-                <p className="text-xs font-medium text-gray-500">Supporting evidence</p>
-                {selectedCondition.supporting_evidence.map((ev, i) => (
-                  <p key={i} className="text-xs text-gray-500">• {ev}</p>
-                ))}
-              </div>
-            )}
+          {/* Selected conditions */}
+          <div className="space-y-3">
+            {selectedConditions.map((cond, idx) => {
+              const confidence = Math.round(cond.confidence_score * 100);
+              const isPrimary = idx === 0;
+              return (
+                <div key={cond.condition_id} className={`border rounded-xl p-4 space-y-2 ${
+                  isPrimary ? 'border-teal-200 bg-white' : 'border-gray-200 bg-gray-50'
+                }`}>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-sm font-semibold text-gray-900">
+                        {cond.condition_name}
+                      </h3>
+                      {isPrimary && (
+                        <span className="text-[10px] font-semibold text-teal-600 bg-teal-50 px-1.5 py-0.5 rounded border border-teal-100">
+                          Primary
+                        </span>
+                      )}
+                      {!isPrimary && (
+                        <span className="text-[10px] font-medium text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">
+                          Secondary
+                        </span>
+                      )}
+                    </div>
+                    <span className={`text-sm font-bold ${
+                      confidence >= 70 ? 'text-teal-600' :
+                      confidence >= 40 ? 'text-amber-600' : 'text-gray-500'
+                    }`}>
+                      {confidence}%
+                    </span>
+                  </div>
+                  {isPrimary && cond.clinical_reasoning && (
+                    <p className="text-sm text-gray-600">{cond.clinical_reasoning}</p>
+                  )}
+                </div>
+              );
+            })}
           </div>
 
           {/* Summary stats */}
